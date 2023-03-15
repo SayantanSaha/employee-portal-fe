@@ -1,6 +1,9 @@
 <div class="row" style="margin-top: 10%">
-  <div class="col-md-8 offset-md-2">
+  <div class="col-md-4 offset-md-4">
     <div class="form-holder card shadow">
+      <div class="card-header">
+        Login
+      </div>
       <div class="card-body">
 
       <form>
@@ -10,16 +13,21 @@
             <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" [(ngModel)]="email">
             <div id="emailHelp" class="form-text"></div>
           </div>
+        </div>
+        <div class="row">
           <div class="col-md">
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" name="password" id="password" [(ngModel)]="password">
           </div>
         </div>
-
-
-
-
-        <button type="submit" class="btn btn-primary" (click)="doLogin()" >Submit</button>
+        <div class="row" style="padding-top: 10px;">
+          <div class="col-md">
+            <button type="submit" class="btn btn-primary" (click)="doLogin()" >Login</button>
+          </div>
+          <div class="col-md offset-md-6" style="text-align: right">
+            <a href="/registration" type="button" class="btn btn-warning" >Register</a>
+          </div>
+        </div>
       </form>
 
       </div>
