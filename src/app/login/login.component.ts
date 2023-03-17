@@ -22,13 +22,14 @@ export class LoginComponent {
   doLogin(){
     this.employeeService.postLogin(this.email,this.password)
       .subscribe((data) => {
-        console.log(data);
+        //console.log(data);
         if(data.status=='success'){
           this.user = data.user;
           this.authorisation = data.authorisation;
           sessionStorage.setItem('user', JSON.stringify(this.user));
           sessionStorage.setItem('authorisation', JSON.stringify(this.authorisation));
           sessionStorage.setItem('isLoggedIn', 'true');
+          //console.log("authenticated");
           this.router.navigate(['/dashboard']);
         }
       }

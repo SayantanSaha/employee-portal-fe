@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {User} from "../../model/User";
 declare var jQuery: any;
 
 @Component({
@@ -6,8 +7,16 @@ declare var jQuery: any;
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent  {
 
+
+  user:User = new User();
+
+ ngOnInit() {
+   let userString:string|null = sessionStorage.getItem('user')!=null?sessionStorage.getItem('user'):'[]';
+   this.user = JSON.parse(userString!);
+
+ }
 
   expandContract() {
     /*const el = document.getElementById("menu")
