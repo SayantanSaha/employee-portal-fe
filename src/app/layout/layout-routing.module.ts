@@ -15,7 +15,7 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: 'dashboard',loadChildren: () => import('../dashboard/dashboard.module').then(d => d.DashboardModule), canActivate: [AuthGuard]},
-      { path: 'profile',loadChildren: () => import('../profile/profile.module').then(d => d.ProfileModule), canActivate: [AuthGuard]},
+      { path: 'profile/:mode',loadChildren: () => import('../profile/profile.module').then(d => d.ProfileModule), canActivate: [AuthGuard]},
       { path: 'state',loadChildren: () => import('../state/state.module').then(d => d.StateModule), canActivate: [AuthGuard]},
     ]
   },

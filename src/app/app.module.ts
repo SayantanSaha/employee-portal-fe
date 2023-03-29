@@ -13,6 +13,7 @@ import { PayComponent } from './pay/pay.component';
 import { DesignationComponent } from './designation/designation.component';
 import { StateComponent } from './state/state.component';
 import { DistrictComponent } from './district/district.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -26,12 +27,13 @@ import { DistrictComponent } from './district/district.component';
     StateComponent,
     DistrictComponent
   ],
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot([],{ enableTracing: true }),
-    LayoutModule,
-    HttpClientModule,
-  ],
+    imports: [
+        BrowserModule,
+        RouterModule.forRoot([], {enableTracing: true}),
+        LayoutModule,
+        HttpClientModule,
+        FormsModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -3,7 +3,12 @@
     <div class="card">
       <div style="width: 100%;text-align: center;padding-top: 10px;" >
         <img src="https://github.com/mdo.png" alt="mdo" style="width: 128px; height: 128px" class="rounded-circle" /><!--width="32" height="32" -->
-        <div *ngIf="employee">{{employee.emp_name!}}</div>
+        <div *ngIf="employee">
+          <span style="font-size: 1.2em">{{employee.emp_name!}}</span><br/>
+          <span style="font-size: 0.8em">{{employee!.designations![0]!.desg_desc!}}</span><br/>
+          <span style="font-size: 1em">{{employee!.email_id!}}</span><br/>
+          <span style="font-size: 1em">{{employee!.mobile!}}</span><br/>
+        </div>
       </div>
 
     </div>
@@ -15,7 +20,109 @@
           <div class="card-header">
             Primary Details
           </div>
-          <div class="card-body"></div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md">
+                <label class="form-label">Name</label>
+                <div *ngIf="editable" class="input-group mb-3">
+                  <select class="form-control col-md-4"  [(ngModel)]="employee!.emp_title">
+                    <option>Select Ttile</option>
+                    <option>Mr</option>
+                    <option>Ms</option>
+                    <option>Miss</option>
+                    <option>Mrs</option>
+                    <option>Dr</option>
+                  </select>
+
+                  <input type="text" class="form-control col-md-8" placeholder="Name" aria-label="Name" [(ngModel)]="employee!.emp_name">
+                </div>
+                <div *ngIf="!editable" class="input-group mb-3">
+                  {{employee!.emp_title}}. {{employee!.emp_name}}
+                </div>
+              </div>
+              <div class="col-md">
+                <label class="form-label">Name in Hindi</label>
+                <div *ngIf="editable" class="input-group mb-3">
+                  <select class="form-control" [(ngModel)]="employee!.emp_title_hi">
+                    <option>Select Ttile</option>
+                    <option>श्री</option>
+                    <option>सुश्री</option>
+                    <option>कुमारी</option>
+                    <option>श्रीमती</option>
+                    <option>डॉ</option>
+                  </select>
+
+                  <input type="text" class="form-control" placeholder="Name" aria-label="Server" [(ngModel)]="employee!.emp_name_hi">
+                </div>
+                <div *ngIf="!editable" class="input-group mb-3">
+                  {{employee!.emp_title_hi}} {{employee!.emp_name_hi}}
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md">
+                <label class="form-label">Email</label>
+                <div *ngIf="editable" class="input-group mb-3">
+                  <input type="email" class="form-control" placeholder="Email" aria-label="Email" [(ngModel)]="employee!.email_id">
+                </div>
+                <div *ngIf="!editable" class="input-group mb-3">
+                  {{employee!.email_id}}
+                </div>
+              </div>
+              <div class="col-md">
+                <label class="form-label">Mobile</label>
+                <div *ngIf="editable" class="input-group mb-3">
+                  <input type="number" maxlength="10" minlength="10" class="form-control" placeholder="Mobile" aria-label="Mobile" [(ngModel)]="employee!.mobile">
+                </div>
+                <div *ngIf="!editable" class="input-group mb-3">
+                  {{employee!.mobile}}
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md">
+                <label class="form-label">Current Address</label>
+                <div *ngIf="editable" >
+                  <input type="text" class="form-control" placeholder="Address" aria-label="address" [(ngModel)]="employee!.curr_add">
+                  <input type="number" class="form-control" placeholder="PIN" aria-label="pin" [(ngModel)]="employee!.curr_pin">
+                  <select class="form-control" [(ngModel)]="employee!.curr_state" [compareWith]="compareState" (ngModelChange)="onStateChange($event,'curr')">
+                    <option value="-1">Select State</option>
+                    <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
+                  </select>
+                  <select class="form-control" [(ngModel)]="employee!.curr_district" [compareWith]="compareDist" >
+                    <option value="-1">Select District</option>
+                    <option [ngValue]="dist" *ngFor="let dist of currDistricts">{{dist.district_name}}</option>
+                  </select>
+                </div>
+                <div *ngIf="!editable" class="input-group mb-3">
+                  {{employee!.email_id}}
+                </div>
+              </div>
+              <div class="col-md">
+                <label class="form-label">Permanent Address</label>
+                <div *ngIf="editable" >
+                  <input type="text" class="form-control" placeholder="Address" aria-label="address" [(ngModel)]="employee!.perm_add">
+                  <input type="number" class="form-control" placeholder="PIN" aria-label="pin" [(ngModel)]="employee!.perm_pin">
+                  <select class="form-control" [(ngModel)]="employee!.perm_state" [compareWith]="compareState" (ngModelChange)="onStateChange($event,'perm')">
+                    <option value="-1">Select State</option>
+                    <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
+                  </select>
+                  <select class="form-control" [(ngModel)]="employee!.perm_district" [compareWith]="compareDist" >
+                    <option value="-1">Select District</option>
+                    <option [ngValue]="dist" *ngFor="let dist of permDistricts">{{dist.district_name}}</option>
+                  </select>
+                </div>
+                <div *ngIf="!editable" class="input-group mb-3">
+                  Address:{{employee!.perm_add}}<br/>
+                  PIN: {{employee!.perm_pin}}<br/>
+                  State: {{employee!.perm_state!.state_name}}<br/>
+                  District: {{employee!.perm_district!.district_name}}<br/>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

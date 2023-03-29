@@ -61,6 +61,10 @@ export class EmployeeService {
   getDistricts():Observable<District[]>{
     return this.http.get<District[]>(this.baseUrl+"districts",{headers:this.createHeader()});
   }
+
+  getDistrictsByState(state_id:number):Promise<any>{
+    return this.http.get<District[]>(this.baseUrl+"states/"+state_id+"/districts",{headers:this.createHeader()}).toPromise();
+  }
   getDistrict(district_id:string):Observable<District>{
     return this.http.get<District>(this.baseUrl+"districts/"+district_id,{headers:this.createHeader()});
   }
