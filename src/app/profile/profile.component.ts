@@ -30,8 +30,8 @@ export class ProfileComponent implements OnInit{
       .subscribe(
         data=>{
           this.employee=data;
-          this.currDistricts=this.getDistricts(this.employee.curr_state!);
-          this.permDistricts=this.getDistricts(this.employee.perm_state!);
+          this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+          this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
         }
       );
     this.employeeService.getStates().subscribe(
@@ -52,19 +52,27 @@ export class ProfileComponent implements OnInit{
     return oneState.id===othState.id;
   }
   compareDist(oneDist:District,othDist:District): boolean{
+    console.log(oneDist);
+    console.log(othDist);
     return oneDist.id===othDist.id;
   }
   onStateChange(state:State,type:String){
     if(type=='curr'){
-      this.currDistricts = this.getDistricts(state);
+      this.getDistricts(state).then(districts=>this.currDistricts=districts);
     }
     else if(type=='perm'){
-      this.permDistricts = this.getDistricts(state);
+      this.getDistricts(state).then(districts=>this.permDistricts=districts);
     }
+  }
+  savePrimaryDetails(){
+    this.employeeService.updateEmployee(this.employee!).subscribe(
+      data=>console.log(data),
+      error=>console.log(error)
+    );
   }
   async getDistricts(state:State){
     let districts:District[] = [];
-    districts = (await this.employeeService.getDistrictsByState(state.id!)).then(districts:District[]=>{return districts:District[];});
+    districts = await this.employeeService.getDistrictsByState(state.id!);
     console.log(districts);
     return districts;
   }

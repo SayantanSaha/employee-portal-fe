@@ -19,6 +19,7 @@
         <div class="card card-warning">
           <div class="card-header">
             Primary Details
+            <div class="float-end"><button class="btn btn-primary" (click)="savePrimaryDetails()">Save Changes</button></div>
           </div>
           <div class="card-body">
             <div class="row">
@@ -128,27 +129,40 @@
     </div>
     <div class="row">
       <div class="col-md">
-        <div class="card card-warning">
-          <div class="card-header">
-            Contact Details
-          </div>
-          <div class="card-body"></div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md">
         <div class="card card-primary">
           <div class="card-header">
             Designation History
           </div>
-          <div class="card-body"></div>
+
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Sl</th>
+                  <th>Designation</th>
+                  <th>Date</th>
+                  <th>Order No.</th>
+                  <th>Order Date</th>
+                  <th>Order File</th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let desg of employee!.designations; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{desg.desg_desc}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              </tbody>
+            </table>
+
         </div>
       </div>
       <div class="col-md">
         <div class="card card-primary">
           <div class="card-header">
-            Card History
+            Posting History
           </div>
           <div class="card-body"></div>
         </div>

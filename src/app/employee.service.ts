@@ -37,6 +37,9 @@ export class EmployeeService {
   getMyProfile():Observable<Employee>{
     return this.http.get<Employee>(this.baseUrl+"my_profile",{headers:this.createHeader()});
   }
+  updateEmployee(employee:Employee):Observable<Employee>{
+    return this.http.put<Employee>(this.baseUrl+"employees/"+employee.id,employee,{headers:this.createHeader()});
+  }
   verifyLoggedIn():Observable<LoginStatus>{
     return this.http.post<LoginStatus>(this.baseUrl+"is_logged_in",{},{headers:this.createHeader()});
   }
