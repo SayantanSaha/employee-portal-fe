@@ -1,6 +1,9 @@
 import {District} from "./District";
 import {State} from "./State";
 import {Designation} from "./Designation";
+import {Division} from "./Division";
+import {Relation} from "./Relation";
+import {Organization} from "./Organization";
 
 export class Employee{
   id: number|null = null;
@@ -25,4 +28,7 @@ export class Employee{
   created_at: Date | null = null;
   updated_at: Date | null = null;
   designations: Designation[]|null = null;
+  divisions: Division[]|null = null;
+  relations: Relation[]|null = [];
+  organization: Organization|null = null;
 }

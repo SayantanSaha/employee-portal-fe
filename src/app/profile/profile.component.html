@@ -19,7 +19,7 @@
         <div class="card card-warning">
           <div class="card-header">
             Primary Details
-            <div class="float-end"><button class="btn btn-primary" (click)="savePrimaryDetails()">Save Changes</button></div>
+            <div *ngIf="editable" class="float-end"><button class="btn btn-primary" (click)="savePrimaryDetails()">Save Changes</button></div>
           </div>
           <div class="card-body">
             <div class="row">
@@ -27,7 +27,7 @@
                 <label class="form-label">Name</label>
                 <div *ngIf="editable" class="input-group mb-3">
                   <select class="form-control col-md-4"  [(ngModel)]="employee!.emp_title">
-                    <option>Select Ttile</option>
+                    <option value="null">Select Ttile</option>
                     <option>Mr</option>
                     <option>Ms</option>
                     <option>Miss</option>
@@ -45,7 +45,7 @@
                 <label class="form-label">Name in Hindi</label>
                 <div *ngIf="editable" class="input-group mb-3">
                   <select class="form-control" [(ngModel)]="employee!.emp_title_hi">
-                    <option>Select Ttile</option>
+                    <option value="null">अभिवादन का चयन करें</option>
                     <option>श्री</option>
                     <option>सुश्री</option>
                     <option>कुमारी</option>
@@ -98,7 +98,10 @@
                   </select>
                 </div>
                 <div *ngIf="!editable" class="input-group mb-3">
-                  {{employee!.email_id}}
+                  {{employee!.curr_add}},<br/>
+                  {{employee!.curr_district!.district_name}}<br/>
+                  {{employee!.curr_state!.state_name}} - {{employee!.curr_pin}}
+
                 </div>
               </div>
               <div class="col-md">
@@ -116,10 +119,10 @@
                   </select>
                 </div>
                 <div *ngIf="!editable" class="input-group mb-3">
-                  Address:{{employee!.perm_add}}<br/>
-                  PIN: {{employee!.perm_pin}}<br/>
-                  State: {{employee!.perm_state!.state_name}}<br/>
-                  District: {{employee!.perm_district!.district_name}}<br/>
+                  {{employee!.perm_add}},<br/>
+                  {{employee!.perm_district!.district_name}}<br/>
+                  {{employee!.perm_state!.state_name}} - {{employee!.perm_pin}}
+
                 </div>
               </div>
             </div>
@@ -129,7 +132,7 @@
     </div>
     <div class="row">
       <div class="col-md">
-        <div class="card card-primary">
+        <div class="card card-primary table-responsive">
           <div class="card-header">
             Designation History
           </div>
@@ -143,28 +146,113 @@
                   <th>Order No.</th>
                   <th>Order Date</th>
                   <th>Order File</th>
+                  <th *ngIf="editable">Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody *ngIf="employee!=null && employee.designations!=null">
               <tr *ngFor="let desg of employee!.designations; let i = index">
                 <td>{{i+1}}</td>
-                <td>{{desg.desg_desc}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>
+                  <select *ngIf="employee!.designations && editable" class="form-control" [(ngModel)]="employee!.designations[i].pivot.designation_id" [compareWith]="compareDesignation">
+                    <option value="-1">Select Designation</option>
+                    <option [ngValue]="designation.id" *ngFor="let designation of designations">{{designation!.desg_desc}}</option>
+                  </select>
+                  <span *ngIf="!editable">{{desg!.desg_desc}}</span>
+                </td>
+                <td>
+                  <input *ngIf="employee!.designations && editable" class="form-control" type="date" [(ngModel)]="employee!.designations[i].pivot!.join_date">
+                  <span *ngIf="!editable">{{desg!.pivot!.join_date}}</span>
+                </td>
+                <td>
+                  <input *ngIf="employee!.designations && editable" class="form-control" type="text" [(ngModel)]="employee!.designations[i].pivot!.order_no">
+                  <span *ngIf="!editable">{{desg!.pivot!.order_no}}</span>
+                </td>
+                <td>
+                  <input *ngIf="employee!.designations && editable" class="form-control" type="date" [(ngModel)]="employee!.designations[i].pivot!.order_date">
+                  <span *ngIf="!editable">{{desg!.pivot!.order_date}}</span>
+                </td>
+                <td>
+                  <div class="d-grid gap-2 d-md-block">
+                    <button *ngIf="employee!.designations && employee!.designations[i].pivot!.order_path" class="btn btn-primary">View</button>
+                    <button *ngIf="editable" class="btn btn-warning">Upload</button>
+                  </div>
+                </td>
+                <td *ngIf="editable">
+
+                  <button *ngIf="desg!.pivot!.deleted_at==null" type="button" class="btn btn-outline-success" (click)="savePromotion(i)">Save</button>
+                  <button *ngIf="desg!.pivot!.id==-1" type="button" class="btn btn-outline-danger" (click)="deleteRecord(i)">Delete</button>
+
+                </td>
+              </tr>
+              <tr>
+                <td colspan="7"  *ngIf="editable" style="text-align: center"><button type="button" class="btn btn-primary" (click)="addDesignation()">Add Designation</button>
               </tr>
               </tbody>
             </table>
-
         </div>
       </div>
+    </div>
+    <div class="row">
       <div class="col-md">
-        <div class="card card-primary">
+        <div class="card card-primary table-responsive">
           <div class="card-header">
             Posting History
           </div>
-          <div class="card-body"></div>
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>Sl</th>
+              <th>Division</th>
+              <th>From Date</th>
+              <th>To Date</th>
+              <th>Order No.</th>
+              <th>Order Date</th>
+              <th>Order File</th>
+              <th *ngIf="editable">Action</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="employee!=null && employee.divisions!=null">
+            <tr *ngFor="let div of employee!.divisions; let i = index">
+              <td>{{i+1}}</td>
+              <td>
+                <select *ngIf="employee!.divisions && editable" class="form-control" [(ngModel)]="employee!.divisions[i].pivot.division_id" [compareWith]="compareDivisions">
+                  <option value="-1">Select Division</option>
+                  <option [ngValue]="division.id" *ngFor="let division of divisions">{{division!.div_desc}}</option>
+                </select>
+                <span *ngIf="!editable">{{div!.div_desc}}</span>
+              </td>
+              <td>
+                <input *ngIf="employee!.divisions && editable" class="form-control" type="date" [(ngModel)]="employee!.divisions[i].pivot!.from_date">
+                <span *ngIf="!editable">{{div!.pivot!.from_date}}</span>
+              </td>
+              <td>
+                <input *ngIf="employee!.divisions && editable" class="form-control" type="date" [(ngModel)]="employee!.divisions[i].pivot!.to_date">
+                <span *ngIf="!editable">{{div!.pivot!.to_date}}</span>
+              </td>
+              <td>
+                <input *ngIf="employee!.divisions && editable" class="form-control" type="text" [(ngModel)]="employee!.divisions[i].pivot!.order_no">
+                <span *ngIf="!editable">{{div!.pivot!.order_no}}</span>
+              </td>
+              <td>
+                <input *ngIf="employee!.divisions && editable" class="form-control" type="date" [(ngModel)]="employee!.divisions[i].pivot!.order_date">
+                <span *ngIf="!editable">{{div!.pivot!.order_date}}</span>
+              </td>
+              <td>
+                <div class="d-grid gap-2 d-md-block">
+                  <button *ngIf="employee!.divisions && employee!.divisions[i].pivot!.order_path" class="btn btn-primary">View</button>
+                  <button *ngIf="editable" class="btn btn-warning">Upload</button>
+                </div>
+              </td>
+              <td *ngIf="editable">
+                <button type="button" class="btn btn-outline-success" (click)="addDesignation()">Save</button><br/>
+                <button type="button" class="btn btn-outline-danger" (click)="addDesignation()">Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="8" *ngIf="editable" style="text-align: center"><button type="button" class="btn btn-primary" (click)="addDivision()">Add Designation</button></td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
