@@ -1,0 +1,182 @@
+
+<div class="row" >
+    <!-- <div class="col"> -->
+        <div class="container">
+            <div class="card">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <b>Dashboard</b>
+                        </div>
+                    </div>
+                
+                
+                
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card shadow">
+                                        <!-- <div class="card-header">
+                                            <div class="card-title">
+                                                <b>Total  Employee</b>
+                                            </div>
+                                        </div> -->
+                                    
+                                    
+                                    
+                                        <div class="card-body">
+                                            
+                                            <div class="d-flex align-items-center">
+                                                <div class="card-icon rounded-circle btn btn-outline-success">
+                                                    <i class="bi bi-people"></i>
+                                                </div>
+                                                <div class="ps-5">
+                                                    
+                                                    <p>
+                                                        <span class="text-muted small pt-2 ps-1 fw-bold">Total No. Of Employee</span>
+                                                    </p>
+                                                    {{dashboardData.tEmployee}}
+                                                </div>
+                                            </div>
+
+                                            <!-- <div class="d-flex align-items-center">
+                                                <div class="rounded-circle btn btn-outline-success">
+                                                    <i class="bi bi-people"></i>
+                                                </div>
+                                                <div class="ps-5">
+                                                    {{dashboardData.tEmployee}}
+                                                </div>
+                                            </div> -->
+                                        </div>
+                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card shadow">
+                                        <!-- <div class="card-header">
+                                            <div class="card-title">
+                                                <b>Approved Employee</b>
+                                            </div>
+                                        </div> -->
+                                    
+                                    
+                                    
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="card-icon rounded-circle btn btn-outline-info">
+                                                    <i class="bi bi-people"></i>
+                                                </div>
+                                                <div class="ps-5">
+                                                    
+                                                    <p>
+                                                        <span class="text-muted small pt-2 ps-1 fw-bold">Total No. Of Approved Employee</span>
+                                                    </p>
+                                                    {{dashboardData.approvedCount}}
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card shadow">
+                                        <!-- <div class="card-header">
+                                            <div class="card-title">
+                                                <b>Pending Employee</b>
+                                            </div>
+                                        </div> -->
+                                    
+                                    
+                                    
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="card-icon rounded-circle btn btn-outline-danger">
+                                                    <i class="bi bi-people"></i>
+                                                </div>
+                                                <div class="ps-5">
+                                                    
+                                                    <p>
+                                                        <span class="text-muted small pt-2 ps-1 fw-bold">Total No. Of Approval Pending</span>
+                                                    </p>
+                                                    {{dashboardData.pendingCount}}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                        
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card shadow">
+                                        <div class="card-header">
+                                            <div class="card-title">
+                                                <b>Today Applied List</b>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="card-body">
+                                            <div class="row mb-12">
+
+                                                <table class="table table-stripped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sl No.</th>
+                                                            <th>Regisration No.</th>
+                                                            <th>Employee Name</th>
+                                                            <!-- <th>Email ID</th> -->
+                                                            <th>Mobile No.</th>
+                                                            <th>Last Upadted Date</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    
+                                                    <tbody *ngIf="dashboardData && dashboardData.todayList">
+                                                        
+                                                        <tr *ngFor="let tempChange of dashboardData.todayList; let i = index">
+                                                            <td>{{ i + 1 }}</td>
+                                                            <td>{{ tempChange.employee.reg_no }}</td>
+                                                            <td>{{ tempChange.employee.emp_name }}</td>
+                                                            <td>{{ tempChange.employee.mobile }}</td>
+                                                            <td>{{ formatDate(tempChange.changed_at) }}</td>
+                                                            <td>
+                                                                <a class="btn btn-outline-info" [routerLink]="'/approve-temp-changes/' + tempChange.id">Details</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                        </div>
+                        
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>
+
+

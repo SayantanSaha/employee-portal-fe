@@ -1,0 +1,722 @@
+<div class="row">
+    <div class="col-md-12" style="padding: 2%; ">
+
+
+        <div class="card shadow">
+            <div class="card-header">
+                <div class="float-start">
+                    <b>Employee Approval Details</b>
+                </div>
+
+                <div class="float-end">
+                    <a class="btn btn-outline-info" [routerLink]="'/temp-changes-dtls'">
+                        Back
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="card shadow">
+                    <div class="row mb-12">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                
+                                <div class="row mb-12">
+                                
+                                    <div class="col-md-12">
+                                        <b><label>Registration No</label></b>
+                                        <br />
+                                        {{ specificDetails.employee.reg_no }}
+                                    </div>
+                                </div>
+        
+                                <div class="row mb-12">
+                                    <div class="col-md-4">
+                                        <b><label>Name</label></b>
+                                        <br />
+                                        {{ specificDetails.employee.emp_title }} {{ specificDetails.employee.emp_name }}
+                                    </div>
+        
+                                    <div class="col-md-4">
+                                        <b><label>Mobile No.</label></b>
+                                        <br />
+                                        {{ specificDetails.employee.mobile }}
+                                    </div>
+        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-12">&nbsp;</div>
+                
+                
+
+                <div class="card shadow">
+
+                    <div class="card-header">
+                        <h5 class="card-title">Changes Details {{ specificDetails.employee.emp_name }}</h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <!-- Employee Data Show Start -->
+                        <div class="row mb-12" *ngIf="specificDetails.model === 'Employee'">
+                            
+                            <div class="col-md-2" *ngIf="basicDetails.old_table_data.profile_photo">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Profile Photo</h5>
+                                    </div>
+                                    <div style="width: 100%;text-align: center;padding-top: 10px;">
+                                        <span *ngIf="basicDetails">
+                                            <img [src]="basicDetails.old_table_data.profile_photo" alt="Profile Photo"
+                                                style="width: 128px; height: 128px" class="rounded-circle" />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Old Data of {{ basicDetails.old_table_data.emp_name }}</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row mb-12">
+
+                                            <div class="col-md-6">
+                                                <b><label>Name</label></b>
+                                                <br />
+                                                {{ basicDetails.old_table_data.emp_title }} {{
+                                                basicDetails.old_table_data.emp_name }}
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <b><label>Date of Birth</label></b>
+                                                <br />
+                                                {{ formatDate(basicDetails.old_table_data.dob)}}
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mb-12">
+
+                                            <div class="col-md-6">
+                                                <b><label>Gender</label></b>
+                                                <br />
+                                                {{ basicDetails.old_table_data.gender === 'M' ? 'Male' :
+                                                basicDetails.old_table_data.gender === 'F' ? 'Female' :
+                                                basicDetails.old_table_data.gender === 'O' ? 'Others' : 'N/A' }}
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <b><label>Mobile No</label></b>
+                                                <br />
+                                                {{ basicDetails.old_table_data.mobile }}
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-12">
+
+                                            <div class="col-md-6" float="right;">
+                                                <b><label>Email</label></b>
+                                                <br />
+                                                {{ basicDetails.old_table_data.email_id}}
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mb-12">&nbsp;</div>
+
+                                        <div class="row mb-12">
+                                            <div class="col-md-6">
+
+
+                                                <h5 class="card-title text-info">Present Address </h5>
+
+                                                <div class="row mb-12">
+                                                    <div class="col-md-12">
+                                                        <b><label>Address</label></b>
+                                                        <br />
+                                                        {{ basicDetails.old_table_data.curr_add }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-12">
+                                                    <div class="col-md-12">
+                                                        <b><label>State</label></b>
+                                                        <br />
+                                                        {{ basicDetails.old_table_data.curr_state }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-12">
+
+                                                    <div class="col-md-6">
+                                                        <b><label>District</label></b>
+                                                        <br />
+                                                        {{ basicDetails.old_table_data.curr_district }}
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <b><label>Pin Code</label></b>
+                                                        <br />
+                                                        {{ basicDetails.old_table_data.curr_pin }}
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h5 class="card-title text-info">Permanent Address</h5>
+                                                <div class="row mb-12">
+                                                    <div class="col-md-12">
+                                                        <b><label>Address</label></b>
+                                                        <br />
+                                                        {{ basicDetails.old_table_data.perm_add }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-12">
+                                                    <div class="col-md-12">
+                                                        <b><label>State</label></b>
+                                                        <br />
+                                                        {{ basicDetails.old_table_data.perm_state }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-12">
+                                                    <div class="col-md-6">
+                                                        <b><label>District</label></b>
+                                                        <br />
+                                                        {{ basicDetails.old_table_data.perm_district }}
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <b><label>Pin Code</label></b>
+                                                        <br />
+                                                        {{ basicDetails.old_table_data.perm_pin }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5 class="card-title">
+                                            Changed Data of
+                                            {{ basicDetails.changed_data?.emp_name ? basicDetails.changed_data.emp_name :
+                                            basicDetails.old_table_data?.emp_name ? basicDetails.old_table_data.emp_name : 'N/A'
+                                            }}
+                                        </h5>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row mb-12">
+
+                                            <div class="col-md-6" [style.color]="basicDetails.changed_data.name ? 'red' : 'inherit'">
+                                                <b><label>Name</label></b>
+                                                <br />
+                                                {{ basicDetails.changed_data?.emp_title ? basicDetails.changed_data.emp_title :
+                                                basicDetails.old_table_data?.emp_title ? basicDetails.old_table_data.emp_title :
+                                                'N/A' }}
+                                                {{ basicDetails.changed_data?.emp_name ? basicDetails.changed_data.emp_name :
+                                                basicDetails.old_table_data?.emp_name ? basicDetails.old_table_data.emp_name :
+                                                'N/A' }}
+                                            </div>
+
+                                            <div class="col-md-6" [style.color]="basicDetails.changed_data.dob ? 'red' : 'inherit'">
+                                                <b><label>Date of Birth</label></b>
+                                                <br />
+                                                {{ basicDetails.changed_data?.dob ? formatDate(basicDetails.changed_data.dob) :
+                                                basicDetails.old_table_data?.dob ? formatDate(basicDetails.old_table_data.dob) :
+                                                'N/A' }}
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row mb-12">
+
+                                            <div class="col-md-6" [style.color]="basicDetails.changed_data.gender ? 'red' : 'inherit'">
+                                                <b><label>Gender</label></b>
+                                                <br />
+                                                {{
+                                                basicDetails.changed_data?.gender
+                                                ? basicDetails.changed_data.gender === 'M'
+                                                ? 'Male'
+                                                : basicDetails.changed_data.gender === 'F'
+                                                ? 'Female'
+                                                : basicDetails.changed_data.gender === 'O'
+                                                ? 'Others'
+                                                : 'N/A'
+                                                : basicDetails.old_table_data?.gender
+                                                ? basicDetails.old_table_data.gender === 'M'
+                                                ? 'Male'
+                                                : basicDetails.old_table_data.gender === 'F'
+                                                ? 'Female'
+                                                : basicDetails.old_table_data.gender === 'O'
+                                                ? 'Others'
+                                                : 'N/A'
+                                                : 'N/A'
+                                                }}
+                                            </div>
+
+                                            <div class="col-md-4" [style.color]="basicDetails.changed_data.mobile ? 'red' : 'inherit'">
+                                                <b><label>Mobile No</label></b>
+                                                <br />
+                                                {{ basicDetails.changed_data?.mobile ? basicDetails.changed_data.mobile :
+                                                basicDetails.old_table_data?.mobile ? basicDetails.old_table_data.mobile : 'N/A'
+                                                }}
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-12">
+                                            <div class="col-md-6" float="right;" [style.color]="basicDetails.changed_data.email_id ? 'red' : 'inherit'">
+                                                <b><label>Email</label></b>
+                                                <br />
+                                                {{ basicDetails.changed_data?.email_id ? basicDetails.changed_data.email_id :
+                                                basicDetails.old_table_data?.email_id ? basicDetails.old_table_data.email_id :
+                                                'N/A' }}
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-12">&nbsp;</div>
+
+                                        <div class="row mb-12">
+                                            <div class="col-md-6">
+
+                                                <h5 class="card-title text-info">Present Address </h5>
+
+                                                <div class="row mb-12">
+                                                    <div class="col-md-12" [style.color]="basicDetails.changed_data.curr_add ? 'red' : 'inherit'">
+                                                        <b><label>Address</label></b>
+                                                        <br />
+                                                        {{ basicDetails.changed_data?.curr_add ?
+                                                        basicDetails.changed_data.curr_add :
+                                                        basicDetails.old_table_data?.curr_add ?
+                                                        basicDetails.old_table_data.curr_add : 'N/A' }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-12">
+                                                    <div class="col-md-12" [style.color]="basicDetails.changed_data.curr_state ? 'red' : 'inherit'">
+                                                        <b><label>State</label></b>
+                                                        <br />
+                                                        {{ basicDetails.changed_data?.curr_state ?
+                                                        basicDetails.changed_data.curr_state :
+                                                        basicDetails.old_table_data?.curr_state ?
+                                                        basicDetails.old_table_data.curr_state : 'N/A' }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-12">
+                                                    <div class="col-md-6" [style.color]="basicDetails.changed_data.curr_district ? 'red' : 'inherit'">
+                                                        <b><label>District</label></b>
+                                                        <br />
+                                                        {{ basicDetails.changed_data?.curr_district ?
+                                                        basicDetails.changed_data.curr_district :
+                                                        basicDetails.old_table_data?.curr_district ?
+                                                        basicDetails.old_table_data.curr_district : 'N/A' }}
+                                                    </div>
+
+                                                    <div class="col-md-6" [style.color]="basicDetails.changed_data.curr_pin ? 'red' : 'inherit'">
+                                                        <b><label>Pin Code</label></b>
+                                                        <br />
+                                                        {{ basicDetails.changed_data?.curr_pin ?
+                                                        basicDetails.changed_data.curr_pin :
+                                                        basicDetails.old_table_data?.curr_pin ?
+                                                        basicDetails.old_table_data.curr_pin : 'N/A' }}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <h5 class="card-title text-info">Permanent Address</h5>
+                                                <div class="row mb-12">
+                                                    <div class="col-md-12" [style.color]="basicDetails.changed_data.perm_add ? 'red' : 'inherit'">
+                                                        <b><label>Address</label></b>
+                                                        <br />
+                                                        {{ basicDetails.changed_data?.perm_add ?
+                                                        basicDetails.changed_data.perm_add :
+                                                        basicDetails.old_table_data?.perm_add ?
+                                                        basicDetails.old_table_data.perm_add : 'N/A' }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-12">
+                                                    <div class="col-md-12" [style.color]="basicDetails.changed_data.perm_state ? 'red' : 'inherit'">
+                                                        <b><label>State</label></b>
+                                                        <br />
+                                                        {{ basicDetails.changed_data?.perm_state ?
+                                                        basicDetails.changed_data.perm_state :
+                                                        basicDetails.old_table_data?.perm_state ?
+                                                        basicDetails.old_table_data.perm_state : 'N/A' }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-12">
+                                                    <div class="col-md-6" [style.color]="basicDetails.changed_data.perm_district ? 'red' : 'inherit'">
+                                                        <b><label>District</label></b>
+                                                        <br />
+                                                        {{ basicDetails.changed_data?.perm_district ?
+                                                        basicDetails.changed_data.perm_district :
+                                                        basicDetails.old_table_data?.perm_district ?
+                                                        basicDetails.old_table_data.perm_district : 'N/A' }}
+                                                    </div>
+
+                                                    <div class="col-md-6" [style.color]="basicDetails.changed_data.perm_pin ? 'red' : 'inherit'">
+                                                        <b><label>Pin Code</label></b>
+                                                        <br />
+                                                        {{ basicDetails.changed_data?.perm_pin ?
+                                                        basicDetails.changed_data.perm_pin :
+                                                        basicDetails.old_table_data?.perm_pin ?
+                                                        basicDetails.old_table_data.perm_pin : 'N/A' }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Employee Data Show End -->
+
+                        <!-- Relation Data Show Start -->
+                        <div class="row mb-12"  *ngIf="specificDetails.model === 'employee_rel'">
+                            
+                            <div class="col-md-12">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Old Data</h5>
+                                    </div>
+
+                                    <div class="card-body" >
+                                        
+                                        <div class="row mb-12">
+                                            <div class="col-12">
+                                                <div class="card card-primary table-responsive">
+
+                                                    <table class="table table-stripped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Sl NO.</th>
+                                                                <th>Name</th>
+                                                                <th>Gender</th>
+                                                                <th>Relation</th>
+                                                                <th>Mobile No.</th>
+                                                                <th>Date Of Birth</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody *ngIf="basicDetails.old_table_data">
+                                                            <tr *ngFor="let item of basicDetails.old_table_data; let i = index">
+                                                                <td>{{ i + 1 }}</td>
+                                                                <td>{{item.pivot.rel_name ? item.pivot.rel_name : 'N/A'}}</td>
+                                                                <td>{{item.pivot.gender ? item.pivot.gender : 'N/A'}}</td>
+                                                                <td>{{item.pivot.rel_desc ? item.pivot.rel_desc : 'N/A'}}</td>
+                                                                <td>{{item.pivot.rel_mobile_no ? item.pivot.rel_mobile_no : 'N/A'}}</td>
+                                                                <td>{{item.pivot.rel_dob ? formatDate(item.pivot.rel_dob) : 'N/A'}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">&nbsp;</div>
+
+                            <div class="col-md-12">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Changed Data</h5>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row mb-12">
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-stripped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Name</th>
+                                                                <th>Gender</th>
+                                                                <th>Relation</th>
+                                                                <th>Mobile No.</th>
+                                                                <th>Date Of Birth</th>
+                                                            </tr>
+                                                        </thead>
+                                                        
+                                                        <tbody *ngIf="changedDataDetails">
+                                                            <tr [style.color]="changedDataDetails ? 'red' : 'inherit'">
+                                                                <td>{{changedDataDetails.rel_name  ? changedDataDetails.rel_name : 'N/A'}}</td>
+                                                                <td>{{ changedDataDetails.gender === 'M' ? 'MALE' : changedDataDetails.gender === 'F' ? 'FEMALE' : changedDataDetails.gender === 'O' ? 'OTHERS' : 'N/A' }}</td>
+                                                                <td>{{changedDataDetails.rel_desc  ? changedDataDetails.rel_desc : 'N/A'}}</td>
+                                                                <td>{{changedDataDetails.rel_mobile_no  ? changedDataDetails.rel_mobile_no : 'N/A'}}</td>
+                                                                <td>{{changedDataDetails.rel_dob  ? formatDate(changedDataDetails.rel_dob) : 'N/A'}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <!-- Relation Data Show End -->
+
+                        <!-- Promotion Data Show Start -->
+                        <div class="row mb-12"  *ngIf="specificDetails.model === 'promotion'">
+                            
+                            <div class="col-md-12">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Old Data</h5>
+                                    </div>
+
+                                    <div class="card-body" >
+                                        
+                                        <div class="row mb-12">
+                                            <div class="col-12">
+                                                <div class="card card-primary table-responsive">
+
+                                                    <table class="table table-stripped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Designation</th>
+                                                                <th>Joining Date</th>
+                                                                <th>Order No.</th>
+                                                                <th>Order Date</th>
+                                                                <th>Order File</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody *ngIf="basicDetails.old_table_data">
+                                                            <tr *ngFor="let item of basicDetails.old_table_data; let i = index">
+                                                                
+                                                                <td>{{item.desg_desc ? item.desg_desc : 'N/A'}}</td>
+                                                                <td>{{item.pivot.join_date ? formatDate(item.pivot.join_date) : 'N/A'}}</td>
+                                                                <td>{{item.pivot.order_date ? formatDate(item.pivot.order_date) : 'N/A'}}</td>
+                                                                <td>{{item.pivot.order_no ? item.pivot.order_no : 'N/A'}}</td>
+                                                                <td *ngIf="item.pivot.order_path">
+
+                                                                    <a href="{{item.pivot.order_path}}" target="_blank" title="Order File" class="btn btn-info">
+                                                                        <i class="bi bi-eye"></i> 
+                                                                    </a>
+                                                                    
+                                                                    <!-- {{changedDataDetails.order_path ? changedDataDetails.order_path : 'N/A'}} -->
+                                                                    <!-- <embed [src]="changedDataDetails.order_path" type="application/pdf" width="100%" height="600px"> -->
+                                                                </td>
+                                                                <td>{{item.pivot.order_path ? item.pivot.order_path : 'N/A'}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">&nbsp;</div>
+
+                            <div class="col-md-12">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Changed Data</h5>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row mb-12">
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-stripped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Designation</th>
+                                                                <th>Joining Date</th>
+                                                                <th>Order No.</th>
+                                                                <th>Order Date</th>
+                                                                <th>Order File</th>
+                                                            </tr>
+                                                        </thead>
+                                                        
+                                                        <tbody *ngIf="changedDataDetails">
+                                                            <tr [style.color]="changedDataDetails ? 'red' : 'inherit'">
+                                                                <td>{{changedDataDetails.desg_desc  ? changedDataDetails.desg_desc : 'N/A'}}</td>
+                                                                <td>{{changedDataDetails.join_date ? formatDate(changedDataDetails.join_date) : 'N/A'}}</td>
+                                                                <td>{{changedDataDetails.order_date ? formatDate(changedDataDetails.order_date) : 'N/A'}}</td>
+                                                                <td>{{changedDataDetails.order_no ? changedDataDetails.order_no : 'N/A'}}</td>
+
+                                                                <td *ngIf="changedDataDetails.order_path">
+
+                                                                    <a href="{{changedDataDetails.order_path}}" target="_blank" title="Order File" class="btn btn-danger">
+                                                                        <i class="bi bi-eye"></i> 
+                                                                    </a>
+                                                                    
+                                                                    <!-- {{changedDataDetails.order_path ? changedDataDetails.order_path : 'N/A'}} -->
+                                                                    <!-- <embed [src]="changedDataDetails.order_path" type="application/pdf" width="100%" height="600px"> -->
+                                                                </td>
+                                                                <!-- <td>{{changedDataDetails.order_path ? changedDataDetails.order_path : 'N/A'}}</td> -->
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <!--- Promotion Data Show End --->
+
+
+                        <!-- Division Data Show Start -->
+                        <div class="row mb-12"  *ngIf="specificDetails.model === 'posting'">
+                            
+                            <div class="col-md-12">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Old Data</h5>
+                                    </div>
+
+                                    <div class="card-body" >
+                                        
+                                        <div class="row mb-12">
+                                            <div class="col-12">
+                                                <div class="card card-primary table-responsive">
+
+                                                    <table class="table table-stripped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Division</th>
+                                                                <th>From Date</th>
+                                                                <th>To Date</th>
+                                                                <th>Order No.</th>
+                                                                <th>Order Date</th>
+                                                                <th>Order File</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody *ngIf="basicDetails.old_table_data">
+                                                            <tr *ngFor="let item of basicDetails.old_table_data; let i = index">
+                                                                
+                                                                <td>{{item.div_desc ? item.div_desc : 'N/A'}}</td>
+                                                                <td>{{item.pivot.from_date ? formatDate(item.pivot.from_date) : 'N/A'}}</td>
+                                                                <td>{{item.pivot.to_date ? formatDate(item.pivot.to_date) : 'N/A'}}</td>
+                                                                <td>{{item.pivot.order_no ? item.pivot.order_no : 'N/A'}}</td>
+                                                                <td>{{item.pivot.order_date ? formatDate(item.pivot.order_date) : 'N/A'}}</td>
+                                                                <td>{{item.pivot.order_path ? item.pivot.order_path : 'N/A'}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">&nbsp;</div>
+
+                            <div class="col-md-12">
+                                <div class="card shadow">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Changed Data</h5>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row mb-12">
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-stripped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Division</th>
+                                                                <th>From Date</th>
+                                                                <th>To Date</th>
+                                                                <th>Order No.</th>
+                                                                <th>Order Date</th>
+                                                                <th>Order File</th>
+                                                            </tr>
+                                                        </thead>
+                                                        
+                                                        <tbody *ngIf="changedDataDetails">
+                                                            <tr [style.color]="changedDataDetails ? 'red' : 'inherit'">
+                                                                <td>{{changedDataDetails.div_desc  ? changedDataDetails.div_desc : 'N/A'}}</td>
+                                                                <td>{{changedDataDetails.from_date ? formatDate(changedDataDetails.from_date) : 'N/A'}}</td>
+                                                                <td>{{changedDataDetails.to_date ? formatDate(changedDataDetails.to_date) : 'N/A'}}</td>
+                                                                <td>{{changedDataDetails.order_no ? changedDataDetails.order_no : 'N/A'}}</td>
+                                                                <td>{{changedDataDetails.order_date ? formatDate(changedDataDetails.order_date) : 'N/A'}}</td>
+                                                                
+                                                                <td *ngIf="changedDataDetails.order_path">
+
+                                                                    <a href="{{changedDataDetails.order_path}}" target="_blank" title="Order File" class="btn btn-danger">
+                                                                        <i class="bi bi-eye"></i> 
+                                                                    </a>
+                                                                    
+                                                                    <!-- {{changedDataDetails.order_path ? changedDataDetails.order_path : 'N/A'}} -->
+                                                                    <!-- <embed [src]="changedDataDetails.order_path" type="application/pdf" width="100%" height="600px"> -->
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <!--- Division Data Show End --->
+
+                        <div class="row mb-12">
+                            <div class="col-md-12">
+                                <div class="card shadow">
+                                    <div class="card-footer text-body-secondary">
+                                        <div class="float-start" style="margin-left: 40%;">
+                                            <button class="btn btn-outline-primary" (click)="appproveEmpChangesDetails()">Approve</button>
+                                        </div>
+                                        <div class="float-start">&nbsp;</div>
+                                        <div class="float-start">
+                                            <button class="btn btn-outline-danger" (click)="rejectEmpChangesDetails()">Reject</button>
+                                        </div>
+                                    </div>
+        
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+         
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
