@@ -4,12 +4,10 @@
     <div class="card">
       <div style="width: 100%;text-align: center;padding-top: 10px;">
 
-        <span *ngIf="employee">
-          <img [src]="employee.profile_photo" alt="Profile Photo" style="width: 128px; height: 128px"
-            class="rounded-circle" />
+        <span *ngIf="employee && employee.profile_photo">
+          <img [src]="employee.profile_photo" alt="Profile Photo"
+            style="width: 128px; height: 128px" class="rounded-circle" />
         </span>
-        <!-- <img src="https://github.com/mdo.png" alt="mdo" style="width: 128px; height: 128px" class="rounded-circle" /> -->
-        <!--width="32" height="32" -->
 
         <br />
         <label for="profile_photo" class="upload-icon-label">
@@ -285,11 +283,16 @@
 
                 <td>
                   <div class="d-grid gap-2 d-md-block">
-                    <button *ngIf="employee!.designations && employee!.designations[i].pivot!.order_path"
-                      class="btn btn-primary"
-                      (click)="displayPdf(employee!.designations[i].pivot!.order_path)" title="View Order File">
+
+                    <a (click)="openPdfWindow(employee!.designations[i].pivot!.order_path)" class="btn btn-primary" alt="Order File">
                       <i class="bi bi-eye"></i>
-                    </button>
+                    </a>
+                    
+                    <!-- <button *ngIf="employee!.designations && employee!.designations[i].pivot!.order_path"
+                      class="btn btn-primary"
+                      (click)="employee!.designations[i].pivot!.order_path" title="View Order File">
+                      
+                    </button> -->
                   </div>
                 </td>
 
@@ -390,7 +393,10 @@
                 <td>
                   <div class="d-grid gap-2 d-md-block">
                     <button *ngIf="employee!.divisions && employee!.divisions[i].pivot!.order_path"
-                      class="btn btn-primary">View</button>
+                      class="btn btn-primary"
+                      (click)="employee!.divisions[i].pivot!.order_path" title="View Order File">
+                      <i class="bi bi-eye"></i>
+                    </button>
                   </div>
                 </td>
 

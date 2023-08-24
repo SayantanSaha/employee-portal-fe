@@ -26,9 +26,6 @@ export class ProfileComponent implements OnInit{
   readonly DESIGNATION = 'DESIGNATION';
   readonly DIVISION = 'DIVISION';
 
-  pdfUrl: string = ''; // Holds the PDF file URL
-  showPdf: boolean = false; // Flag to control PDF display
-
 
   constructor(
     private employeeService: EmployeeService,
@@ -517,12 +514,19 @@ export class ProfileComponent implements OnInit{
     }
   }
 
+  
+  pdfSrc: any;
 
-  displayPdf(pdfUrl: string) {
-    this.pdfUrl = pdfUrl;
-    this.showPdf = true;
+  openPdfWindow(pdfUrl: string | undefined) {
+    if (pdfUrl) {
+      console.log(pdfUrl)
+      const blob = new Blob([pdfUrl], { type: 'application/pdf' });
+      this.pdfSrc = URL.createObjectURL(blob);
+      window.open(this.pdfSrc);
+      console.log(this.pdfSrc)
+      
+    }
   }
-
   /****** Upload File Function End ****/
 
 

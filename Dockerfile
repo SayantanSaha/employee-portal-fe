@@ -3,10 +3,12 @@ WORKDIR /app
 
 COPY . .
 RUN npm install
-ENTRYPOINT ['npm','start']
-EXPOSE 4200
-#RUN npm run build
+RUN npm run build
 # Serve Application using Nginx Server
-#FROM nginx:alpine
-#COPY --from=build /app/dist/employee-portal/ /usr/share/nginx/html
-#EXPOSE 80
+FROM nginx:alpine
+COPY --from=build /app/dist/employee-portal/ /usr/share/nginx/html
+EXPOSE 80
+
+# RUN npm install
+# ENTRYPOINT ['npm','start']
+# EXPOSE 4200

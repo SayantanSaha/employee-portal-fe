@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0 --configuration=production",
+    
+    "start": "ng serve",
     "build": "ng build --base-href http://10.197.148.102:8004/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
