@@ -471,7 +471,7 @@ export class ProfileComponent implements OnInit{
   }
 
   // Order File 
-  async onFileSelected(event: any, i: number, identifier: string) {
+  async onFileSelected(event: any, i: number) {
     const selectedFile = event.target.files[0];
    
     try {
@@ -482,17 +482,10 @@ export class ProfileComponent implements OnInit{
         // Check if the selected file is a PDF and the size is within limits
         if (fileType === 'application/pdf' && fileSize <= 1048576) {
           const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
-  
           if (this.employee && this.employee.designations && this.employee.designations[i]?.pivot) {
-            
             this.employee.designations[i].pivot.order_path = base64String;
+            console.log(this.employee.designations[i].pivot.order_path);
           }
-  
-          if (this.employee && this.employee.divisions && this.employee.divisions[i]?.pivot) {
-            
-            this.employee.divisions[i].pivot.order_path = base64String;
-          }
-
         } else {
           let errorMessage = '';
           if (fileType !== 'application/pdf') {
@@ -515,19 +508,45 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  
-  pdfSrc: any;
 
-  openPdfWindow(pdfUrl: string | undefined) {
-    if (pdfUrl) {
-      console.log(pdfUrl)
-      const blob = new Blob([pdfUrl], { type: 'application/pdf' });
-      this.pdfSrc = URL.createObjectURL(blob);
-      window.open(pdfUrl);
-      console.log(this.pdfSrc)
-      
+  // Order File 
+  async onFileDivSelected(event: any, i: number) {
+    const selectedFile = event.target.files[0];
+   
+    try {
+      if (selectedFile) {
+        const fileType = selectedFile.type;
+        const fileSize = selectedFile.size;
+  
+        // Check if the selected file is a PDF and the size is within limits
+        if (fileType === 'application/pdf' && fileSize <= 1048576) {
+          const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
+          if (this.employee && this.employee.divisions && this.employee.divisions[i]?.pivot) {
+            this.employee.divisions[i].pivot.order_path = base64String;
+            console.log(this.employee.divisions[i].pivot.order_path);
+          }
+        } else {
+          let errorMessage = '';
+          if (fileType !== 'application/pdf') {
+            errorMessage = 'Please select a PDF file.';
+          } else if (fileSize > 1048576) {
+            errorMessage = 'File size exceeds the limit of 1 MB.';
+          }
+
+          if (errorMessage) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Invalid File',
+              text: errorMessage,
+            });
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Failed to convert the file to base64:', error);
     }
   }
+
   /****** Upload File Function End ****/
 
 
