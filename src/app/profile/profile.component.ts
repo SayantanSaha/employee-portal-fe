@@ -11,6 +11,7 @@ import {Division} from "../model/Division";
 import Swal from 'sweetalert2';
 import {Relation} from "../model/Relation";
 import { fileToBase64 } from '../profile/fileToBase64';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -41,7 +42,7 @@ export class ProfileComponent implements OnInit{
   designations:Designation[]=[];
   divisions:Division[]=[];
   relations:Relation[]=[];
-  
+  apiUrl = environment.apiUrl;
 
   ngOnInit() {
     
@@ -522,7 +523,7 @@ export class ProfileComponent implements OnInit{
       console.log(pdfUrl)
       const blob = new Blob([pdfUrl], { type: 'application/pdf' });
       this.pdfSrc = URL.createObjectURL(blob);
-      window.open(this.pdfSrc);
+      window.open(pdfUrl);
       console.log(this.pdfSrc)
       
     }

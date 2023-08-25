@@ -14,14 +14,20 @@ const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
+
       { path: 'dashboard',loadChildren: () => import('../dashboard/dashboard.module').then(d => d.DashboardModule), canActivate: [AuthGuard]},
       { path: 'profile/:mode',loadChildren: () => import('../profile/profile.module').then(d => d.ProfileModule), canActivate: [AuthGuard]},
       { path: 'state',loadChildren: () => import('../state/state.module').then(d => d.StateModule), canActivate: [AuthGuard]},
 
-      { path: 'temp-changes-dtls',loadChildren: () => import('../tempchangesdata/tempchangesdata.module').then(d => d.TempchangesdataModule), canActivate: [AuthGuard]},
-      { path: 'approve-temp-changes/:id',loadChildren: () => import('../approveemployee/approveemployee.module').then(d => d.ApproveemployeeModule), canActivate: [AuthGuard]},
+      { path: 'approval-pending-emp-dtls',loadChildren: () => import('../tempchangesdata/tempchangesdata.module').then(d => d.TempchangesdataModule), canActivate: [AuthGuard]},
+      { path: 'changes-approval-dtls/:id',loadChildren: () => import('../tempchangesapproval/tempchangesapproval.module').then(d => d.TempchangesapprovalModule), canActivate: [AuthGuard]},
+      { path: 'approved-emp-list',loadChildren: () => import('../approveemployeelist/approveemployeelist.module').then(d => d.ApproveemployeelistModule), canActivate: [AuthGuard]},
+      { path: 'employee-list',loadChildren: () => import('../employeelist/employeelist.module').then(d => d.EmployeelistModule), canActivate: [AuthGuard]},
+    
+    
     ]
   },
+
   {
     path: '',
     component: BaseLayoutComponent,

@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApproveemployeeRoutingModule } from './approveemployee-routing.module';
+
+import { EmployeelistRoutingModule } from '../employeelist/employeelist-routing.module';
+
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    ApproveemployeeRoutingModule
+    EmployeelistRoutingModule
   ]
 })
-export class ApproveemployeeModule { }
+export class EmployeelistModule { }

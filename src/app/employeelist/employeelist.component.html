@@ -1,0 +1,89 @@
+
+<div class="row" >
+    <!-- <div class="col"> -->
+        <div class="container">
+            <div class="card">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <b>All Employee List</b>
+                        </div>
+                    </div>
+                
+                
+                    <div class="row">&nbsp;</div>
+                    
+                    <div class="card-body">
+                        
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card shadow">
+                                        <div class="card-header">
+                                            <div class="card-title">
+                                                <b>Employee List</b>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="card-body">
+                                            <div class="row mb-12">
+
+                                                <table class="table table-stripped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sl No.</th>
+                                                            <th>Regisration No.</th>
+                                                            <th>Employee Name</th>
+                                                            <!-- <th>Email ID</th> -->
+                                                            <th>Mobile No.</th>
+                                                            <th colspan="2">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    
+                                                    <tbody *ngIf="dashboardData && dashboardData.totalemployeeList">
+                                                        
+                                                        <tr *ngFor="let templist of dashboardData.totalemployeeList; let i = index">
+                                                            <td>{{ i + 1 }}</td>
+                                                            <td>{{ templist.reg_no }}</td>
+                                                            <td>{{ templist.emp_name }}</td>
+                                                            <!-- <td>{{ templist.email_id }}</td> -->
+                                                            <td>{{ templist.mobile }}</td>
+                                                            
+                                                            <td>
+                                                                <a class="btn btn-outline-info" [routerLink]="'/profile/edit'" title="Edit Employee Details">
+                                                                    <i class="bi bi-pencil"></i>
+                                                                </a>
+                                                            </td>
+
+                                                            <td>
+                                                                <a class="btn btn-outline-info" [routerLink]="'/profile/View'" title="View Employee Details">
+                                                                    <i class="bi bi-eye"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- Pagination Controls -->
+
+                                            </div>
+                                        </div>
+                        
+                                    </div>
+                                </div>
+                            </div>
+
+                           
+                        </div>  
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>
+
+

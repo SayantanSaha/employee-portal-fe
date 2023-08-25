@@ -283,8 +283,10 @@
 
                 <td>
                   <div class="d-grid gap-2 d-md-block">
-
-                    <a (click)="openPdfWindow(employee!.designations[i].pivot!.order_path)" class="btn btn-primary" alt="Order File">
+                    <!-- (click)="openPdfWindow(employee!.designations[i].pivot!.order_path)" --> 
+                    <a 
+                    href="{{apiUrl}}getFile/{{employee!.designations[i].pivot!.order_path}}"
+                    class="btn btn-primary" alt="Order File" target="_blank">
                       <i class="bi bi-eye"></i>
                     </a>
                     

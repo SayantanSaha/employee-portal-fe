@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    
-    "start": "ng serve --host 0.0.0.0 --configuration=production",
+    "start": "ng serve ",
     "build": "ng build --base-href http://10.197.148.102:8004/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -24,6 +23,7 @@
     "bootstrap-icons": "^1.10.3",
     "jquery": "^3.6.3",
     "ngx-extended-pdf-viewer": "^18.0.0-beta.4",
+    "ngx-pagination": "^6.0.3",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.6.13",
     "tslib": "^2.3.0",

@@ -14,12 +14,13 @@ import { DesignationComponent } from './designation/designation.component';
 import { StateComponent } from './state/state.component';
 import { DistrictComponent } from './district/district.component';
 import {FormsModule} from "@angular/forms";
-import { TempchangesdataComponent } from './tempchangesdata/tempchangesdata.component';
-import { ApproveemployeeComponent } from './approveemployee/approveemployee.component';
+
+//Added By Ravikant Kumar
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-
-
+import { TempchangesdataComponent } from './tempchangesdata/tempchangesdata.component';
+import { TempchangesapprovalComponent } from './tempchangesapproval/tempchangesapproval.component';
+import { ApproveemployeelistComponent } from './approveemployeelist/approveemployeelist.component';
+import { EmployeelistComponent } from './employeelist/employeelist.component';
 
 
 @NgModule({
@@ -32,9 +33,13 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     DesignationComponent,
     StateComponent,
     DistrictComponent,
-    TempchangesdataComponent,
-    ApproveemployeeComponent,
+    
     DashboardComponent,
+    TempchangesdataComponent,
+    TempchangesapprovalComponent,
+    ApproveemployeelistComponent,
+    EmployeelistComponent,
+    
     
   ],
     imports: [
@@ -43,7 +48,6 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
         LayoutModule,
         HttpClientModule,
         FormsModule,
-        NgxExtendedPdfViewerModule,
     ],
   providers: [],
   bootstrap: [AppComponent]
