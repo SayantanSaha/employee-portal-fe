@@ -470,7 +470,7 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  // Order File 
+  // Order File Promotions
   async onFileSelected(event: any, i: number) {
     const selectedFile = event.target.files[0];
    
@@ -509,7 +509,7 @@ export class ProfileComponent implements OnInit{
   }
 
 
-  // Order File 
+  // Order File Posting
   async onFileDivSelected(event: any, i: number) {
     const selectedFile = event.target.files[0];
    
@@ -548,6 +548,5 @@ export class ProfileComponent implements OnInit{
   }
 
   /****** Upload File Function End ****/
-
 
 }

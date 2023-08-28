@@ -180,7 +180,6 @@ export class EmployeeService {
     return this.http.get<any>(`${this.apiUrl}reject/${model}/${id}`, { headers: this.createHeader() });
   }
 
-  
 
   
 

@@ -5,8 +5,8 @@
       <div style="width: 100%;text-align: center;padding-top: 10px;">
 
         <span *ngIf="employee && employee.profile_photo">
-          <img [src]="employee.profile_photo" alt="Profile Photo"
-            style="width: 128px; height: 128px" class="rounded-circle" />
+          <img [src]="employee.profile_photo" alt="Profile Photo" style="width: 128px; height: 128px"
+            class="rounded-circle" />
         </span>
 
         <br />
@@ -272,29 +272,28 @@
                 </td>
                 <td>
                   <div class="d-grid gap-2 d-md-block">
-                    <label for="order_file" class="upload-icon-label btn btn-info" title="Upload Order File">
+                    <label for="order_file_desg_{{ i }}" class="upload-icon-label btn btn-outline-info"
+                      title="Upload Order File">
                       <i class="bi bi-cloud-arrow-up"></i>
                     </label>
 
-                    <input type="file" class="custom-file-input" id="order_file"
-                    (change)="onFileSelected($event, i)" style="display: none">
+                    <input type="file" class="custom-file-input" [id]="'order_file_desg_' + i"
+                      (change)="onFileSelected($event, i)" style="display: none">
                   </div>
                 </td>
 
                 <td>
                   <div class="d-grid gap-2 d-md-block">
-                    <!-- (click)="openPdfWindow(employee!.designations[i].pivot!.order_path)" --> 
-                    <a 
-                    href="{{apiUrl}}getFile/{{employee!.designations[i].pivot!.order_path}}"
-                    class="btn btn-primary" alt="Order File" target="_blank">
-                      <i class="bi bi-eye"></i>
-                    </a>
-                    
-                    <!-- <button *ngIf="employee!.designations && employee!.designations[i].pivot!.order_path"
-                      class="btn btn-primary"
-                      (click)="employee!.designations[i].pivot!.order_path" title="View Order File">
-                      
-                    </button> -->
+                    <ng-container
+                      *ngIf="employee!.designations && employee!.designations[i].pivot!.order_path; else naBlock">
+                      <a href="{{apiUrl}}getFile/{{employee!.designations[i].pivot!.order_path}}"
+                        class="btn btn-outline-info" alt="Order File" target="_blank">
+                        <i class="bi bi-eye"></i>
+                      </a>
+                    </ng-container>
+                    <ng-template #naBlock>
+                      N/A
+                    </ng-template>
                   </div>
                 </td>
 
@@ -382,23 +381,28 @@
                 </td>
                 <td>
                   <div class="d-grid gap-2 d-md-block">
-                    <label for="order_file" class="upload-icon-label btn btn-info" title="Upload Order File">
+                    <label for="order_file_div_{{ i }}" class="upload-icon-label btn btn-outline-info"
+                      title="Upload Order File">
                       <i class="bi bi-cloud-arrow-up"></i>
                     </label>
 
-                    <input type="file" class="custom-file-input" id="order_file"
-                      (change)="onFileDivSelected($event, i)"
-                      style="display: none">
+                    <input type="file" class="custom-file-input" [id]="'order_file_div_' + i"
+                      (change)="onFileDivSelected($event, i)" style="display: none">
                   </div>
                 </td>
 
                 <td>
                   <div class="d-grid gap-2 d-md-block">
-                    <button *ngIf="employee!.divisions && employee!.divisions[i].pivot!.order_path"
-                      class="btn btn-primary"
-                      (click)="employee!.divisions[i].pivot!.order_path" title="View Order File">
-                      <i class="bi bi-eye"></i>
-                    </button>
+                    <ng-container
+                      *ngIf="employee!.divisions && employee!.divisions[i].pivot!.order_path; else naBlock">
+                      <a href="{{apiUrl}}getFile/{{employee!.divisions[i].pivot!.order_path}}"
+                        class="btn btn-outline-success" alt="Order File" target="_blank">
+                        <i class="bi bi-eye"></i>
+                      </a>
+                    </ng-container>
+                    <ng-template #naBlock>
+                      N/A
+                    </ng-template>
                   </div>
                 </td>
 

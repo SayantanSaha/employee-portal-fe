@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {EmployeeService} from "../employee.service";
 
+
 import {Router} from "@angular/router";
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-tempchangesapproval',
@@ -16,7 +19,7 @@ export class TempchangesapprovalComponent implements OnInit{
   specificDetails: any;
   basicDetails : any={};
   changedDataDetails: any;
-  
+  apiUrl = environment.apiUrl;
 
   constructor(
     private employeeService: EmployeeService, 
