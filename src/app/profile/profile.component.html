@@ -287,7 +287,7 @@
                     <ng-container
                       *ngIf="employee!.designations && employee!.designations[i].pivot!.order_path; else naBlock">
                       <a href="{{apiUrl}}getFile/{{employee!.designations[i].pivot!.order_path}}"
-                        class="btn btn-outline-info" alt="Order File" target="_blank">
+                        class="btn btn-outline-primary" title="Order File" target="_blank">
                         <i class="bi bi-eye"></i>
                       </a>
                     </ng-container>
@@ -396,7 +396,7 @@
                     <ng-container
                       *ngIf="employee!.divisions && employee!.divisions[i].pivot!.order_path; else naBlock">
                       <a href="{{apiUrl}}getFile/{{employee!.divisions[i].pivot!.order_path}}"
-                        class="btn btn-outline-success" alt="Order File" target="_blank">
+                        class="btn btn-outline-primary" title="Order File" target="_blank">
                         <i class="bi bi-eye"></i>
                       </a>
                     </ng-container>

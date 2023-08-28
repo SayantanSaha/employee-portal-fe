@@ -555,17 +555,22 @@
                                                                 <td>{{item.desg_desc ? item.desg_desc : 'N/A'}}</td>
                                                                 <td>{{item.pivot.join_date ?
                                                                     formatDate(item.pivot.join_date) : 'N/A'}}</td>
-                                                                <td>{{item.pivot.order_date ?
-                                                                    formatDate(item.pivot.order_date) : 'N/A'}}</td>
                                                                 <td>{{item.pivot.order_no ? item.pivot.order_no :
                                                                     'N/A'}}</td>
-                                                                <td *ngIf="item.pivot.order_path">
-
-                                                                    <a href="{{apiUrl}}getFile/{{item.pivot.order_path}}"
-                                                                        class="btn btn-outline-info" alt="Order File"
-                                                                        target="_blank">
-                                                                        <i class="bi bi-eye"></i>
-                                                                    </a>
+                                                                <td>{{item.pivot.order_date ?
+                                                                    formatDate(item.pivot.order_date) : 'N/A'}}</td>
+                                                                <td>
+                                                                    <ng-container
+                                                                        *ngIf="item.pivot.order_path; else naBlock">
+                                                                        <a href="{{ apiUrl }}getFile/{{ item.pivot.order_path }}"
+                                                                            class="btn btn-outline-info"
+                                                                            alt="Order File" target="_blank">
+                                                                            <i class="bi bi-eye"></i>
+                                                                        </a>
+                                                                    </ng-container>
+                                                                    <ng-template #naBlock>
+                                                                        N/A
+                                                                    </ng-template>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -615,12 +620,16 @@
                                                                 <td>{{changedDataDetails.order_no ?
                                                                     changedDataDetails.order_no : 'N/A'}}</td>
 
-                                                                <td *ngIf="changedDataDetails.order_path">
-                                                                    <a href="{{apiUrl}}getFile/{{changedDataDetails.order_path}}"
-                                                                        class="btn btn-outline-danger" alt="Order File"
-                                                                        target="_blank">
-                                                                        <i class="bi bi-eye"></i>
-                                                                    </a>
+                                                                <td >
+                                                                    <ng-container *ngIf="changedDataDetails.order_path; else naBlock">
+                                                                        <a href="{{ apiUrl }}getFile/{{ changedDataDetails.order_path }}" class="btn btn-outline-danger" alt="Order File"
+                                                                           target="_blank">
+                                                                          <i class="bi bi-eye"></i>
+                                                                        </a>
+                                                                    </ng-container>
+                                                                    <ng-template #naBlock>
+                                                                        N/A
+                                                                    </ng-template>
                                                                 </td>
 
                                                             </tr>
@@ -676,11 +685,13 @@
                                                                     'N/A'}}</td>
                                                                 <td>{{item.pivot.order_date ?
                                                                     formatDate(item.pivot.order_date) : 'N/A'}}</td>
-                                                                <td >
-                                                                    <ng-container *ngIf="item.pivot.order_path; else naBlock">
-                                                                        <a href="{{ apiUrl }}getFile/{{ item.pivot.order_path }}" class="btn btn-outline-info" alt="Order File"
-                                                                           target="_blank">
-                                                                          <i class="bi bi-eye"></i>
+                                                                <td>
+                                                                    <ng-container
+                                                                        *ngIf="item.pivot.order_path; else naBlock">
+                                                                        <a href="{{ apiUrl }}getFile/{{ item.pivot.order_path }}"
+                                                                            class="btn btn-outline-info"
+                                                                            alt="Order File" target="_blank">
+                                                                            <i class="bi bi-eye"></i>
                                                                         </a>
                                                                     </ng-container>
                                                                     <ng-template #naBlock>
@@ -739,12 +750,16 @@
                                                                     formatDate(changedDataDetails.order_date) : 'N/A'}}
                                                                 </td>
 
-                                                                <td *ngIf="changedDataDetails.order_path">
-                                                                    <a href="{{apiUrl}}getFile/{{changedDataDetails.order_path}}"
-                                                                        class="btn btn-danger" alt="Order File"
-                                                                        target="_blank">
-                                                                        <i class="bi bi-eye"></i>
-                                                                    </a>
+                                                                <td>
+                                                                    <ng-container *ngIf="changedDataDetails.order_path; else naBlock">
+                                                                        <a href="{{ apiUrl }}getFile/{{ changedDataDetails.order_path }}" class="btn btn-outline-danger" alt="Order File"
+                                                                           target="_blank">
+                                                                          <i class="bi bi-eye"></i>
+                                                                        </a>
+                                                                    </ng-container>
+                                                                    <ng-template #naBlock>
+                                                                        N/A
+                                                                    </ng-template>
                                                                 </td>
 
                                                             </tr>
@@ -762,22 +777,27 @@
 
                         <div class="row mb-12">
                             <div class="col-md-12">
-                                <div class="card shadow" *ngIf="specificDetails.is_verified!=null">
+                                <div class="card shadow">
                                     <div class="card-footer text-body-secondary">
-                                        <ng-container *ngIf="specificDetails.is_verified === null; else alreadyApprovedBlock">
+                                        <ng-container
+                                            *ngIf="specificDetails.is_verified === null; else alreadyApprovedBlock">
                                             <div class="float-start" style="margin-left: 40%;">
-                                                <button class="btn btn-outline-primary" (click)="appproveEmpChangesDetails()">Approve</button>
+                                                <button class="btn btn-outline-primary"
+                                                    (click)="appproveEmpChangesDetails()">Approve</button>
                                             </div>
-                                    
-                                        <div class="float-start">&nbsp;</div>
-                                    
-                                        <div class="float-start">
-                                            <button class="btn btn-outline-danger" (click)="rejectEmpChangesDetails()">Reject</button>
-                                        </div>
+
+                                            <div class="float-start">&nbsp;</div>
+
+                                            <div class="float-start">
+                                                <button class="btn btn-outline-danger"
+                                                    (click)="rejectEmpChangesDetails()">Reject</button>
+                                            </div>
                                         </ng-container>
                                         <ng-template #alreadyApprovedBlock>
                                             <div class="float-start">
-                                                <b style="color: red;">Already Approved</b>
+                                                <b style="color: red;">
+                                                    {{ specificDetails.is_verified === 1 ? 'Approved' : 'Rejected' }}
+                                                  </b>
                                             </div>
                                         </ng-template>
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {EmployeeService} from "../employee.service";
 
-
+import Swal from 'sweetalert2';
 import {Router} from "@angular/router";
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
@@ -60,7 +60,16 @@ export class TempchangesapprovalComponent implements OnInit{
       // Send a POST request to the API with the data
       this.employeeService.approveTempData(this.specificDetails.id).subscribe(
         response => {
-          this.router.navigate(['/temp-changes-dtls']);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Data has been approved successfully.'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Redirect to the desired page
+              this.router.navigate(['/approval-pending-emp-dtls']);
+            }
+          });
         },
         error => {
           console.error('API Error:', error);

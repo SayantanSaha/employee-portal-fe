@@ -163,6 +163,11 @@ export class ProfileComponent implements OnInit{
         icon: 'success',
         title: 'Success',
         text: 'Basic Details Updated Successfully',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Redirect to the desired page
+            window.location.reload();
+          }
         });
       },
       error => {
@@ -203,14 +208,66 @@ export class ProfileComponent implements OnInit{
     console.log(this.employee?.designations![index].pivot.order_path)
     if(promotion?.id==-1){
        this.employeeService.savePromotion(promotion).subscribe(
-        p=>this.employee!.designations![index]=p,
-         e=>console.log(e)
+        // p=>this.employee!.designations![index]=p,
+        // e=>console.log(e)
+        p => {
+          this.employee!.designations![index] = p;
+  
+          // Show SweetAlert success message
+          console.log(p);
+          Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Promotion Details have been saved  Successfully',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Redirect to the desired page
+              window.location.reload();
+            }
+          });
+        },
+        e => {
+          console.log(e);
+          Swal.fire({
+            icon: 'error',
+            title: 'error',
+            text: 'Promotion details have not been saved successfully.',
+            showConfirmButton: false,
+            timer: 1500 // Automatically close after 1.5 seconds
+          });
+        }
       );
     }else{
       if(promotion!=null){
         this.employeeService.updatePromotion(promotion).subscribe(
-          p=>this.employee!.designations![index]=p,
-          e=>console.log(e)
+          // p=>this.employee!.designations![index]=p,
+          // e=>console.log(e)
+          p => {
+            this.employee!.designations![index] = p;
+    
+            // Show SweetAlert success message
+            console.log(p);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Promotion Details have been Updated  Successfully',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Redirect to the desired page
+                window.location.reload();
+              }
+            });
+          },
+          e => {
+            console.log(e);
+            Swal.fire({
+              icon: 'error',
+              title: 'error',
+              text: 'Promotion details have not been Updated successfully.',
+              showConfirmButton: false,
+              timer: 1500 // Automatically close after 1.5 seconds
+            });
+          }
         );
       }
     }
@@ -259,14 +316,68 @@ export class ProfileComponent implements OnInit{
       let postingDtls = this.employee?.divisions![index].pivot;
       if(postingDtls?.id==-1){
         this.employeeService.savePosting(postingDtls).subscribe(
-          p=>this.employee!.divisions![index]=p,
-          e=>console.log(e)
+          // p=>this.employee!.divisions![index]=p,
+          // e=>console.log(e)
+          p => {
+            this.employee!.divisions![index] = p;
+    
+            // Show SweetAlert success message
+            console.log(p);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Posting Details have been saved  Successfully',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Redirect to the desired page
+                window.location.reload();
+              }
+            });
+          },
+          e => {
+            console.log(e);
+            Swal.fire({
+              icon: 'error',
+              title: 'error',
+              text: 'Posting details have not been saved successfully.',
+              showConfirmButton: false,
+              // timer: 1500 // Automatically close after 1.5 seconds
+            });
+          }
         );
       }else{
         if(postingDtls!=null){
           this.employeeService.updatePosting(postingDtls).subscribe(
-            p=>this.employee!.divisions![index]=p,
-            e=>console.log(e)
+            // p=>this.employee!.divisions![index]=p,
+            // e=>console.log(e)
+
+            p => {
+              this.employee!.divisions![index] = p;
+      
+              // Show SweetAlert success message
+              console.log(p);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Posting Details have been updated  Successfully',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Redirect to the desired page
+                  window.location.reload();
+                }
+              });
+            },
+            e => {
+              console.log(e);
+              Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: 'Posting details have not been updated successfully.',
+                showConfirmButton: false,
+                // timer: 1500 // Automatically close after 1.5 seconds
+              });
+            }
+
           );
         }
       }
@@ -304,14 +415,68 @@ export class ProfileComponent implements OnInit{
       let membersDtls = this.employee?.relations![index].pivot;
       if(membersDtls?.id==-1){
         this.employeeService.updateRelation(membersDtls).subscribe(
-          p=>this.employee!.relations![index]=p,
-          e=>console.log(e)
+          // p=>this.employee!.relations![index]=p,
+          // e=>console.log(e)
+
+          p => {
+            this.employee!.relations![index] = p;
+    
+            // Show SweetAlert success message
+            console.log(p);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Relation Details have been saved  Successfully',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Redirect to the desired page
+                window.location.reload();
+              }
+            });
+          },
+          e => {
+            console.log(e);
+            Swal.fire({
+              icon: 'error',
+              title: 'error',
+              text: 'Relation details have not been saved successfully.',
+              showConfirmButton: false,
+              // timer: 1500 // Automatically close after 1.5 seconds
+            });
+          }
+
         );
       }else{
         if(membersDtls!=null){
           this.employeeService.updateRelation(membersDtls).subscribe(
-            p=>this.employee!.relations![index]=p,
-            e=>console.log(e)
+            // p=>this.employee!.relations![index]=p,
+            // e=>console.log(e)
+            p => {
+              this.employee!.relations![index] = p;
+      
+              // Show SweetAlert success message
+              console.log(p);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Relation Details have been updated  Successfully',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Redirect to the desired page
+                  window.location.reload();
+                }
+              });
+            },
+            e => {
+              console.log(e);
+              Swal.fire({
+                icon: 'error',
+                title: 'error',
+                text: 'Relation details have not been updated successfully.',
+                showConfirmButton: false,
+                // timer: 1500 // Automatically close after 1.5 seconds
+              });
+            }
           );
         }
       }
@@ -324,125 +489,125 @@ export class ProfileComponent implements OnInit{
   /************************* Validation Check Function Start *************************/
 
 
-  validateEngName() {
-    const namePattern = /^[a-zA-Z- ]{3,30}$/;
-    if (!namePattern.test(this.employee!.emp_name)) { // Note the negation (!) here
-      this.validationErrors.push('Invalid Employee Name');
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Invalid Employee Name',
-      });
-    }else {
-      // Clear the validation error message for Name in English if it's valid
-      const index = this.validationErrors.indexOf('Invalid Employee Name');
-      if (index !== -1) {
-        this.validationErrors.splice(index, 1);
-      }
-    }
-  }
-
-  validateHindiName() {
-    const namePattern = /^[\u0900-\u097F\s-]{3,30}$/; // Unicode range for Hindi characters
-    if (!namePattern.test(this.employee!.emp_name_hi)) {
-      this.validationErrors.push('कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें');
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें',
-      });
-    }else {
-      // Clear the validation error message for Name in Hindi if it's valid
-      const index = this.validationErrors.indexOf('कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें');
-      if (index !== -1) {
-        this.validationErrors.splice(index, 1);
-      }
-    }
-  }
-
-  validateEmail() {
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailPattern.test(this.employee!.email_id)) {
-      this.validationErrors.push('Invalid Email Id');
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Invalid Email Id',
-      });
-    }else {
-      // Clear the validation error message for Email if it's valid
-      const index = this.validationErrors.indexOf('Invalid Email Id');
-      if (index !== -1) {
-        this.validationErrors.splice(index, 1);
-      }
-    }
-
-  }
-
-
-  validateMobile() {
-    const mobilePattern = /^\d{10}$/;
-    if(!mobilePattern.test(this.employee!.mobile)) {
-      this.validationErrors.push('Invalid Mobile Number');
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Invalid Mobile Number',
-      });
-    }else {
-      // Clear the validation error message for mobile if it's valid
-      const index = this.validationErrors.indexOf('Invalid Mobile Number');
-      if (index !== -1) {
-        this.validationErrors.splice(index, 1);
-      }
-    }
-  }
-
-  
-  validateCurrPin() {
-    if (this.employee!.curr_pin !== null) {
-      const pinPattern = /^\d{6}$/;
-      if (!pinPattern.test(this.employee!.curr_pin)) {
-        this.validationErrors.push('Invalid Current PIN code.');
+    validateEngName() {
+      const namePattern = /^[a-zA-Z- ]{3,30}$/;
+      if (!namePattern.test(this.employee!.emp_name)) { // Note the negation (!) here
+        this.validationErrors.push('Invalid Employee Name');
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Invalid Current PIN code.',
+          text: 'Invalid Employee Name',
         });
       }else {
-        // Clear the validation error message for Pin Code if it's valid
-        const index = this.validationErrors.indexOf('Invalid Current PIN code.');
+        // Clear the validation error message for Name in English if it's valid
+        const index = this.validationErrors.indexOf('Invalid Employee Name');
+        if (index !== -1) {
+          this.validationErrors.splice(index, 1);
+        }
+      }
+    }
+
+    validateHindiName() {
+      const namePattern = /^[\u0900-\u097F\s-]{3,30}$/; // Unicode range for Hindi characters
+      if (!namePattern.test(this.employee!.emp_name_hi)) {
+        this.validationErrors.push('कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें',
+        });
+      }else {
+        // Clear the validation error message for Name in Hindi if it's valid
+        const index = this.validationErrors.indexOf('कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें');
+        if (index !== -1) {
+          this.validationErrors.splice(index, 1);
+        }
+      }
+    }
+
+    validateEmail() {
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailPattern.test(this.employee!.email_id)) {
+        this.validationErrors.push('Invalid Email Id');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Invalid Email Id',
+        });
+      }else {
+        // Clear the validation error message for Email if it's valid
+        const index = this.validationErrors.indexOf('Invalid Email Id');
         if (index !== -1) {
           this.validationErrors.splice(index, 1);
         }
       }
 
     }
-  }
 
 
-  validatePermPin() {
-    if (this.employee!.perm_pin !== null) {
-      const pinPattern = /^\d{6}$/;
-      
-      if (!pinPattern.test(this.employee!.perm_pin)) {
-
-        this.validationErrors.push('Invalid Premanent Pin Code');
-
+    validateMobile() {
+      const mobilePattern = /^\d{10}$/;
+      if(!mobilePattern.test(this.employee!.mobile)) {
+        this.validationErrors.push('Invalid Mobile Number');
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Invalid Premanent Pin Code',
+          text: 'Invalid Mobile Number',
         });
       }else {
-        // Clear the validation error message for Pin Code if it's valid
-        const index = this.validationErrors.indexOf('Invalid Premanent Pin Code');
+        // Clear the validation error message for mobile if it's valid
+        const index = this.validationErrors.indexOf('Invalid Mobile Number');
         if (index !== -1) {
           this.validationErrors.splice(index, 1);
         }
       }
     }
-  }
+
+    
+    validateCurrPin() {
+      if (this.employee!.curr_pin !== null) {
+        const pinPattern = /^\d{6}$/;
+        if (!pinPattern.test(this.employee!.curr_pin)) {
+          this.validationErrors.push('Invalid Current PIN code.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Invalid Current PIN code.',
+          });
+        }else {
+          // Clear the validation error message for Pin Code if it's valid
+          const index = this.validationErrors.indexOf('Invalid Current PIN code.');
+          if (index !== -1) {
+            this.validationErrors.splice(index, 1);
+          }
+        }
+
+      }
+    }
+
+
+    validatePermPin() {
+      if (this.employee!.perm_pin !== null) {
+        const pinPattern = /^\d{6}$/;
+        
+        if (!pinPattern.test(this.employee!.perm_pin)) {
+
+          this.validationErrors.push('Invalid Premanent Pin Code');
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Invalid Premanent Pin Code',
+          });
+        }else {
+          // Clear the validation error message for Pin Code if it's valid
+          const index = this.validationErrors.indexOf('Invalid Premanent Pin Code');
+          if (index !== -1) {
+            this.validationErrors.splice(index, 1);
+          }
+        }
+      }
+    }
 
   /************************* Validation Check Function End *************************/
 
