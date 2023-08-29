@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {User} from "../../model/User";
 declare var jQuery: any;
 
@@ -9,6 +9,10 @@ declare var jQuery: any;
 })
 export class HeaderComponent  {
 
+  baseUrl: string = '';
+  constructor( @Inject('BASE_URL') baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
 
   user:User = new User();
 

@@ -34,7 +34,9 @@ import {FormsModule} from "@angular/forms";
         HttpClientModule,
         FormsModule,
     ],
-  providers: [],
+  providers: [
+    { provide: 'BASE_URL', useFactory: ()=>document.getElementsByTagName('base')[0].href }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
