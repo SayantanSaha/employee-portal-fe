@@ -33,14 +33,14 @@ import { EmployeelistComponent } from './employeelist/employeelist.component';
     DesignationComponent,
     StateComponent,
     DistrictComponent,
-    
+
     DashboardComponent,
     TempchangesdataComponent,
     TempchangesapprovalComponent,
     ApproveemployeelistComponent,
     EmployeelistComponent,
-    
-    
+
+
   ],
     imports: [
         BrowserModule,
@@ -49,7 +49,9 @@ import { EmployeelistComponent } from './employeelist/employeelist.component';
         HttpClientModule,
         FormsModule,
     ],
-  providers: [],
+  providers: [
+    { provide: 'BASE_URL', useFactory: ()=>document.getElementsByTagName('base')[0].href }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
