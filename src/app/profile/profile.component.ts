@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit{
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
   ) {}
-  
+
   employee:Employee| null = null;
   mode:string|null = null;
   editable:boolean = false;
@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit{
   apiUrl = environment.apiUrl;
 
   ngOnInit() {
-    
+
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.setEditable(this.mode=='edit');
     this.employeeService.getMyProfile().subscribe(
@@ -76,8 +76,8 @@ export class ProfileComponent implements OnInit{
       data=>this.relations=data,
       error => console.log(error)
     );
-    
-   
+
+
     this.employeeService.getDivisionMasterList().subscribe(
       data=>this.divisiontypelist=data,
       error => console.log(error)
@@ -87,8 +87,8 @@ export class ProfileComponent implements OnInit{
       data=>this.relationstypelist=data,
       error => console.log(error)
     );
-    
-  
+
+
   }
 
 
@@ -134,7 +134,7 @@ export class ProfileComponent implements OnInit{
 
   savePrimaryDetails(){
 
-    // Validation check before API Call  
+    // Validation check before API Call
 
     if (this.validationErrors.length > 0) {
 
@@ -151,7 +151,7 @@ export class ProfileComponent implements OnInit{
       return; // Exit without calling the API
     }
 
-    // Validation true then Api call otherwise please check 
+    // Validation true then Api call otherwise please check
     this.employeeService.updateEmployee(this.employee!).subscribe(
       // data=>console.log(data),
       // error=>console.log(error)
@@ -162,7 +162,7 @@ export class ProfileComponent implements OnInit{
         Swal.fire({
         icon: 'success',
         title: 'Success',
-        text: 'Basic Details Updated Successfully',
+        text: 'Request for approval of basic details have been updated successfully and pending for approval',
         }).then((result) => {
           if (result.isConfirmed) {
             // Redirect to the desired page
@@ -178,12 +178,12 @@ export class ProfileComponent implements OnInit{
         text: 'An error occurred while updating.',
         });
       }
-      
+
     );
 
-   
+
   }
-  
+
 
   async getDistricts(state:State){
     let districts:District[] = [];
@@ -212,13 +212,13 @@ export class ProfileComponent implements OnInit{
         // e=>console.log(e)
         p => {
           this.employee!.designations![index] = p;
-  
+
           // Show SweetAlert success message
           console.log(p);
           Swal.fire({
           icon: 'success',
           title: 'Success',
-          text: 'Promotion Details have been saved  Successfully',
+          text: 'Request for approval of Designation have been saved successfully and pending for approval',
           }).then((result) => {
             if (result.isConfirmed) {
               // Redirect to the desired page
@@ -244,13 +244,13 @@ export class ProfileComponent implements OnInit{
           // e=>console.log(e)
           p => {
             this.employee!.designations![index] = p;
-    
+
             // Show SweetAlert success message
             console.log(p);
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Promotion Details have been Updated  Successfully',
+              text: 'Request for approval of designation have been updated successfully and pending for approval',
             }).then((result) => {
               if (result.isConfirmed) {
                 // Redirect to the desired page
@@ -305,7 +305,12 @@ export class ProfileComponent implements OnInit{
   /********** Add Division Function Start *********/
 
     addDivision() {
-      this.employee?.divisions?.push(new Division());
+    if (this.employee && this.employee.relations) {
+      let d = new Division();
+      // this.employee?.divisions?.push(new Division());
+      d.pivot.employee_id = this.employee?.id!;
+      this.employee?.divisions?.push(d);
+    }
     }
 
     deleteDivision(index:number){
@@ -320,13 +325,13 @@ export class ProfileComponent implements OnInit{
           // e=>console.log(e)
           p => {
             this.employee!.divisions![index] = p;
-    
+
             // Show SweetAlert success message
             console.log(p);
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Posting Details have been saved  Successfully',
+              text: 'Request for approval of Posting have been saved successfully and pending for approval',
             }).then((result) => {
               if (result.isConfirmed) {
                 // Redirect to the desired page
@@ -353,13 +358,13 @@ export class ProfileComponent implements OnInit{
 
             p => {
               this.employee!.divisions![index] = p;
-      
+
               // Show SweetAlert success message
               console.log(p);
               Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: 'Posting Details have been updated  Successfully',
+                text: 'Request for approval of Posting have been updated successfully and pending for approval',
               }).then((result) => {
                 if (result.isConfirmed) {
                   // Redirect to the desired page
@@ -402,7 +407,7 @@ export class ProfileComponent implements OnInit{
         this.employee?.relations?.push(d);
       }
     }
-    
+
     // Delete Member Column Function
     deleteMember(index: number) {
       if (this.employee && this.employee.relations) {
@@ -410,7 +415,7 @@ export class ProfileComponent implements OnInit{
       }
     }
 
-    // Save Family Details 
+    // Save Family Details
     saveRelationDetails(index: number){
       let membersDtls = this.employee?.relations![index].pivot;
       if(membersDtls?.id==-1){
@@ -420,13 +425,13 @@ export class ProfileComponent implements OnInit{
 
           p => {
             this.employee!.relations![index] = p;
-    
+
             // Show SweetAlert success message
             console.log(p);
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Relation Details have been saved  Successfully',
+              text: 'Request for approval of Relation have been saved successfully and pending for approval',
             }).then((result) => {
               if (result.isConfirmed) {
                 // Redirect to the desired page
@@ -453,13 +458,13 @@ export class ProfileComponent implements OnInit{
             // e=>console.log(e)
             p => {
               this.employee!.relations![index] = p;
-      
+
               // Show SweetAlert success message
               console.log(p);
               Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: 'Relation Details have been updated  Successfully',
+                text: 'Request for approval of Relation have been updated successfully and pending for approval',
               }).then((result) => {
                 if (result.isConfirmed) {
                   // Redirect to the desired page
@@ -481,7 +486,7 @@ export class ProfileComponent implements OnInit{
         }
       }
     }
-  
+
   /***************** Add Family Members Function End ***************8*******/
 
 
@@ -508,8 +513,9 @@ export class ProfileComponent implements OnInit{
     }
 
     validateHindiName() {
-      const namePattern = /^[\u0900-\u097F\s-]{3,30}$/; // Unicode range for Hindi characters
-      if (!namePattern.test(this.employee!.emp_name_hi)) {
+      const hindiNamePattern = /^[\u0900-\u097F\s.\-'!()]*$/;
+
+      if (!hindiNamePattern.test(this.employee!.emp_name_hi)) {
         this.validationErrors.push('कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें');
         Swal.fire({
           icon: 'error',
@@ -563,7 +569,7 @@ export class ProfileComponent implements OnInit{
       }
     }
 
-    
+
     validateCurrPin() {
       if (this.employee!.curr_pin !== null) {
         const pinPattern = /^\d{6}$/;
@@ -589,7 +595,7 @@ export class ProfileComponent implements OnInit{
     validatePermPin() {
       if (this.employee!.perm_pin !== null) {
         const pinPattern = /^\d{6}$/;
-        
+
         if (!pinPattern.test(this.employee!.perm_pin)) {
 
           this.validationErrors.push('Invalid Premanent Pin Code');
@@ -611,10 +617,10 @@ export class ProfileComponent implements OnInit{
 
   /************************* Validation Check Function End *************************/
 
-  
+
   /******* Upload File Function Start *******/
 
-  // Profile Photo 
+  // Profile Photo
   async onProfilePhotoSelected(event: Event): Promise<void> {
     const inputElement = event.target as HTMLInputElement;
     if (inputElement?.files?.length) {
@@ -624,7 +630,7 @@ export class ProfileComponent implements OnInit{
         if (this.employee) {
           this.employee.profile_photo = base64String; // Assign the base64 string to the profile_photo property
         } else {
-          
+
           console.log('this.employee is null.');
         }
       } catch (error) {
@@ -638,12 +644,12 @@ export class ProfileComponent implements OnInit{
   // Order File Promotions
   async onFileSelected(event: any, i: number) {
     const selectedFile = event.target.files[0];
-   
+
     try {
       if (selectedFile) {
         const fileType = selectedFile.type;
         const fileSize = selectedFile.size;
-  
+
         // Check if the selected file is a PDF and the size is within limits
         if (fileType === 'application/pdf' && fileSize <= 1048576) {
           const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
@@ -677,12 +683,12 @@ export class ProfileComponent implements OnInit{
   // Order File Posting
   async onFileDivSelected(event: any, i: number) {
     const selectedFile = event.target.files[0];
-   
+
     try {
       if (selectedFile) {
         const fileType = selectedFile.type;
         const fileSize = selectedFile.size;
-  
+
         // Check if the selected file is a PDF and the size is within limits
         if (fileType === 'application/pdf' && fileSize <= 1048576) {
           const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64

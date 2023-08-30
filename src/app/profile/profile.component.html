@@ -407,13 +407,16 @@
                 </td>
 
                 <td *ngIf="editable">
-                  <button type="button" class="btn btn-outline-success" (click)="saveDivision(i)">Save</button><br />
+                  <button *ngIf="div!.pivot!.deleted_at==null" type="button" class="btn btn-outline-success"
+                          (click)="saveDivision(i)">Save</button>
                 </td>
 
                 <td *ngIf="editable">
-                  <button type="button" class="btn btn-outline-danger" (click)="deleteDivision(i)"
-                    *ngIf="div!.pivot!.id !== -1">Delete</button>
+                  <button *ngIf="div!.pivot!.id==-1" type="button" class="btn btn-outline-danger"
+                          (click)="deleteDivision(i)">Delete</button>
                 </td>
+
+
               </tr>
 
             </tbody>
@@ -505,14 +508,16 @@
                 </td>
 
                 <td *ngIf="editable">
-                  <button type="button" *ngIf="editable" class="btn btn-outline-success"
-                    (click)="saveRelationDetails(i)">Save</button>
+                <button *ngIf="member!.pivot!.deleted_at==null" type="button" class="btn btn-outline-success"
+                        (click)="saveRelationDetails(i)">Save</button>
                 </td>
 
                 <td *ngIf="editable">
-                  <button type="button" class="btn btn-outline-danger" *ngIf="member!.pivot!.id !== -1"
-                    (click)="deleteMember(i)">Delete</button>
+                  <button *ngIf="member!.pivot!.id==-1" type="button" class="btn btn-outline-danger"
+                          (click)="deleteMember(i)">Delete</button>
                 </td>
+
+
 
               </tr>
             </tbody>
