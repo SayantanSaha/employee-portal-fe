@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {User} from "../../model/User";
 declare var jQuery: any;
 
@@ -12,6 +12,10 @@ export class HeaderComponent  {
 
   user:User = new User();
 
+  baseUrl: string = '';
+  constructor( @Inject('BASE_URL') baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
   ngOnInit() {
     let userString:string|null = sessionStorage.getItem('user')!=null?sessionStorage.getItem('user'):'[]';
     this.user = JSON.parse(userString!);
