@@ -15,12 +15,12 @@ export class LoginComponent {
     private router: Router
   ) { }
 
-  email: string='';
+  username: string='';
   password: string='';
   user: User|null = null;
   authorisation: Authorisation|null = null;
   doLogin(){
-    this.employeeService.postLogin(this.email,this.password)
+    this.employeeService.postLogin(this.username,this.password)
       .subscribe((data) => {
         //console.log(data);
         if(data.status=='success'){

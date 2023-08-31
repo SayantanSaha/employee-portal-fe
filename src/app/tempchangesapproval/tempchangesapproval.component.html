@@ -502,10 +502,15 @@
                                                         <tbody *ngIf="changedDataDetails">
                                                             <tr>
                                                                 <td [style.color]="changedDataDetails.rel_name ? 'red' : 'inherit'">
-
-                                                                  {{changedDataDetails.rel_name ?
-                                                                    changedDataDetails.rel_name : basicDetails.old_table_data.pivot.rel_name}}
+                                                                    {{
+                                                                        changedDataDetails.rel_name ?
+                                                                        changedDataDetails.rel_name :
+                                                                        basicDetails.old_table_data?.pivot?.rel_name ?
+                                                                        basicDetails.old_table_data.pivot.rel_name :
+                                                                        'N/A'
+                                                                    }}
                                                                 </td>
+
                                                                 <td [style.color]="changedDataDetails.gender ? 'red' : 'inherit'">
                                                                   {{ changedDataDetails.gender === 'M' ? 'MALE' :
                                                                     changedDataDetails.gender === 'F' ? 'FEMALE' :
@@ -513,16 +518,32 @@
                                                                     }}
                                                                 </td>
                                                                 <td [style.color]="changedDataDetails.rel_desc ? 'red' : 'inherit'">
-                                                                  {{changedDataDetails.rel_desc ?
-                                                                    changedDataDetails.rel_desc : basicDetails.old_table_data.rel_desc}}
+                                                                    {{
+                                                                        changedDataDetails.rel_desc ?
+                                                                        changedDataDetails.rel_desc :
+                                                                        basicDetails.old_table_data?.rel_desc ?
+                                                                        basicDetails.old_table_data.rel_desc :
+                                                                        'N/A'
+                                                                    }}
                                                                 </td>
                                                                 <td [style.color]="changedDataDetails.rel_mobile_no ? 'red' : 'inherit'">
-                                                                  {{changedDataDetails.rel_mobile_no ?
-                                                                    changedDataDetails.rel_mobile_no : basicDetails.old_table_data.pivot.rel_mobile_no}}
+                                                                    {{
+                                                                        changedDataDetails.rel_desc ?
+                                                                        changedDataDetails.rel_desc :
+                                                                        basicDetails.old_table_data?.pivot?.rel_mobile_no ?
+                                                                        basicDetails.old_table_data.pivot.rel_mobile_no :
+                                                                        'N/A'
+                                                                    }}
                                                                 </td>
                                                                 <td [style.color]="changedDataDetails.rel_dob ? 'red' : 'inherit'">
-                                                                  {{changedDataDetails.rel_dob ?
-                                                                    formatDate(changedDataDetails.rel_dob) :  formatDate(basicDetails.old_table_data.pivot.rel_dob)}}
+
+                                                                    {{
+                                                                        changedDataDetails.rel_dob ?
+                                                                        formatDate(changedDataDetails.rel_dob) :
+                                                                        basicDetails.old_table_data?.pivot?.rel_dob ?
+                                                                        formatDate(basicDetails.old_table_data.pivot.rel_dob) :
+                                                                        'N/A'
+                                                                    }}
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -622,24 +643,50 @@
                                                         </thead>
 
                                                         <tbody *ngIf="changedDataDetails">
-                                                            <tr >
+                                                            <tr>
                                                                 <td [style.color]="changedDataDetails.desg_desc ? 'red' : 'inherit'">
-                                                              {{changedDataDetails.desg_desc ?
-                                                                    changedDataDetails.desg_desc : basicDetails.old_table_data.desg_desc}}</td>
-                                                              <td [style.color]="changedDataDetails.join_date ? 'red' : 'inherit'">
-                                                                {{changedDataDetails.join_date ?
-                                                                    formatDate(changedDataDetails.join_date) : formatDate(basicDetails.old_table_data.pivot.join_date)}}
-                                                                </td>
-                                                              <td [style.color]="changedDataDetails.order_no ? 'red' : 'inherit'">
-                                                                {{changedDataDetails.order_no ?
-                                                                changedDataDetails.order_no :basicDetails.old_table_data.pivot.order_no}}</td>
-
-                                                              <td [style.color]="changedDataDetails.order_date ? 'red' : 'inherit'">
-                                                                {{changedDataDetails.order_date ?
-                                                                    formatDate(changedDataDetails.order_date) : formatDate(basicDetails.old_table_data.pivot.order_date)}}
+                                                                    {{
+                                                                        changedDataDetails.desg_desc ?
+                                                                        changedDataDetails.desg_desc :
+                                                                        basicDetails.old_table_data?.desg_desc ?
+                                                                        basicDetails.old_table_data.desg_desc :
+                                                                        'N/A'
+                                                                    }}
                                                                 </td>
 
-                                                              <td [style.color]="changedDataDetails.order_path ? 'red' : 'inherit'">
+
+                                                                <td [style.color]="changedDataDetails.join_date ? 'red' : 'inherit'">
+                                                                    {{
+                                                                        changedDataDetails.join_date ?
+                                                                        formatDate(changedDataDetails.join_date) :
+                                                                        basicDetails.old_table_data?.pivot?.join_date ?
+                                                                        formatDate(basicDetails.old_table_data.pivot.join_date) :
+                                                                        'N/A'
+                                                                    }}
+                                                                </td>
+
+                                                                <td [style.color]="changedDataDetails.order_no ? 'red' : 'inherit'">
+                                                                    {{
+                                                                        changedDataDetails.order_no ?
+                                                                        changedDataDetails.order_no :
+                                                                        basicDetails.old_table_data?.pivot?.order_no ?
+                                                                        basicDetails.old_table_data.pivot.order_no :
+                                                                        'N/A'
+                                                                    }}
+                                                                </td>
+
+                                                                <td [style.color]="changedDataDetails.order_date ? 'red' : 'inherit'">
+                                                                    {{
+                                                                        changedDataDetails.order_date ?
+                                                                        formatDate(changedDataDetails.order_date) :
+                                                                        basicDetails.old_table_data?.pivot?.order_date ?
+                                                                        formatDate(basicDetails.old_table_data.pivot.order_date) :
+                                                                        'N/A'
+                                                                    }}
+
+                                                                </td>
+
+                                                                <td [style.color]="changedDataDetails.order_path ? 'red' : 'inherit'">
                                                                     <ng-container *ngIf="changedDataDetails.order_path; else naBlock">
                                                                         <a href="{{ apiUrl }}getFile/{{ changedDataDetails.order_path }}" class="btn btn-outline-danger" alt="Order File"
                                                                            target="_blank">
@@ -755,65 +802,53 @@
                                                         <tbody *ngIf="changedDataDetails">
                                                             <tr>
                                                                 <td [style.color]="changedDataDetails.div_desc ? 'red' : 'inherit'">
-                                                                    <ng-container *ngIf="changedDataDetails.div_desc; else divDescCheck">
-                                                                        {{ changedDataDetails.div_desc }}
-                                                                    </ng-container>
-                                                                    <ng-template #divDescCheck>
-                                                                        <ng-container *ngIf="basicDetails.old_table_data.div_desc; else n_a">
-                                                                            {{ basicDetails.old_table_data.div_desc }}
-                                                                        </ng-container>
-                                                                        <ng-template #n_a>N/A</ng-template>
-                                                                    </ng-template>
-
+                                                                    {{
+                                                                        changedDataDetails.div_desc ?
+                                                                        changedDataDetails.div_desc :
+                                                                        basicDetails.old_table_data?.div_desc ?
+                                                                        basicDetails.old_table_data.div_desc :
+                                                                        'N/A'
+                                                                    }}
                                                                 </td>
+
                                                                 <td [style.color]="changedDataDetails.from_date ? 'red' : 'inherit'">
-                                                                    <ng-container *ngIf="changedDataDetails.from_date; else fromDateCheck">
-                                                                        {{ formatDate(changedDataDetails.from_date) }}
-                                                                    </ng-container>
-                                                                    <ng-template #fromDateCheck>
-                                                                        <ng-container *ngIf="basicDetails.old_table_data.pivot.from_date; else n_a">
-                                                                            {{ formatDate(basicDetails.old_table_data.pivot.from_date) }}
-                                                                        </ng-container>
-                                                                        <ng-template #n_a>N/A</ng-template>
-                                                                    </ng-template>
-
+                                                                    {{
+                                                                        changedDataDetails.from_date ?
+                                                                        formatDate(changedDataDetails.from_date) :
+                                                                        basicDetails.old_table_data?.pivot?.from_date ?
+                                                                        formatDate(basicDetails.old_table_data.pivot.from_date) :
+                                                                        'N/A'
+                                                                    }}
                                                                 </td>
+
                                                                 <td [style.color]="changedDataDetails.to_date ? 'red' : 'inherit'">
-                                                                    <ng-container *ngIf="changedDataDetails.to_date; else dateCheck">
-                                                                        {{ formatDate(changedDataDetails.to_date) }}
-                                                                    </ng-container>
-                                                                    <ng-template #dateCheck>
-                                                                        <ng-container *ngIf="basicDetails.old_table_data.pivot.to_date">
-                                                                            {{ formatDate(basicDetails.old_table_data.pivot.to_date) }}
-                                                                        </ng-container>
-                                                                        <ng-container *ngIf="!basicDetails.old_table_data.pivot.to_date">
-                                                                            N/A
-                                                                        </ng-container>
-                                                                    </ng-template>
+                                                                    {{
+                                                                        changedDataDetails.to_date ?
+                                                                        formatDate(changedDataDetails.to_date) :
+                                                                        basicDetails.old_table_data?.pivot?.to_date ?
+                                                                        formatDate(basicDetails.old_table_data.pivot.to_date) :
+                                                                        'N/A'
+                                                                    }}
                                                                 </td>
-                                                                <td [style.color]="changedDataDetails.order_date ? 'red' : 'inherit'">
-                                                                    <ng-container *ngIf="changedDataDetails.order_no; else orderNoCheck">
-                                                                        {{ changedDataDetails.order_no }}
-                                                                    </ng-container>
-                                                                    <ng-template #orderNoCheck>
-                                                                        <ng-container *ngIf="basicDetails.old_table_data.pivot.order_no; else n_a">
-                                                                            {{ basicDetails.old_table_data.pivot.order_no }}
-                                                                        </ng-container>
-                                                                        <ng-template #n_a>N/A</ng-template>
-                                                                    </ng-template>
 
+                                                                <td [style.color]="changedDataDetails.order_no ? 'red' : 'inherit'">
+                                                                    {{
+                                                                        changedDataDetails.order_no ?
+                                                                        changedDataDetails.order_no :
+                                                                        basicDetails.old_table_data?.pivot?.order_no ?
+                                                                        basicDetails.old_table_data.pivot.order_no :
+                                                                        'N/A'
+                                                                    }}
                                                                 </td>
-                                                                <td [style.color]="changedDataDetails.order_date ? 'red' : 'inherit'">
-                                                                    <ng-container *ngIf="changedDataDetails.order_date; else orderDateCheck">
-                                                                        {{ formatDate(changedDataDetails.order_date) }}
-                                                                    </ng-container>
-                                                                    <ng-template #orderDateCheck>
-                                                                        <ng-container *ngIf="basicDetails.old_table_data.pivot.order_date; else n_a">
-                                                                            {{ formatDate(basicDetails.old_table_data.pivot.order_date) }}
-                                                                        </ng-container>
-                                                                        <ng-template #n_a>N/A</ng-template>
-                                                                    </ng-template>
 
+                                                                <td [style.color]="changedDataDetails.order_date ? 'red' : 'inherit'">
+                                                                    {{
+                                                                        changedDataDetails.order_date ?
+                                                                        formatDate(changedDataDetails.order_date) :
+                                                                        basicDetails.old_table_data?.pivot?.order_date ?
+                                                                        formatDate(basicDetails.old_table_data.pivot.order_date) :
+                                                                        'N/A'
+                                                                    }}
                                                                 </td>
 
                                                                 <td [style.color]="changedDataDetails.order_path ? 'red' : 'inherit'">
