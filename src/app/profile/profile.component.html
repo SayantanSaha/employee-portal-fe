@@ -271,7 +271,7 @@
                   <span *ngIf="!editable">{{desg!.pivot!.order_date}}</span>
                 </td>
                 <td>
-                  <div class="d-grid gap-2 d-md-block">
+                  <div class="d-grid gap-2 d-md-block" *ngIf="employee!.designations && editable">
                     <label for="order_file_desg_{{ i }}" class="upload-icon-label btn btn-outline-info"
                       title="Upload Order File">
                       <i class="bi bi-cloud-arrow-up"></i>
@@ -380,7 +380,7 @@
                   <span *ngIf="!editable">{{div!.pivot!.order_date}}</span>
                 </td>
                 <td>
-                  <div class="d-grid gap-2 d-md-block">
+                  <div class="d-grid gap-2 d-md-block" *ngIf="employee!.divisions && editable">
                     <label for="order_file_div_{{ i }}" class="upload-icon-label btn btn-outline-info"
                       title="Upload Order File">
                       <i class="bi bi-cloud-arrow-up"></i>
