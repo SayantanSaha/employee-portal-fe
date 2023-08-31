@@ -536,8 +536,8 @@
 
                                                                 <td [style.color]="changedDataDetails.rel_mobile_no ? 'red' : 'inherit'">
                                                                     {{ 
-                                                                        changedDataDetails.rel_desc ?
-                                                                        changedDataDetails.rel_desc :
+                                                                        changedDataDetails.rel_mobile_no ?
+                                                                        changedDataDetails.rel_mobile_no :
                                                                         basicDetails.old_table_data?.pivot?.rel_mobile_no ?
                                                                         basicDetails.old_table_data.pivot.rel_mobile_no :
                                                                         'N/A' 
