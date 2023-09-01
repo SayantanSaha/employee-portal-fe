@@ -111,6 +111,53 @@
             </div>
 
             <div class="row">
+
+              <div class="col-md">
+                <label class="form-label">Date Of Birth</label>
+                <div *ngIf="editable" class="input-group mb-3">
+                  <input type="date" class="form-control" placeholder="Date Of Birth" aria-label="Date Of Birth"
+                    [(ngModel)]="employee!.dob" >
+                </div>
+                <div *ngIf="!editable" class="input-group mb-3">
+                  {{employee!.dob}}
+                </div>
+              </div>
+
+              <div class="col-md">
+                <label class="form-label">Gender</label>
+                <div *ngIf="editable" class="input-group mb-3">
+                  <select *ngIf="employee && editable" class="form-control"
+                    [(ngModel)]="employee!.gender" [compareWith]="compareGender">
+                    <option value="null">--Select Gender--</option>
+                    <option [ngValue]="'M'">Male</option>
+                    <option [ngValue]="'F'">Female</option>
+                    <option [ngValue]="'O'">OTHERS</option>
+                  </select>
+                </div>
+
+                <div *ngIf="!editable" class="input-group mb-3">
+                  {{employee!.gender}}
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-md">
+                <label class="form-label">Date Of Joining</label>
+                <div *ngIf="editable" class="input-group mb-3">
+                  <input type="date" class="form-control" placeholder="Date Of Joining" aria-label="Date Of Joining"
+                    [(ngModel)]="employee!.dor" >
+                </div>
+                <div *ngIf="!editable" class="input-group mb-3">
+                  {{employee!.dor}}
+                </div>
+              </div>
+
+              
+            </div>
+
+            <div class="row">
               <div class="col-md-6">
                 <label class="form-label">Current Address</label>
 
