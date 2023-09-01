@@ -446,7 +446,7 @@
                                                                 <th>Date Of Birth</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody *ngIf="basicDetails.old_table_data">
+                                                        <tbody *ngIf="basicDetails.old_table_data ; else noDataTemplate">
                                                             <tr>
 
                                                                 <td>{{basicDetails.old_table_data.pivot.rel_name ? basicDetails.old_table_data.pivot.rel_name :
@@ -467,6 +467,11 @@
                                                                 </td>
                                                             </tr>
                                                         </tbody>
+                                                        <ng-template #noDataTemplate>
+                                                            <tr>
+                                                                <td colspan="your_colspan">No previous record available.</td>
+                                                            </tr>
+                                                        </ng-template>
                                                     </table>
                                                 </div>
                                             </div>
@@ -584,7 +589,7 @@
                                                             </tr>
                                                         </thead>
 
-                                                        <tbody *ngIf="basicDetails.old_table_data">
+                                                        <tbody *ngIf="basicDetails.old_table_data; else noPromotionDataTemplate">
                                                             <tr>
 
                                                                 <td>{{basicDetails.old_table_data.desg_desc ? basicDetails.old_table_data.desg_desc : 'N/A'}}</td>
@@ -609,6 +614,12 @@
                                                                 </td>
                                                             </tr>
                                                         </tbody>
+
+                                                        <ng-template #noPromotionDataTemplate>
+                                                            <tr>
+                                                                <td colspan="your_colspan">No previous record available.</td>
+                                                            </tr>
+                                                        </ng-template>
                                                     </table>
 
                                                 </div>
@@ -738,7 +749,7 @@
                                                                 <th>Order File</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody *ngIf="basicDetails.old_table_data">
+                                                        <tbody *ngIf="basicDetails.old_table_data; else noPostingDataTemplate">
                                                             <tr>
 
                                                                 <td>{{basicDetails.old_table_data.div_desc ? basicDetails.old_table_data.div_desc : 'N/A'}}</td>
@@ -765,6 +776,12 @@
                                                                 </td>
                                                             </tr>
                                                         </tbody>
+
+                                                        <ng-template #noPostingDataTemplate>
+                                                            <tr>
+                                                                <td colspan="your_colspan">No previous record available.</td>
+                                                            </tr>
+                                                        </ng-template>
                                                     </table>
 
                                                 </div>
