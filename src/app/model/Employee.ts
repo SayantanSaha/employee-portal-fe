@@ -11,7 +11,8 @@ export class Employee{
   emp_name: string = '';
   emp_title_hi: string = '';
   emp_name_hi: string = '';
-  doj: Date|null = null;
+  doj_rb: Date|null = null;
+  doj_gs: Date|null = null;
   gender: string = '';
   dob: Date|null = null;
   dor: Date|null = null;
