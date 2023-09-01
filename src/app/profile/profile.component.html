@@ -143,16 +143,29 @@
 
             <div class="row">
 
-              <div class="col-md">
-                <label class="form-label">Date Of Joining</label>
+              <div class="col-md-6">
+                <label class="form-label">Date Of Joining in Government Service</label>
                 <div *ngIf="editable" class="input-group mb-3">
                   <input type="date" class="form-control" placeholder="Date Of Joining" aria-label="Date Of Joining"
-                    [(ngModel)]="employee!.dor" >
+                    [(ngModel)]="employee!.doj_gs" >
                 </div>
                 <div *ngIf="!editable" class="input-group mb-3">
-                  {{employee!.dor}}
+                  {{employee!.doj_gs}}
                 </div>
               </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Date Of Joining in RB</label>
+                <div *ngIf="editable" class="input-group mb-3">
+                  <input type="date" class="form-control" placeholder="Date Of Joining" aria-label="Date Of Joining"
+                    [(ngModel)]="employee!.doj_rb" >
+                </div>
+                <div *ngIf="!editable" class="input-group mb-3">
+                  {{employee!.doj_rb}}
+                </div>
+              </div>
+
+
 
               
             </div>
