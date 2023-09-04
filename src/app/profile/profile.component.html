@@ -29,7 +29,7 @@
                 </div>
                 <div *ngIf="editable" class="float-end">
                   <button class="btn btn-outline-primary" (click)="savePrimaryDetails()"
-                  [disabled]="!changesMade">
+                  *ngIf="changesMade">
                     Save Changes
                   </button>
                 </div>
@@ -47,22 +47,22 @@
 
                           <span *ngIf="employee && employee.profile_photo">
                             <img [src]="employee.profile_photo" alt="Profile Photo" style="width: 150px; height: 128px"
-                              class="rounded-circle" />
+                              class="rounded-circle" title="Profile Photo"/>
                           </span>
-                          <br />
+                          <br /><br />
                           <span *ngIf="employee && employee.employee_sign">
                             <img [src]="employee.employee_sign" alt="Signature" style="width: 150px; height: 30px"
-                              class="rounded-square" />
+                              class="rounded-square" title="Employee Signature"/>
                           </span>
 
                           <br /><br />
                           <label for="profile_photo" class="upload-icon-label" *ngIf="editable"
-                            title="Upload Profile Image">
-                            <i class="bi bi-cloud-arrow-up"></i>
+                            title="Upload Profile Photo">
+                            <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
                           </label>
                           &nbsp;&nbsp;
                           <label for="employee_sign" class="upload-icon-label" *ngIf="editable" title="Upload Signature">
-                            <i class="bi bi-cloud-arrow-up"></i>
+                            <i class="bi bi-cloud-arrow-up btn btn-outline-danger"></i>
                           </label>
 
                           <input type="file" class="custom-file-input" id="profile_photo"
@@ -487,9 +487,9 @@
                                 </div>
                               </td>
 
-                              <td *ngIf="editable">
+                              <td *ngIf="editable && changesPromotionMade">
                                 <button *ngIf="desg!.pivot!.deleted_at==null" type="button"
-                                  class="btn btn-outline-success" (click)="savePromotion(i)" [disabled]="!changesPromotionMade">Save</button>
+                                  class="btn btn-outline-success" (click)="savePromotion(i)">Save</button>
                               </td>
 
                               <td *ngIf="editable">
@@ -622,7 +622,7 @@
                                 </div>
                               </td>
 
-                              <td *ngIf="editable">
+                              <td *ngIf="editable && changesPostingMade">
                                 <button *ngIf="div!.pivot!.deleted_at==null" type="button"
                                   class="btn btn-outline-success" (click)="saveDivision(i)" [disabled]="!changesPostingMade">Save</button>
                               </td>
@@ -747,7 +747,7 @@
                                 <span *ngIf="!editable">{{member!.pivot!.rel_dob}}</span>
                               </td>
 
-                              <td *ngIf="editable">
+                              <td *ngIf="editable &&  changesRelationMade">
                                 <button *ngIf="member!.pivot!.deleted_at==null" type="button"
                                   class="btn btn-outline-success" (click)="saveRelationDetails(i)" [disabled]="!changesRelationMade">Save</button>
                               </td>
