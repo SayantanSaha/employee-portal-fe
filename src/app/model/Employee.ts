@@ -18,19 +18,24 @@ export class Employee{
   dor: Date|null = null;
   email_id: string  = '';
   mobile: string  = '';
-  profile_photo: string|null = null;
+  
   perm_add: string |null = null;
   perm_pin: string |null = null;
-  perm_district: District | null = null;
   perm_state: State | null = null;
+  perm_district: District | null = null;
+  
   curr_add: string | null = null;
   curr_pin: string | null = null;
-  curr_district: District | null = null;
   curr_state: State | null = null;
+  curr_district: District | null = null;
+  
   created_at: Date | null = null;
   updated_at: Date | null = null;
-  designations: Designation[]|null = null;
-  divisions: Division[]|null = null;
+  profile_photo: string|null = null;
   relations: Relation[]|null = [];
+  divisions: Division[]|null = null;
   organization: Organization|null = null;
+  designations: Designation[]|null = null;
+
+
 }

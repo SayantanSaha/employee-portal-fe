@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {EmployeeService} from "../employee.service";
+import { EmployeeService } from "../employee.service";
 
 import Swal from 'sweetalert2';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 import { DatePipe } from '@angular/common';
 import { environment } from 'src/environments/environment';
 

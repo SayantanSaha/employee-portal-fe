@@ -9,6 +9,7 @@ import {Designation} from "../model/Designation";
 import {Division} from "../model/Division";
 
 import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
 import {Relation} from "../model/Relation";
 import { fileToBase64 } from '../profile/fileToBase64';
 import { environment } from 'src/environments/environment';
@@ -16,7 +17,8 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
+  providers: [DatePipe] // Add DatePipe to the providers array
 })
 
 export class ProfileComponent implements OnInit{
@@ -24,13 +26,13 @@ export class ProfileComponent implements OnInit{
   validationErrors:string[] = [];
   divisiontypelist: any[] = [];  // Initialize as an empty array or with appropriate data type
   relationstypelist: any[] = []; // Initialize as an empty array or with appropriate data type
-  readonly DESIGNATION = 'DESIGNATION';
-  readonly DIVISION = 'DIVISION';
+  isCpAddressChecked: boolean = false;
 
 
   constructor(
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
+    private datePipe: DatePipe, // Inject the DatePipe here
   ) {}
 
   employee:Employee| null = null;
@@ -163,11 +165,11 @@ export class ProfileComponent implements OnInit{
         icon: 'success',
         title: 'Success',
         text: 'Request for approval of basic details have been updated successfully and pending for approval',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Redirect to the desired page
-            window.location.reload();
-          }
+        // }).then((result) => {
+        //   if (result.isConfirmed) {
+        //     // Redirect to the desired page
+        //     window.location.reload();
+        //   }
         });
       },
       error => {
@@ -219,11 +221,6 @@ export class ProfileComponent implements OnInit{
           icon: 'success',
           title: 'Success',
           text: 'Request for approval of Designation have been saved successfully and pending for approval',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // Redirect to the desired page
-              window.location.reload();
-            }
           });
         },
         e => {
@@ -251,11 +248,6 @@ export class ProfileComponent implements OnInit{
               icon: 'success',
               title: 'Success',
               text: 'Request for approval of designation have been updated successfully and pending for approval',
-            }).then((result) => {
-              if (result.isConfirmed) {
-                // Redirect to the desired page
-                window.location.reload();
-              }
             });
           },
           e => {
@@ -332,11 +324,11 @@ export class ProfileComponent implements OnInit{
               icon: 'success',
               title: 'Success',
               text: 'Request for approval of Posting have been saved successfully and pending for approval',
-            }).then((result) => {
-              if (result.isConfirmed) {
-                // Redirect to the desired page
-                window.location.reload();
-              }
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     // Redirect to the desired page
+            //     window.location.reload();
+            //   }
             });
           },
           e => {
@@ -365,11 +357,11 @@ export class ProfileComponent implements OnInit{
                 icon: 'success',
                 title: 'Success',
                 text: 'Request for approval of Posting have been updated successfully and pending for approval',
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  // Redirect to the desired page
-                  window.location.reload();
-                }
+              // }).then((result) => {
+              //   if (result.isConfirmed) {
+              //     // Redirect to the desired page
+              //     window.location.reload();
+              //   }
               });
             },
             e => {
@@ -432,11 +424,11 @@ export class ProfileComponent implements OnInit{
               icon: 'success',
               title: 'Success',
               text: 'Request for approval of Relation have been saved successfully and pending for approval',
-            }).then((result) => {
-              if (result.isConfirmed) {
-                // Redirect to the desired page
-                window.location.reload();
-              }
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     // Redirect to the desired page
+            //     window.location.reload();
+            //   }
             });
           },
           e => {
@@ -465,11 +457,11 @@ export class ProfileComponent implements OnInit{
                 icon: 'success',
                 title: 'Success',
                 text: 'Request for approval of Relation have been updated successfully and pending for approval',
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  // Redirect to the desired page
-                  window.location.reload();
-                }
+              // }).then((result) => {
+              //   if (result.isConfirmed) {
+              //     // Redirect to the desired page
+              //     window.location.reload();
+              //   }
               });
             },
             e => {
@@ -719,5 +711,127 @@ export class ProfileComponent implements OnInit{
   }
 
   /****** Upload File Function End ****/
+
+
+  /**** Same As Current Address Function Start ****/
+  cPAddress() {
+    // Check if the checkbox is checked
+    if (this.isCpAddressChecked === true ) {
+
+      // If checked, copy current address to permanent address
+      if (this.employee!.curr_add && this.employee!.curr_pin && this.employee!.curr_state && this.employee!.curr_district) {
+        this.employee!.perm_add = this.employee!.curr_add;
+        this.employee!.perm_pin = this.employee!.curr_pin;
+        this.employee!.perm_state = this.employee!.curr_state;
+       
+        this.employee!.perm_district = this.employee!.curr_district;
+
+        this.getDistricts(this.employee!.perm_state!).then(districts=>this.permDistricts=districts);
+        
+      } else {
+
+        // Uncheck the checkbox
+        this.isCpAddressChecked = false;
+
+        // Show an alert if current address fields are not filled
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Please Fill all the Field of Current Address',
+        });
+        
+       
+      }
+    } else {
+      // If unchecked, reset permanent address fields to null
+      this.employee!.perm_add = null;
+      this.employee!.perm_pin = null;
+      this.employee!.perm_state = null;
+      this.employee!.perm_district = null;
+
+      this.getDistricts(this.employee!.perm_state!).then(districts=>this.permDistricts=districts);
+    }
+  }
+  
+  /***** Same As Current Address Function End *****/
+
+  /***** Date Check Validation Function Start *****/
+
+  checkDateOfJoining() {
+    if(!this.employee!.dob) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Fill Date of Birth',
+      });
+
+      // Set the values to null since they are invalid
+      this.employee!.doj_gs = null;
+      this.employee!.doj_rb = null;
+
+
+      return; // Exit the function early if any date field is null
+    }
+    
+    if(!this.employee!.doj_gs){
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Fill Date of Joining in Government Services',
+      });
+      
+      // Set the values to null since they are invalid
+      this.employee!.doj_rb = null;
+
+      return; // Exit the function early if any date field is null
+
+
+    }
+
+    const dob = new Date(this.employee!.dob);
+    const dojGS = new Date(this.employee!.doj_gs);
+    
+    if(dojGS < dob ){
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Date of joining is not valid. Please check the dates.',
+      });
+
+      // Set the values to null since they are invalid
+      this.employee!.doj_gs = null;
+      this.employee!.doj_rb = null;
+
+    }
+
+
+
+    if((this.employee!.doj_rb && new Date(this.employee!.doj_rb) < dojGS) || (this.employee!.doj_rb && new Date(this.employee!.doj_rb) < dob)){
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Date of joining is not valid in RB. Please check the dates.',
+      });
+
+      this.employee!.doj_rb = null;
+    }
+    
+
+  }
+  /***** Date Check Validation Function Start *****/
+
+
+  //Date Formate
+
+  formatDate(date: Date | null): string {
+
+    // if (!date) {
+    //   return 'N/A';
+    // }
+
+    // return date.toString(); // Change this to your date formatting logic
+    return this.datePipe.transform(date, 'dd MMM YYYY') || 'N/A';
+  }
+
 
 }
