@@ -22,30 +22,31 @@
                         <div class="col-md-12">
                             <div class="card-body">
                                 <div class="row mb-12">
+                                    
                                     <div class="col-md-8">
 
                                         <div class="row mb-12">
                                             <div class="col-md-12">
-                                                <b><label>Registration No</label></b>
+                                                <b><label>Id Card No</label></b>
                                                 <br />
-                                                {{ specificDetails.employee.reg_no }}
+                                                {{ specificDetails.employee.id_cards[0].card_no }}
                                             </div>
                                         </div>
 
                                         <div class="row mb-12">
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-12">
                                                 <b><label>Name</label></b>
                                                 <br />
                                                 {{ specificDetails.employee.emp_title }} {{
                                                 specificDetails.employee.emp_name }}
                                             </div>
 
-                                            <div class="col-md-4">
+                                            <!-- <div class="col-md-4">
                                                 <b><label>Mobile No.</label></b>
                                                 <br />
                                                 {{ specificDetails.employee.mobile }}
-                                            </div>
+                                            </div> -->
 
                                         </div>
 

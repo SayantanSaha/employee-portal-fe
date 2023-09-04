@@ -23,10 +23,17 @@ import { environment } from 'src/environments/environment';
 
 export class ProfileComponent implements OnInit{
 
-  validationErrors:string[] = [];
+  
   divisiontypelist: any[] = [];  // Initialize as an empty array or with appropriate data type
   relationstypelist: any[] = []; // Initialize as an empty array or with appropriate data type
+  validationErrors:string[] = [];
+
+  changesMade: boolean = false;
   isCpAddressChecked: boolean = false;
+  changesPostingMade: boolean = false;
+  changesRelationMade: boolean = false;
+  changesPromotionMade: boolean = false;
+  
 
 
   constructor(
@@ -612,17 +619,24 @@ export class ProfileComponent implements OnInit{
 
   /******* Upload File Function Start *******/
 
-  // Profile Photo
-  async onProfilePhotoSelected(event: Event): Promise<void> {
+  // Profile Photo &&  Employee Singnature
+  async onProfilePhotoSelected(event: Event, param: string): Promise<void> {
     const inputElement = event.target as HTMLInputElement;
+  
     if (inputElement?.files?.length) {
       const file: File = inputElement.files[0];
       try {
         const base64String: string = await fileToBase64(file); // Convert the file to base64
         if (this.employee) {
-          this.employee.profile_photo = base64String; // Assign the base64 string to the profile_photo property
+          //alert(param.toString()); // Convert the String object to a string
+          if (param === 'Profile Photo') {
+            this.employee.profile_photo = base64String; // Assign the base64 string to the profile_photo property
+            this.changesMade = true;
+          } else if (param === 'Employee Sign') {
+            this.employee.employee_sign = base64String; // Assign the base64 string to the employee_sign property
+            this.changesMade = true;
+          }
         } else {
-
           console.log('this.employee is null.');
         }
       } catch (error) {
@@ -632,6 +646,7 @@ export class ProfileComponent implements OnInit{
       console.log('No file selected.');
     }
   }
+  
 
   // Order File Promotions
   async onFileSelected(event: any, i: number) {
@@ -833,5 +848,20 @@ export class ProfileComponent implements OnInit{
     return this.datePipe.transform(date, 'dd MMM YYYY') || 'N/A';
   }
 
+  // Disabled Button Basic Details
+  onInputChange() {
+    this.changesMade = true;
+  }
 
+  onInputChangeMap(param : String){
+    
+    if(param === 'Promotion'){
+      this.changesPromotionMade = true;
+    }else if(param === 'Posting'){
+      this.changesPostingMade = true;
+    }else if(param === 'Relations'){
+      this.changesRelationMade = true;
+    }
+    
+  }
 }

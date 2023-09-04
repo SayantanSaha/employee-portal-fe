@@ -9,7 +9,7 @@
 
         <div class="float-end">
           <a class="btn btn-outline-info" [routerLink]="'/dashboard'">
-            Back
+            Home
           </a>
         </div>
       </div>
@@ -28,7 +28,10 @@
                   <b>Primary Details</b>
                 </div>
                 <div *ngIf="editable" class="float-end">
-                  <button class="btn btn-outline-primary" (click)="savePrimaryDetails()">Save Changes</button>
+                  <button class="btn btn-outline-primary" (click)="savePrimaryDetails()"
+                  [disabled]="!changesMade">
+                    Save Changes
+                  </button>
                 </div>
               </div>
 
@@ -37,33 +40,73 @@
                 <div class="row">
 
                   <div class="col-md-3">
+
                     <div class="card">
+                      <div class="card-body">
+                        <div style="width:100%;text-align: center;padding-top: 10px;">
 
-                      <div style="width:100%;text-align: center;padding-top: 10px;">
+                          <span *ngIf="employee && employee.profile_photo">
+                            <img [src]="employee.profile_photo" alt="Profile Photo" style="width: 150px; height: 128px"
+                              class="rounded-circle" />
+                          </span>
+                          <br />
+                          <span *ngIf="employee && employee.employee_sign">
+                            <img [src]="employee.employee_sign" alt="Signature" style="width: 150px; height: 30px"
+                              class="rounded-square" />
+                          </span>
 
-                        <span *ngIf="employee && employee.profile_photo">
-                          <img [src]="employee.profile_photo" alt="Profile Photo" style="width: 128px; height: 128px"
-                            class="rounded-circle" />
-                        </span>
+                          <br /><br />
+                          <label for="profile_photo" class="upload-icon-label" *ngIf="editable"
+                            title="Upload Profile Image">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                          </label>
+                          &nbsp;&nbsp;
+                          <label for="employee_sign" class="upload-icon-label" *ngIf="editable" title="Upload Signature">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                          </label>
 
-                        <br />
-                        <label for="profile_photo" class="upload-icon-label" *ngIf="editable">
-                          <i class="bi bi-cloud-arrow-up"></i>
-                        </label>
+                          <input type="file" class="custom-file-input" id="profile_photo"
+                            (change)="onProfilePhotoSelected($event, 'Profile Photo')" style="display: none"
+                            *ngIf="editable">
 
-                        <input type="file" class="custom-file-input" id="profile_photo"
-                          (change)="onProfilePhotoSelected($event)" style="display: none" *ngIf="editable">
+                          <input type="file" class="custom-file-input" id="employee_sign"
+                            (change)="onProfilePhotoSelected($event , 'Employee Sign')" style="display: none"
+                            *ngIf="editable">
 
-                        <div *ngIf="employee">
-                          <span style="font-size: 1.2em">{{employee.emp_name!}}</span><br />
-                          <span style="font-size: 0.8em">{{employee!.designations![0]!.desg_desc!}}</span><br />
-                          <span style="font-size: 0.8em">{{employee!.organization!.org_desc}}</span><br />
-                          <span style="font-size: 1em">{{employee!.email_id!}}</span><br />
-                          <span style="font-size: 1em">{{employee!.mobile!}}</span><br />
+                          <br /><br />
+                          <div *ngIf="employee">
+                            <span style="font-size: 1.2em">{{employee.emp_name!}}</span><br />
+                            <span style="font-size: 1.2em">{{employee.id_cards![0]!.card_no}}</span><br />
+
+                            <span style="font-size: 0.8em">{{employee!.designations![0]!.desg_desc!}}</span><br />
+                            <span style="font-size: 0.8em">{{employee!.organization!.org_desc}}</span><br />
+                            <span style="font-size: 0.8em">{{employee!.email_id!}}</span><br />
+                            <span style="font-size: 1em">{{employee!.mobile!}}</span><br />
+                          </div>
                         </div>
                       </div>
-
                     </div>
+                    <!-- <br/>
+                    <div class="card">
+                      <div class="card-body">
+
+                        <div style="width:100%;text-align: center;padding-top: 10px;">
+
+                          <div *ngIf="employee">
+                            <span style="font-size: 1.2em">{{employee.emp_name!}}</span><br />
+                            <span style="font-size: 1.2em">{{employee.id_cards![0]!.card_no}}</span><br />
+                            
+                            <span style="font-size: 0.8em">{{employee!.designations![0]!.desg_desc!}}</span><br />
+                            <span style="font-size: 0.8em">{{employee!.organization!.org_desc}}</span><br />
+                            <span style="font-size: 0.8em">{{employee!.email_id!}}</span><br />
+                            <span style="font-size: 1em">{{employee!.mobile!}}</span><br />
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </div> -->
+
                   </div>
 
                   <div class="col-md-9">
@@ -75,10 +118,11 @@
 
                           <div class="col-md">
                             <label class="form-label">Name</label>
-                            
+
                             <div *ngIf="editable" class="input-group mb-1">
                               <div class="col-md-2">
-                                <select class="form-control" [(ngModel)]="employee!.emp_title">
+                                <select class="form-control" [(ngModel)]="employee!.emp_title"
+                                  (ngModelChange)="onInputChange()">
                                   <option value="null">Select Title</option>
                                   <option>Mr</option>
                                   <option>Ms</option>
@@ -89,7 +133,8 @@
                               </div>
                               <div class="col-md-10">
                                 <input type="text" class="form-control" placeholder="Name" aria-label="Name"
-                                  [(ngModel)]="employee!.emp_name" (change)="validateEngName()">
+                                  [(ngModel)]="employee!.emp_name" (change)="validateEngName()"
+                                  (ngModelChange)="onInputChange()">
                               </div>
                             </div>
 
@@ -102,7 +147,8 @@
                             <label class="form-label">नाम</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <div class="col-md-2">
-                                <select class="form-control" [(ngModel)]="employee!.emp_title_hi">
+                                <select class="form-control" [(ngModel)]="employee!.emp_title_hi"
+                                  (ngModelChange)="onInputChange()">
                                   <option value="null">अभिवादन का चयन करें</option>
                                   <option>श्री</option>
                                   <option>सुश्री</option>
@@ -114,7 +160,7 @@
                               <div class="col-md-10">
                                 <input type="text" class="form-control" placeholder="नाम" aria-label="Server"
                                   [(ngModel)]="employee!.emp_name_hi" (change)="validateHindiName()"
-                                  title="कृपया नाम हिंदी में दर्ज करें">
+                                  title="कृपया नाम हिंदी में दर्ज करें" (ngModelChange)="onInputChange()">
                               </div>
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
@@ -130,7 +176,8 @@
                             <label class="form-label">Email</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="email" class="form-control" placeholder="Email" aria-label="Email"
-                                [(ngModel)]="employee!.email_id" (change)="validateEmail()">
+                                [(ngModel)]="employee!.email_id" (change)="validateEmail()"
+                                (ngModelChange)="onInputChange()">
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{employee!.email_id}}
@@ -141,7 +188,8 @@
                             <label class="form-label">Mobile</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="text" maxlength="10" minlength="10" class="form-control" placeholder="Mobile"
-                                aria-label="Mobile" [(ngModel)]="employee!.mobile" (change)="validateMobile()">
+                                aria-label="Mobile" [(ngModel)]="employee!.mobile" (change)="validateMobile()"
+                                (ngModelChange)="onInputChange()">
                             </div>
 
                             <div *ngIf="!editable" class="input-group mb-3">
@@ -156,7 +204,8 @@
                             <label class="form-label">Date Of Birth</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Birth"
-                                aria-label="Date Of Birth" [(ngModel)]="employee!.dob">
+                                aria-label="Date Of Birth" [(ngModel)]="employee!.dob"
+                                (ngModelChange)="onInputChange()">
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{formatDate(employee!.dob)}}
@@ -167,7 +216,7 @@
                             <label class="form-label">Gender</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <select *ngIf="employee && editable" class="form-control" [(ngModel)]="employee!.gender"
-                                [compareWith]="compareGender">
+                                [compareWith]="compareGender" (ngModelChange)="onInputChange()">
                                 <option value="null">--Select Gender--</option>
                                 <option [ngValue]="'M'">Male</option>
                                 <option [ngValue]="'F'">Female</option>
@@ -176,11 +225,11 @@
                             </div>
 
                             <div *ngIf="!editable" class="input-group mb-3">
-                              {{ 
-                                employee?.gender === 'M' ? 'Male' :
-                                employee!.gender === 'F' ? 'Female' : 
-                                employee!.gender === 'O' ? 'Others' : 
-                                'N/A' 
+                              {{
+                              employee?.gender === 'M' ? 'Male' :
+                              employee!.gender === 'F' ? 'Female' :
+                              employee!.gender === 'O' ? 'Others' :
+                              'N/A'
                               }}
                             </div>
                           </div>
@@ -193,7 +242,7 @@
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Joining"
                                 aria-label="Date Of Joining" [(ngModel)]="employee!.doj_gs"
-                                (change)="checkDateOfJoining()">
+                                (change)="checkDateOfJoining()" (ngModelChange)="onInputChange()">
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{formatDate(employee!.doj_gs)}}
@@ -205,7 +254,7 @@
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Joining"
                                 aria-label="Date Of Joining" [(ngModel)]="employee!.doj_rb"
-                                (change)="checkDateOfJoining()">
+                                (change)="checkDateOfJoining()" (ngModelChange)="onInputChange()">
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{formatDate(employee!.doj_rb)}}
@@ -232,7 +281,8 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <select class="form-control" [(ngModel)]="employee!.curr_state"
-                                    [compareWith]="compareState" (ngModelChange)="onStateChange($event,'curr')">
+                                    [compareWith]="compareState" (ngModelChange)="onStateChange($event,'curr')"
+                                    (ngModelChange)="onInputChange()">
                                     <option value="null">Select State</option>
                                     <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
                                   </select>
@@ -242,7 +292,7 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <select class="form-control" [(ngModel)]="employee!.curr_district"
-                                    [compareWith]="compareDist">
+                                    [compareWith]="compareDist" (ngModelChange)="onInputChange()">
                                     <option value="null">Select District</option>
                                     <option [ngValue]="dist" *ngFor="let dist of currDistricts">{{dist.district_name}}
                                     </option>
@@ -253,7 +303,8 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
-                                    aria-label="pin" [(ngModel)]="employee!.curr_pin" (change)="validateCurrPin()">
+                                    aria-label="pin" [(ngModel)]="employee!.curr_pin" (change)="validateCurrPin()"
+                                    (ngModelChange)="onInputChange()">
                                 </div>
                               </div>
 
@@ -280,7 +331,8 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <input type="text" class="form-control" placeholder="Address" aria-label="address"
-                                    [(ngModel)]="employee!.perm_add" [readonly]="isCpAddressChecked">
+                                    [(ngModel)]="employee!.perm_add" [readonly]="isCpAddressChecked"
+                                    (ngModelChange)="onInputChange()">
                                 </div>
                               </div>
 
@@ -288,7 +340,7 @@
                                 <div class="col-md-12">
                                   <select class="form-control" [(ngModel)]="employee!.perm_state"
                                     [compareWith]="compareState" (ngModelChange)="onStateChange($event,'perm')"
-                                    [disabled]="isCpAddressChecked">
+                                    [disabled]="isCpAddressChecked" (ngModelChange)="onInputChange()">
                                     <option value="null">Select State</option>
                                     <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
                                   </select>
@@ -298,7 +350,8 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <select class="form-control" [(ngModel)]="employee!.perm_district"
-                                    [compareWith]="compareDist" [disabled]="isCpAddressChecked">
+                                    [compareWith]="compareDist" [disabled]="isCpAddressChecked"
+                                    (ngModelChange)="onInputChange()">
                                     <option value="null">Select District</option>
                                     <option [ngValue]="dist" *ngFor="let dist of permDistricts">{{dist.district_name}}
                                     </option>
@@ -310,7 +363,7 @@
                                 <div class="col-md-12">
                                   <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
                                     aria-label="pin" [(ngModel)]="employee!.perm_pin" (change)="validatePermPin()"
-                                    [readonly]="isCpAddressChecked">
+                                    [readonly]="isCpAddressChecked" (ngModelChange)="onInputChange()">
                                 </div>
                               </div>
 
@@ -385,7 +438,7 @@
                               <td>
                                 <select *ngIf="employee!.designations && editable" class="form-control"
                                   [(ngModel)]="employee!.designations[i].pivot.designation_id"
-                                  [compareWith]="compareDesignation">
+                                  [compareWith]="compareDesignation" (ngModelChange)="onInputChangeMap('Promotion')">
                                   <option value="-1">Select Designation</option>
                                   <option [ngValue]="designation.id" *ngFor="let designation of designations">
                                     {{designation!.desg_desc}}</option>
@@ -394,17 +447,17 @@
                               </td>
                               <td>
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.designations[i].pivot!.join_date">
+                                  [(ngModel)]="employee!.designations[i].pivot!.join_date" (ngModelChange)="onInputChangeMap('Promotion')">
                                 <span *ngIf="!editable">{{desg!.pivot!.join_date}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="text"
-                                  [(ngModel)]="employee!.designations[i].pivot!.order_no">
+                                  [(ngModel)]="employee!.designations[i].pivot!.order_no" (ngModelChange)="onInputChangeMap('Promotion')">
                                 <span *ngIf="!editable">{{desg!.pivot!.order_no}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.designations[i].pivot!.order_date">
+                                  [(ngModel)]="employee!.designations[i].pivot!.order_date" (ngModelChange)="onInputChangeMap('Promotion')">
                                 <span *ngIf="!editable">{{desg!.pivot!.order_date}}</span>
                               </td>
                               <td>
@@ -436,7 +489,7 @@
 
                               <td *ngIf="editable">
                                 <button *ngIf="desg!.pivot!.deleted_at==null" type="button"
-                                  class="btn btn-outline-success" (click)="savePromotion(i)">Save</button>
+                                  class="btn btn-outline-success" (click)="savePromotion(i)" [disabled]="!changesPromotionMade">Save</button>
                               </td>
 
                               <td *ngIf="editable">
@@ -514,7 +567,7 @@
                               <td>
                                 <select *ngIf="employee!.divisions && editable" class="form-control"
                                   [(ngModel)]="employee!.divisions[i].pivot.division_id"
-                                  [compareWith]="compareDivisions">
+                                  [compareWith]="compareDivisions" (ngModelChange)="onInputChangeMap('Posting')">
                                   <option value="-1">Select Division</option>
                                   <option [ngValue]="division.id" *ngFor="let division of divisiontypelist">
                                     {{division!.div_desc}}
@@ -524,22 +577,22 @@
                               </td>
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.divisions[i].pivot!.from_date">
+                                  [(ngModel)]="employee!.divisions[i].pivot!.from_date" (ngModelChange)="onInputChangeMap('Posting')"> 
                                 <span *ngIf="!editable">{{div!.pivot!.from_date}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.divisions[i].pivot!.to_date">
+                                  [(ngModel)]="employee!.divisions[i].pivot!.to_date" (ngModelChange)="onInputChangeMap('Posting')">
                                 <span *ngIf="!editable">{{div!.pivot!.to_date}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="text"
-                                  [(ngModel)]="employee!.divisions[i].pivot!.order_no">
+                                  [(ngModel)]="employee!.divisions[i].pivot!.order_no" (ngModelChange)="onInputChangeMap('Posting')">
                                 <span *ngIf="!editable">{{div!.pivot!.order_no}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.divisions[i].pivot!.order_date">
+                                  [(ngModel)]="employee!.divisions[i].pivot!.order_date" (ngModelChange)="onInputChangeMap('Posting')">
                                 <span *ngIf="!editable">{{div!.pivot!.order_date}}</span>
                               </td>
                               <td>
@@ -571,7 +624,7 @@
 
                               <td *ngIf="editable">
                                 <button *ngIf="div!.pivot!.deleted_at==null" type="button"
-                                  class="btn btn-outline-success" (click)="saveDivision(i)">Save</button>
+                                  class="btn btn-outline-success" (click)="saveDivision(i)" [disabled]="!changesPostingMade">Save</button>
                               </td>
 
                               <td *ngIf="editable">
@@ -646,14 +699,14 @@
                               <td>{{ i + 1 }}</td>
                               <td>
                                 <input *ngIf="employee!.relations && editable" class="form-control" type="text"
-                                  [(ngModel)]="employee!.relations[i].pivot!.rel_name" placeholder="Name">
+                                  [(ngModel)]="employee!.relations[i].pivot!.rel_name" placeholder="Name" (ngModelChange)="onInputChangeMap('Relations')">
 
                                 <span *ngIf="!editable">{{member!.pivot!.rel_name}}</span>
                               </td>
 
                               <td>
                                 <select *ngIf="employee!.relations && editable" class="form-control"
-                                  [(ngModel)]="employee!.relations[i].pivot.gender" [compareWith]="compareGender">
+                                  [(ngModel)]="employee!.relations[i].pivot.gender" [compareWith]="compareGender" (ngModelChange)="onInputChangeMap('Relations')">
                                   <option value="null">--Select Gender--</option>
                                   <option [ngValue]="'M'">Male</option>
                                   <option [ngValue]="'F'">Female</option>
@@ -669,7 +722,7 @@
                               <td>
                                 <select *ngIf="employee!.relations && editable" class="form-control"
                                   [(ngModel)]="employee!.relations[i].pivot.relation_id"
-                                  [compareWith]="compareRelation">
+                                  [compareWith]="compareRelation" (ngModelChange)="onInputChangeMap('Relations')">
                                   <option value="">--Select Relation--</option>
                                   <option [ngValue]="relationtype.id" *ngFor="let relationtype of relationstypelist">
                                     {{relationtype!.rel_desc}}</option>
@@ -682,21 +735,21 @@
                               <td>
                                 <input *ngIf="employee!.relations && editable" class="form-control" type="text"
                                   [(ngModel)]="employee!.relations[i].pivot!.rel_mobile_no" placeholder="Mobile No."
-                                  maxlength="10" minlength="10">
+                                  maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('Relations')">
 
                                 <span *ngIf="!editable">{{member!.pivot!.rel_mobile_no}}</span>
                               </td>
 
                               <td>
                                 <input *ngIf="employee!.relations && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.relations[i].pivot!.rel_dob">
+                                  [(ngModel)]="employee!.relations[i].pivot!.rel_dob" (ngModelChange)="onInputChangeMap('Relations')">
 
                                 <span *ngIf="!editable">{{member!.pivot!.rel_dob}}</span>
                               </td>
 
                               <td *ngIf="editable">
                                 <button *ngIf="member!.pivot!.deleted_at==null" type="button"
-                                  class="btn btn-outline-success" (click)="saveRelationDetails(i)">Save</button>
+                                  class="btn btn-outline-success" (click)="saveRelationDetails(i)" [disabled]="!changesRelationMade">Save</button>
                               </td>
 
                               <td *ngIf="editable">
