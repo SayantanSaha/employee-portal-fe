@@ -28,8 +28,7 @@
                   <b>Primary Details</b>
                 </div>
                 <div *ngIf="editable" class="float-end">
-                  <button class="btn btn-outline-primary" (click)="savePrimaryDetails()"
-                  *ngIf="changesMade">
+                  <button class="btn btn-outline-primary" (click)="savePrimaryDetails()" *ngIf="changesMade">
                     Save Changes
                   </button>
                 </div>
@@ -47,12 +46,12 @@
 
                           <span *ngIf="employee && employee.profile_photo">
                             <img [src]="employee.profile_photo" alt="Profile Photo" style="width: 150px; height: 128px"
-                              class="rounded-circle" title="Profile Photo"/>
+                              class="rounded-circle" title="Profile Photo" />
                           </span>
                           <br /><br />
                           <span *ngIf="employee && employee.employee_sign">
                             <img [src]="employee.employee_sign" alt="Signature" style="width: 150px; height: 30px"
-                              class="rounded-square" title="Employee Signature"/>
+                              class="rounded-square" title="Employee Signature" />
                           </span>
 
                           <br /><br />
@@ -61,7 +60,8 @@
                             <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
                           </label>
                           &nbsp;&nbsp;
-                          <label for="employee_sign" class="upload-icon-label" *ngIf="editable" title="Upload Signature">
+                          <label for="employee_sign" class="upload-icon-label" *ngIf="editable"
+                            title="Upload Signature">
                             <i class="bi bi-cloud-arrow-up btn btn-outline-danger"></i>
                           </label>
 
@@ -438,7 +438,7 @@
                               <td>
                                 <select *ngIf="employee!.designations && editable" class="form-control"
                                   [(ngModel)]="employee!.designations[i].pivot.designation_id"
-                                  [compareWith]="compareDesignation" (ngModelChange)="onInputChangeMap('Promotion')">
+                                  [compareWith]="compareDesignation" (ngModelChange)="onInputChangeMap('Promotion', i)">
                                   <option value="-1">Select Designation</option>
                                   <option [ngValue]="designation.id" *ngFor="let designation of designations">
                                     {{designation!.desg_desc}}</option>
@@ -447,17 +447,20 @@
                               </td>
                               <td>
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.designations[i].pivot!.join_date" (ngModelChange)="onInputChangeMap('Promotion')">
+                                  [(ngModel)]="employee!.designations[i].pivot!.join_date"
+                                  (ngModelChange)="onInputChangeMap('Promotion', i)">
                                 <span *ngIf="!editable">{{desg!.pivot!.join_date}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="text"
-                                  [(ngModel)]="employee!.designations[i].pivot!.order_no" (ngModelChange)="onInputChangeMap('Promotion')">
+                                  [(ngModel)]="employee!.designations[i].pivot!.order_no"
+                                  (ngModelChange)="onInputChangeMap('Promotion', i)">
                                 <span *ngIf="!editable">{{desg!.pivot!.order_no}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.designations[i].pivot!.order_date" (ngModelChange)="onInputChangeMap('Promotion')">
+                                  [(ngModel)]="employee!.designations[i].pivot!.order_date"
+                                  (ngModelChange)="onInputChangeMap('Promotion', i)">
                                 <span *ngIf="!editable">{{desg!.pivot!.order_date}}</span>
                               </td>
                               <td>
@@ -487,7 +490,7 @@
                                 </div>
                               </td>
 
-                              <td *ngIf="editable && changesPromotionMade">
+                              <td *ngIf="editable && (changesPromotionMade[i]) ">
                                 <button *ngIf="desg!.pivot!.deleted_at==null" type="button"
                                   class="btn btn-outline-success" (click)="savePromotion(i)">Save</button>
                               </td>
@@ -567,7 +570,7 @@
                               <td>
                                 <select *ngIf="employee!.divisions && editable" class="form-control"
                                   [(ngModel)]="employee!.divisions[i].pivot.division_id"
-                                  [compareWith]="compareDivisions" (ngModelChange)="onInputChangeMap('Posting')">
+                                  [compareWith]="compareDivisions" (ngModelChange)="onInputChangeMap('Posting', i)">
                                   <option value="-1">Select Division</option>
                                   <option [ngValue]="division.id" *ngFor="let division of divisiontypelist">
                                     {{division!.div_desc}}
@@ -577,22 +580,26 @@
                               </td>
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.divisions[i].pivot!.from_date" (ngModelChange)="onInputChangeMap('Posting')"> 
+                                  [(ngModel)]="employee!.divisions[i].pivot!.from_date"
+                                  (ngModelChange)="onInputChangeMap('Posting', i)">
                                 <span *ngIf="!editable">{{div!.pivot!.from_date}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.divisions[i].pivot!.to_date" (ngModelChange)="onInputChangeMap('Posting')">
+                                  [(ngModel)]="employee!.divisions[i].pivot!.to_date"
+                                  (ngModelChange)="onInputChangeMap('Posting', i)">
                                 <span *ngIf="!editable">{{div!.pivot!.to_date}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="text"
-                                  [(ngModel)]="employee!.divisions[i].pivot!.order_no" (ngModelChange)="onInputChangeMap('Posting')">
+                                  [(ngModel)]="employee!.divisions[i].pivot!.order_no"
+                                  (ngModelChange)="onInputChangeMap('Posting', i)">
                                 <span *ngIf="!editable">{{div!.pivot!.order_no}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.divisions[i].pivot!.order_date" (ngModelChange)="onInputChangeMap('Posting')">
+                                  [(ngModel)]="employee!.divisions[i].pivot!.order_date"
+                                  (ngModelChange)="onInputChangeMap('Posting', i)">
                                 <span *ngIf="!editable">{{div!.pivot!.order_date}}</span>
                               </td>
                               <td>
@@ -622,9 +629,10 @@
                                 </div>
                               </td>
 
-                              <td *ngIf="editable && changesPostingMade">
+                              <td *ngIf="editable && (changesPostingMade[i]) ">
                                 <button *ngIf="div!.pivot!.deleted_at==null" type="button"
-                                  class="btn btn-outline-success" (click)="saveDivision(i)" [disabled]="!changesPostingMade">Save</button>
+                                  class="btn btn-outline-success" (click)="saveDivision(i)"
+                                  [disabled]="!changesPostingMade">Save</button>
                               </td>
 
                               <td *ngIf="editable">
@@ -699,14 +707,16 @@
                               <td>{{ i + 1 }}</td>
                               <td>
                                 <input *ngIf="employee!.relations && editable" class="form-control" type="text"
-                                  [(ngModel)]="employee!.relations[i].pivot!.rel_name" placeholder="Name" (ngModelChange)="onInputChangeMap('Relations')">
+                                  [(ngModel)]="employee!.relations[i].pivot!.rel_name" placeholder="Name"
+                                  (ngModelChange)="onInputChangeMap('Relations', i)">
 
                                 <span *ngIf="!editable">{{member!.pivot!.rel_name}}</span>
                               </td>
 
                               <td>
                                 <select *ngIf="employee!.relations && editable" class="form-control"
-                                  [(ngModel)]="employee!.relations[i].pivot.gender" [compareWith]="compareGender" (ngModelChange)="onInputChangeMap('Relations')">
+                                  [(ngModel)]="employee!.relations[i].pivot.gender" [compareWith]="compareGender"
+                                  (ngModelChange)="onInputChangeMap('Relations', i)">
                                   <option value="null">--Select Gender--</option>
                                   <option [ngValue]="'M'">Male</option>
                                   <option [ngValue]="'F'">Female</option>
@@ -721,8 +731,8 @@
 
                               <td>
                                 <select *ngIf="employee!.relations && editable" class="form-control"
-                                  [(ngModel)]="employee!.relations[i].pivot.relation_id"
-                                  [compareWith]="compareRelation" (ngModelChange)="onInputChangeMap('Relations')">
+                                  [(ngModel)]="employee!.relations[i].pivot.relation_id" [compareWith]="compareRelation"
+                                  (ngModelChange)="onInputChangeMap('Relations', i)">
                                   <option value="">--Select Relation--</option>
                                   <option [ngValue]="relationtype.id" *ngFor="let relationtype of relationstypelist">
                                     {{relationtype!.rel_desc}}</option>
@@ -735,21 +745,23 @@
                               <td>
                                 <input *ngIf="employee!.relations && editable" class="form-control" type="text"
                                   [(ngModel)]="employee!.relations[i].pivot!.rel_mobile_no" placeholder="Mobile No."
-                                  maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('Relations')">
+                                  maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('Relations', i)">
 
                                 <span *ngIf="!editable">{{member!.pivot!.rel_mobile_no}}</span>
                               </td>
 
                               <td>
                                 <input *ngIf="employee!.relations && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.relations[i].pivot!.rel_dob" (ngModelChange)="onInputChangeMap('Relations')">
+                                  [(ngModel)]="employee!.relations[i].pivot!.rel_dob"
+                                  (ngModelChange)="onInputChangeMap('Relations', i)">
 
                                 <span *ngIf="!editable">{{member!.pivot!.rel_dob}}</span>
                               </td>
 
-                              <td *ngIf="editable &&  changesRelationMade">
+                              <td *ngIf="editable &&  (changesRelationMade[i])">
                                 <button *ngIf="member!.pivot!.deleted_at==null" type="button"
-                                  class="btn btn-outline-success" (click)="saveRelationDetails(i)" [disabled]="!changesRelationMade">Save</button>
+                                  class="btn btn-outline-success" (click)="saveRelationDetails(i)"
+                                  [disabled]="!changesRelationMade">Save</button>
                               </td>
 
                               <td *ngIf="editable">

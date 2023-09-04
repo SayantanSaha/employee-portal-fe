@@ -30,9 +30,9 @@ export class ProfileComponent implements OnInit{
 
   changesMade: boolean = false;
   isCpAddressChecked: boolean = false;
-  changesPostingMade: boolean = false;
-  changesRelationMade: boolean = false;
-  changesPromotionMade: boolean = false;
+  changesPostingMade: boolean[] = []; 
+  changesRelationMade: boolean[] = []; 
+  changesPromotionMade: boolean[] = []; 
   
 
 
@@ -97,7 +97,7 @@ export class ProfileComponent implements OnInit{
       error => console.log(error)
     );
 
-
+      
   }
 
 
@@ -853,15 +853,18 @@ export class ProfileComponent implements OnInit{
     this.changesMade = true;
   }
 
-  onInputChangeMap(param : String){
+  onInputChangeMap(param : String, index: number){
     
     if(param === 'Promotion'){
-      this.changesPromotionMade = true;
+      this.changesPromotionMade[index] = true;
     }else if(param === 'Posting'){
-      this.changesPostingMade = true;
+      this.changesPostingMade[index] = true;
     }else if(param === 'Relations'){
-      this.changesRelationMade = true;
+      this.changesRelationMade[index] = true;
     }
     
   }
+
+
+
 }
