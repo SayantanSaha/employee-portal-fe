@@ -928,23 +928,24 @@ export class ProfileComponent implements OnInit{
       return; // Exit the function early if any date field is null
     }
     
-    if(!this.employee!.doj_gs){
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Please Fill Date of Joining in Government Services',
-      });
+    // if(!this.employee!.doj_gs){
+    //   Swal.fire({
+    //     icon: 'error',
+    //     title: 'Error',
+    //     text: 'Please Fill Date of Joining in Government Services',
+    //   });
       
-      // Set the values to null since they are invalid
-      this.employee!.doj_rb = null;
+    //   // Set the values to null since they are invalid
+    //   this.employee!.doj_rb = null;
 
-      return; // Exit the function early if any date field is null
+    //   return; // Exit the function early if any date field is null
 
 
-    }
+    // }
 
     const dob = new Date(this.employee!.dob);
-    const dojGS = new Date(this.employee!.doj_gs);
+    const dojGS = this.employee!.doj_gs ? new Date(this.employee!.doj_gs) : 'null';
+    const dojRB = this.employee!.doj_rb ? new Date(this.employee!.doj_rb) : 'null';
     
     if(dojGS < dob ){
       Swal.fire({
@@ -959,9 +960,7 @@ export class ProfileComponent implements OnInit{
 
     }
 
-
-
-    if((this.employee!.doj_rb && new Date(this.employee!.doj_rb) < dojGS) || (this.employee!.doj_rb && new Date(this.employee!.doj_rb) < dob)){
+    if(dojGS!=null && (dojRB < dojGS) || (dojRB < dob)){
       Swal.fire({
         icon: 'error',
         title: 'Error',
