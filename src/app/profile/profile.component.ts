@@ -179,13 +179,25 @@ export class ProfileComponent implements OnInit{
         //   }
         });
       },
-      error => {
+      (error) => {
         console.log(error);
-        Swal.fire({
-        icon: 'error',
-        title: 'API Error',
-        text: 'An error occurred while updating.',
-        });
+        console.log(error.status);
+        console.log(error.error);
+        if(error.status === 302){
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Previous Record Not Approved !!!',
+          });
+        }else{
+          Swal.fire({
+            icon: 'error',
+            title: 'API Error',
+            text: 'An error occurred while updating.',
+          });
+        }
+       
+        
       }
 
     );
@@ -232,13 +244,26 @@ export class ProfileComponent implements OnInit{
         },
         e => {
           console.log(e);
-          Swal.fire({
-            icon: 'error',
-            title: 'error',
-            text: 'Promotion details have not been saved successfully.',
-            showConfirmButton: false,
-            timer: 1500 // Automatically close after 1.5 seconds
-          });
+          if(e.status === 302){
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          }else{
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Promotion details have not been saved successfully.',
+            });
+          }
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: 'error',
+          //   text: '.',
+          //   showConfirmButton: false,
+          //   timer: 1500 // Automatically close after 1.5 seconds
+          // });
         }
       );
     }else{
@@ -259,13 +284,26 @@ export class ProfileComponent implements OnInit{
           },
           e => {
             console.log(e);
-            Swal.fire({
-              icon: 'error',
-              title: 'error',
-              text: 'Promotion details have not been Updated successfully.',
-              showConfirmButton: false,
-              timer: 1500 // Automatically close after 1.5 seconds
-            });
+            if(e.status === 302){
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Promotion details have not been Updated successfully.',
+              });
+            }
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'error',
+            //   text: 'Promotion details have not been Updated successfully.',
+            //   showConfirmButton: false,
+            //   timer: 1500 // Automatically close after 1.5 seconds
+            // });
           }
         );
       }
@@ -340,13 +378,26 @@ export class ProfileComponent implements OnInit{
           },
           e => {
             console.log(e);
-            Swal.fire({
-              icon: 'error',
-              title: 'error',
-              text: 'Posting details have not been saved successfully.',
-              showConfirmButton: false,
-              // timer: 1500 // Automatically close after 1.5 seconds
-            });
+            if(e.status === 302){
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Posting details have not been saved successfully.',
+              });
+            }
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'error',
+            //   text: 'Posting details have not been saved successfully.',
+            //   showConfirmButton: false,
+            //   // timer: 1500 // Automatically close after 1.5 seconds
+            // });
           }
         );
       }else{
@@ -373,13 +424,26 @@ export class ProfileComponent implements OnInit{
             },
             e => {
               console.log(e);
-              Swal.fire({
-                icon: 'error',
-                title: 'error',
-                text: 'Posting details have not been updated successfully.',
-                showConfirmButton: false,
-                // timer: 1500 // Automatically close after 1.5 seconds
-              });
+              if(e.status === 302){
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'Previous Record Not Approved !!!',
+                });
+              }else{
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Posting details have not been Updated successfully.',
+                });
+              }
+              // Swal.fire({
+              //   icon: 'error',
+              //   title: 'error',
+              //   text: 'Posting details have not been updated successfully.',
+              //   showConfirmButton: false,
+              //   // timer: 1500 // Automatically close after 1.5 seconds
+              // });
             }
 
           );
@@ -440,13 +504,26 @@ export class ProfileComponent implements OnInit{
           },
           e => {
             console.log(e);
-            Swal.fire({
-              icon: 'error',
-              title: 'error',
-              text: 'Relation details have not been saved successfully.',
-              showConfirmButton: false,
-              // timer: 1500 // Automatically close after 1.5 seconds
-            });
+            if(e.status === 302){
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Relation details have not been saved successfully.',
+              });
+            }
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'error',
+            //   text: 'Relation details have not been saved successfully.',
+            //   showConfirmButton: false,
+            //   // timer: 1500 // Automatically close after 1.5 seconds
+            // });
           }
 
         );
@@ -473,13 +550,26 @@ export class ProfileComponent implements OnInit{
             },
             e => {
               console.log(e);
-              Swal.fire({
-                icon: 'error',
-                title: 'error',
-                text: 'Relation details have not been updated successfully.',
-                showConfirmButton: false,
-                // timer: 1500 // Automatically close after 1.5 seconds
-              });
+              if(e.status === 302){
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'Previous Record Not Approved !!!',
+                });
+              }else{
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Relation details have not been Updated successfully.',
+                });
+              }
+              // Swal.fire({
+              //   icon: 'error',
+              //   title: 'error',
+              //   text: 'Relation details have not been updated successfully.',
+              //   showConfirmButton: false,
+              //   // timer: 1500 // Automatically close after 1.5 seconds
+              // });
             }
           );
         }
@@ -620,32 +710,82 @@ export class ProfileComponent implements OnInit{
   /******* Upload File Function Start *******/
 
   // Profile Photo &&  Employee Singnature
+  // async onProfilePhotoSelected(event: Event, param: string): Promise<void> {
+  //   const inputElement = event.target as HTMLInputElement;
+  
+  //   if (inputElement?.files?.length) {
+  //     const file: File = inputElement.files[0];
+  //     try {
+  //       const base64String: string = await fileToBase64(file); // Convert the file to base64
+  //       if (this.employee) {
+  //         //alert(param.toString()); // Convert the String object to a string
+  //         if (param === 'Profile Photo') {
+  //           this.employee.profile_photo = base64String; // Assign the base64 string to the profile_photo property
+  //           this.changesMade = true;
+  //         } else if (param === 'Employee Sign') {
+  //           this.employee.sign_path = base64String; // Assign the base64 string to the sign_path property
+  //           this.changesMade = true;
+  //         }
+  //       } else {
+  //         console.log('this.employee is null.');
+  //       }
+  //     } catch (error) {
+  //       console.error('Failed to convert the file to base64:', error);
+  //     }
+  //   } else {
+  //     console.log('No file selected.');
+  //   }
+  // }
+
+
   async onProfilePhotoSelected(event: Event, param: string): Promise<void> {
     const inputElement = event.target as HTMLInputElement;
   
     if (inputElement?.files?.length) {
       const file: File = inputElement.files[0];
-      try {
-        const base64String: string = await fileToBase64(file); // Convert the file to base64
-        if (this.employee) {
-          //alert(param.toString()); // Convert the String object to a string
-          if (param === 'Profile Photo') {
-            this.employee.profile_photo = base64String; // Assign the base64 string to the profile_photo property
-            this.changesMade = true;
-          } else if (param === 'Employee Sign') {
-            this.employee.employee_sign = base64String; // Assign the base64 string to the employee_sign property
-            this.changesMade = true;
+
+      // Check if the file type is JPEG or JPG
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+
+        // Check if the file size is less than or equal to 200KB
+        if (file.size <= 200 * 1024) { // 200KB in bytes
+          try {
+            const base64String: string = await fileToBase64(file); // Convert the file to base64
+            if (this.employee) {
+              if (param === 'Profile Photo') {
+                this.employee.profile_photo = base64String;
+                this.changesMade = true;
+              } else if (param === 'Employee Sign') {
+                this.employee.sign_path = base64String;
+                this.changesMade = true;
+              }
+            } else {
+              console.log('this.employee is null.');
+            }
+          } catch (error) {
+            console.error('Failed to convert the file to base64:', error);
           }
         } else {
-          console.log('this.employee is null.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 200KB.',
+          });
+          console.log('File size exceeds 200KB.');
         }
-      } catch (error) {
-        console.error('Failed to convert the file to base64:', error);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid File',
+          text: 'Invalid file type. Only JPEG or JPG files are allowed.',
+        });
+        console.log('Invalid file type. Only JPEG or JPG files are allowed.');
       }
     } else {
       console.log('No file selected.');
     }
   }
+  
   
 
   // Order File Promotions

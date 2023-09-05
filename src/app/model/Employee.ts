@@ -38,7 +38,7 @@ export class Employee{
   organization: Organization|null = null;
   designations: Designation[]|null = null;
 
-  employee_sign: string|null = null;
+  sign_path: string|null = null;
   id_cards: Idcards[]|null = null;
 
 

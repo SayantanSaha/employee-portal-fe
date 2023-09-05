@@ -49,8 +49,8 @@
                               class="rounded-circle" title="Profile Photo" />
                           </span>
                           <br /><br />
-                          <span *ngIf="employee && employee.employee_sign">
-                            <img [src]="employee.employee_sign" alt="Signature" style="width: 150px; height: 30px"
+                          <span *ngIf="employee && employee.sign_path">
+                            <img [src]="employee.sign_path" alt="Signature" style="width: 150px; height: 30px"
                               class="rounded-square" title="Employee Signature" />
                           </span>
 
@@ -60,7 +60,7 @@
                             <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
                           </label>
                           &nbsp;&nbsp;
-                          <label for="employee_sign" class="upload-icon-label" *ngIf="editable"
+                          <label for="sign_path" class="upload-icon-label" *ngIf="editable"
                             title="Upload Signature">
                             <i class="bi bi-cloud-arrow-up btn btn-outline-danger"></i>
                           </label>
@@ -69,7 +69,7 @@
                             (change)="onProfilePhotoSelected($event, 'Profile Photo')" style="display: none"
                             *ngIf="editable">
 
-                          <input type="file" class="custom-file-input" id="employee_sign"
+                          <input type="file" class="custom-file-input" id="sign_path"
                             (change)="onProfilePhotoSelected($event , 'Employee Sign')" style="display: none"
                             *ngIf="editable">
 
