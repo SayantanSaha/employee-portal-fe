@@ -118,7 +118,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Sl No.</th>
-                                                            <th>Registration No.</th>
+                                                            <th>Id Card No.</th>
                                                             <th>Employee Name</th>
                                                             <!-- <th>Email ID</th> -->
                                                             <th>Mobile No.</th>
@@ -131,7 +131,7 @@
                                                         
                                                         <tr *ngFor="let tempChange of dashboardData.todayList; let i = index">
                                                             <td>{{ i + 1 }}</td>
-                                                            <td>{{ tempChange.employee.reg_no }}</td>
+                                                            <td>{{ tempChange.id_cards[0].card_no}}</td>
                                                             <td>{{ tempChange.employee.emp_name }}</td>
                                                             <td>{{ tempChange.employee.mobile }}</td>
                                                             <td>{{ formatDate(tempChange.changed_at) }}</td>

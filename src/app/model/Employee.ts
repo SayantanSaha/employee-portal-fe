@@ -4,6 +4,7 @@ import {Designation} from "./Designation";
 import {Division} from "./Division";
 import {Relation} from "./Relation";
 import {Organization} from "./Organization";
+import {Idcards} from "./Idcards";
 
 export class Employee{
   id: number|null = null;
@@ -36,6 +37,9 @@ export class Employee{
   divisions: Division[]|null = null;
   organization: Organization|null = null;
   designations: Designation[]|null = null;
+
+  sign_path: string|null = null;
+  id_cards: Idcards[]|null = null;
 
 
 }

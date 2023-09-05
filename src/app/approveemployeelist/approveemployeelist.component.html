@@ -33,7 +33,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Sl No.</th>
-                                                            <th>Regisration No.</th>
+                                                            <th>Id Card No.</th>
                                                             <th>Employee Name</th>
                                                             <!-- <th>Email ID</th> -->
                                                             <th>Mobile No.</th>
@@ -45,7 +45,7 @@
                                                         
                                                         <tr *ngFor="let templist of dashboardData.ApprovedList; let i = index">
                                                             <td>{{ i + 1 }}</td>
-                                                            <td>{{ templist.employee.reg_no }}</td>
+                                                            <td>{{ templist.id_cards[0].card_no }}</td>
                                                             <td>{{ templist.employee.emp_name }}</td>
                                                             <!-- <td>{{ templist.email_id }}</td> -->
                                                             <td>{{ templist.employee.mobile }}</td>
