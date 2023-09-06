@@ -22,11 +22,11 @@
               <thead>
                 <tr>
                   <th>Sl No.</th>
-                  <th>Regisration No.</th>
+                  <th>Id Card No.</th>
                   <th>Employee Name</th>
                   <!-- <th>Email ID</th> -->
                   <th>Mobile No.</th>
-                  <th>Last Upadted Date</th>
+                  <th>Last Updated Date</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -35,7 +35,7 @@
                 <tr *ngFor="let tempchanges of tempchangesList; let i = index">
                   
                   <td>{{ i + 1 }}</td>
-                  <td>{{tempchanges.reg_no}}</td>
+                  <td>{{tempchanges.id_cards[0].card_no}}</td>
                   <td>{{ tempchanges.emp_title}} {{ tempchanges.emp_name}}</td>
                   <!-- <td>{{ tempchanges.email_id}}</td> -->
                   <td>{{ tempchanges.mobile}}</td>

@@ -9,6 +9,7 @@ import {Designation} from "../model/Designation";
 import {Division} from "../model/Division";
 
 import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
 import {Relation} from "../model/Relation";
 import { fileToBase64 } from '../profile/fileToBase64';
 import { environment } from 'src/environments/environment';
@@ -16,23 +17,31 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
+  providers: [DatePipe] // Add DatePipe to the providers array
 })
 
 export class ProfileComponent implements OnInit{
 
-  validationErrors:string[] = [];
+  
   divisiontypelist: any[] = [];  // Initialize as an empty array or with appropriate data type
   relationstypelist: any[] = []; // Initialize as an empty array or with appropriate data type
-  readonly DESIGNATION = 'DESIGNATION';
-  readonly DIVISION = 'DIVISION';
+  validationErrors:string[] = [];
+
+  changesMade: boolean = false;
+  isCpAddressChecked: boolean = false;
+  changesPostingMade: boolean[] = []; 
+  changesRelationMade: boolean[] = []; 
+  changesPromotionMade: boolean[] = []; 
+  
 
 
   constructor(
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
+    private datePipe: DatePipe, // Inject the DatePipe here
   ) {}
-  
+
   employee:Employee| null = null;
   mode:string|null = null;
   editable:boolean = false;
@@ -45,7 +54,7 @@ export class ProfileComponent implements OnInit{
   apiUrl = environment.apiUrl;
 
   ngOnInit() {
-    
+
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.setEditable(this.mode=='edit');
     this.employeeService.getMyProfile().subscribe(
@@ -76,8 +85,8 @@ export class ProfileComponent implements OnInit{
       data=>this.relations=data,
       error => console.log(error)
     );
-    
-   
+
+
     this.employeeService.getDivisionMasterList().subscribe(
       data=>this.divisiontypelist=data,
       error => console.log(error)
@@ -87,8 +96,8 @@ export class ProfileComponent implements OnInit{
       data=>this.relationstypelist=data,
       error => console.log(error)
     );
-    
-  
+
+      
   }
 
 
@@ -134,7 +143,7 @@ export class ProfileComponent implements OnInit{
 
   savePrimaryDetails(){
 
-    // Validation check before API Call  
+    // Validation check before API Call
 
     if (this.validationErrors.length > 0) {
 
@@ -151,7 +160,7 @@ export class ProfileComponent implements OnInit{
       return; // Exit without calling the API
     }
 
-    // Validation true then Api call otherwise please check 
+    // Validation true then Api call otherwise please check
     this.employeeService.updateEmployee(this.employee!).subscribe(
       // data=>console.log(data),
       // error=>console.log(error)
@@ -162,28 +171,40 @@ export class ProfileComponent implements OnInit{
         Swal.fire({
         icon: 'success',
         title: 'Success',
-        text: 'Basic Details Updated Successfully',
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Redirect to the desired page
-            window.location.reload();
-          }
+        text: 'Request for approval of basic details have been updated successfully and pending for approval',
+        // }).then((result) => {
+        //   if (result.isConfirmed) {
+        //     // Redirect to the desired page
+        //     window.location.reload();
+        //   }
         });
       },
-      error => {
+      (error) => {
         console.log(error);
-        Swal.fire({
-        icon: 'error',
-        title: 'API Error',
-        text: 'An error occurred while updating.',
-        });
+        console.log(error.status);
+        console.log(error.error);
+        if(error.status === 302){
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Previous Record Not Approved !!!',
+          });
+        }else{
+          Swal.fire({
+            icon: 'error',
+            title: 'API Error',
+            text: 'An error occurred while updating.',
+          });
+        }
+       
+        
       }
-      
+
     );
 
-   
+
   }
-  
+
 
   async getDistricts(state:State){
     let districts:District[] = [];
@@ -212,29 +233,37 @@ export class ProfileComponent implements OnInit{
         // e=>console.log(e)
         p => {
           this.employee!.designations![index] = p;
-  
+
           // Show SweetAlert success message
           console.log(p);
           Swal.fire({
           icon: 'success',
           title: 'Success',
-          text: 'Promotion Details have been saved  Successfully',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // Redirect to the desired page
-              window.location.reload();
-            }
+          text: 'Request for approval of Designation have been saved successfully and pending for approval',
           });
         },
         e => {
           console.log(e);
-          Swal.fire({
-            icon: 'error',
-            title: 'error',
-            text: 'Promotion details have not been saved successfully.',
-            showConfirmButton: false,
-            timer: 1500 // Automatically close after 1.5 seconds
-          });
+          if(e.status === 302){
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          }else{
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Promotion details have not been saved successfully.',
+            });
+          }
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: 'error',
+          //   text: '.',
+          //   showConfirmButton: false,
+          //   timer: 1500 // Automatically close after 1.5 seconds
+          // });
         }
       );
     }else{
@@ -244,29 +273,37 @@ export class ProfileComponent implements OnInit{
           // e=>console.log(e)
           p => {
             this.employee!.designations![index] = p;
-    
+
             // Show SweetAlert success message
             console.log(p);
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Promotion Details have been Updated  Successfully',
-            }).then((result) => {
-              if (result.isConfirmed) {
-                // Redirect to the desired page
-                window.location.reload();
-              }
+              text: 'Request for approval of designation have been updated successfully and pending for approval',
             });
           },
           e => {
             console.log(e);
-            Swal.fire({
-              icon: 'error',
-              title: 'error',
-              text: 'Promotion details have not been Updated successfully.',
-              showConfirmButton: false,
-              timer: 1500 // Automatically close after 1.5 seconds
-            });
+            if(e.status === 302){
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Promotion details have not been Updated successfully.',
+              });
+            }
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'error',
+            //   text: 'Promotion details have not been Updated successfully.',
+            //   showConfirmButton: false,
+            //   timer: 1500 // Automatically close after 1.5 seconds
+            // });
           }
         );
       }
@@ -305,7 +342,12 @@ export class ProfileComponent implements OnInit{
   /********** Add Division Function Start *********/
 
     addDivision() {
-      this.employee?.divisions?.push(new Division());
+    if (this.employee && this.employee.relations) {
+      let d = new Division();
+      // this.employee?.divisions?.push(new Division());
+      d.pivot.employee_id = this.employee?.id!;
+      this.employee?.divisions?.push(d);
+    }
     }
 
     deleteDivision(index:number){
@@ -320,29 +362,42 @@ export class ProfileComponent implements OnInit{
           // e=>console.log(e)
           p => {
             this.employee!.divisions![index] = p;
-    
+
             // Show SweetAlert success message
             console.log(p);
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Posting Details have been saved  Successfully',
-            }).then((result) => {
-              if (result.isConfirmed) {
-                // Redirect to the desired page
-                window.location.reload();
-              }
+              text: 'Request for approval of Posting have been saved successfully and pending for approval',
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     // Redirect to the desired page
+            //     window.location.reload();
+            //   }
             });
           },
           e => {
             console.log(e);
-            Swal.fire({
-              icon: 'error',
-              title: 'error',
-              text: 'Posting details have not been saved successfully.',
-              showConfirmButton: false,
-              // timer: 1500 // Automatically close after 1.5 seconds
-            });
+            if(e.status === 302){
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Posting details have not been saved successfully.',
+              });
+            }
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'error',
+            //   text: 'Posting details have not been saved successfully.',
+            //   showConfirmButton: false,
+            //   // timer: 1500 // Automatically close after 1.5 seconds
+            // });
           }
         );
       }else{
@@ -353,29 +408,42 @@ export class ProfileComponent implements OnInit{
 
             p => {
               this.employee!.divisions![index] = p;
-      
+
               // Show SweetAlert success message
               console.log(p);
               Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: 'Posting Details have been updated  Successfully',
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  // Redirect to the desired page
-                  window.location.reload();
-                }
+                text: 'Request for approval of Posting have been updated successfully and pending for approval',
+              // }).then((result) => {
+              //   if (result.isConfirmed) {
+              //     // Redirect to the desired page
+              //     window.location.reload();
+              //   }
               });
             },
             e => {
               console.log(e);
-              Swal.fire({
-                icon: 'error',
-                title: 'error',
-                text: 'Posting details have not been updated successfully.',
-                showConfirmButton: false,
-                // timer: 1500 // Automatically close after 1.5 seconds
-              });
+              if(e.status === 302){
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'Previous Record Not Approved !!!',
+                });
+              }else{
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Posting details have not been Updated successfully.',
+                });
+              }
+              // Swal.fire({
+              //   icon: 'error',
+              //   title: 'error',
+              //   text: 'Posting details have not been updated successfully.',
+              //   showConfirmButton: false,
+              //   // timer: 1500 // Automatically close after 1.5 seconds
+              // });
             }
 
           );
@@ -402,7 +470,7 @@ export class ProfileComponent implements OnInit{
         this.employee?.relations?.push(d);
       }
     }
-    
+
     // Delete Member Column Function
     deleteMember(index: number) {
       if (this.employee && this.employee.relations) {
@@ -410,7 +478,7 @@ export class ProfileComponent implements OnInit{
       }
     }
 
-    // Save Family Details 
+    // Save Family Details
     saveRelationDetails(index: number){
       let membersDtls = this.employee?.relations![index].pivot;
       if(membersDtls?.id==-1){
@@ -420,29 +488,42 @@ export class ProfileComponent implements OnInit{
 
           p => {
             this.employee!.relations![index] = p;
-    
+
             // Show SweetAlert success message
             console.log(p);
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Relation Details have been saved  Successfully',
-            }).then((result) => {
-              if (result.isConfirmed) {
-                // Redirect to the desired page
-                window.location.reload();
-              }
+              text: 'Request for approval of Relation have been saved successfully and pending for approval',
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     // Redirect to the desired page
+            //     window.location.reload();
+            //   }
             });
           },
           e => {
             console.log(e);
-            Swal.fire({
-              icon: 'error',
-              title: 'error',
-              text: 'Relation details have not been saved successfully.',
-              showConfirmButton: false,
-              // timer: 1500 // Automatically close after 1.5 seconds
-            });
+            if(e.status === 302){
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Relation details have not been saved successfully.',
+              });
+            }
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'error',
+            //   text: 'Relation details have not been saved successfully.',
+            //   showConfirmButton: false,
+            //   // timer: 1500 // Automatically close after 1.5 seconds
+            // });
           }
 
         );
@@ -453,35 +534,48 @@ export class ProfileComponent implements OnInit{
             // e=>console.log(e)
             p => {
               this.employee!.relations![index] = p;
-      
+
               // Show SweetAlert success message
               console.log(p);
               Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: 'Relation Details have been updated  Successfully',
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  // Redirect to the desired page
-                  window.location.reload();
-                }
+                text: 'Request for approval of Relation have been updated successfully and pending for approval',
+              // }).then((result) => {
+              //   if (result.isConfirmed) {
+              //     // Redirect to the desired page
+              //     window.location.reload();
+              //   }
               });
             },
             e => {
               console.log(e);
-              Swal.fire({
-                icon: 'error',
-                title: 'error',
-                text: 'Relation details have not been updated successfully.',
-                showConfirmButton: false,
-                // timer: 1500 // Automatically close after 1.5 seconds
-              });
+              if(e.status === 302){
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'Previous Record Not Approved !!!',
+                });
+              }else{
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Relation details have not been Updated successfully.',
+                });
+              }
+              // Swal.fire({
+              //   icon: 'error',
+              //   title: 'error',
+              //   text: 'Relation details have not been updated successfully.',
+              //   showConfirmButton: false,
+              //   // timer: 1500 // Automatically close after 1.5 seconds
+              // });
             }
           );
         }
       }
     }
-  
+
   /***************** Add Family Members Function End ***************8*******/
 
 
@@ -508,8 +602,9 @@ export class ProfileComponent implements OnInit{
     }
 
     validateHindiName() {
-      const namePattern = /^[\u0900-\u097F\s-]{3,30}$/; // Unicode range for Hindi characters
-      if (!namePattern.test(this.employee!.emp_name_hi)) {
+      const hindiNamePattern = /^[\u0900-\u097F\s.\-'!()]*$/;
+
+      if (!hindiNamePattern.test(this.employee!.emp_name_hi)) {
         this.validationErrors.push('कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें');
         Swal.fire({
           icon: 'error',
@@ -563,7 +658,7 @@ export class ProfileComponent implements OnInit{
       }
     }
 
-    
+
     validateCurrPin() {
       if (this.employee!.curr_pin !== null) {
         const pinPattern = /^\d{6}$/;
@@ -589,7 +684,7 @@ export class ProfileComponent implements OnInit{
     validatePermPin() {
       if (this.employee!.perm_pin !== null) {
         const pinPattern = /^\d{6}$/;
-        
+
         if (!pinPattern.test(this.employee!.perm_pin)) {
 
           this.validationErrors.push('Invalid Premanent Pin Code');
@@ -611,39 +706,97 @@ export class ProfileComponent implements OnInit{
 
   /************************* Validation Check Function End *************************/
 
-  
+
   /******* Upload File Function Start *******/
 
-  // Profile Photo 
-  async onProfilePhotoSelected(event: Event): Promise<void> {
+  // Profile Photo &&  Employee Singnature
+  // async onProfilePhotoSelected(event: Event, param: string): Promise<void> {
+  //   const inputElement = event.target as HTMLInputElement;
+  
+  //   if (inputElement?.files?.length) {
+  //     const file: File = inputElement.files[0];
+  //     try {
+  //       const base64String: string = await fileToBase64(file); // Convert the file to base64
+  //       if (this.employee) {
+  //         //alert(param.toString()); // Convert the String object to a string
+  //         if (param === 'Profile Photo') {
+  //           this.employee.profile_photo = base64String; // Assign the base64 string to the profile_photo property
+  //           this.changesMade = true;
+  //         } else if (param === 'Employee Sign') {
+  //           this.employee.sign_path = base64String; // Assign the base64 string to the sign_path property
+  //           this.changesMade = true;
+  //         }
+  //       } else {
+  //         console.log('this.employee is null.');
+  //       }
+  //     } catch (error) {
+  //       console.error('Failed to convert the file to base64:', error);
+  //     }
+  //   } else {
+  //     console.log('No file selected.');
+  //   }
+  // }
+
+
+  async onProfilePhotoSelected(event: Event, param: string): Promise<void> {
     const inputElement = event.target as HTMLInputElement;
+  
     if (inputElement?.files?.length) {
       const file: File = inputElement.files[0];
-      try {
-        const base64String: string = await fileToBase64(file); // Convert the file to base64
-        if (this.employee) {
-          this.employee.profile_photo = base64String; // Assign the base64 string to the profile_photo property
+
+      // Check if the file type is JPEG or JPG
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+
+        // Check if the file size is less than or equal to 200KB
+        if (file.size <= 200 * 1024) { // 200KB in bytes
+          try {
+            const base64String: string = await fileToBase64(file); // Convert the file to base64
+            if (this.employee) {
+              if (param === 'Profile Photo') {
+                this.employee.profile_photo = base64String;
+                this.changesMade = true;
+              } else if (param === 'Employee Sign') {
+                this.employee.sign_path = base64String;
+                this.changesMade = true;
+              }
+            } else {
+              console.log('this.employee is null.');
+            }
+          } catch (error) {
+            console.error('Failed to convert the file to base64:', error);
+          }
         } else {
-          
-          console.log('this.employee is null.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 200KB.',
+          });
+          console.log('File size exceeds 200KB.');
         }
-      } catch (error) {
-        console.error('Failed to convert the file to base64:', error);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid File',
+          text: 'Invalid file type. Only JPEG or JPG files are allowed.',
+        });
+        console.log('Invalid file type. Only JPEG or JPG files are allowed.');
       }
     } else {
       console.log('No file selected.');
     }
   }
+  
+  
 
   // Order File Promotions
   async onFileSelected(event: any, i: number) {
     const selectedFile = event.target.files[0];
-   
+
     try {
       if (selectedFile) {
         const fileType = selectedFile.type;
         const fileSize = selectedFile.size;
-  
+
         // Check if the selected file is a PDF and the size is within limits
         if (fileType === 'application/pdf' && fileSize <= 1048576) {
           const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
@@ -677,12 +830,12 @@ export class ProfileComponent implements OnInit{
   // Order File Posting
   async onFileDivSelected(event: any, i: number) {
     const selectedFile = event.target.files[0];
-   
+
     try {
       if (selectedFile) {
         const fileType = selectedFile.type;
         const fileSize = selectedFile.size;
-  
+
         // Check if the selected file is a PDF and the size is within limits
         if (fileType === 'application/pdf' && fileSize <= 1048576) {
           const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
@@ -713,5 +866,144 @@ export class ProfileComponent implements OnInit{
   }
 
   /****** Upload File Function End ****/
+
+
+  /**** Same As Current Address Function Start ****/
+  cPAddress() {
+    // Check if the checkbox is checked
+    if (this.isCpAddressChecked === true ) {
+
+      // If checked, copy current address to permanent address
+      if (this.employee!.curr_add && this.employee!.curr_pin && this.employee!.curr_state && this.employee!.curr_district) {
+        this.employee!.perm_add = this.employee!.curr_add;
+        this.employee!.perm_pin = this.employee!.curr_pin;
+        this.employee!.perm_state = this.employee!.curr_state;
+       
+        this.employee!.perm_district = this.employee!.curr_district;
+
+        this.getDistricts(this.employee!.perm_state!).then(districts=>this.permDistricts=districts);
+        
+      } else {
+
+        // Uncheck the checkbox
+        this.isCpAddressChecked = false;
+
+        // Show an alert if current address fields are not filled
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Please Fill all the Field of Current Address',
+        });
+        
+       
+      }
+    } else {
+      // If unchecked, reset permanent address fields to null
+      this.employee!.perm_add = null;
+      this.employee!.perm_pin = null;
+      this.employee!.perm_state = null;
+      this.employee!.perm_district = null;
+
+      this.getDistricts(this.employee!.perm_state!).then(districts=>this.permDistricts=districts);
+    }
+  }
+  
+  /***** Same As Current Address Function End *****/
+
+  /***** Date Check Validation Function Start *****/
+
+  checkDateOfJoining() {
+    if(!this.employee!.dob) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Fill Date of Birth',
+      });
+
+      // Set the values to null since they are invalid
+      this.employee!.doj_gs = null;
+      this.employee!.doj_rb = null;
+
+
+      return; // Exit the function early if any date field is null
+    }
+    
+    // if(!this.employee!.doj_gs){
+    //   Swal.fire({
+    //     icon: 'error',
+    //     title: 'Error',
+    //     text: 'Please Fill Date of Joining in Government Services',
+    //   });
+      
+    //   // Set the values to null since they are invalid
+    //   this.employee!.doj_rb = null;
+
+    //   return; // Exit the function early if any date field is null
+
+
+    // }
+
+    const dob = new Date(this.employee!.dob);
+    const dojGS = this.employee!.doj_gs ? new Date(this.employee!.doj_gs) : 'null';
+    const dojRB = this.employee!.doj_rb ? new Date(this.employee!.doj_rb) : 'null';
+    
+    if(dojGS < dob ){
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Date of joining is not valid. Please check the dates.',
+      });
+
+      // Set the values to null since they are invalid
+      this.employee!.doj_gs = null;
+      this.employee!.doj_rb = null;
+
+    }
+
+    if(dojGS!=null && (dojRB < dojGS) || (dojRB < dob)){
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Date of joining is not valid in RB. Please check the dates.',
+      });
+
+      this.employee!.doj_rb = null;
+    }
+    
+
+  }
+  /***** Date Check Validation Function Start *****/
+
+
+  //Date Formate
+
+  formatDate(date: Date | null): string {
+
+    // if (!date) {
+    //   return 'N/A';
+    // }
+
+    // return date.toString(); // Change this to your date formatting logic
+    return this.datePipe.transform(date, 'dd MMM YYYY') || 'N/A';
+  }
+
+  // Disabled Button Basic Details
+  onInputChange() {
+    this.changesMade = true;
+  }
+
+  onInputChangeMap(param : String, index: number){
+    
+    if(param === 'Promotion'){
+      this.changesPromotionMade[index] = true;
+    }else if(param === 'Posting'){
+      this.changesPostingMade[index] = true;
+    }else if(param === 'Relations'){
+      this.changesRelationMade[index] = true;
+    }
+    
+  }
+
+
 
 }

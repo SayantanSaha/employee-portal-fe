@@ -39,7 +39,7 @@ export class EmployeeService {
   private apiUrl = environment.apiUrl;
 
   postLogin(username:string, password:string):Observable<Login>{
-    return this.http.post<Login>(this.apiUrl+"login",{email: username, password: password});
+    return this.http.post<Login>(this.apiUrl+"login",{username: username, password: password});
   }
   
   postRegistration(username:string, password:string, firstName: string, lastName: string, mobile: string):Observable<Login>{
