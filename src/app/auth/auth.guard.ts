@@ -5,7 +5,6 @@ import { catchError, map } from 'rxjs/operators';
 import {AuthService} from "./auth.service";
 import {LoginStatus} from "../model/LoginStatus";
 import {EmployeeService} from "../employee.service";
-
 @Injectable({
   providedIn: 'root'
 })
