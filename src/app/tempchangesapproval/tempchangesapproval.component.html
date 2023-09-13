@@ -22,7 +22,7 @@
                         <div class="col-md-12">
                             <div class="card-body">
                                 <div class="row mb-12">
-                                    
+
                                     <div class="col-md-8">
 
                                         <div class="row mb-12">
@@ -617,7 +617,10 @@
                                                                     [style.color]="changedDataDetails.gender ? 'red' : 'inherit'">
                                                                     {{ changedDataDetails.gender === 'M' ? 'MALE' :
                                                                     changedDataDetails.gender === 'F' ? 'FEMALE' :
-                                                                    changedDataDetails.gender === 'O' ? 'OTHERS' : 'N/A'
+                                                                    changedDataDetails.gender === 'O' ? 'OTHERS' :
+                                                                        basicDetails.old_table_data?.pivot?.gender === 'M' ? 'MALE' :
+                                                                            basicDetails.old_table_data?.pivot?.gender === 'F' ? 'FEMALE' :
+                                                                                basicDetails.old_table_data?.pivot?.gender === 'O' ? 'OTHERS' : 'N/A'
                                                                     }}
                                                                 </td>
 

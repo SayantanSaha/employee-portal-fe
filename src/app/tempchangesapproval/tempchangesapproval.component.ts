@@ -47,7 +47,7 @@ export class TempchangesapprovalComponent implements OnInit{
 
           this.changedDataDetails=this.specificDetails.changed_data;
 
-          // console.log(this.basicDetails.old_table_data);
+           console.log(this.changedDataDetails);
         });
 
       }
