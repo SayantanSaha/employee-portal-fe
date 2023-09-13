@@ -17,6 +17,7 @@ import {Relation} from "./model/Relation";
 import {environment} from "../environments/environment";
 
 import {Dependent} from "./model/Dependent";
+import { ChangePassword } from "./model/ChangePassword";
 
 
 @Injectable({
@@ -180,7 +181,11 @@ export class EmployeeService {
     return this.http.get<any>(`${this.apiUrl}reject/${model}/${id}`, { headers: this.createHeader() });
   }
 
+  // Change Password API
+  changePassword(changepassdata:ChangePassword):Observable<ChangePassword>{
+    return this.http.post<ChangePassword>(this.apiUrl+"change_password",changepassdata,{headers:this.createHeader()});
+  }
 
-  
+
 
 }

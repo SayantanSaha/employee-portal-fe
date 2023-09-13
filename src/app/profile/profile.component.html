@@ -27,11 +27,6 @@
                 <div class="float-start">
                   <b>Primary Details</b>
                 </div>
-                <div *ngIf="editable" class="float-end">
-                  <button class="btn btn-outline-primary" (click)="savePrimaryDetails()" *ngIf="changesMade">
-                    Save Changes
-                  </button>
-                </div>
               </div>
 
               <div class="card-body">
@@ -60,8 +55,7 @@
                             <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
                           </label>
                           &nbsp;&nbsp;
-                          <label for="sign_path" class="upload-icon-label" *ngIf="editable"
-                            title="Upload Signature">
+                          <label for="sign_path" class="upload-icon-label" *ngIf="editable" title="Upload Signature">
                             <i class="bi bi-cloud-arrow-up btn btn-outline-danger"></i>
                           </label>
 
@@ -385,6 +379,21 @@
 
                 </div>
 
+                <div class="row" *ngIf="changesMade">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div *ngIf="editable" style="text-align: center;">
+                          <button class="btn btn-outline-primary" (click)="savePrimaryDetails()">
+                            Save Changes
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
               </div>
 
             </div>
@@ -424,9 +433,17 @@
                             <tr>
                               <th>Sl No.</th>
                               <th>Designation</th>
-                              <th>Date</th>
-                              <th>Order No.</th>
-                              <th>Order Date</th>
+                              <th>
+                                Joining Date
+                              </th>
+                              <th>
+                                Order No.
+                                <span class="text-danger">*</span>
+                              </th>
+                              <th>
+                                Order Date
+                                <span class="text-danger">*</span>
+                              </th>
                               <th colspan="2">Order File</th>
                               <th *ngIf="editable" colspan="2">Action</th>
                             </tr>
@@ -454,13 +471,13 @@
                               <td>
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="text"
                                   [(ngModel)]="employee!.designations[i].pivot!.order_no"
-                                  (ngModelChange)="onInputChangeMap('Promotion', i)">
+                                  (ngModelChange)="onInputChangeMap('Promotion', i); validateOrderNo('Promotion', i)">
                                 <span *ngIf="!editable">{{desg!.pivot!.order_no}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.designations[i].pivot!.order_date"
-                                  (ngModelChange)="onInputChangeMap('Promotion', i)">
+                                  (ngModelChange)="onInputChangeMap('Promotion', i); validateOrderDate('Promotion', i)">
                                 <span *ngIf="!editable">{{desg!.pivot!.order_date}}</span>
                               </td>
                               <td>
@@ -555,10 +572,19 @@
                             <tr>
                               <th>Sl No.</th>
                               <th>Division</th>
-                              <th>From Date</th>
+                              <th>
+                                From Date
+                                <span class="text-danger">*</span>
+                              </th>
                               <th>To Date</th>
-                              <th>Order No.</th>
-                              <th>Order Date</th>
+                              <th>
+                                Order No.
+                                <span class="text-danger">*</span>
+                              </th>
+                              <th>
+                                Order Date
+                                <span class="text-danger">*</span>
+                              </th>
                               <th colspan="2">Order File</th>
                               <th *ngIf="editable" colspan="3">Action</th>
                             </tr>
@@ -581,7 +607,7 @@
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.divisions[i].pivot!.from_date"
-                                  (ngModelChange)="onInputChangeMap('Posting', i)">
+                                  (ngModelChange)="onInputChangeMap('Posting', i);  validateFromDate('Posting', i)">
                                 <span *ngIf="!editable">{{div!.pivot!.from_date}}</span>
                               </td>
                               <td>
@@ -593,13 +619,13 @@
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="text"
                                   [(ngModel)]="employee!.divisions[i].pivot!.order_no"
-                                  (ngModelChange)="onInputChangeMap('Posting', i)">
+                                  (ngModelChange)="onInputChangeMap('Posting', i);  validateOrderNo('Posting', i)">
                                 <span *ngIf="!editable">{{div!.pivot!.order_no}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.divisions[i].pivot!.order_date"
-                                  (ngModelChange)="onInputChangeMap('Posting', i)">
+                                  (ngModelChange)="onInputChangeMap('Posting', i); validateOrderDate('Posting', i)">
                                 <span *ngIf="!editable">{{div!.pivot!.order_date}}</span>
                               </td>
                               <td>

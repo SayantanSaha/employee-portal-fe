@@ -10,7 +10,7 @@ import {Division} from "../model/Division";
 
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
-import {Relation} from "../model/Relation";
+import { Relation } from "../model/Relation";
 import { fileToBase64 } from '../profile/fileToBase64';
 import { environment } from 'src/environments/environment';
 
@@ -224,6 +224,25 @@ export class ProfileComponent implements OnInit{
 
 
   savePromotion(index:number){
+
+    this.validateOrderNo('Promotion', index);
+    this.validateOrderDate('Promotion', index);
+
+    if (this.validationErrors.length > 0) {
+
+      const errorMessage = this.validationErrors
+      .map((error, index) => `${index + 1}. ${error}`)
+      .join('\n');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        html: errorMessage.replace(/\n/g, '<br/>'),
+        width: 'auto', // Adjust as needed
+      });
+      return; // Exit without calling the API
+    }
+    
     let promotion = this.employee?.designations![index].pivot;
 
     console.log(this.employee?.designations![index].pivot.order_path)
@@ -355,6 +374,26 @@ export class ProfileComponent implements OnInit{
     }
 
     saveDivision(index:number){
+
+      this.validateOrderNo('Posting', index);
+      this.validateOrderDate('Posting', index);
+      this.validateFromDate('Posting', index);
+
+      if (this.validationErrors.length > 0) {
+
+        const errorMessage = this.validationErrors
+        .map((error, index) => `${index + 1}. ${error}`)
+        .join('\n');
+  
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          html: errorMessage.replace(/\n/g, '<br/>'),
+          width: 'auto', // Adjust as needed
+        });
+        return; // Exit without calling the API
+      }
+
       let postingDtls = this.employee?.divisions![index].pivot;
       if(postingDtls?.id==-1){
         this.employeeService.savePosting(postingDtls).subscribe(
@@ -705,6 +744,137 @@ export class ProfileComponent implements OnInit{
     }
 
   /************************* Validation Check Function End *************************/
+  
+  /********** Desgination / Promotion && Division / Posting Validation Check Function Start *************/
+ 
+  // Validate Order No
+  validateOrderNo(param : String, index: number) {
+
+    if( 
+        param === 'Promotion'  && 
+        this.employee &&
+        this.employee!.designations &&
+        this.employee!.designations[index].pivot &&
+        (
+          this.employee!.designations[index].pivot.order_no === null ||
+          this.employee!.designations[index].pivot.order_no?.toString() === ''
+        )
+    ) {
+      this.validationErrors.push('Please Enter Order No.');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Enter Order No.',
+      });
+    }else if(param === 'Posting'  && 
+      this.employee &&
+      this.employee!.divisions &&
+      this.employee!.divisions[index].pivot &&
+      (
+        this.employee!.divisions[index].pivot.order_no === null ||
+        this.employee!.divisions[index].pivot.order_no?.toString() === ''
+      )
+    ){
+
+      this.validationErrors.push('Please Enter Order No.');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Enter Order No.',
+      });
+
+    }else {
+      // Clear the validation error message for Pin Code if it's valid
+      const index = this.validationErrors.indexOf('Please Enter Order No.');
+      if (index !== -1) {
+        this.validationErrors.splice(index, 1);
+      }
+    }
+    
+  }
+
+  // Validate Order Date
+  validateOrderDate(param : String, index: number) {
+    
+    // if(this.employee && this.employee!.designations )
+    // console.log(this.employee!.designations[index].pivot.order_date)
+    //alert(this.employee!.designations[index].pivtot!.order_date)
+    if(
+      param === 'Promotion'  && 
+      this.employee &&
+      this.employee!.designations &&
+      this.employee!.designations[index].pivot &&
+      (
+        this.employee!.designations[index].pivot.order_date === null ||
+        this.employee!.designations[index].pivot.order_date?.toString() === ''
+      )
+    ){
+      this.validationErrors.push('Please Enter Order Date');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Enter Order Date',
+      });
+    }else if(
+      param === 'Posting'  && 
+      this.employee &&
+      this.employee!.divisions &&
+      this.employee!.divisions[index].pivot &&
+      (
+        this.employee!.divisions[index].pivot.order_date === null ||
+        this.employee!.divisions[index].pivot.order_date?.toString() === ''
+      )
+    ){
+      this.validationErrors.push('Please Enter Order Date');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Enter Order Date',
+      });
+    }else {
+      // Clear the validation error message for Pin Code if it's valid
+      const index = this.validationErrors.indexOf('Please Enter Order Date');
+      if (index !== -1) {
+        this.validationErrors.splice(index, 1);
+      }
+    }
+    
+  }
+ 
+  // Validate From Date
+  validateFromDate(param : String, index: number){
+  if(
+      param === 'Posting'  && 
+      this.employee &&
+      this.employee!.divisions &&
+      this.employee!.divisions[index].pivot &&
+      (
+        this.employee!.divisions[index].pivot.from_date === null ||
+        this.employee!.divisions[index].pivot.from_date?.toString() === ''
+      )
+    ){
+      this.validationErrors.push('Please Enter From Date');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Enter From Date',
+      });
+    }else {
+      // Clear the validation error message for Pin Code if it's valid
+      const index = this.validationErrors.indexOf('Please Enter From Date');
+      if (index !== -1) {
+        this.validationErrors.splice(index, 1);
+      }
+    }
+    
+  }
+  /*********** Desgination / Promotion && Division / Posting Validation Check Function End **************/
+
 
 
   /******* Upload File Function Start *******/
