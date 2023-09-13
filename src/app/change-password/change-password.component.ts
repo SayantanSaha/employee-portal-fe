@@ -96,7 +96,7 @@ export class ChangePasswordComponent implements OnInit {
         Swal.fire({
           icon: 'success',
           title: 'Success',
-          text: 'Password Updated Successfully',
+          text: 'Password updated successfully. You have been logged out. Please log in again.',
           }).then((result) => {
             if (result.isConfirmed) {
               sessionStorage.removeItem('user');
