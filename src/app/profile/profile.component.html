@@ -107,8 +107,9 @@
                                     
                                     <div class="col-md-6"
                                       *ngIf="(change.changed_data |
-                                      parseChangedData:'gender') === 'M' ? 'Male' : ((change.changed_data |
-                                      parseChangedData:'gender') === 'F' ? 'Female' : 'OTHERS'); let empGender">
+                                      parseChangedData:'gender') === 'M' ? 'Male' : (change.changed_data |
+                                      parseChangedData:'gender') === 'F' ? 'Female' : (change.changed_data |
+                                      parseChangedData:'gender') === 'O' ? 'OTHERS' : ''; let empGender">
                                       <div class="form-group">
                                         <label class="form-label">{{ empGender ? 'Gender':''}}</label>
                                       </div>
@@ -729,7 +730,7 @@
                                 <td *ngIf="change.model === 'promotion'">{{ change.changed_data |
                                   parseChangedData:'desg_desc' }}</td>
                                 <td *ngIf="change.model === 'promotion'">{{ change.changed_data |
-                                  parseChangedData:'joining_date' }}</td>
+                                  parseChangedData:'join_date' }}</td>
                                 <td *ngIf="change.model === 'promotion'">{{ change.changed_data |
                                   parseChangedData:'order_no' }}</td>
                                 <td *ngIf="change.model === 'promotion'">{{ change.changed_data |
@@ -1142,8 +1143,9 @@
                                 <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data |
                                   parseChangedData:'rel_name' }}</td>
                                 <td *ngIf="change.model === 'employee_rel'"> {{ (change.changed_data |
-                                  parseChangedData:'gender') === 'M' ? 'Male' : ((change.changed_data |
-                                  parseChangedData:'gender') === 'F' ? 'Female' : 'OTHERS') }}</td>
+                                  parseChangedData:'gender') === 'M' ? 'Male' : (change.changed_data |
+                                  parseChangedData:'gender') === 'F' ? 'Female' : (change.changed_data |
+                                  parseChangedData:'gender') === 'O' ? 'OTHERS' : '' }}</td>
                                 <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data |
                                   parseChangedData:'rel_desc' }}</td>
                                 <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data |
