@@ -22,6 +22,7 @@ import { TempchangesapprovalComponent } from './tempchangesapproval/tempchangesa
 import { ApproveemployeelistComponent } from './approveemployeelist/approveemployeelist.component';
 import { EmployeelistComponent } from './employeelist/employeelist.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ParseChangedDataPipe } from './parse-changed-data.pipe';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     ApproveemployeelistComponent,
     EmployeelistComponent,
     ChangePasswordComponent,
+    ParseChangedDataPipe,
 
 
   ],

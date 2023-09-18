@@ -59,13 +59,40 @@
                                                     style="width: 128px; height: 128px" class="rounded-circle"
                                                     title="Employee Image" />
                                             </span>
+    
+                                            <span *ngIf="!basicDetails?.changed_data?.profile_photo">
+                                                <img style="width: 128px; height: 128px" class="rounded-circle" />
+                                            </span>
+    
+    
+                                        </div>
+    
+                                        <div style="width: 100%;text-align: center;padding-top: 10px;">
+                                            <span *ngIf="basicDetails && basicDetails.changed_data.sign_path">
+                                                <img [src]="basicDetails.changed_data.sign_path" alt="Signature" style="width: 100px; height: 30px"
+                                                class="rounded-square" title="Employee Signature" />
+                                            </span>
+    
+                                            <span *ngIf="!basicDetails?.changed_data?.sign_path">
+                                                <img style="width: 128px; height: 128px" class="rounded-circle" />
+                                            </span>
+                                            <br/>
+    
+                                        </div>
+
+                                        <!-- <div style="width: 100%;text-align: center;padding-top: 10px;">
+                                            <span *ngIf="basicDetails && basicDetails.changed_data.profile_photo">
+                                                <img [src]="basicDetails.changed_data.profile_photo" alt="Profile Photo"
+                                                    style="width: 128px; height: 128px" class="rounded-circle"
+                                                    title="Employee Image" />
+                                            </span>
 
                                             <span *ngIf="!basicDetails?.changed_data?.profile_photo">
                                                 <img [src]="'https://rb.nic.in/rbvisit/images/logonew.png'"
                                                     alt="Profile Photo" style="width: 128px; height: 128px"
                                                     class="rounded-circle" />
                                             </span>
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                 </div>

@@ -13,12 +13,14 @@ import { DatePipe } from '@angular/common';
 import { Relation } from "../model/Relation";
 import { fileToBase64 } from '../profile/fileToBase64';
 import { environment } from 'src/environments/environment';
+import { ParseChangedDataPipe } from '../parse-changed-data.pipe'; // Update the path accordingly
+
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  providers: [DatePipe] // Add DatePipe to the providers array
+  providers: [DatePipe], 
 })
 
 export class ProfileComponent implements OnInit{
@@ -34,8 +36,6 @@ export class ProfileComponent implements OnInit{
   changesRelationMade: boolean[] = []; 
   changesPromotionMade: boolean[] = []; 
   
-
-
   constructor(
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
@@ -52,6 +52,7 @@ export class ProfileComponent implements OnInit{
   divisions:Division[]=[];
   relations:Relation[]=[];
   apiUrl = environment.apiUrl;
+  
 
   ngOnInit() {
 
@@ -59,8 +60,8 @@ export class ProfileComponent implements OnInit{
     this.setEditable(this.mode=='edit');
     this.employeeService.getMyProfile().subscribe(
       data=>{
-        this.employee=data;
-
+        this.employee = data;
+        
         this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
         this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
       }

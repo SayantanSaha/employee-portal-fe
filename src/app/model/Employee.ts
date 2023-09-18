@@ -6,6 +6,7 @@ import {Relation} from "./Relation";
 import {Organization} from "./Organization";
 import {Idcards} from "./Idcards";
 
+
 export class Employee{
   id: number|null = null;
   emp_title: string = '';
@@ -40,6 +41,8 @@ export class Employee{
 
   sign_path: string|null = null;
   id_cards: Idcards[]|null = null;
+  temp_changes: any;
+ 
 
 
 }
