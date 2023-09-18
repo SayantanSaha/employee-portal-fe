@@ -30,7 +30,7 @@
               </div>
 
               <!-- Temp Changes Data Show Start -->
-              <div class="card-body">
+              <div class="card-body" *ngIf="editable">
                 <div class="row">
                   <div class="col-md-12">
 
@@ -104,9 +104,8 @@
 
                                       </div>
                                     </div>
-                                    
-                                    <div class="col-md-6"
-                                      *ngIf="(change.changed_data |
+
+                                    <div class="col-md-6" *ngIf="(change.changed_data |
                                       parseChangedData:'gender') === 'M' ? 'Male' : (change.changed_data |
                                       parseChangedData:'gender') === 'F' ? 'Female' : (change.changed_data |
                                       parseChangedData:'gender') === 'O' ? 'OTHERS' : ''; let empGender">
@@ -466,8 +465,8 @@
                             <label class="form-label">Date Of Birth</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Birth"
-                                aria-label="Date Of Birth" [(ngModel)]="employee!.dob"
-                                (ngModelChange)="onInputChange()">
+                                aria-label="Date Of Birth" [(ngModel)]="employee!.dob" (ngModelChange)="onInputChange()"
+                                [max]="maxDate">
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{formatDate(employee!.dob)}}
@@ -504,7 +503,7 @@
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Joining"
                                 aria-label="Date Of Joining" [(ngModel)]="employee!.doj_gs"
-                                (change)="checkDateOfJoining()" (ngModelChange)="onInputChange()">
+                                (change)="checkDateOfJoining()" (ngModelChange)="onInputChange()" [max]="maxDate">
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{formatDate(employee!.doj_gs)}}
@@ -516,7 +515,7 @@
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Joining"
                                 aria-label="Date Of Joining" [(ngModel)]="employee!.doj_rb"
-                                (change)="checkDateOfJoining()" (ngModelChange)="onInputChange()">
+                                (change)="checkDateOfJoining()" (ngModelChange)="onInputChange()" [max]="maxDate">
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{formatDate(employee!.doj_rb)}}
@@ -688,7 +687,7 @@
                 </div>
               </div>
 
-              <div class="card-body">
+              <div class="card-body" *ngIf="editable">
 
                 <div class="row">
                   <div class="col-md">
@@ -800,7 +799,7 @@
                               <td>
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.designations[i].pivot!.join_date"
-                                  (ngModelChange)="onInputChangeMap('Promotion', i)">
+                                  (ngModelChange)="onInputChangeMap('Promotion', i)" [max]="maxDate">
                                 <span *ngIf="!editable">{{desg!.pivot!.join_date}}</span>
                               </td>
                               <td>
@@ -812,7 +811,8 @@
                               <td>
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.designations[i].pivot!.order_date"
-                                  (ngModelChange)="onInputChangeMap('Promotion', i); validateOrderDate('Promotion', i)">
+                                  (ngModelChange)="onInputChangeMap('Promotion', i); validateOrderDate('Promotion', i)"
+                                  [max]="maxDate">
                                 <span *ngIf="!editable">{{desg!.pivot!.order_date}}</span>
                               </td>
                               <td>
@@ -893,7 +893,7 @@
                 </div>
               </div>
 
-              <div class="card-body">
+              <div class="card-body" *ngIf="editable">
 
                 <div class="row">
                   <div class="col-md">
@@ -1009,13 +1009,13 @@
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.divisions[i].pivot!.from_date"
-                                  (ngModelChange)="onInputChangeMap('Posting', i);  validateFromDate('Posting', i)">
+                                  (ngModelChange)="onInputChangeMap('Posting', i);  validateFromDate('Posting', i)" [max]="maxDate">
                                 <span *ngIf="!editable">{{div!.pivot!.from_date}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.divisions[i].pivot!.to_date"
-                                  (ngModelChange)="onInputChangeMap('Posting', i)">
+                                  (ngModelChange)="onInputChangeMap('Posting', i)" [max]="maxDate">
                                 <span *ngIf="!editable">{{div!.pivot!.to_date}}</span>
                               </td>
                               <td>
@@ -1027,7 +1027,7 @@
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.divisions[i].pivot!.order_date"
-                                  (ngModelChange)="onInputChangeMap('Posting', i); validateOrderDate('Posting', i)">
+                                  (ngModelChange)="onInputChangeMap('Posting', i); validateOrderDate('Posting', i)" [max]="maxDate">
                                 <span *ngIf="!editable">{{div!.pivot!.order_date}}</span>
                               </td>
                               <td>
@@ -1108,7 +1108,7 @@
                 </div>
               </div>
 
-              <div class="card-body">
+              <div class="card-body" *ngIf="editable">
 
                 <div class="row">
                   <div class="col-md">
@@ -1241,7 +1241,7 @@
                               <td>
                                 <input *ngIf="employee!.relations && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.relations[i].pivot!.rel_dob"
-                                  (ngModelChange)="onInputChangeMap('Relations', i)">
+                                  (ngModelChange)="onInputChangeMap('Relations', i)" [max]="maxDate">
 
                                 <span *ngIf="!editable">{{member!.pivot!.rel_dob}}</span>
                               </td>

@@ -35,7 +35,8 @@ export class ProfileComponent implements OnInit{
   changesPostingMade: boolean[] = []; 
   changesRelationMade: boolean[] = []; 
   changesPromotionMade: boolean[] = []; 
-  
+  maxDate: string = "";
+
   constructor(
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
@@ -55,6 +56,13 @@ export class ProfileComponent implements OnInit{
   
 
   ngOnInit() {
+
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Zero-padded month
+    const day = today.getDate().toString().padStart(2, '0'); // Zero-padded day
+
+    this.maxDate = `${year}-${month}-${day}`;
 
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.setEditable(this.mode=='edit');
