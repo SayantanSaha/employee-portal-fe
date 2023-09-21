@@ -36,8 +36,15 @@ export class LoginComponent {
             sessionStorage.setItem('user', JSON.stringify(this.user));
             sessionStorage.setItem('authorisation', JSON.stringify(this.authorisation));
             sessionStorage.setItem('isLoggedIn', 'true');
-            //console.log("authenticated");
-            this.router.navigate(['/dashboard']);
+            for (let item of this.user!.role) {
+              if( item.id===1 && item.role_desc==='Super Admin')
+                this.router.navigate(['/dashboard']);
+              else if(item.id===2 && item.role_desc==='Admin' )
+                this.router.navigate(['/dashboard']);
+              else
+                this.router.navigate(['/profile/view']);
+            }
+            
           }
         },
         (error) =>{

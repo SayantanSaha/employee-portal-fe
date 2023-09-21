@@ -9,6 +9,7 @@ import {Designation} from "../model/Designation";
 import {Division} from "../model/Division";
 
 import Swal from 'sweetalert2';
+import { Router } from "@angular/router";
 import { DatePipe } from '@angular/common';
 import { Relation } from "../model/Relation";
 import { fileToBase64 } from '../profile/fileToBase64';
@@ -41,6 +42,7 @@ export class ProfileComponent implements OnInit{
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
     private datePipe: DatePipe, // Inject the DatePipe here
+    private router: Router,
   ) {}
 
   employee:Employee| null = null;
@@ -66,14 +68,35 @@ export class ProfileComponent implements OnInit{
 
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.setEditable(this.mode=='edit');
-    this.employeeService.getMyProfile().subscribe(
-      data=>{
-        this.employee = data;
-        
-        this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-        this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
-      }
-    );
+
+    this.route.params.subscribe(params => {
+      const id = +params['id']; // Extract id from route parameters
+        // Check if 'id' parameter exists in the URL
+        if (params.hasOwnProperty('id')) {
+        const id = params['id'];
+
+          this.employeeService.getEmpProfile(id).subscribe(
+            data=>{
+              this.employee = data;
+              
+              this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+              this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+            }
+          );
+        } else {
+          this.employeeService.getMyProfile().subscribe(
+            data=>{
+              this.employee = data;
+              
+              this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+              this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+            }
+          );
+        }
+    });
+
+    
+    
 
     this.employeeService.getStates().subscribe(
       data=>this.states=data,

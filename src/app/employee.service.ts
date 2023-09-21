@@ -186,6 +186,12 @@ export class EmployeeService {
     return this.http.post<ChangePassword>(this.apiUrl+"change_password",changepassdata,{headers:this.createHeader()});
   }
 
+  // For Specific Employee Details
+  getEmpProfile(id: number):Observable<Employee>{
+    return this.http.get<Employee>(`${this.apiUrl}emp_profile/${id}`, { headers: this.createHeader() });
+  }
+
+
 
 
 }
