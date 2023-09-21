@@ -69,11 +69,17 @@
                                       <div class="form-group">
                                         <label class="form-label">{{ empName ? 'Name' : '' }}</label>
                                       </div>
-                                      <div class="input-group"
-                                        *ngIf="change.changed_data | parseChangedData:'emp_title'; let empTitle">
+                                      <div class="input-group">
 
-                                        {{ empTitle }}
-                                        {{ empName }}
+                                        <label *ngIf="change.changed_data | parseChangedData:'emp_title'; let empTitle">
+                                          {{ empTitle }}
+                                        </label>
+
+
+                                        <label>
+                                          {{ empName }}
+                                        </label>
+
 
                                       </div>
                                     </div>
@@ -356,7 +362,7 @@
                           <div *ngIf="employee">
                             <span style="font-size: 1.2em">{{employee.emp_name!}}</span><br />
                             <span style="font-size: 1.2em">{{employee.id_cards![0]!.card_no}}</span><br />
-                            
+
                             <span style="font-size: 0.8em">{{employee!.designations![0]!.desg_desc!}}</span><br />
                             <span style="font-size: 0.8em">{{employee!.organization!.org_desc}}</span><br />
                             <span style="font-size: 0.8em">{{employee!.email_id!}}</span><br />
