@@ -37,257 +37,247 @@
                     <div class="card">
                       <div class="card-body">
 
+                        <div class="row" style="text-align: center;overflow:auto;">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label class="form-label">
+                                <u class="text-danger">Pending changes of Basic Data</u>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
                         <div *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
                           <div *ngFor="let change of employee!.temp_changes">
-                            <span *ngIf="change.model === 'Employee' && change.changed_data">
 
-                              <div class="row" style="text-align: center;">
-                                <div class="col-md-12">
-                                  <div class="form-group">
-                                    <label class="form-label">
-                                      <u class="text-danger">Previous Record of Basic Data pending for Approval</u>
-                                    </label>
-                                  </div>
+                            <div class="row" *ngIf="change.model === 'Employee' && change.changed_data"
+                              style="overflow:auto">
+
+                              <div class="col-md-3">
+                                <div style="width:100%;text-align: center;padding-top: 10px;">
+
+                                  <span *ngIf="change.changed_data && change.changed_data.profile_photo">
+                                    <img [src]="change.changed_data.profile_photo" alt="Profile Photo"
+                                      style="width: 150px; height: 128px" class="rounded-circle"
+                                      title="Profile Photo" />
+                                  </span>
+                                  <br /><br />
+                                  <span *ngIf="change.changed_data && change.changed_data.sign_path">
+                                    <img [src]="change.changed_data.sign_path" alt="Signature"
+                                      style="width: 150px; height: 30px" class="rounded-square"
+                                      title="Employee Signature" />
+                                  </span>
+
                                 </div>
                               </div>
 
-                              <div class="row">&nbsp;</div>
-
-                              <div class="row">
-                                <div class="col-md-4">
-                                  <div class="form-group">
-                                    <label class="form-label"></label>
-                                  </div>
-                                  <div class="input-group">
-                                  </div>
-                                </div>
-
-                                <div class="col-md-8">
-                                  <div class="row">
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'emp_name'; let empName">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empName ? 'Name' : '' }}</label>
-                                      </div>
-                                      <div class="input-group">
-
-                                        <label *ngIf="change.changed_data | parseChangedData:'emp_title'; let empTitle">
-                                          {{ empTitle }}
-                                        </label>
-
-
-                                        <label>
-                                          {{ empName }}
-                                        </label>
-
-
-                                      </div>
+                              <div class="col-md-9">
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.emp_name; let empName">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empName ? 'Name' : '' }}</label>
                                     </div>
+                                    <div class="input-group">
+                                      <label *ngIf="change.changed_data.emp_title; let empTitle">
+                                        {{ empTitle }}
+                                      </label>
+                                      &nbsp;
+                                      <label>
+                                        {{ empName }}
+                                      </label>
 
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'emp_name_hi'; let empNameHi">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empNameHi ? 'नाम' :''}}</label>
-                                      </div>
-                                      <div class="input-group"
-                                        *ngIf="change.changed_data | parseChangedData:'emp_title_hi'; let empTitleHi">
+                                    </div>
+                                  </div>
 
+                                  <div class="col-md-6" *ngIf="change.changed_data.emp_name_hi; let empNameHi">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empNameHi ? 'नाम' :''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      <label *ngIf="change.changed_data.emp_title_hi; let empTitleHi">
                                         {{ empTitleHi }}
+                                      </label>
+
+                                      <label>
                                         {{ empNameHi }}
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
 
-                                      </div>
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.dob; let empDOB">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empDOB ? 'Date Of Birth':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{ formatDate(empDOB) }}
                                     </div>
                                   </div>
 
-                                  <div class="row">
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'dob'; let empDOB">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empDOB ? 'Date Of Birth':''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{ empDOB }}
-
-                                      </div>
+                                  <div class="col-md-6"
+                                    *ngIf="(change.changed_data.gender) === 'M' ? 'Male' : (change.changed_data.gender) === 'F' ? 'Female' : (change.changed_data.gender) === 'O' ? 'OTHERS' : ''; let empGender">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empGender ? 'Gender':''}}</label>
                                     </div>
+                                    <div class="input-group">
+                                      {{ empGender }}
+                                    </div>
+                                  </div>
+                                </div>
 
-                                    <div class="col-md-6" *ngIf="(change.changed_data |
-                                      parseChangedData:'gender') === 'M' ? 'Male' : (change.changed_data |
-                                      parseChangedData:'gender') === 'F' ? 'Female' : (change.changed_data |
-                                      parseChangedData:'gender') === 'O' ? 'OTHERS' : ''; let empGender">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empGender ? 'Gender':''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{ empGender }}
-                                      </div>
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.email_id; let empEmail">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empEmail ? 'Email':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{ empEmail }}
                                     </div>
                                   </div>
 
-                                  <div class="row">
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'email_id'; let empEmail">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empEmail ? 'Email':''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{ empEmail }}
-                                      </div>
+                                  <div class="col-md-6" *ngIf="change.changed_data.mobile; let empMobile">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empMobile ? 'Mobile No' : ''}}</label>
                                     </div>
-
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'mobile'; let empMobile">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empMobile ? 'Mobile No' : ''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{ empMobile }}
-                                      </div>
-                                    </div>
-
-                                  </div>
-
-                                  <div class="row">
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'doj_gs'; let empDOJGS">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empDOJGS ? 'Date of Joining in Government
-                                          Service':''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{ empDOJGS }}
-                                      </div>
-                                    </div>
-
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'doj_rb'; let empDOJRB">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empDOJRB ? 'Date of Joining in Rashtrapati Bhavan'
-                                          : ''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{ empDOJRB }}
-                                      </div>
-                                    </div>
-
-                                  </div>
-
-
-                                  <div class="row">
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'curr_add'; let empCurrAdd">
-                                      <div class="form-group">
-                                        <label class="form-label">
-                                          <u style="color: gray;">
-                                            {{ empCurrAdd ? 'Present Address':''}}
-                                          </u>
-                                        </label>
-                                      </div>
-                                    </div>
-
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'perm_add'; let empPrmAdd">
-                                      <div class="form-group">
-                                        <label class="form-label">
-                                          <u style="color: gray;">
-                                            {{ empPrmAdd ? 'Permanent Address' : ''}}
-                                          </u>
-                                        </label>
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div class="row">
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'curr_add'; let empCurrAdd">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empCurrAdd ? 'Address':''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{empCurrAdd}}
-                                      </div>
-                                    </div>
-
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'perm_add'; let empPrmAdd">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empPrmAdd ? ' Address' : ''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{empPrmAdd}}
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div class="row">
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'curr_district_name'; let empCurrDist">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empCurrDist ? 'District':''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{empCurrDist}}
-                                      </div>
-                                    </div>
-
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'perm_district_name'; let empPrmDist">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empPrmDist ? ' District' : ''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{empPrmDist}}
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div class="row">
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'curr_state_name'; let empCurrState">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empCurrState ? 'State':''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{empCurrState}}
-                                      </div>
-                                    </div>
-
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'perm_state_name'; let empPrmState">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empPrmState ? ' State' : ''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{empPrmState}}
-                                      </div>
-                                    </div>
-                                  </div>
-
-                                  <div class="row">
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'curr_pin'; let empCurrPin">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empCurrPin ? 'Pin No.':''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{empCurrPin}}
-                                      </div>
-                                    </div>
-
-                                    <div class="col-md-6"
-                                      *ngIf="change.changed_data | parseChangedData:'perm_pin'; let empPrmPin">
-                                      <div class="form-group">
-                                        <label class="form-label">{{ empPrmPin ? ' Pin No.' : ''}}</label>
-                                      </div>
-                                      <div class="input-group">
-                                        {{empPrmPin}}
-                                      </div>
+                                    <div class="input-group">
+                                      {{ empMobile }}
                                     </div>
                                   </div>
 
                                 </div>
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.doj_gs; let empDOJGS">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empDOJGS ? 'Date of Joining in Government
+                                        Service':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{ formatDate(empDOJGS) }}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.doj_rb; let empDOJRB">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empDOJRB ? 'Date of Joining in Rashtrapati Bhavan'
+                                        : ''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{ formatDate(empDOJRB) }}
+                                    </div>
+                                  </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.curr_add; let empCurrAdd">
+                                    <div class="form-group">
+                                      <label class="form-label">
+                                        <u style="color: gray;">
+                                          {{ empCurrAdd ? 'Present Address':''}}
+                                        </u>
+                                      </label>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.perm_add; let empPrmAdd">
+                                    <div class="form-group">
+                                      <label class="form-label">
+                                        <u style="color: gray;">
+                                          {{ empPrmAdd ? 'Permanent Address' : ''}}
+                                        </u>
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.curr_add; let empCurrAdd">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empCurrAdd ? 'Address':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empCurrAdd}}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.perm_add; let empPrmAdd">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empPrmAdd ? ' Address' : ''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empPrmAdd}}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.curr_district_name; let empCurrDist">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empCurrDist ? 'District':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empCurrDist}}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.perm_district_name; let empPrmDist">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empPrmDist ? ' District' : ''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empPrmDist}}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.curr_state_name; let empCurrState">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empCurrState ? 'State':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empCurrState}}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.perm_state_name; let empPrmState">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empPrmState ? ' State' : ''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empPrmState}}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.curr_pin; let empCurrPin">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empCurrPin ? 'Pin No.':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empCurrPin}}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.perm_pin; let empPrmPin">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empPrmPin ? ' Pin No.' : ''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empPrmPin}}
+                                    </div>
+                                  </div>
+                                </div>
+
                               </div>
-                            </span>
+
+
+                            </div>
+
                           </div>
                         </div>
 
@@ -705,7 +695,7 @@
                           <div class="col-md">
                             <div class="form-group">
                               <label class="form-label">
-                                <u class="text-danger">Previous Record Of Designation/Promotion Data</u>
+                                <u class="text-danger">Pending changes of Designation/Promotion Data</u>
                               </label>
                             </div>
                           </div>
@@ -732,16 +722,13 @@
                           <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
                             <ng-container *ngFor="let change of employee!.temp_changes; let i = index">
                               <tr *ngIf="change.model === 'promotion' && change.changed_data">
-                                <td *ngIf="change.model === 'promotion'">{{ change.changed_data |
-                                  parseChangedData:'desg_desc' }}</td>
-                                <td *ngIf="change.model === 'promotion'">{{ change.changed_data |
-                                  parseChangedData:'join_date' }}</td>
-                                <td *ngIf="change.model === 'promotion'">{{ change.changed_data |
-                                  parseChangedData:'order_no' }}</td>
-                                <td *ngIf="change.model === 'promotion'">{{ change.changed_data |
-                                  parseChangedData:'order_date' }}</td>
-                                <td *ngIf="change.model === 'promotion'">{{ change.changed_data |
-                                  parseChangedData:'order_path' }}</td>
+                                <td *ngIf="change.model === 'promotion'">{{ change.changed_data.desg_desc }}</td>
+                                <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.join_date) }}
+                                </td>
+                                <td *ngIf="change.model === 'promotion'">{{ change.changed_data.order_no }}</td>
+                                <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.order_date)
+                                  }}</td>
+                                <td *ngIf="change.model === 'promotion'">{{ change.changed_data.order_path }}</td>
                               </tr>
                             </ng-container>
                           </tbody>
@@ -806,7 +793,7 @@
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.designations[i].pivot!.join_date"
                                   (ngModelChange)="onInputChangeMap('Promotion', i)" [max]="maxDate">
-                                <span *ngIf="!editable">{{desg!.pivot!.join_date}}</span>
+                                <span *ngIf="!editable">{{formatDate(desg!.pivot!.join_date)}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="text"
@@ -819,7 +806,7 @@
                                   [(ngModel)]="employee!.designations[i].pivot!.order_date"
                                   (ngModelChange)="onInputChangeMap('Promotion', i); validateOrderDate('Promotion', i)"
                                   [max]="maxDate">
-                                <span *ngIf="!editable">{{desg!.pivot!.order_date}}</span>
+                                <span *ngIf="!editable">{{formatDate(desg!.pivot!.order_date)}}</span>
                               </td>
                               <td>
                                 <div class="d-grid gap-2 d-md-block" *ngIf="employee!.designations && editable">
@@ -911,7 +898,7 @@
                           <div class="col-md">
                             <div class="form-group">
                               <label class="form-label">
-                                <u class="text-danger">Previous Record Of Division/Posting Data</u>
+                                <u class="text-danger">Pending changes of Division/Posting Data</u>
                               </label>
                             </div>
                           </div>
@@ -938,18 +925,15 @@
                           <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
                             <ng-container *ngFor="let change of employee!.temp_changes; let i = index">
                               <tr *ngIf="change.model === 'posting' && change.changed_data">
-                                <td *ngIf="change.model === 'posting'">{{ change.changed_data |
-                                  parseChangedData:'div_desc' }}</td>
-                                <td *ngIf="change.model === 'posting'">{{ change.changed_data |
-                                  parseChangedData:'from_date' }}</td>
-                                <td *ngIf="change.model === 'posting'">{{ change.changed_data |
-                                  parseChangedData:'to_date' }}</td>
-                                <td *ngIf="change.model === 'posting'">{{ change.changed_data |
-                                  parseChangedData:'order_no' }}</td>
-                                <td *ngIf="change.model === 'posting'">{{ change.changed_data |
-                                  parseChangedData:'order_date' }}</td>
-                                <td *ngIf="change.model === 'posting'">{{ change.changed_data |
-                                  parseChangedData:'order_path' }}</td>
+                                <td *ngIf="change.model === 'posting'">{{ change.changed_data.div_desc }}</td>
+                                <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.from_date) }}
+                                </td>
+                                <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.to_date) }}
+                                </td>
+                                <td *ngIf="change.model === 'posting'">{{ change.changed_data.order_no }}</td>
+                                <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.order_date) }}
+                                </td>
+                                <td *ngIf="change.model === 'posting'">{{ change.changed_data.order_path }}</td>
                               </tr>
                             </ng-container>
                           </tbody>
@@ -965,6 +949,7 @@
                 </div>
 
               </div>
+
 
               <div class="card-body">
 
@@ -1015,14 +1000,15 @@
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.divisions[i].pivot!.from_date"
-                                  (ngModelChange)="onInputChangeMap('Posting', i);  validateFromDate('Posting', i)" [max]="maxDate">
-                                <span *ngIf="!editable">{{div!.pivot!.from_date}}</span>
+                                  (ngModelChange)="onInputChangeMap('Posting', i);  validateFromDate('Posting', i)"
+                                  [max]="maxDate">
+                                <span *ngIf="!editable">{{formatDate(div!.pivot!.from_date)}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.divisions[i].pivot!.to_date"
                                   (ngModelChange)="onInputChangeMap('Posting', i)" [max]="maxDate">
-                                <span *ngIf="!editable">{{div!.pivot!.to_date}}</span>
+                                <span *ngIf="!editable">{{formatDate(div!.pivot!.to_date)}}</span>
                               </td>
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="text"
@@ -1033,8 +1019,9 @@
                               <td>
                                 <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
                                   [(ngModel)]="employee!.divisions[i].pivot!.order_date"
-                                  (ngModelChange)="onInputChangeMap('Posting', i); validateOrderDate('Posting', i)" [max]="maxDate">
-                                <span *ngIf="!editable">{{div!.pivot!.order_date}}</span>
+                                  (ngModelChange)="onInputChangeMap('Posting', i); validateOrderDate('Posting', i)"
+                                  [max]="maxDate">
+                                <span *ngIf="!editable">{{formatDate(div!.pivot!.order_date)}}</span>
                               </td>
                               <td>
                                 <div class="d-grid gap-2 d-md-block" *ngIf="employee!.divisions && editable">
@@ -1114,6 +1101,7 @@
                 </div>
               </div>
 
+              <!--****************-->
               <div class="card-body" *ngIf="editable">
 
                 <div class="row">
@@ -1126,7 +1114,7 @@
                           <div class="col-md">
                             <div class="form-group">
                               <label class="form-label">
-                                <u class="text-danger">Previous Record Of Family/Relation Data</u>
+                                <u class="text-danger">Pending changes of Family/Relation Data</u>
                               </label>
                             </div>
                           </div>
@@ -1146,18 +1134,14 @@
                           <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
                             <ng-container *ngFor="let change of employee!.temp_changes; let i = index">
                               <tr *ngIf="change.model === 'employee_rel' && change.changed_data">
-                                <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data |
-                                  parseChangedData:'rel_name' }}</td>
-                                <td *ngIf="change.model === 'employee_rel'"> {{ (change.changed_data |
-                                  parseChangedData:'gender') === 'M' ? 'Male' : (change.changed_data |
-                                  parseChangedData:'gender') === 'F' ? 'Female' : (change.changed_data |
-                                  parseChangedData:'gender') === 'O' ? 'OTHERS' : '' }}</td>
-                                <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data |
-                                  parseChangedData:'rel_desc' }}</td>
-                                <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data |
-                                  parseChangedData:'rel_mobile_no' }}</td>
-                                <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data |
-                                  parseChangedData:'rel_dob' }}</td>
+                                <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data.rel_name }}</td>
+                                <td *ngIf="change.model === 'employee_rel'"> {{ (change.changed_data.gender) === 'M' ?
+                                  'Male' : (change.changed_data.gender) === 'F' ? 'Female' :
+                                  (change.changed_data.gender) === 'O' ? 'OTHERS' : '' }}</td>
+                                <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data.rel_desc }}</td>
+                                <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data.rel_mobile_no }}</td>
+                                <td *ngIf="change.model === 'employee_rel'">{{ formatDate(change.changed_data.rel_dob)
+                                  }}</td>
                               </tr>
                             </ng-container>
                           </tbody>
@@ -1173,6 +1157,7 @@
                 </div>
 
               </div>
+              <!---**************-->
 
               <div class="card-body">
 
@@ -1220,7 +1205,14 @@
                                 <!-- <input *ngIf="employee!.relations && editable" class="form-control" type="text"
                                   [(ngModel)]="employee!.relations[i].pivot!.rel_type" placeholder="Relation"> -->
 
-                                <span *ngIf="!editable">{{member!.pivot!.gender}}</span>
+                                <span *ngIf="!editable">
+                                  {{
+                                    member!.pivot!.gender === 'M' ? 'Male' :
+                                    member!.pivot!.gender === 'F' ? 'Female' :
+                                    member!.pivot!.gender === 'O' ? 'Others' :
+                                    'N/A'
+                                  }}
+                                </span>
                               </td>
 
                               <td>
@@ -1249,7 +1241,7 @@
                                   [(ngModel)]="employee!.relations[i].pivot!.rel_dob"
                                   (ngModelChange)="onInputChangeMap('Relations', i)" [max]="maxDate">
 
-                                <span *ngIf="!editable">{{member!.pivot!.rel_dob}}</span>
+                                <span *ngIf="!editable">{{formatDate(member!.pivot!.rel_dob)}}</span>
                               </td>
 
                               <td *ngIf="editable &&  (changesRelationMade[i])">
