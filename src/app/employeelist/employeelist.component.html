@@ -26,7 +26,7 @@
                                             </div>
                                         </div>
                                     
-                                        <div class="card-body">
+                                        <div class="card-body" style="overflow: auto;">
                                             <div class="row mb-12">
 
                                                 <table class="table table-stripped">
@@ -51,13 +51,13 @@
                                                             <td>{{ templist.mobile }}</td>
                                                             
                                                             <td>
-                                                                <a class="btn btn-outline-info" [routerLink]="'/profile/edit'" title="Edit Employee Details">
+                                                                <a class="btn btn-outline-info" [routerLink]="'/profile/edit/' + templist.id"  title="Edit Employee Details">
                                                                     <i class="bi bi-pencil"></i>
                                                                 </a>
                                                             </td>
 
                                                             <td>
-                                                                <a class="btn btn-outline-info" [routerLink]="'/profile/View'" title="View Employee Details">
+                                                                <a class="btn btn-outline-info" [routerLink]="'/profile/view/'+ templist.id" title="View Employee Details">
                                                                     <i class="bi bi-eye"></i>
                                                                 </a>
                                                             </td>
