@@ -1,0 +1,337 @@
+
+<div class="container-fluid" style="width: 100%">
+  <div class="row">
+    <div class="col-md-10" style="font-size: 200%; color: deeppink">
+      EBA Application
+    </div>
+  </div>
+  <div class="card shadow" xmlns="http://www.w3.org/1999/html">
+    <div class="card-body">
+      <nav style="background: white" *ngIf="employee != null && employee.servants != null && employee.servants.length > 0" >
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Employee</button>
+          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"  >Domestic help</button>
+          <!--            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Domestic help</button>-->
+          <!--            <button class="nav-link" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" >Additional info</button>-->
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+          <br>
+          <div class="row">
+            <div class="col col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title" style=" color: #1d00ff">Details</h5>
+                  <hr class="row-divider">
+                  <table>
+                    <tr>
+                      <td ><b>Name:</b></td>
+                      <td style="font-size: 120%" >{{employee!.emp_title}} {{employee!.emp_name}}</td>
+                    </tr>
+
+                    <tr>
+                      <td style="width: 30%;"><b>Date of Birth:</b></td>
+                      <td >{{employee!.dob}}</td>
+                    </tr>
+                    <tr>
+                      <td ><b> Mobile no:</b></td>
+                      <td >{{employee!.mobile}}</td>
+                    </tr>
+                    <tr>
+                      <td ><b> Email:</b></td>
+                      <td >{{employee!.email_id}}</td>
+                    </tr>
+                    <tr>
+                      <td ><b>Address:</b></td>
+                      <td >{{employee!.curr_add}},<br />
+                        {{employee!.curr_district!.district_name}}
+                        {{employee!.curr_state!.state_name}} - {{employee!.curr_pin}}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col col-md-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title" style=" color: #1d00ff">Gov Details</h5>
+                  <hr class="row-divider">
+                  <table>
+                    <tr>
+                      <td ><b>Designation:</b></td>
+                      <td style="font-size: 120%" *ngIf="employee && employee.designations">
+                        {{ getActiveDesignations(employee.designations) }}
+                      </td>
+
+                    </tr>
+
+                    <tr>
+                      <td style="width: 58%;"><b>Department:</b></td>
+                      <td *ngIf="employee && employee.divisions">{{ getActiveDivision(employee.divisions) }}</td>
+                    </tr>
+
+                    <tr>
+                      <td ><b>Posting place:</b></td>
+                      <td >{{employee!.organization!.org_desc}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>posting date:</b></td>
+                      <td>{{employee!.doj_gs}}</td>
+                    </tr>
+                    <tr>
+                      <td ><b>Retirement dt:</b></td>
+                      <td > {{employee!.dor}}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Id Card NO:</b></td>
+                      <td *ngIf="employee && employee.id_cards">{{ getActiveIdCard(employee.id_cards) }}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="row-divider">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title" style=" color: indianred">Family Details</h5>
+              <hr class="row-divider">
+              <div class="row">
+                <div class="col-md">
+                  <div class="card table-responsive">
+                    <div class="card-body">
+                      <table class="table table-stripped">
+                        <thead>
+                        <tr>
+                          <th>Sl No.</th>
+                          <th>Relative Name</th>
+                          <th>Relation</th>
+                          <th>Mobile No.</th>
+                          <th>Date Of Birth</th>
+                          <th>Eba Pass NO</th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="employee!=null && employee.relations!=null">
+                        <tr *ngFor="let member of employee!.relations; let i = index">
+                          <td>{{ i + 1 }}</td>
+                          <td>
+                            <span >{{member!.pivot!.rel_name}}</span>
+                          </td>
+                          <td>
+                            <span >{{member!.rel_desc}}</span>
+                          </td>
+                          <td>
+                            <span >{{member!.pivot!.rel_mobile_no}}</span>
+                          </td>
+                          <td>
+                            <span >{{member!.pivot!.rel_dob}}</span>
+                          </td>
+                          <td>
+                            <span><input type="text" class="form-control"  value=""></span>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="row-divider">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title" style=" color: saddlebrown">Vehicle Details</h5>
+              <hr class="row-divider">
+              <div class="row">
+                <div class="col-md">
+                  <div class="card table-responsive">
+                    <div class="card-body">
+                      <table class="table table-stripped">
+                        <thead>
+                        <tr>
+                          <th>Sl No.</th>
+                          <th>Vehicle Desc</th>
+                          <th>Vehicle No.</th>
+                          <th>Chassis No.</th>
+                          <th>Registered owner</th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="employee!=null && employee.vehicles!=null">
+                        <tr *ngFor="let vehicle of employee!.vehicles; let i = index">
+                          <td>{{ i + 1 }}</td>
+                          <td>
+                            <span >{{vehicle!.model_name}}</span>
+                          </td>
+                          <td>
+                            <span >{{vehicle!.vehicle_no}}</span>
+                          </td>
+                          <td>
+                            <span >{{vehicle!.chassis_no}}</span>
+                          </td>
+                          <td>
+                            <span >{{vehicle!.vehicle_owner}}</span>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+          <div class="row">&nbsp;</div>
+          <div class="row"*ngIf="editable && employee != null && employee.servants != null && employee.servants.length > 0 ; else applyebabutton">
+            <div class="col-md-2" style="font-size: 200%; ">
+            &nbsp;
+          </div>
+            <div class="col" style="text-align: right; color: red" >
+              For apply please complete the form under the "Domestic Help" tab located at the top of the page.
+            </div>
+          </div>
+          <ng-template #applyebabutton>
+          <div class="row" *ngIf="editable">
+            <div class="col-md-10" style="font-size: 200%;">
+            &nbsp;
+          </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary" (click)="applyEba()">
+                Apply Eba
+              </button>
+            </div>
+          </div>
+          </ng-template>
+        </div>
+
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0" >
+          <br>
+          <div class="container-fluid" style="width: 100%">
+          <div class="card">
+            <!--            <div class="card-body">-->
+            <!--              <h5 class="card-title" style=" color: darkgreen">Domestic Help Details</h5>-->
+            <!--              <hr class="row-divider">-->
+            <!--              <div class="row">-->
+            <!--                <div class="col-md">-->
+            <!--                  <div class="card table-responsive">-->
+            <div class="card-body">
+
+
+
+
+              <div >
+                <div  *ngFor="let servant of employee!.servants; let i = index">
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="form-label">Name:</label>
+                      <div class="input-group mb-3">
+                        {{servant!.servant_name}}
+                      </div>
+                    </div>
+                    <!--                          </div>-->
+                    <!--                          <div class="row">-->
+                    <!--                            <div class="col-md-6">-->
+                    <!--                              <label class="form-label">DOB:</label>-->
+                    <!--                              <div class="input-group mb-3">-->
+                    <!--                                {{servant!.servant_dob}}-->
+                    <!--                              </div>-->
+                    <!--                            </div>-->
+                    <div class="col-md-6">
+                      <label class="form-label">Mobile No:</label>
+                      <div class="input-group mb-3">
+                        {{servant!.servant_mobile_no}}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="form-label">living since at president sect.</label>
+                      <input type="date" class="form-control" name="permanentAddress">
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="form-label">Present Address (outhouse no)</label>
+                      <textarea class="form-control" name="presentAddress"></textarea>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="form-label">Perm. Address</label>
+                      <textarea class="form-control" name="permanentAddress"></textarea>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label class="form-label">Address where Resided during last 5yr</label>
+                      <textarea class="form-control" name="last5yraddress"></textarea>
+                    </div>
+                  </div>
+                  <hr class="row-divider">
+                  <div class="row">
+                    <label class="form-label">2 References from permanent address</label>
+                  <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                      <th scope="col">Sl No</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Phone No</th>
+                      <th scope="col">Address</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td><input type="text" class="form-control"  value=""></td>
+                      <td><input type="text" class="form-control"  value=""></td>
+                      <td><textarea class="form-control" name="last5yraddress"></textarea></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td><input type="text" class="form-control"  value=""></td>
+                      <td><input type="text" class="form-control"  value=""></td>
+                      <td><textarea class="form-control" name="last5yraddress"></textarea></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  </div>
+
+                  <hr class="row-divider">
+
+                </div>
+              </div>
+            </div>
+            <!--                  </div>-->
+            <!--                </div>-->
+            <!--              </div>-->
+            <!--            </div>-->
+          </div>
+          </div>
+          <div class="row">&nbsp;</div>
+          <div class="row" *ngIf="editable">
+            <div class="col-md-10" style="font-size: 200%; ">
+            &nbsp;
+          </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary" (click)="applyEba()">
+                Apply Eba
+              </button>
+            </div>
+          </div>
+
+
+
+          <!--        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">...</div>-->
+          <!--        <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">...</div>-->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
