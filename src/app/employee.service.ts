@@ -13,11 +13,14 @@ import {Designation} from "./model/Designation";
 import {Division} from "./model/Division";
 import {Promotion} from "./model/Promotion";
 import {Posting} from "./model/Posting";
-import {Relation} from "./model/Relation";
+import {Domestic_help, Relation} from "./model/Relation";
 import {environment} from "../environments/environment";
 
 import {Dependent} from "./model/Dependent";
 import { ChangePassword } from "./model/ChangePassword";
+import {Servants} from "./model/Servants";
+import {ServantRel} from "./model/ServantRel";
+import {Vehicles} from "./model/Vehicles";
 
 
 @Injectable({
@@ -42,7 +45,7 @@ export class EmployeeService {
   postLogin(username:string, password:string):Observable<Login>{
     return this.http.post<Login>(this.apiUrl+"login",{username: username, password: password});
   }
-  
+
   postRegistration(username:string, password:string, firstName: string, lastName: string, mobile: string):Observable<Login>{
     return this.http.post<Login>(this.apiUrl+"register",{email: username, password: password, name:firstName+' '+lastName, mobile:mobile});
   }
@@ -98,7 +101,7 @@ export class EmployeeService {
   postDistrict(District:District):Observable<District>{
     return this.http.post<District>(this.apiUrl+"districts",District,{headers:this.createHeader()});
   }
-  
+
   updateDistrict(District:District):Observable<District>{
     return this.http.put<District>(this.apiUrl+"districts/"+District.id,District,{headers:this.createHeader()});
   }
@@ -132,6 +135,14 @@ export class EmployeeService {
     return this.http.get<Relation[]>(this.apiUrl+"employees/"+employee_id+"/dependents",{headers:this.createHeader()});
   }
 
+  getServants(employee_id: number): Observable<Servants[]>{
+    return this.http.get<Servants[]>(this.apiUrl+"employees/"+employee_id+"/domestic_help",{headers:this.createHeader()});
+  }
+
+  getVehicle(employee_id: number): Observable<Vehicles[]>{
+    return this.http.get<Vehicles[]>(this.apiUrl+"employees/"+employee_id+"/Vehicle",{headers:this.createHeader()});
+  }
+
   /************** Chnages done by Ravikant Kumar ************************************/
 
   // Dashboard Details API
@@ -150,17 +161,37 @@ export class EmployeeService {
     return this.http.get<any[]>(this.apiUrl+"relationsMaster",{headers:this.createHeader()});
   }
 
-  // Update Relation Of Employee API 
+
+
+  // Update Relation Of Employee API
   // updateRelation(dependent: Dependent[]): Observable<Relation[]>{
   //   return this.http.put<Relation[]>(this.apiUrl+"dependents",dependent,{headers:this.createHeader()});
   // }
 
-  // Update Relation Of Employee API 
+  // Update Relation Of Employee API
   updateRelation(dependent: Dependent): Observable<Relation>{
     return this.http.post<Relation>(this.apiUrl+"dependents",dependent,{headers:this.createHeader()});
   }
 
 
+  updateServant(domestic_help: Servants): Observable<Servants>{
+    return this.http.post<Servants>(this.apiUrl+"domestic_help",domestic_help,{headers:this.createHeader()});
+  }
+
+  addVehicles(vehicles: Vehicles): Observable<Vehicles>{
+    return this.http.post<Vehicles>(this.apiUrl+"vehicle",vehicles,{headers:this.createHeader()});
+  }
+
+  addServantRelative(servant_rel: ServantRel): Observable<ServantRel>{
+    return this.http.post<ServantRel>(this.apiUrl+"domestic_help_relative",servant_rel,{headers:this.createHeader()});
+  }
+
+  getServantsRel(servant_id: number): Observable<ServantRel[]>{
+    return this.http.get<ServantRel[]>(this.apiUrl+"domestic_help/"+servant_id+"/relative",{headers:this.createHeader()});
+  }
+
+
+  // Temp Changes Data List API
   // Temp Changes Data List API
   getTempChangedData(): Observable<any[]>{
     return this.http.get<any[]>(this.apiUrl+"changes",{headers:this.createHeader()});
@@ -191,7 +222,18 @@ export class EmployeeService {
     return this.http.get<Employee>(`${this.apiUrl}emp_profile/${id}`, { headers: this.createHeader() });
   }
 
+  getEbaDashboardData(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl+"ebadashboard",{headers:this.createHeader()});
+  }
 
+  getebaData(): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"Eba",{headers:this.createHeader()});
+  }
 
+  applyeba(): Observable<any> {
+    const options = { headers: this.createHeader() };
+
+    return this.http.post<any>(this.apiUrl + "Eba", null, options);
+  }
 
 }

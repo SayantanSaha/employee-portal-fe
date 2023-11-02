@@ -23,6 +23,10 @@ import { ApproveemployeelistComponent } from './approveemployeelist/approveemplo
 import { EmployeelistComponent } from './employeelist/employeelist.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ParseChangedDataPipe } from './parse-changed-data.pipe';
+import { EbaFormComponent } from './eba-form/eba-form.component';
+import { UppercaseDirective } from './uppercase.directive';
+import { EbapendingComponent } from './ebapending/ebapending.component';
+import { EbaapprovalComponent } from './ebaapproval/ebaapproval.component';
 
 
 @NgModule({
@@ -43,6 +47,10 @@ import { ParseChangedDataPipe } from './parse-changed-data.pipe';
     EmployeelistComponent,
     ChangePasswordComponent,
     ParseChangedDataPipe,
+    EbaFormComponent,
+    UppercaseDirective,
+    EbapendingComponent,
+    EbaapprovalComponent,
 
 
   ],
