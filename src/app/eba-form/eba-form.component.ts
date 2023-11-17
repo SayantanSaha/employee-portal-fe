@@ -14,6 +14,8 @@ import {ServantRel} from "../model/ServantRel";
 import {environment} from "../../environments/environment";
 import {Idcards} from "../model/Idcards";
 import {Vehicles} from "../model/Vehicles";
+import {fileToBase64} from "../profile/fileToBase64";
+import { Router } from '@angular/router';
 // import {DatePipe} from "@angular/common";
 declare var jQuery: any;
 
@@ -26,56 +28,16 @@ export class EbaFormComponent {
   servantDetails: any[] = [];
   memberEbaPasses: any[] = [];
 
+  baseUrl: string = '';
 
-  // member = {
-  //   pivot: {
-  //     eba_passes: [{
-  //       emp_rel_id: null,
-  // eba_pass_no: null,}
-  //     ],
-  //   },
-  // };
-  //
-  // servant = {
-  //   eba_passes: [
-  //     {
-  //       servant_id: null,
-  //       living_at_president_sect: null,
-  //       curr_address: null,
-  //       perm_address: null,
-  //       last_5yr_address: null,
-  //       Reference_1_name: null,
-  //       reference_1_phone_no: null,
-  //       reference_1_address: null,
-  //       reference_2_name: null,
-  //       reference_2_phone_no: null,
-  //       reference_2_address: null,
-  //     }
-  //   ],
-  // };
-  // eba_pass: any[] = [
-  //   {
-  //     emp_rel_id: null,
-  //     eba_pass_no: null,
-  //     servant_id: null,
-  //     living_at_president_sect: null,
-  //     curr_address: null,
-  //     perm_address: null,
-  //     last_5yr_address: null,
-  //     Reference_1_name: null,
-  //     reference_1_phone_no: null,
-  //     reference_1_address: null,
-  //     reference_2_name: null,
-  //     reference_2_phone_no: null,
-  //     reference_2_address: null,
-  //   },
-  //   // You can add more elements as needed
-  // ];
   constructor(
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
+    private router: Router,
+    @Inject('BASE_URL') baseUrl: string
     // private datePipe: DatePipe,
   ) {
+    this.baseUrl = baseUrl;
     // if (this.employee && this.employee.relations) {
     //   this.employee.relations.forEach((relation, i) => {
     //     this.emp_rel_detail[i] = {
@@ -85,29 +47,45 @@ export class EbaFormComponent {
     //   });
     // }
   }
-    employee:Employee| null = null;
+  employee:Employee| null = null;
+  user:User = new User();
+
+  states:State[]=[];
+  currDistricts:District[]=[];
+  permDistricts:District[]=[];
+  designations:Designation[]=[];
+  divisions:Division[]=[];
+  relations:Relation[]=[];
+  eba_passes: any[] = [];
+  servants: Servants[] = [];
+  servantRel: ServantRel[] = [];
+  vehicles: Vehicles[]=[];
+  apiUrl = environment.apiUrl;
+  divisiontypelist: any[] = [];  // Initialize as an empty array or with appropriate data type
+  relationstypelist: any[] = [];
+  editable:boolean = false;
+  applyingforRelative:boolean = false;
+  mode:string|null = null;
+  modetwo:string|null = null;
+  urlid:boolean = false;
+  id:string|null = null;
 
 
-    states:State[]=[];
-    currDistricts:District[]=[];
-    permDistricts:District[]=[];
-    designations:Designation[]=[];
-    divisions:Division[]=[];
-    relations:Relation[]=[];
-    eba_passes: any[] = [];
-    servants: Servants[] = [];
-    servantRel: ServantRel[] = [];
-    vehicles: Vehicles[]=[];
-    apiUrl = environment.apiUrl;
-    divisiontypelist: any[] = [];  // Initialize as an empty array or with appropriate data type
-    relationstypelist: any[] = [];
-    editable:boolean = false;
-    mode:string|null = null;
-    ngOnInit() {
 
-      this.mode = this.route.snapshot.paramMap.get('mode');
-      this.setEditable(this.mode=='edit');
+  ngOnInit() {
 
+    this.mode = this.route.snapshot.paramMap.get('mode');
+    this.setEditable(this.mode=='edit');
+
+    this.modetwo = this.route.snapshot.paramMap.get('modetwo');
+    this.SetApplyingForRelative(this.modetwo=='relative');
+
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.letverify(!!this.id);
+
+
+    let userString:string|null = sessionStorage.getItem('user')!=null?sessionStorage.getItem('user'):'[]';
+    this.user = JSON.parse(userString!);
 
     this.route.params.subscribe(params => {
       const id = +params['id']; // Extract id from route parameters
@@ -115,16 +93,14 @@ export class EbaFormComponent {
       if (params.hasOwnProperty('id')) {
         const id = params['id'];
 
-        this.employeeService.getEmpProfile(id).subscribe(
+        this.employeeService.getEbaProfile(id).subscribe(
           data=>{
             this.employee = data;
-
-            this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-            this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
           }
         );
-      } else {
-        this.employeeService.getMyProfile().subscribe(
+      }
+      else {
+        this.employeeService.getMyebaProfile().subscribe(
           data=>{
             this.employee = data;
 
@@ -168,6 +144,8 @@ export class EbaFormComponent {
       error => console.log(error)
     );
 
+
+
     this.employeeService.getServants(1).subscribe(
       data=>this.servants=data,
       error => console.log(error)
@@ -178,10 +156,15 @@ export class EbaFormComponent {
       error => console.log(error)
     );
 
-      this.employeeService.getVehicle(1).subscribe(
-          data=>this.vehicles=data,
-          error => console.log(error)
-      );
+    this.employeeService.getVehicle(1).subscribe(
+      data=>this.vehicles=data,
+      error => console.log(error)
+    );
+
+    // this.employeeService.getQuarterdetail("1","1").subscribe(
+    //     data=>this.quarteraddress=data,
+    //     error => console.log(error)
+    // );
 
 
   }
@@ -195,43 +178,83 @@ export class EbaFormComponent {
   //   return this.datePipe.transform(date, 'dd MMM YYYY') || 'N/A';
   // }
 
-    async getDistricts(state:State){
-        let districts:District[] = [];
-        if(state!=null)
-        {
-            districts = await this.employeeService.getDistrictsByState(state.id!);
-        }
-        return districts;
+  onSelect(event: any) {
+    const selectedValue = event.target.value;
+    if (selectedValue && selectedValue !== '-select-') {
+      window.location.href = selectedValue;
     }
+  }
+
+
+  async getDistricts(state:State){
+    let districts:District[] = [];
+    if(state!=null)
+    {
+      districts = await this.employeeService.getDistrictsByState(state.id!);
+    }
+    return districts;
+  }
   getActiveDesignations(designations: Designation[]): string {
     const activeDesignations = designations
-        .filter(designation => designation.pivot.active == true)
-        .map(designation => designation.desg_desc);
+      .filter(designation => designation.pivot.active == true)
+      .map(designation => designation.desg_desc);
 
     return activeDesignations.join(', ');
   }
   getActiveDivision(division:Division[]): string {
     const activeDivision = division
-        .filter(division => division.pivot.active == true)
-        .map(division => division.div_desc);
+      .filter(division => division.pivot.active == true)
+      .map(division => division.div_desc);
 
     return activeDivision.join(', ');
   }
   getActiveIdCard(IdCards: Idcards[]): string {
     const activeIdCard = IdCards
-        .filter(idCard => idCard.active == true)
-        .map(idCard => idCard.card_no);
+      .filter(idCard => idCard.active == true)
+      .map(idCard => idCard.card_no);
 
     return activeIdCard.join(', ');
   }
 
-  hasRelIdMatch(eba_passes: any[], memberId: any): boolean {
-    return eba_passes.some(eba_passes => eba_passes.emp_rel_id === memberId);
+
+  addVehicle( i : number): void {
+    if (
+      this.employee &&
+      this.employee.servants &&
+      this.employee.servants[i] &&
+      this.employee.servants[i]!.vehicles
+  ) {
+      // Check if servants is an array and initialize it if not
+      if (!Array.isArray(this.employee.servants[i]!.vehicles)) {
+        this.employee.servants[i]!.vehicles = [];
+      }
+      let s = new Vehicles();
+      s.servant_id = this.employee.servants[i].id!;
+      this.employee.servants[i]!.vehicles!.push(s);
+    }
   }
 
-  hasServantIdMatch(eba_passes: any[], servantId: any): boolean {
-    return eba_passes.some(eba_passes => eba_passes.servant_id === servantId);
+
+
+
+  removeVehicle(i:number,k:number):void {
+    if (
+      this.employee &&
+      this.employee.servants &&
+      this.employee.servants[i] &&
+      this.employee.servants[i].vehicles
+    ) {
+      this.employee.servants[i].vehicles!.splice(k, 1);
+    }
   }
+
+  updateRelationSelection(servant: any, relation: any): void {
+    if(relation.allSelected == true)
+    servant.allSelected = true;
+  }
+
+
+
 
   // onMobileNoInput(event: any, i: number): void {
   //   if (this.eba_pass.reference_1_phone_no !== null) {
@@ -268,41 +291,281 @@ export class EbaFormComponent {
     this.editable = status;
   }
 
+  SetApplyingForRelative(status:boolean){
+    this.applyingforRelative = status;
+  }
+
+  letverify(status:boolean){
+    this.urlid = status;
+  }
+
+
+  displayUpload: any = 'none';
+
+  openUploadPopup() {
+    this.displayUpload = "block";
+  }
+  closeUploadPopup() {
+    this.displayUpload = "none";
+  }
+
+  async onProfilePhotoSelected(event: Event,i:number,j:number,property: string): Promise<void> {
+    const inputElement = event.target as HTMLInputElement;
+
+    if (inputElement?.files?.length) {
+      const file: File = inputElement.files[0];
+
+      // Check if the file type is JPEG or JPG
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+
+        // Check if the file size is less than or equal to 200KB
+        // if (file.size <= 200 * 1024) { // 200KB in bytes
+          try {
+            const base64String: string = await fileToBase64(file); // Convert the file to base64
+
+            if (this.employee?.relations?.[i]?.pivot?.eba_passes?.[j]) {
+              // Update the specific property based on the argument
+              if (property === 'photo_path') {
+                // @ts-ignore
+                this.employee.relations[i].pivot.eba_passes[j].photo_path = base64String;
+              } else if (property === 'signature') {
+                // @ts-ignore
+                this.employee.relations[i].pivot.eba_passes[j].sign_path = base64String;
+              } else if (property === 'id_proof_path') {
+                // @ts-ignore
+                this.employee.relations[i].pivot.eba_passes[j].id_proof_path = base64String;
+              }
+            }
+
+            if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
+              // Update the specific property based on the argument
+              if (property === 'photo_path') {
+                // @ts-ignore
+                this.employee.servants[i].eba_passes[j].photo_path = base64String;
+              } else if (property === 'signature') {
+                // @ts-ignore
+                this.employee.servants[i].eba_passes[j].sign_path = base64String;
+              } else if (property === 'id_proof_path') {
+                // @ts-ignore
+                this.employee.servants[i].eba_passes[j].id_proof_path = base64String;
+              }
+            }
+
+
+          } catch (error) {
+            console.error('Failed to convert the file to base64:', error);
+          }
+        // } else {
+        //   Swal.fire({
+        //     icon: 'error',
+        //     title: 'Invalid File',
+        //     text: 'File size exceeds 200KB.',
+        //   });
+        //   console.log('File size exceeds 200KB.');
+        // }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid File',
+          text: 'Invalid file type. Only JPEG or JPG files are allowed.',
+        });
+        console.log('Invalid file type. Only JPEG or JPG files are allowed.');
+      }
+    } else {
+      console.log('No file selected.');
+    }
+  }
+
+  async onrelativeProfilePhotoSelected(event: Event,i:number,j:number,k:number,property: string): Promise<void> {
+    const inputElement = event.target as HTMLInputElement;
+
+    if (inputElement?.files?.length) {
+      const file: File = inputElement.files[0];
+
+      // Check if the file type is JPEG or JPG
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+
+        // Check if the file size is less than or equal to 200KB
+        // if (file.size <= 200 * 1024) { // 200KB in bytes
+        try {
+          const base64String: string = await fileToBase64(file); // Convert the file to base64
+
+
+          if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
+            // Update the specific property based on the argument
+            if (property === 'photo_path') {
+              // @ts-ignore
+              this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path = base64String;
+            } else if (property === 'signature') {
+              // @ts-ignore
+              this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = base64String;
+            } else if (property === 'id_proof_path') {
+              // @ts-ignore
+              this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path = base64String;
+            }
+          }
+
+
+        } catch (error) {
+          console.error('Failed to convert the file to base64:', error);
+        }
+        // } else {
+        //   Swal.fire({
+        //     icon: 'error',
+        //     title: 'Invalid File',
+        //     text: 'File size exceeds 200KB.',
+        //   });
+        //   console.log('File size exceeds 200KB.');
+        // }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid File',
+          text: 'Invalid file type. Only JPEG or JPG files are allowed.',
+        });
+        console.log('Invalid file type. Only JPEG or JPG files are allowed.');
+      }
+    } else {
+      console.log('No file selected.');
+    }
+  }
+  toggleApproval(i: number) {
+    // @ts-ignore
+    this.employee.relations[i].allSelected = !this.employee.relations[i].allSelected;
+    // Additional logic can be added based on the state (approve or reject)
+    // @ts-ignore
+    console.log(this.employee.relations[i].allSelected ? 'Approved' : 'Rejected');
+  }
+
+
   applyEba() {
-    if (this.employee && this.employee.relations && this.employee.out_house) {
-      const ebaPassesToSubmit = this.employee.relations
-          .filter(member => member.pivot.eba_passes && member.pivot.eba_passes.length > 0)
-          .map(member => member.pivot.eba_passes)
-          .flat();
+    if (this.employee) {
+      if (this.employee.designations === null || this.employee.designations.length === 0) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Empty Designation',
+          text: 'Designation does not have a value.',
+        });
+        return;
+      }
 
-      const servantDetailsToSubmit = this.employee?.out_house
-          ?.map(outhouse => outhouse.servants)
-          .flat()
-          .map(servant => servant.eba_passes)
-          .flat();
+      if (this.employee.divisions === null || this.employee.divisions.length === 0) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Empty Department',
+          text: 'Department does not have a value.',
+        });
+        return;
+      }
 
-        this.employeeService.applyeba(ebaPassesToSubmit,servantDetailsToSubmit).subscribe(
-    // if (this.validationErrors.length > 0) {
-    //
-    //   const errorMessage = this.validationErrors
-    //       .map((error, index) => `${index + 1}. ${error}`)
-    //       .join('\n');
-    //
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Error',
-    //     html: errorMessage.replace(/\n/g, '<br/>'),
-    //     width: 'auto', // Adjust as needed
-    //   });
-    //   return; // Exit without calling the API
-    // }
+      if (this.employee.organization === null) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Empty organization',
+          text: 'Organization does not have a value.',
+        });
+        return;
+      }
+      // Clone the original employee object to avoid modifying the original object
+      const clonedEmployee = { ...this.employee };
 
-    // Validation true then Api call otherwise please check
+      if (clonedEmployee.vehicles) {
+        clonedEmployee.vehicles = clonedEmployee.vehicles.filter(vehicle => vehicle.allSelected);
+      }
+
+      if (clonedEmployee.relations) {
+        clonedEmployee.relations = clonedEmployee.relations.filter(member => member.allSelected);
+      }
+
+      if (clonedEmployee.servants) {
+        clonedEmployee.servants = clonedEmployee.servants.filter(servant => servant.allSelected);
+      }
+
+      if (clonedEmployee.servants) {
+        clonedEmployee.servants.forEach(servant => {
+          if (servant.relations) {
+            servant.relations = servant.relations.filter(relation => relation.allSelected);
+          }
+        });
+      }
+      if(this.applyingforRelative){
+        if (clonedEmployee.relations === null || clonedEmployee.relations.length === 0) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Empty Relative',
+            text: 'Atleast add one Relative',
+          });
+          return;
+        }
+      }else{
+        if (clonedEmployee.servants === null || clonedEmployee.servants.length === 0) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Empty Domestic help',
+            text: 'Atleast add one Domestic help',
+          });
+          return;
+        }
+      }
+      // if (clonedEmployee.blck_code === null) {
+      //   Swal.fire({
+      //     icon: 'warning',
+      //     title: 'Empty Block',
+      //     text: 'enter Block details',
+      //   });
+      //   return;
+      // }
+      // if (clonedEmployee.qtr_code === null) {
+      //   Swal.fire({
+      //     icon: 'warning',
+      //     title: 'Empty Quarter',
+      //     text: 'enter Quarter details',
+      //   });
+      //   return;
+      // }if (clonedEmployee.qtr_address === null) {
+      //   Swal.fire({
+      //     icon: 'warning',
+      //     title: 'Empty Quarter address',
+      //     text: 'enter Quarter address',
+      //   });
+      //   return;
+      // }
+
+      // Send the modified employee object to the server
+      this.employeeService.applyeba(clonedEmployee).subscribe(
+      // const ebaPassesToSubmit = this.employee.relations
+      //     .filter(member => member.pivot.eba_passes && member.pivot.eba_passes.length > 0)
+      //     .map(member => member.pivot.eba_passes)
+      //     .flat();
+
+      // const servantDetailsToSubmit = this.employee?.out_house
+      //     ?.map(outhouse => outhouse.servants)
+      //     .flat()
+      //     .map(servant => servant.eba_passes)
+      //     .flat();
+
+      // this.employeeService.applyeba(Employee).subscribe(
+        // if (this.validationErrors.length > 0) {
+        //
+        //   const errorMessage = this.validationErrors
+        //       .map((error, index) => `${index + 1}. ${error}`)
+        //       .join('\n');
+        //
+        //   Swal.fire({
+        //     icon: 'error',
+        //     title: 'Error',
+        //     html: errorMessage.replace(/\n/g, '<br/>'),
+        //     width: 'auto', // Adjust as needed
+        //   });
+        //   return; // Exit without calling the API
+        // }
+
+        // Validation true then Api call otherwise please check
 
         // data=>console.log(data),
         // error=>console.log(error)
 
-        //Changes By Ravikant
+
         data => {
           console.log(data);
           Swal.fire({
@@ -314,6 +577,8 @@ export class EbaFormComponent {
             //     // Redirect to the desired page
             //     window.location.reload();
             //   }
+          }).then(() => {
+            this.router.navigate(['eba-form-view'], { state: { employeeData: clonedEmployee } });
           });
         },
         (error) => {
@@ -339,13 +604,8 @@ export class EbaFormComponent {
               text: 'An error occurred while updating.',
             });
           }
-
-
         }
-
-    );
-
+      );
+    }
   }
-}
-
 }

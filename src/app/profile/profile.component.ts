@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {User} from "../model/User";
 import {Employee} from "../model/Employee";
 import {EmployeeService} from "../employee.service";
@@ -18,7 +18,7 @@ import { ParseChangedDataPipe } from '../parse-changed-data.pipe';
 import {Servants} from "../model/Servants"; // Update the path accordingly
 import {ServantRel} from "../model/ServantRel";
 import {Vehicles} from "../model/Vehicles";
-import {Outhouse} from "../model/Outhouse";
+
 
 @Component({
   selector: 'app-profile',
@@ -34,7 +34,10 @@ export class ProfileComponent implements OnInit{
   relationstypelist: any[] = []; // Initialize as an empty array or with appropriate data type
   servantstypelist: any[] =[];
   validationErrors:string[] = [];
-
+  blockstypelist: any[] = [];
+  locationtypelist: any[] =[];
+  quarterstypelist: any[] = [];
+  quarteraddress: any[] = [];
   changesMade: boolean = false;
   isCpAddressChecked: boolean = false;
   changesPostingMade: boolean[] = [];
@@ -42,7 +45,9 @@ export class ProfileComponent implements OnInit{
   changesPromotionMade: boolean[] = [];
   changesServantMade: boolean[] = [];
   changesVehicle: boolean[] = [];
+  changesServantRelation:boolean[]=[];
   maxDate: string = "";
+  baseUrl: string = '';
 
 
   constructor(
@@ -50,7 +55,10 @@ export class ProfileComponent implements OnInit{
     private route: ActivatedRoute,
     private datePipe: DatePipe, // Inject the DatePipe here
     private router: Router,
-  ) {}
+    @Inject('BASE_URL') baseUrl: string
+  ) {
+    this.baseUrl = baseUrl;
+  }
 
   employee:Employee| null = null;
   mode:string|null = null;
@@ -61,9 +69,9 @@ export class ProfileComponent implements OnInit{
   designations:Designation[]=[];
   divisions:Division[]=[];
   relations:Relation[]=[];
-  out_house:Outhouse[]=[];
+  // servant_relations:ServantRel[]=[];
   servants: Servants[] = [];
-  servantRel: ServantRel[] = [];
+
   vehicles: Vehicles[]=[];
   apiUrl = environment.apiUrl;
 
@@ -107,7 +115,20 @@ export class ProfileComponent implements OnInit{
     });
 
 
+    this.employeeService.getBlockType().subscribe(
+      data=>this.blockstypelist=data,
+      error => console.log(error)
+    );
 
+    this.employeeService.getLocationType().subscribe(
+      data=>this.locationtypelist=data,
+      error => console.log(error)
+    );
+
+    this.employeeService.getQuarterType().subscribe(
+      data=>this.quarterstypelist=data,
+      error => console.log(error)
+    );
 
     this.employeeService.getStates().subscribe(
       data=>this.states=data,
@@ -679,6 +700,14 @@ export class ProfileComponent implements OnInit{
       }
     }
 
+  qtraddress(){
+
+    this.employeeService.getQuarterdetail(this.employee!.location_id!,this.employee!.qtr_code!,this.employee!.id!).subscribe(
+      data=>this.quarteraddress=data,
+      error => console.log(error)
+    );
+  }
+
   /***************** Add Family Members Function End ***************8*******/
 
 
@@ -687,38 +716,52 @@ export class ProfileComponent implements OnInit{
   /***************** Add servant Members Function Start *********************/
 
 
-  addServant(i: number): void {
+  addServant(): void {
     if (
         this.employee &&
-        this.employee.out_house &&
-        this.employee.out_house[i] &&
-        this.employee.out_house[i]!.servants
+        this.employee.servants
     ) {
       // Check if servants is an array and initialize it if not
-      if (!Array.isArray(this.employee.out_house[i]!.servants)) {
-        this.employee.out_house[i]!.servants = [];
+      if (!Array.isArray(this.employee.servants)) {
+        this.employee.servants = [];
       }
 
       let s = new Servants();
       s.employee_id = this.employee.id!;
-      if (this.employee.out_house[i]!.servants.length > 0) {
-        s.out_house_id = this.employee.out_house[i]!.servants[0].out_house_id;
+      // if (this.employee.servants.length > 0) {
+      //   s.out_house_id = this.employee.servants[0].out_house_id;
+      // }
+      this.employee.servants.push(s);
+    }
+  }
+
+  addServantFamily(i:number): void {
+    if (
+      this.employee &&
+      this.employee.servants &&
+      this.employee.servants[i] &&
+      this.employee.servants[i]!.relations
+    ) {
+      // Check if servants is an array and initialize it if not
+      if (!Array.isArray(this.employee.servants[i]!.relations)) {
+        this.employee.servants[i]!.relations = [];
       }
-      this.employee.out_house[i]!.servants.push(s);
+      let s = new ServantRel();
+      s.pivot.employee_id = this.employee.id!;
+      s.pivot.servant_id = this.employee.servants[i].id!;
+      this.employee.servants[i]!.relations!.push(s);
     }
   }
 
 
-  removeServant(outHouseIndex: number, servantIndex: number): void {
+  removeServant(servantIndex: number): void {
     if (
         this.employee &&
-        this.employee.out_house &&
-        this.employee.out_house[outHouseIndex] &&
-        this.employee.out_house[outHouseIndex]!.servants
+        this.employee.servants
     ) {
       // Check if servants is an array
-      if (Array.isArray(this.employee.out_house[outHouseIndex]!.servants)) {
-        this.employee.out_house[outHouseIndex]!.servants.splice(servantIndex, 1);
+      if (Array.isArray(this.employee.servants)) {
+        this.employee.servants.splice(servantIndex, 1);
       }
     }
   }
@@ -726,15 +769,27 @@ export class ProfileComponent implements OnInit{
 
 
 
-  saveServant(j: number, i: number) {
-    let servantsDtls = this.employee?.out_house?.[j]?.servants?.[i];
+
+
+  saveServant( i: number) {
+
+    let servantsDtls = this.employee?.servants?.[i];
+    console.log(servantsDtls);
+
+    if (servantsDtls && servantsDtls.out_house_address == null) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Empty out house address',
+        text: 'out house address does not exist.',
+      });
+      return;
+    }
 
     if (servantsDtls && servantsDtls.id == -1) {
       this.employeeService.updateServant(servantsDtls).subscribe(
           (p) => {
-            if (this.employee && this.employee.out_house && this.employee.out_house[j]?.servants) {
-              this.employee.out_house[j].servants[i] = p;
-
+            if (this.employee &&  this.employee.servants) {
+              this.employee.servants[i] = p;
               console.log(p);
               Swal.fire({
                 icon: 'success',
@@ -763,8 +818,8 @@ export class ProfileComponent implements OnInit{
     } else if (servantsDtls) {
       this.employeeService.updateServant(servantsDtls).subscribe(
           (p) => {
-            if (this.employee && this.employee.out_house && this.employee.out_house[j]?.servants) {
-              this.employee.out_house[j].servants[i] = p;
+            if (this.employee && this.employee.servants) {
+              this.employee.servants[i] = p;
 
               console.log(p);
               Swal.fire({
@@ -794,24 +849,96 @@ export class ProfileComponent implements OnInit{
     }
   }
 
+  saveServantRel( i: number, k:number) {
+    let servantsRelDtls = this.employee?.servants?.[i]?.relations?.[k]?.pivot;
+
+    if (servantsRelDtls && servantsRelDtls.id == -1) {
+      this.employeeService.updateServantRel(servantsRelDtls).subscribe(
+        (p) => {
+          const employee = this.employee;
+          if (employee && employee?.servants && employee.servants[i].relations) {
+            const relation = employee?.servants?.[i]?.relations?.[k];
+            if (relation) {
+              relation.pivot = p;
+            }
 
 
 
-  addOutHouse() {
-    if (this.employee && this.employee.out_house) {
-      let s = new Outhouse();
-      s.employee_id = this.employee?.id!;
-      this.employee?.out_house?.push(s);
+
+            console.log(p);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Request for approval of Domestic Help has been saved successfully and is pending approval',
+            });
+          }
+        },
+        (e) => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Domestic Help details have not been saved successfully.',
+            });
+          }
+        }
+      );
+    } else if (servantsRelDtls) {
+      this.employeeService.updateServantRel(servantsRelDtls).subscribe(
+        (p) => {
+          const employee = this.employee;
+          if (employee &&  employee?.servants && employee.servants[i].relations) {
+            const relation = employee?.servants?.[i]?.relations?.[k];
+            if (relation) {
+              relation.pivot = p;
+            }
+
+
+            console.log(p);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
+            });
+          }
+        },
+        (e) => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Domestic Help details have not been updated successfully.',
+            });
+          }
+        }
+      );
     }
   }
 
-
-  removeOutHouse(index: number) {
-    if (this.employee && this.employee.out_house) {
-      this.employee.out_house!.splice(index, 1);
+  removeServantRel(i:number,k:number):void {
+    if (
+        this.employee &&
+        this.employee.servants &&
+        this.employee.servants[i] &&
+        this.employee.servants[i].relations
+    ) {
+      this.employee.servants[i].relations!.splice(k, 1);
     }
   }
-
 
 
   addVehicle() {
@@ -1530,13 +1657,17 @@ export class ProfileComponent implements OnInit{
       this.changesServantMade[index] = true;
     }else if(param === 'Vehicle'){
       this.changesVehicle[index] = true;
+    } else if(param === 'ServantRelation'){
+      this.changesServantRelation[index] = true;
     }
   }
 
 
-
-
-
-
-
+  displayEba: any = 'none';
+  pullEbaPopup() {
+    this.displayEba = "block";
+  }
+  closeEbaPopup() {
+    this.displayEba = "none";
+  }
 }

@@ -10,7 +10,7 @@ import {EmployeeService} from "../employee.service";
   providers: [DatePipe]
 })
 export class EbapendingComponent {
-  tempchangesList: any;
+  ebaPendingList: any;
 
   constructor(
     private employeeService: EmployeeService,
@@ -19,7 +19,7 @@ export class EbapendingComponent {
 
   ngOnInit(): void {
     this.employeeService.getebaData().subscribe(data => {
-      this.tempchangesList = data
+      this.ebaPendingList = data
     });
   }
 

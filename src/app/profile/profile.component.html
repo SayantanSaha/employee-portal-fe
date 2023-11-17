@@ -8,9 +8,17 @@
         </div>
 
         <div class="float-end">
+          <div *ngIf="editable">
           <a class="btn btn-outline-info" [routerLink]="'/dashboard'">
             Home
           </a>
+          </div>
+          <div *ngIf="!editable">
+            <a class="btn btn-outline-primary" href="{{baseUrl}}/profile/edit">
+              EDIT
+            </a>
+          </div>
+
         </div>
       </div>
 
@@ -367,13 +375,13 @@
                           <!--                          <input type="file" class="custom-file-input"-->
                           <!--                                 (change)="onaadharSelected($event)"-->
                           <!--                                 *ngIf="editable" title="Upload id proof">-->
-                          <!--                          <span *ngIf="employee && employee.aadhar_card">-->
+<!--                                                    <span *ngIf="employee && employee.aadhar_card">-->
 
-                          <!--                            <a href="{{apiUrl}}getFile/{{employee.aadhar_card}}"-->
-                          <!--                               class="btn btn-outline-primary" title="id proof" target="_blank">-->
-                          <!--                                  <i class="bi bi-eye"></i>-->
-                          <!--                                </a>-->
-                          <!--                          </span>-->
+<!--                                                      <a href="{{apiUrl}}getFile/{{employee.aadhar_card}}"-->
+<!--                                                         class="btn btn-outline-primary" title="id proof" target="_blank">-->
+<!--                                                            <i class="bi bi-eye"></i>-->
+<!--                                                          </a>-->
+<!--                                                    </span>-->
 
 
                         </div>
@@ -1147,6 +1155,10 @@
 
         <!-- Family Members/Relation Deatils Field -->
 
+
+
+
+
         <div class="row">
 
           <div class="col-md">
@@ -1158,9 +1170,13 @@
                 </div>
 
                 <div class="float-end">
-                  <button type="button" *ngIf="editable" class="btn btn-outline-info" (click)="addMember()">Add
+                  <button type="button" *ngIf="editable" class="btn btn-outline-info" (click)="addMember()" style="margin-left: -3%">Add
                     Family Members
                   </button>
+                  <label class="upload-icon-label" style="margin-left: 3%"
+                         title="RB quarter Exist?" (click)="pullEbaPopup()">
+                    <i class="bi bi-question-circle btn btn-warning"></i>
+                  </label>
                 </div>
               </div>
 
@@ -1348,6 +1364,74 @@
             </div>
           </div>
 
+
+          <td>
+            <ng-container>
+              <div class="modal modal-above-header"
+                   tabindex="-1" data-bs-backdrop="false"
+                   [ngStyle]="{'display': displayEba }" style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto; max-height: 80vh; margin-top: 100px;">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                  <div class="modal-content">
+                    <!--            <div class="modal-header">-->
+                    <!--              <h5 class="modal-title">-->
+                    <!--                <b>Enter photo signature and id proof </b>-->
+                    <!--              </h5>-->
+                    <!--            </div>-->
+                    <div class="modal-body" >
+
+
+                          <div class="row">
+                            <div class ="col-md-2" style="margin-left: 1%;">
+                              <label class="form-label">Location:</label>
+                            </div>
+                            <div class ="col-md-2" style="margin-left: -7%" >
+                              <select class="form-control" [(ngModel)]="employee!.location_id" (change)="qtraddress()">
+                                <option value="">--Select--</option>
+                                <option [ngValue]="locationtype.id" *ngFor="let locationtype of locationtypelist">
+                                  {{locationtype!.location_name}}</option>
+                              </select>
+                            </div>
+                            <div class ="col-md-2" style="margin-left: 3%">
+                              <label class="form-label">Quarter Type:</label>
+                            </div>
+                            <div class ="col-md-2" style="margin-left: -5%" >
+                              <select class="form-control" [(ngModel)]="employee!.qtr_code" (change)="qtraddress()">
+                                <option value="">--Select--</option>
+                                <option [ngValue]="quartertype.type_code" *ngFor="let quartertype of quarterstypelist">
+                                  {{quartertype!.type_name}}</option>
+                              </select>
+                            </div>
+                            <div class ="col-md-2" style="margin-left: 7%">
+                              <label class="form-label">Quarter address:</label>
+                            </div>
+                            <div class ="col-md-2" style="margin-left: -5%" >
+                              <select class="form-control" [(ngModel)]="employee!.qtr_address" >
+                                <option value="">--Select--</option>
+                                <option [ngValue]="add.qtr_code" *ngFor="let add of quarteraddress">
+                                  {{add!.qtr_no}}</option>
+                              </select>
+                            </div>
+                          </div>
+                      <br>
+                    </div>
+
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-secondary" (click)="closeEbaPopup()">
+                        Close
+                      </button>
+
+                      <button type="button" class="btn btn-outline-info" >
+                       Pull
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+          </td>
+
         </div>
 
 
@@ -1464,12 +1548,12 @@
 
               <div class="card-header">
                 <div class="float-start">
-                  <b>Out House</b>
+                  <b>Domestic Help</b>
                 </div>
 
                 <div class="float-end">
-                  <button type="button" *ngIf="editable" class="btn btn-outline-info" (click)="addOutHouse()">Add
-                    Out House
+                  <button type="button" *ngIf="editable" class="btn btn-outline-info" (click)="addServant()">
+                    Add Domestic Help
                   </button>
                 </div>
               </div>
@@ -1485,7 +1569,7 @@
                           <div class="col-md">
                             <div class="form-group">
                               <label class="form-label">
-                                <u class="text-danger">Pending changes of Out House Data</u>
+                                <u class="text-danger">Pending changes of Domestic Help Data</u>
                               </label>
                             </div>
                           </div>
@@ -1496,9 +1580,9 @@
                           <tr>
                             <th>Name</th>
                             <th>Gender</th>
-                            <!--                            <th>Relation</th>-->
                             <th>Mobile No.</th>
                             <th>Date Of Birth</th>
+                            <th>Out House Address</th>
                           </tr>
                           </thead>
 
@@ -1509,10 +1593,9 @@
                               <td *ngIf="change.model === 'servant'"> {{ (change.changed_data.gender) === 'M' ?
                                       'Male' : (change.changed_data.gender) === 'F' ? 'Female' :
                                               (change.changed_data.gender) === 'O' ? 'OTHERS' : '' }}</td>
-                              <!--                              <td *ngIf="change.model === 'servant_rel'">{{ change.changed_data.rel_desc }}</td>-->
                               <td *ngIf="change.model === 'servant'">{{ change.changed_data.servant_mobile_no }}</td>
-                              <td *ngIf="change.model === 'servant'">{{ formatDate(change.changed_data.servant_dob)
-                                }}</td>
+                              <td *ngIf="change.model === 'servant'">{{ formatDate(change.changed_data.servant_dob)}}</td>
+                              <td *ngIf="change.model === 'servant'">{{ change.changed_data.out_house_address }}</td>
                             </tr>
                           </ng-container>
                           </tbody>
@@ -1527,110 +1610,244 @@
 
               </div>
 
-              <div class="card-body" *ngIf="employee!=null && employee.out_house!=null">
-                <div *ngFor="let outhouse of employee!.out_house; let j = index">
-                  <div class="row">
-                    <div class="col-md">
-                      <div class="card shadow card-warning">
-                        <div class="card-header">
-                          <div class="float-start">
-                            <b>Out house no {{j+1}}</b>
-                          </div>
+              <!--              <div class="card-body" *ngIf="employee!=null && employee.servants!=null">-->
+              <!--                <div *ngFor="let outhouse of employee!.out_house; let j = index">-->
+              <!--                  <div class="row">-->
+              <!--                    <div class="col-md">-->
+              <!--                      <div class="card shadow card-warning">-->
+              <!--                        <div class="card-header">-->
+              <!--                          <div class="float-start">-->
+              <!--                            <b>Out house no {{j+1}}</b>-->
+              <!--                          </div>-->
 
-                          <div class="float-end">
-                            <button type="button" *ngIf="editable" class="btn btn-outline-info" (click)="addServant(j)">Add
-                              Domestic help
-                            </button>
-                          </div>
-                        </div>
-
-
-                        <div class="card-body" >
-                            <div class="row">
-                              <div class="col-md">
-                                <div class="card table-responsive">
-                                  <div class="card-body">
-                                    <table class="table table-stripped">
-                                      <thead>
-                                      <tr>
-                                        <th>Sl No.</th>
-                                        <th>Name</th>
-                                        <th>Gender</th>
-<!--                                        <th>Relation</th>-->
-                                        <th>Mobile No.</th>
-                                        <th>Date Of Birth</th>
-                                        <th *ngIf="editable" colspan="3">Action</th>
-                                      </tr>
-                                      </thead>
-                                      <tbody *ngIf="employee != null && employee.out_house != null && employee.out_house[j]?.servants != null">
-                                      <tr *ngFor="let servant of employee.out_house[j]?.servants; let i = index">
-                                        <td>{{ i + 1 }}</td>
-
-                                        <td>
-                                          <input *ngIf="employee.out_house[j]?.servants && editable" class="form-control" type="text"
-                                                 [(ngModel)]="employee.out_house[j].servants[i].servant_name" placeholder="Name"
-                                                 (ngModelChange)="onInputChangeMap('Servants',i)">
-
-                                          <span *ngIf="!editable">{{ servant.servant_name }}</span>
-                                        </td>
-
-                                        <td>
-                                          <select *ngIf="employee.out_house[j]?.servants && editable" class="form-control"
-                                                  [(ngModel)]="employee.out_house[j]!.servants[i].gender"
-                                                  (ngModelChange)="onInputChangeMap('Servants', i)">
-                                            <option value="null">--Select Gender--</option>
-                                            <option [ngValue]="'M'">Male</option>
-                                            <option [ngValue]="'F'">Female</option>
-                                            <option [ngValue]="'O'">OTHERS</option>
-                                          </select>
+              <!--                          <div class="float-end">-->
+              <!--                            <button type="button" *ngIf="editable" class="btn btn-outline-info" (click)="addServant(j)">Add-->
+              <!--                              Domestic help-->
+              <!--                            </button> &nbsp;-->
+              <!--                            <button type="button" *ngIf="editable && outhouse!.id==-1" class="btn btn-outline-danger" (click)="removeOutHouse(j)">Remove-->
+              <!--                              OutHouse-->
+              <!--                            </button>-->
+              <!--                          </div>-->
+              <!--                        </div>-->
 
 
-                                          <span *ngIf="!editable">
-                                          {{
-                                            servant!.gender === 'M' ? 'Male' :
-                                                    servant!.gender === 'F' ? 'Female' :
-                                                            servant!.gender === 'O' ? 'Others' :
-                                                                    'N/A'
-                                            }}
-                                        </span>
-                                        </td>
-<!--                                        <td>Domestic Help</td>-->
-                                        <td>
-                                          <input *ngIf="employee.out_house[j]?.servants && editable" class="form-control" type="text"
-                                                 [(ngModel)]="employee.out_house[j]!.servants[i].servant_mobile_no"  placeholder="Mobile No."
-                                                 maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('Servants', i)" (input)="onMobileNoInput($event, i)">
+              <div class="card-body" *ngIf="employee != null && employee.servants != null ">
+<!--                {{employee.servants | json}}-->
+                <div class="row" *ngFor="let servant of employee.servants; let i = index">
+                  <div class="col-md">
+                    <!--                              <div class="card shadow card-info">-->
+                    <!--                                <div class="card-header">-->
+                    <!--                                  <div class="float-start">-->
+                    <!--                                    <b>Domestic Help {{i+1}}</b>-->
+                    <!--                                  </div>-->
+                    <!--                                  <div class="float-end">-->
+                    <!--                                    -->
+                    <!--                                  </div>-->
+                    <!--                                </div>-->
+                    <!--                                <div class="card-body">-->
+                    <table class="table table-stripped">
+                      <thead>
+                      <tr>
+                        <th>Sl No.</th>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Mobile No.</th>
+                        <th>Date Of Birth</th>
+                        <th>Out House No</th>
+                        <th *ngIf="editable" colspan="3">Action</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td>{{ i + 1 }}</td>
 
-                                          <span *ngIf="!editable">{{servant!.servant_mobile_no}}</span>
-                                        </td>
-                                        <td>
-                                          <input *ngIf="employee.out_house[j]?.servants && editable" class="form-control" type="date"
-                                                 [(ngModel)]="employee.out_house[j]!.servants[i].servant_dob"
-                                                 (ngModelChange)="onInputChangeMap('Servants', i)" [max]="maxDate">
+                        <td>
+                          <input *ngIf="employee.servants && editable" class="form-control" type="text"
+                                 [(ngModel)]="employee.servants[i].servant_name" placeholder="Name"
+                                 (ngModelChange)="onInputChangeMap('Servants',i)">
 
-                                          <span *ngIf="!editable">{{formatDate(servant!.servant_dob)}}</span>
-                                        </td>
-                                        <td *ngIf="editable &&  (changesServantMade[i])">
-                                          <button *ngIf="servant!.deleted_at==null" type="button"
-                                                  class="btn btn-outline-success" (click)="saveServant(j,i)"
-                                                  [disabled]="!changesServantMade">Save</button>
-                                        </td>
-                                        <td *ngIf="editable">
-                                          <button *ngIf="servant!.id==-1" type="button" class="btn btn-outline-danger"
-                                                  (click)="removeServant(j,i)">Delete</button>
-                                        </td>
-                                      </tr>
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                </div>
-                              </div>
+                          <span *ngIf="!editable">{{ servant.servant_name }}</span>
+                        </td>
+
+                        <td>
+
+                          <select *ngIf="employee.servants && editable" class="form-control"
+                                  [(ngModel)]="employee.servants[i].gender"
+                                  (ngModelChange)="onInputChangeMap('Servants', i)">
+                            <option value="null">--Select Gender--</option>
+                            <option [ngValue]="'M'">Male</option>
+                            <option [ngValue]="'F'">Female</option>
+                            <option [ngValue]="'O'">OTHERS</option>
+                          </select>
+
+                          <span *ngIf="!editable">
+                            {{
+                              servant!.gender === 'M' ? 'Male' :
+                              servant!.gender === 'F' ? 'Female' :
+                              servant!.gender === 'O' ? 'Others' :
+                              'N/A'
+                            }}
+                          </span>
+
+                        </td>
+                        <td>
+                          <input *ngIf="employee.servants && editable" class="form-control" type="text"
+                                 [(ngModel)]="employee.servants[i].servant_mobile_no"  placeholder="Mobile No."
+                                 maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('Servants', i)" (input)="onMobileNoInput($event, i)">
+
+                          <span *ngIf="!editable">{{servant!.servant_mobile_no}}</span>
+                        </td>
+                        <td>
+                          <input *ngIf="employee.servants && editable" class="form-control" type="date"
+                                 [(ngModel)]="employee.servants[i].servant_dob"
+                                 (ngModelChange)="onInputChangeMap('Servants', i)" [max]="maxDate">
+
+                          <span *ngIf="!editable">{{formatDate(servant!.servant_dob)}}</span>
+                        </td>
+
+                        <td>
+                          <input *ngIf="employee.servants && editable" class="form-control" type="text"
+                                 [(ngModel)]="employee.servants[i].out_house_address"
+                                 (ngModelChange)="onInputChangeMap('Servants', i)" >
+
+                          <span *ngIf="!editable">{{servant!.out_house_address}}</span>
+                        </td>
+
+                        <td *ngIf="editable &&  (changesServantMade[i])">
+                          <button *ngIf="servant!.deleted_at==null" type="button"
+                                  class="btn btn-outline-success" (click)="saveServant(i)"
+                                  [disabled]="!changesServantMade">Save</button>
+                        </td>
+
+                        <td *ngIf="editable">
+                          <button *ngIf="servant!.id==-1" type="button" class="btn btn-outline-danger"
+                                  (click)="removeServant(i)">Delete</button>
+                        </td>
+
+                      </tr>
+                      </tbody>
+                    </table>
+                    <!--                                </div>-->
+                    <!--                                <div class="card-body" >-->
+                    <div class="row" *ngIf="servant && servant!.id!=-1">
+                      <div class="col-md">
+                        <div class="card">
+                          <div class="card-header">
+                            <div class="float-start">
+                              <b>{{ servant?.servant_name || "Domestic help" }}'s Relatives</b>
                             </div>
+                            <div class="float-end" *ngIf="editable ">
+                              <button *ngIf="servant!.deleted_at==null" type="button"
+                                      class="btn btn-outline-info" (click)="addServantFamily(i)">Add_Family</button>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <table class="table table-stripped">
+                              <thead>
+                              <tr>
+                                <th>Sl No.</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Relation</th>
+                                <th>Mobile No.</th>
+                                <th>Date Of Birth</th>
+                                <th *ngIf="editable" colspan="3">Action</th>
+                              </tr>
+                              </thead>
+                              <tbody *ngIf="employee?.servants?.[i]?.relations != null">
+                              <tr  *ngFor="let servantRelative of servant!.relations; let k = index">
+                                <td>{{ k + 1 }}</td>
+
+                                <td>
+                                  <input *ngIf="editable" class="form-control" type="text"
+                                         [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.rel_name" placeholder="Name"
+                                         (ngModelChange)="onInputChangeMap('ServantRelation',k)">
+
+                                  <span *ngIf="!editable">{{ servantRelative.pivot!.rel_name }}</span>
+                                </td>
+
+                                <td>
+                                  <select *ngIf=" editable" class="form-control"
+                                          [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.gender"
+                                          (ngModelChange)="onInputChangeMap('ServantRelation', k)">
+                                    <option value="null">--Select Gender--</option>
+                                    <option [ngValue]="'M'">Male</option>
+                                    <option [ngValue]="'F'">Female</option>
+                                    <option [ngValue]="'O'">OTHERS</option>
+                                  </select>
+
+
+                                  <span *ngIf="!editable">
+                                            {{
+                                    servantRelative!.pivot!.gender === 'M' ? 'Male' :
+                                            servantRelative!.pivot!.gender === 'F' ? 'Female' :
+                                                    servantRelative!.pivot!.gender === 'O' ? 'Others' :
+                                                            'N/A'
+                                    }}
+                                          </span>
+                                </td>
+                                <td>
+                                  <select *ngIf=" editable" class="form-control"
+                                          [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.relation_id" [compareWith]="compareRelation"
+                                          (ngModelChange)="onInputChangeMap('ServantRelation', k)">
+                                    <option value="">--Select Relation--</option>
+                                    <option [ngValue]="relationtype.id" *ngFor="let relationtype of relationstypelist">
+                                      {{relationtype!.rel_desc}}</option>
+                                  </select>
+
+                                  <span *ngIf="!editable">{{ servantRelative!.rel_desc }}</span>
+                                </td>
+
+                                <td>
+                                  <input *ngIf="editable" class="form-control" type="text"
+                                         [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.rel_mobile_no"  placeholder="Mobile No."
+                                         maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('ServantRelation', k)" (input)="onMobileNoInput($event, i)">
+
+                                  <span *ngIf="!editable">{{servantRelative!.pivot!.rel_mobile_no}}</span>
+                                </td>
+                                <td>
+                                  <input *ngIf=" editable" class="form-control" type="date"
+                                         [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.rel_dob"
+                                         (ngModelChange)="onInputChangeMap('ServantRelation', i)" [max]="maxDate">
+
+                                  <span *ngIf="!editable">{{formatDate(servantRelative!.pivot!.rel_dob)}}</span>
+                                </td>
+                                <td *ngIf="editable &&  (changesServantRelation[k])">
+                                  <button *ngIf="servantRelative!.deleted_at==null" type="button"
+                                          class="btn btn-outline-success" (click)="saveServantRel(i,k)"
+                                          [disabled]="!changesServantRelation">Save</button>
+                                </td>
+
+                                <td *ngIf="editable">
+                                  <button *ngIf="servantRelative!.id==-1" type="button" class="btn btn-outline-danger"
+                                          (click)="removeServantRel(i,k)">Delete</button>
+                                </td>
+                              </tr>
+                              </tbody>
+                            </table>
+
+
+
+                          </div>
                         </div>
                       </div>
+
+
+
+
                     </div>
+                    <br>
                   </div>
                 </div>
               </div>
+
+
+
+              <!--                      </div>-->
+              <!--                    </div>-->
+              <!--                  </div>-->
+              <!--                </div>-->
+              <!--              </div>-->
 
 
 

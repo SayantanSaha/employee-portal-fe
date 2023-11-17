@@ -8,7 +8,7 @@ import {Idcards} from "./Idcards";
 import {Servants} from "./Servants";
 import {ServantRel} from "./ServantRel";
 import {Vehicles} from "./Vehicles";
-import {Outhouse} from "./Outhouse";
+
 
 
 export class Employee{
@@ -34,13 +34,17 @@ export class Employee{
   curr_pin: string | null = null;
   curr_state: State | null = null;
   curr_district: District | null = null;
-
+  qtr_code: string | null = null;
+  blck_code:string | null = null;
+  location_id:string | null = null;
+  qtr_address:string |null =null;
   created_at: Date | null = null;
   updated_at: Date | null = null;
   profile_photo: string|null = null;
   relations: Relation[]|null = [];
   servants: Servants[]|null = [];
-  out_house: Outhouse[]|null = [];
+  // servant_relations:ServantRel[]|null=[];
+
   eba_applications: any;
   eba_passes:any;
   eba_applicationsstatus :any;
@@ -52,7 +56,7 @@ export class Employee{
   sign_path: string|null = null;
   id_cards: Idcards[]|null = null;
   temp_changes: any;
-  //servantRel:ServantRel[]|null=[];
+
 
 
 }

@@ -60,6 +60,14 @@
 
                                         </div>
 
+
+                                      <div class="row mb-12" *ngIf="specificDetails.servant && specificDetails.servant.servant_name != null">
+                                        <div class="col-md-12">
+                                          <b><label>Servant Name</label></b>
+                                          <br />
+                                          {{ specificDetails.servant.servant_name }}
+                                        </div>
+                                      </div>
                                     </div>
 
                                     <div class="col-md-4">
@@ -605,7 +613,7 @@
                             <div class="col-md-12">
                                 <div class="card shadow">
                                     <div class="card-header">
-                                        <h5 class="card-title">Old Data</h5>
+                                        <h5 class="card-title">Old Relative Data</h5>
                                     </div>
 
                                     <div class="card-body">
@@ -673,7 +681,7 @@
                             <div class="col-md-12">
                                 <div class="card shadow">
                                     <div class="card-header">
-                                        <h5 class="card-title">Changed Data</h5>
+                                        <h5 class="card-title">Changed Relative Data</h5>
                                     </div>
 
                                     <div class="card-body">
@@ -769,7 +777,7 @@
                             <div class="col-md-12">
                                 <div class="card shadow">
                                     <div class="card-header">
-                                        <h5 class="card-title">Old Data</h5>
+                                        <h5 class="card-title">Old Designation Data</h5>
                                     </div>
 
                                     <div class="card-body">
@@ -841,7 +849,7 @@
                             <div class="col-md-12">
                                 <div class="card shadow">
                                     <div class="card-header">
-                                        <h5 class="card-title">Changed Data</h5>
+                                        <h5 class="card-title">Changed Designation Data</h5>
                                     </div>
 
                                     <div class="card-body">
@@ -944,7 +952,7 @@
                             <div class="col-md-12">
                                 <div class="card shadow">
                                     <div class="card-header">
-                                        <h5 class="card-title">Old Data</h5>
+                                        <h5 class="card-title">Old Posting Data</h5>
                                     </div>
 
                                     <div class="card-body">
@@ -1019,7 +1027,7 @@
                             <div class="col-md-12">
                                 <div class="card shadow">
                                     <div class="card-header">
-                                        <h5 class="card-title">Changed Data</h5>
+                                        <h5 class="card-title">Changed Posting Data</h5>
                                     </div>
 
                                     <div class="card-body">
@@ -1132,7 +1140,7 @@
                         <div class="col-md-12">
                           <div class="card shadow">
                             <div class="card-header">
-                              <h5 class="card-title">Old Data</h5>
+                              <h5 class="card-title">Old Domestic Help Data</h5>
                             </div>
 
                             <div class="card-body">
@@ -1149,6 +1157,7 @@
                                         <th>Gender</th>
                                         <th>Mobile No.</th>
                                         <th>Date Of Birth</th>
+                                        <th>Out House No</th>
                                       </tr>
                                       </thead>
                                       <tbody
@@ -1174,6 +1183,10 @@
                                           formatDate(basicDetails.old_table_data.servant_dob)
                                           : 'N/A'}}
                                         </td>
+                                        <td>{{basicDetails.old_table_data.out_house_address ?
+                                          formatDate(basicDetails.old_table_data.out_house_address)
+                                          : 'N/A'}}
+                                        </td>
                                       </tr>
                                       </tbody>
                                       <ng-template #noDataTemplate>
@@ -1195,7 +1208,7 @@
                         <div class="col-md-12">
                           <div class="card shadow">
                             <div class="card-header">
-                              <h5 class="card-title">Changed Data</h5>
+                              <h5 class="card-title">Changed Domestic Help Data</h5>
                             </div>
 
                             <div class="card-body">
@@ -1210,6 +1223,7 @@
                                         <th>Gender</th>
                                         <th>Mobile No.</th>
                                         <th>Date Of Birth</th>
+                                        <th>Out House No</th>
                                       </tr>
                                       </thead>
 
@@ -1262,6 +1276,16 @@
                                               'N/A'
                                           }}
                                         </td>
+                                        <td
+                                          [style.color]="changedDataDetails.out_house_address ? 'red' : 'inherit'">
+                                          {{
+                                          changedDataDetails.out_house_address ?
+                                            changedDataDetails.out_house_address :
+                                            basicDetails.old_table_data?.out_house_address ?
+                                              basicDetails.old_table_data.out_house_address :
+                                              'N/A'
+                                          }}
+                                        </td>
                                       </tr>
                                       </tbody>
                                     </table>
@@ -1274,6 +1298,170 @@
 
                       </div>
 
+
+
+<!--                      Servant Relative Data show-->
+                      <div class="row mb-12" *ngIf="specificDetails.model === 'servant_rel'">
+
+                        <div class="col-md-12">
+                          <div class="card shadow">
+                            <div class="card-header">
+                              <h5 class="card-title">Old Domestic Help's Relative Data</h5>
+                            </div>
+
+                            <div class="card-body">
+
+                              <div class="row mb-12">
+                                <div class="col-12">
+                                  <div class="card card-primary table-responsive">
+
+                                    <table class="table table-stripped">
+                                      <thead>
+                                      <tr>
+
+                                        <th>Name</th>
+                                        <th>Gender</th>
+                                        <th>Relation</th>
+                                        <th>Mobile No.</th>
+                                        <th>Date Of Birth</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody
+                                        *ngIf="basicDetails.old_table_data ; else noDataTemplate">
+                                      <tr>
+
+                                        <td>{{basicDetails.old_table_data.pivot.rel_name ?
+                                          basicDetails.old_table_data.pivot.rel_name :
+                                          'N/A'}}
+                                        </td>
+                                        <td>{{basicDetails.old_table_data.pivot.gender === 'M' ?
+                                          'MALE' :
+                                          basicDetails.old_table_data.pivot.gender === 'F' ?
+                                            'FEMALE':
+                                            basicDetails.old_table_data.pivot.gender === 'O' ?
+                                              'OTHERS': 'N/A'}}
+                                        </td>
+                                        <td>{{basicDetails.old_table_data.rel_desc ?
+                                          basicDetails.old_table_data.rel_desc :
+                                          'N/A'}}
+                                        </td>
+                                        <td>{{basicDetails.old_table_data.pivot.rel_mobile_no ?
+                                          basicDetails.old_table_data.pivot.rel_mobile_no :
+                                          'N/A'}}
+                                        </td>
+                                        <td>{{basicDetails.old_table_data.pivot.rel_dob ?
+                                          formatDate(basicDetails.old_table_data.pivot.rel_dob)
+                                          : 'N/A'}}
+                                        </td>
+                                      </tr>
+                                      </tbody>
+                                      <ng-template #noDataTemplate>
+                                        <tr>
+                                          <td colspan="your_colspan">No previous record available.
+                                          </td>
+                                        </tr>
+                                      </ng-template>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">&nbsp;</div>
+
+                        <div class="col-md-12">
+                          <div class="card shadow">
+                            <div class="card-header">
+                              <h5 class="card-title">Changed domestic Help's Relative Data</h5>
+                            </div>
+
+                            <div class="card-body">
+                              <div class="row mb-12">
+                                <div class="col-12">
+                                  <div class="table-responsive">
+                                    <table class="table table-stripped">
+                                      <thead>
+                                      <tr>
+
+                                        <th>Name</th>
+                                        <th>Gender</th>
+                                        <th>Relation</th>
+                                        <th>Mobile No.</th>
+                                        <th>Date Of Birth</th>
+                                      </tr>
+                                      </thead>
+
+                                      <tbody *ngIf="changedDataDetails">
+                                      <tr>
+                                        <td
+                                          [style.color]="changedDataDetails.rel_name ? 'red' : 'inherit'">
+                                          {{
+                                          changedDataDetails.rel_name ?
+                                            changedDataDetails.rel_name :
+                                            basicDetails.old_table_data?.pivot?.rel_name ?
+                                              basicDetails.old_table_data.pivot.rel_name :
+                                              'N/A'
+                                          }}
+                                        </td>
+
+                                        <td
+                                          [style.color]="changedDataDetails.gender ? 'red' : 'inherit'">
+                                          {{ changedDataDetails.gender === 'M' ? 'MALE' :
+                                          changedDataDetails.gender === 'F' ? 'FEMALE' :
+                                            changedDataDetails.gender === 'O' ? 'OTHERS' :
+                                              basicDetails.old_table_data?.pivot?.gender === 'M' ? 'MALE' :
+                                                basicDetails.old_table_data?.pivot?.gender === 'F' ? 'FEMALE' :
+                                                  basicDetails.old_table_data?.pivot?.gender === 'O' ? 'OTHERS' : 'N/A'
+                                          }}
+                                        </td>
+
+                                        <td
+                                          [style.color]="changedDataDetails.rel_desc ? 'red' : 'inherit'">
+                                          {{
+                                          changedDataDetails.rel_desc ?
+                                            changedDataDetails.rel_desc :
+                                            basicDetails.old_table_data?.rel_desc ?
+                                              basicDetails.old_table_data.rel_desc :
+                                              'N/A'
+                                          }}
+                                        </td>
+
+                                        <td
+                                          [style.color]="changedDataDetails.rel_mobile_no ? 'red' : 'inherit'">
+                                          {{
+                                          changedDataDetails.rel_mobile_no ?
+                                            changedDataDetails.rel_mobile_no :
+                                            basicDetails.old_table_data?.pivot?.rel_mobile_no ?
+                                              basicDetails.old_table_data.pivot.rel_mobile_no :
+                                              'N/A'
+                                          }}
+                                        </td>
+
+                                        <td
+                                          [style.color]="changedDataDetails.rel_dob ? 'red' : 'inherit'">
+
+                                          {{
+                                          changedDataDetails.rel_dob ?
+                                            formatDate(changedDataDetails.rel_dob) :
+                                            basicDetails.old_table_data?.pivot?.rel_dob ?
+                                              formatDate(basicDetails.old_table_data.pivot.rel_dob)
+                                              :
+                                              'N/A'
+                                          }}
+                                        </td>
+                                      </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
 
 
 

@@ -29,6 +29,9 @@ import { EbapendingComponent } from './ebapending/ebapending.component';
 import { EbaapprovalComponent } from './ebaapproval/ebaapproval.component';
 import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 import { EbapanelComponent } from './ebapanel/ebapanel.component';
+import { NextDirective } from './next.directive';
+import { PrevDirective } from './prev.directive';
+import { EbaformviewComponent } from './ebaformview/ebaformview.component';
 
 
 
@@ -56,6 +59,9 @@ import { EbapanelComponent } from './ebapanel/ebapanel.component';
     EbaapprovalComponent,
     AdminpanelComponent,
     EbapanelComponent,
+    NextDirective,
+    PrevDirective,
+    EbaformviewComponent,
 
 
   ],

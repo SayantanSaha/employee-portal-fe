@@ -1,0 +1,441 @@
+<div class="container-fluid" style="width: 100%">
+
+  <div class="row">
+    <div class="col-md-10" style="font-size: 200%; color: deeppink">
+      EBA Application
+    </div>
+  </div>
+
+  <div class="card shadow" >
+    <div class="card-body">
+      <div class="row">
+        <div class="col col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title" style=" color: #1d00ff"> Officer Details</h5>
+              <hr class="row-divider">
+              <table>
+                <tr>
+                  <td ><b>Name:</b></td>
+                  <td style="font-size: 120%" >{{employee!.emp_title}} {{employee!.emp_name}}</td>
+                </tr>
+                <tr>
+                  <td style="width: 30%;"><b>Date of Birth:</b></td>
+                  <td >{{employee!.dob}}</td>
+                </tr>
+                <tr>
+                  <td ><b> Mobile no:</b></td>
+                  <td >{{employee!.mobile}}</td>
+                </tr>
+                <tr>
+                  <td ><b> Email:</b></td>
+                  <td >{{employee!.email_id}}</td>
+                </tr>
+                <tr>
+                  <td ><b>Address:</b></td>
+                  <td >{{employee!.curr_add}},<br />
+                    {{employee!.curr_district!.district_name}}
+                    {{employee!.curr_state!.state_name}} - {{employee!.curr_pin}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title" style=" color: #1d00ff">Gov Details</h5>
+              <hr class="row-divider">
+              <table>
+                <tr>
+                  <td ><b>Designation:</b></td>
+                  <td style="font-size: 120%" *ngIf="employee && employee.designations">
+                    {{ getActiveDesignations(employee.designations) }}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 58%;"><b>Department:</b></td>
+                  <td *ngIf="employee && employee.divisions">{{ getActiveDivision(employee.divisions)}}</td>
+                </tr>
+                <tr>
+                  <td ><b>Posting place:</b></td>
+                  <td >{{employee!.organization!.org_desc}}</td>
+                </tr>
+                <tr>
+                  <td><b>posting date:</b></td>
+                  <td>{{employee!.doj_gs}}</td>
+                </tr>
+                <tr>
+                  <td ><b>Retirement dt:</b></td>
+                  <td > {{employee!.dor}}</td>
+                </tr>
+                <tr>
+                  <td><b>Id Card NO:</b></td>
+                  <td *ngIf="employee && employee.id_cards">{{ getActiveIdCard(employee.id_cards) }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+
+  <div class="card shadow" *ngIf="employee && employee.relations && employee.relations.length > 0">
+    <div class="card-body">
+      <h5 class="card-title" style=" color: indianred"> Officer's Family Details</h5>
+      <hr class="row-divider">
+      <div class="row">
+        <div class="col-md">
+          <div class="card table-responsive">
+            <div class="card-body">
+              <table class="table table-stripped">
+                <thead>
+                <tr>
+                  <th>Sl No.</th>
+                  <th>Relative Name</th>
+                  <th>Relation</th>
+                  <th>Mobile No.</th>
+                  <th>Date Of Birth</th>
+                  <th>Eba Pass NO</th>
+                  <th>Photo</th>
+                  <th>Signature</th>
+                  <th>Id proof</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let member of employee!.relations; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>
+                    <span>{{ member!.pivot!.rel_name }}</span>
+                  </td>
+                  <td>
+                    <span>{{ member!.rel_desc }}</span>
+                  </td>
+                  <td>
+                    <span>{{ member!.pivot!.rel_mobile_no }}</span>
+                  </td>
+                  <td>
+                    <span>{{ member!.pivot!.rel_dob }}</span>
+                  </td>
+                  <ng-container *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
+                    <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
+                      <ng-container *ngIf="eba_pass ">
+                        <td>
+                          <div *ngIf="eba_pass?.eba_pass_no !== null && eba_pass?.eba_pass_no_edit === null">
+                            {{ eba_pass.eba_pass_no }}
+                          </div>
+
+                          <div *ngIf="eba_pass?.eba_pass_no === null && eba_pass?.eba_pass_no_edit !== null">
+                            {{ eba_pass.eba_pass_no_edit }}
+                          </div>
+
+                          <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null && eba_pass?.eba_pass_no_edit === null">
+                            new
+                          </div>
+
+                        </td>
+                        <td>
+                          <span *ngIf="eba_pass?.photo_path">
+                            <img [src]="eba_pass?.photo_path" style="width: 150px; height: 128px" class="rounded-square"/>
+                          </span>
+                        </td>
+                        <td>
+                          <span *ngIf="eba_pass?.sign_path" >
+                            <img [src]="eba_pass?.sign_path" style="width: 150px; height: 128px" class="rounded-square"/>
+                          </span>
+                        </td>
+                        <td>
+                          <span *ngIf="eba_pass?.id_proof_path" >
+                            <img [src]="eba_pass?.id_proof_path" style="width: 150px; height: 128px" class="rounded-square"/>
+                          </span>
+                        </td>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+
+  <div class="card shadow" *ngIf="employee && employee.vehicles && employee.vehicles.length > 0">
+    <div class="card-body">
+      <h5 class="card-title" style=" color: saddlebrown">Officer's Vehicle Details</h5>
+      <hr class="row-divider">
+      <div class="row">
+        <div class="col-md">
+          <div class="card table-responsive">
+            <div class="card-body">
+              <table class="table table-stripped">
+                <thead>
+                <tr>
+                  <th>Sl No.</th>
+                  <th>Vehicle Desc</th>
+                  <th>Vehicle No.</th>
+                  <th>Chassis No.</th>
+                  <th>Registered owner</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let vehicle of employee!.vehicles; let i = index">
+
+                  <td>{{ i + 1 }}</td>
+                  <td>
+                    <span >{{vehicle!.model_name}}</span>
+                  </td>
+                  <td>
+                    <span >{{vehicle!.vehicle_no}}</span>
+                  </td>
+                  <td>
+                    <span >{{vehicle!.chassis_no}}</span>
+                  </td>
+                  <td>
+                    <span >{{vehicle!.vehicle_owner}}</span>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div *ngIf="employee && employee.servants && employee.servants.length > 0">
+    <div *ngFor="let servant of employee!.servants; let i = index">
+      <div class="card shadow" >
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 d-flex align-items-center">
+              <h5 class="card-title" style="color: saddlebrown; margin-left: 10px;">Domestic help Details</h5>
+            </div>
+            <div class="col-md-6">
+              <div *ngIf="servant.eba_passes != null && servant.eba_passes.length > 0">
+                <div *ngFor="let servant_detail of servant.eba_passes; let k = index">
+                  <div *ngIf="servant_detail">
+                    <div *ngIf="servant_detail.eba_pass_no !== null && servant_detail.eba_pass_no !== ''">
+                      {{ servant_detail.eba_pass_no }}
+                    </div>
+                    <div *ngIf="servant_detail.eba_pass_no === null && servant_detail.eba_pass_no_edit !== null">
+                      {{ servant_detail.eba_pass_no_edit }}
+                    </div>
+                    <div style="color:blue;" *ngIf="servant_detail.eba_pass_no === null && servant_detail.eba_pass_no_edit === null">
+                      new
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="row-divider">
+          <div class="row">
+            <tr>
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="form-label">Name:</label>
+                      <div class="input-group mb-3">
+                        {{servant!.servant_name}}
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Mobile No:</label>
+                      <div class="input-group mb-3">
+                        {{servant!.servant_mobile_no}}
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf=" servant.eba_passes != null && servant.eba_passes.length > 0">
+                    <div *ngFor="let servant_detail of servant.eba_passes; let k = index">
+                      <div *ngIf="servant_detail">
+                        <div >
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label class="form-label">Present Address (outhouse no)</label><br>
+                              {{servant.out_house_address ? servant.out_house_address : 'n/a'}}
+                            </div>
+                            <div class="col-md-6">
+                              <label class="form-label">living since at president sect.</label><br>
+                              {{ servant_detail.living_at_president_sect ? servant_detail.living_at_president_sect : 'n/a' }}
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <label class="form-label">Perm. Address</label><br>
+                              {{servant_detail.perm_address ? servant_detail.perm_address: 'n/a'}}
+                            </div>
+
+                            <div class="col-md-6">
+                              <label class="form-label">Address where Resided during last 5yr</label><br>
+                              {{servant_detail.last_5yr_address ? servant_detail.last_5yr_address: 'n/a'}}
+                            </div>
+                          </div>
+                          <hr class="row-divider">
+                          <div class="row">
+                            <label class="form-label">2 References from permanent address</label>
+                            <table class="table table-bordered">
+                              <thead>
+                              <tr>
+                                <th scope="col">Sl No</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Phone No</th>
+                                <th scope="col">Address</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr>
+                                <th scope="row">1</th>
+                                <td>{{ servant_detail.reference_1_name?servant_detail.reference_1_name: 'n/a'}}</td>
+                                <td>{{servant_detail.reference_1_phone_no?servant_detail.reference_1_phone_no: 'n/a'}}</td>
+                                <td>{{servant_detail.reference_1_address?servant_detail.reference_1_address: 'n/a'}}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">2</th>
+                                <td>{{servant_detail.reference_2_name?servant_detail.reference_2_name: 'n/a'}}</td>
+                                <td>{{servant_detail.reference_2_phone_no?servant_detail.reference_2_phone_no: 'n/a'}}</td>
+                                <td>{{servant_detail.reference_2_address?servant_detail.reference_2_address: 'n/a'}}</td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+          </div>
+          <br>
+
+          <div *ngIf="servant && servant.relations && servant.relations.length > 0">
+            <h5 class="card-title" style=" color: indianred"> Domestic help's Family Details</h5>
+            <hr class="row-divider">
+            <div class="row">
+              <div class="col-md">
+                <div class="card table-responsive">
+                  <div class="card-body">
+                    <table class="table table-stripped">
+                      <thead>
+                      <tr>
+                        <th>Sl No.</th>
+                        <th>Relative Name</th>
+                        <th>Relation</th>
+                        <th>Mobile No.</th>
+                        <th>Date Of Birth</th>
+                        <th>Eba Pass NO</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let member of servant!.relations; let j = index">
+                        <td>{{ j + 1 }}</td>
+                        <td>
+                          <span>{{ member!.pivot!.rel_name }}</span>
+                        </td>
+                        <td>
+                          <span>{{ member!.rel_desc }}</span>
+                        </td>
+                        <td>
+                          <span>{{ member!.pivot!.rel_mobile_no }}</span>
+                        </td>
+                        <td>
+                          <span>{{ member!.pivot!.rel_dob }}</span>
+                        </td>
+                        <td>
+                          <div *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
+                            <div *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
+                              <div>
+                                <div *ngIf="eba_pass ">
+                                  <div *ngIf="eba_pass?.eba_pass_no !== null && eba_pass?.eba_pass_no_edit === null">
+                                    {{ eba_pass.eba_pass_no }}
+                                  </div>
+
+                                  <div *ngIf="eba_pass?.eba_pass_no === null && eba_pass?.eba_pass_no_edit !== null">
+                                    {{ eba_pass.eba_pass_no_edit }}
+                                  </div>
+
+                                  <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null && eba_pass?.eba_pass_no_edit === null">
+                                    new
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+          </div>
+          <div *ngIf="servant && servant.vehicles && servant.vehicles.length > 0">
+            <h5 class="card-title" style=" color: saddlebrown">Domestic help's Vehicle Details
+            </h5>
+            <hr class="row-divider">
+            <div class="row">
+              <div class="col-md">
+                <div class="card table-responsive">
+                  <div class="card-body">
+                    <table class="table table-stripped">
+                      <thead>
+                      <tr>
+                        <th>Sl No.</th>
+                        <th>Vehicle Type</th>
+                        <th>Vehicle Name.</th>
+                        <th>Vehicle No.</th>
+                        <th>Registered owner</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let vehicle of servant!.vehicles; let k = index">
+                        <td>{{ k+1 }}</td>
+                        <td>
+                          <div>
+                            {{
+                            vehicle!.vehicle_type === 'S' ? 'Scooty' :
+                              vehicle!.vehicle_type === 'M' ? 'Motorcycle' :
+                                vehicle!.vehicle_type === 'C' ? 'Car' :
+                                  'N/A'
+                            }}
+                          </div>
+                        </td>
+                        <td>
+
+                          {{vehicle.vehicle_type}}
+                        </td>
+                        <td>
+
+                          {{vehicle.vehicle_no}}
+                        </td>
+                        <td>
+
+                          {{vehicle.vehicle_owner}}
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+  </div>
+</div>

@@ -18,7 +18,6 @@ import {environment} from "../environments/environment";
 
 import {Dependent} from "./model/Dependent";
 import { ChangePassword } from "./model/ChangePassword";
-import {Outhouse} from "./model/Outhouse";
 import {Servants} from "./model/Servants";
 import {ServantRel} from "./model/ServantRel";
 import {Vehicles} from "./model/Vehicles";
@@ -53,6 +52,10 @@ export class EmployeeService {
 
   getMyProfile():Observable<Employee>{
     return this.http.get<Employee>(this.apiUrl+"my_profile",{headers:this.createHeader()});
+  }
+
+  getMyebaProfile():Observable<Employee>{
+    return this.http.get<Employee>(this.apiUrl+"eba_profile",{headers:this.createHeader()});
   }
 
   updateEmployee(employee:Employee):Observable<Employee>{
@@ -143,9 +146,7 @@ export class EmployeeService {
   getVehicle(employee_id: number): Observable<Vehicles[]>{
     return this.http.get<Vehicles[]>(this.apiUrl+"employees/"+employee_id+"/Vehicle",{headers:this.createHeader()});
   }
-  getOutHouse(employee_id: number): Observable<Outhouse[]>{
-    return this.http.get<Outhouse[]>(this.apiUrl+"employees/"+employee_id+"/OutHouse",{headers:this.createHeader()});
-  }
+
 
   /************** Chnages done by Ravikant Kumar ************************************/
 
@@ -165,6 +166,21 @@ export class EmployeeService {
     return this.http.get<any[]>(this.apiUrl+"relationsMaster",{headers:this.createHeader()});
   }
 
+  getBlockType(): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"BlockType",{headers:this.createHeader()});
+  }
+
+  getLocationType(): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"Location",{headers:this.createHeader()});
+  }
+
+  getQuarterType(): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"QuarterType",{headers:this.createHeader()});
+  }
+  getQuarterdetail(qtrtype:string ,location:string,empid:number): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"qtrmaster/"+qtrtype+'/'+location+'/'+empid,{headers:this.createHeader()});
+  }
+
 
 
   // Update Relation Of Employee API
@@ -182,13 +198,15 @@ export class EmployeeService {
     return this.http.post<Servants>(this.apiUrl+"domestic_help",domestic_help,{headers:this.createHeader()});
   }
 
+  updateServantRel(domestic_help_rel: any): Observable<any>{
+    return this.http.post<any>(this.apiUrl+"domestic_help_relative",domestic_help_rel,{headers:this.createHeader()});
+  }
+
   addVehicles(vehicles: Vehicles): Observable<Vehicles>{
     return this.http.post<Vehicles>(this.apiUrl+"vehicle",vehicles,{headers:this.createHeader()});
   }
 
-  addServantRelative(servant_rel: ServantRel): Observable<ServantRel>{
-    return this.http.post<ServantRel>(this.apiUrl+"domestic_help_relative",servant_rel,{headers:this.createHeader()});
-  }
+
 
   getServantsRel(servant_id: number): Observable<ServantRel[]>{
     return this.http.get<ServantRel[]>(this.apiUrl+"domestic_help/"+servant_id+"/relative",{headers:this.createHeader()});
@@ -234,10 +252,14 @@ export class EmployeeService {
     return this.http.get<any[]>(this.apiUrl+"Eba",{headers:this.createHeader()});
   }
 
-  applyeba(ebaPasses: any[], servantDetails: any[]): Observable<any> {
-    const dataToSubmit = { relation: ebaPasses, servant: servantDetails };
-    const options = { headers: this.createHeader() };
-    return this.http.post<any>(this.apiUrl + "Eba", dataToSubmit, options);
+  getEbaProfile(id: number):Observable<any>{
+    return this.http.get<any>(this.apiUrl+`Eba/${id}`,{headers:this.createHeader()});
+  }
+
+  applyeba(ebaPasses : Employee): Observable<any> {
+    // const dataToSubmit = { relation: ebaPasses };
+    // const options = { headers: this.createHeader() };
+    return this.http.post<Employee>(this.apiUrl + "Eba",ebaPasses,{headers:this.createHeader()});
   }
 
   updateebastatus(id: number, action: string, remark: string): Observable<any> {

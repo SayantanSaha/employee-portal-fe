@@ -5,6 +5,7 @@ export class Relation{
   id: number=0;
   emp_rel_id: number=0;
   rel_desc: string | null = null;
+  allSelected: boolean = false;
   pivot: Dependent  = new Dependent();
 }
 
