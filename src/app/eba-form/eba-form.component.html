@@ -5,9 +5,21 @@
       EBA Application
     </div>
   </div>
+
+  <div class="row"  *ngIf="editable && employee && employee.eba_applications != null && employee.eba_applications.length > 0">
+    <div  *ngFor="let application of employee!.eba_applications; let j = index">
+      <div *ngFor="let role of application.roles; let i = index">
+        <div class="col" style="color: red" >
+          Your application is pending with {{role.role_desc}}.
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <div class="card shadow" xmlns="http://www.w3.org/1999/html">
     <div class="card-body">
-      <nav style="background: white" *ngIf="employee != null && employee.servants != null && employee.servants.length > 0" >
+      <nav style="background: white" *ngIf="employee && employee.out_house != null && employee.out_house.length > 0">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Employee</button>
           <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false"  >Domestic help</button>
@@ -113,23 +125,33 @@
                           <th>Eba Pass NO</th>
                         </tr>
                         </thead>
-                        <tbody *ngIf="employee!=null && employee.relations!=null">
+                        <tbody *ngIf="employee != null && employee.relations != null">
                         <tr *ngFor="let member of employee!.relations; let i = index">
                           <td>{{ i + 1 }}</td>
                           <td>
-                            <span >{{member!.pivot!.rel_name}}</span>
+                            <span>{{ member!.pivot!.rel_name }}</span>
                           </td>
                           <td>
-                            <span >{{member!.rel_desc}}</span>
+                            <span>{{ member!.rel_desc }}</span>
                           </td>
                           <td>
-                            <span >{{member!.pivot!.rel_mobile_no}}</span>
+                            <span>{{ member!.pivot!.rel_mobile_no }}</span>
                           </td>
                           <td>
-                            <span >{{member!.pivot!.rel_dob}}</span>
+                            <span>{{ member!.pivot!.rel_dob }}</span>
                           </td>
                           <td>
-                            <span><input type="text" class="form-control"  value=""></span>
+                            <span *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
+                              <span *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
+                                <div *ngIf="eba_pass && editable">
+                                  <span><input type="text" class="form-control" [(ngModel)]="eba_pass.emp_rel_id" style="display:none;"></span>
+                                  <input type="text" class="form-control" [(ngModel)]="eba_pass.eba_pass_no">
+                                </div>
+                                <div *ngIf="!editable && eba_pass.eba_pass_no">
+                                  {{ eba_pass.eba_pass_no }}
+                                </div>
+                              </span>
+                            </span>
                           </td>
                         </tr>
                         </tbody>
@@ -187,146 +209,187 @@
             </div>
           </div>
           <div class="row">&nbsp;</div>
-          <div class="row"*ngIf="editable && employee != null && employee.servants != null && employee.servants.length > 0 ; else applyebabutton">
+          <div class="row"*ngIf="editable && employee && employee.out_house != null && employee.out_house.length > 0 ; else applyebabutton">
             <div class="col-md-2" style="font-size: 200%; ">
-            &nbsp;
-          </div>
+              &nbsp;
+            </div>
             <div class="col" style="text-align: right; color: red" >
               For apply please complete the form under the "Domestic Help" tab located at the top of the page.
             </div>
           </div>
           <ng-template #applyebabutton>
-          <div class="row" *ngIf="editable">
-            <div class="col-md-10" style="font-size: 200%;">
-            &nbsp;
-          </div>
-            <div class="col-md-2">
-              <button class="btn btn-primary" (click)="applyEba()">
-                Apply Eba
-              </button>
+            <div class="row" *ngIf="editable">
+              <div class="col-md-10" style="font-size: 200%;">
+                &nbsp;
+              </div>
+              <div class="col-md-2"  *ngIf="editable && employee && (!employee.eba_applications || employee.eba_applications.length == 0)">
+                <button class="btn btn-primary" (click)="applyEba()">
+                  Apply Eba
+                </button>
+              </div>
             </div>
-          </div>
           </ng-template>
         </div>
 
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0" >
           <br>
           <div class="container-fluid" style="width: 100%">
-          <div class="card">
-            <!--            <div class="card-body">-->
-            <!--              <h5 class="card-title" style=" color: darkgreen">Domestic Help Details</h5>-->
-            <!--              <hr class="row-divider">-->
-            <!--              <div class="row">-->
-            <!--                <div class="col-md">-->
-            <!--                  <div class="card table-responsive">-->
-            <div class="card-body">
+            <div class="card" *ngFor="let outhouse of employee!.out_house; let j = index">
+              <div class="card-header">
+                out house no{{j+1}}
+              </div>
+              <div class="card-body">
+                <tr *ngFor="let servant of outhouse.servants; let i = index">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <label class="form-label">Name:</label>
+                          <div class="input-group mb-3">
+                            {{servant!.servant_name}}
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label">Mobile No:</label>
+                          <div class="input-group mb-3">
+                            {{servant!.servant_mobile_no}}
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf=" servant.eba_passes != null && servant.eba_passes.length > 0">
+                        <div *ngFor="let servant_detail of servant.eba_passes; let k = index">
+                          <div *ngIf="servant_detail">
+                            <div *ngIf="editable">
+                              <span><input type="text" class="form-control" [(ngModel)]="servant_detail.servant_id" style="display: none"></span>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label class="form-label">living since at president sect.</label>
+                                  <input type="date" class="form-control" [(ngModel)]="servant_detail.living_at_president_sect">
+                                </div>
 
+                                <div class="col-md-6">
+                                  <label class="form-label">Present Address (outhouse no)</label>
+                                  <textarea class="form-control" [(ngModel)]="servant_detail.curr_address"></textarea>
+                                </div>
+                              </div>
 
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label class="form-label">Perm. Address</label>
+                                  <textarea class="form-control" [(ngModel)]="servant_detail.perm_address"></textarea>
+                                </div>
 
+                                <div class="col-md-6">
+                                  <label class="form-label">Address where Resided during last 5yr</label>
+                                  <textarea class="form-control" [(ngModel)]="servant_detail.last_5yr_address"></textarea>
+                                </div>
+                              </div>
+                              <hr class="row-divider">
+                              <div class="row">
+                                <label class="form-label">2 References from permanent address</label>
+                                <table class="table table-bordered">
+                                  <thead>
+                                  <tr>
+                                    <th scope="col">Sl No</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Phone No</th>
+                                    <th scope="col">Address</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr>
+                                    <th scope="row">1</th>
+                                    <td><input type="text" class="form-control"  [(ngModel)]="servant_detail.Reference_1_name"></td>
+                                    <td><input type="text" class="form-control"  [(ngModel)]="servant_detail.reference_1_phone_no"></td>
+                                    <td><textarea class="form-control" [(ngModel)]="servant_detail.reference_1_address"></textarea></td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">2</th>
+                                    <td><input type="text" class="form-control"  [(ngModel)]="servant_detail.reference_2_name"></td>
+                                    <td><input type="text" class="form-control"  [(ngModel)]="servant_detail.reference_2_phone_no"></td>
+                                    <td><textarea class="form-control" [(ngModel)]="servant_detail.reference_2_address"></textarea></td>
+                                  </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <hr class="row-divider">
+                            </div>
+                            <div *ngIf="!editable">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label class="form-label">living since at president sect.</label><br>
+                                  {{ servant_detail.living_at_president_sect ? servant_detail.living_at_president_sect : 'n/a' }}
 
-              <div >
-                <div  *ngFor="let servant of employee!.servants; let i = index">
+                                </div>
 
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="form-label">Name:</label>
-                      <div class="input-group mb-3">
-                        {{servant!.servant_name}}
+                                <div class="col-md-6">
+                                  <label class="form-label">Present Address (outhouse no)</label><br>
+                                  {{servant_detail.curr_address ? servant_detail.curr_address : 'n/a'}}
+                                </div>
+                              </div>
+
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <label class="form-label">Perm. Address</label><br>
+                                  {{servant_detail.perm_address ? servant_detail.perm_address: 'n/a'}}
+                                </div>
+
+                                <div class="col-md-6">
+                                  <label class="form-label">Address where Resided during last 5yr</label><br>
+                                  {{servant_detail.last_5yr_address ? servant_detail.last_5yr_address: 'n/a'}}
+                                </div>
+                              </div>
+                              <hr class="row-divider">
+                              <div class="row">
+                                <label class="form-label">2 References from permanent address</label>
+                                <table class="table table-bordered">
+                                  <thead>
+                                  <tr>
+                                    <th scope="col">Sl No</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Phone No</th>
+                                    <th scope="col">Address</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr>
+                                    <th scope="row">1</th>
+                                    <td>{{ servant_detail.reference_1_name?servant_detail.reference_1_name: 'n/a'}}</td>
+                                    <td>{{servant_detail.reference_1_phone_no?servant_detail.reference_1_phone_no: 'n/a'}}</td>
+                                    <td>{{servant_detail.reference_1_address?servant_detail.reference_1_address: 'n/a'}}</td>
+                                  </tr>
+                                  <tr>
+                                    <th scope="row">2</th>
+                                    <td>{{servant_detail.reference_2_name?servant_detail.reference_2_name: 'n/a'}}</td>
+                                    <td>{{servant_detail.reference_2_phone_no?servant_detail.reference_2_phone_no: 'n/a'}}</td>
+                                    <td>{{servant_detail.reference_2_address?servant_detail.reference_2_address: 'n/a'}}</td>
+                                  </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <hr class="row-divider">
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <!--                          </div>-->
-                    <!--                          <div class="row">-->
-                    <!--                            <div class="col-md-6">-->
-                    <!--                              <label class="form-label">DOB:</label>-->
-                    <!--                              <div class="input-group mb-3">-->
-                    <!--                                {{servant!.servant_dob}}-->
-                    <!--                              </div>-->
-                    <!--                            </div>-->
-                    <div class="col-md-6">
-                      <label class="form-label">Mobile No:</label>
-                      <div class="input-group mb-3">
-                        {{servant!.servant_mobile_no}}
-                      </div>
-                    </div>
                   </div>
-
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="form-label">living since at president sect.</label>
-                      <input type="date" class="form-control" name="permanentAddress">
-                    </div>
-
-                    <div class="col-md-6">
-                      <label class="form-label">Present Address (outhouse no)</label>
-                      <textarea class="form-control" name="presentAddress"></textarea>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="form-label">Perm. Address</label>
-                      <textarea class="form-control" name="permanentAddress"></textarea>
-                    </div>
-
-                    <div class="col-md-6">
-                      <label class="form-label">Address where Resided during last 5yr</label>
-                      <textarea class="form-control" name="last5yraddress"></textarea>
-                    </div>
-                  </div>
-                  <hr class="row-divider">
-                  <div class="row">
-                    <label class="form-label">2 References from permanent address</label>
-                  <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                      <th scope="col">Sl No</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Phone No</th>
-                      <th scope="col">Address</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td><input type="text" class="form-control"  value=""></td>
-                      <td><input type="text" class="form-control"  value=""></td>
-                      <td><textarea class="form-control" name="last5yraddress"></textarea></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td><input type="text" class="form-control"  value=""></td>
-                      <td><input type="text" class="form-control"  value=""></td>
-                      <td><textarea class="form-control" name="last5yraddress"></textarea></td>
-                    </tr>
-                    </tbody>
-                  </table>
-                  </div>
-
-                  <hr class="row-divider">
-
-                </div>
+                  <br>
+                </tr>
               </div>
             </div>
-            <!--                  </div>-->
-            <!--                </div>-->
-            <!--              </div>-->
-            <!--            </div>-->
-          </div>
           </div>
           <div class="row">&nbsp;</div>
           <div class="row" *ngIf="editable">
             <div class="col-md-10" style="font-size: 200%; ">
-            &nbsp;
-          </div>
-            <div class="col-md-2">
+              &nbsp;
+            </div>
+            <div class="col-md-2"  *ngIf="editable && employee && (!employee.eba_applications || employee.eba_applications.length == 0)">
               <button class="btn btn-primary" (click)="applyEba()">
                 Apply Eba
               </button>
             </div>
           </div>
-
-
-
           <!--        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">...</div>-->
           <!--        <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">...</div>-->
 

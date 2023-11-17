@@ -1,10 +1,33 @@
+
+
+
+
 <div class="row">
     <div class="col-md-9">
 
 <app-eba-form></app-eba-form>
 
     </div>
+
     <div class="col-md-3">
+
+        <div class="row"  *ngIf=" employee && employee.eba_applicationsstatus != null && employee.eba_applicationsstatus.length > 0">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div  *ngFor="let application of employee!.eba_applicationsstatus; let j = index">
+                        <div *ngFor="let role of application.roles; let i = index">
+                            <div class="col" style="color: red" >
+                                {{role.created_by}}-{{role.remarks}}.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
         <div class="card shadow">
         <div class="card-body">
 
@@ -13,14 +36,14 @@
 
             <div class="spacing" style="margin-top: 2%;"></div>
             <div class="row" style="margin-left: 0%; margin-right: 1.5%;">
-                <textarea class="form-control" id="remarks" name="remarks" style="height: 200px;" placeholder="abc...."></textarea>
+                <textarea class="form-control" id="remarks" name="remarks" style="height: 200px;" placeholder="abc...." [(ngModel)]="remark"></textarea>
             </div>
             <div class="row">
                 <div class="col-6" style="text-align: right">
-                    <button type="submit" class="btn btn-success" name="submit" value="Approve" onclick="return confirm('Are you sure, You want to Approve this Eba application?')">Approve</button>
+                    <button type="submit" class="btn btn-success" name="submit" value="Approve" (click)="approveapplication()" >Approve</button>
                 </div>
                 <div class="col-6" style="text-align: left">
-                    <button type="submit" class="btn btn-danger" name="submit" value="Return" onclick="return confirm('Are you sure, You want to Reject this Eba application?')">Return</button>
+                    <button type="submit" class="btn btn-danger" name="submit" value="Return" (click)="returnapplication()">Return</button>
                 </div>
             </div>
             </div></div>

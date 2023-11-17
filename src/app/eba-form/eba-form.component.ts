@@ -23,12 +23,68 @@ declare var jQuery: any;
   styleUrls: ['./eba-form.component.scss']
 })
 export class EbaFormComponent {
+  servantDetails: any[] = [];
+  memberEbaPasses: any[] = [];
 
+
+  // member = {
+  //   pivot: {
+  //     eba_passes: [{
+  //       emp_rel_id: null,
+  // eba_pass_no: null,}
+  //     ],
+  //   },
+  // };
+  //
+  // servant = {
+  //   eba_passes: [
+  //     {
+  //       servant_id: null,
+  //       living_at_president_sect: null,
+  //       curr_address: null,
+  //       perm_address: null,
+  //       last_5yr_address: null,
+  //       Reference_1_name: null,
+  //       reference_1_phone_no: null,
+  //       reference_1_address: null,
+  //       reference_2_name: null,
+  //       reference_2_phone_no: null,
+  //       reference_2_address: null,
+  //     }
+  //   ],
+  // };
+  // eba_pass: any[] = [
+  //   {
+  //     emp_rel_id: null,
+  //     eba_pass_no: null,
+  //     servant_id: null,
+  //     living_at_president_sect: null,
+  //     curr_address: null,
+  //     perm_address: null,
+  //     last_5yr_address: null,
+  //     Reference_1_name: null,
+  //     reference_1_phone_no: null,
+  //     reference_1_address: null,
+  //     reference_2_name: null,
+  //     reference_2_phone_no: null,
+  //     reference_2_address: null,
+  //   },
+  //   // You can add more elements as needed
+  // ];
   constructor(
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
     // private datePipe: DatePipe,
-  ) {}
+  ) {
+    // if (this.employee && this.employee.relations) {
+    //   this.employee.relations.forEach((relation, i) => {
+    //     this.emp_rel_detail[i] = {
+    //       emp_rel_id: relation.pivot.id,
+    //       eba_pass_no: null  // or any default value
+    //     };
+    //   });
+    // }
+  }
     employee:Employee| null = null;
 
 
@@ -38,6 +94,7 @@ export class EbaFormComponent {
     designations:Designation[]=[];
     divisions:Division[]=[];
     relations:Relation[]=[];
+    eba_passes: any[] = [];
     servants: Servants[] = [];
     servantRel: ServantRel[] = [];
     vehicles: Vehicles[]=[];
@@ -137,6 +194,7 @@ export class EbaFormComponent {
   //   // return date.toString(); // Change this to your date formatting logic
   //   return this.datePipe.transform(date, 'dd MMM YYYY') || 'N/A';
   // }
+
     async getDistricts(state:State){
         let districts:District[] = [];
         if(state!=null)
@@ -167,12 +225,63 @@ export class EbaFormComponent {
     return activeIdCard.join(', ');
   }
 
+  hasRelIdMatch(eba_passes: any[], memberId: any): boolean {
+    return eba_passes.some(eba_passes => eba_passes.emp_rel_id === memberId);
+  }
+
+  hasServantIdMatch(eba_passes: any[], servantId: any): boolean {
+    return eba_passes.some(eba_passes => eba_passes.servant_id === servantId);
+  }
+
+  // onMobileNoInput(event: any, i: number): void {
+  //   if (this.eba_pass.reference_1_phone_no !== null) {
+  //     // Get the input value
+  //     const inputValue = event.target.value;
+  //
+  //     // Remove non-numeric characters using a regular expression
+  //     const numericValue = inputValue.replace(/[^0-9]/g, '');
+  //
+  //     // Update the input value
+  //     event.target.value = numericValue;
+  //
+  //     // Update the ngModel bound variable (if necessary)
+  //       this.eba_pass.reference_1_phone_no = numericValue;
+  //
+  //   }
+  //   if (this.eba_pass.reference_2_phone_no !== null) {
+  //     // Get the input value
+  //     const inputValue = event.target.value;
+  //
+  //     // Remove non-numeric characters using a regular expression
+  //     const numericValue = inputValue.replace(/[^0-9]/g, '');
+  //
+  //     // Update the input value
+  //     event.target.value = numericValue;
+  //
+  //     // Update the ngModel bound variable (if necessary)
+  //     this.eba_pass.reference_2_phone_no = numericValue;
+  //
+  //   }
+  // }
+
   setEditable(status:boolean){
     this.editable = status;
   }
 
   applyEba() {
-    this.employeeService.applyeba().subscribe(
+    if (this.employee && this.employee.relations && this.employee.out_house) {
+      const ebaPassesToSubmit = this.employee.relations
+          .filter(member => member.pivot.eba_passes && member.pivot.eba_passes.length > 0)
+          .map(member => member.pivot.eba_passes)
+          .flat();
+
+      const servantDetailsToSubmit = this.employee?.out_house
+          ?.map(outhouse => outhouse.servants)
+          .flat()
+          .map(servant => servant.eba_passes)
+          .flat();
+
+        this.employeeService.applyeba(ebaPassesToSubmit,servantDetailsToSubmit).subscribe(
     // if (this.validationErrors.length > 0) {
     //
     //   const errorMessage = this.validationErrors
@@ -237,6 +346,6 @@ export class EbaFormComponent {
     );
 
   }
-
+}
 
 }

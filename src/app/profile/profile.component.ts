@@ -18,6 +18,7 @@ import { ParseChangedDataPipe } from '../parse-changed-data.pipe';
 import {Servants} from "../model/Servants"; // Update the path accordingly
 import {ServantRel} from "../model/ServantRel";
 import {Vehicles} from "../model/Vehicles";
+import {Outhouse} from "../model/Outhouse";
 
 @Component({
   selector: 'app-profile',
@@ -60,6 +61,7 @@ export class ProfileComponent implements OnInit{
   designations:Designation[]=[];
   divisions:Division[]=[];
   relations:Relation[]=[];
+  out_house:Outhouse[]=[];
   servants: Servants[] = [];
   servantRel: ServantRel[] = [];
   vehicles: Vehicles[]=[];
@@ -137,20 +139,25 @@ export class ProfileComponent implements OnInit{
       error => console.log(error)
     );
 
-    this.employeeService.getServants(1).subscribe(
-          data=>this.servants=data,
-      error => console.log(error)
-    );
+    // this.employeeService.getServants(1).subscribe(
+    //       data=>this.servants=data,
+    //   error => console.log(error)
+    // );
+    //
+    // this.employeeService.getVehicle(1).subscribe(
+    //     data=>this.vehicles=data,
+    //     error => console.log(error)
+    // );
+    //
+    // this.employeeService.getOutHouse(1).subscribe(
+    //     data=>this.outHouse=data,
+    //     error => console.log(error)
+    // );
 
-    this.employeeService.getVehicle(1).subscribe(
-        data=>this.vehicles=data,
-        error => console.log(error)
-    );
-
-    this.employeeService.getServantsRel(1).subscribe(
-      data=>this.servantRel=data,
-      error => console.log(error)
-    );
+    // this.employeeService.getServantsRel(1).subscribe(
+    //   data=>this.servantRel=data,
+    //   error => console.log(error)
+    // );
 
 
 
@@ -679,27 +686,129 @@ export class ProfileComponent implements OnInit{
 
   /***************** Add servant Members Function Start *********************/
 
-  // tableData: any[] = []; // Initialize an empty array for your table data.
-  addServant() {
-    if (this.employee && this.employee.servants) {
+
+  addServant(i: number): void {
+    if (
+        this.employee &&
+        this.employee.out_house &&
+        this.employee.out_house[i] &&
+        this.employee.out_house[i]!.servants
+    ) {
+      // Check if servants is an array and initialize it if not
+      if (!Array.isArray(this.employee.out_house[i]!.servants)) {
+        this.employee.out_house[i]!.servants = [];
+      }
+
       let s = new Servants();
-      s.employee_id = this.employee?.id!;
-      this.employee?.servants?.push(s);
+      s.employee_id = this.employee.id!;
+      if (this.employee.out_house[i]!.servants.length > 0) {
+        s.out_house_id = this.employee.out_house[i]!.servants[0].out_house_id;
+      }
+      this.employee.out_house[i]!.servants.push(s);
     }
   }
-  // addRow() {
-  //   this.tableData.push({
-  //     name: '',
-  //     gender: 'null',
-  //     relation: 'null',
-  //     mobileNo: '',
-  //     dob: ''
-  //   });
-  // }
 
-  removeServant(index: number) {
-    if (this.employee && this.employee.servants) {
-      this.employee.servants!.splice(index, 1);
+
+  removeServant(outHouseIndex: number, servantIndex: number): void {
+    if (
+        this.employee &&
+        this.employee.out_house &&
+        this.employee.out_house[outHouseIndex] &&
+        this.employee.out_house[outHouseIndex]!.servants
+    ) {
+      // Check if servants is an array
+      if (Array.isArray(this.employee.out_house[outHouseIndex]!.servants)) {
+        this.employee.out_house[outHouseIndex]!.servants.splice(servantIndex, 1);
+      }
+    }
+  }
+
+
+
+
+  saveServant(j: number, i: number) {
+    let servantsDtls = this.employee?.out_house?.[j]?.servants?.[i];
+
+    if (servantsDtls && servantsDtls.id == -1) {
+      this.employeeService.updateServant(servantsDtls).subscribe(
+          (p) => {
+            if (this.employee && this.employee.out_house && this.employee.out_house[j]?.servants) {
+              this.employee.out_house[j].servants[i] = p;
+
+              console.log(p);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Request for approval of Domestic Help has been saved successfully and is pending approval',
+              });
+            }
+          },
+          (e) => {
+            console.log(e);
+            if (e.status === 302) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Domestic Help details have not been saved successfully.',
+              });
+            }
+          }
+      );
+    } else if (servantsDtls) {
+      this.employeeService.updateServant(servantsDtls).subscribe(
+          (p) => {
+            if (this.employee && this.employee.out_house && this.employee.out_house[j]?.servants) {
+              this.employee.out_house[j].servants[i] = p;
+
+              console.log(p);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
+              });
+            }
+          },
+          (e) => {
+            console.log(e);
+            if (e.status === 302) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Domestic Help details have not been updated successfully.',
+              });
+            }
+          }
+      );
+    }
+  }
+
+
+
+
+  addOutHouse() {
+    if (this.employee && this.employee.out_house) {
+      let s = new Outhouse();
+      s.employee_id = this.employee?.id!;
+      this.employee?.out_house?.push(s);
+    }
+  }
+
+
+  removeOutHouse(index: number) {
+    if (this.employee && this.employee.out_house) {
+      this.employee.out_house!.splice(index, 1);
     }
   }
 
@@ -806,102 +915,7 @@ export class ProfileComponent implements OnInit{
   // }
 
 
-  saveServant(index: number){
-    let servantsDtls = this.employee?.servants![index];
-    if(servantsDtls?.id==-1){
-      this.employeeService.updateServant(servantsDtls).subscribe(
-        // p=>this.employee!.relations![index]=p,
-        // e=>console.log(e)
 
-        p => {
-          this.employee!.servants![index] = p;
-
-          // Show SweetAlert success message
-          console.log(p);
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Request for approval of Domestic Help have been saved successfully and pending for approval',
-            // }).then((result) => {
-            //   if (result.isConfirmed) {
-            //     // Redirect to the desired page
-            //     window.location.reload();
-            //   }
-          });
-        },
-        e => {
-          console.log(e);
-          if(e.status === 302){
-            Swal.fire({
-              icon: 'warning',
-              title: 'Warning',
-              text: 'Previous Record Not Approved !!!',
-            });
-          }else{
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Domestic Help details have not been saved successfully.',
-            });
-          }
-          // Swal.fire({
-          //   icon: 'error',
-          //   title: 'error',
-          //   text: 'Relation details have not been saved successfully.',
-          //   showConfirmButton: false,
-          //   // timer: 1500 // Automatically close after 1.5 seconds
-          // });
-        }
-
-      );
-    }else{
-      if(servantsDtls!=null){
-        this.employeeService.updateServant(servantsDtls).subscribe(
-          // p=>this.employee!.relations![index]=p,
-          // e=>console.log(e)
-          p => {
-            this.employee!.servants![index] = p;
-
-            // Show SweetAlert success message
-            console.log(p);
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Request for approval of Domestic Help have been updated successfully and pending for approval',
-              // }).then((result) => {
-              //   if (result.isConfirmed) {
-              //     // Redirect to the desired page
-              //     window.location.reload();
-              //   }
-            });
-          },
-          e => {
-            console.log(e);
-            if(e.status === 302){
-              Swal.fire({
-                icon: 'warning',
-                title: 'Warning',
-                text: 'Previous Record Not Approved !!!',
-              });
-            }else{
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Domestic Help details have not been Updated successfully.',
-              });
-            }
-            // Swal.fire({
-            //   icon: 'error',
-            //   title: 'error',
-            //   text: 'Relation details have not been updated successfully.',
-            //   showConfirmButton: false,
-            //   // timer: 1500 // Automatically close after 1.5 seconds
-            // });
-          }
-        );
-      }
-    }
-  }
 
 
   /***************** Add Servant Members Function End ***************8*******/
@@ -1286,42 +1300,42 @@ export class ProfileComponent implements OnInit{
   }
 
 
-  async onaadharSelected(event: any): Promise<void> {
-    const selectedFile = event.target.files[0]; // Get the first selected file
-
-    try {
-      if (selectedFile) {
-        const fileType = selectedFile.type;
-        const fileSize = selectedFile.size;
-
-        // Check if the selected file is a PDF and the size is within limits
-        if (fileType === 'application/pdf' && fileSize <= 1048576) {
-          const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
-          if (this.employee) {
-            this.employee.aadhar_card = base64String;
-          } else {
-            console.log('this.employee is null.');
-          }
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Invalid File',
-            text: 'File size exceeds 1mb or it is not a pdf',
-          });
-          console.log('File size exceeds 1mb or not a pdf');
-        }
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'File is not present',
-          text: 'No file selected',
-        });
-        console.log('No file selected');
-      }
-    } catch (error) {
-      console.error('Failed to convert the file to base64:', error);
-    }
-  }
+  // async onaadharSelected(event: any): Promise<void> {
+  //   const selectedFile = event.target.files[0]; // Get the first selected file
+  //
+  //   try {
+  //     if (selectedFile) {
+  //       const fileType = selectedFile.type;
+  //       const fileSize = selectedFile.size;
+  //
+  //       // Check if the selected file is a PDF and the size is within limits
+  //       if (fileType === 'application/pdf' && fileSize <= 1048576) {
+  //         const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
+  //         if (this.employee) {
+  //           this.employee.aadhar_card = base64String;
+  //         } else {
+  //           console.log('this.employee is null.');
+  //         }
+  //       } else {
+  //         Swal.fire({
+  //           icon: 'error',
+  //           title: 'Invalid File',
+  //           text: 'File size exceeds 1mb or it is not a pdf',
+  //         });
+  //         console.log('File size exceeds 1mb or not a pdf');
+  //       }
+  //     } else {
+  //       Swal.fire({
+  //         icon: 'error',
+  //         title: 'File is not present',
+  //         text: 'No file selected',
+  //       });
+  //       console.log('No file selected');
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to convert the file to base64:', error);
+  //   }
+  // }
 
   // streamAadharCard() {
   //   // Here, you can open or display the Aadhar Card using an appropriate method.

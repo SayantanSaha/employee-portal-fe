@@ -18,6 +18,7 @@ import {environment} from "../environments/environment";
 
 import {Dependent} from "./model/Dependent";
 import { ChangePassword } from "./model/ChangePassword";
+import {Outhouse} from "./model/Outhouse";
 import {Servants} from "./model/Servants";
 import {ServantRel} from "./model/ServantRel";
 import {Vehicles} from "./model/Vehicles";
@@ -142,6 +143,9 @@ export class EmployeeService {
   getVehicle(employee_id: number): Observable<Vehicles[]>{
     return this.http.get<Vehicles[]>(this.apiUrl+"employees/"+employee_id+"/Vehicle",{headers:this.createHeader()});
   }
+  getOutHouse(employee_id: number): Observable<Outhouse[]>{
+    return this.http.get<Outhouse[]>(this.apiUrl+"employees/"+employee_id+"/OutHouse",{headers:this.createHeader()});
+  }
 
   /************** Chnages done by Ravikant Kumar ************************************/
 
@@ -230,10 +234,25 @@ export class EmployeeService {
     return this.http.get<any[]>(this.apiUrl+"Eba",{headers:this.createHeader()});
   }
 
-  applyeba(): Observable<any> {
+  applyeba(ebaPasses: any[], servantDetails: any[]): Observable<any> {
+    const dataToSubmit = { relation: ebaPasses, servant: servantDetails };
     const options = { headers: this.createHeader() };
-
-    return this.http.post<any>(this.apiUrl + "Eba", null, options);
+    return this.http.post<any>(this.apiUrl + "Eba", dataToSubmit, options);
   }
+
+  updateebastatus(id: number, action: string, remark: string): Observable<any> {
+    const options = { headers: this.createHeader() };
+    const requestBody = {
+      action: action,
+      remark: remark
+    };
+
+    return this.http.post<any>(this.apiUrl + "Ebastatus/"+id, requestBody, options);
+  }
+
+  applyEvahaan(): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"evahaan",{headers:this.createHeader()});
+  }
+
 
 }

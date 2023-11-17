@@ -27,6 +27,9 @@ import { EbaFormComponent } from './eba-form/eba-form.component';
 import { UppercaseDirective } from './uppercase.directive';
 import { EbapendingComponent } from './ebapending/ebapending.component';
 import { EbaapprovalComponent } from './ebaapproval/ebaapproval.component';
+import { AdminpanelComponent } from './adminpanel/adminpanel.component';
+import { EbapanelComponent } from './ebapanel/ebapanel.component';
+
 
 
 @NgModule({
@@ -51,6 +54,8 @@ import { EbaapprovalComponent } from './ebaapproval/ebaapproval.component';
     UppercaseDirective,
     EbapendingComponent,
     EbaapprovalComponent,
+    AdminpanelComponent,
+    EbapanelComponent,
 
 
   ],

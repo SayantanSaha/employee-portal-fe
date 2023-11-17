@@ -51,7 +51,7 @@
             <!-- <img [src]="user.profile_photo" alt="mdo" width="32" height="32" class="rounded-circle"/>&nbsp;{{user.name}} -->
             <img *ngIf="user.profile_photo" [src]="user.profile_photo ? user.profile_photo : '' " alt="mdo"
               width="32" height="32" class="rounded-circle">
-            &nbsp;{{user.name}}/<sub>{{employee!.organization!.org_desc}}</sub>
+            &nbsp;{{user.name}}
 
           </a>
 

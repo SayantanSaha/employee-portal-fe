@@ -8,6 +8,7 @@ import {Idcards} from "./Idcards";
 import {Servants} from "./Servants";
 import {ServantRel} from "./ServantRel";
 import {Vehicles} from "./Vehicles";
+import {Outhouse} from "./Outhouse";
 
 
 export class Employee{
@@ -39,15 +40,19 @@ export class Employee{
   profile_photo: string|null = null;
   relations: Relation[]|null = [];
   servants: Servants[]|null = [];
+  out_house: Outhouse[]|null = [];
+  eba_applications: any;
+  eba_passes:any;
+  eba_applicationsstatus :any;
   vehicles: Vehicles[]|null = [];
   divisions: Division[]|null = null;
   organization: Organization|null = null;
   designations: Designation[]|null = null;
-  aadhar_card: string|null = null;
+  //aadhar_card: string|null = null;
   sign_path: string|null = null;
   id_cards: Idcards[]|null = null;
   temp_changes: any;
-  servantRel:ServantRel[]|null=[];
+  //servantRel:ServantRel[]|null=[];
 
 
 }

@@ -7,6 +7,7 @@ import {ebaFormModule} from "../eba-form/eba-form.module";
 import {ebaPendingModule} from "../ebapending/ebapending.module";
 import {ebaApprovalModule} from "../ebaapproval/ebaapproval.module";
 
+
 const routes: Routes = [
   {
     path: '',
@@ -41,6 +42,8 @@ const routes: Routes = [
       { path: 'eba-form/:mode',loadChildren: () => import('../eba-form/eba-form.module').then(d => d.ebaFormModule), canActivate: [AuthGuard]},
       { path: 'eba-pending',loadChildren: () => import('../ebapending/ebapending.module').then(d => d.ebaPendingModule), canActivate: [AuthGuard]},
       { path: 'eba-pending-dtls/:id',loadChildren: () => import('../ebaapproval/ebaapproval.module').then(d => d.ebaApprovalModule), canActivate: [AuthGuard]},
+      { path: 'ebapanel',loadChildren: () => import('../ebapanel/ebapanel.module').then(d => d.EbapanelModule), canActivate: [AuthGuard]},
+       { path: 'adminpanel',loadChildren: () => import('../adminpanel/adminpanel.module').then(d => d.AdminpanelModule), canActivate: [AuthGuard]},
     ]
   },
 

@@ -1,292 +1,292 @@
+<!--<button class="btn btn-primary" (click)="applyeVahan()">-->
+<!--  Apply e vahan-->
+<!--</button>-->
+
+
+
 
 <div class="row">
-  <!-- <div class="col"> -->
-  <div class="container">
-    <div class="card">
-      <div class="card shadow">
-        <div class="card-header">
-          <div class="card-title">
-            <b>Dashboard</b>
-          </div>
-        </div>
-
-
-        <div class="row" *ngIf="user && user.role">
-          <div *ngFor="let role of user.role">
-            <div *ngIf="role.role_id === 1">
-
-              <div class="card-body">
-
-                <div class="row">
-
-                  <div class="col-md-3" >
-                    <div class="card">
-                      <div class="card shadow">
-
-
-                        <div class="card-body" style="overflow: auto;">
-
-                          <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle btn btn-outline-success">
-                              <a routerLink="/employee-list" title="View Employee List">
-                                <i class="bi bi-people"></i>
-                              </a>
-                            </div>
-                            <div class="ps-5">
-
-                              <p>
-                                <span class="text-muted small pt-2 ps-1 fw-bold">Total No. of Employee</span>
-                              </p>
-                              {{dashboardData.tEmployee}}
-                            </div>
-                          </div>
-
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-5" >
-                    <div class="card">
-                      <div class="card shadow">
-
-                        <div class="card-body" style="overflow: auto;">
-                          <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle btn btn-outline-info">
-                              <a routerLink="/approved-emp-list" title="View Approved Employee List">
-                                <i class="bi bi-people"></i>
-                              </a>
-                            </div>
-                            <div class="ps-5">
-
-                              <p>
-                                <span class="text-muted small pt-2 ps-1 fw-bold">Total No. of Approved Employee</span>
-                              </p>
-                              {{dashboardData.approvedCount}}
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-4" >
-                    <div class="card">
-                      <div class="card shadow">
-
-                        <div class="card-body" style="overflow: auto;">
-                          <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle btn btn-outline-danger">
-                              <a routerLink="/approval-pending-emp-dtls">
-                                <i class="bi bi-people"></i>
-                              </a>
-                            </div>
-                            <div class="ps-5">
-
-                              <p>
-                                <span class="text-muted small pt-2 ps-1 fw-bold">Total No. of Approval Pending</span>
-                              </p>
-                              {{dashboardData.pendingCount}}
-                            </div>
-                          </div>
-
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div class="row">&nbsp;</div>
-
-                <div class="row" >
-
-                  <div class="col-md-12">
-                    <div class="card">
-                      <div class="card shadow">
-                        <div class="card-header">
-                          <div class="card-title">
-                            <b>Today Applied List</b>
-                          </div>
-                        </div>
-
-                        <div class="card-body" style="overflow: auto;">
-                          <div class="row mb-12">
-
-                            <table class="table table-stripped">
-                              <thead>
-                              <tr>
-                                <th>Sl No.</th>
-                                <th>Id Card No.</th>
-                                <th>Employee Name</th>
-                                <!-- <th>Email ID</th> -->
-                                <th>Mobile No.</th>
-                                <th>Last Updated Date</th>
-                                <th>Action</th>
-                              </tr>
-                              </thead>
-
-                              <tbody *ngIf="dashboardData && dashboardData.todayList">
-
-                              <tr *ngFor="let tempChange of dashboardData.todayList; let i = index">
-                                <td>{{ i + 1 }}</td>
-                                <td>{{ tempChange.id_cards[0].card_no}}</td>
-                                <td>{{ tempChange.employee.emp_name }}</td>
-                                <td>{{ tempChange.employee.mobile }}</td>
-                                <td>{{ formatDate(tempChange.changed_at) }}</td>
-                                <td>
-                                  <a class="btn btn-outline-info" [routerLink]="'/changes-approval-dtls/' + tempChange.id">Details</a>
-                                </td>
-                              </tr>
-                              </tbody>
-                            </table>
-
-
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-
-                </div>
-
-              </div>
-
+  <!-- Admin Card -->
+  <div class="col-md-4" *ngIf="user && user.role">
+    <a routerLink="/adminpanel">
+<!--    <a [routerLink]="'/admin-panel'">-->
+      <div *ngFor="let role of user.role">
+        <div *ngIf="role.role_id === 1">
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://static.vecteezy.com/system/resources/previews/000/376/355/original/user-management-vector-icon.jpg" alt="admin" style="width: 280px; height: 286px;">
+            <div class="card-body" style="text-align: center">
+              <a style="text-decoration: underline">Admin</a>
             </div>
           </div>
         </div>
-        <!-- </div> -->
-
-
-        <div class="row" *ngIf="employee!=null && employee.divisions!=null">
-          <div  *ngFor="let div of employee!.divisions;">
-            <div *ngIf="div.id === 47">
-
-              <div class="card-body">
-
-                <div class="row">
-
-                  <div class="col-md-6" >
-                    <div class="card">
-                      <div class="card shadow">
-
-                        <div class="card-body" style="overflow: auto;">
-                          <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle btn btn-outline-info">
-                              <a routerLink="/approved-emp-list" title="View Approved Employee List">
-                                <i class="bi bi-people"></i>
-                              </a>
-                            </div>
-                            <div class="ps-5">
-
-                              <p>
-                                <span class="text-muted small pt-2 ps-1 fw-bold">Total No. of Approved Employee</span>
-                              </p>
-                              {{ebadashboardData.approvedCount}}
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6" >
-                    <div class="card">
-                      <div class="card shadow">
-
-                        <div class="card-body" style="overflow: auto;">
-                          <div class="d-flex align-items-center">
-                            <div class="card-icon rounded-circle btn btn-outline-danger">
-                              <a routerLink="/eba-pending">
-                                <i class="bi bi-people"></i>
-                              </a>
-                            </div>
-                            <div class="ps-5">
-
-                              <p>
-                                <span class="text-muted small pt-2 ps-1 fw-bold">Total No. of Approval Pending</span>
-                              </p>
-                              {{ebadashboardData.pendingCount}}
-                            </div>
-                          </div>
-
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div class="row">&nbsp;</div>
-
-                <div class="row" >
-
-                  <div class="col-md-12">
-                    <div class="card">
-                      <div class="card shadow">
-                        <div class="card-header">
-                          <div class="card-title">
-                            <b>Today Applied List</b>
-                          </div>
-                        </div>
-
-                        <div class="card-body" style="overflow: auto;">
-                          <div class="row mb-12">
-
-                            <table class="table table-stripped">
-                              <thead>
-                              <tr>
-                                <th>Sl No.</th>
-                                <th>Id Card No.</th>
-                                <th>Employee Name</th>
-                                <!-- <th>Email ID</th> -->
-                                <th>Mobile No.</th>
-                                <th>Last Updated Date</th>
-                                <th>Action</th>
-                              </tr>
-                              </thead>
-
-                              <tbody *ngIf="ebadashboardData && ebadashboardData.todayList">
-
-                              <tr *ngFor="let tempChange of ebadashboardData.todayList; let i = index">
-                                <td>{{ i + 1 }}</td>
-                                <td>{{ tempChange.id_cards[0].card_no}}</td>
-                                <td>{{ tempChange.employee.emp_name }}</td>
-                                <td>{{ tempChange.employee.mobile }}</td>
-                                <td>{{ formatDate(tempChange.created_at) }}</td>
-                                <td>
-                                  <a class="btn btn-outline-info" [routerLink]="'/eba-pending-dtls/' + tempChange.employee_id">Details</a>
-                                </td>
-                              </tr>
-                              </tbody>
-                            </table>
-
-
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-
-                </div>
-
-              </div>
-
-            </div>
-          </div>
-        </div>
-
       </div>
+    </a>
+  </div>
 
+  <!-- Eba Card -->
+  <div class="col-md-4" *ngIf="employee!=null && employee.divisions!=null">
+    <div *ngFor="let div of employee!.divisions;">
+      <div *ngIf="div.id === 47">
+        <a [routerLink]="'/ebapanel'">
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://static.vecteezy.com/system/resources/previews/000/616/494/original/home-logo-and-symbols-vector.jpg" alt="eba" style="width: 286px; height: 276px;">
+            <div class="card-body" style="text-align: center">
+              <p style="text-decoration: underline">eba</p>
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
+
+
+  <div class="col-md-4">
+
+        <a href="http://localhost/test/server.php?token=abcd" > <!--(click)="applyEvahaan()"-->
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="https://th.bing.com/th/id/OIP.CXaX3hBTdqwk0TFwli9U1AHaF7?pid=ImgDet&rs=1" alt="evahaan" style="width: 286px; height: 276px;">
+            <div class="card-body" style="text-align: center">
+              <p style="text-decoration: underline">e vahan</p>
+            </div>
+          </div>
+        </a>
+
+  </div>
 </div>
+
+
+
+
+
+
+<!--<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i&amp;amp;subset=latin-ext">-->
+
+<!--<div class="page-wrap">-->
+
+<!--  &lt;!&ndash; header &ndash;&gt;-->
+<!--  <header class="header header__style-02">-->
+<!--    <div class="container">-->
+<!--      <div class="header__logo"><img src="assets/img/logo.png" alt="" /></div>-->
+
+<!--      <nav class="consult-nav">-->
+<!--        <ul class="consult-menu">-->
+<!--          <li class="current-menu-item">-->
+<!--            <a href="index.html">Home</a>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a href="https://rb.nic.in/einvitation/office/login" target="_blank"> E-Invitation</a>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a href="https://rb.nic.in/psoi" target="_blank"> PSOI</a>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a href="https://rb.nic.in/visitorawards" target="_blank"> Visitor's Awards</a>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a href="https://rb.nic.in/rbsampark" target="_blank"> RB-Sampark</a>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a href="https://rb.nic.in/psrb" target="_blank"> RB-VPS</a>-->
+<!--          </li>-->
+<!--          <li>-->
+<!--            <a href="https://sparrow-rb.eoffice.gov.in" target="_blank"> RB SPARROW /IPR</a>-->
+<!--          </li>-->
+
+<!--        </ul>-->
+
+<!--      </nav>-->
+
+
+<!--    </div>-->
+
+<!--  </header>-->
+<!--  &lt;!&ndash; End / header &ndash;&gt;-->
+<!--  &lt;!&ndash; Content&ndash;&gt;-->
+
+
+<!--</div>-->
+
+
+<!--<div class="md-content">-->
+<!--  &lt;!&ndash; Modal &ndash;&gt;-->
+<!--  <div style='display:none' class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog modal-lg" role="document">-->
+<!--      <div class="modal-content">-->
+<!--        <div class="modal-header">-->
+<!--          <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--            <span aria-hidden="true">&times;</span>-->
+<!--          </button>-->
+<!--        </div>-->
+<!--        <div class="modal-body modal-dialog-left">-->
+<!--          <div><a href="https://rashtragaan.in/" target="new"><img class="modal-img" src="assets/img/akam2021.jpg" alt="Azadi ka Amrit Mahotsava"/></a></div>-->
+<!--        </div>-->
+<!--        <div class="modal-footer">-->
+<!--          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+
+
+
+
+<!--&lt;!&ndash; slider &ndash;&gt;-->
+<!--<div class="slider">-->
+
+<!--  &lt;!&ndash; carousel__element owl-carousel &ndash;&gt;-->
+<!--  <div class="carousel__element owl-carousel" data-options='{"items":1,"loop":true,"dots":false,"nav":false,"margin":0, "autoplay": true, "autoplayTimeout": 3000}'>-->
+
+<!--&lt;!&ndash;    <a href="https://rashtragaan.in" target="_blank">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="slider__item" style="background-image: url('assets/img/slider0.jpg');">&ndash;&gt;-->
+<!--&lt;!&ndash;      </div> </a>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="slider__item" style="background-image: url('assets/img/slider1.jpg');">&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="slider__item" style="background-image: url('assets/img/slider2.jpg');">&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="slider__item" style="background-image: url('assets/img/slider3.jpg');">&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="slider__item" style="background-image: url('assets/img/slider4.jpg');">&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="slider__item" style="background-image: url('assets/img/slider5.jpg');">&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--  </div>&lt;!&ndash; End / carousel__element owl-carousel &ndash;&gt;-->
+
+
+<!--</div>&lt;!&ndash; End / slider &ndash;&gt;-->
+
+<!--&lt;!&ndash; Section &ndash;&gt;-->
+<!--<section class="md-section" style="background-color:#f7f7f7;padding:0;">-->
+<!--  <div class="container">-->
+<!--    <div class="textbox-group" >-->
+<!--      <div class="row">-->
+<!--        <div class="col-md-3 col-lg-3 ">-->
+
+<!--          &lt;!&ndash; textbox &ndash;&gt;-->
+<!--          <div class="textbox">-->
+<!--            <div class="textbox__image"><a href="https://rb.nic.in/einvitation/office/login" target="_blank"><img src="assets/img/services/1.jpg" alt="" /></a></div>-->
+<!--            <div class="textbox__body">-->
+<!--              <h2 class="textbox__title"><a href="https://rb.nic.in/einvitation/office/login" target="_blank">E-Invitation</a></h2>-->
+
+<!--            </div>-->
+<!--          </div>&lt;!&ndash; End / textbox &ndash;&gt;-->
+
+<!--        </div>-->
+<!--        <div class="col-md-3 col-lg-3 ">-->
+
+<!--          &lt;!&ndash; textbox &ndash;&gt;-->
+<!--          <div class="textbox">-->
+<!--            <div class="textbox__image"><a href="https://rb.nic.in/psoi" target="_blank"><img src="assets/img/services/2.jpg" alt="" /></a></div>-->
+<!--            <div class="textbox__body">-->
+<!--              <h2 class="textbox__title"><a href="https://rb.nic.in/psoi" target="_blank">Book PSA (PSOI) </a></h2>-->
+
+<!--            </div>-->
+<!--          </div>&lt;!&ndash; End / textbox &ndash;&gt;-->
+
+<!--        </div>-->
+<!--        <div class="col-md-3 col-lg-3 ">-->
+
+
+<!--          &lt;!&ndash; textbox &ndash;&gt;-->
+<!--          <div class="textbox">-->
+<!--            <div class="textbox__image"><a href="https://rb.nic.in/visitorawards" target="_blank"><img src="assets/img/services/3.jpg" alt="" /></a></div>-->
+<!--            <div class="textbox__body">-->
+<!--              <h2 class="textbox__title"><a href="https://rb.nic.in/visitorawards" target="_blank">Visitor's Awards </a></h2>-->
+
+<!--            </div>-->
+<!--          </div>&lt;!&ndash; End / textbox &ndash;&gt;-->
+
+<!--        </div>-->
+<!--        <div class="col-md-3 col-lg-3 ">-->
+
+<!--          &lt;!&ndash; textbox &ndash;&gt;-->
+<!--          <div class="textbox">-->
+<!--            <div class="textbox__image"><a href="https://rb.nic.in/rbsampark" target="_blank"><img src="assets/img/services/4.jpg" alt="" /></a></div>-->
+<!--            <div class="textbox__body">-->
+<!--              <h2 class="textbox__title"><a href="https://rb.nic.in/rbsampark" target="_blank">RB-Sampark </a></h2>-->
+
+<!--            </div>-->
+<!--          </div>&lt;!&ndash; End / textbox &ndash;&gt;-->
+
+<!--        </div>-->
+
+<!--      </div>-->
+<!--      <div class="row">-->
+
+<!--        <div class="col-md-3 col-lg-3 ">-->
+
+<!--          &lt;!&ndash; textbox &ndash;&gt;-->
+<!--          <div class="textbox">-->
+<!--            <div class="textbox__image"><a href="https://sparrow-rb.eoffice.gov.in" target="_blank"><img src="assets/img/services/6.jpg" alt="" /></a></div>-->
+<!--            <div class="textbox__body">-->
+
+<!--              <h2 class="textbox__title"><a href="https://sparrow-rb.eoffice.gov.in" target="_blank">RB SPARROW / IPR</a></h2>-->
+
+<!--            </div>-->
+<!--          </div>&lt;!&ndash; End / textbox &ndash;&gt;-->
+
+<!--        </div>-->
+
+<!--        <div class="col-md-3 col-lg-3 ">-->
+
+<!--          &lt;!&ndash; textbox &ndash;&gt;-->
+<!--          <div class="textbox">-->
+<!--            <div class="textbox__image"><a href="https://rb.nic.in/psrb" target="_blank"><img src="assets/img/services/5.jpg" alt="" /></a></div>-->
+<!--            <div class="textbox__body">-->
+<!--              <h2 class="textbox__title"><a href="https://rb.nic.in/psrb" target="_blank">RB-Vehicle Parking System </a></h2>-->
+
+<!--            </div>-->
+<!--          </div>&lt;!&ndash; End / textbox &ndash;&gt;-->
+
+<!--        </div>-->
+
+
+<!--        <div class="col-md-3 col-lg-3 ">-->
+
+<!--          &lt;!&ndash; textbox &ndash;&gt;-->
+<!--          <div class="textbox">-->
+<!--            <div class="textbox__image"><a href="https://rb.nic.in/vis" target="_blank"><img src="assets/img/services/covid.jpg" alt="" /></a></div>-->
+<!--            <div class="textbox__body">-->
+<!--              <h2 class="textbox__title"><a href="https://rb.nic.in/vis" target="_blank"> Covid-19 Management System </a></h2>-->
+<!--            </div>-->
+<!--          </div>&lt;!&ndash; End / textbox &ndash;&gt;-->
+
+<!--        </div>-->
+<!--        <div class="col-md-3 col-lg-3 ">-->
+
+<!--          &lt;!&ndash; textbox &ndash;&gt;-->
+<!--          <div class="textbox">-->
+<!--            <div class="textbox__image"><a href="https://rb.nic.in/e-vaahan" target="_blank"><img src="assets/img/services/car.jpg" alt="" /></a></div>-->
+<!--            <div class="textbox__body">-->
+<!--              <h2 class="textbox__title"><a href="https://rb.nic.in/e-vaahan" target="_blank"> E-Vaahan<br/> Online Vehicle Booking </a></h2>-->
+<!--            </div>-->
+<!--          </div>&lt;!&ndash; End / textbox &ndash;&gt;-->
+
+<!--        </div>-->
+<!--      </div>-->
+
+<!--    </div>-->
+<!--  </div>-->
+
+<!--</section>-->
+
+<!--&lt;!&ndash; End / Section &ndash;&gt;-->
+
+
+<!--&lt;!&ndash; End / Content&ndash;&gt;-->
+<!--&lt;!&ndash; footer &ndash;&gt;-->
+<!--<footer class="footer">-->
+<!--  <div class="footer__copyright">&copy; 2019 Copyright . All rights Reserved. Website hosted by National Informatics Centre. Website Content provided by the President's Secretariat.</div>-->
+<!--</footer>&lt;!&ndash; End / footer &ndash;&gt;-->
+
+
+<!--&lt;!&ndash; Vendors&ndash;&gt;-->
+
+
+
+
+
+
