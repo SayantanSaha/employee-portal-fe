@@ -22,6 +22,7 @@ export class EbaapprovalComponent {
 
   employee: Employee | null = null;
   remark: string = '';
+  file_path: string = '';
   user:User = new User();
   ngOnInit() {
 
@@ -100,7 +101,7 @@ export class EbaapprovalComponent {
 
     // Check if 'id' parameter exists in the URL
     if (!isNaN(id)) {
-      this.employeeService.updateebastatus(id, 'Approve', this.remark).subscribe(
+      this.employeeService.updateebastatus(id, 'Approve', this.remark,this.file_path).subscribe(
         () => {
           Swal.fire({
             icon: 'success',
@@ -141,7 +142,7 @@ export class EbaapprovalComponent {
 
     // Check if 'id' parameter exists in the URL
     if (!isNaN(id)) {
-      this.employeeService.updateebastatus(id, 'Return', this.remark).subscribe(
+      this.employeeService.updateebastatus(id, 'Return', this.remark, this.file_path).subscribe(
         () => {
           Swal.fire({
             icon: 'success',

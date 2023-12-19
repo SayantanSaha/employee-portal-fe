@@ -193,7 +193,6 @@
                     <td>
                       <div *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
                         <div *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
-
                           <div *ngIf="eba_pass && editable">
                             <ng-container *ngIf=" eba_pass.eba_pass_no !== null; else eba_pass_no_template">
                               {{ eba_pass.eba_pass_no }}

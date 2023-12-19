@@ -14,9 +14,11 @@
         </div>
         <div class="row" style="text-align: center">
           <label class="upload-icon-label"
-                 title="Upload Profile Photo">
+                 title="Upload file">
             <i class="bi bi-cloud-arrow-up btn btn-outline-success"></i>
           </label>
+          <input type="file" class="custom-file-input" [(ngModel)]="file_path"
+                 style="display: none">
         </div>
         <div class="row">
           <div class="col-6" style="text-align: right">
