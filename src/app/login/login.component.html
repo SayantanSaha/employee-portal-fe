@@ -9,7 +9,7 @@
       <form>
         <div class="row">
           <div class="col-md">
-            <label for="email" class="form-label">Mobile No</label>
+            <label for="username" class="form-label">Mobile No</label>
             <input type="text" class="form-control" name="username" id="username" aria-describedby="emailHelp" [(ngModel)]="username">
             <div id="emailHelp" class="form-text"></div>
           </div>
@@ -21,12 +21,14 @@
           </div>
         </div>
         <div class="row" style="padding-top: 10px;">
-          <div class="col-md">
+          <!-- <div class="col-md offset-md-6" style="text-align: right">
+            <a href="/registration" type="button" class="btn btn-warning" >Register</a>
+          </div> -->
+
+          <div class="col-md offset-md-6" style="text-align: right">
             <button type="submit" class="btn btn-primary" (click)="doLogin()" >Login</button>
           </div>
-          <div class="col-md offset-md-6" style="text-align: right">
-            <a href="/registration" type="button" class="btn btn-warning" >Register</a>
-          </div>
+
         </div>
       </form>
 

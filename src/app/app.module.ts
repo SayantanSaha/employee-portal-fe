@@ -21,6 +21,18 @@ import { TempchangesdataComponent } from './tempchangesdata/tempchangesdata.comp
 import { TempchangesapprovalComponent } from './tempchangesapproval/tempchangesapproval.component';
 import { ApproveemployeelistComponent } from './approveemployeelist/approveemployeelist.component';
 import { EmployeelistComponent } from './employeelist/employeelist.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ParseChangedDataPipe } from './parse-changed-data.pipe';
+import { EbaFormComponent } from './eba-form/eba-form.component';
+import { UppercaseDirective } from './uppercase.directive';
+import { EbapendingComponent } from './ebapending/ebapending.component';
+import { EbaapprovalComponent } from './ebaapproval/ebaapproval.component';
+import { AdminpanelComponent } from './adminpanel/adminpanel.component';
+import { EbapanelComponent } from './ebapanel/ebapanel.component';
+import { NextDirective } from './next.directive';
+import { PrevDirective } from './prev.directive';
+import { EbaformviewComponent } from './ebaformview/ebaformview.component';
+
 
 
 @NgModule({
@@ -39,6 +51,17 @@ import { EmployeelistComponent } from './employeelist/employeelist.component';
     TempchangesapprovalComponent,
     ApproveemployeelistComponent,
     EmployeelistComponent,
+    ChangePasswordComponent,
+    ParseChangedDataPipe,
+    EbaFormComponent,
+    UppercaseDirective,
+    EbapendingComponent,
+    EbaapprovalComponent,
+    AdminpanelComponent,
+    EbapanelComponent,
+    NextDirective,
+    PrevDirective,
+    EbaformviewComponent,
 
 
   ],

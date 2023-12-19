@@ -8,9 +8,17 @@
         </div>
 
         <div class="float-end">
+          <div *ngIf="editable">
           <a class="btn btn-outline-info" [routerLink]="'/dashboard'">
             Home
           </a>
+          </div>
+          <div *ngIf="!editable">
+            <a class="btn btn-outline-primary" href="{{baseUrl}}/profile/edit">
+              EDIT
+            </a>
+          </div>
+
         </div>
       </div>
 
@@ -27,51 +35,321 @@
                 <div class="float-start">
                   <b>Primary Details</b>
                 </div>
-                <div *ngIf="editable" class="float-end">
-                  <button class="btn btn-outline-primary" (click)="savePrimaryDetails()" *ngIf="changesMade">
-                    Save Changes
-                  </button>
-                </div>
               </div>
 
+              <!-- Temp Changes Data Show Start -->
+              <div class="card-body" *ngIf="editable">
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div class="card">
+                      <div class="card-body">
+
+                        <div class="row" style="text-align: center;overflow:auto;">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label class="form-label">
+                                <u class="text-danger">Pending changes of Basic Data</u>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
+                          <div *ngFor="let change of employee!.temp_changes">
+
+                            <div class="row" *ngIf="change.model === 'Employee' && change.changed_data"
+                                 style="overflow:auto">
+
+                              <div class="col-md-3">
+                                <div style="width:100%;text-align: center;padding-top: 10px;">
+
+                                  <span *ngIf="change.changed_data && change.changed_data.profile_photo">
+                                    <img [src]="change.changed_data.profile_photo" alt="Profile Photo"
+                                         style="width: 150px; height: 128px" class="rounded-circle"
+                                         title="Profile Photo" />
+                                  </span>
+                                  <br /><br />
+                                  <span *ngIf="change.changed_data && change.changed_data.sign_path">
+                                    <img [src]="change.changed_data.sign_path" alt="Signature"
+                                         style="width: 150px; height: 30px" class="rounded-square"
+                                         title="Employee Signature" />
+                                  </span>
+
+                                </div>
+                              </div>
+
+                              <div class="col-md-9">
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.emp_name; let empName">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empName ? 'Name' : '' }}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      <label *ngIf="change.changed_data.emp_title; let empTitle">
+                                        {{ empTitle }}
+                                      </label>
+                                      &nbsp;
+                                      <label>
+                                        {{ empName }}
+                                      </label>
+
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.emp_name_hi; let empNameHi">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empNameHi ? 'नाम' :''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      <label *ngIf="change.changed_data.emp_title_hi; let empTitleHi">
+                                        {{ empTitleHi }}
+                                      </label>
+
+                                      <label>
+                                        {{ empNameHi }}
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.dob; let empDOB">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empDOB ? 'Date Of Birth':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{ formatDate(empDOB) }}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6"
+                                       *ngIf="(change.changed_data.gender) === 'M' ? 'Male' : (change.changed_data.gender) === 'F' ? 'Female' : (change.changed_data.gender) === 'O' ? 'OTHERS' : ''; let empGender">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empGender ? 'Gender':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{ empGender }}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.email_id; let empEmail">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empEmail ? 'Email':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{ empEmail }}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.mobile; let empMobile">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empMobile ? 'Mobile No' : ''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{ empMobile }}
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.doj_gs; let empDOJGS">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empDOJGS ? 'Date of Joining in Government Service':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{ formatDate(empDOJGS) }}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.doj_rb; let empDOJRB">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empDOJRB ? 'Date of Joining in Rashtrapati Bhavan'
+                                              : ''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{ formatDate(empDOJRB) }}
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                                <!--                                <div class="row">-->
+                                <!--                                  <div class="col-md-6" *ngIf="change.changed_data.vehicle_no; let vehicleNo">-->
+                                <!--                                    <div class="form-group">-->
+                                <!--                                      <label class="form-label">{{ vehicleNo ? 'Vehicle No' : ''}}</label>-->
+                                <!--                                    </div>-->
+                                <!--                                    <div class="input-group">-->
+                                <!--                                      {{ vehicleNo }}-->
+                                <!--                                    </div>-->
+                                <!--                                  </div>-->
+
+                                <!--                                  <div class="col-md-6" >-->
+                                <!--                                  </div>-->
+                                <!--                                </div>-->
+
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.curr_add; let empCurrAdd">
+                                    <div class="form-group">
+                                      <label class="form-label">
+                                        <u style="color: gray;">
+                                          {{ empCurrAdd ? 'Present Address':''}}
+                                        </u>
+                                      </label>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.perm_add; let empPrmAdd">
+                                    <div class="form-group">
+                                      <label class="form-label">
+                                        <u style="color: gray;">
+                                          {{ empPrmAdd ? 'Permanent Address' : ''}}
+                                        </u>
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.curr_add; let empCurrAdd">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empCurrAdd ? 'Address':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empCurrAdd}}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.perm_add; let empPrmAdd">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empPrmAdd ? ' Address' : ''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empPrmAdd}}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.curr_district_name; let empCurrDist">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empCurrDist ? 'District':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empCurrDist}}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.perm_district_name; let empPrmDist">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empPrmDist ? ' District' : ''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empPrmDist}}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.curr_state_name; let empCurrState">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empCurrState ? 'State':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empCurrState}}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.perm_state_name; let empPrmState">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empPrmState ? ' State' : ''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empPrmState}}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6" *ngIf="change.changed_data.curr_pin; let empCurrPin">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empCurrPin ? 'Pin No.':''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empCurrPin}}
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-6" *ngIf="change.changed_data.perm_pin; let empPrmPin">
+                                    <div class="form-group">
+                                      <label class="form-label">{{ empPrmPin ? ' Pin No.' : ''}}</label>
+                                    </div>
+                                    <div class="input-group">
+                                      {{empPrmPin}}
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+
+
+                            </div>
+
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+              <!-- Temp Changes Data Show End -->
+
+              <!-- Profile Basic Details Data -->
               <div class="card-body">
 
                 <div class="row">
 
                   <div class="col-md-3">
 
-                    <div class="card">
+                    <div class="card" style="overflow: auto;">
                       <div class="card-body">
                         <div style="width:100%;text-align: center;padding-top: 10px;">
 
                           <span *ngIf="employee && employee.profile_photo">
                             <img [src]="employee.profile_photo" alt="Profile Photo" style="width: 150px; height: 128px"
-                              class="rounded-circle" title="Profile Photo" />
+                                 class="rounded-circle" title="Profile Photo" />
                           </span>
                           <br /><br />
                           <span *ngIf="employee && employee.sign_path">
                             <img [src]="employee.sign_path" alt="Signature" style="width: 150px; height: 30px"
-                              class="rounded-square" title="Employee Signature" />
+                                 class="rounded-square" title="Employee Signature" />
                           </span>
 
                           <br /><br />
                           <label for="profile_photo" class="upload-icon-label" *ngIf="editable"
-                            title="Upload Profile Photo">
+                                 title="Upload Profile Photo">
                             <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
                           </label>
                           &nbsp;&nbsp;
-                          <label for="sign_path" class="upload-icon-label" *ngIf="editable"
-                            title="Upload Signature">
+                          <label for="sign_path" class="upload-icon-label" *ngIf="editable" title="Upload Signature">
                             <i class="bi bi-cloud-arrow-up btn btn-outline-danger"></i>
                           </label>
 
                           <input type="file" class="custom-file-input" id="profile_photo"
-                            (change)="onProfilePhotoSelected($event, 'Profile Photo')" style="display: none"
-                            *ngIf="editable">
+                                 (change)="onProfilePhotoSelected($event, 'Profile Photo')" style="display: none"
+                                 *ngIf="editable">
 
                           <input type="file" class="custom-file-input" id="sign_path"
-                            (change)="onProfilePhotoSelected($event , 'Employee Sign')" style="display: none"
-                            *ngIf="editable">
+                                 (change)="onProfilePhotoSelected($event , 'Employee Sign')" style="display: none"
+                                 *ngIf="editable">
 
                           <br /><br />
                           <div *ngIf="employee">
@@ -83,6 +361,29 @@
                             <span style="font-size: 0.8em">{{employee!.email_id!}}</span><br />
                             <span style="font-size: 1em">{{employee!.mobile!}}</span><br />
                           </div>
+                          <br /><br />
+
+
+
+
+                          <!--                          aadhar card-->
+
+
+                          <!--                          <label for="aadhar_card" class="upload-icon-label" *ngIf="editable" title="Upload Aadhar card">-->
+                          <!--                            <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>-->
+                          <!--                          </label>-->
+                          <!--                          <input type="file" class="custom-file-input"-->
+                          <!--                                 (change)="onaadharSelected($event)"-->
+                          <!--                                 *ngIf="editable" title="Upload id proof">-->
+<!--                                                    <span *ngIf="employee && employee.aadhar_card">-->
+
+<!--                                                      <a href="{{apiUrl}}getFile/{{employee.aadhar_card}}"-->
+<!--                                                         class="btn btn-outline-primary" title="id proof" target="_blank">-->
+<!--                                                            <i class="bi bi-eye"></i>-->
+<!--                                                          </a>-->
+<!--                                                    </span>-->
+
+
                         </div>
                       </div>
                     </div>
@@ -95,7 +396,7 @@
                           <div *ngIf="employee">
                             <span style="font-size: 1.2em">{{employee.emp_name!}}</span><br />
                             <span style="font-size: 1.2em">{{employee.id_cards![0]!.card_no}}</span><br />
-                            
+
                             <span style="font-size: 0.8em">{{employee!.designations![0]!.desg_desc!}}</span><br />
                             <span style="font-size: 0.8em">{{employee!.organization!.org_desc}}</span><br />
                             <span style="font-size: 0.8em">{{employee!.email_id!}}</span><br />
@@ -122,7 +423,7 @@
                             <div *ngIf="editable" class="input-group mb-1">
                               <div class="col-md-2">
                                 <select class="form-control" [(ngModel)]="employee!.emp_title"
-                                  (ngModelChange)="onInputChange()">
+                                        (ngModelChange)="onInputChange()">
                                   <option value="null">Select Title</option>
                                   <option>Mr</option>
                                   <option>Ms</option>
@@ -133,8 +434,8 @@
                               </div>
                               <div class="col-md-10">
                                 <input type="text" class="form-control" placeholder="Name" aria-label="Name"
-                                  [(ngModel)]="employee!.emp_name" (change)="validateEngName()"
-                                  (ngModelChange)="onInputChange()">
+                                       [(ngModel)]="employee!.emp_name" (change)="validateEngName()"
+                                       (ngModelChange)="onInputChange()">
                               </div>
                             </div>
 
@@ -148,7 +449,7 @@
                             <div *ngIf="editable" class="input-group mb-3">
                               <div class="col-md-2">
                                 <select class="form-control" [(ngModel)]="employee!.emp_title_hi"
-                                  (ngModelChange)="onInputChange()">
+                                        (ngModelChange)="onInputChange()">
                                   <option value="null">अभिवादन का चयन करें</option>
                                   <option>श्री</option>
                                   <option>सुश्री</option>
@@ -159,8 +460,8 @@
                               </div>
                               <div class="col-md-10">
                                 <input type="text" class="form-control" placeholder="नाम" aria-label="Server"
-                                  [(ngModel)]="employee!.emp_name_hi" (change)="validateHindiName()"
-                                  title="कृपया नाम हिंदी में दर्ज करें" (ngModelChange)="onInputChange()">
+                                       [(ngModel)]="employee!.emp_name_hi" (change)="validateHindiName()"
+                                       title="कृपया नाम हिंदी में दर्ज करें" (ngModelChange)="onInputChange()">
                               </div>
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
@@ -176,8 +477,8 @@
                             <label class="form-label">Email</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="email" class="form-control" placeholder="Email" aria-label="Email"
-                                [(ngModel)]="employee!.email_id" (change)="validateEmail()"
-                                (ngModelChange)="onInputChange()">
+                                     [(ngModel)]="employee!.email_id" (change)="validateEmail()"
+                                     (ngModelChange)="onInputChange()">
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{employee!.email_id}}
@@ -188,8 +489,8 @@
                             <label class="form-label">Mobile</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="text" maxlength="10" minlength="10" class="form-control" placeholder="Mobile"
-                                aria-label="Mobile" [(ngModel)]="employee!.mobile" (change)="validateMobile()"
-                                (ngModelChange)="onInputChange()">
+                                     aria-label="Mobile" [(ngModel)]="employee!.mobile" (change)="validateMobile()"
+                                     (ngModelChange)="onInputChange()">
                             </div>
 
                             <div *ngIf="!editable" class="input-group mb-3">
@@ -204,8 +505,8 @@
                             <label class="form-label">Date Of Birth</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Birth"
-                                aria-label="Date Of Birth" [(ngModel)]="employee!.dob"
-                                (ngModelChange)="onInputChange()">
+                                     aria-label="Date Of Birth" [(ngModel)]="employee!.dob" (ngModelChange)="onInputChange()"
+                                     [max]="maxDate">
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{formatDate(employee!.dob)}}
@@ -216,7 +517,7 @@
                             <label class="form-label">Gender</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <select *ngIf="employee && editable" class="form-control" [(ngModel)]="employee!.gender"
-                                [compareWith]="compareGender" (ngModelChange)="onInputChange()">
+                                      [compareWith]="compareGender" (ngModelChange)="onInputChange()">
                                 <option value="null">--Select Gender--</option>
                                 <option [ngValue]="'M'">Male</option>
                                 <option [ngValue]="'F'">Female</option>
@@ -227,9 +528,9 @@
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{
                               employee?.gender === 'M' ? 'Male' :
-                              employee!.gender === 'F' ? 'Female' :
-                              employee!.gender === 'O' ? 'Others' :
-                              'N/A'
+                                      employee!.gender === 'F' ? 'Female' :
+                                              employee!.gender === 'O' ? 'Others' :
+                                                      'N/A'
                               }}
                             </div>
                           </div>
@@ -241,8 +542,8 @@
                             <label class="form-label">Date of Joining in Government Service</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Joining"
-                                aria-label="Date Of Joining" [(ngModel)]="employee!.doj_gs"
-                                (change)="checkDateOfJoining()" (ngModelChange)="onInputChange()">
+                                     aria-label="Date Of Joining" [(ngModel)]="employee!.doj_gs"
+                                     (change)="checkDateOfJoining()" (ngModelChange)="onInputChange()" [max]="maxDate">
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{formatDate(employee!.doj_gs)}}
@@ -253,13 +554,40 @@
                             <label class="form-label">Date of Joining in Rashtrapati Bhavan</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Joining"
-                                aria-label="Date Of Joining" [(ngModel)]="employee!.doj_rb"
-                                (change)="checkDateOfJoining()" (ngModelChange)="onInputChange()">
+                                     aria-label="Date Of Joining" [(ngModel)]="employee!.doj_rb"
+                                     (change)="checkDateOfJoining()" (ngModelChange)="onInputChange()" [max]="maxDate">
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{formatDate(employee!.doj_rb)}}
                             </div>
                           </div>
+
+                        </div>
+
+
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="form-label">Date of retirement</label>
+                            <div class="input-group mb-3">
+                              {{employee!.dor}}
+                            </div>
+                          </div>
+
+
+
+                          <!--                          <div class="col-md-6">-->
+                          <!--                            <label class="form-label">Vehicle no</label>-->
+                          <!--                            <div *ngIf="editable" class="input-group mb-3">-->
+                          <!--                              <input type="text" maxlength="10"  class="form-control" placeholder="XX-XX-XX-XXXX"-->
+                          <!--                                     aria-label="Vehicle no" [(ngModel)]="employee!.vehicle_no" appUppercase-->
+                          <!--                                     (ngModelChange)="onInputChange()">-->
+                          <!--                            </div>-->
+
+                          <!--                            <div *ngIf="!editable" class="input-group mb-3">-->
+                          <!--                              {{employee!.vehicle_no}}-->
+                          <!--                            </div>-->
+                          <!--                          </div>-->
+
 
                         </div>
 
@@ -274,15 +602,15 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <input type="text" class="form-control" placeholder="Address" aria-label="address"
-                                    [(ngModel)]="employee!.curr_add">
+                                         [(ngModel)]="employee!.curr_add">
                                 </div>
                               </div>
 
                               <div class="row">
                                 <div class="col-md-12">
                                   <select class="form-control" [(ngModel)]="employee!.curr_state"
-                                    [compareWith]="compareState" (ngModelChange)="onStateChange($event,'curr')"
-                                    (ngModelChange)="onInputChange()">
+                                          [compareWith]="compareState" (ngModelChange)="onStateChange($event,'curr')"
+                                          (ngModelChange)="onInputChange()">
                                     <option value="null">Select State</option>
                                     <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
                                   </select>
@@ -292,7 +620,7 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <select class="form-control" [(ngModel)]="employee!.curr_district"
-                                    [compareWith]="compareDist" (ngModelChange)="onInputChange()">
+                                          [compareWith]="compareDist" (ngModelChange)="onInputChange()">
                                     <option value="null">Select District</option>
                                     <option [ngValue]="dist" *ngFor="let dist of currDistricts">{{dist.district_name}}
                                     </option>
@@ -303,8 +631,8 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
-                                    aria-label="pin" [(ngModel)]="employee!.curr_pin" (change)="validateCurrPin()"
-                                    (ngModelChange)="onInputChange()">
+                                         aria-label="pin" [(ngModel)]="employee!.curr_pin" (change)="validateCurrPin()"
+                                         (ngModelChange)="onInputChange()">
                                 </div>
                               </div>
 
@@ -324,23 +652,23 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <input type="checkbox" id="cpaddress" [(ngModel)]="isCpAddressChecked"
-                                    (change)="cPAddress()"> &nbsp; <b class="text-danger">Same as Present Address</b>
+                                         (change)="cPAddress()"> &nbsp; <b class="text-danger">Same as Present Address</b>
                                 </div>
                               </div>
 
                               <div class="row">
                                 <div class="col-md-12">
                                   <input type="text" class="form-control" placeholder="Address" aria-label="address"
-                                    [(ngModel)]="employee!.perm_add" [readonly]="isCpAddressChecked"
-                                    (ngModelChange)="onInputChange()">
+                                         [(ngModel)]="employee!.perm_add" [readonly]="isCpAddressChecked"
+                                         (ngModelChange)="onInputChange()">
                                 </div>
                               </div>
 
                               <div class="row">
                                 <div class="col-md-12">
                                   <select class="form-control" [(ngModel)]="employee!.perm_state"
-                                    [compareWith]="compareState" (ngModelChange)="onStateChange($event,'perm')"
-                                    [disabled]="isCpAddressChecked" (ngModelChange)="onInputChange()">
+                                          [compareWith]="compareState" (ngModelChange)="onStateChange($event,'perm')"
+                                          [disabled]="isCpAddressChecked" (ngModelChange)="onInputChange()">
                                     <option value="null">Select State</option>
                                     <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
                                   </select>
@@ -350,8 +678,8 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <select class="form-control" [(ngModel)]="employee!.perm_district"
-                                    [compareWith]="compareDist" [disabled]="isCpAddressChecked"
-                                    (ngModelChange)="onInputChange()">
+                                          [compareWith]="compareDist" [disabled]="isCpAddressChecked"
+                                          (ngModelChange)="onInputChange()">
                                     <option value="null">Select District</option>
                                     <option [ngValue]="dist" *ngFor="let dist of permDistricts">{{dist.district_name}}
                                     </option>
@@ -362,8 +690,8 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
-                                    aria-label="pin" [(ngModel)]="employee!.perm_pin" (change)="validatePermPin()"
-                                    [readonly]="isCpAddressChecked" (ngModelChange)="onInputChange()">
+                                         aria-label="pin" [(ngModel)]="employee!.perm_pin" (change)="validatePermPin()"
+                                         [readonly]="isCpAddressChecked" (ngModelChange)="onInputChange()">
                                 </div>
                               </div>
 
@@ -383,6 +711,21 @@
 
                   </div>
 
+                </div>
+
+                <div class="row" *ngIf="changesMade">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div *ngIf="editable" style="text-align: center;">
+                          <button class="btn btn-outline-primary" (click)="savePrimaryDetails()">
+                            Save Changes
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
 
               </div>
@@ -411,6 +754,69 @@
                 </div>
               </div>
 
+              <div class="card-body" *ngIf="editable">
+
+                <div class="row">
+                  <div class="col-md">
+
+                    <div class="card table-responsive">
+                      <div class="card-body">
+
+                        <div class="row" style="text-align: center;">
+                          <div class="col-md">
+                            <div class="form-group">
+                              <label class="form-label">
+                                <u class="text-danger">Pending changes of Designation/Promotion Data</u>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <table class="table table-stripped">
+                          <thead>
+                          <tr>
+                            <!-- <th>Sl No.</th> -->
+                            <th>Designation</th>
+                            <th>
+                              Joining Date
+                            </th>
+                            <th>
+                              Order No.
+                            </th>
+                            <th>
+                              Order Date
+                            </th>
+                            <th>Order File</th>
+                          </tr>
+                          </thead>
+
+                          <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
+                          <ng-container *ngFor="let change of employee!.temp_changes; let i = index">
+                            <tr *ngIf="change.model === 'promotion' && change.changed_data">
+                              <td *ngIf="change.model === 'promotion'">{{ change.changed_data.desg_desc }}</td>
+                              <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.join_date) }}
+                              </td>
+                              <td *ngIf="change.model === 'promotion'">{{ change.changed_data.order_no }}</td>
+                              <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.order_date)
+                                }}</td>
+                              <td *ngIf="change.model === 'promotion'">{{ change.changed_data.order_path }}</td>
+                            </tr>
+                          </ng-container>
+                          </tbody>
+
+
+                        </table>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+              <!-- ************************** -->
+
               <div class="card-body">
 
                 <div class="row">
@@ -421,90 +827,100 @@
 
                         <table class="table table-stripped">
                           <thead>
-                            <tr>
-                              <th>Sl No.</th>
-                              <th>Designation</th>
-                              <th>Date</th>
-                              <th>Order No.</th>
-                              <th>Order Date</th>
-                              <th colspan="2">Order File</th>
-                              <th *ngIf="editable" colspan="2">Action</th>
-                            </tr>
+                          <tr>
+                            <th>Sl No.</th>
+                            <th>Designation</th>
+                            <th>
+                              Joining Date
+                            </th>
+                            <th>
+                              Order No.
+                              <span class="text-danger">*</span>
+                            </th>
+                            <th>
+                              Order Date
+                              <span class="text-danger">*</span>
+                            </th>
+                            <th colspan="2">Order File</th>
+                            <th *ngIf="editable" colspan="2">Action</th>
+                          </tr>
                           </thead>
 
                           <tbody *ngIf="employee!=null && employee.designations!=null">
-                            <tr *ngFor="let desg of employee!.designations; let i = index">
-                              <td>{{i+1}}</td>
-                              <td>
-                                <select *ngIf="employee!.designations && editable" class="form-control"
-                                  [(ngModel)]="employee!.designations[i].pivot.designation_id"
-                                  [compareWith]="compareDesignation" (ngModelChange)="onInputChangeMap('Promotion', i)">
-                                  <option value="-1">Select Designation</option>
-                                  <option [ngValue]="designation.id" *ngFor="let designation of designations">
-                                    {{designation!.desg_desc}}</option>
-                                </select>
-                                <span *ngIf="!editable">{{desg!.desg_desc}}</span>
-                              </td>
-                              <td>
-                                <input *ngIf="employee!.designations && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.designations[i].pivot!.join_date"
-                                  (ngModelChange)="onInputChangeMap('Promotion', i)">
-                                <span *ngIf="!editable">{{desg!.pivot!.join_date}}</span>
-                              </td>
-                              <td>
-                                <input *ngIf="employee!.designations && editable" class="form-control" type="text"
-                                  [(ngModel)]="employee!.designations[i].pivot!.order_no"
-                                  (ngModelChange)="onInputChangeMap('Promotion', i)">
-                                <span *ngIf="!editable">{{desg!.pivot!.order_no}}</span>
-                              </td>
-                              <td>
-                                <input *ngIf="employee!.designations && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.designations[i].pivot!.order_date"
-                                  (ngModelChange)="onInputChangeMap('Promotion', i)">
-                                <span *ngIf="!editable">{{desg!.pivot!.order_date}}</span>
-                              </td>
-                              <td>
-                                <div class="d-grid gap-2 d-md-block" *ngIf="employee!.designations && editable">
-                                  <label for="order_file_desg_{{ i }}" class="upload-icon-label btn btn-outline-info"
-                                    title="Upload Order File">
-                                    <i class="bi bi-cloud-arrow-up"></i>
-                                  </label>
+                          <tr *ngFor="let desg of employee!.designations; let i = index">
 
-                                  <input type="file" class="custom-file-input" [id]="'order_file_desg_' + i"
-                                    (change)="onFileSelected($event, i)" style="display: none">
-                                </div>
-                              </td>
+                            <td>{{i+1}}</td>
+                            <td>
+                              <select *ngIf="employee!.designations && editable" class="form-control"
+                                      [(ngModel)]="employee!.designations[i].pivot.designation_id"
+                                      [compareWith]="compareDesignation" (ngModelChange)="onInputChangeMap('Promotion', i)">
+                                <option value="-1">Select Designation</option>
+                                <option [ngValue]="designation.id" *ngFor="let designation of designations">
+                                  {{designation!.desg_desc}}</option>
+                              </select>
+                              <span *ngIf="!editable">{{desg!.desg_desc}}</span>
+                            </td>
+                            <td>
+                              <input *ngIf="employee!.designations && editable" class="form-control" type="date"
+                                     [(ngModel)]="employee!.designations[i].pivot!.join_date"
+                                     (ngModelChange)="onInputChangeMap('Promotion', i)" [max]="maxDate">
+                              <span *ngIf="!editable">{{formatDate(desg!.pivot!.join_date)}}</span>
+                            </td>
+                            <td>
+                              <input *ngIf="employee!.designations && editable" class="form-control" type="text"
+                                     [(ngModel)]="employee!.designations[i].pivot!.order_no"
+                                     (ngModelChange)="onInputChangeMap('Promotion', i); validateOrderNo('Promotion', i)">
+                              <span *ngIf="!editable">{{desg!.pivot!.order_no}}</span>
+                            </td>
+                            <td>
+                              <input *ngIf="employee!.designations && editable" class="form-control" type="date"
+                                     [(ngModel)]="employee!.designations[i].pivot!.order_date"
+                                     (ngModelChange)="onInputChangeMap('Promotion', i); validateOrderDate('Promotion', i)"
+                                     [max]="maxDate">
+                              <span *ngIf="!editable">{{formatDate(desg!.pivot!.order_date)}}</span>
+                            </td>
+                            <td>
+                              <div class="d-grid gap-2 d-md-block" *ngIf="employee!.designations && editable">
+                                <label for="order_file_desg_{{ i }}" class="upload-icon-label btn btn-outline-info"
+                                       title="Upload Order File">
+                                  <i class="bi bi-cloud-arrow-up"></i>
+                                </label>
 
-                              <td>
-                                <div class="d-grid gap-2 d-md-block">
-                                  <ng-container
-                                    *ngIf="employee!.designations && employee!.designations[i].pivot!.order_path; else naBlock">
-                                    <a href="{{apiUrl}}getFile/{{employee!.designations[i].pivot!.order_path}}"
-                                      class="btn btn-outline-primary" title="Order File" target="_blank">
-                                      <i class="bi bi-eye"></i>
-                                    </a>
-                                  </ng-container>
-                                  <ng-template #naBlock>
-                                    N/A
-                                  </ng-template>
-                                </div>
-                              </td>
+                                <input type="file" class="custom-file-input" [id]="'order_file_desg_' + i"
+                                       (change)="onFileSelected($event, i)" style="display: none">
+                              </div>
+                            </td>
 
-                              <td *ngIf="editable && (changesPromotionMade[i]) ">
-                                <button *ngIf="desg!.pivot!.deleted_at==null" type="button"
-                                  class="btn btn-outline-success" (click)="savePromotion(i)">Save</button>
-                              </td>
+                            <td>
+                              <div class="d-grid gap-2 d-md-block">
+                                <ng-container
+                                        *ngIf="employee!.designations && employee!.designations[i].pivot!.order_path; else naBlock">
+                                  <a href="{{apiUrl}}getFile/{{employee!.designations[i].pivot!.order_path}}"
+                                     class="btn btn-outline-primary" title="Order File" target="_blank">
+                                    <i class="bi bi-eye"></i>
+                                  </a>
+                                </ng-container>
+                                <ng-template #naBlock>
+                                  N/A
+                                </ng-template>
+                              </div>
+                            </td>
 
-                              <td *ngIf="editable">
-                                <button *ngIf="desg!.pivot!.id==-1" type="button" class="btn btn-outline-danger"
-                                  (click)="deleteRecord(i)">Delete</button>
-                              </td>
-                            </tr>
+                            <td *ngIf="editable && (changesPromotionMade[i]) ">
+                              <button *ngIf="desg!.pivot!.deleted_at==null" type="button"
+                                      class="btn btn-outline-success" (click)="savePromotion(i)">Save</button>
+                            </td>
 
-                            <!-- <tr>
-                              <td colspan="7" *ngIf="editable" style="text-align: center"><button type="button"
-                                  class="btn btn-primary" (click)="addDesignation()">Add Designation</button>
-                            </tr> -->
+                            <td *ngIf="editable">
+                              <button *ngIf="desg!.pivot!.id==-1" type="button" class="btn btn-outline-danger"
+                                      (click)="deleteRecord(i)">Delete</button>
+                            </td>
+                          </tr>
+
+                          <!-- <tr>
+                            <td colspan="7" *ngIf="editable" style="text-align: center"><button type="button"
+                                class="btn btn-primary" (click)="addDesignation()">Add Designation</button>
+                          </tr> -->
                           </tbody>
                         </table>
 
@@ -541,6 +957,71 @@
                 </div>
               </div>
 
+              <div class="card-body" *ngIf="editable">
+
+                <div class="row">
+                  <div class="col-md">
+
+                    <div class="card table-responsive">
+                      <div class="card-body">
+
+                        <div class="row" style="text-align: center;">
+                          <div class="col-md">
+                            <div class="form-group">
+                              <label class="form-label">
+                                <u class="text-danger">Pending changes of Division/Posting Data</u>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <table class="table table-stripped">
+                          <thead>
+                          <tr>
+                            <th>Division</th>
+                            <th>
+                              From Date
+                            </th>
+                            <th>To Date</th>
+                            <th>
+                              Order No.
+                            </th>
+                            <th>
+                              Order Date
+                            </th>
+                            <th>Order File</th>
+                          </tr>
+                          </thead>
+
+                          <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
+                          <ng-container *ngFor="let change of employee!.temp_changes; let i = index">
+                            <tr *ngIf="change.model === 'posting' && change.changed_data">
+                              <td *ngIf="change.model === 'posting'">{{ change.changed_data.div_desc }}</td>
+                              <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.from_date) }}
+                              </td>
+                              <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.to_date) }}
+                              </td>
+                              <td *ngIf="change.model === 'posting'">{{ change.changed_data.order_no }}</td>
+                              <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.order_date) }}
+                              </td>
+                              <td *ngIf="change.model === 'posting'">{{ change.changed_data.order_path }}</td>
+                            </tr>
+                          </ng-container>
+                          </tbody>
+
+
+                        </table>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
               <div class="card-body">
 
                 <div class="row">
@@ -552,96 +1033,107 @@
                         <table class="table table-stripped">
 
                           <thead>
-                            <tr>
-                              <th>Sl No.</th>
-                              <th>Division</th>
-                              <th>From Date</th>
-                              <th>To Date</th>
-                              <th>Order No.</th>
-                              <th>Order Date</th>
-                              <th colspan="2">Order File</th>
-                              <th *ngIf="editable" colspan="3">Action</th>
-                            </tr>
+                          <tr>
+                            <th>Sl No.</th>
+                            <th>Division</th>
+                            <th>
+                              From Date
+                              <span class="text-danger">*</span>
+                            </th>
+                            <th>To Date</th>
+                            <th>
+                              Order No.
+                              <span class="text-danger">*</span>
+                            </th>
+                            <th>
+                              Order Date
+                              <span class="text-danger">*</span>
+                            </th>
+                            <th colspan="2">Order File</th>
+                            <th *ngIf="editable" colspan="3">Action</th>
+                          </tr>
                           </thead>
 
                           <tbody *ngIf="employee!=null && employee.divisions!=null">
-                            <tr *ngFor="let div of employee!.divisions; let i = index">
-                              <td>{{i+1}}</td>
-                              <td>
-                                <select *ngIf="employee!.divisions && editable" class="form-control"
-                                  [(ngModel)]="employee!.divisions[i].pivot.division_id"
-                                  [compareWith]="compareDivisions" (ngModelChange)="onInputChangeMap('Posting', i)">
-                                  <option value="-1">Select Division</option>
-                                  <option [ngValue]="division.id" *ngFor="let division of divisiontypelist">
-                                    {{division!.div_desc}}
-                                  </option>
-                                </select>
-                                <span *ngIf="!editable">{{div!.div_desc}}</span>
-                              </td>
-                              <td>
-                                <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.divisions[i].pivot!.from_date"
-                                  (ngModelChange)="onInputChangeMap('Posting', i)">
-                                <span *ngIf="!editable">{{div!.pivot!.from_date}}</span>
-                              </td>
-                              <td>
-                                <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.divisions[i].pivot!.to_date"
-                                  (ngModelChange)="onInputChangeMap('Posting', i)">
-                                <span *ngIf="!editable">{{div!.pivot!.to_date}}</span>
-                              </td>
-                              <td>
-                                <input *ngIf="employee!.divisions && editable" class="form-control" type="text"
-                                  [(ngModel)]="employee!.divisions[i].pivot!.order_no"
-                                  (ngModelChange)="onInputChangeMap('Posting', i)">
-                                <span *ngIf="!editable">{{div!.pivot!.order_no}}</span>
-                              </td>
-                              <td>
-                                <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.divisions[i].pivot!.order_date"
-                                  (ngModelChange)="onInputChangeMap('Posting', i)">
-                                <span *ngIf="!editable">{{div!.pivot!.order_date}}</span>
-                              </td>
-                              <td>
-                                <div class="d-grid gap-2 d-md-block" *ngIf="employee!.divisions && editable">
-                                  <label for="order_file_div_{{ i }}" class="upload-icon-label btn btn-outline-info"
-                                    title="Upload Order File">
-                                    <i class="bi bi-cloud-arrow-up"></i>
-                                  </label>
+                          <tr *ngFor="let div of employee!.divisions; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>
+                              <select *ngIf="employee!.divisions && editable" class="form-control"
+                                      [(ngModel)]="employee!.divisions[i].pivot.division_id"
+                                      [compareWith]="compareDivisions" (ngModelChange)="onInputChangeMap('Posting', i)">
+                                <option value="-1">Select Division</option>
+                                <option [ngValue]="division.id" *ngFor="let division of divisiontypelist">
+                                  {{division!.div_desc}}
+                                </option>
+                              </select>
+                              <span *ngIf="!editable">{{div!.div_desc}}</span>
+                            </td>
+                            <td>
+                              <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
+                                     [(ngModel)]="employee!.divisions[i].pivot!.from_date"
+                                     (ngModelChange)="onInputChangeMap('Posting', i);  validateFromDate('Posting', i)"
+                                     [max]="maxDate">
+                              <span *ngIf="!editable">{{formatDate(div!.pivot!.from_date)}}</span>
+                            </td>
+                            <td>
+                              <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
+                                     [(ngModel)]="employee!.divisions[i].pivot!.to_date"
+                                     (ngModelChange)="onInputChangeMap('Posting', i)" [max]="maxDate">
+                              <span *ngIf="!editable">{{formatDate(div!.pivot!.to_date)}}</span>
+                            </td>
+                            <td>
+                              <input *ngIf="employee!.divisions && editable" class="form-control" type="text"
+                                     [(ngModel)]="employee!.divisions[i].pivot!.order_no"
+                                     (ngModelChange)="onInputChangeMap('Posting', i);  validateOrderNo('Posting', i)">
+                              <span *ngIf="!editable">{{div!.pivot!.order_no}}</span>
+                            </td>
+                            <td>
+                              <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
+                                     [(ngModel)]="employee!.divisions[i].pivot!.order_date"
+                                     (ngModelChange)="onInputChangeMap('Posting', i); validateOrderDate('Posting', i)"
+                                     [max]="maxDate">
+                              <span *ngIf="!editable">{{formatDate(div!.pivot!.order_date)}}</span>
+                            </td>
+                            <td>
+                              <div class="d-grid gap-2 d-md-block" *ngIf="employee!.divisions && editable">
+                                <label for="order_file_div_{{ i }}" class="upload-icon-label btn btn-outline-info"
+                                       title="Upload Order File">
+                                  <i class="bi bi-cloud-arrow-up"></i>
+                                </label>
 
-                                  <input type="file" class="custom-file-input" [id]="'order_file_div_' + i"
-                                    (change)="onFileDivSelected($event, i)" style="display: none">
-                                </div>
-                              </td>
+                                <input type="file" class="custom-file-input" [id]="'order_file_div_' + i"
+                                       (change)="onFileDivSelected($event, i)" style="display: none">
+                              </div>
+                            </td>
 
-                              <td>
-                                <div class="d-grid gap-2 d-md-block">
-                                  <ng-container
-                                    *ngIf="employee!.divisions && employee!.divisions[i].pivot!.order_path; else naBlock">
-                                    <a href="{{apiUrl}}getFile/{{employee!.divisions[i].pivot!.order_path}}"
-                                      class="btn btn-outline-primary" title="Order File" target="_blank">
-                                      <i class="bi bi-eye"></i>
-                                    </a>
-                                  </ng-container>
-                                  <ng-template #naBlock>
-                                    N/A
-                                  </ng-template>
-                                </div>
-                              </td>
+                            <td>
+                              <div class="d-grid gap-2 d-md-block">
+                                <ng-container
+                                        *ngIf="employee!.divisions && employee!.divisions[i].pivot!.order_path; else naBlock">
+                                  <a href="{{apiUrl}}getFile/{{employee!.divisions[i].pivot!.order_path}}"
+                                     class="btn btn-outline-primary" title="Order File" target="_blank">
+                                    <i class="bi bi-eye"></i>
+                                  </a>
+                                </ng-container>
+                                <ng-template #naBlock>
+                                  N/A
+                                </ng-template>
+                              </div>
+                            </td>
 
-                              <td *ngIf="editable && (changesPostingMade[i]) ">
-                                <button *ngIf="div!.pivot!.deleted_at==null" type="button"
-                                  class="btn btn-outline-success" (click)="saveDivision(i)"
-                                  [disabled]="!changesPostingMade">Save</button>
-                              </td>
+                            <td *ngIf="editable && (changesPostingMade[i]) ">
+                              <button *ngIf="div!.pivot!.deleted_at==null" type="button"
+                                      class="btn btn-outline-success" (click)="saveDivision(i)"
+                                      [disabled]="!changesPostingMade">Save</button>
+                            </td>
 
-                              <td *ngIf="editable">
-                                <button *ngIf="div!.pivot!.id==-1" type="button" class="btn btn-outline-danger"
-                                  (click)="deleteDivision(i)">Delete</button>
-                              </td>
+                            <td *ngIf="editable">
+                              <button *ngIf="div!.pivot!.id==-1" type="button" class="btn btn-outline-danger"
+                                      (click)="deleteDivision(i)">Delete</button>
+                            </td>
 
 
-                            </tr>
+                          </tr>
 
                           </tbody>
 
@@ -663,6 +1155,10 @@
 
         <!-- Family Members/Relation Deatils Field -->
 
+
+
+
+
         <div class="row">
 
           <div class="col-md">
@@ -674,11 +1170,73 @@
                 </div>
 
                 <div class="float-end">
-                  <button type="button" *ngIf="editable" class="btn btn-outline-info" (click)="addMember()">Add
+                  <button type="button" *ngIf="editable" class="btn btn-outline-info" (click)="addMember()" style="margin-left: -3%">Add
                     Family Members
                   </button>
+                  <label class="upload-icon-label" style="margin-left: 3%"
+                         title="RB quarter Exist?" (click)="pullEbaPopup()">
+                    <i class="bi bi-question-circle btn btn-warning"></i>
+                  </label>
                 </div>
               </div>
+
+              <!--****************-->
+              <div class="card-body" *ngIf="editable">
+
+                <div class="row">
+                  <div class="col-md">
+
+                    <div class="card table-responsive">
+                      <div class="card-body">
+
+                        <div class="row" style="text-align: center;">
+                          <div class="col-md">
+                            <div class="form-group">
+                              <label class="form-label">
+                                <u class="text-danger">Pending changes of Family/Relation Data</u>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <table class="table table-stripped">
+                          <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Relation</th>
+                            <th>Mobile No.</th>
+                            <th>Date Of Birth</th>
+                          </tr>
+                          </thead>
+
+                          <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
+                          <ng-container *ngFor="let change of employee!.temp_changes; let i = index">
+                            <tr *ngIf="change.model === 'employee_rel' && change.changed_data">
+                              <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data.rel_name }}</td>
+                              <td *ngIf="change.model === 'employee_rel'"> {{ (change.changed_data.gender) === 'M' ?
+                                      'Male' : (change.changed_data.gender) === 'F' ? 'Female' :
+                                              (change.changed_data.gender) === 'O' ? 'OTHERS' : '' }}</td>
+                              <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data.rel_desc }}</td>
+                              <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data.rel_mobile_no }}</td>
+                              <td *ngIf="change.model === 'employee_rel'">{{ formatDate(change.changed_data.rel_dob)
+                                }}</td>
+                            </tr>
+                          </ng-container>
+                          </tbody>
+
+
+                        </table>
+
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+              <!---**************-->
 
               <div class="card-body">
 
@@ -691,87 +1249,94 @@
                         <table class="table table-stripped">
 
                           <thead>
-                            <tr>
-                              <th>Sl No.</th>
-                              <th>Name</th>
-                              <th>Gender</th>
-                              <th>Relation</th>
-                              <th>Mobile No.</th>
-                              <th>Date Of Birth</th>
-                              <th *ngIf="editable" colspan="3">Action</th>
-                            </tr>
+                          <tr>
+                            <th>Sl No.</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Relation</th>
+                            <th>Mobile No.</th>
+                            <th>Date Of Birth</th>
+                            <th *ngIf="editable" colspan="3">Action</th>
+                          </tr>
                           </thead>
 
                           <tbody *ngIf="employee!=null && employee.relations!=null">
-                            <tr *ngFor="let member of employee!.relations; let i = index">
-                              <td>{{ i + 1 }}</td>
-                              <td>
-                                <input *ngIf="employee!.relations && editable" class="form-control" type="text"
-                                  [(ngModel)]="employee!.relations[i].pivot!.rel_name" placeholder="Name"
-                                  (ngModelChange)="onInputChangeMap('Relations', i)">
+                          <tr *ngFor="let member of employee!.relations; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>
+                              <input *ngIf="employee!.relations && editable" class="form-control" type="text"
+                                     [(ngModel)]="employee!.relations[i].pivot!.rel_name" placeholder="Name"
+                                     (ngModelChange)="onInputChangeMap('Relations', i)">
 
-                                <span *ngIf="!editable">{{member!.pivot!.rel_name}}</span>
-                              </td>
+                              <span *ngIf="!editable">{{member!.pivot!.rel_name}}</span>
+                            </td>
 
-                              <td>
-                                <select *ngIf="employee!.relations && editable" class="form-control"
-                                  [(ngModel)]="employee!.relations[i].pivot.gender" [compareWith]="compareGender"
-                                  (ngModelChange)="onInputChangeMap('Relations', i)">
-                                  <option value="null">--Select Gender--</option>
-                                  <option [ngValue]="'M'">Male</option>
-                                  <option [ngValue]="'F'">Female</option>
-                                  <option [ngValue]="'O'">OTHERS</option>
-                                </select>
+                            <td>
+                              <select *ngIf="employee!.relations && editable" class="form-control"
+                                      [(ngModel)]="employee!.relations[i].pivot.gender" [compareWith]="compareGender"
+                                      (ngModelChange)="onInputChangeMap('Relations', i)">
+                                <option value="null">--Select Gender--</option>
+                                <option [ngValue]="'M'">Male</option>
+                                <option [ngValue]="'F'">Female</option>
+                                <option [ngValue]="'O'">OTHERS</option>
+                              </select>
 
-                                <!-- <input *ngIf="employee!.relations && editable" class="form-control" type="text"
-                                  [(ngModel)]="employee!.relations[i].pivot!.rel_type" placeholder="Relation"> -->
+                              <!-- <input *ngIf="employee!.relations && editable" class="form-control" type="text"
+                                [(ngModel)]="employee!.relations[i].pivot!.rel_type" placeholder="Relation"> -->
 
-                                <span *ngIf="!editable">{{member!.pivot!.gender}}</span>
-                              </td>
+                              <span *ngIf="!editable">
+                                  {{
+                                member!.pivot!.gender === 'M' ? 'Male' :
+                                        member!.pivot!.gender === 'F' ? 'Female' :
+                                                member!.pivot!.gender === 'O' ? 'Others' :
+                                                        'N/A'
+                                }}
+                                </span>
+                            </td>
 
-                              <td>
-                                <select *ngIf="employee!.relations && editable" class="form-control"
-                                  [(ngModel)]="employee!.relations[i].pivot.relation_id" [compareWith]="compareRelation"
-                                  (ngModelChange)="onInputChangeMap('Relations', i)">
-                                  <option value="">--Select Relation--</option>
-                                  <option [ngValue]="relationtype.id" *ngFor="let relationtype of relationstypelist">
-                                    {{relationtype!.rel_desc}}</option>
-                                </select>
+                            <td>
+                              <select *ngIf="employee!.relations && editable" class="form-control"
+                                      [(ngModel)]="employee!.relations[i].pivot.relation_id" [compareWith]="compareRelation"
+                                      (ngModelChange)="onInputChangeMap('Relations', i)">
+                                <option value="">--Select Relation--</option>
+                                <option [ngValue]="relationtype.id" *ngFor="let relationtype of relationstypelist">
+                                  {{relationtype!.rel_desc}}</option>
+                              </select>
 
-                                <span *ngIf="!editable">{{member!.rel_desc}}</span>
-                              </td>
-
-
-                              <td>
-                                <input *ngIf="employee!.relations && editable" class="form-control" type="text"
-                                  [(ngModel)]="employee!.relations[i].pivot!.rel_mobile_no" placeholder="Mobile No."
-                                  maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('Relations', i)">
-
-                                <span *ngIf="!editable">{{member!.pivot!.rel_mobile_no}}</span>
-                              </td>
-
-                              <td>
-                                <input *ngIf="employee!.relations && editable" class="form-control" type="date"
-                                  [(ngModel)]="employee!.relations[i].pivot!.rel_dob"
-                                  (ngModelChange)="onInputChangeMap('Relations', i)">
-
-                                <span *ngIf="!editable">{{member!.pivot!.rel_dob}}</span>
-                              </td>
-
-                              <td *ngIf="editable &&  (changesRelationMade[i])">
-                                <button *ngIf="member!.pivot!.deleted_at==null" type="button"
-                                  class="btn btn-outline-success" (click)="saveRelationDetails(i)"
-                                  [disabled]="!changesRelationMade">Save</button>
-                              </td>
-
-                              <td *ngIf="editable">
-                                <button *ngIf="member!.pivot!.id==-1" type="button" class="btn btn-outline-danger"
-                                  (click)="deleteMember(i)">Delete</button>
-                              </td>
+                              <span *ngIf="!editable">{{member!.rel_desc}}</span>
+                            </td>
 
 
+                            <td>
+                              <input *ngIf="employee!.relations && editable" class="form-control" type="text"
+                                     [(ngModel)]="employee!.relations[i].pivot!.rel_mobile_no" placeholder="Mobile No."
+                                     maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('Relations', i)">
 
-                            </tr>
+                              <span *ngIf="!editable">{{member!.pivot!.rel_mobile_no}}</span>
+                            </td>
+
+                            <td>
+                              <input *ngIf="employee!.relations && editable" class="form-control" type="date"
+                                     [(ngModel)]="employee!.relations[i].pivot!.rel_dob"
+                                     (ngModelChange)="onInputChangeMap('Relations', i)" [max]="maxDate">
+
+                              <span *ngIf="!editable">{{formatDate(member!.pivot!.rel_dob)}}</span>
+                            </td>
+
+                            <td *ngIf="editable &&  (changesRelationMade[i])">
+                              <button *ngIf="member!.pivot!.deleted_at==null" type="button"
+                                      class="btn btn-outline-success" (click)="saveRelationDetails(i)"
+                                      [disabled]="!changesRelationMade">Save</button>
+                            </td>
+
+                            <td *ngIf="editable">
+                              <button *ngIf="member!.pivot!.id==-1" type="button" class="btn btn-outline-danger"
+                                      (click)="deleteMember(i)">Delete</button>
+                            </td>
+
+
+
+                          </tr>
                           </tbody>
 
                           <!-- <tfoot>
@@ -799,11 +1364,535 @@
             </div>
           </div>
 
+
+          <td>
+            <ng-container>
+              <div class="modal modal-above-header"
+                   tabindex="-1" data-bs-backdrop="false"
+                   [ngStyle]="{'display': displayEba }" style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto; max-height: 80vh; margin-top: 100px;">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                  <div class="modal-content">
+                    <!--            <div class="modal-header">-->
+                    <!--              <h5 class="modal-title">-->
+                    <!--                <b>Enter photo signature and id proof </b>-->
+                    <!--              </h5>-->
+                    <!--            </div>-->
+                    <div class="modal-body" >
+
+
+                          <div class="row">
+                            <div class ="col-md-2" style="margin-left: 1%;">
+                              <label class="form-label">Location:</label>
+                            </div>
+                            <div class ="col-md-2" style="margin-left: -7%" >
+                              <select class="form-control" [(ngModel)]="employee!.location_id" (change)="qtraddress()">
+                                <option value="">--Select--</option>
+                                <option [ngValue]="locationtype.id" *ngFor="let locationtype of locationtypelist">
+                                  {{locationtype!.location_name}}</option>
+                              </select>
+                            </div>
+                            <div class ="col-md-2" style="margin-left: 3%">
+                              <label class="form-label">Quarter Type:</label>
+                            </div>
+                            <div class ="col-md-2" style="margin-left: -5%" >
+                              <select class="form-control" [(ngModel)]="employee!.qtr_code" (change)="qtraddress()">
+                                <option value="">--Select--</option>
+                                <option [ngValue]="quartertype.type_code" *ngFor="let quartertype of quarterstypelist">
+                                  {{quartertype!.type_name}}</option>
+                              </select>
+                            </div>
+                            <div class ="col-md-2" style="margin-left: 7%">
+                              <label class="form-label">Quarter address:</label>
+                            </div>
+                            <div class ="col-md-2" style="margin-left: -5%" >
+                              <select class="form-control" [(ngModel)]="employee!.qtr_address" >
+                                <option value="">--Select--</option>
+                                <option [ngValue]="add.qtr_code" *ngFor="let add of quarteraddress">
+                                  {{add!.qtr_no}}</option>
+                              </select>
+                            </div>
+                          </div>
+                      <br>
+                    </div>
+
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-secondary" (click)="closeEbaPopup()">
+                        Close
+                      </button>
+
+                      <button type="button" class="btn btn-outline-info" >
+                       Pull
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+
+          </td>
+
         </div>
 
 
-      </div>
 
+
+        <!-- sarthak -->
+
+
+        <!--  Deatils of Vehicle -->
+        <div class="row">
+
+          <div class="col-md">
+            <div class="card shadow card-warning">
+
+              <div class="card-header">
+                <div class="float-start">
+                  <b>Vehicle Details</b>
+                </div>
+
+                <div class="float-end">
+                  <button type="button" *ngIf="editable" class="btn btn-outline-info" (click)="addVehicle()">
+                    Add vehicle
+                  </button>
+                </div>
+              </div>
+
+
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md">
+                    <div class="card table-responsive">
+                      <div class="card-body">
+                        <table class="table table-stripped">
+                          <thead>
+                          <tr>
+                            <th>Sl No.</th>
+                            <th>Vehicle Name</th>
+                            <th>Vehicle No.</th>
+                            <th>Chassis No.</th>
+                            <th>Registered owner</th>
+                            <th *ngIf="editable" colspan="3">Action</th>
+                          </tr>
+                          </thead>
+
+                          <tbody *ngIf="employee!=null && employee.vehicles!=null">
+                          <tr *ngFor="let vehicle of employee!.vehicles; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>
+                              <input *ngIf="employee!.vehicles && editable" class="form-control" type="text"
+                                     [(ngModel)]="employee!.vehicles[i].model_name" placeholder="Name"
+                                     (ngModelChange)="onInputChangeMap('Vehicle', i)">
+
+                              <span *ngIf="!editable">{{vehicle.model_name}}</span>
+                            </td>
+
+                            <td>
+                              <input *ngIf="employee!.vehicles && editable" class="form-control" type="text"
+                                     [(ngModel)]="employee!.vehicles[i].vehicle_no" placeholder="Name"
+                                     (ngModelChange)="onInputChangeMap('Vehicle', i)">
+
+                              <span *ngIf="!editable">{{vehicle.vehicle_no}}</span>
+                            </td>
+
+                            <td>
+                              <input *ngIf="employee!.vehicles && editable" class="form-control" type="text"
+                                     [(ngModel)]="employee!.vehicles[i].chassis_no" placeholder="Name"
+                                     (ngModelChange)="onInputChangeMap('Vehicle', i)">
+
+                              <span *ngIf="!editable">{{vehicle.chassis_no}}</span>
+                            </td>
+
+                            <td>
+                              <input *ngIf="employee!.vehicles && editable" class="form-control" type="text"
+                                     [(ngModel)]="employee!.vehicles[i].vehicle_owner" placeholder="Name"
+                                     (ngModelChange)="onInputChangeMap('Vehicle', i)">
+
+                              <span *ngIf="!editable">{{vehicle.vehicle_owner}}</span>
+                            </td>
+
+
+                            <td *ngIf="editable &&  (changesVehicle[i])">
+                              <button *ngIf="vehicle!.deleted_at==null" type="button"
+                                      class="btn btn-outline-success" (click)="saveVehicle(i)"
+                                      [disabled]="!changesVehicle">Save</button>
+                            </td>
+
+                            <td *ngIf="editable">
+                              <button *ngIf="vehicle!.id==-1" type="button" class="btn btn-outline-danger"
+                                      (click)="removeVehicle(i)">Delete</button>
+                            </td>
+
+
+
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!--  Deatils of servant field -->
+
+
+        <div class="row">
+          <div class="col-md">
+            <div class="card shadow card-warning">
+
+              <div class="card-header">
+                <div class="float-start">
+                  <b>Domestic Help</b>
+                </div>
+
+                <div class="float-end">
+                  <button type="button" *ngIf="editable" class="btn btn-outline-info" (click)="addServant()">
+                    Add Domestic Help
+                  </button>
+                </div>
+              </div>
+
+              <div class="card-body" >
+
+                <div class="row" *ngIf="editable">
+                  <div class="col-md">
+                    <div class="card table-responsive">
+                      <div class="card-body" >
+
+                        <div class="row" style="text-align: center;">
+                          <div class="col-md">
+                            <div class="form-group">
+                              <label class="form-label">
+                                <u class="text-danger">Pending changes of Domestic Help Data</u>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <table class="table table-stripped">
+                          <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Mobile No.</th>
+                            <th>Date Of Birth</th>
+                            <th>Out House Address</th>
+                          </tr>
+                          </thead>
+
+                          <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
+                          <ng-container *ngFor="let change of employee!.temp_changes; let i = index">
+                            <tr *ngIf="change.model === 'servant' && change.changed_data">
+                              <td *ngIf="change.model === 'servant'">{{ change.changed_data.servant_name }}</td>
+                              <td *ngIf="change.model === 'servant'"> {{ (change.changed_data.gender) === 'M' ?
+                                      'Male' : (change.changed_data.gender) === 'F' ? 'Female' :
+                                              (change.changed_data.gender) === 'O' ? 'OTHERS' : '' }}</td>
+                              <td *ngIf="change.model === 'servant'">{{ change.changed_data.servant_mobile_no }}</td>
+                              <td *ngIf="change.model === 'servant'">{{ formatDate(change.changed_data.servant_dob)}}</td>
+                              <td *ngIf="change.model === 'servant'">{{ change.changed_data.out_house_address }}</td>
+                            </tr>
+                          </ng-container>
+                          </tbody>
+
+
+                        </table>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!--              <div class="card-body" *ngIf="employee!=null && employee.servants!=null">-->
+              <!--                <div *ngFor="let outhouse of employee!.out_house; let j = index">-->
+              <!--                  <div class="row">-->
+              <!--                    <div class="col-md">-->
+              <!--                      <div class="card shadow card-warning">-->
+              <!--                        <div class="card-header">-->
+              <!--                          <div class="float-start">-->
+              <!--                            <b>Out house no {{j+1}}</b>-->
+              <!--                          </div>-->
+
+              <!--                          <div class="float-end">-->
+              <!--                            <button type="button" *ngIf="editable" class="btn btn-outline-info" (click)="addServant(j)">Add-->
+              <!--                              Domestic help-->
+              <!--                            </button> &nbsp;-->
+              <!--                            <button type="button" *ngIf="editable && outhouse!.id==-1" class="btn btn-outline-danger" (click)="removeOutHouse(j)">Remove-->
+              <!--                              OutHouse-->
+              <!--                            </button>-->
+              <!--                          </div>-->
+              <!--                        </div>-->
+
+
+              <div class="card-body" *ngIf="employee != null && employee.servants != null ">
+<!--                {{employee.servants | json}}-->
+                <div class="row" *ngFor="let servant of employee.servants; let i = index">
+                  <div class="col-md">
+                    <!--                              <div class="card shadow card-info">-->
+                    <!--                                <div class="card-header">-->
+                    <!--                                  <div class="float-start">-->
+                    <!--                                    <b>Domestic Help {{i+1}}</b>-->
+                    <!--                                  </div>-->
+                    <!--                                  <div class="float-end">-->
+                    <!--                                    -->
+                    <!--                                  </div>-->
+                    <!--                                </div>-->
+                    <!--                                <div class="card-body">-->
+                    <table class="table table-stripped">
+                      <thead>
+                      <tr>
+                        <th>Sl No.</th>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Mobile No.</th>
+                        <th>Date Of Birth</th>
+                        <th>Out House No</th>
+                        <th *ngIf="editable" colspan="3">Action</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td>{{ i + 1 }}</td>
+
+                        <td>
+                          <input *ngIf="employee.servants && editable" class="form-control" type="text"
+                                 [(ngModel)]="employee.servants[i].servant_name" placeholder="Name"
+                                 (ngModelChange)="onInputChangeMap('Servants',i)">
+
+                          <span *ngIf="!editable">{{ servant.servant_name }}</span>
+                        </td>
+
+                        <td>
+
+                          <select *ngIf="employee.servants && editable" class="form-control"
+                                  [(ngModel)]="employee.servants[i].gender"
+                                  (ngModelChange)="onInputChangeMap('Servants', i)">
+                            <option value="null">--Select Gender--</option>
+                            <option [ngValue]="'M'">Male</option>
+                            <option [ngValue]="'F'">Female</option>
+                            <option [ngValue]="'O'">OTHERS</option>
+                          </select>
+
+                          <span *ngIf="!editable">
+                            {{
+                              servant!.gender === 'M' ? 'Male' :
+                              servant!.gender === 'F' ? 'Female' :
+                              servant!.gender === 'O' ? 'Others' :
+                              'N/A'
+                            }}
+                          </span>
+
+                        </td>
+                        <td>
+                          <input *ngIf="employee.servants && editable" class="form-control" type="text"
+                                 [(ngModel)]="employee.servants[i].servant_mobile_no"  placeholder="Mobile No."
+                                 maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('Servants', i)" (input)="onMobileNoInput($event, i)">
+
+                          <span *ngIf="!editable">{{servant!.servant_mobile_no}}</span>
+                        </td>
+                        <td>
+                          <input *ngIf="employee.servants && editable" class="form-control" type="date"
+                                 [(ngModel)]="employee.servants[i].servant_dob"
+                                 (ngModelChange)="onInputChangeMap('Servants', i)" [max]="maxDate">
+
+                          <span *ngIf="!editable">{{formatDate(servant!.servant_dob)}}</span>
+                        </td>
+
+                        <td>
+                          <input *ngIf="employee.servants && editable" class="form-control" type="text"
+                                 [(ngModel)]="employee.servants[i].out_house_address"
+                                 (ngModelChange)="onInputChangeMap('Servants', i)" >
+
+                          <span *ngIf="!editable">{{servant!.out_house_address}}</span>
+                        </td>
+
+                        <td *ngIf="editable &&  (changesServantMade[i])">
+                          <button *ngIf="servant!.deleted_at==null" type="button"
+                                  class="btn btn-outline-success" (click)="saveServant(i)"
+                                  [disabled]="!changesServantMade">Save</button>
+                        </td>
+
+                        <td *ngIf="editable">
+                          <button *ngIf="servant!.id==-1" type="button" class="btn btn-outline-danger"
+                                  (click)="removeServant(i)">Delete</button>
+                        </td>
+
+                      </tr>
+                      </tbody>
+                    </table>
+                    <!--                                </div>-->
+                    <!--                                <div class="card-body" >-->
+                    <div class="row" *ngIf="servant && servant!.id!=-1">
+                      <div class="col-md">
+                        <div class="card">
+                          <div class="card-header">
+                            <div class="float-start">
+                              <b>{{ servant?.servant_name || "Domestic help" }}'s Relatives</b>
+                            </div>
+                            <div class="float-end" *ngIf="editable ">
+                              <button *ngIf="servant!.deleted_at==null" type="button"
+                                      class="btn btn-outline-info" (click)="addServantFamily(i)">Add_Family</button>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <table class="table table-stripped">
+                              <thead>
+                              <tr>
+                                <th>Sl No.</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Relation</th>
+                                <th>Mobile No.</th>
+                                <th>Date Of Birth</th>
+                                <th *ngIf="editable" colspan="3">Action</th>
+                              </tr>
+                              </thead>
+                              <tbody *ngIf="employee?.servants?.[i]?.relations != null">
+                              <tr  *ngFor="let servantRelative of servant!.relations; let k = index">
+                                <td>{{ k + 1 }}</td>
+
+                                <td>
+                                  <input *ngIf="editable" class="form-control" type="text"
+                                         [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.rel_name" placeholder="Name"
+                                         (ngModelChange)="onInputChangeMap('ServantRelation',k)">
+
+                                  <span *ngIf="!editable">{{ servantRelative.pivot!.rel_name }}</span>
+                                </td>
+
+                                <td>
+                                  <select *ngIf=" editable" class="form-control"
+                                          [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.gender"
+                                          (ngModelChange)="onInputChangeMap('ServantRelation', k)">
+                                    <option value="null">--Select Gender--</option>
+                                    <option [ngValue]="'M'">Male</option>
+                                    <option [ngValue]="'F'">Female</option>
+                                    <option [ngValue]="'O'">OTHERS</option>
+                                  </select>
+
+
+                                  <span *ngIf="!editable">
+                                            {{
+                                    servantRelative!.pivot!.gender === 'M' ? 'Male' :
+                                            servantRelative!.pivot!.gender === 'F' ? 'Female' :
+                                                    servantRelative!.pivot!.gender === 'O' ? 'Others' :
+                                                            'N/A'
+                                    }}
+                                          </span>
+                                </td>
+                                <td>
+                                  <select *ngIf=" editable" class="form-control"
+                                          [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.relation_id" [compareWith]="compareRelation"
+                                          (ngModelChange)="onInputChangeMap('ServantRelation', k)">
+                                    <option value="">--Select Relation--</option>
+                                    <option [ngValue]="relationtype.id" *ngFor="let relationtype of relationstypelist">
+                                      {{relationtype!.rel_desc}}</option>
+                                  </select>
+
+                                  <span *ngIf="!editable">{{ servantRelative!.rel_desc }}</span>
+                                </td>
+
+                                <td>
+                                  <input *ngIf="editable" class="form-control" type="text"
+                                         [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.rel_mobile_no"  placeholder="Mobile No."
+                                         maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('ServantRelation', k)" (input)="onMobileNoInput($event, i)">
+
+                                  <span *ngIf="!editable">{{servantRelative!.pivot!.rel_mobile_no}}</span>
+                                </td>
+                                <td>
+                                  <input *ngIf=" editable" class="form-control" type="date"
+                                         [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.rel_dob"
+                                         (ngModelChange)="onInputChangeMap('ServantRelation', i)" [max]="maxDate">
+
+                                  <span *ngIf="!editable">{{formatDate(servantRelative!.pivot!.rel_dob)}}</span>
+                                </td>
+                                <td *ngIf="editable &&  (changesServantRelation[k])">
+                                  <button *ngIf="servantRelative!.deleted_at==null" type="button"
+                                          class="btn btn-outline-success" (click)="saveServantRel(i,k)"
+                                          [disabled]="!changesServantRelation">Save</button>
+                                </td>
+
+                                <td *ngIf="editable">
+                                  <button *ngIf="servantRelative!.id==-1" type="button" class="btn btn-outline-danger"
+                                          (click)="removeServantRel(i,k)">Delete</button>
+                                </td>
+                              </tr>
+                              </tbody>
+                            </table>
+
+
+
+                          </div>
+                        </div>
+                      </div>
+
+
+
+
+                    </div>
+                    <br>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <!--                      </div>-->
+              <!--                    </div>-->
+              <!--                  </div>-->
+              <!--                </div>-->
+              <!--              </div>-->
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,34 +1,135 @@
-import {Component, OnInit} from '@angular/core';
-import { DatePipe } from '@angular/common';
+import {Component, OnInit,} from '@angular/core';
 import {EmployeeService} from "../employee.service";
+import {User} from "../model/User";
+import {Employee} from "../model/Employee";
+
+
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  providers: [DatePipe] // Add DatePipe to the providers array
+
 })
 export class DashboardComponent implements OnInit{
 
-  todayListCount: number = 0; // Provide an initializer here
-  dashboardData: any;
-  empTempDetails : any={};
+  user:User = new User();
+  employee: Employee | null = null;
 
+  imageUrls: string[] = [
+    'https://ih1.redbubble.net/image.1492450570.5434/flat,1000x1000,075,f.u1.jpg',
+    'https://images.mid-day.com/images/images/2023/jan/droupadi-murmu-president-PTI_d.jpg',
+    'https://i.pinimg.com/originals/49/32/ea/4932eadc4ab95268fb0caf51e7e1ccfb.jpg',
+  ];
+
+  currentImageUrl: string=this.imageUrls[0];
+  currentIndex = 0;
   constructor(
+
     private employeeService: EmployeeService,
-    private datePipe: DatePipe, // Inject the DatePipe here
   ) {}
 
 
   ngOnInit() {
-    this.employeeService.getDashboardData().subscribe(data => {
-      this.dashboardData = data
-    });
+    let userString:string|null = sessionStorage.getItem('user')!=null?sessionStorage.getItem('user'):'[]';
+    this.user = JSON.parse(userString!);
+
+    this.changeBackgroundImage();
+
+    this.employeeService.getMyProfile().subscribe(
+      (data: Employee) => {
+        this.employee = data;
+      },
+      (error) => {
+        console.error('Error fetching employee data:', error);
+      }
+    );
+  }
+
+  changeBackgroundImage() {
+    setInterval(() => {
+      this.currentImageUrl = this.imageUrls[this.currentIndex];
+      this.currentIndex = (this.currentIndex + 1) % this.imageUrls.length;
+    }, 7000); // Change image every 500 milliseconds (0.5 seconds)
   }
 
 
-  formatDate(date: string | Date): string {
-    return this.datePipe.transform(date, 'dd/MM/YYYY') || 'N/A';
+  addHoverClass() {
+    const card = document.querySelector('.card');
+    if (card) {
+      card.classList.add('hovered');
+    }
   }
+
+  removeHoverClass() {
+    const card = document.querySelector('.card');
+    if (card) {
+      card.classList.remove('hovered');
+    }
+  }
+
+  setTextHoverClass() {
+    const text = document.querySelector('.card p');
+    if (text) {
+      text.classList.add('text-hover');
+    }
+  }
+
+  removeTextHoverClass() {
+    const text = document.querySelector('.card p');
+    if (text) {
+      text.classList.remove('text-hover');
+    }
+  }
+
+  applyEvahaan() {
+    this.employeeService.applyEvahaan().subscribe(
+
+
+      (data) => {
+        console.log(data);
+
+        // @ts-ignore
+        // const Data = JSON.parse(data);
+        //console.log(Data.RedirectURL)
+        window.open(data.RedirectURL, '_blank');
+        // Swal.fire({
+        //   icon: 'success',
+        //   title: 'Success',
+        //   text: 'Eba application applied successfully and pending for approval',
+        //   // }).then((result) => {
+        //   //   if (result.isConfirmed) {
+        //   //     // Redirect to the desired page
+        //   //     window.location.reload();
+        //   //   }
+        // });
+      },
+      (error) => {
+        console.log(error);
+        console.log(error.status);
+        console.log(error.error);
+        // if(error.status === 302){
+        //   Swal.fire({
+        //     icon: 'warning',
+        //     title: 'Warning',
+        //     text: 'Previous Record is still pending !!!',
+        //   });
+        // }else if(error.status === 303){
+        //   Swal.fire({
+        //     icon: 'warning',
+        //     title: 'Warning',
+        //     text: 'you already have a approved application',
+        //   });
+        // }else{
+        //   Swal.fire({
+        //     icon: 'error',
+        //     title: 'API Error',
+        //     text: 'An error occurred while updating.',
+        //   });
+        // }
+
+
+      }
+    )}
 
 }

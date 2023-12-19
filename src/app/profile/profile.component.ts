@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {User} from "../model/User";
 import {Employee} from "../model/Employee";
 import {EmployeeService} from "../employee.service";
@@ -9,38 +9,56 @@ import {Designation} from "../model/Designation";
 import {Division} from "../model/Division";
 
 import Swal from 'sweetalert2';
+import { Router } from "@angular/router";
 import { DatePipe } from '@angular/common';
-import {Relation} from "../model/Relation";
+import {Domestic_help, Relation} from "../model/Relation";
 import { fileToBase64 } from '../profile/fileToBase64';
 import { environment } from 'src/environments/environment';
+import { ParseChangedDataPipe } from '../parse-changed-data.pipe';
+import {Servants} from "../model/Servants"; // Update the path accordingly
+import {ServantRel} from "../model/ServantRel";
+import {Vehicles} from "../model/Vehicles";
+
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  providers: [DatePipe] // Add DatePipe to the providers array
+  providers: [DatePipe],
 })
 
 export class ProfileComponent implements OnInit{
 
-  
+
   divisiontypelist: any[] = [];  // Initialize as an empty array or with appropriate data type
   relationstypelist: any[] = []; // Initialize as an empty array or with appropriate data type
+  servantstypelist: any[] =[];
   validationErrors:string[] = [];
-
+  blockstypelist: any[] = [];
+  locationtypelist: any[] =[];
+  quarterstypelist: any[] = [];
+  quarteraddress: any[] = [];
   changesMade: boolean = false;
   isCpAddressChecked: boolean = false;
-  changesPostingMade: boolean[] = []; 
-  changesRelationMade: boolean[] = []; 
-  changesPromotionMade: boolean[] = []; 
-  
+  changesPostingMade: boolean[] = [];
+  changesRelationMade: boolean[] = [];
+  changesPromotionMade: boolean[] = [];
+  changesServantMade: boolean[] = [];
+  changesVehicle: boolean[] = [];
+  changesServantRelation:boolean[]=[];
+  maxDate: string = "";
+  baseUrl: string = '';
 
 
   constructor(
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
     private datePipe: DatePipe, // Inject the DatePipe here
-  ) {}
+    private router: Router,
+    @Inject('BASE_URL') baseUrl: string
+  ) {
+    this.baseUrl = baseUrl;
+  }
 
   employee:Employee| null = null;
   mode:string|null = null;
@@ -51,19 +69,65 @@ export class ProfileComponent implements OnInit{
   designations:Designation[]=[];
   divisions:Division[]=[];
   relations:Relation[]=[];
+  // servant_relations:ServantRel[]=[];
+  servants: Servants[] = [];
+
+  vehicles: Vehicles[]=[];
   apiUrl = environment.apiUrl;
+
 
   ngOnInit() {
 
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Zero-padded month
+    const day = today.getDate().toString().padStart(2, '0'); // Zero-padded day
+
+    this.maxDate = `${year}-${month}-${day}`;
+
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.setEditable(this.mode=='edit');
-    this.employeeService.getMyProfile().subscribe(
-      data=>{
-        this.employee=data;
 
-        this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-        this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
-      }
+    this.route.params.subscribe(params => {
+      const id = +params['id']; // Extract id from route parameters
+        // Check if 'id' parameter exists in the URL
+        if (params.hasOwnProperty('id')) {
+        const id = params['id'];
+
+          this.employeeService.getEmpProfile(id).subscribe(
+            data=>{
+              this.employee = data;
+
+              this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+              this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+            }
+          );
+        } else {
+          this.employeeService.getMyProfile().subscribe(
+            data=>{
+              this.employee = data;
+
+              this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+              this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+            }
+          );
+        }
+    });
+
+
+    this.employeeService.getBlockType().subscribe(
+      data=>this.blockstypelist=data,
+      error => console.log(error)
+    );
+
+    this.employeeService.getLocationType().subscribe(
+      data=>this.locationtypelist=data,
+      error => console.log(error)
+    );
+
+    this.employeeService.getQuarterType().subscribe(
+      data=>this.quarterstypelist=data,
+      error => console.log(error)
     );
 
     this.employeeService.getStates().subscribe(
@@ -81,14 +145,13 @@ export class ProfileComponent implements OnInit{
       error => console.log(error)
     );
 
-    this.employeeService.getDependents(1).subscribe(
-      data=>this.relations=data,
+    this.employeeService.getDivisionMasterList().subscribe(
+      data=>this.divisiontypelist=data,
       error => console.log(error)
     );
 
-
-    this.employeeService.getDivisionMasterList().subscribe(
-      data=>this.divisiontypelist=data,
+    this.employeeService.getDependents(1).subscribe(
+      data=>this.relations=data,
       error => console.log(error)
     );
 
@@ -97,7 +160,29 @@ export class ProfileComponent implements OnInit{
       error => console.log(error)
     );
 
-      
+    // this.employeeService.getServants(1).subscribe(
+    //       data=>this.servants=data,
+    //   error => console.log(error)
+    // );
+    //
+    // this.employeeService.getVehicle(1).subscribe(
+    //     data=>this.vehicles=data,
+    //     error => console.log(error)
+    // );
+    //
+    // this.employeeService.getOutHouse(1).subscribe(
+    //     data=>this.outHouse=data,
+    //     error => console.log(error)
+    // );
+
+    // this.employeeService.getServantsRel(1).subscribe(
+    //   data=>this.servantRel=data,
+    //   error => console.log(error)
+    // );
+
+
+
+
   }
 
 
@@ -196,8 +281,8 @@ export class ProfileComponent implements OnInit{
             text: 'An error occurred while updating.',
           });
         }
-       
-        
+
+
       }
 
     );
@@ -224,6 +309,25 @@ export class ProfileComponent implements OnInit{
 
 
   savePromotion(index:number){
+
+    this.validateOrderNo('Promotion', index);
+    this.validateOrderDate('Promotion', index);
+
+    if (this.validationErrors.length > 0) {
+
+      const errorMessage = this.validationErrors
+      .map((error, index) => `${index + 1}. ${error}`)
+      .join('\n');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        html: errorMessage.replace(/\n/g, '<br/>'),
+        width: 'auto', // Adjust as needed
+      });
+      return; // Exit without calling the API
+    }
+
     let promotion = this.employee?.designations![index].pivot;
 
     console.log(this.employee?.designations![index].pivot.order_path)
@@ -342,7 +446,7 @@ export class ProfileComponent implements OnInit{
   /********** Add Division Function Start *********/
 
     addDivision() {
-    if (this.employee && this.employee.relations) {
+    if (this.employee && this.employee.divisions) {
       let d = new Division();
       // this.employee?.divisions?.push(new Division());
       d.pivot.employee_id = this.employee?.id!;
@@ -355,6 +459,26 @@ export class ProfileComponent implements OnInit{
     }
 
     saveDivision(index:number){
+
+      this.validateOrderNo('Posting', index);
+      this.validateOrderDate('Posting', index);
+      this.validateFromDate('Posting', index);
+
+      if (this.validationErrors.length > 0) {
+
+        const errorMessage = this.validationErrors
+        .map((error, index) => `${index + 1}. ${error}`)
+        .join('\n');
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          html: errorMessage.replace(/\n/g, '<br/>'),
+          width: 'auto', // Adjust as needed
+        });
+        return; // Exit without calling the API
+      }
+
       let postingDtls = this.employee?.divisions![index].pivot;
       if(postingDtls?.id==-1){
         this.employeeService.savePosting(postingDtls).subscribe(
@@ -576,7 +700,352 @@ export class ProfileComponent implements OnInit{
       }
     }
 
+  qtraddress(){
+
+    this.employeeService.getQuarterdetail(this.employee!.location_id!,this.employee!.qtr_code!,this.employee!.id!).subscribe(
+      data=>this.quarteraddress=data,
+      error => console.log(error)
+    );
+  }
+
   /***************** Add Family Members Function End ***************8*******/
+
+
+
+
+  /***************** Add servant Members Function Start *********************/
+
+
+  addServant(): void {
+    if (
+        this.employee &&
+        this.employee.servants
+    ) {
+      // Check if servants is an array and initialize it if not
+      if (!Array.isArray(this.employee.servants)) {
+        this.employee.servants = [];
+      }
+
+      let s = new Servants();
+      s.employee_id = this.employee.id!;
+      // if (this.employee.servants.length > 0) {
+      //   s.out_house_id = this.employee.servants[0].out_house_id;
+      // }
+      this.employee.servants.push(s);
+    }
+  }
+
+  addServantFamily(i:number): void {
+    if (
+      this.employee &&
+      this.employee.servants &&
+      this.employee.servants[i] &&
+      this.employee.servants[i]!.relations
+    ) {
+      // Check if servants is an array and initialize it if not
+      if (!Array.isArray(this.employee.servants[i]!.relations)) {
+        this.employee.servants[i]!.relations = [];
+      }
+      let s = new ServantRel();
+      s.pivot.employee_id = this.employee.id!;
+      s.pivot.servant_id = this.employee.servants[i].id!;
+      this.employee.servants[i]!.relations!.push(s);
+    }
+  }
+
+
+  removeServant(servantIndex: number): void {
+    if (
+        this.employee &&
+        this.employee.servants
+    ) {
+      // Check if servants is an array
+      if (Array.isArray(this.employee.servants)) {
+        this.employee.servants.splice(servantIndex, 1);
+      }
+    }
+  }
+
+
+
+
+
+
+  saveServant( i: number) {
+
+    let servantsDtls = this.employee?.servants?.[i];
+    console.log(servantsDtls);
+
+    if (servantsDtls && servantsDtls.out_house_address == null) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Empty out house address',
+        text: 'out house address does not exist.',
+      });
+      return;
+    }
+
+    if (servantsDtls && servantsDtls.id == -1) {
+      this.employeeService.updateServant(servantsDtls).subscribe(
+          (p) => {
+            if (this.employee &&  this.employee.servants) {
+              this.employee.servants[i] = p;
+              console.log(p);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Request for approval of Domestic Help has been saved successfully and is pending approval',
+              });
+            }
+          },
+          (e) => {
+            console.log(e);
+            if (e.status === 302) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Domestic Help details have not been saved successfully.',
+              });
+            }
+          }
+      );
+    } else if (servantsDtls) {
+      this.employeeService.updateServant(servantsDtls).subscribe(
+          (p) => {
+            if (this.employee && this.employee.servants) {
+              this.employee.servants[i] = p;
+
+              console.log(p);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
+              });
+            }
+          },
+          (e) => {
+            console.log(e);
+            if (e.status === 302) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Domestic Help details have not been updated successfully.',
+              });
+            }
+          }
+      );
+    }
+  }
+
+  saveServantRel( i: number, k:number) {
+    let servantsRelDtls = this.employee?.servants?.[i]?.relations?.[k]?.pivot;
+
+    if (servantsRelDtls && servantsRelDtls.id == -1) {
+      this.employeeService.updateServantRel(servantsRelDtls).subscribe(
+        (p) => {
+          const employee = this.employee;
+          if (employee && employee?.servants && employee.servants[i].relations) {
+            const relation = employee?.servants?.[i]?.relations?.[k];
+            if (relation) {
+              relation.pivot = p;
+            }
+
+
+
+
+            console.log(p);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Request for approval of Domestic Help has been saved successfully and is pending approval',
+            });
+          }
+        },
+        (e) => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Domestic Help details have not been saved successfully.',
+            });
+          }
+        }
+      );
+    } else if (servantsRelDtls) {
+      this.employeeService.updateServantRel(servantsRelDtls).subscribe(
+        (p) => {
+          const employee = this.employee;
+          if (employee &&  employee?.servants && employee.servants[i].relations) {
+            const relation = employee?.servants?.[i]?.relations?.[k];
+            if (relation) {
+              relation.pivot = p;
+            }
+
+
+            console.log(p);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
+            });
+          }
+        },
+        (e) => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Domestic Help details have not been updated successfully.',
+            });
+          }
+        }
+      );
+    }
+  }
+
+  removeServantRel(i:number,k:number):void {
+    if (
+        this.employee &&
+        this.employee.servants &&
+        this.employee.servants[i] &&
+        this.employee.servants[i].relations
+    ) {
+      this.employee.servants[i].relations!.splice(k, 1);
+    }
+  }
+
+
+  addVehicle() {
+    if (this.employee && this.employee.vehicles) {
+      let s = new Vehicles();
+      s.employee_id = this.employee?.id!;
+      this.employee?.vehicles?.push(s);
+    }
+  }
+
+  removeVehicle(index: number) {
+    if (this.employee && this.employee.vehicles) {
+      this.employee.vehicles!.splice(index, 1);
+    }
+  }
+
+  saveVehicle(index: number){
+    let vehicleDtls = this.employee?.vehicles![index];
+    if(vehicleDtls){
+      this.employeeService.addVehicles(vehicleDtls).subscribe(
+          // p=>this.employee!.relations![index]=p,
+          // e=>console.log(e)
+
+          p => {
+            this.employee!.vehicles![index] = p;
+
+            // Show SweetAlert success message
+            console.log(p);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Request for approval of Relation have been saved successfully and pending for approval',
+              // }).then((result) => {
+              //   if (result.isConfirmed) {
+              //     // Redirect to the desired page
+              //     window.location.reload();
+              //   }
+            });
+          },
+          e => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Relation details have not been saved successfully.',
+              });
+          }
+      );
+    }
+  }
+
+  onMobileNoInput(event: any, i: number): void {
+    if (this.employee?.servants?.[i]?.servant_mobile_no !== null) {
+      // Get the input value
+      const inputValue = event.target.value;
+
+      // Remove non-numeric characters using a regular expression
+      const numericValue = inputValue.replace(/[^0-9]/g, '');
+
+      // Update the input value
+      event.target.value = numericValue;
+
+      // Update the ngModel bound variable (if necessary)
+      if (this.employee?.servants?.[i]) {
+        this.employee.servants[i].servant_mobile_no = numericValue;
+      }
+    }
+  }
+
+
+
+  // validateserventMobile(domesticHelp: Domestic_help) {
+  //   if (servants.servant_mobile_no !== null) {
+  //     const mobilePattern = /^\d{10}$/;
+  //     if (!mobilePattern.test(servants.servant_mobile_no)) {
+  //       this.validationErrors.push('Invalid Mobile Number');
+  //       Swal.fire({
+  //         icon: 'error',
+  //         title: 'Error',
+  //         text: 'Invalid Mobile Number',
+  //       });
+  //     } else {
+  //       // Clear the validation error message for mobile if it's valid
+  //       const index = this.validationErrors.indexOf('Invalid Mobile Number');
+  //       if (index !== -1) {
+  //         this.validationErrors.splice(index, 1);
+  //       }
+  //     }
+  //   }
+  // }
+  // saveServent(servants: Domestic_help) {
+  //   this.employeeService.updateServant(servants).subscribe(
+  //     (result) => {
+  //       // Handle the success response here
+  //       console.log('Successfully updated domestic help:', result);
+  //     },
+  //     (error) => {
+  //       // Handle the error response here
+  //       console.error('Error updating domestic help:', error);
+  //     }
+  //   );
+  // }
+
+
+
+
+
+  /***************** Add Servant Members Function End ***************8*******/
 
 
 
@@ -706,13 +1175,144 @@ export class ProfileComponent implements OnInit{
 
   /************************* Validation Check Function End *************************/
 
+  /********** Desgination / Promotion && Division / Posting Validation Check Function Start *************/
+
+  // Validate Order No
+  validateOrderNo(param : String, index: number) {
+
+    if(
+        param === 'Promotion'  &&
+        this.employee &&
+        this.employee!.designations &&
+        this.employee!.designations[index].pivot &&
+        (
+          this.employee!.designations[index].pivot.order_no === null ||
+          this.employee!.designations[index].pivot.order_no?.toString() === ''
+        )
+    ) {
+      this.validationErrors.push('Please Enter Order No.');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Enter Order No.',
+      });
+    }else if(param === 'Posting'  &&
+      this.employee &&
+      this.employee!.divisions &&
+      this.employee!.divisions[index].pivot &&
+      (
+        this.employee!.divisions[index].pivot.order_no === null ||
+        this.employee!.divisions[index].pivot.order_no?.toString() === ''
+      )
+    ){
+
+      this.validationErrors.push('Please Enter Order No.');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Enter Order No.',
+      });
+
+    }else {
+      // Clear the validation error message for Pin Code if it's valid
+      const index = this.validationErrors.indexOf('Please Enter Order No.');
+      if (index !== -1) {
+        this.validationErrors.splice(index, 1);
+      }
+    }
+
+  }
+
+  // Validate Order Date
+  validateOrderDate(param : String, index: number) {
+
+    // if(this.employee && this.employee!.designations )
+    // console.log(this.employee!.designations[index].pivot.order_date)
+    //alert(this.employee!.designations[index].pivtot!.order_date)
+    if(
+      param === 'Promotion'  &&
+      this.employee &&
+      this.employee!.designations &&
+      this.employee!.designations[index].pivot &&
+      (
+        this.employee!.designations[index].pivot.order_date === null ||
+        this.employee!.designations[index].pivot.order_date?.toString() === ''
+      )
+    ){
+      this.validationErrors.push('Please Enter Order Date');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Enter Order Date',
+      });
+    }else if(
+      param === 'Posting'  &&
+      this.employee &&
+      this.employee!.divisions &&
+      this.employee!.divisions[index].pivot &&
+      (
+        this.employee!.divisions[index].pivot.order_date === null ||
+        this.employee!.divisions[index].pivot.order_date?.toString() === ''
+      )
+    ){
+      this.validationErrors.push('Please Enter Order Date');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Enter Order Date',
+      });
+    }else {
+      // Clear the validation error message for Pin Code if it's valid
+      const index = this.validationErrors.indexOf('Please Enter Order Date');
+      if (index !== -1) {
+        this.validationErrors.splice(index, 1);
+      }
+    }
+
+  }
+
+  // Validate From Date
+  validateFromDate(param : String, index: number){
+  if(
+      param === 'Posting'  &&
+      this.employee &&
+      this.employee!.divisions &&
+      this.employee!.divisions[index].pivot &&
+      (
+        this.employee!.divisions[index].pivot.from_date === null ||
+        this.employee!.divisions[index].pivot.from_date?.toString() === ''
+      )
+    ){
+      this.validationErrors.push('Please Enter From Date');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Enter From Date',
+      });
+    }else {
+      // Clear the validation error message for Pin Code if it's valid
+      const index = this.validationErrors.indexOf('Please Enter From Date');
+      if (index !== -1) {
+        this.validationErrors.splice(index, 1);
+      }
+    }
+
+  }
+  /*********** Desgination / Promotion && Division / Posting Validation Check Function End **************/
+
+
 
   /******* Upload File Function Start *******/
 
   // Profile Photo &&  Employee Singnature
   // async onProfilePhotoSelected(event: Event, param: string): Promise<void> {
   //   const inputElement = event.target as HTMLInputElement;
-  
+
   //   if (inputElement?.files?.length) {
   //     const file: File = inputElement.files[0];
   //     try {
@@ -740,7 +1340,7 @@ export class ProfileComponent implements OnInit{
 
   async onProfilePhotoSelected(event: Event, param: string): Promise<void> {
     const inputElement = event.target as HTMLInputElement;
-  
+
     if (inputElement?.files?.length) {
       const file: File = inputElement.files[0];
 
@@ -785,8 +1385,8 @@ export class ProfileComponent implements OnInit{
       console.log('No file selected.');
     }
   }
-  
-  
+
+
 
   // Order File Promotions
   async onFileSelected(event: any, i: number) {
@@ -825,6 +1425,59 @@ export class ProfileComponent implements OnInit{
       console.error('Failed to convert the file to base64:', error);
     }
   }
+
+
+  // async onaadharSelected(event: any): Promise<void> {
+  //   const selectedFile = event.target.files[0]; // Get the first selected file
+  //
+  //   try {
+  //     if (selectedFile) {
+  //       const fileType = selectedFile.type;
+  //       const fileSize = selectedFile.size;
+  //
+  //       // Check if the selected file is a PDF and the size is within limits
+  //       if (fileType === 'application/pdf' && fileSize <= 1048576) {
+  //         const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
+  //         if (this.employee) {
+  //           this.employee.aadhar_card = base64String;
+  //         } else {
+  //           console.log('this.employee is null.');
+  //         }
+  //       } else {
+  //         Swal.fire({
+  //           icon: 'error',
+  //           title: 'Invalid File',
+  //           text: 'File size exceeds 1mb or it is not a pdf',
+  //         });
+  //         console.log('File size exceeds 1mb or not a pdf');
+  //       }
+  //     } else {
+  //       Swal.fire({
+  //         icon: 'error',
+  //         title: 'File is not present',
+  //         text: 'No file selected',
+  //       });
+  //       console.log('No file selected');
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to convert the file to base64:', error);
+  //   }
+  // }
+
+  // streamAadharCard() {
+  //   // Here, you can open or display the Aadhar Card using an appropriate method.
+  //   // You can use a library or native functionality to achieve this.
+  //   // For example, if it's an image or PDF, you can open it in a new tab or viewer.
+  //
+  //   // Example for opening the Aadhar Card in a new tab:
+  //   if (this.employee && this.employee.aadhar_card) {
+  //     const aadharCardBlob = new Blob([this.employee.aadhar_card], { type: 'application/pdf' }); // Adjust the content type as needed
+  //     const objectURL = URL.createObjectURL(aadharCardBlob);
+  //
+  //     // Open the Aadhar Card in a new tab
+  //     window.open(objectURL, '_blank');
+  //   }
+  // }
 
 
   // Order File Posting
@@ -878,11 +1531,11 @@ export class ProfileComponent implements OnInit{
         this.employee!.perm_add = this.employee!.curr_add;
         this.employee!.perm_pin = this.employee!.curr_pin;
         this.employee!.perm_state = this.employee!.curr_state;
-       
+
         this.employee!.perm_district = this.employee!.curr_district;
 
         this.getDistricts(this.employee!.perm_state!).then(districts=>this.permDistricts=districts);
-        
+
       } else {
 
         // Uncheck the checkbox
@@ -894,8 +1547,8 @@ export class ProfileComponent implements OnInit{
           title: 'Error',
           text: 'Please Fill all the Field of Current Address',
         });
-        
-       
+
+
       }
     } else {
       // If unchecked, reset permanent address fields to null
@@ -907,7 +1560,7 @@ export class ProfileComponent implements OnInit{
       this.getDistricts(this.employee!.perm_state!).then(districts=>this.permDistricts=districts);
     }
   }
-  
+
   /***** Same As Current Address Function End *****/
 
   /***** Date Check Validation Function Start *****/
@@ -927,14 +1580,14 @@ export class ProfileComponent implements OnInit{
 
       return; // Exit the function early if any date field is null
     }
-    
+
     // if(!this.employee!.doj_gs){
     //   Swal.fire({
     //     icon: 'error',
     //     title: 'Error',
     //     text: 'Please Fill Date of Joining in Government Services',
     //   });
-      
+
     //   // Set the values to null since they are invalid
     //   this.employee!.doj_rb = null;
 
@@ -946,7 +1599,7 @@ export class ProfileComponent implements OnInit{
     const dob = new Date(this.employee!.dob);
     const dojGS = this.employee!.doj_gs ? new Date(this.employee!.doj_gs) : 'null';
     const dojRB = this.employee!.doj_rb ? new Date(this.employee!.doj_rb) : 'null';
-    
+
     if(dojGS < dob ){
       Swal.fire({
         icon: 'error',
@@ -969,7 +1622,7 @@ export class ProfileComponent implements OnInit{
 
       this.employee!.doj_rb = null;
     }
-    
+
 
   }
   /***** Date Check Validation Function Start *****/
@@ -993,17 +1646,28 @@ export class ProfileComponent implements OnInit{
   }
 
   onInputChangeMap(param : String, index: number){
-    
+
     if(param === 'Promotion'){
       this.changesPromotionMade[index] = true;
     }else if(param === 'Posting'){
       this.changesPostingMade[index] = true;
     }else if(param === 'Relations'){
       this.changesRelationMade[index] = true;
+    }else if(param === 'Servants'){
+      this.changesServantMade[index] = true;
+    }else if(param === 'Vehicle'){
+      this.changesVehicle[index] = true;
+    } else if(param === 'ServantRelation'){
+      this.changesServantRelation[index] = true;
     }
-    
   }
 
 
-
+  displayEba: any = 'none';
+  pullEbaPopup() {
+    this.displayEba = "block";
+  }
+  closeEbaPopup() {
+    this.displayEba = "none";
+  }
 }

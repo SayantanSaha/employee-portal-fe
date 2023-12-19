@@ -1,0 +1,155 @@
+<div class="row" *ngIf="employee!=null && employee.divisions!=null">
+  <div  *ngFor="let div of employee!.divisions;">
+    <div *ngIf="div.id === 47">
+      <div class="row">
+        <div class="container">
+          <div class="card">
+            <div class="card shadow">
+              <div class="card-header">
+                <div class="card-title">
+                  <b>Eba</b>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-3" >
+                    <div class="card">
+                      <div class="card shadow">
+                        <div class="card-body" style="overflow: auto;">
+                          <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle btn btn-outline-warning">
+                              <a routerLink="/eba-pending">
+                                <i class="bi bi-people"></i>
+                              </a>
+                            </div>
+                            <div class="ps-5">
+                              <p>
+                                <span class="text-muted small pt-2 ps-1 fw-bold">Pending at DH</span>
+                              </p>
+                              {{ebadashboardData.pendingdh}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3" >
+                    <div class="card">
+                      <div class="card shadow">
+                        <div class="card-body" style="overflow: auto;">
+                          <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle btn btn-outline-success">
+                              <a routerLink="/eba-pending">
+                                <i class="bi bi-people"></i>
+                              </a>
+                            </div>
+                            <div class="ps-5">
+                              <p>
+                                <span class="text-muted small pt-2 ps-1 fw-bold">Pending at SO</span>
+                              </p>
+                              {{ebadashboardData.pendingso}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3" >
+                    <div class="card">
+                      <div class="card shadow">
+                        <div class="card-body" style="overflow: auto;">
+                          <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle btn btn-outline-danger">
+                              <a routerLink="/eba-pending">
+                                <i class="bi bi-people"></i>
+                              </a>
+                            </div>
+                            <div class="ps-5">
+                              <p>
+                                <span class="text-muted small pt-2 ps-1 fw-bold">Pending at US</span>
+                              </p>
+                              {{ebadashboardData.pendingus}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3" >
+                    <div class="card">
+                      <div class="card shadow">
+                        <div class="card-body" style="overflow: auto;">
+                          <div class="d-flex align-items-center">
+                            <div class="card-icon rounded-circle btn btn-outline-info">
+                              <a routerLink="/eba-pending" >
+                                <i class="bi bi-people"></i>
+                              </a>
+                            </div>
+                            <div class="ps-5">
+                              <p>
+                                <span class="text-muted small pt-2 ps-1 fw-bold">Approved Application</span>
+                              </p>
+                              {{ebadashboardData.approvedCount}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row" >
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card shadow">
+                        <div class="card-header">
+                          <div class="card-title">
+                            <b>Today's List</b>
+                          </div>
+                        </div>
+                        <div class="card-body" style="overflow: auto;">
+                          <div class="row mb-12">
+                            <table class="table table-stripped">
+                              <thead>
+                              <tr>
+                                <th>Sl No.</th>
+                                <th>Id Card No.</th>
+                                <th>Employee Name</th>
+                                <!-- <th>Email ID</th> -->
+                                <th>Mobile No.</th>
+                                <th>Last Updated Date</th>
+                                <th>Action</th>
+                              </tr>
+                              </thead>
+                              <tbody *ngIf="ebadashboardData && ebadashboardData.todayList">
+                              <tr *ngFor="let ebaapplication of ebadashboardData.todayList; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ ebaapplication.id_cards[0].card_no}}</td>
+                                <td>{{ ebaapplication.employee.emp_name }}</td>
+                                <td>{{ ebaapplication.employee.mobile }}</td>
+                                <td>{{ formatDate(ebaapplication.created_at) }}</td>
+                                <td>
+                                  <a class="btn btn-outline-info" [routerLink]="'/eba-pending-dtls/' + ebaapplication.id">Details</a>
+                                </td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

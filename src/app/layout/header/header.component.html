@@ -52,11 +52,13 @@
             <img *ngIf="user.profile_photo" [src]="user.profile_photo ? user.profile_photo : '' " alt="mdo"
               width="32" height="32" class="rounded-circle">
             &nbsp;{{user.name}}
+
           </a>
 
           <ul class="dropdown-menu text-small">
-            <li><a class="dropdown-item" href="{{baseUrl}}/dashboard">Dashboard</a></li>
             <li><a class="dropdown-item" href="{{baseUrl}}/profile/edit">Profile</a></li>
+            <li><a class="dropdown-item" href="{{baseUrl}}/dashboard">Dashboard</a></li>
+            <li><a class="dropdown-item" [routerLink]="'/change-password'">Change Password</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="{{baseUrl}}/logout">Sign out</a></li>
           </ul>
@@ -84,7 +86,20 @@
           <a routerLink="/approval-pending-emp-dtls">Approval Pending Employee List</a>
         </div>
       </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <span class="pb-2 border-bottom link-grp">Forms</span>
+        </div>
+      </div>
 
+<!--      <div class="row row-cols-1 row-cols-lg-3">-->
+<!--        <div class="col" style="padding: 10px;">-->
+<!--          <a routerLink="/eba-form/edit">Apply EBA</a>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
+
   </div>
+
 </div>
