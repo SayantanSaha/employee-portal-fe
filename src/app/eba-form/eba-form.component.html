@@ -5,7 +5,7 @@
       EBA Application <br>
       <div style="padding-right: 65%;margin-top: 1%" *ngIf="editable && !urlid">
         <select class="form-control" (change)="onSelect($event)">
-          <option>-select-</option>
+          <option>-select type of relation-</option>
           <option value="{{baseUrl}}/eba-form/edit/relative">Relative</option>
           <option value="{{baseUrl}}/eba-form/edit/domestichelp">Domestic Help</option>
         </select>
@@ -144,6 +144,7 @@
                     <th>Date Of Birth</th>
                     <th>Eba Pass NO</th>
                     <th *ngIf="urlid">Exp date</th>
+                    <th *ngIf="urlid">Reason</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -156,7 +157,17 @@
                               <div *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
                                 <div *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
                                   <div *ngIf="(eba_pass.eba_pass_no === null || eba_pass.eba_pass_exp_date === null)">
-                                    <button (click)="toggleApproval(i)" class="btn btn-outline-success" [class.approve]="employee.relations[i].allSelected">Approve</button>
+                                    <div class="form-check form-switch">
+                                      <input class="form-check-input"
+                                              type="checkbox"
+                                              role="switch"
+                                              id="flexSwitchCheckChecked"
+                                              data-toggle="toggle"
+                                              [(ngModel)]="member.allSelected">
+                                    </div>
+
+                                    <!--                                    <input type="checkbox" checked data-toggle="toggle" data-on="Ready" data-off="Not Ready" data-onstyle="success" data-offstyle="danger" [(ngModel)]="member.allSelected" >-->
+<!--                                    <button (click)="toggleApproval(i)" class="btn btn-outline-success" [class.approve]="employee.relations[i].allSelected">Approve</button>-->
 
                                   </div>
                                 </div>
@@ -226,6 +237,11 @@
                           <input type="date" class="form-control" [(ngModel)]="eba_pass.eba_pass_exp_date" >
                         </div>
                       </div>
+                    </td>
+                    <td *ngIf="urlid">
+
+                          <input type="text" class="form-control" >
+
                     </td>
                   </tr>
                   </tbody>

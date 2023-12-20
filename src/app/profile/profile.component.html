@@ -1384,33 +1384,33 @@
                             <div class ="col-md-2" style="margin-left: 1%;">
                               <label class="form-label">Location:</label>
                             </div>
-                            <div class ="col-md-2" style="margin-left: -7%" >
-                              <select class="form-control" [(ngModel)]="employee!.location_id" (change)="qtraddress()">
+                            <div class ="col-md-4" style="margin-left: -7%" >
+                              <select class="form-control" [(ngModel)]="employee!.location_id"  (change)="qtrtype()">
                                 <option value="">--Select--</option>
-                                <option [ngValue]="locationtype.id" *ngFor="let locationtype of locationtypelist">
+                                <option [ngValue]="locationtype.location_code" *ngFor="let locationtype of locationtypelist">
                                   {{locationtype!.location_name}}</option>
                               </select>
                             </div>
                             <div class ="col-md-2" style="margin-left: 3%">
                               <label class="form-label">Quarter Type:</label>
                             </div>
-                            <div class ="col-md-2" style="margin-left: -5%" >
+                            <div class ="col-md-4" style="margin-left: -5%" >
                               <select class="form-control" [(ngModel)]="employee!.qtr_code" (change)="qtraddress()">
                                 <option value="">--Select--</option>
                                 <option [ngValue]="quartertype.type_code" *ngFor="let quartertype of quarterstypelist">
                                   {{quartertype!.type_name}}</option>
                               </select>
                             </div>
-                            <div class ="col-md-2" style="margin-left: 7%">
-                              <label class="form-label">Quarter address:</label>
-                            </div>
-                            <div class ="col-md-2" style="margin-left: -5%" >
-                              <select class="form-control" [(ngModel)]="employee!.qtr_address" >
-                                <option value="">--Select--</option>
-                                <option [ngValue]="add.qtr_code" *ngFor="let add of quarteraddress">
-                                  {{add!.qtr_no}}</option>
-                              </select>
-                            </div>
+<!--                            <div class ="col-md-2" style="margin-left: 7%">-->
+<!--                              <label class="form-label">Quarter address:</label>-->
+<!--                            </div>-->
+<!--                            <div class ="col-md-2" style="margin-left: -5%" >-->
+<!--                              <select class="form-control" [(ngModel)]="employee!.qtr_address" >-->
+<!--                                <option value="">&#45;&#45;Select&#45;&#45;</option>-->
+<!--                                <option [ngValue]="add.qtr_code" *ngFor="let add of quarteraddress">-->
+<!--                                  {{add!.qtr_no}}</option>-->
+<!--                              </select>-->
+<!--                            </div>-->
                           </div>
                       <br>
                     </div>

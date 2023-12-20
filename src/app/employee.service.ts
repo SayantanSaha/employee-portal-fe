@@ -174,8 +174,8 @@ export class EmployeeService {
     return this.http.get<any[]>(this.apiUrl+"Location",{headers:this.createHeader()});
   }
 
-  getQuarterType(): Observable<any[]>{
-    return this.http.get<any[]>(this.apiUrl+"QuarterType",{headers:this.createHeader()});
+  getQuarterType(location:string): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"Quarterbylocation/"+location,{headers:this.createHeader()});
   }
   getQuarterdetail(qtrtype:string ,location:string,empid:number): Observable<any[]>{
     return this.http.get<any[]>(this.apiUrl+"qtrmaster/"+qtrtype+'/'+location+'/'+empid,{headers:this.createHeader()});

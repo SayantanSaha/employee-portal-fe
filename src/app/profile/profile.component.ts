@@ -125,10 +125,6 @@ export class ProfileComponent implements OnInit{
       error => console.log(error)
     );
 
-    this.employeeService.getQuarterType().subscribe(
-      data=>this.quarterstypelist=data,
-      error => console.log(error)
-    );
 
     this.employeeService.getStates().subscribe(
       data=>this.states=data,
@@ -700,11 +696,47 @@ export class ProfileComponent implements OnInit{
       }
     }
 
-  qtraddress(){
 
-    this.employeeService.getQuarterdetail(this.employee!.location_id!,this.employee!.qtr_code!,this.employee!.id!).subscribe(
-      data=>this.quarteraddress=data,
-      error => console.log(error)
+        qtraddress() {
+      this.employeeService.getQuarterdetail(this.employee!.qtr_code!,this.employee!.location_id!,this.employee!.id!).subscribe(
+          (data) => {
+            // Success response (you can check the status code if needed)
+            console.log(data); // Log the response data if required
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'pulled successfully',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Redirect to the desired page or refresh the current page
+                window.location.reload();
+              }
+            });
+          },
+          (error) => {
+            // Error response
+            console.log(error); // Log the error if needed
+            if (error.status === 404) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Mobile No does not match!!!',
+              });
+            } else {
+              Swal.fire({
+                icon: 'warning',
+                title: 'warning',
+                text: 'empty data.',
+              });
+            }
+          }
+      );
+    }
+
+    qtrtype() {
+    this.employeeService.getQuarterType(this.employee!.location_id!).subscribe(
+        data => this.quarterstypelist = data,
+        error => console.log(error)
     );
   }
 
