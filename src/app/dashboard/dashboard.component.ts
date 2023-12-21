@@ -84,15 +84,12 @@ export class DashboardComponent implements OnInit{
 
   applyEvahaan() {
     this.employeeService.applyEvahaan().subscribe(
+        (data: any) => {
+          console.log(data);
 
+          // Open the URL in a new tab
+          window.open(data, '_blank');
 
-      (data) => {
-        console.log(data);
-
-        // @ts-ignore
-        // const Data = JSON.parse(data);
-        //console.log(Data.RedirectURL)
-        window.open(data.RedirectURL, '_blank');
         // Swal.fire({
         //   icon: 'success',
         //   title: 'Success',

@@ -31,11 +31,11 @@ export class EbaFormComponent {
   baseUrl: string = '';
 
   constructor(
-    private employeeService: EmployeeService,
-    private route: ActivatedRoute,
-    private router: Router,
-    @Inject('BASE_URL') baseUrl: string
-    // private datePipe: DatePipe,
+      private employeeService: EmployeeService,
+      private route: ActivatedRoute,
+      private router: Router,
+      @Inject('BASE_URL') baseUrl: string
+      // private datePipe: DatePipe,
   ) {
     this.baseUrl = baseUrl;
     // if (this.employee && this.employee.relations) {
@@ -47,74 +47,92 @@ export class EbaFormComponent {
     //   });
     // }
   }
-  employee:Employee| null = null;
-  user:User = new User();
 
-  states:State[]=[];
-  currDistricts:District[]=[];
-  permDistricts:District[]=[];
-  designations:Designation[]=[];
-  divisions:Division[]=[];
-  relations:Relation[]=[];
+  employee: Employee | null = null;
+  user: User = new User();
+
+  states: State[] = [];
+  currDistricts: District[] = [];
+  permDistricts: District[] = [];
+  designations: Designation[] = [];
+  divisions: Division[] = [];
+  relations: Relation[] = [];
   eba_passes: any[] = [];
   servants: Servants[] = [];
   servantRel: ServantRel[] = [];
-  vehicles: Vehicles[]=[];
+  vehicles: Vehicles[] = [];
   apiUrl = environment.apiUrl;
   divisiontypelist: any[] = [];  // Initialize as an empty array or with appropriate data type
   relationstypelist: any[] = [];
-  editable:boolean = false;
-  applyingforRelative:boolean = false;
-  mode:string|null = null;
-  modetwo:string|null = null;
-  urlid:boolean = false;
-  id:string|null = null;
-
+  editable: boolean = false;
+  applyingforRelative: boolean = false;
+  mode: string | null = null;
+  modetwo: string | null = null;
+  urlid: boolean = false;
+  id: string | null = null;
+  remark: string = '';
+  file_path: string = '';
 
 
   ngOnInit() {
 
     this.mode = this.route.snapshot.paramMap.get('mode');
-    this.setEditable(this.mode=='edit');
+    this.setEditable(this.mode == 'edit');
 
     this.modetwo = this.route.snapshot.paramMap.get('modetwo');
-    this.SetApplyingForRelative(this.modetwo=='relative');
+    this.SetApplyingForRelative(this.modetwo == 'relative');
 
     this.id = this.route.snapshot.paramMap.get('id');
     this.letverify(!!this.id);
 
 
-    let userString:string|null = sessionStorage.getItem('user')!=null?sessionStorage.getItem('user'):'[]';
+    let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
 
-    this.route.params.subscribe(params => {
-      const id = +params['id']; // Extract id from route parameters
-      // Check if 'id' parameter exists in the URL
-      if (params.hasOwnProperty('id')) {
-        const id = params['id'];
+    if (this.id) {
+      // 'id' is present, try to convert it to a number
+      const idNumber = +this.id;
 
-        this.employeeService.getEbaProfile(id).subscribe(
-          data=>{
-            this.employee = data;
-          }
+      if (!isNaN(idNumber)) {
+        // 'id' is a valid number, call getEbaProfile
+        this.employeeService.getEbaProfile(idNumber).subscribe(
+            (data: any) => {
+              this.employee = data;
+            }
         );
-      }
-      else {
+      } else {
+        // 'id' is not a valid number, call getMyebaProfile
         this.employeeService.getMyebaProfile().subscribe(
-          data=>{
-            this.employee = data;
+            (data: any) => {
+              this.employee = data;
 
-            this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-            this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
-          }
+              // @ts-ignore
+              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+              // @ts-ignore
+              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            }
         );
       }
-    });
+    } else {
+      // 'id' is not present, call getMyebaProfile
+      this.employeeService.getMyebaProfile().subscribe(
+          (data: any) => {
+            this.employee = data;
+
+            // @ts-ignore
+            this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+            // @ts-ignore
+            this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+          }
+      );
+    }
 
 
 
 
-    this.employeeService.getStates().subscribe(
+
+
+  this.employeeService.getStates().subscribe(
       data=>this.states=data,
       error => console.log(error)
     );
@@ -608,4 +626,136 @@ export class EbaFormComponent {
       );
     }
   }
+
+
+
+  approveapplication() {
+
+    // if (this.user && this.user.role) {
+    //   for (const role of this.user.role) {
+    //     if (role.role_id === 4) {
+    //
+    //       if (this.employee) {
+    //         console.log(this)
+    //
+    //         const clonedEmployee = { ...this.employee };
+    //
+    //         // Filter out only the selected relations
+    //         if (clonedEmployee.relations) {
+    //           clonedEmployee.relations = clonedEmployee.relations.filter(member => member.allSelected);
+    //         }
+    //
+    //         if (clonedEmployee.vehicles) {
+    //           clonedEmployee.vehicles = clonedEmployee.vehicles.filter(vehicle => vehicle.allSelected);
+    //         }
+    //
+    //         if (clonedEmployee.servants) {
+    //           clonedEmployee.servants = clonedEmployee.servants.filter(servant => servant.allSelected);
+    //         }
+    //
+    //         // Your existing code
+    //         if (clonedEmployee.servants) {
+    //           clonedEmployee.servants.forEach(servant => {
+    //             if (servant.relations) {
+    //               servant.relations = servant.relations.filter(relation => relation.allSelected);
+    //             }
+    //           });
+    //         }
+    //
+    //         // if (this.employee.emp_name != 'ok'
+    //         // ) {
+    //         //   Swal.fire({
+    //         //     icon: 'warning',
+    //         //     title: 'Empty application',
+    //         //     text: 'At least add one Relative or domestic help',
+    //         //   });
+    //         //   return;
+    //         // }
+    //
+    //         // Send the modified employee object to the server
+    //         this.employeeService.applyeba(clonedEmployee).subscribe();
+    //       }
+    //
+    //
+    //   }
+    // }}
+    // Extract id from route parameters
+    const id = +this.route.snapshot.params['id'];
+
+    // Check if 'id' parameter exists in the URL
+    if (!isNaN(id)) {
+      this.employeeService.updateebastatus(id, 'Approve', this.remark,this.file_path).subscribe(
+          () => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Approved successfully',
+            }).then(() => {
+              // Redirect to the dashboard route
+              this.router.navigate(['ebapanel']);
+            });
+          },
+          (error) => {
+            console.log(error);
+            console.log(error.status);
+            console.log(error.error);
+
+            if (error.status === 302) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'You are not authorised !!!',
+              });
+            } else {
+              // Handle other errors here
+              console.error('An error occurred:', error);
+            }
+          }
+      );
+    } else {
+      console.error('ID parameter is missing or invalid in the URL.');
+    }
+  }
+
+
+
+  returnapplication() {
+    // Extract id from route parameters
+    const id = +this.route.snapshot.params['id'];
+
+    // Check if 'id' parameter exists in the URL
+    if (!isNaN(id)) {
+      this.employeeService.updateebastatus(id, 'Return', this.remark, this.file_path).subscribe(
+          () => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Returned successfully',
+            }).then(() => {
+              // Redirect to the dashboard route
+              this.router.navigate(['ebapanel']);
+            });
+          },
+          (error) => {
+            console.log(error);
+            console.log(error.status);
+            console.log(error.error);
+
+            if (error.status === 302) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'You are not authorized !!!',
+              });
+            } else {
+              // Handle other errors here
+              console.error('An error occurred:', error);
+            }
+          }
+      );
+    } else {
+      console.error('ID parameter is missing or invalid in the URL.');
+    }
+  }
+
 }

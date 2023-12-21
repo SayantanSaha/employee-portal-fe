@@ -39,7 +39,9 @@ const routes: Routes = [
       { path: 'approval-pending-emp-dtls',loadChildren: () => import('../tempchangesdata/tempchangesdata.module').then(d => d.TempchangesdataModule), canActivate: [AuthGuard]},
       { path: 'change-password',loadChildren: () => import('../change-password/change-password.module').then(d => d.ChangePasswordModule), canActivate: [AuthGuard]},
       { path: 'employee-list',loadChildren: () => import('../employeelist/employeelist.module').then(d => d.EmployeelistModule), canActivate: [AuthGuard]},
-      { path: 'eba-form/:mode/:modetwo',loadChildren: () => import('../eba-form/eba-form.module').then(d => d.ebaFormModule), canActivate: [AuthGuard]},
+       { path: 'eba-form/:mode/:modetwo/:id',loadChildren: () => import('../eba-form/eba-form.module').then(d => d.ebaFormModule), canActivate: [AuthGuard]},
+
+
       { path: 'eba-form-view',loadChildren: () => import('../ebaformview/ebaformview.module').then(d => d.EbaformviewModule), canActivate: [AuthGuard]},
       { path: 'eba-pending',loadChildren: () => import('../ebapending/ebapending.module').then(d => d.ebaPendingModule), canActivate: [AuthGuard]},
       { path: 'eba-pending-dtls/:id',loadChildren: () => import('../ebaapproval/ebaapproval.module').then(d => d.ebaApprovalModule), canActivate: [AuthGuard]},
