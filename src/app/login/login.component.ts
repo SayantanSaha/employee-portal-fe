@@ -42,9 +42,9 @@ export class LoginComponent {
               else if(item.id===2 && item.role_desc==='Admin' )
                 this.router.navigate(['/dashboard']);
               else
-                this.router.navigate(['/profile/view']);
+                this.router.navigate(['/dashboard']);
             }
-            
+
           }
         },
         (error) =>{
@@ -56,7 +56,7 @@ export class LoginComponent {
         }
       )
   }
-  
+
   doLogout(){
     sessionStorage.removeItem('user');
     sessionStorage.removeItem('authorisation');

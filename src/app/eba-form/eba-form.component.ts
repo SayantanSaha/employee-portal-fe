@@ -83,7 +83,7 @@ export class EbaFormComponent {
     this.SetApplyingForRelative(this.modetwo == 'relative');
 
     this.id = this.route.snapshot.paramMap.get('id');
-    this.letverify(!!this.id);
+    this.letverify(!isNaN(+this.id!));
 
 
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
