@@ -26,7 +26,6 @@ import { ParseChangedDataPipe } from './parse-changed-data.pipe';
 import { EbaFormComponent } from './eba-form/eba-form.component';
 import { UppercaseDirective } from './uppercase.directive';
 import { EbapendingComponent } from './ebapending/ebapending.component';
-import { EbaapprovalComponent } from './ebaapproval/ebaapproval.component';
 import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 import { EbapanelComponent } from './ebapanel/ebapanel.component';
 import { NextDirective } from './next.directive';
@@ -45,7 +44,6 @@ import { EbaformviewComponent } from './ebaformview/ebaformview.component';
     DesignationComponent,
     StateComponent,
     DistrictComponent,
-
     DashboardComponent,
     TempchangesdataComponent,
     TempchangesapprovalComponent,
@@ -56,7 +54,6 @@ import { EbaformviewComponent } from './ebaformview/ebaformview.component';
     EbaFormComponent,
     UppercaseDirective,
     EbapendingComponent,
-    EbaapprovalComponent,
     AdminpanelComponent,
     EbapanelComponent,
     NextDirective,

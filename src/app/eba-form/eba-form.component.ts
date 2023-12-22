@@ -29,23 +29,17 @@ export class EbaFormComponent {
   memberEbaPasses: any[] = [];
 
   baseUrl: string = '';
-
+  minDate : string;
   constructor(
       private employeeService: EmployeeService,
       private route: ActivatedRoute,
       private router: Router,
       @Inject('BASE_URL') baseUrl: string
-      // private datePipe: DatePipe,
   ) {
     this.baseUrl = baseUrl;
-    // if (this.employee && this.employee.relations) {
-    //   this.employee.relations.forEach((relation, i) => {
-    //     this.emp_rel_detail[i] = {
-    //       emp_rel_id: relation.pivot.id,
-    //       eba_pass_no: null  // or any default value
-    //     };
-    //   });
-    // }
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
+
   }
 
   employee: Employee | null = null;
@@ -56,8 +50,8 @@ export class EbaFormComponent {
   permDistricts: District[] = [];
   designations: Designation[] = [];
   divisions: Division[] = [];
-  relations: Relation[] = [];
-  eba_passes: any[] = [];
+  // relations: Relation[] = [];
+  // eba_passes: any[] = [];
   servants: Servants[] = [];
   servantRel: ServantRel[] = [];
   vehicles: Vehicles[] = [];
@@ -82,34 +76,36 @@ export class EbaFormComponent {
     this.modetwo = this.route.snapshot.paramMap.get('modetwo');
     this.SetApplyingForRelative(this.modetwo == 'relative');
 
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.letverify(!isNaN(+this.id!));
-
 
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
 
+    if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => (role.role_id === 5 || role.role_id == 6 || role.role_id == 4))) {
+      this.id = this.route.snapshot.paramMap.get('id');
+      this.letverify(!isNaN(+this.id!));
+    }
+
     if (this.id) {
       // 'id' is present, try to convert it to a number
       const idNumber = +this.id;
-
       if (!isNaN(idNumber)) {
-        // 'id' is a valid number, call getEbaProfile
-        this.employeeService.getEbaProfile(idNumber).subscribe(
-            (data: any) => {
-              this.employee = data;
-            }
-        );
-      } else {
+        if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => (role.role_id === 5 || role.role_id == 6 || role.role_id == 4))) {
+          // 'id' is a valid number, call getEbaProfile
+          this.employeeService.getEbaProfile(idNumber).subscribe(
+              (data: any) => {
+                this.employee = data;
+              }
+          );
+        }} else {
         // 'id' is not a valid number, call getMyebaProfile
         this.employeeService.getMyebaProfile().subscribe(
             (data: any) => {
               this.employee = data;
 
               // @ts-ignore
-              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-              // @ts-ignore
-              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              // this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+              // // @ts-ignore
+              // this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
             }
         );
       }
@@ -120,190 +116,63 @@ export class EbaFormComponent {
             this.employee = data;
 
             // @ts-ignore
-            this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-            // @ts-ignore
-            this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            // this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+            // // @ts-ignore
+            // this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
           }
       );
     }
 
+    // this.employeeService.getStates().subscribe(
+    //   data=>this.states=data,
+    //   error => console.log(error)
+    // );
+    //
+    // this.employeeService.getDesignations(1).subscribe(
+    //   data=>this.designations=data,
+    //   error => console.log(error)
+    // );
+    //
+    // this.employeeService.getDivisions(1).subscribe(
+    //   data=>this.divisions=data,
+    //   error => console.log(error)
+    // );
+    //
+    // this.employeeService.getDivisionMasterList().subscribe(
+    //   data=>this.divisiontypelist=data,
+    //   error => console.log(error)
+    // );
 
+    // this.employeeService.getDependents(1).subscribe(
+    //   data=>this.relations=data,
+    //   error => console.log(error)
+    // );
 
+    // this.employeeService.getRelationMasterList().subscribe(
+    //   data=>this.relationstypelist=data,
+    //   error => console.log(error)
+    // );
 
+    // this.employeeService.getServants(1).subscribe(
+    //   data=>this.servants=data,
+    //   error => console.log(error)
+    // );
+    //
+    // this.employeeService.getServantsRel(1).subscribe(
+    //   data=>this.servantRel=data,
+    //   error => console.log(error)
+    // );
 
-
-  this.employeeService.getStates().subscribe(
-      data=>this.states=data,
-      error => console.log(error)
-    );
-
-    this.employeeService.getDesignations(1).subscribe(
-      data=>this.designations=data,
-      error => console.log(error)
-    );
-
-    this.employeeService.getDivisions(1).subscribe(
-      data=>this.divisions=data,
-      error => console.log(error)
-    );
-
-    this.employeeService.getDivisionMasterList().subscribe(
-      data=>this.divisiontypelist=data,
-      error => console.log(error)
-    );
-
-    this.employeeService.getDependents(1).subscribe(
-      data=>this.relations=data,
-      error => console.log(error)
-    );
-
-    this.employeeService.getRelationMasterList().subscribe(
-      data=>this.relationstypelist=data,
-      error => console.log(error)
-    );
-
-
-
-    this.employeeService.getServants(1).subscribe(
-      data=>this.servants=data,
-      error => console.log(error)
-    );
-
-    this.employeeService.getServantsRel(1).subscribe(
-      data=>this.servantRel=data,
-      error => console.log(error)
-    );
-
-    this.employeeService.getVehicle(1).subscribe(
-      data=>this.vehicles=data,
-      error => console.log(error)
-    );
+    // this.employeeService.getVehicle(1).subscribe(
+    //   data=>this.vehicles=data,
+    //   error => console.log(error)
+    // );
 
     // this.employeeService.getQuarterdetail("1","1").subscribe(
     //     data=>this.quarteraddress=data,
     //     error => console.log(error)
     // );
-
-
   }
-  // formatDate(date: Date | null): string {
-  //
-  //   // if (!date) {
-  //   //   return 'N/A';
-  //   // }
-  //
-  //   // return date.toString(); // Change this to your date formatting logic
-  //   return this.datePipe.transform(date, 'dd MMM YYYY') || 'N/A';
-  // }
-
-  onSelect(event: any) {
-    const selectedValue = event.target.value;
-    if (selectedValue && selectedValue !== '-select-') {
-      window.location.href = selectedValue;
-    }
-  }
-
-
-  async getDistricts(state:State){
-    let districts:District[] = [];
-    if(state!=null)
-    {
-      districts = await this.employeeService.getDistrictsByState(state.id!);
-    }
-    return districts;
-  }
-  getActiveDesignations(designations: Designation[]): string {
-    const activeDesignations = designations
-      .filter(designation => designation.pivot.active == true)
-      .map(designation => designation.desg_desc);
-
-    return activeDesignations.join(', ');
-  }
-  getActiveDivision(division:Division[]): string {
-    const activeDivision = division
-      .filter(division => division.pivot.active == true)
-      .map(division => division.div_desc);
-
-    return activeDivision.join(', ');
-  }
-  getActiveIdCard(IdCards: Idcards[]): string {
-    const activeIdCard = IdCards
-      .filter(idCard => idCard.active == true)
-      .map(idCard => idCard.card_no);
-
-    return activeIdCard.join(', ');
-  }
-
-
-  addVehicle( i : number): void {
-    if (
-      this.employee &&
-      this.employee.servants &&
-      this.employee.servants[i] &&
-      this.employee.servants[i]!.vehicles
-  ) {
-      // Check if servants is an array and initialize it if not
-      if (!Array.isArray(this.employee.servants[i]!.vehicles)) {
-        this.employee.servants[i]!.vehicles = [];
-      }
-      let s = new Vehicles();
-      s.servant_id = this.employee.servants[i].id!;
-      this.employee.servants[i]!.vehicles!.push(s);
-    }
-  }
-
-
-
-
-  removeVehicle(i:number,k:number):void {
-    if (
-      this.employee &&
-      this.employee.servants &&
-      this.employee.servants[i] &&
-      this.employee.servants[i].vehicles
-    ) {
-      this.employee.servants[i].vehicles!.splice(k, 1);
-    }
-  }
-
-  updateRelationSelection(servant: any, relation: any): void {
-    if(relation.allSelected == true)
-    servant.allSelected = true;
-  }
-
-
-
-
-  // onMobileNoInput(event: any, i: number): void {
-  //   if (this.eba_pass.reference_1_phone_no !== null) {
-  //     // Get the input value
-  //     const inputValue = event.target.value;
-  //
-  //     // Remove non-numeric characters using a regular expression
-  //     const numericValue = inputValue.replace(/[^0-9]/g, '');
-  //
-  //     // Update the input value
-  //     event.target.value = numericValue;
-  //
-  //     // Update the ngModel bound variable (if necessary)
-  //       this.eba_pass.reference_1_phone_no = numericValue;
-  //
-  //   }
-  //   if (this.eba_pass.reference_2_phone_no !== null) {
-  //     // Get the input value
-  //     const inputValue = event.target.value;
-  //
-  //     // Remove non-numeric characters using a regular expression
-  //     const numericValue = inputValue.replace(/[^0-9]/g, '');
-  //
-  //     // Update the input value
-  //     event.target.value = numericValue;
-  //
-  //     // Update the ngModel bound variable (if necessary)
-  //     this.eba_pass.reference_2_phone_no = numericValue;
-  //
-  //   }
-  // }
 
   setEditable(status:boolean){
     this.editable = status;
@@ -318,6 +187,128 @@ export class EbaFormComponent {
   }
 
 
+  onSelect(event: any) {
+    const selectedValue = event.target.value;
+    if (selectedValue && selectedValue !== '-select-') {
+      window.location.href = selectedValue;
+    }
+  }
+  getActiveDesignations(designations: Designation[]): string {
+    const activeDesignations = designations
+        .filter(designation => designation.pivot.active)
+        .map(designation => designation.desg_desc);
+
+    return activeDesignations.join(', ');
+  }
+  getActiveDivision(division:Division[]): string {
+    const activeDivision = division
+        .filter(division => division.pivot.active)
+        .map(division => division.div_desc);
+
+    return activeDivision.join(', ');
+  }
+  getActiveIdCard(IdCards: Idcards[]): string {
+    const activeIdCard = IdCards
+        .filter(idCard => idCard.active)
+        .map(idCard => idCard.card_no);
+
+    return activeIdCard.join(', ');
+  }
+
+  getDefaultExpDate(i: number, j: number): string {
+    const twoYearsFromNow = new Date();
+    twoYearsFromNow.setFullYear(twoYearsFromNow.getFullYear() + 2);
+
+    // @ts-ignore
+    this.employee.relations[i].pivot.eba_passes[j].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
+
+    return this.employee?.relations?.[i]?.pivot?.eba_passes?.[j]?.eba_pass_exp_date;
+  }
+
+  isWithinTwoWeeks(expDate: Date | null): boolean {
+    if (expDate === null) {
+      return true; // If eba_pass_exp_date is null, consider it within two weeks
+    }
+    const twoWeeksBeforeNow = new Date();
+    twoWeeksBeforeNow.setDate(twoWeeksBeforeNow.getDate() - 14);
+
+    return new Date(expDate) >= twoWeeksBeforeNow ;
+  }
+
+  updateRelationSelection(servant: any, relation: any): void {
+    if(relation.allSelected == true)
+      servant.allSelected = true;
+  }
+
+  addVehicle(i: number): void {
+    if (
+        this.employee &&
+        this.employee.servants &&
+        this.employee.servants[i] &&
+        this.employee.servants[i]!.vehicles
+    ) {
+      // Check if servants is an array and initialize it if not
+      if (!Array.isArray(this.employee.servants[i]!.vehicles)) {
+        this.employee.servants[i]!.vehicles = [];
+      }
+      let s = new Vehicles();
+      s.servant_id = this.employee.servants[i].id!;
+      this.employee.servants[i]!.vehicles!.push(s);
+    }
+  }
+
+  removeVehicle(i:number,k:number):void {
+    if (
+        this.employee &&
+        this.employee.servants &&
+        this.employee.servants[i] &&
+        this.employee.servants[i].vehicles
+    ) {
+      this.employee.servants[i].vehicles!.splice(k, 1);
+    }
+  }
+
+
+  // onMobileNoInput(i: number, j: number, event: any): void {
+  //   if (
+  //       this.employee?.servants?.[i]?.eba_passes?.[j] &&
+  //       this.employee?.servants?.[i]?.eba_passes?.[j].reference_1_phone_no !== null
+  //   ) {
+  //     // Get the input value
+  //     const inputValue = event.target.value;
+  //
+  //     // Remove non-numeric characters using a regular expression
+  //     const numericValue = inputValue.replace(/[^0-9]/g, '');
+  //
+  //     // Update the input value
+  //     event.target.value = numericValue;
+  //
+  //     // Update the ngModel bound variable (if necessary)
+  //     // @ts-ignore
+  //     this.employee.servants[i].eba_passes[j].reference_1_phone_no = numericValue;
+  //   }
+  //
+  //   if (
+  //       this.employee?.servants?.[i]?.eba_passes?.[j] &&
+  //       this.employee?.servants?.[i]?.eba_passes?.[j].reference_2_phone_no !== null
+  //   ) {
+  //     // Get the input value
+  //     const inputValue = event.target.value;
+  //
+  //     // Remove non-numeric characters using a regular expression
+  //     const numericValue = inputValue.replace(/[^0-9]/g, '');
+  //
+  //     // Update the input value
+  //     event.target.value = numericValue;
+  //
+  //     // Update the ngModel bound variable (if necessary)
+  //     // @ts-ignore
+  //     this.employee.servants[i].eba_passes[j].reference_2_phone_no = numericValue;
+  //   }
+  // }
+
+
+
   displayUpload: any = 'none';
 
   openUploadPopup() {
@@ -327,87 +318,44 @@ export class EbaFormComponent {
     this.displayUpload = "none";
   }
 
-  async onProfilePhotoSelected(event: Event,i:number,j:number,property: string): Promise<void> {
+  async onProfilePhotoSelected(event: Event,i:number,j:number,k:number,property: string): Promise<void> {
     const inputElement = event.target as HTMLInputElement;
-
     if (inputElement?.files?.length) {
       const file: File = inputElement.files[0];
-
       // Check if the file type is JPEG or JPG
       if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
-
-        // Check if the file size is less than or equal to 200KB
-        // if (file.size <= 200 * 1024) { // 200KB in bytes
-          try {
-            const base64String: string = await fileToBase64(file); // Convert the file to base64
-
-            if (this.employee?.relations?.[i]?.pivot?.eba_passes?.[j]) {
-              // Update the specific property based on the argument
-              if (property === 'photo_path') {
-                // @ts-ignore
-                this.employee.relations[i].pivot.eba_passes[j].photo_path = base64String;
-              } else if (property === 'signature') {
-                // @ts-ignore
-                this.employee.relations[i].pivot.eba_passes[j].sign_path = base64String;
-              } else if (property === 'id_proof_path') {
-                // @ts-ignore
-                this.employee.relations[i].pivot.eba_passes[j].id_proof_path = base64String;
-              }
-            }
-
-            if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
-              // Update the specific property based on the argument
-              if (property === 'photo_path') {
-                // @ts-ignore
-                this.employee.servants[i].eba_passes[j].photo_path = base64String;
-              } else if (property === 'signature') {
-                // @ts-ignore
-                this.employee.servants[i].eba_passes[j].sign_path = base64String;
-              } else if (property === 'id_proof_path') {
-                // @ts-ignore
-                this.employee.servants[i].eba_passes[j].id_proof_path = base64String;
-              }
-            }
-
-
-          } catch (error) {
-            console.error('Failed to convert the file to base64:', error);
-          }
-        // } else {
-        //   Swal.fire({
-        //     icon: 'error',
-        //     title: 'Invalid File',
-        //     text: 'File size exceeds 200KB.',
-        //   });
-        //   console.log('File size exceeds 200KB.');
-        // }
-      } else {
-        Swal.fire({
-          icon: 'error',
-          title: 'Invalid File',
-          text: 'Invalid file type. Only JPEG or JPG files are allowed.',
-        });
-        console.log('Invalid file type. Only JPEG or JPG files are allowed.');
-      }
-    } else {
-      console.log('No file selected.');
-    }
-  }
-
-  async onrelativeProfilePhotoSelected(event: Event,i:number,j:number,k:number,property: string): Promise<void> {
-    const inputElement = event.target as HTMLInputElement;
-
-    if (inputElement?.files?.length) {
-      const file: File = inputElement.files[0];
-
-      // Check if the file type is JPEG or JPG
-      if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
-
         // Check if the file size is less than or equal to 200KB
         // if (file.size <= 200 * 1024) { // 200KB in bytes
         try {
           const base64String: string = await fileToBase64(file); // Convert the file to base64
 
+          if (this.employee?.relations?.[i]?.pivot?.eba_passes?.[j]) {
+            // Update the specific property based on the argument
+            if (property === 'photo_path') {
+              // @ts-ignore
+              this.employee.relations[i].pivot.eba_passes[j].photo_path = base64String;
+            } else if (property === 'signature') {
+              // @ts-ignore
+              this.employee.relations[i].pivot.eba_passes[j].sign_path = base64String;
+            } else if (property === 'id_proof_path') {
+              // @ts-ignore
+              this.employee.relations[i].pivot.eba_passes[j].id_proof_path = base64String;
+            }
+          }
+
+          if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
+            // Update the specific property based on the argument
+            if (property === 'photo_path') {
+              // @ts-ignore
+              this.employee.servants[i].eba_passes[j].photo_path = base64String;
+            } else if (property === 'signature') {
+              // @ts-ignore
+              this.employee.servants[i].eba_passes[j].sign_path = base64String;
+            } else if (property === 'id_proof_path') {
+              // @ts-ignore
+              this.employee.servants[i].eba_passes[j].id_proof_path = base64String;
+            }
+          }
 
           if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
             // Update the specific property based on the argument
@@ -422,8 +370,6 @@ export class EbaFormComponent {
               this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path = base64String;
             }
           }
-
-
         } catch (error) {
           console.error('Failed to convert the file to base64:', error);
         }
@@ -447,14 +393,6 @@ export class EbaFormComponent {
       console.log('No file selected.');
     }
   }
-  toggleApproval(i: number) {
-    // @ts-ignore
-    this.employee.relations[i].allSelected = !this.employee.relations[i].allSelected;
-    // Additional logic can be added based on the state (approve or reject)
-    // @ts-ignore
-    console.log(this.employee.relations[i].allSelected ? 'Approved' : 'Rejected');
-  }
-
 
   applyEba() {
     if (this.employee) {
@@ -484,12 +422,7 @@ export class EbaFormComponent {
         });
         return;
       }
-      // Clone the original employee object to avoid modifying the original object
       const clonedEmployee = { ...this.employee };
-
-      if (clonedEmployee.vehicles) {
-        clonedEmployee.vehicles = clonedEmployee.vehicles.filter(vehicle => vehicle.allSelected);
-      }
 
       if (clonedEmployee.relations) {
         clonedEmployee.relations = clonedEmployee.relations.filter(member => member.allSelected);
@@ -497,6 +430,9 @@ export class EbaFormComponent {
 
       if (clonedEmployee.servants) {
         clonedEmployee.servants = clonedEmployee.servants.filter(servant => servant.allSelected);
+        if (clonedEmployee.vehicles) {
+          clonedEmployee.vehicles = clonedEmployee.vehicles.filter(vehicle => vehicle.allSelected);
+        }
       }
 
       if (clonedEmployee.servants) {
@@ -506,6 +442,7 @@ export class EbaFormComponent {
           }
         });
       }
+
       if(this.applyingforRelative){
         if (clonedEmployee.relations === null || clonedEmployee.relations.length === 0) {
           Swal.fire({
@@ -525,201 +462,197 @@ export class EbaFormComponent {
           return;
         }
       }
-      // if (clonedEmployee.blck_code === null) {
-      //   Swal.fire({
-      //     icon: 'warning',
-      //     title: 'Empty Block',
-      //     text: 'enter Block details',
-      //   });
-      //   return;
-      // }
-      // if (clonedEmployee.qtr_code === null) {
-      //   Swal.fire({
-      //     icon: 'warning',
-      //     title: 'Empty Quarter',
-      //     text: 'enter Quarter details',
-      //   });
-      //   return;
-      // }if (clonedEmployee.qtr_address === null) {
-      //   Swal.fire({
-      //     icon: 'warning',
-      //     title: 'Empty Quarter address',
-      //     text: 'enter Quarter address',
-      //   });
-      //   return;
-      // }
 
       // Send the modified employee object to the server
       this.employeeService.applyeba(clonedEmployee).subscribe(
-      // const ebaPassesToSubmit = this.employee.relations
-      //     .filter(member => member.pivot.eba_passes && member.pivot.eba_passes.length > 0)
-      //     .map(member => member.pivot.eba_passes)
-      //     .flat();
 
-      // const servantDetailsToSubmit = this.employee?.out_house
-      //     ?.map(outhouse => outhouse.servants)
-      //     .flat()
-      //     .map(servant => servant.eba_passes)
-      //     .flat();
+          // this.employeeService.applyeba(Employee).subscribe(
+          // if (this.validationErrors.length > 0) {
+          //
+          //   const errorMessage = this.validationErrors
+          //       .map((error, index) => `${index + 1}. ${error}`)
+          //       .join('\n');
+          //
+          //   Swal.fire({
+          //     icon: 'error',
+          //     title: 'Error',
+          //     html: errorMessage.replace(/\n/g, '<br/>'),
+          //     width: 'auto', // Adjust as needed
+          //   });
+          //   return; // Exit without calling the API
+          // }
 
-      // this.employeeService.applyeba(Employee).subscribe(
-        // if (this.validationErrors.length > 0) {
-        //
-        //   const errorMessage = this.validationErrors
-        //       .map((error, index) => `${index + 1}. ${error}`)
-        //       .join('\n');
-        //
-        //   Swal.fire({
-        //     icon: 'error',
-        //     title: 'Error',
-        //     html: errorMessage.replace(/\n/g, '<br/>'),
-        //     width: 'auto', // Adjust as needed
-        //   });
-        //   return; // Exit without calling the API
-        // }
-
-        // Validation true then Api call otherwise please check
-
-        // data=>console.log(data),
-        // error=>console.log(error)
+          // Validation true then Api call otherwise please check
+          // data=>console.log(data),
+          // error=>console.log(error)
 
 
-        data => {
-          console.log(data);
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Eba application applied successfully and pending for approval',
-            // }).then((result) => {
-            //   if (result.isConfirmed) {
-            //     // Redirect to the desired page
-            //     window.location.reload();
-            //   }
-          }).then(() => {
-            this.router.navigate(['eba-form-view'], { state: { employeeData: clonedEmployee } });
-          });
-        },
-        (error) => {
-          console.log(error);
-          console.log(error.status);
-          console.log(error.error);
-          if(error.status === 302){
-            Swal.fire({
-              icon: 'warning',
-              title: 'Warning',
-              text: 'Previous Record is still pending !!!',
-            });
-          }else if(error.status === 303){
-            Swal.fire({
-              icon: 'warning',
-              title: 'Warning',
-              text: 'you already have a approved application',
-            });
-          }else{
-            Swal.fire({
-              icon: 'error',
-              title: 'API Error',
-              text: 'An error occurred while updating.',
-            });
-          }
-        }
-      );
-    }
-  }
-
-
-
-  approveapplication() {
-
-    // if (this.user && this.user.role) {
-    //   for (const role of this.user.role) {
-    //     if (role.role_id === 4) {
-    //
-    //       if (this.employee) {
-    //         console.log(this)
-    //
-    //         const clonedEmployee = { ...this.employee };
-    //
-    //         // Filter out only the selected relations
-    //         if (clonedEmployee.relations) {
-    //           clonedEmployee.relations = clonedEmployee.relations.filter(member => member.allSelected);
-    //         }
-    //
-    //         if (clonedEmployee.vehicles) {
-    //           clonedEmployee.vehicles = clonedEmployee.vehicles.filter(vehicle => vehicle.allSelected);
-    //         }
-    //
-    //         if (clonedEmployee.servants) {
-    //           clonedEmployee.servants = clonedEmployee.servants.filter(servant => servant.allSelected);
-    //         }
-    //
-    //         // Your existing code
-    //         if (clonedEmployee.servants) {
-    //           clonedEmployee.servants.forEach(servant => {
-    //             if (servant.relations) {
-    //               servant.relations = servant.relations.filter(relation => relation.allSelected);
-    //             }
-    //           });
-    //         }
-    //
-    //         // if (this.employee.emp_name != 'ok'
-    //         // ) {
-    //         //   Swal.fire({
-    //         //     icon: 'warning',
-    //         //     title: 'Empty application',
-    //         //     text: 'At least add one Relative or domestic help',
-    //         //   });
-    //         //   return;
-    //         // }
-    //
-    //         // Send the modified employee object to the server
-    //         this.employeeService.applyeba(clonedEmployee).subscribe();
-    //       }
-    //
-    //
-    //   }
-    // }}
-    // Extract id from route parameters
-    const id = +this.route.snapshot.params['id'];
-
-    // Check if 'id' parameter exists in the URL
-    if (!isNaN(id)) {
-      this.employeeService.updateebastatus(id, 'Approve', this.remark,this.file_path).subscribe(
-          () => {
+          data => {
+            console.log(data);
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Approved successfully',
+              text: 'Eba application applied successfully and pending for approval',
+              // }).then((result) => {
+              //   if (result.isConfirmed) {
+              //     // Redirect to the desired page
+              //     window.location.reload();
+              //   }
             }).then(() => {
-              // Redirect to the dashboard route
-              this.router.navigate(['ebapanel']);
+              this.router.navigate(['eba-form-view'], { state: { employeeData: clonedEmployee } });
             });
           },
           (error) => {
             console.log(error);
             console.log(error.status);
             console.log(error.error);
-
-            if (error.status === 302) {
+            if(error){
+              // if(error.status === 302){
+              //   Swal.fire({
+              //     icon: 'warning',
+              //     title: 'Warning',
+              //     text: 'Previous Record is still pending !!!',
+              //   });
+              // }else if(error.status === 303){
+              //   Swal.fire({
+              //     icon: 'warning',
+              //     title: 'Warning',
+              //     text: 'you already have a approved application',
+              //   });
+              // }
+              // else{
               Swal.fire({
-                icon: 'warning',
-                title: 'Warning',
-                text: 'You are not authorised !!!',
+                icon: 'error',
+                title: 'API Error',
+                text: 'An error occurred while updating.',
               });
-            } else {
-              // Handle other errors here
-              console.error('An error occurred:', error);
             }
           }
       );
-    } else {
+    }
+  }
+  approveapplication() {
+    const id = +this.route.snapshot.params['id'];
+    if (!isNaN(id)) {
+      if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => role.role_id === 4)) {
+        if (this.employee) {
+          console.log(this)
+          const clonedEmployee = {...this.employee};
+          if (clonedEmployee.relations) {
+            clonedEmployee.relations = clonedEmployee.relations.filter(member => member.allSelected);
+          }
+
+          if (clonedEmployee.servants) {
+            clonedEmployee.servants = clonedEmployee.servants.filter(servant => servant.allSelected);
+          }
+
+          if (
+              (clonedEmployee.relations === null || clonedEmployee.relations.length === 0) &&
+              (clonedEmployee.servants === null || clonedEmployee.servants.length === 0)
+          ) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Empty application',
+              text: 'At least add one person',
+            });
+            return;
+          }
+
+          this.employeeService.updateeba(this.employee, id).subscribe(
+              () => {
+                this.employeeService.updateebastatus(id, 'Approve', this.remark, this.file_path).subscribe(
+                    () => {
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Approved successfully',
+                      }).then(() => {
+                        // Redirect to the dashboard route
+                        this.router.navigate(['ebapanel']);
+                      });
+                    },
+                    (error) => {
+                      console.log('Error in updateebastatus:', error);
+                      if (error.status === 302) {
+                        Swal.fire({
+                          icon: 'warning',
+                          title: 'Warning',
+                          text: 'You are not authorised !!!',
+                        });
+                      } else {
+                        // Handle specific errors or use a generic error message
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Error',
+                          text: 'An error occurred while Approving application status.',
+                        });
+                      }
+                    }
+                );
+              },
+              (error) => {
+                console.log('Error in updateeba:', error);
+                // Handle specific errors or use a generic error message
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'An error occurred while updating the application.',
+                });
+              }
+          );
+        }
+      }
+      else if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => (role.role_id === 5 || role.role_id == 6))) {
+        this.employeeService.updateebastatus(id, 'Approve', this.remark, this.file_path).subscribe(
+            () => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Approved successfully',
+              }).then(() => {
+                // Redirect to the dashboard route
+                this.router.navigate(['ebapanel']);
+              });
+            },
+            (error) => {
+              console.log(error);
+              console.log(error.status);
+              console.log(error.error);
+              if (error.status === 302) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'You are not authorised !!!',
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'An error occurred while Approving application status.',
+                });
+              }
+            }
+        );
+      } else{
+        Swal.fire({
+          icon: 'warning',
+          title: 'Warning',
+          text: 'You are not authorised !!!',
+        });
+      }
+    }else{
       console.error('ID parameter is missing or invalid in the URL.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'id missing !!!',
+      });
+      return;
     }
   }
 
-
-
-  returnapplication() {
+  returnapplication()
+  {
     // Extract id from route parameters
     const id = +this.route.snapshot.params['id'];
 
@@ -750,11 +683,22 @@ export class EbaFormComponent {
             } else {
               // Handle other errors here
               console.error('An error occurred:', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while Approving application status.',
+              });
             }
           }
       );
     } else {
       console.error('ID parameter is missing or invalid in the URL.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'id missing !!!',
+      });
+      return;
     }
   }
 
