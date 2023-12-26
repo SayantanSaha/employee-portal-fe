@@ -1801,7 +1801,7 @@
                                 <td>
                                   <input *ngIf="editable" class="form-control" type="text"
                                          [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.rel_mobile_no"  placeholder="Mobile No."
-                                         maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('ServantRelation', k)" (input)="onMobileNoInput($event, i)">
+                                         maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('ServantRelation', k)" (input)="onrelMobileNoInput($event, i,k)">
 
                                   <span *ngIf="!editable">{{servantRelative!.pivot!.rel_mobile_no}}</span>
                                 </td>

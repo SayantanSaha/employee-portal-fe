@@ -232,7 +232,7 @@ export class EbaFormComponent {
     const twoWeeksBeforeNow = new Date();
     twoWeeksBeforeNow.setDate(twoWeeksBeforeNow.getDate() - 14);
 
-    return new Date(expDate) >= twoWeeksBeforeNow ;
+    return new Date(expDate) <= twoWeeksBeforeNow ;
   }
 
   updateRelationSelection(servant: any, relation: any): void {

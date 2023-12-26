@@ -1039,6 +1039,24 @@ export class ProfileComponent implements OnInit{
     }
   }
 
+  onrelMobileNoInput(event: any, i: number,k:number): void {
+    if (this.employee?.servants?.[i]?.relations?.[k]?.pivot!.rel_mobile_no !== null) {
+      // Get the input value
+      const inputValue = event.target.value;
+
+      // Remove non-numeric characters using a regular expression
+      const numericValue = inputValue.replace(/[^0-9]/g, '');
+
+      // Update the input value
+      event.target.value = numericValue;
+
+      // Update the ngModel bound variable (if necessary)
+      if (this.employee?.servants?.[i]?.relations?.[k]?.pivot) {
+        this.employee.servants[i].relations[k].pivot.rel_mobile_no = numericValue;
+      }
+    }
+  }
+
 
 
   // validateserventMobile(domesticHelp: Domestic_help) {

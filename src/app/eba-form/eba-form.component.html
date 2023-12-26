@@ -118,22 +118,9 @@
                     <table class="table table-stripped">
                       <thead>
                       <tr>
-                        <div *ngIf="urlid && !editable">
-                          <div *ngIf="(user && user.role ) ">
-                            <div *ngFor="let role of user.role">
-                              <div *ngIf="role.role_id === 4">
-                                <th>
-                                  &nbsp;
-                                </th>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div *ngIf="editable && !urlid ">
-                          <th>
+                        <th>
                             &nbsp;
                           </th>
-                        </div>
                         <th>Sl No.</th>
                         <th>Relative Name</th>
                         <th>Relation</th>
@@ -146,6 +133,7 @@
                       </thead>
                       <tbody>
                       <tr *ngFor="let member of employee!.relations; let i = index">
+
                         <ng-container *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
                           <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
                             <ng-container *ngIf="urlid && !editable">
@@ -171,7 +159,7 @@
                             </ng-container>
                             <ng-container *ngIf="editable && !urlid">
                               <td>
-                                <ng-container *ngIf="(eba_pass.eba_pass_no === null || eba_pass.eba_pass_exp_date === null || isWithinTwoWeeks(eba_pass.eba_pass_exp_date))">
+                                <ng-container *ngIf="(eba_pass.eba_pass_no === null || isWithinTwoWeeks(eba_pass.eba_pass_exp_date))">
                                   <input type="checkbox" class="selectItem" [(ngModel)]="member.allSelected" >
                                 </ng-container>
                               </td>
@@ -196,19 +184,17 @@
                                     {{ eba_pass.eba_pass_no }}
                                   </ng-container>
                                   <ng-template #eba_pass_no_template>
-                                    <div>
-                                      <input type="text" class="form-control" [(ngModel)]="eba_pass.eba_pass_no_edit" >
+                                    <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null ">
+                                      new
                                     </div>
                                   </ng-template>
                                 </ng-container>
                                 <div *ngIf="urlid && !editable">
-                                  <div *ngIf="eba_pass?.eba_pass_no !== null && eba_pass?.eba_pass_no_edit === null">
+                                  <div *ngIf="eba_pass?.eba_pass_no !== null ">
                                     {{ eba_pass.eba_pass_no }}
                                   </div>
-                                  <div *ngIf="eba_pass?.eba_pass_no === null && eba_pass?.eba_pass_no_edit !== null">
-                                    {{ eba_pass.eba_pass_no_edit }}
-                                  </div>
-                                  <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null && eba_pass?.eba_pass_no_edit === null">
+
+                                  <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null ">
                                     new
                                   </div>
                                 </div>
