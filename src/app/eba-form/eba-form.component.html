@@ -119,8 +119,8 @@
                       <thead>
                       <tr>
                         <th>
-                            &nbsp;
-                          </th>
+                          &nbsp;
+                        </th>
                         <th>Sl No.</th>
                         <th>Relative Name</th>
                         <th>Relation</th>
@@ -429,16 +429,16 @@
                                     <tr>
                                       <th scope="row">1</th>
                                       <td><input type="text" class="form-control"  [(ngModel)]="servant_detail.reference_1_name"></td>
-                                      <td><input type="text" class="form-control"  [(ngModel)]="servant_detail.reference_1_phone_no" >
-<!--                                                 (click)="onMobileNoInput(i,k,$event)"-->
+                                      <td><input type="text" class="form-control" maxlength="10" minlength="10"
+                                                 [(ngModel)]="servant_detail.reference_1_phone_no" (input)="onMobileNoInput($event, i, k)" (blur)="onMobileBlur($event, i, k)"/>
                                       </td>
                                       <td><textarea class="form-control" [(ngModel)]="servant_detail.reference_1_address"></textarea></td>
                                     </tr>
                                     <tr>
                                       <th scope="row">2</th>
                                       <td><input type="text" class="form-control"  [(ngModel)]="servant_detail.reference_2_name"></td>
-                                      <td><input type="text" class="form-control"  [(ngModel)]="servant_detail.reference_2_phone_no" >
-<!--                                                 (click)="onMobileNoInput(i,k,$event)"-->
+                                      <td><input type="text" class="form-control"  [(ngModel)]="servant_detail.reference_2_phone_no" maxlength="10"
+                                                 minlength="10"  (input)="onMobileNo($event, i, k)" (blur)="onMobileNoBlur($event, i, k)">
                                       </td>
                                       <td><textarea class="form-control" [(ngModel)]="servant_detail.reference_2_address"></textarea></td>
                                     </tr>
@@ -1036,13 +1036,28 @@
         <div class="row" style="margin-left: 0%; margin-right: 1.5%;">
           <textarea class="form-control" id="remarks" name="remarks" style="height: 200px;" placeholder="abc...." [(ngModel)]="remark"></textarea>
         </div>
+
         <div class="row" style="text-align: center">
-          <label class="upload-icon-label"
-                 title="Upload file">
-            <i class="bi bi-cloud-arrow-up btn btn-outline-success"></i>
-          </label>
-          <input type="file" class="custom-file-input" [(ngModel)]="file_path"
-                 style="display: none">
+          <div class="col-md-6" style="text-align: right">
+            <label class="upload-icon-label" [for]="'file_path'"
+                   title="Upload file">
+              <i class="bi bi-cloud-arrow-up btn btn-outline-success"></i>
+            </label>
+          </div>
+
+          <div class="col-md-6" style="text-align: left">
+            <label class="upload-icon-label"
+                   title="remove file">
+              <i class="bi bi-trash3 btn btn-outline-danger" (click)="removeFile()" ></i>
+            </label>
+          </div>
+
+          <input type="file" class="custom-file-input" [(ngModel)]="file_path" (change)="onProfilePhotoSelected($event,0,0,0,'file_path')"
+                 style="display: none" [id]="'file_path'">
+          <br>
+
+          <img [src]="file_path" [style.display]="file_path ? 'block' : 'none'" />
+
         </div>
         <div class="row">
           <div class="col-6" style="text-align: right">
@@ -1069,9 +1084,14 @@
             <strong>Note #{{j+1}}</strong>
           </div>
           <div class="col-md-6" style="text-align: right">
-            <a href="" class="btn btn-primary" title="id proof" target="_blank">
+            <a href="{{apiUrl}}getpic/{{application.file_path}}" class="btn btn-primary" title="id proof" target="_blank">
               <i class="bi bi-eye"></i>
             </a>
+
+            <!--            <a href="{{apiUrl}}getFile/{{employee!.divisions[i].pivot!.order_path}}"-->
+            <!--               class="btn btn-outline-primary" title="Order File" target="_blank">-->
+            <!--              <i class="bi bi-eye"></i>-->
+            <!--            </a>-->
           </div>
         </div>
       </div>
