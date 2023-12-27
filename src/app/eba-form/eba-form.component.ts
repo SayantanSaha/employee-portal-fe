@@ -65,7 +65,7 @@ export class EbaFormComponent {
   urlid: boolean = false;
   id: string | null = null;
   remark: string = '';
-  file_path: string = '';
+  file_path: string | null = null;
 
 
   ngOnInit() {
@@ -269,43 +269,86 @@ export class EbaFormComponent {
   }
 
 
-  // onMobileNoInput(i: number, j: number, event: any): void {
-  //   if (
-  //       this.employee?.servants?.[i]?.eba_passes?.[j] &&
-  //       this.employee?.servants?.[i]?.eba_passes?.[j].reference_1_phone_no !== null
-  //   ) {
-  //     // Get the input value
-  //     const inputValue = event.target.value;
-  //
-  //     // Remove non-numeric characters using a regular expression
-  //     const numericValue = inputValue.replace(/[^0-9]/g, '');
-  //
-  //     // Update the input value
-  //     event.target.value = numericValue;
-  //
-  //     // Update the ngModel bound variable (if necessary)
-  //     // @ts-ignore
-  //     this.employee.servants[i].eba_passes[j].reference_1_phone_no = numericValue;
-  //   }
-  //
-  //   if (
-  //       this.employee?.servants?.[i]?.eba_passes?.[j] &&
-  //       this.employee?.servants?.[i]?.eba_passes?.[j].reference_2_phone_no !== null
-  //   ) {
-  //     // Get the input value
-  //     const inputValue = event.target.value;
-  //
-  //     // Remove non-numeric characters using a regular expression
-  //     const numericValue = inputValue.replace(/[^0-9]/g, '');
-  //
-  //     // Update the input value
-  //     event.target.value = numericValue;
-  //
-  //     // Update the ngModel bound variable (if necessary)
-  //     // @ts-ignore
-  //     this.employee.servants[i].eba_passes[j].reference_2_phone_no = numericValue;
-  //   }
-  // }
+  onMobileNoInput(event: any, i: number, J: number): void {
+    if (
+      this.employee?.servants?.[i]?.eba_passes?.[J].reference_1_phone_no !== null
+    ) {
+      // Get the input value
+      const inputValue = event.target.value;
+
+      // Remove non-numeric characters using a regular expression
+      const numericValue = inputValue.replace(/[^0-9]/g, '');
+
+      // Update the input value
+      event.target.value = numericValue;
+
+      // Update the ngModel bound variable
+      // @ts-ignore
+      this.employee.servants[i].eba_passes[J].reference_1_phone_no = numericValue;
+    }
+
+
+
+  }
+
+  onMobileNo(event: any, i: number, J: number): void {
+    if (
+      this.employee?.servants?.[i]?.eba_passes?.[J].reference_2_phone_no !== null
+    ) {
+      // Get the input value
+      const inputValue = event.target.value;
+
+      // Remove non-numeric characters using a regular expression
+      const numericValue = inputValue.replace(/[^0-9]/g, '');
+
+      // Update the input value
+      event.target.value = numericValue;
+
+      // Update the ngModel bound variable (if necessary)
+      // @ts-ignore
+      this.employee.servants[i].eba_passes[J].reference_2_phone_no = numericValue;
+    }
+  }
+
+  onMobileNoBlur(event: any, i: number, k: number): void {
+    if( this.employee?.servants?.[i]?.eba_passes?.[k]?.reference_2_phone_no != null) {
+      const minLength = 10;
+      const inputValue = event.target.value;
+
+      if (inputValue.length < minLength) {
+        // Show SweetAlert popup
+        Swal.fire({
+          icon: 'warning',
+          title: 'Invalid Input',
+          text: 'Please enter at valid 10 numbers.',
+        });
+
+        // Reset the input value (optional)
+        // @ts-ignore
+        this.employee.servants[i].eba_passes[k].reference_2_phone_no = '';
+      }
+    }
+  }
+
+  onMobileBlur(event: any, i: number, k: number): void {
+    if( this.employee?.servants?.[i]?.eba_passes?.[k]?.reference_1_phone_no != null) {
+      const minLength = 10;
+      const inputValue = event.target.value;
+
+      if (inputValue.length < minLength) {
+        // Show SweetAlert popup
+        Swal.fire({
+          icon: 'warning',
+          title: 'Invalid Input',
+          text: 'Please enter valid 10 numbers.',
+        });
+
+        // Reset the input value (optional)
+        // @ts-ignore
+        this.employee.servants[i].eba_passes[k].reference_1_phone_no = '';
+      }
+    }
+  }
 
 
 
@@ -370,6 +413,12 @@ export class EbaFormComponent {
               this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path = base64String;
             }
           }
+
+          if(this.file_path){
+            if (property === 'file_path') {
+            this.file_path=base64String;
+            }
+          }
         } catch (error) {
           console.error('Failed to convert the file to base64:', error);
         }
@@ -393,6 +442,13 @@ export class EbaFormComponent {
       console.log('No file selected.');
     }
   }
+
+
+  removeFile(): void {
+    this.file_path = null;
+  }
+
+
 
   applyEba() {
     if (this.employee) {
@@ -422,6 +478,7 @@ export class EbaFormComponent {
         });
         return;
       }
+
       const clonedEmployee = { ...this.employee };
 
       if (clonedEmployee.relations) {
@@ -560,7 +617,7 @@ export class EbaFormComponent {
 
           this.employeeService.updateeba(this.employee, id).subscribe(
               () => {
-                this.employeeService.updateebastatus(id, 'Approve', this.remark, this.file_path).subscribe(
+                this.employeeService.updateebastatus(id, 'Approve', this.remark, this.file_path ?? '').subscribe(
                     () => {
                       Swal.fire({
                         icon: 'success',
@@ -603,15 +660,15 @@ export class EbaFormComponent {
         }
       }
       else if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => (role.role_id === 5 || role.role_id == 6))) {
-        this.employeeService.updateebastatus(id, 'Approve', this.remark, this.file_path).subscribe(
+        this.employeeService.updateebastatus(id, 'Approve', this.remark, this.file_path ?? '').subscribe(
             () => {
               Swal.fire({
                 icon: 'success',
                 title: 'Success',
                 text: 'Approved successfully',
-              }).then(() => {
-                // Redirect to the dashboard route
-                this.router.navigate(['ebapanel']);
+              // }).then(() => {
+              //   // Redirect to the dashboard route
+              //   this.router.navigate(['ebapanel']);
               });
             },
             (error) => {
@@ -658,7 +715,7 @@ export class EbaFormComponent {
 
     // Check if 'id' parameter exists in the URL
     if (!isNaN(id)) {
-      this.employeeService.updateebastatus(id, 'Return', this.remark, this.file_path).subscribe(
+      this.employeeService.updateebastatus(id, 'Return', this.remark, this.file_path ?? '').subscribe(
           () => {
             Swal.fire({
               icon: 'success',
@@ -702,4 +759,82 @@ export class EbaFormComponent {
     }
   }
 
+  openFileInNewPage(i:number ,j: number,property: string) {
+    if(property == 'remarkfile'){
+      const application = this.employee!.eba_applicationsstatus[i];
+      if (application && application.file_path) {
+        this.employeeService.getpic(application.file_path).subscribe((data) => {
+          const blob = new Blob([data], { type: 'image/jpeg' });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url, '_blank');
+        });
+      }
+    } else if(property == 'photo'){
+      const application = this.employee?.relations?.[i]?.pivot?.eba_passes?.[j];
+      if (application && application.photo_path) {
+        this.employeeService.getpic(application.photo_path).subscribe(
+            (data) => {
+          const blob = new Blob([data], { type: 'image/jpeg' });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url, '_blank');
+        },
+          (error) => {
+            console.log(error);
+            console.log(error.status);
+            console.log(error.error);
+            if (error) {
+              if (error.status === 404) {
+                window.open(application.photo_path, '_blank');
+              }
+            }
+          });
+      }
+    }
+    else if(property == 'sign'){
+      const application = this.employee?.relations?.[i]?.pivot?.eba_passes?.[j];
+      if (application && application.sign_path) {
+        this.employeeService.getpic(application.sign_path).subscribe(
+            (data) => {
+              const blob = new Blob([data], { type: 'image/jpeg' });
+              const url = window.URL.createObjectURL(blob);
+              window.open(url, '_blank');
+            },
+            (error) => {
+              console.log(error);
+              console.log(error.status);
+              console.log(error.error);
+              if (error) {
+                if (error.status === 404) {
+                  // window.open(atob(application.sign_path), '_blank');
+                  window.open(application.sign_path, '_blank');
+                }
+              }
+            }
+        );
+      }
+
+    }
+    else if(property == 'id'){
+      const application = this.employee?.relations?.[i]?.pivot?.eba_passes?.[j];
+      if (application && application.id_proof_path) {
+        this.employeeService.getpic(application.id_proof_path).subscribe((data) => {
+          const blob = new Blob([data], { type: 'image/jpeg' });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url, '_blank');
+        },
+            (error) => {
+              console.log(error);
+              console.log(error.status);
+              console.log(error.error);
+              if (error) {
+                if (error.status === 404) {
+                  // window.open(atob(application.sign_path), '_blank');
+                  window.open(application.id_proof_path, '_blank');
+                }
+              }
+            }
+        );
+      }
+    }
+  }
 }

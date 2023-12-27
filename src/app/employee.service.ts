@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import {Login} from "./model/Login";
@@ -243,6 +243,21 @@ export class EmployeeService {
   getEmpProfile(id: number):Observable<Employee>{
     return this.http.get<Employee>(`${this.apiUrl}emp_profile/${id}`, { headers: this.createHeader() });
   }
+
+  // @ts-ignore
+  getpic(file: string): Observable<Blob> {
+    // let authorisationString = sessionStorage.getItem('authorisation');
+    // let authorization:Authorisation = JSON.parse(authorisationString!);
+    // if(authorization?.token!=null) {
+    //   const headers = new HttpHeaders({
+    //     'Content-Type': 'image/jpeg',
+    //     'Authorization': 'Bearer ' + authorization.token // Add your token here
+    //   });
+    //   return this.http.get(`${this.apiUrl}getpic/${file}`, { headers, responseType: 'blob' });
+    //   }
+      return this.http.get(`${this.apiUrl}getpic/${file}`, {  headers: this.createHeader() , responseType: 'blob' });
+  }
+
 
   getEbaDashboardData(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl+"ebadashboard",{headers:this.createHeader()});
