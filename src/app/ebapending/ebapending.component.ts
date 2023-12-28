@@ -22,8 +22,6 @@ export class EbapendingComponent {
       this.ebaPendingList = data
     });
   }
-
-
   formatDate(date: string | Date): string {
     return this.datePipe.transform(date, 'dd/MM/YYYY') || 'N/A';
   }

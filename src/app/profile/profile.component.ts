@@ -7,7 +7,6 @@ import {State} from "../model/State";
 import {District} from "../model/District";
 import {Designation} from "../model/Designation";
 import {Division} from "../model/Division";
-
 import Swal from 'sweetalert2';
 import { Router } from "@angular/router";
 import { DatePipe } from '@angular/common';
@@ -125,7 +124,6 @@ export class ProfileComponent implements OnInit{
       error => console.log(error)
     );
 
-
     this.employeeService.getStates().subscribe(
       data=>this.states=data,
       error => console.log(error)
@@ -136,18 +134,8 @@ export class ProfileComponent implements OnInit{
       error => console.log(error)
     );
 
-    this.employeeService.getDivisions(1).subscribe(
-      data=>this.divisions=data,
-      error => console.log(error)
-    );
-
     this.employeeService.getDivisionMasterList().subscribe(
       data=>this.divisiontypelist=data,
-      error => console.log(error)
-    );
-
-    this.employeeService.getDependents(1).subscribe(
-      data=>this.relations=data,
       error => console.log(error)
     );
 
@@ -156,18 +144,23 @@ export class ProfileComponent implements OnInit{
       error => console.log(error)
     );
 
+    this.employeeService.getDependents(1).subscribe(
+      data=>this.relations=data,
+      error => console.log(error)
+    );
+
+    this.employeeService.getDivisions(1).subscribe(
+      data=>this.divisions=data,
+      error => console.log(error)
+    );
+
     // this.employeeService.getServants(1).subscribe(
     //       data=>this.servants=data,
     //   error => console.log(error)
     // );
-    //
+
     // this.employeeService.getVehicle(1).subscribe(
     //     data=>this.vehicles=data,
-    //     error => console.log(error)
-    // );
-    //
-    // this.employeeService.getOutHouse(1).subscribe(
-    //     data=>this.outHouse=data,
     //     error => console.log(error)
     // );
 
@@ -175,10 +168,6 @@ export class ProfileComponent implements OnInit{
     //   data=>this.servantRel=data,
     //   error => console.log(error)
     // );
-
-
-
-
   }
 
 
@@ -196,21 +185,17 @@ export class ProfileComponent implements OnInit{
       return false;
   }
 
-
   compareDesignation(first:Designation,second:Designation): boolean{
     return first !=null && second!=null && first==second ;//&& first.id===second.id
   }
-
 
   compareDivisions(first:Division,second:Division): boolean{
     return first !=null && second!=null && first==second ;// && first.id===second.id
   }
 
-
   compareDist(oneDist:District,othDist:District): boolean{
     return oneDist.id===othDist.id;
   }
-
 
   onStateChange(state:State,type:String){
     if(type=='curr'){
@@ -221,13 +206,10 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-
   savePrimaryDetails(){
 
     // Validation check before API Call
-
     if (this.validationErrors.length > 0) {
-
       const errorMessage = this.validationErrors
       .map((error, index) => `${index + 1}. ${error}`)
       .join('\n');
@@ -277,15 +259,8 @@ export class ProfileComponent implements OnInit{
             text: 'An error occurred while updating.',
           });
         }
-
-
-      }
-
-    );
-
-
+      });
   }
-
 
   async getDistricts(state:State){
     let districts:District[] = [];
@@ -296,25 +271,20 @@ export class ProfileComponent implements OnInit{
     return districts;
   }
 
-
   addDesignation() {
       let d = new Designation();
       d.pivot.employee_id = this.employee?.id!;
       this.employee?.designations?.push(d);
   }
 
-
   savePromotion(index:number){
-
     this.validateOrderNo('Promotion', index);
     this.validateOrderDate('Promotion', index);
 
     if (this.validationErrors.length > 0) {
-
       const errorMessage = this.validationErrors
       .map((error, index) => `${index + 1}. ${error}`)
       .join('\n');
-
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -325,7 +295,6 @@ export class ProfileComponent implements OnInit{
     }
 
     let promotion = this.employee?.designations![index].pivot;
-
     console.log(this.employee?.designations![index].pivot.order_path)
     if(promotion?.id==-1){
        this.employeeService.savePromotion(promotion).subscribe(
@@ -410,11 +379,10 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-
   deleteRecord(index:number) {
     let promotion = this.employee?.designations![index].pivot;
     if(promotion?.id==-1){
-      this.employee?.designations!.splice(index);
+      this.employee?.designations!.splice(index,1);
     }else{
       if(promotion!=null){
         promotion!.active=false;
@@ -423,10 +391,8 @@ export class ProfileComponent implements OnInit{
           e=>console.log(e)
         );
       }
-
     }
   }
-
 
   activateRecord(index: number) {
     let promotion = this.employee?.designations![index].pivot;
@@ -442,12 +408,12 @@ export class ProfileComponent implements OnInit{
   /********** Add Division Function Start *********/
 
     addDivision() {
-    if (this.employee && this.employee.divisions) {
-      let d = new Division();
-      // this.employee?.divisions?.push(new Division());
-      d.pivot.employee_id = this.employee?.id!;
-      this.employee?.divisions?.push(d);
-    }
+      if (this.employee && this.employee.divisions) {
+        let d = new Division();
+        // this.employee?.divisions?.push(new Division());
+        d.pivot.employee_id = this.employee?.id!;
+        this.employee?.divisions?.push(d);
+      }
     }
 
     deleteDivision(index:number){
@@ -455,13 +421,11 @@ export class ProfileComponent implements OnInit{
     }
 
     saveDivision(index:number){
-
       this.validateOrderNo('Posting', index);
       this.validateOrderDate('Posting', index);
       this.validateFromDate('Posting', index);
 
       if (this.validationErrors.length > 0) {
-
         const errorMessage = this.validationErrors
         .map((error, index) => `${index + 1}. ${error}`)
         .join('\n');
@@ -696,40 +660,39 @@ export class ProfileComponent implements OnInit{
       }
     }
 
-
-        qtraddress() {
+    qtraddress() {
       this.employeeService.getQuarterdetail(this.employee!.qtr_code!,this.employee!.location_id!,this.employee!.id!).subscribe(
-          (data) => {
-            // Success response (you can check the status code if needed)
-            console.log(data); // Log the response data if required
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'pulled successfully',
-            }).then((result) => {
-              if (result.isConfirmed) {
-                // Redirect to the desired page or refresh the current page
-                window.location.reload();
-              }
-            });
-          },
-          (error) => {
-            // Error response
-            console.log(error); // Log the error if needed
-            if (error.status === 404) {
-              Swal.fire({
-                icon: 'warning',
-                title: 'Warning',
-                text: 'Mobile No does not match!!!',
-              });
-            } else {
-              Swal.fire({
-                icon: 'warning',
-                title: 'warning',
-                text: 'empty data.',
-              });
+        (data) => {
+          // Success response (you can check the status code if needed)
+          console.log(data); // Log the response data if required
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'pulled successfully',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Redirect to the desired page or refresh the current page
+              window.location.reload();
             }
+          });
+        },
+        (error) => {
+          // Error response
+          console.log(error); // Log the error if needed
+          if (error.status === 404) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Mobile No does not match!!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'warning',
+              title: 'warning',
+              text: 'empty data.',
+            });
           }
+        }
       );
     }
 
@@ -767,25 +730,6 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  addServantFamily(i:number): void {
-    if (
-      this.employee &&
-      this.employee.servants &&
-      this.employee.servants[i] &&
-      this.employee.servants[i]!.relations
-    ) {
-      // Check if servants is an array and initialize it if not
-      if (!Array.isArray(this.employee.servants[i]!.relations)) {
-        this.employee.servants[i]!.relations = [];
-      }
-      let s = new ServantRel();
-      s.pivot.employee_id = this.employee.id!;
-      s.pivot.servant_id = this.employee.servants[i].id!;
-      this.employee.servants[i]!.relations!.push(s);
-    }
-  }
-
-
   removeServant(servantIndex: number): void {
     if (
         this.employee &&
@@ -798,13 +742,7 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-
-
-
-
-
   saveServant( i: number) {
-
     let servantsDtls = this.employee?.servants?.[i];
     console.log(servantsDtls);
 
@@ -881,6 +819,35 @@ export class ProfileComponent implements OnInit{
     }
   }
 
+  addServantFamily(i:number): void {
+    if (
+      this.employee &&
+      this.employee.servants &&
+      this.employee.servants[i] &&
+      this.employee.servants[i]!.relations
+    ) {
+      // Check if servants is an array and initialize it if not
+      if (!Array.isArray(this.employee.servants[i]!.relations)) {
+        this.employee.servants[i]!.relations = [];
+      }
+      let s = new ServantRel();
+      s.pivot.employee_id = this.employee.id!;
+      s.pivot.servant_id = this.employee.servants[i].id!;
+      this.employee.servants[i]!.relations!.push(s);
+    }
+  }
+
+  removeServantRel(i:number,k:number):void {
+    if (
+      this.employee &&
+      this.employee.servants &&
+      this.employee.servants[i] &&
+      this.employee.servants[i].relations
+    ) {
+      this.employee.servants[i].relations!.splice(k, 1);
+    }
+  }
+
   saveServantRel( i: number, k:number) {
     let servantsRelDtls = this.employee?.servants?.[i]?.relations?.[k]?.pivot;
 
@@ -893,10 +860,6 @@ export class ProfileComponent implements OnInit{
             if (relation) {
               relation.pivot = p;
             }
-
-
-
-
             console.log(p);
             Swal.fire({
               icon: 'success',
@@ -961,66 +924,6 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  removeServantRel(i:number,k:number):void {
-    if (
-        this.employee &&
-        this.employee.servants &&
-        this.employee.servants[i] &&
-        this.employee.servants[i].relations
-    ) {
-      this.employee.servants[i].relations!.splice(k, 1);
-    }
-  }
-
-
-  addVehicle() {
-    if (this.employee && this.employee.vehicles) {
-      let s = new Vehicles();
-      s.employee_id = this.employee?.id!;
-      this.employee?.vehicles?.push(s);
-    }
-  }
-
-  removeVehicle(index: number) {
-    if (this.employee && this.employee.vehicles) {
-      this.employee.vehicles!.splice(index, 1);
-    }
-  }
-
-  saveVehicle(index: number){
-    let vehicleDtls = this.employee?.vehicles![index];
-    if(vehicleDtls){
-      this.employeeService.addVehicles(vehicleDtls).subscribe(
-          // p=>this.employee!.relations![index]=p,
-          // e=>console.log(e)
-
-          p => {
-            this.employee!.vehicles![index] = p;
-
-            // Show SweetAlert success message
-            console.log(p);
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Request for approval of Relation have been saved successfully and pending for approval',
-              // }).then((result) => {
-              //   if (result.isConfirmed) {
-              //     // Redirect to the desired page
-              //     window.location.reload();
-              //   }
-            });
-          },
-          e => {
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Relation details have not been saved successfully.',
-              });
-          }
-      );
-    }
-  }
-
   onMobileNoInput(event: any, i: number): void {
     if (this.employee?.servants?.[i]?.servant_mobile_no !== null) {
       // Get the input value
@@ -1057,51 +960,63 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-
-
-  // validateserventMobile(domesticHelp: Domestic_help) {
-  //   if (servants.servant_mobile_no !== null) {
-  //     const mobilePattern = /^\d{10}$/;
-  //     if (!mobilePattern.test(servants.servant_mobile_no)) {
-  //       this.validationErrors.push('Invalid Mobile Number');
-  //       Swal.fire({
-  //         icon: 'error',
-  //         title: 'Error',
-  //         text: 'Invalid Mobile Number',
-  //       });
-  //     } else {
-  //       // Clear the validation error message for mobile if it's valid
-  //       const index = this.validationErrors.indexOf('Invalid Mobile Number');
-  //       if (index !== -1) {
-  //         this.validationErrors.splice(index, 1);
-  //       }
-  //     }
-  //   }
-  // }
-  // saveServent(servants: Domestic_help) {
-  //   this.employeeService.updateServant(servants).subscribe(
-  //     (result) => {
-  //       // Handle the success response here
-  //       console.log('Successfully updated domestic help:', result);
-  //     },
-  //     (error) => {
-  //       // Handle the error response here
-  //       console.error('Error updating domestic help:', error);
-  //     }
-  //   );
-  // }
-
-
-
-
-
   /***************** Add Servant Members Function End ***************8*******/
 
 
 
+  /***************** Add Vehicle Function Start *********************/
+  addVehicle() {
+    if (this.employee && this.employee.vehicles) {
+      let s = new Vehicles();
+      s.employee_id = this.employee?.id!;
+      this.employee?.vehicles?.push(s);
+    }
+  }
+
+  removeVehicle(index: number) {
+    if (this.employee && this.employee.vehicles) {
+      this.employee.vehicles!.splice(index, 1);
+    }
+  }
+
+  saveVehicle(index: number){
+    let vehicleDtls = this.employee?.vehicles![index];
+    if(vehicleDtls){
+      this.employeeService.addVehicles(vehicleDtls).subscribe(
+        // p=>this.employee!.relations![index]=p,
+        // e=>console.log(e)
+
+        p => {
+          this.employee!.vehicles![index] = p;
+
+          // Show SweetAlert success message
+          console.log(p);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Request for approval of Relation have been saved successfully and pending for approval',
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     // Redirect to the desired page
+            //     window.location.reload();
+            //   }
+          });
+        },
+        e => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Relation details have not been saved successfully.',
+          });
+        }
+      );
+    }
+  }
+  /************************* Add Vehicle Function End *************************/
+
+
+
   /************************* Validation Check Function Start *************************/
-
-
     validateEngName() {
       const namePattern = /^[a-zA-Z- ]{3,30}$/;
       if (!namePattern.test(this.employee!.emp_name)) { // Note the negation (!) here
@@ -1224,6 +1139,8 @@ export class ProfileComponent implements OnInit{
     }
 
   /************************* Validation Check Function End *************************/
+
+
 
   /********** Desgination / Promotion && Division / Posting Validation Check Function Start *************/
 

@@ -1,162 +1,121 @@
 <div class="row" *ngIf="user && user.role">
-    <div *ngFor="let role of user.role">
-        <div *ngIf="role.role_id === 1">
-            <div class="row">
-                <div class="container">
-                    <div class="card">
-                        <div class="card shadow">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    <b>Admin</b>
-                                </div>
-                            </div>
-
-                            <div class="card-body">
-
-                                <div class="row">
-
-                                    <div class="col-md-3" >
-                                        <div class="card">
-                                            <div class="card shadow">
-
-
-                                                <div class="card-body" style="overflow: auto;">
-
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="card-icon rounded-circle btn btn-outline-success">
-                                                            <a routerLink="/employee-list" title="View Employee List">
-                                                                <i class="bi bi-people"></i>
-                                                            </a>
-                                                        </div>
-                                                        <div class="ps-5">
-
-                                                            <p>
-                                                                <span class="text-muted small pt-2 ps-1 fw-bold">Total No. of Employee</span>
-                                                            </p>
-                                                            {{dashboardData.tEmployee}}
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-5" >
-                                        <div class="card">
-                                            <div class="card shadow">
-
-                                                <div class="card-body" style="overflow: auto;">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="card-icon rounded-circle btn btn-outline-info">
-                                                            <a routerLink="/approved-emp-list" title="View Approved Employee List">
-                                                                <i class="bi bi-people"></i>
-                                                            </a>
-                                                        </div>
-                                                        <div class="ps-5">
-
-                                                            <p>
-                                                                <span class="text-muted small pt-2 ps-1 fw-bold">Total No. of Approved Employee</span>
-                                                            </p>
-                                                            {{dashboardData.approvedCount}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4" >
-                                        <div class="card">
-                                            <div class="card shadow">
-
-                                                <div class="card-body" style="overflow: auto;">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="card-icon rounded-circle btn btn-outline-danger">
-                                                            <a routerLink="/approval-pending-emp-dtls">
-                                                                <i class="bi bi-people"></i>
-                                                            </a>
-                                                        </div>
-                                                        <div class="ps-5">
-
-                                                            <p>
-                                                                <span class="text-muted small pt-2 ps-1 fw-bold">Total No. of Approval Pending</span>
-                                                            </p>
-                                                            {{dashboardData.pendingCount}}
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row">&nbsp;</div>
-
-                                <div class="row" >
-
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card shadow">
-                                                <div class="card-header">
-                                                    <div class="card-title">
-                                                        <b>Today Applied List</b>
-                                                    </div>
-                                                </div>
-
-                                                <div class="card-body" style="overflow: auto;">
-                                                    <div class="row mb-12">
-
-                                                        <table class="table table-stripped">
-                                                            <thead>
-                                                            <tr>
-                                                                <th>Sl No.</th>
-                                                                <th>Id Card No.</th>
-                                                                <th>Employee Name</th>
-                                                                <!-- <th>Email ID</th> -->
-                                                                <th>Mobile No.</th>
-                                                                <th>Last Updated Date</th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                            </thead>
-
-                                                            <tbody *ngIf="dashboardData && dashboardData.todayList">
-
-                                                            <tr *ngFor="let tempChange of dashboardData.todayList; let i = index">
-                                                                <td>{{ i + 1 }}</td>
-                                                                <td>{{ tempChange.id_cards[0].card_no}}</td>
-                                                                <td>{{ tempChange.employee.emp_name }}</td>
-                                                                <td>{{ tempChange.employee.mobile }}</td>
-                                                                <td>{{ formatDate(tempChange.changed_at) }}</td>
-                                                                <td>
-                                                                    <a class="btn btn-outline-info" [routerLink]="'/changes-approval-dtls/' + tempChange.id">Details</a>
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+  <div *ngFor="let role of user.role">
+    <div *ngIf="role.role_id === 1">
+      <div class="row">
+        <div class="container">
+          <div class="card shadow">
+            <div class="card-header">
+              <div class="card-title">
+                <b>Admin</b>
+              </div>
             </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4" >
+                  <a routerLink="/employee-list" title="View Employee List" style="text-decoration: none; color: inherit;">
+                    <div class="card shadow enlarge-on-hover">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="card-icon rounded-circle btn btn-outline-success">
+                            <i class="bi bi-people"></i>
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Total No. of Employee</span>
+                            </p>
+                            {{dashboardData.tEmployee}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-md-4" >
+                  <a routerLink="/approved-emp-list" title="View Approved Employee List" style="text-decoration: none; color: inherit;">
+                    <div class="card shadow enlarge-on-hover">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="card-icon rounded-circle btn btn-outline-info">
+                            <i class="bi bi-people"></i>
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Total No. of Approved Employee</span>
+                            </p>
+                            {{dashboardData.approvedCount}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-md-4" >
+                  <a routerLink="/approval-pending-emp-dtls" style="text-decoration: none; color: inherit;">
+                    <div class="card shadow enlarge-on-hover">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="card-icon rounded-circle btn btn-outline-danger">
+                            <i class="bi bi-people"></i>
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Total No. of Approval Pending</span>
+                            </p>
+                            {{dashboardData.pendingCount}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <br>
+              <div class="row" >
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-header">
+                      <div class="card-title">
+                        <b>Today Applied List</b>
+                      </div>
+                    </div>
+                    <div class="card-body" style="overflow: auto;">
+                      <div class="container">
+                        <div class="row mb-12">
+                          <table class="table table-stripped">
+                            <thead>
+                            <tr>
+                              <th>Sl No.</th>
+                              <th>Id Card No.</th>
+                              <th>Employee Name</th>
+                              <!-- <th>Email ID</th> -->
+                              <th>Mobile No.</th>
+                              <th>Last Updated Date</th>
+                              <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody *ngIf="dashboardData && dashboardData.todayList">
+                            <tr *ngFor="let tempChange of dashboardData.todayList; let i = index">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{ tempChange.id_cards[0].card_no}}</td>
+                              <td>{{ tempChange.employee.emp_name }}</td>
+                              <td>{{ tempChange.employee.mobile }}</td>
+                              <td>{{ formatDate(tempChange.changed_at) }}</td>
+                              <td>
+                                <a class="btn btn-outline-info" [routerLink]="'/changes-approval-dtls/' + tempChange.id">Details</a>
+                              </td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
