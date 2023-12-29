@@ -1,5 +1,6 @@
 .enlarge-on-hover:hover {
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.7);
-  transform: scale(1.07);
+  transform: scale(1.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(to top left, #e3e2e2,white);
 }

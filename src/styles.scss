@@ -78,11 +78,13 @@ nav{
 .main-body{
   position: relative;
   z-index: 2;
-  margin-top:135px;
-  margin-bottom:100px;
+  margin-top:50px;
+  //margin-bottom:50px;
+  //background-color: #dbcebb;
 }
 footer{
-  background-color: #FFE6C3;
+  //background-color: #FFE6C3;
+  background-color: lightgray;
   position: relative;
   z-index: 900;
   margin-bottom: 0px;
@@ -94,3 +96,250 @@ footer{
 .form-label{
   font-weight: bold;
 }
+
+/* Top Header Section */
+header {
+  background-color: #ffffff; /* Change this to your desired background color */
+  /* Add more styles as needed */
+}
+
+.logo-sec-wraper .row {
+  align-items: center
+}
+/* Logo Section Header */
+.logo-sec-wraper {
+  padding: 10px 0; /* Adjust padding as needed */
+}
+
+.logo-sec-wraper .container {
+  width: 100%;
+}
+
+.logo-sec-wraper .logo-align {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333333; /* Change this to your desired text color */
+}
+
+.logo-sec {
+  display: flex;
+  align-items: center;
+}
+
+a.logo-align img {
+  width: 50px;
+}
+
+.brand-text h4 {
+  padding-left: 10px;
+  font-size: 1.25em;
+  color: #000;
+  line-height: 35px;
+  margin-bottom: 0;
+  font-weight: 900;
+  margin: 0;
+  font-family: 'poppinsbold';
+}
+
+.brand-text h4 span {
+  color: #000;
+  display: block;
+  font-size: 1.1em;
+  line-height: normal;
+  font-weight: 400;
+}
+/* RB Building Section */
+
+.RBbuilding-sec {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.RB-building {
+  background: #4d305c;
+  display: block;
+  border: 3px solid #fff;
+  border-radius: 100%;
+  position: relative;
+  bottom: -12px;
+  overflow: hidden;
+  margin: 0 20px;
+  padding: 3px 0 0;
+}
+
+.logo-des {
+  text-align: right;
+}
+
+.logo-des a.logo-align {
+  justify-content: end;
+  text-align: left;
+}
+
+a.logo-align {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.fadeInRight {
+  -webkit-animation-name: fadeInRight;
+  animation-name: fadeInRight;
+}
+
+.fadeInLeft {
+  -webkit-animation-name: fadeInLeft;
+  animation-name: fadeInLeft;
+}
+/* Footer Top Section css Start */
+.footer-top-sec {
+  background: #ffb633;
+  padding: 10px 0 0
+}
+
+.footer-top-sec ul {
+  padding: 0
+}
+
+.footer-top-sec ul li {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 0 8px;
+  border-right: 1px solid #00000047;
+  line-height: 1
+}
+
+.footer-top-sec ul li a {
+  color: #000;
+  font-size: 0.875em;
+  text-decoration: none
+}
+
+.footer-top-sec ul li:last-child {
+  border: 0
+}
+
+.visitor-sec p {
+  font-size: 0.875em
+}
+
+.visitor-sec {
+  display: flex;
+  align-items: end;
+  justify-content: flex-start;
+  flex-direction: column
+}
+
+.text-right.social-media a {
+  width: 30px;
+  display: inline-block;
+  height: 30px;
+  line-height: 20px;
+  text-align: center;
+  margin-left: 3px;
+  color: #fff;
+  border-radius: 50%
+}
+
+.text-right.social-media a:hover i {
+  animation: fa-spin 2s infinite linear
+}
+
+a.fb {
+  background: #305891
+}
+
+a.twit {
+  background: #2ca8d2
+}
+
+a.envelope {
+  background: #FF0000
+}
+
+a.star {
+  background-image: linear-gradient(-45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+}
+
+.social-media {
+  text-align: center !important
+}
+/* Footer Top Section css End */
+/* Footer-Top CSS Start  */
+
+
+.footer-top-content-area {
+  background: #E7EBF3;
+}
+
+.footer-top-content-area .contact-person-details h6 {
+  font-size: 1.125em;
+  font-weight: 600;
+}
+
+.contact-person-details p {
+  margin-bottom: 7px;
+  font-size: 0.875em;
+}
+
+.black-p {
+  display: block;
+  color: #000;
+  font-weight: 400;
+}
+
+.red-p {
+  margin-bottom: 7px;
+  color: #98181c;
+  font-weight: 600;
+}
+
+
+
+
+/* Footer-TOP CSS End  */
+/* Footer Bottom Section css Start */
+.footer-bottom-sec {
+  background: #000000;
+  padding: 10px 0;
+  color: #fff
+}
+
+.footer-bottom-sec ul {
+  padding: 0;
+  margin: 0;
+}
+
+.footer-bottom-sec ul li {
+  display: inline-block;
+  /*margin-bottom: 0px;*/
+  padding: 0 8px;
+  border-right: 1px solid #ffffff73;
+  line-height: 1
+}
+
+.footer-bottom-sec ul li a {
+  color: #ffffff;
+  font-size: 0.875em;
+  text-decoration: none
+}
+
+.footer-bottom-sec ul li:last-child {
+  border: 0
+}
+
+.copyright-sec {
+  text-align: left;
+  margin: 0;
+  padding: 0;
+}
+/* Footer Bottom Section css End */

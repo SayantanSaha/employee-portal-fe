@@ -1,12 +1,16 @@
 .card-container {
   position: relative;
   overflow: hidden;
+
 }
+
+
 
 .card:hover {
   box-shadow: 10px 10px 10px rgba(0,0,0,0.7);
   transform:scale(1.12) ;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(to bottom right, #f3ddba,transparent);
 }
 
 .card img:hover {
@@ -15,6 +19,10 @@
 
 .card p.text-hover {
   color: blue;
+}
+
+.card{
+  background: linear-gradient(to bottom right, linen,transparent);
 }
 
 

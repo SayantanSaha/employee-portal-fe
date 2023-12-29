@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="card-body">
+      <div class="card-body" style="background: linear-gradient(to bottom right, #7bdc1647,transparent);">
         <div class="accordion shadow" id="accordionExample">
 
           <!-- Basic Deatils Field -->
@@ -35,7 +35,7 @@
               <div class="accordion-body" *ngIf="editable">
                 <div class="row">
                   <div class="col-md-12">
-                    <div class="card">
+                    <div class="card ">
                       <div class="card-body">
                         <div class="row" style="text-align: center;overflow:auto;">
                           <div class="col-md-12">
@@ -279,7 +279,7 @@
               <div class="accordion-body" >
                 <div class="row">
                   <div class="col-md-3">
-                    <div class="card" style="overflow: auto;">
+                    <div class="card shadow" style="overflow: auto;">
                       <div class="card-body">
                         <div style="width:100%;text-align: center;padding-top: 10px;">
                           <span *ngIf="employee && employee.profile_photo">
@@ -342,7 +342,7 @@
                   </div>
 
                   <div class="col-md-9">
-                    <div class="card">
+                    <div class="card shadow">
                       <div class="card-body">
                         <div class="row">
                           <div class="col-md">
@@ -613,7 +613,7 @@
 
                 <div class="row" *ngIf="changesMade">
                   <div class="col-md-12">
-                    <div class="card">
+                    <div class="card shadow">
                       <div class="card-body">
                         <div *ngIf="editable" style="text-align: center;">
                           <button class="btn btn-outline-primary" (click)="savePrimaryDetails()">
@@ -643,7 +643,7 @@
                 <div class="row">
                   <div class="col-md-10"></div>
                   <div class="col-md-2" style="text-align: right">
-                    <button type="button" class="btn btn-outline-info" (click)="addDesignation()">
+                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="addDesignation()">
                       +Add Designation
                     </button>
                   </div>
@@ -651,7 +651,7 @@
 
                 <div class="row">
                   <div class="col-md">
-                    <div class="card table-responsive">
+                    <div class="card shadow table-responsive">
                       <div class="card-body">
                         <div class="row" style="text-align: center;">
                           <div class="col-md">
@@ -696,7 +696,7 @@
               <div class="accordion-body">
                 <div class="row">
                   <div class="col-md">
-                    <div class="card table-responsive">
+                    <div class="card shadow table-responsive">
                       <div class="card-body">
                         <table class="table table-stripped">
                           <thead>
@@ -807,7 +807,7 @@
 
                 <div class="row">
                   <div class="col-md">
-                    <div class="card table-responsive">
+                    <div class="card shadow table-responsive">
                       <div class="card-body">
                         <div class="row" style="text-align: center;">
                           <div class="col-md">
@@ -854,7 +854,7 @@
               <div class="accordion-body">
                 <div class="row">
                   <div class="col-md">
-                    <div class="card table-responsive">
+                    <div class="card shadow table-responsive">
                       <div class="card-body">
                         <table class="table table-stripped">
                           <thead>
@@ -978,7 +978,7 @@
 
                 <div class="row">
                   <div class="col-md">
-                    <div class="card table-responsive">
+                    <div class="card shadow table-responsive">
                       <div class="card-body">
                         <div class="row" style="text-align: center;">
                           <div class="col-md">
@@ -1023,7 +1023,7 @@
               <div class="accordion-body">
                 <div class="row">
                   <div class="col-md">
-                    <div class="card table-responsive">
+                    <div class="card shadow table-responsive">
                       <div class="card-body">
                         <table class="table table-stripped">
                           <thead>
@@ -1200,7 +1200,7 @@
               <div class="accordion-body">
                 <div class="row">
                   <div class="col-md">
-                    <div class="card table-responsive">
+                    <div class="card shadow table-responsive">
                       <div class="card-body">
                         <table class="table table-stripped">
                           <thead>
@@ -1290,7 +1290,7 @@
 
                 <div class="row">
                   <div class="col-md">
-                    <div class="card table-responsive">
+                    <div class="card shadow table-responsive">
                       <div class="card-body" >
                         <div class="row" style="text-align: center;">
                           <div class="col-md">
@@ -1334,7 +1334,7 @@
               <div class="accordion-body" *ngIf="employee != null && employee.servants != null ">
                 <div class="row" *ngFor="let servant of employee.servants; let i = index">
                   <div class="container">
-                    <div class="card" >
+                    <div class="card shadow" >
                       <div class="card-body" >
                         <div class="col-md">
                           <table class="table table-stripped">
@@ -1420,7 +1420,7 @@
                           </table>
                           <div class="row" *ngIf="servant && servant!.id!=-1">
                             <div class="col-md">
-                              <div class="card">
+                              <div class="card shadow">
                                 <div class="card-header">
                                   <div class="float-start">
                                     <b>{{ servant?.servant_name || "Domestic help" }}'s Relatives</b>
