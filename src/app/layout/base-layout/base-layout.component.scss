@@ -1,0 +1,18 @@
+.main-body{
+  //background-image:  linear-gradient(to bottom right, #de9f57,transparent), url('../../../assets/images/R (1).png');#de9f57#de8f57#6094da
+
+  background-image:  linear-gradient(to bottom right,#de9f57,transparent), url('../../../assets/images/R (1).png');
+  background-size: auto,64vh;
+  background-position: center,left bottom ;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  //background-image:  linear-gradient(to bottom right, lightgrey,transparent), url('https://wallpapercave.com/wp/wp6515991.jpg');
+  //background-size: auto,cover;
+  //background-position: center,center ;
+  //background-repeat: no-repeat;
+}
+
+.textbox{
+  position: absolute;color: white;z-index: 999
+}

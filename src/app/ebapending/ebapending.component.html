@@ -1,3 +1,4 @@
+<div class="container">
 <div class="row">
   <div class="col-md-12" *ngIf="ebaPendingList!=null">
     <div class="col col-md-12" style="padding: 2%;" >
@@ -30,7 +31,7 @@
                   <td>{{ ebaPending.employee.mobile }}</td>
                   <td>{{ formatDate(ebaPending.created_at) }}</td>
                   <td>
-                    <a class="btn btn-outline-info" [routerLink]="'/eba-form/' + 'view/'+'EBA/'+ebaPending.id">Details</a>
+                    <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/eba-form/' + 'view/'+'EBA/'+ebaPending.id">Details</a>
                   </td>
                 </tr>
                 </tbody>
@@ -41,4 +42,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

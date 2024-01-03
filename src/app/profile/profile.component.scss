@@ -2,9 +2,9 @@
   border: 1px solid red;
 }
 
-.enlarge-on-hover {
-  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.7);
-  //transform: scale(1.05);
+.enlarge-on-hover:hover {
+  box-shadow: 2px 2px 0.2px rgba(0, 0, 0, 0.7);
+  transform: scale(1.05);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   //background: linear-gradient(to top left, #e3e2e2,white);
 }
@@ -16,3 +16,25 @@
   //background: linear-gradient(to top left, #e3e2e2,white);
 }
 
+.otp-field {
+  display: flex;
+}
+.otp-field input {
+  width: 50px;
+  height:50px;
+  font-size: 12px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  margin: 2px;
+  //border: 2px solid #55525c;
+
+  font-weight: bold;
+  color: black;
+  outline: none;
+  transition: all 0.1s;
+}
+.otp-field input:focus {
+  border: 2px solid #a527ff;
+  box-shadow: 0 0 2px 2px #a527ff6a;
+}

@@ -10,6 +10,7 @@ import {Designation} from "../model/Designation";
 import {Division} from "../model/Division";
 import {Relation} from "../model/Relation";
 import {Servants} from "../model/Servants";
+
 import {ServantRel} from "../model/ServantRel";
 import {environment} from "../../environments/environment";
 import {Idcards} from "../model/Idcards";
@@ -186,12 +187,16 @@ export class EbaFormComponent {
     this.urlid = status;
   }
 
+  getInitialRadioValue(value: string): boolean {
+    // Check if the current URL contains the specified value
+    return this.router.url.includes(value);
+  }
 
   onSelect(event: any) {
     const selectedValue = event.target.value;
-    if (selectedValue && selectedValue !== '-select-') {
+
       window.location.href = selectedValue;
-    }
+
   }
   getActiveDesignations(designations: Designation[]): string {
     const activeDesignations = designations
@@ -215,14 +220,26 @@ export class EbaFormComponent {
     return activeIdCard.join(', ');
   }
 
-  getDefaultExpDate(i: number, j: number): string {
+  // @ts-ignore
+  getDefaultExpDate(i: number, j: number,k:number ,property: string): string {
     const twoYearsFromNow = new Date();
     twoYearsFromNow.setFullYear(twoYearsFromNow.getFullYear() + 2);
+    if (property === 'relative') {
+      // @ts-ignore
+      this.employee.relations[i].pivot.eba_passes[j].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
+      return this.employee?.relations?.[i]?.pivot?.eba_passes?.[j]?.eba_pass_exp_date;
+    }
+    if (property === 'servant') {
+      // @ts-ignore
+      this.employee.servants[i].eba_passes[j].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
+      return this.employee?.servants?.[i]?.eba_passes?.[j]?.eba_pass_exp_date;
 
-    // @ts-ignore
-    this.employee.relations[i].pivot.eba_passes[j].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
-
-    return this.employee?.relations?.[i]?.pivot?.eba_passes?.[j]?.eba_pass_exp_date;
+    }
+    if (property === 'servant_rel') {
+      // @ts-ignore
+      this.employee.servants[i].relations[j].pivot.eba_passes[k].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
+      return this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]?.eba_pass_exp_date;
+    }
   }
 
   isWithinTwoWeeks(expDate: Date | null): boolean {
@@ -402,13 +419,13 @@ export class EbaFormComponent {
 
           if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
             // Update the specific property based on the argument
-            if (property === 'photo_path') {
+            if (property === 'photo') {
               // @ts-ignore
               this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path = base64String;
-            } else if (property === 'signature') {
+            } else if (property === 'sign') {
               // @ts-ignore
               this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = base64String;
-            } else if (property === 'id_proof_path') {
+            } else if (property === 'id_proof') {
               // @ts-ignore
               this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path = base64String;
             }
@@ -475,6 +492,15 @@ export class EbaFormComponent {
           icon: 'warning',
           title: 'Empty organization',
           text: 'Organization does not have a value.',
+        });
+        return;
+      }
+
+      if (this.employee.qtr_code === null) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Empty Quarter',
+          text: 'Quarter does not have a value. First pull your data from profile',
         });
         return;
       }
@@ -661,14 +687,14 @@ export class EbaFormComponent {
       }
       else if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => (role.role_id === 5 || role.role_id == 6))) {
         this.employeeService.updateebastatus(id, 'Approve', this.remark, this.file_path ?? '').subscribe(
-            () => {
+            () =>{
               Swal.fire({
                 icon: 'success',
                 title: 'Success',
                 text: 'Approved successfully',
-              // }).then(() => {
-              //   // Redirect to the dashboard route
-              //   this.router.navigate(['ebapanel']);
+              }).then(() => {
+                // Redirect to the dashboard route
+                this.router.navigate(['ebapanel']);
               });
             },
             (error) => {
@@ -837,4 +863,17 @@ export class EbaFormComponent {
       }
     }
   }
+
+  hoverClick(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
+    if (button) {
+      button.classList.add('clicked');
+
+      // Remove the class after a short delay to allow the shadow to disappear
+      setTimeout(() => {
+        button.classList.remove('clicked');
+      }, 200); // Adjust the delay (in milliseconds) based on your transition duration
+    }
+  }
+
 }

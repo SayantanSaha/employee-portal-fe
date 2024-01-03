@@ -24,7 +24,7 @@ export class Employee{
   dor: Date|null = null;
   email_id: string  = '';
   mobile: string  = '';
-
+  AllotmentId: string ='';
   perm_add: string |null = null;
   perm_pin: string |null = null;
   perm_state: State | null = null;

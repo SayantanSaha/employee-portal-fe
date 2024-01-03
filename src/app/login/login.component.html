@@ -1,67 +1,107 @@
-<!--<div class="row" style="margin-top: 10%">-->
-<!--  <div class="col-md-4 offset-md-4">-->
-<!--    <div class="form-holder card shadow">-->
-<!--      <div class="card-header">-->
-<!--        Login-->
-<!--      </div>-->
-<!--      <div class="card-body">-->
+<!--&lt;!&ndash;<div class="row" style="margin-top: 10%">&ndash;&gt;-->
+<!--&lt;!&ndash;  <div class="col-md-4 offset-md-4">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="form-holder card shadow">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="card-header">&ndash;&gt;-->
+<!--&lt;!&ndash;        Login&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="card-body">&ndash;&gt;-->
 
-<!--      <form>-->
-<!--        <div class="row">-->
-<!--          <div class="col-md">-->
-<!--            <label for="username" class="form-label">Mobile No</label>-->
-<!--            <input type="text" class="form-control" name="username" id="username" aria-describedby="emailHelp" [(ngModel)]="username">-->
-<!--            <div id="emailHelp" class="form-text"></div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="row">-->
-<!--          <div class="col-md">-->
-<!--            <label for="password" class="form-label">Password</label>-->
-<!--            <input type="password" class="form-control" name="password" id="password" [(ngModel)]="password">-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="row" style="padding-top: 10px;">-->
-<!--          &lt;!&ndash; <div class="col-md offset-md-6" style="text-align: right">-->
-<!--            <a href="/registration" type="button" class="btn btn-warning" >Register</a>-->
-<!--          </div> &ndash;&gt;-->
+<!--&lt;!&ndash;      <form>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="row">&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="col-md">&ndash;&gt;-->
+<!--&lt;!&ndash;            <label for="username" class="form-label">Mobile No</label>&ndash;&gt;-->
+<!--&lt;!&ndash;            <input type="text" class="form-control" name="username" id="username" aria-describedby="emailHelp" [(ngModel)]="username">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div id="emailHelp" class="form-text"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="row">&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="col-md">&ndash;&gt;-->
+<!--&lt;!&ndash;            <label for="password" class="form-label">Password</label>&ndash;&gt;-->
+<!--&lt;!&ndash;            <input type="password" class="form-control" name="password" id="password" [(ngModel)]="password">&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="row" style="padding-top: 10px;">&ndash;&gt;-->
+<!--&lt;!&ndash;          &lt;!&ndash; <div class="col-md offset-md-6" style="text-align: right">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a href="/registration" type="button" class="btn btn-warning" >Register</a>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div> &ndash;&gt;&ndash;&gt;-->
 
-<!--          <div class="col-md offset-md-6" style="text-align: right">-->
-<!--            <button type="submit" class="btn btn-primary" (click)="doLogin()" >Login</button>-->
-<!--          </div>-->
+<!--&lt;!&ndash;          <div class="col-md offset-md-6" style="text-align: right">&ndash;&gt;-->
+<!--&lt;!&ndash;            <button type="submit" class="btn btn-primary" (click)="doLogin()" >Login</button>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
 
-<!--        </div>-->
-<!--      </form>-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </form>&ndash;&gt;-->
 
-<!--      </div>-->
-<!--    </div>-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--<div id="login-form-wrap">-->
+<!--<div class="container">-->
+<!--  <div class="container">-->
+<!--    <div class="container">-->
+<!--      <div class="container">-->
+<!--        <div class="container">-->
+<!--          <div class="container"><br>-->
+<!--&lt;!&ndash;            <div class=”maincontainer”>&ndash;&gt;-->
+<!--&lt;!&ndash;              <div class=”monkeylogin”>&ndash;&gt;-->
+<!--                <div class=”animcon” id=”animcon”>-->
+<!--                  <img id="hands" src="https://raw.githubusercontent.com/naaficodes/Monkey-Login/master/images/hands.png"/>-->
+<!--                </div>-->
+<!--&lt;!&ndash;                <div class=”formcon”>&ndash;&gt;-->
+<!--  <h2 style="font-family: Times New Roman, Times, serif;">Samekit</h2><br><br>-->
+<!--  <p>-->
+<!--    <input type="text"  id="username" name="username"  placeholder="Username" [(ngModel)]="username">-->
+<!--    <i class="validation"><span></span><span></span></i>-->
+<!--  </p>-->
+
+<!--  <p>-->
+<!--  <div class="password-wrapper">-->
+<!--    <input type="password" id="password" name="password" placeholder="Password" [(ngModel)]="password">-->
+<!--  </div>-->
+
+
+<!--  <div class="row">&nbsp;</div>-->
+<!--  <p style="padding-bottom: 5px;padding-top: 5px;">-->
+<!--    <input type="submit" id="login"  (click)="doLogin()">-->
+<!--  </p>-->
+<!--  </div></div> </div></div> </div></div><br><br><br>-->
+<!--  <div id="create-account-wrap">-->
+<!--           <p>Not a member? <a href="#">Create Account</a></p>-->
+<!--    <p>Developed by NIC</p>-->
 <!--  </div>-->
 <!--</div>-->
-<div id="login-form-wrap">
-<div class="container">
-  <div class="container">
-    <div class="container">
-      <div class="container">
-        <div class="container">
-          <div class="container"><br>
-  <h2 style="font-family: Times New Roman, Times, serif;">Samekit</h2><br><br>
-  <p>
-    <input type="text"  id="username" name="username"  placeholder="Username" [(ngModel)]="username">
-    <i class="validation"><span></span><span></span></i>
-  </p>
 
-  <p>
-  <div class="password-wrapper">
-    <input type="password" id="password" name="password" placeholder="Password" [(ngModel)]="password">
+
+<div class="maincontainer">
+
+  <div class="row">
+  <!--    https://wallpapercave.com/wp/wp6515991.jpg-->
+<!--    https://wallpapercave.com/wp/wp7231671.jpg-->
+<!--    https://static.vecteezy.com/system/resources/previews/005/253/064/original/woman-data-protection-vector.jpg-->
+    <div class=" col-md-6 monkeylogin" style="background-image: url('https://wallpapercave.com/wp/wp6515991.jpg');background-size: cover; background-position: center;background-repeat: no-repeat;width: 650px ;">
+
+    </div>
+  <div class=" col-md-6 monkeylogin" style="background: linear-gradient(lavender,white)">
+    <div class="animcon" id="animcon">
+
+    </div>
+    <br>
+<!--    <div style="font-size: 20px;font-family: 'Times New Roman'">-->
+<!--      Samekit-->
+<!--    </div>-->
+
+    <div class="formcon">
+<!--        <input type="email" id="mail" name="" (click)="openEye()" class="tb" placeholder="Email" autocomplete="off" [(ngModel)]="username"/>-->
+      <input type="email" id="mail" name=""  class="tb" placeholder="Email" autocomplete="off" [(ngModel)]="username"/>
+      <br/>
+        <br/>
+<!--        <input type="password" id="pwdbar" (click)="closeEye()" name="pwd" class="tb" placeholder="Password" [(ngModel)]="password"/>-->
+      <input type="password" id="pwdbar"  name="pwd" class="tb" placeholder="Password" [(ngModel)]="password"/>
+        <br/>
+        <br/>
+        <input type="submit" name="" class="sbutton enlarge-on-hover" (click)="hoverClick($event)" value="LOG IN" (click)="doLogin()"/>
+    </div>
   </div>
-
-
-  <div class="row">&nbsp;</div>
-  <p style="padding-bottom: 5px;padding-top: 5px;">
-    <input type="submit" id="login"  (click)="doLogin()">
-  </p>
-  </div></div> </div></div> </div></div><br><br><br>
-  <div id="create-account-wrap">
-           <p>Not a member? <a href="#">Create Account</a></p>
-    <p>Developed by NIC</p>
-  </div>
+</div>
 </div>

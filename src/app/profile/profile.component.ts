@@ -37,6 +37,8 @@ export class ProfileComponent implements OnInit{
   locationtypelist: any[] =[];
   quarterstypelist: any[] = [];
   quarteraddress: any[] = [];
+  sentotp:string='';
+  recivedotp:boolean = false;
   changesMade: boolean = false;
   isCpAddressChecked: boolean = false;
   changesPostingMade: boolean[] = [];
@@ -271,8 +273,8 @@ export class ProfileComponent implements OnInit{
     return districts;
   }
 
-  addDesignation() {
-    const button = document.querySelector('.enlarge-on-hover');
+  hoverClick(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
     if (button) {
       button.classList.add('clicked');
 
@@ -281,6 +283,10 @@ export class ProfileComponent implements OnInit{
         button.classList.remove('clicked');
       }, 200); // Adjust the delay (in milliseconds) based on your transition duration
     }
+  }
+
+  addDesignation() {
+
 
     let d = new Designation();
     d.pivot.employee_id = this.employee?.id!;
@@ -670,16 +676,25 @@ export class ProfileComponent implements OnInit{
       }
     }
 
+  getMaskedNumber(): string {
+    const originalNumber = this.employee!.qtr_address!
+    const maskedNumber = 'xxxxxx' + originalNumber.slice(6);
+    return maskedNumber;
+  }
+
     qtraddress() {
       this.employeeService.getQuarterdetail(this.employee!.qtr_code!,this.employee!.location_id!,this.employee!.id!).subscribe(
-        (data) => {
+        (data :any ) => {
           // Success response (you can check the status code if needed)
           console.log(data); // Log the response data if required
+          // this.quarteraddress =data;
+          // this.recivedotp=true;
           Swal.fire({
             icon: 'success',
             title: 'Success',
             text: 'pulled successfully',
-          }).then((result) => {
+          }).then
+          ((result) => {
             if (result.isConfirmed) {
               // Redirect to the desired page or refresh the current page
               window.location.reload();
@@ -693,17 +708,32 @@ export class ProfileComponent implements OnInit{
             Swal.fire({
               icon: 'warning',
               title: 'Warning',
-              text: 'Mobile No does not match!!!',
+              text: 'empty quarter details .',
             });
-          } else {
+          } if (error.status === 401) {
+            this.quarteraddress =error.error;
+            // Swal.fire({
+            //   icon: 'warning',
+            //   title: 'warning',
+            //   text: 'Mobile No does not match.',
+            // });
+          }
+          if (error.status === 400) {
             Swal.fire({
               icon: 'warning',
-              title: 'warning',
-              text: 'empty data.',
+              title: 'Warning',
+              text: 'Something went wrong.',
             });
           }
         }
       );
+    }
+
+    otp(){
+        this.employeeService.getQuarterotp(this.employee!.qtr_address!).subscribe(
+            data => this.quarterstypelist = data,
+            error => console.log(error)
+        );
     }
 
     qtrtype() {

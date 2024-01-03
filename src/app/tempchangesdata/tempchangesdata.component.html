@@ -1,6 +1,7 @@
 <!--<div class="row">-->
 <!--  <div class="col-md-12" >-->
 <!--    <div class="col col-md-12" style="padding: 2%;" >-->
+<div class="container">
 <div class="card shadow" *ngIf="tempchangesList!=null">
   <div class="card-header" >
     <div  class="float-start">
@@ -34,7 +35,7 @@
             <td>{{ tempchanges.mobile}}</td>
             <td>{{ formatDate(tempchanges.changed_at)}}</td>
             <td>
-              <a class="btn btn-outline-info" [routerLink]="'/changes-approval-dtls/' + tempchanges.temp_id">Details</a>
+              <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/changes-approval-dtls/' + tempchanges.temp_id">Details</a>
             </td>
           </tr>
           </tbody>
@@ -42,6 +43,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 <!--    </div>-->
 <!--  </div>-->

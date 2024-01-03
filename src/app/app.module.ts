@@ -31,6 +31,8 @@ import { EbapanelComponent } from './ebapanel/ebapanel.component';
 import { NextDirective } from './next.directive';
 import { PrevDirective } from './prev.directive';
 import { EbaformviewComponent } from './ebaformview/ebaformview.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { EbaFormListComponent } from './eba-form-list/eba-form-list.component';
 
 
 
@@ -59,6 +61,7 @@ import { EbaformviewComponent } from './ebaformview/ebaformview.component';
     NextDirective,
     PrevDirective,
     EbaformviewComponent,
+    EbaFormListComponent,
 
 
   ],
@@ -68,6 +71,7 @@ import { EbaformviewComponent } from './ebaformview/ebaformview.component';
         LayoutModule,
         HttpClientModule,
         FormsModule,
+        NgbModule,
     ],
   providers: [
     { provide: 'BASE_URL', useFactory: ()=>document.getElementsByTagName('base')[0].href }

@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit{
 
   user:User = new User();
   employee: Employee | null = null;
+  cardnumber:number =1;
 
   imageUrls: string[] = [
     'https://ih1.redbubble.net/image.1492450570.5434/flat,1000x1000,075,f.u1.jpg',
@@ -68,17 +69,15 @@ export class DashboardComponent implements OnInit{
     }
   }
 
-  setTextHoverClass() {
-    const text = document.querySelector('.card p');
-    if (text) {
-      text.classList.add('text-hover');
-    }
-  }
+  hoverClick(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
+    if (button) {
+      button.classList.add('clicked');
 
-  removeTextHoverClass() {
-    const text = document.querySelector('.card p');
-    if (text) {
-      text.classList.remove('text-hover');
+      // Remove the class after a short delay to allow the shadow to disappear
+      setTimeout(() => {
+        button.classList.remove('clicked');
+      }, 200); // Adjust the delay (in milliseconds) based on your transition duration
     }
   }
 

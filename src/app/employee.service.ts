@@ -177,6 +177,15 @@ export class EmployeeService {
   getQuarterType(location:string): Observable<any[]>{
     return this.http.get<any[]>(this.apiUrl+"Quarterbylocation/"+location,{headers:this.createHeader()});
   }
+
+  getQuarterotp(number:string): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"qtrcodenumber/"+number,{headers:this.createHeader()});
+  }
+
+  otpverify(number:string): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"otp/"+number,{headers:this.createHeader()});
+  }
+
   getQuarterdetail(qtrtype:string ,location:string,empid:number): Observable<any[]>{
     return this.http.get<any[]>(this.apiUrl+"qtrmaster/"+qtrtype+'/'+location+'/'+empid,{headers:this.createHeader()});
   }
