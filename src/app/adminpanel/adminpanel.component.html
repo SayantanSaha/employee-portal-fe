@@ -12,8 +12,8 @@
             <div class="card-body" style="background: linear-gradient(to bottom right,#C6F7D3,transparent);">
               <div class="row">
                 <div class="col-md-4" >
-                  <a routerLink="/employee-list" title="View Employee List" style="text-decoration: none; color: inherit;">
-                    <div class="card shadow enlarge-on-hover">
+                  <a routerLink="/employee-list" title="View Employee List" style="text-decoration: none; ">
+                    <div class="card shadow enlarge-on-hover" (click)=" hoverClick($event)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="card-icon rounded-circle btn btn-outline-success">
@@ -31,8 +31,8 @@
                   </a>
                 </div>
                 <div class="col-md-4" >
-                  <a routerLink="/approved-emp-list" title="View Approved Employee List" style="text-decoration: none; color: inherit;">
-                    <div class="card shadow enlarge-on-hover">
+                  <a routerLink="/approved-emp-list" title="View Approved Employee List" style="text-decoration: none; ">
+                    <div class="card shadow enlarge-on-hover" (click)=" hoverClick($event)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="card-icon rounded-circle btn btn-outline-info">
@@ -50,8 +50,8 @@
                   </a>
                 </div>
                 <div class="col-md-4" >
-                  <a routerLink="/approval-pending-emp-dtls" style="text-decoration: none; color: inherit;">
-                    <div class="card shadow enlarge-on-hover">
+                  <a routerLink="/approval-pending-emp-dtls" style="text-decoration: none; ">
+                    <div class="card shadow enlarge-on-hover" (click)=" hoverClick($event)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="card-icon rounded-circle btn btn-outline-danger">
@@ -101,7 +101,7 @@
                               <td>{{ tempChange.employee.mobile }}</td>
                               <td>{{ formatDate(tempChange.changed_at) }}</td>
                               <td>
-                                <a class="btn btn-outline-info" [routerLink]="'/changes-approval-dtls/' + tempChange.id">Details</a>
+                                <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/changes-approval-dtls/' + tempChange.id">Details</a>
                               </td>
                             </tr>
                             </tbody>

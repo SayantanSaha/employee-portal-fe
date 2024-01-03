@@ -6,6 +6,7 @@
 
 }
 .container-fluid{
+  margin-top: 2%;
   width: 90%;
 }
 header{
@@ -75,19 +76,30 @@ nav{
 }
  */
 
-.main-body{
+.main-body {
   position: relative;
-  z-index: 2;
-  margin-top:50px;
+  //min-height: 100vh;
+  //margin-top: 50px;
   //margin-bottom:50px;
   //background-color: #dbcebb;
+  //backgound-image: url('assets/images/pexels-henry-&-co-1939485.jpg');
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+
+
 }
+
 footer{
-  //background-color: #FFE6C3;
-  background-color: lightgray;
+  background-color: #FFE6C3;
+  //background-color: lightgray;
   position: relative;
   z-index: 900;
-  margin-bottom: 0px;
+  text-align: center;
+
 }
 
 .row{
@@ -343,3 +355,17 @@ a.star {
   padding: 0;
 }
 /* Footer Bottom Section css End */
+
+.enlarge-on-hover:hover {
+  box-shadow: 2px 2px 0.2px rgba(0, 0, 0, 0.7);
+  transform: scale(1.05);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  //background: linear-gradient(to top left, #e3e2e2,white);
+}
+
+.enlarge-on-hover.clicked  {
+  box-shadow: none;
+  transform: scale(0.9);
+  //transition: transform 0.3s ease, box-shadow 0.3s ease;
+  //background: linear-gradient(to top left, #e3e2e2,white);
+}

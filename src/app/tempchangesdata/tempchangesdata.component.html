@@ -34,7 +34,7 @@
             <td>{{ tempchanges.mobile}}</td>
             <td>{{ formatDate(tempchanges.changed_at)}}</td>
             <td>
-              <a class="btn btn-outline-info" [routerLink]="'/changes-approval-dtls/' + tempchanges.temp_id">Details</a>
+              <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/changes-approval-dtls/' + tempchanges.temp_id">Details</a>
             </td>
           </tr>
           </tbody>

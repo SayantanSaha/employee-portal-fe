@@ -39,7 +39,17 @@ export class HeaderComponent  {
 
 
   }
+  hoverClick(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
+    if (button) {
+      button.classList.add('clicked');
 
+      // Remove the class after a short delay to allow the shadow to disappear
+      setTimeout(() => {
+        button.classList.remove('clicked');
+      }, 200); // Adjust the delay (in milliseconds) based on your transition duration
+    }
+  }
   expandContract() {
     /*const el = document.getElementById("menu")
     el.classList.toggle('expanded')

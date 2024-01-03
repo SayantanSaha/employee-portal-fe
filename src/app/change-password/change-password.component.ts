@@ -90,7 +90,7 @@ export class ChangePasswordComponent implements OnInit {
       // data => console.log(data),
       // error => console.log(error)
 
-     
+
       data => {
         console.log(data);
         Swal.fire({
@@ -137,7 +137,7 @@ export class ChangePasswordComponent implements OnInit {
   //       title: 'Error',
   //       text: errorMessage,
   //     });
-  //   }else if(this.changepassword!.new_password !== null && !passPattern.test(this.changepassword.new_password)) { 
+  //   }else if(this.changepassword!.new_password !== null && !passPattern.test(this.changepassword.new_password)) {
   //     if()
   //     // Note the negation (!) here
   //     errorMessage = `Invalid New Password`;
@@ -147,7 +147,7 @@ export class ChangePasswordComponent implements OnInit {
   //       title: 'Error',
   //       text: errorMessage,
   //     });
-  //   }else if(this.changepassword!.re_new_password !== null && !passPattern.test(this.changepassword.re_new_password)) { 
+  //   }else if(this.changepassword!.re_new_password !== null && !passPattern.test(this.changepassword.re_new_password)) {
   //     // Note the negation (!) here
   //     errorMessage = `Invalid Re Enter Password`;
   //     this.validationErrors.push(errorMessage);
@@ -206,8 +206,8 @@ export class ChangePasswordComponent implements OnInit {
       if (index !== -1) {
         this.validationErrors.splice(index, 1);
       }
-    } 
-    
+    }
+
     if (this.changepassword!.new_password !== null && !passPattern.test(this.changepassword.new_password)) {
 
       this.validationErrors.push('Invalid New Password');
@@ -222,8 +222,8 @@ export class ChangePasswordComponent implements OnInit {
       if (index !== -1) {
         this.validationErrors.splice(index, 1);
       }
-    } 
-    
+    }
+
     if (this.changepassword!.re_new_password !== null && !passPattern.test(this.changepassword.re_new_password)) {
       this.validationErrors.push('Invalid Re-Enter Password');
       Swal.fire({
@@ -263,7 +263,17 @@ export class ChangePasswordComponent implements OnInit {
   }
 
 
+  hoverClick(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
+    if (button) {
+      button.classList.add('clicked');
 
+      // Remove the class after a short delay to allow the shadow to disappear
+      setTimeout(() => {
+        button.classList.remove('clicked');
+      }, 200); // Adjust the delay (in milliseconds) based on your transition duration
+    }
+  }
 
 
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,Renderer2 } from '@angular/core';
 
 import {EmployeeService} from "../employee.service";
 import {Authorisation} from "../model/Authorisation";
@@ -16,7 +16,8 @@ export class LoginComponent {
 
   constructor(
     private employeeService: EmployeeService,
-    private router: Router
+    private router: Router,
+    private renderer: Renderer2
   ) { }
 
   username: string='';
@@ -62,6 +63,36 @@ export class LoginComponent {
     sessionStorage.removeItem('authorisation');
     sessionStorage.removeItem('isLoggedIn');
   }
+  marginTop = '0%';
+  backgroundImage = 'url(assets/images/monkey_pwd.gif)';
 
+  openEye() {
+    this.renderer.setStyle(document.getElementById('animcon'), 'background-image', 'url(assets/images/monkey.gif)');
+    this.marginTop = '110%';
+
+  }
+
+  closeEye() {
+    this.renderer.setStyle(
+      document.getElementById('animcon'),
+      'background-image',
+      ' url(assets/images/img_6.png),url(assets/images/monkey_pwd.gif)'
+    );
+
+    this.marginTop = '0%';
+  }
+
+
+  hoverClick(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
+    if (button) {
+      button.classList.add('clicked');
+
+      // Remove the class after a short delay to allow the shadow to disappear
+      setTimeout(() => {
+        button.classList.remove('clicked');
+      }, 200); // Adjust the delay (in milliseconds) based on your transition duration
+    }
+  }
 
 }

@@ -1,7 +1,7 @@
 
 <div class="row">
   <div  [class.col-md-9]="urlid">
-    <div class="container-fluid" style="width: 100%">
+    <div  style="width: 100%">
 
       <div class="row">
         <div class="col-md-9" >
@@ -22,7 +22,7 @@
         </div>
 
         <div class="col-md-2" style="font-size: 200%; color: deeppink" *ngIf="!urlid">
-          <button class="btn btn-primary" [routerLink]="'/profile/edit'">
+          <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/profile/edit'">
             + add Relative/DomesticHelp
           </button>
         </div>
@@ -209,21 +209,21 @@
                               </td>
                               <td>
                                 <div class="col-md-6" style="text-align: right" *ngIf="eba_pass.photo_path && eba_pass.photo_path!==null">
-                                  <a  class="btn btn-primary" title="id proof" (click)="openFileInNewPage(i,j,'photo')" >
+                                  <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'photo')" >
                                     <i class="bi bi-eye"></i>
                                   </a>
                                 </div>
                               </td>
                               <td>
                                 <div class="col-md-6" style="text-align: right" *ngIf="eba_pass.sign_path && eba_pass.sign_path!==null">
-                                  <a  class="btn btn-primary" title="id proof" (click)="openFileInNewPage(i,j,'sign')" >
+                                  <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'sign')" >
                                     <i class="bi bi-eye"></i>
                                   </a>
                                 </div>
                               </td>
                               <td>
                                 <div class="col-md-6" style="text-align: right" *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path !==null">
-                                  <a  class="btn btn-primary" title="id proof" (click)="openFileInNewPage(i,j,'id')" >
+                                  <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'id')" >
                                     <i class="bi bi-eye"></i>
                                   </a>
                                 </div>
@@ -676,7 +676,7 @@
                 </div>
 
                 <h5 class="card-title" style=" color: saddlebrown">Domestic help's Vehicle Details
-                  <button type="button" *ngIf="editable && !urlid" class="btn btn-outline-info" (click)="addVehicle(i)">
+                  <button type="button" *ngIf="editable && !urlid" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addVehicle(i)">
                     Add vehicle
                   </button>
                 </h5>
@@ -754,7 +754,7 @@
                                 </div>
                               </td>
                               <td *ngIf="editable && !urlid">
-                                <button type="button" class="btn btn-outline-danger" (click)="removeVehicle(i,k)">
+                                <button type="button" class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeVehicle(i,k)">
                                   Remove
                                 </button>
                               </td>
@@ -779,7 +779,7 @@
           &nbsp;
         </div>
         <div class="col-md-2">
-          <button class="btn btn-primary" (click)="openUploadPopup()">
+          <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="openUploadPopup()">
             Upload details
           </button>
         </div>
@@ -791,13 +791,13 @@
         </div>
         <div class="col-md-6" style="color: red;text-align: right" *ngIf="editable && applyingforRelative && !urlid && employee && (!employee.relations || employee.relations.length == 0)">
           Family data is not inserted. Kindly insert details through
-          <button class="btn btn-primary" [routerLink]="'/profile/edit'">
+          <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/profile/edit'">
             Profile
           </button>
         </div>
         <div class="col-md-6" style="color: red;text-align: right" *ngIf="editable && !applyingforRelative && !urlid && employee && (!employee.servants || employee.servants.length == 0)">
           Domestic Help data is not inserted. Kindly insert details through
-          <button class="btn btn-primary" [routerLink]="'/profile/edit'">
+          <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/profile/edit'">
             Profile
           </button>
         </div>
@@ -850,7 +850,7 @@
                             <td>
                               <div class="input-group">
                                 <label [for]="'photo'+i+j" class="upload-icon-label" *ngIf="editable" title="Upload Photo">
-                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
+                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                                 </label>
                                 <input type="file" class="custom-file-input" [id]="'photo'+i+j" style="display: none"
                                        (change)="onProfilePhotoSelected($event,i,j,0,'photo_path')" *ngIf="editable"
@@ -863,7 +863,7 @@
                             <td>
                               <div class="input-group">
                                 <label [for]="'signature'+ i + j" class="upload-icon-label" *ngIf="editable" title="signature">
-                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
+                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                                 </label>
                                 <input type="file" class="custom-file-input" [id]="'signature' + i + j" style="display: none"
                                        (change)="onProfilePhotoSelected($event,i,j,0,'signature')" *ngIf="editable"
@@ -876,7 +876,7 @@
                             <td>
                               <div class="input-group">
                                 <label [for]="'idPath'+ i + j" class="upload-icon-label" *ngIf="editable" title="signature">
-                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
+                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                                 </label>
                                 <input type="file" class="custom-file-input" [id]="'idPath' + i + j" style="display: none"
                                        (change)="onProfilePhotoSelected($event,i,j,0,'id_proof_path')" *ngIf="editable"
@@ -926,7 +926,7 @@
                                 <div class="input-group">
                                   <label [for]="'photo'+i+j" class="upload-icon-label" *ngIf="editable"
                                          title="Upload Photo">
-                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
+                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                                   </label>
                                   <input type="file" class="custom-file-input" [id]="'photo'+i+j"
                                          style="display: none" (change)="onProfilePhotoSelected($event,i,j,0,'photo_path')"
@@ -939,7 +939,7 @@
                                 <div class="input-group">
                                   <label [for]="'signature'+ i + j" class="upload-icon-label" *ngIf="editable"
                                          title="signature">
-                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
+                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
 
                                     <input type="file" class="custom-file-input" [id]="'signature' + i + j"
                                            style="display: none" (change)="onProfilePhotoSelected($event,i,j,0,'signature')"
@@ -953,7 +953,7 @@
                                 <div class="input-group">
                                   <label [for]="'idPath'+ i + j" class="upload-icon-label" *ngIf="editable"
                                          title="signature">
-                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
+                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
 
                                     <input type="file" class="custom-file-input" [id]="'idPath' + i + j"
                                            style="display: none" (change)="onProfilePhotoSelected($event,i,j,0,'id_proof_path')"
@@ -990,7 +990,7 @@
                                     <div class="input-group">
                                       <label [for]="'photo'+i+j+k" class="upload-icon-label" *ngIf="editable"
                                              title="Upload Photo">
-                                        <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
+                                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                                       </label>
                                       <input type="file" class="custom-file-input" [id]="'photo'+i+j+k"
                                              style="display: none" (change)="onProfilePhotoSelected($event,i,j,k,'photo_path')"
@@ -1003,7 +1003,7 @@
                                     <div class="input-group">
                                       <label [for]="'signature'+ i + j+k" class="upload-icon-label" *ngIf="editable"
                                              title="signature">
-                                        <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
+                                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
 
                                         <input type="file" class="custom-file-input" [id]="'signature' + i + j +k"
                                                style="display: none" (change)="onProfilePhotoSelected($event,i,j,k,'signature')"
@@ -1017,7 +1017,7 @@
                                     <div class="input-group">
                                       <label [for]="'idPath'+ i + j+k" class="upload-icon-label" *ngIf="editable"
                                              title="signature">
-                                        <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
+                                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
 
                                         <input type="file" class="custom-file-input" [id]="'idPath' + i + j +k"
                                                style="display: none" (change)="onProfilePhotoSelected($event,i,j,k,'id_proof_path')"
@@ -1041,11 +1041,11 @@
                   <div class="col" style="color: red" >
                     Photograph & Signature can be captured For Your Application at Gate No-17,35 & 31
                   </div>
-                  <button type="button" class="btn btn-outline-secondary" (click)="closeUploadPopup()">
+                  <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)" (click)="closeUploadPopup()">
                     Close
                   </button>
 
-                  <button type="button" class="btn btn-outline-info" (click)="applyEba()">
+                  <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="applyEba()">
                     Submit Form
                   </button>
                 </div>
@@ -1071,14 +1071,15 @@
           <div class="col-md-6" style="text-align: right">
             <label class="upload-icon-label" [for]="'file_path'"
                    title="Upload file">
-              <i class="bi bi-cloud-arrow-up btn btn-outline-success"></i>
+              <i class="bi bi-cloud-arrow-up btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)"></i>
             </label>
           </div>
 
-          <div class="col-md-6" style="text-align: left">
+<!--          ngif picexist-->
+          <div class="col-md-6" style="text-align: left" *ngIf="file_path">
             <label class="upload-icon-label"
                    title="remove file">
-              <i class="bi bi-trash3 btn btn-outline-danger" (click)="removeFile()" ></i>
+              <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile()" ></i>
             </label>
           </div>
 
@@ -1091,10 +1092,10 @@
         </div>
         <div class="row">
           <div class="col-6" style="text-align: right">
-            <button type="submit" class="btn btn-success" name="submit" value="Approve" (click)="approveapplication()" >Approve</button>
+            <button type="submit" class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Approve" (click)="approveapplication()" >Approve</button>
           </div>
           <div class="col-6" style="text-align: left">
-            <button type="submit" class="btn btn-danger" name="submit" value="Return" (click)="returnapplication()">Return</button>
+            <button type="submit" class="btn btn-danger enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Return" (click)="returnapplication()">Return</button>
           </div>
         </div>
       </div>
@@ -1114,7 +1115,7 @@
             <strong>Note #{{j+1}}</strong>
           </div>
           <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">
-            <a  class="btn btn-primary" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >
+            <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >
               <i class="bi bi-eye"></i>
             </a>
           </div>

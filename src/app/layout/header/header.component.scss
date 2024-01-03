@@ -1,0 +1,13 @@
+.enlarge-hover:hover {
+  //box-shadow: 2px 2px 0.2px rgba(0, 0, 0, 0.7);
+  //transform: scale(1.05);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  //background: linear-gradient(to top left, #e3e2e2,white);
+}
+
+.enlarge-hover.clicked  {
+  box-shadow: none;
+  transform: scale(0.9);
+  //transition: transform 0.3s ease, box-shadow 0.3s ease;
+  //background: linear-gradient(to top left, #e3e2e2,white);
+}

@@ -15,7 +15,7 @@
 
                 <div class="col-md-3">
                   <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">
-                    <div class="card shadow enlarge-on-hover">
+                    <div class="card shadow enlarge-on-hover" (click)=" hoverClick($event)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="card-icon rounded-circle btn btn-outline-warning">
@@ -37,7 +37,7 @@
 
                 <div class="col-md-3" >
                   <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">
-                    <div class="card shadow enlarge-on-hover">
+                    <div class="card shadow enlarge-on-hover" (click)=" hoverClick($event)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="card-icon rounded-circle btn btn-outline-success">
@@ -60,7 +60,7 @@
 
                 <div class="col-md-3" >
                   <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">
-                    <div class="card shadow enlarge-on-hover">
+                    <div class="card shadow enlarge-on-hover" (click)=" hoverClick($event)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="card-icon rounded-circle btn btn-outline-danger">
@@ -83,7 +83,7 @@
 
                 <div class="col-md-3" >
                   <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">
-                    <div class="card shadow enlarge-on-hover">
+                    <div class="card shadow enlarge-on-hover" (click)=" hoverClick($event)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="card-icon rounded-circle btn btn-outline-info">
@@ -136,7 +136,7 @@
                               <td>{{ ebaapplication.employee.mobile }}</td>
                               <td>{{ formatDate(ebaapplication.created_at) }}</td>
                               <td>
-                                <a class="btn btn-outline-info" [routerLink]="'/eba-form/' + 'view/'+'EBA/'+ebaapplication.id">Details</a>
+                                <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/eba-form/' + 'view/'+'EBA/'+ebaapplication.id">Details</a>
                               </td>
                             </tr>
                             </tbody>

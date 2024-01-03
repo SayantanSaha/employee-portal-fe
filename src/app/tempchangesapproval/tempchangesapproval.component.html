@@ -9,7 +9,7 @@
         </div>
 
         <div class="float-end">
-          <a class="btn btn-outline-info" [routerLink]="'/approval-pending-emp-dtls'">
+          <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/approval-pending-emp-dtls'">
             Back
           </a>
         </div>
@@ -49,8 +49,8 @@
                           <br />
 
 
-                          <a href="{{ apiUrl }}getFile/{{ basicDetails.changed_data.aadhar_card }}"
-                             class="btn btn-outline-danger"
+                          <a class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
+                             href="{{ apiUrl }}getFile/{{ basicDetails.changed_data.aadhar_card }}"
                              alt="Aadhar Card" target="_blank">
                             <i class="bi bi-eye"></i>
                           </a>
@@ -815,8 +815,8 @@
                               <td>
                                 <ng-container
                                   *ngIf="basicDetails.old_table_data.pivot.order_path; else naBlock">
-                                  <a href="{{ apiUrl }}getFile/{{ basicDetails.old_table_data.pivot.order_path }}"
-                                     class="btn btn-outline-info"
+                                  <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
+                                     href="{{ apiUrl }}getFile/{{ basicDetails.old_table_data.pivot.order_path }}"
                                      alt="Order File" target="_blank">
                                     <i class="bi bi-eye"></i>
                                   </a>
@@ -921,8 +921,8 @@
                                 [style.color]="changedDataDetails.order_path ? 'red' : 'inherit'">
                                 <ng-container
                                   *ngIf="changedDataDetails.order_path; else naBlock">
-                                  <a href="{{ apiUrl }}getFile/{{ changedDataDetails.order_path }}"
-                                     class="btn btn-outline-danger"
+                                  <a class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
+                                     href="{{ apiUrl }}getFile/{{ changedDataDetails.order_path }}"
                                      alt="Order File" target="_blank">
                                     <i class="bi bi-eye"></i>
                                   </a>
@@ -993,11 +993,11 @@
                               <td>
                                 <ng-container
                                   *ngIf="basicDetails.old_table_data.pivot.order_path; else naBlock">
-                                  <a href="{{ apiUrl }}getFile/{{ basicDetails.old_table_data.pivot.order_path }}"
-                                     class="btn btn-outline-info"
+                                  <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
+                                     href="{{ apiUrl }}getFile/{{ basicDetails.old_table_data.pivot.order_path }}"
                                      alt="Order File" target="_blank">
                                     <i class="bi bi-eye"></i>
-                                  </a>
+                                  </a >
                                 </ng-container>
                                 <ng-template #naBlock>
                                   N/A
@@ -1110,8 +1110,8 @@
                                 [style.color]="changedDataDetails.order_path ? 'red' : 'inherit'">
                                 <ng-container
                                   *ngIf="changedDataDetails.order_path; else naBlock">
-                                  <a href="{{ apiUrl }}getFile/{{ changedDataDetails.order_path }}"
-                                     class="btn btn-outline-danger"
+                                  <a class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
+                                     href="{{ apiUrl }}getFile/{{ changedDataDetails.order_path }}"
                                      alt="Order File" target="_blank">
                                     <i class="bi bi-eye"></i>
                                   </a>
@@ -1458,12 +1458,12 @@
                     <ng-container
                       *ngIf="specificDetails.is_verified === null; else alreadyApprovedBlock">
                       <div class="float-start" style="margin-left: 40%;">
-                        <button class="btn btn-outline-primary"
+                        <button class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
                                 (click)="appproveEmpChangesDetails()">Approve</button>
                       </div>
                       <div class="float-start">&nbsp;</div>
                       <div class="float-start">
-                        <button class="btn btn-outline-danger"
+                        <button class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                 (click)="rejectEmpChangesDetails()">Reject</button>
                       </div>
                     </ng-container>

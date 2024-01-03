@@ -36,12 +36,12 @@
             <!-- <td>{{ templist.email_id }}</td> -->
             <td>{{ templist.mobile }}</td>
             <td>
-              <a class="btn btn-outline-info" [routerLink]="'/profile/edit/' + templist.id"  title="Edit Employee Details">
+              <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/profile/edit/' + templist.id"  title="Edit Employee Details">
                 <i class="bi bi-pencil"></i>
               </a>
             </td>
             <td>
-              <a class="btn btn-outline-info" [routerLink]="'/profile/view/'+ templist.id" title="View Employee Details">
+              <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/profile/view/'+ templist.id" title="View Employee Details">
                 <i class="bi bi-eye"></i>
               </a>
             </td>

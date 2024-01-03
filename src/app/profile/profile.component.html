@@ -8,12 +8,12 @@
         </div>
         <div class="float-end">
           <div *ngIf="editable">
-            <a class="btn btn-outline-info" [routerLink]="'/dashboard'">
+            <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/dashboard'">
               Home
             </a>
           </div>
           <div *ngIf="!editable">
-            <a class="btn btn-outline-primary" href="{{baseUrl}}/profile/edit">
+            <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)" href="{{baseUrl}}/profile/edit">
               EDIT
             </a>
           </div>
@@ -295,11 +295,11 @@
                           <br /><br />
                           <label for="profile_photo" class="upload-icon-label" *ngIf="editable"
                                  title="Upload Profile Photo">
-                            <i class="bi bi-cloud-arrow-up btn btn-outline-info"></i>
+                            <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                           </label>
                           &nbsp;&nbsp;
                           <label for="sign_path" class="upload-icon-label" *ngIf="editable" title="Upload Signature">
-                            <i class="bi bi-cloud-arrow-up btn btn-outline-danger"></i>
+                            <i class="bi bi-cloud-arrow-up btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"></i>
                           </label>
 
                           <input type="file" class="custom-file-input" id="profile_photo"
@@ -616,7 +616,7 @@
                     <div class="card shadow">
                       <div class="card-body">
                         <div *ngIf="editable" style="text-align: center;">
-                          <button class="btn btn-outline-primary" (click)="savePrimaryDetails()">
+                          <button class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="savePrimaryDetails()">
                             Save Changes
                           </button>
                         </div>
@@ -643,7 +643,7 @@
                 <div class="row">
                   <div class="col-md-10"></div>
                   <div class="col-md-2" style="text-align: right">
-                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="addDesignation()">
+                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addDesignation()">
                       +Add Designation
                     </button>
                   </div>
@@ -744,9 +744,9 @@
                             </td>
                             <td>
                               <div class="d-grid gap-2 d-md-block" *ngIf="employee!.designations && editable">
-                                <label for="order_file_desg_{{ i }}" class="upload-icon-label btn btn-outline-info"
+                                <label for="order_file_desg_{{ i }}" class="upload-icon-label btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
                                        title="Upload Order File">
-                                  <i class="bi bi-cloud-arrow-up"></i>
+                                  <i class="bi bi-cloud-arrow-up "></i>
                                 </label>
 
                                 <input type="file" class="custom-file-input" [id]="'order_file_desg_' + i"
@@ -757,9 +757,10 @@
                               <div class="d-grid gap-2 d-md-block">
                                 <ng-container
                                   *ngIf="employee!.designations && employee!.designations[i].pivot!.order_path; else naBlock">
-                                  <a href="{{apiUrl}}getFile/{{employee!.designations[i].pivot!.order_path}}"
-                                     class="btn btn-outline-primary" title="Order File" target="_blank">
-                                    <i class="bi bi-eye"></i>
+                                  <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                     href="{{apiUrl}}getFile/{{employee!.designations[i].pivot!.order_path}}"
+                                      title="Order File" target="_blank">
+                                    <i class="bi bi-eye "></i>
                                   </a>
                                 </ng-container>
                                 <ng-template #naBlock>
@@ -769,10 +770,10 @@
                             </td>
                             <td *ngIf="editable && (changesPromotionMade[i]) ">
                               <button *ngIf="desg!.pivot!.deleted_at==null" type="button"
-                                      class="btn btn-outline-success" (click)="savePromotion(i)">Save</button>
+                                      class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)" (click)="savePromotion(i)">Save</button>
                             </td>
                             <td *ngIf="editable">
-                              <button *ngIf="desg!.pivot!.id==-1" type="button" class="btn btn-outline-danger"
+                              <button *ngIf="desg!.pivot!.id==-1" type="button" class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                       (click)="deleteRecord(i)">Delete</button>
                             </td>
                           </tr>
@@ -799,7 +800,7 @@
                 <div class="row">
                   <div class="col-md-10"></div>
                   <div class="col-md-2" style="text-align: right">
-                    <button type="button" class="btn btn-outline-info" (click)="addDivision()">
+                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addDivision()">
                       +Add Division
                     </button>
                   </div>
@@ -911,9 +912,9 @@
                             </td>
                             <td>
                               <div class="d-grid gap-2 d-md-block" *ngIf="employee!.divisions && editable">
-                                <label for="order_file_div_{{ i }}" class="upload-icon-label btn btn-outline-info"
+                                <label for="order_file_div_{{ i }}" class="upload-icon-label btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
                                        title="Upload Order File">
-                                  <i class="bi bi-cloud-arrow-up"></i>
+                                  <i class="bi bi-cloud-arrow-up "></i>
                                 </label>
 
                                 <input type="file" class="custom-file-input" [id]="'order_file_div_' + i"
@@ -924,9 +925,10 @@
                               <div class="d-grid gap-2 d-md-block">
                                 <ng-container
                                   *ngIf="employee!.divisions && employee!.divisions[i].pivot!.order_path; else naBlock">
-                                  <a href="{{apiUrl}}getFile/{{employee!.divisions[i].pivot!.order_path}}"
-                                     class="btn btn-outline-primary" title="Order File" target="_blank">
-                                    <i class="bi bi-eye"></i>
+                                  <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                     href="{{apiUrl}}getFile/{{employee!.divisions[i].pivot!.order_path}}"
+                                     title="Order File" target="_blank">
+                                    <i class="bi bi-eye "></i>
                                   </a>
                                 </ng-container>
                                 <ng-template #naBlock>
@@ -936,11 +938,11 @@
                             </td>
                             <td *ngIf="editable && (changesPostingMade[i]) ">
                               <button *ngIf="div!.pivot!.deleted_at==null" type="button"
-                                      class="btn btn-outline-success" (click)="saveDivision(i)"
+                                      class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)" (click)="saveDivision(i)"
                                       [disabled]="!changesPostingMade">Save</button>
                             </td>
                             <td *ngIf="editable">
-                              <button *ngIf="div!.pivot!.id==-1" type="button" class="btn btn-outline-danger"
+                              <button *ngIf="div!.pivot!.id==-1" type="button" class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                       (click)="deleteDivision(i)">Delete</button>
                             </td>
                           </tr>
@@ -966,12 +968,12 @@
                 <div class="row">
                   <div class="col-md-9"></div>
                   <div class="col-md-3" style="text-align: right">
-                    <button type="button" class="btn btn-outline-info" (click)="addMember()">
+                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addMember()">
                       +Add Relative
                     </button>
                     <label class="upload-icon-label" style="margin-left: 3%"
                            title="RB quarter Exist?" (click)="pullEbaPopup()">
-                      <i class="bi bi-question-circle btn btn-warning"></i>
+                      <i class="bi bi-question-circle btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"></i>
                     </label>
                   </div>
                 </div>
@@ -1096,11 +1098,11 @@
                             </td>
                             <td *ngIf="editable &&  (changesRelationMade[i])">
                               <button *ngIf="member!.pivot!.deleted_at==null" type="button"
-                                      class="btn btn-outline-success" (click)="saveRelationDetails(i)"
+                                      class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)" (click)="saveRelationDetails(i)"
                                       [disabled]="!changesRelationMade">Save</button>
                             </td>
                             <td *ngIf="editable">
-                              <button *ngIf="member!.pivot!.id==-1" type="button" class="btn btn-outline-danger"
+                              <button *ngIf="member!.pivot!.id==-1" type="button" class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                       (click)="deleteMember(i)">Delete</button>
                             </td>
                           </tr>
@@ -1162,11 +1164,11 @@
                       </div>
 
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" (click)="closeEbaPopup()">
+                        <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)" (click)="closeEbaPopup()">
                           Close
                         </button>
 
-                        <button type="button" class="btn btn-outline-info" >
+                        <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" >
                           Pull
                         </button>
                       </div>
@@ -1190,7 +1192,7 @@
                 <div class="row">
                   <div class="col-md-10"></div>
                   <div class="col-md-2" style="text-align: right">
-                    <button type="button" class="btn btn-outline-info" (click)="addVehicle()">
+                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addVehicle()">
                       +Add Vehicle
                     </button>
                   </div>
@@ -1251,12 +1253,12 @@
 
                             <td *ngIf="editable &&  (changesVehicle[i])">
                               <button *ngIf="vehicle!.deleted_at==null" type="button"
-                                      class="btn btn-outline-success" (click)="saveVehicle(i)"
+                                      class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)" (click)="saveVehicle(i)"
                                       [disabled]="!changesVehicle">Save</button>
                             </td>
 
                             <td *ngIf="editable">
-                              <button *ngIf="vehicle!.id==-1" type="button" class="btn btn-outline-danger"
+                              <button *ngIf="vehicle!.id==-1" type="button" class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                       (click)="removeVehicle(i)">Delete</button>
                             </td>
                           </tr>
@@ -1282,7 +1284,7 @@
                 <div class="row">
                   <div class="col-md-9"></div>
                   <div class="col-md-3" style="text-align: right">
-                    <button type="button" class="btn btn-outline-info" (click)="addServant()">
+                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addServant()">
                       +Add Domestic Help
                     </button>
                   </div>
@@ -1406,12 +1408,12 @@
 
                               <td *ngIf="editable &&  (changesServantMade[i])">
                                 <button *ngIf="servant!.deleted_at==null" type="button"
-                                        class="btn btn-outline-success" (click)="saveServant(i)"
+                                        class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)" (click)="saveServant(i)"
                                         [disabled]="!changesServantMade">Save</button>
                               </td>
 
                               <td *ngIf="editable">
-                                <button *ngIf="servant!.id==-1" type="button" class="btn btn-outline-danger"
+                                <button *ngIf="servant!.id==-1" type="button" class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                         (click)="removeServant(i)">Delete</button>
                               </td>
 
@@ -1427,7 +1429,7 @@
                                   </div>
                                   <div class="float-end" *ngIf="editable ">
                                     <button *ngIf="servant!.deleted_at==null" type="button"
-                                            class="btn btn-outline-info" (click)="addServantFamily(i)">Add_Family</button>
+                                            class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addServantFamily(i)">Add_Family</button>
                                   </div>
                                 </div>
                                 <div class="card-body">
@@ -1506,12 +1508,12 @@
 
                                       <td *ngIf="editable &&  (changesServantRelation[k])">
                                         <button *ngIf="servantRelative!.deleted_at==null" type="button"
-                                                class="btn btn-outline-success" (click)="saveServantRel(i,k)"
+                                                class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)" (click)="saveServantRel(i,k)"
                                                 [disabled]="!changesServantRelation">Save</button>
                                       </td>
 
                                       <td *ngIf="editable">
-                                        <button *ngIf="servantRelative!.id==-1" type="button" class="btn btn-outline-danger"
+                                        <button *ngIf="servantRelative!.id==-1" type="button" class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                                 (click)="removeServantRel(i,k)">Delete</button>
                                       </td>
                                     </tr>

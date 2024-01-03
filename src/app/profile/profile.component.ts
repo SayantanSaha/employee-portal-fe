@@ -271,8 +271,8 @@ export class ProfileComponent implements OnInit{
     return districts;
   }
 
-  addDesignation() {
-    const button = document.querySelector('.enlarge-on-hover');
+  hoverClick(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
     if (button) {
       button.classList.add('clicked');
 
@@ -281,6 +281,10 @@ export class ProfileComponent implements OnInit{
         button.classList.remove('clicked');
       }, 200); // Adjust the delay (in milliseconds) based on your transition duration
     }
+  }
+
+  addDesignation() {
+
 
     let d = new Designation();
     d.pivot.employee_id = this.employee?.id!;
