@@ -1497,7 +1497,7 @@
 
                                       <td>
                                         <input *ngIf="editable" class="form-control" type="text"
-                                               [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.rel_name" placeholder="Name"
+                                               [(ngModel)]="employee.servants[i].relations?.[k]?.pivot?.rel_name" placeholder="Name"
                                                (ngModelChange)="onInputChangeMap('ServantRelation',k)">
 
                                         <span *ngIf="!editable">{{ servantRelative.pivot!.rel_name }}</span>
@@ -1505,7 +1505,7 @@
 
                                       <td>
                                         <select *ngIf=" editable" class="form-control"
-                                                [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.gender"
+                                                [(ngModel)]="employee.servants[i].relations?.[k]?.pivot?.gender"
                                                 (ngModelChange)="onInputChangeMap('ServantRelation', k)">
                                           <option value="null">--Select Gender--</option>
                                           <option [ngValue]="'M'">Male</option>
@@ -1526,7 +1526,7 @@
 
                                       <td>
                                         <select *ngIf=" editable" class="form-control"
-                                                [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.relation_id" [compareWith]="compareRelation"
+                                                [(ngModel)]="employee.servants[i].relations?.[k]?.pivot?.relation_id" [compareWith]="compareRelation"
                                                 (ngModelChange)="onInputChangeMap('ServantRelation', k)">
                                           <option value="">--Select Relation--</option>
                                           <option [ngValue]="relationtype.id" *ngFor="let relationtype of relationstypelist">
@@ -1538,7 +1538,7 @@
 
                                       <td>
                                         <input *ngIf="editable" class="form-control" type="text"
-                                               [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.rel_mobile_no"  placeholder="Mobile No."
+                                               [(ngModel)]="employee.servants[i].relations?.[k]?.pivot?.rel_mobile_no"  placeholder="Mobile No."
                                                maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('ServantRelation', k)" (input)="onrelMobileNoInput($event, i,k)">
 
                                         <span *ngIf="!editable">{{servantRelative!.pivot!.rel_mobile_no}}</span>
@@ -1546,7 +1546,7 @@
 
                                       <td>
                                         <input *ngIf=" editable" class="form-control" type="date"
-                                               [(ngModel)]="employee.servants[i].relations?.[k]?.pivot!.rel_dob"
+                                               [(ngModel)]="employee.servants[i].relations?.[k]?.pivot?.rel_dob"
                                                (ngModelChange)="onInputChangeMap('ServantRelation', i)" [max]="maxDate">
 
                                         <span *ngIf="!editable">{{formatDate(servantRelative!.pivot!.rel_dob)}}</span>
