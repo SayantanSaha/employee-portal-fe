@@ -17,7 +17,6 @@ import {Idcards} from "../model/Idcards";
 import {Vehicles} from "../model/Vehicles";
 import {fileToBase64} from "../profile/fileToBase64";
 import { Router } from '@angular/router';
-// import {DatePipe} from "@angular/common";
 declare var jQuery: any;
 
 @Component({
@@ -25,17 +24,18 @@ declare var jQuery: any;
   templateUrl: './eba-form.component.html',
   styleUrls: ['./eba-form.component.scss']
 })
+
 export class EbaFormComponent {
   servantDetails: any[] = [];
   memberEbaPasses: any[] = [];
 
   baseUrl: string = '';
   minDate : string;
+
   constructor(
-      private employeeService: EmployeeService,
+    @Inject('BASE_URL') baseUrl: string,private employeeService: EmployeeService,
       private route: ActivatedRoute,
       private router: Router,
-      @Inject('BASE_URL') baseUrl: string
   ) {
     this.baseUrl = baseUrl;
     const today = new Date();
@@ -187,19 +187,17 @@ export class EbaFormComponent {
     this.urlid = status;
   }
 
-  onSelect(value: string) {
-    const selectedPath = '/eba-form/edit/' + value + '/view';
-    this.router.navigate([selectedPath]).then(() => {
-      window.location.reload();
-    });
-  }
-
   getInitialRadioValue(value: string): boolean {
     // Check if the current URL contains the specified value
     return this.router.url.includes(value);
   }
 
+  onSelect(event: any) {
+    const selectedValue = event.target.value;
 
+      window.location.href = selectedValue;
+
+  }
   getActiveDesignations(designations: Designation[]): string {
     const activeDesignations = designations
         .filter(designation => designation.pivot.active)
