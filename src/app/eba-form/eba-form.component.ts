@@ -187,17 +187,19 @@ export class EbaFormComponent {
     this.urlid = status;
   }
 
+  onSelect(value: string) {
+    const selectedPath = '/eba-form/edit/' + value + '/view';
+    this.router.navigate([selectedPath]).then(() => {
+      window.location.reload();
+    });
+  }
+
   getInitialRadioValue(value: string): boolean {
     // Check if the current URL contains the specified value
     return this.router.url.includes(value);
   }
 
-  onSelect(event: any) {
-    const selectedValue = event.target.value;
 
-      window.location.href = selectedValue;
-
-  }
   getActiveDesignations(designations: Designation[]): string {
     const activeDesignations = designations
         .filter(designation => designation.pivot.active)
