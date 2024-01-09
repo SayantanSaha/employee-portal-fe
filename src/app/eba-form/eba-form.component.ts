@@ -183,21 +183,22 @@ export class EbaFormComponent {
     this.applyingforRelative = status;
   }
 
+  onSelectRelative(){
+    this.applyingforRelative = true;
+  }
+
+  onSelectServant(){
+    this.applyingforRelative = false;
+  }
+
   letverify(status:boolean){
     this.urlid = status;
   }
 
-  getInitialRadioValue(value: string): boolean {
-    // Check if the current URL contains the specified value
-    return this.router.url.includes(value);
-  }
 
-  onSelect(event: any) {
-    const selectedValue = event.target.value;
 
-      window.location.href = selectedValue;
 
-  }
+
   getActiveDesignations(designations: Designation[]): string {
     const activeDesignations = designations
         .filter(designation => designation.pivot.active)
@@ -303,9 +304,6 @@ export class EbaFormComponent {
       // @ts-ignore
       this.employee.servants[i].eba_passes[J].reference_1_phone_no = numericValue;
     }
-
-
-
   }
 
   onMobileNo(event: any, i: number, J: number): void {

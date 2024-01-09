@@ -11,16 +11,15 @@
         </div>
           <div *ngIf="editable && !urlid">
             <label>
-              <input type="radio" name="relationType" [value]="baseUrl + '/eba-form/edit/relative/view'" [checked]="getInitialRadioValue('relative')" (change)="onSelect($event)">
-              Relative
+              <input type="radio" name="relationType"  (click)="onSelectRelative()">
+              Family
             </label>
 
             <label style="padding-left: 1%">
-              <input type="radio" name="relationType" [value]="baseUrl + '/eba-form/edit/domestichelp/view'" [checked]="getInitialRadioValue('domestichelp')" (change)="onSelect($event)">
+              <input type="radio" name="relationType"  (click)="onSelectServant()">
               Domestic Help
             </label>
           </div>
-
         </div>
 
         <div class="col-md-2" style="font-size: 200%; color: deeppink" *ngIf="!urlid">

@@ -173,10 +173,13 @@ export class ProfileComponent implements OnInit{
   }
 
 
-  setEditable(status:boolean){
+  setEditable( status:boolean){
     this.editable = status;
   }
 
+  setEdit(){
+    this.editable = true;
+  }
 
   compareState(oneState:State,othState:State): boolean{
     if(oneState==null && othState==null)
