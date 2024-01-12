@@ -1,1 +1,51 @@
-<p>eba-form-list works!</p>
+<div class="container">
+  <div class="card shadow">
+    <div class="card-header">
+      <div class="card-title">
+        <b>Application List</b>
+      </div>
+    </div>
+    <div class="card-body">
+      <div style="padding: 1%">
+        <div class="row mb-12">
+          <table class="table table-stripped">
+            <thead>
+            <tr>
+              <th>Sl No.</th>
+              <th>Application</th>
+              <th>Name</th>
+              <th>ID Card</th>
+              <th>Applied Date</th>
+              <th>Status</th>
+              <th colspan="2">Action</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="applicationList ">
+            <tr *ngFor="let application of applicationList; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>EBA Application</td>
+              <td *ngIf="application?.employee.emp_name ">{{ application?.employee.emp_name }}</td>
+              <td *ngIf="application?.id_cards ">{{getActiveIdCard(application.id_cards)}}</td>
+              <td *ngIf="application?.created_at ">{{ application.created_at |  date:'dd-MM-yyyy' }}</td>
+              <td>
+                <div *ngIf="application?.active == true" style="color: green">Approved</div>
+                <div *ngIf="application?.active == false" style="color: red">Rejected</div>
+                <div *ngIf="application?.active === null " style="color: blue">
+                  With {{getActiveRole(application.roles)}}
+                </div>
+              </td>
+              <td>
+<!--                <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/eba-form/' + 'view/'+'EBA/'+ebaPending.id">Details</a>-->
+                <div class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="getform(i)" title="View Employee Details">
+                  <i class="bi bi-eye"></i>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <!-- Pagination Controls -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component  } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import {EmployeeService} from "../employee.service";
-
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-ebapending',
@@ -14,13 +14,21 @@ export class EbapendingComponent {
 
   constructor(
     private employeeService: EmployeeService,
-    private datePipe: DatePipe, // Inject the DatePipe here
+    private datePipe: DatePipe,
+    private route: ActivatedRoute, private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.employeeService.getebaData().subscribe(data => {
-      this.ebaPendingList = data
-    });
+    this.ebaPendingList = history.state.data;
+    console.log(this.ebaPendingList);
+    // const state = this.router.getCurrentNavigation()?.extras.state;
+    // if (state && state['ebaPendingList']) {
+    //   this.ebaPendingList = state['ebaPendingList'];
+    //   console.log('Eba Pending List:', this.ebaPendingList);
+    // } else {
+    //   // Handle the case where ebaPendingList is not available
+    //   console.error('Eba Pending List not found in route state');
+    // }
   }
   formatDate(date: string | Date): string {
     return this.datePipe.transform(date, 'dd/MM/YYYY') || 'N/A';

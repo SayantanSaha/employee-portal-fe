@@ -21,6 +21,7 @@ import { ChangePassword } from "./model/ChangePassword";
 import {Servants} from "./model/Servants";
 import {ServantRel} from "./model/ServantRel";
 import {Vehicles} from "./model/Vehicles";
+import {Search} from "./model/Search";
 
 
 @Injectable({
@@ -272,7 +273,12 @@ export class EmployeeService {
     return this.http.get<any[]>(this.apiUrl+"ebadashboard",{headers:this.createHeader()});
   }
 
-  getebaData(): Observable<any[]>{
+  searchEba(searchEba: Search): Observable<any> {
+    return this.http.post<any>(this.apiUrl+"searchEba",searchEba,{headers:this.createHeader()});
+  }
+
+
+  applicationByApplicant(): Observable<any[]>{
     return this.http.get<any[]>(this.apiUrl+"Eba",{headers:this.createHeader()});
   }
 

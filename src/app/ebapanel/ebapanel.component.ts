@@ -5,6 +5,7 @@ import {Employee} from "../model/Employee";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {User} from "../model/User";
+import {Search} from "../model/Search";
 
 
 @Component({
@@ -19,6 +20,7 @@ export class EbapanelComponent implements OnInit{
   ebadashboardData: any;
   empTempDetails : any={};
   employee: Employee | null = null;
+  search: Search = new Search();
 
 
   constructor(
@@ -70,6 +72,26 @@ export class EbapanelComponent implements OnInit{
 
   formatDate(date: string | Date): string {
     return this.datePipe.transform(date, 'dd/MM/YYYY') || 'N/A';
+  }
+
+  searchEba(i: number) {
+
+    // @ts-ignore
+    this.search.role = i;
+    if (this.search) {
+      this.employeeService.searchEba(this.search).subscribe(
+        (data) => {
+          console.log('Search successful:', data);
+          this.router.navigate(['eba-pending'], { state: {  data } });
+        },
+        (error) => {
+          console.error('Search error:', error);
+        },
+        () => {
+          console.log('Search completed');
+        }
+      );
+    }
   }
 
 }

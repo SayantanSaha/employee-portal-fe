@@ -5,6 +5,7 @@ import {BaseLayoutComponent} from "./base-layout/base-layout.component";
 import {AuthGuard} from "../auth/auth.guard";
 import {ebaFormModule} from "../eba-form/eba-form.module";
 import {ebaPendingModule} from "../ebapending/ebapending.module";
+import {EbaFormListModule} from "../eba-form-list/eba-form-list.module";
 
 
 
@@ -44,6 +45,7 @@ const routes: Routes = [
       { path: 'eba-form-view',loadChildren: () => import('../ebaformview/ebaformview.module').then(d => d.EbaformviewModule), canActivate: [AuthGuard]},
       { path: 'eba-pending',loadChildren: () => import('../ebapending/ebapending.module').then(d => d.ebaPendingModule), canActivate: [AuthGuard]},
       { path: 'ebapanel',loadChildren: () => import('../ebapanel/ebapanel.module').then(d => d.EbapanelModule), canActivate: [AuthGuard]},
+      { path: 'ebaformlist',loadChildren: () => import('../eba-form-list/eba-form-list.module').then(d => d.EbaFormListModule), canActivate: [AuthGuard]},
       { path: 'adminpanel',loadChildren: () => import('../adminpanel/adminpanel.module').then(d => d.AdminpanelModule), canActivate: [AuthGuard]},
     ]
   },
