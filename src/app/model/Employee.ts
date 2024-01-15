@@ -37,7 +37,7 @@ export class Employee{
   qtr_code: string | null = null;
   blck_code:string | null = null;
   location_id:string | null = null;
-  qtr_address:string |null =null;
+  qtr:any |null =null;
   created_at: Date | null = null;
   updated_at: Date | null = null;
   profile_photo: string|null = null;

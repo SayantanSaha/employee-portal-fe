@@ -36,8 +36,9 @@ export class ProfileComponent implements OnInit{
   blockstypelist: any[] = [];
   locationtypelist: any[] =[];
   quarterstypelist: any[] = [];
-  quarteraddress: any[] = [];
-  sentotp:string='';
+  quarterList: any[] = [];
+  showquarterDetails: boolean = false;
+  quarterDetails:any = null;
   recivedotp:boolean = false;
   changesMade: boolean = false;
   isCpAddressChecked: boolean = false;
@@ -679,72 +680,185 @@ export class ProfileComponent implements OnInit{
       }
     }
 
-  getMaskedNumber(): string {
-    const originalNumber = this.employee!.qtr_address!
-    const maskedNumber = 'xxxxxx' + originalNumber.slice(6);
-    return maskedNumber;
-  }
 
-    qtraddress() {
-      this.employeeService.getQuarterdetail(this.employee!.qtr_code!,this.employee!.location_id!,this.employee!.id!).subscribe(
-        (data :any ) => {
-          // Success response (you can check the status code if needed)
-          console.log(data); // Log the response data if required
-          // this.quarteraddress =data;
-          // this.recivedotp=true;
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'pulled successfully',
-          }).then
-          ((result) => {
-            if (result.isConfirmed) {
-              // Redirect to the desired page or refresh the current page
-              window.location.reload();
-            }
-          });
-        },
-        (error) => {
-          // Error response
-          console.log(error); // Log the error if needed
-          if (error.status === 404) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Warning',
-              text: 'empty quarter details .',
-            });
-          } if (error.status === 401) {
-            this.quarteraddress =error.error;
-            // Swal.fire({
-            //   icon: 'warning',
-            //   title: 'warning',
-            //   text: 'Mobile No does not match.',
-            // });
-          }
-          if (error.status === 400) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Warning',
-              text: 'Something went wrong.',
-            });
-          }
-        }
-      );
-    }
-
-    otp(){
-        this.employeeService.getQuarterotp(this.employee!.qtr_address!).subscribe(
-            data => this.quarterstypelist = data,
-            error => console.log(error)
-        );
-    }
-
-    qtrtype() {
+  qtrtype() {
     this.employeeService.getQuarterType(this.employee!.location_id!).subscribe(
         data => this.quarterstypelist = data,
         error => console.log(error)
     );
   }
+
+
+
+  qtraddress() {
+    this.employeeService.getQuarterdetail(this.employee!.qtr_code!,this.employee!.location_id!).subscribe(
+      (data :any ) => {
+        this.quarterList =data;
+      },
+      (error) => {
+        console.log(error);
+        if (error.status === 404) {
+          this.quarterList =[];
+          this.employee!.qtr =null;
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'empty quarter details .',
+          });
+        }
+        if (error.status === 400) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Something went wrong.',
+          });
+        }
+      }
+    );
+  }
+
+  sendOtp(){
+      if(this.employee!.qtr !== '' && this.employee!.qtr!.MobileNumber  !== '') {
+        this.employeeService.getQuarterotp(this.employee!.qtr!.MobileNumber).subscribe(
+            (data :any ) => {
+              this.recivedotp=true;
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'OTP sent Successfully',
+              })
+            },
+            (error) => {
+              // Error response
+              console.log(error); // Log the error if needed
+              if (error.status === 400) {
+                this.recivedotp=false;
+                Swal.fire({
+                  icon: 'error',
+                  title: 'error while sending sms',
+                  text: 'Wait then try again later else contact NIC .',
+                });
+              }
+            }
+        );
+      }else{
+        Swal.fire({
+          icon: 'warning',
+          title: 'Mobile number does not exist for this quarter',
+          text: 'Contact NIC.',
+        });
+      }
+    }
+
+  getMaskedNumber(): string {
+    const originalNumber = this.employee!.qtr!.MobileNumber
+    const maskedNumber = 'xxxxxx' + originalNumber.slice(6);
+    return maskedNumber;
+  }
+
+  wrongQuarter(){
+    this.recivedotp=false;
+  }
+
+  title = 'otp-app';
+  otp!: string;
+  inputDigitLeft: string = "Verify code";
+  btnStatus: string = "btn-light";
+
+  public configOptions = {
+    length: 6,
+    inputClass: 'digit-otp',
+    containerClass: 'd-flex justify-content-between'
+  }
+  onOtpChange(event: any) {
+    this.otp = event;
+    if(this.otp.length < this.configOptions.length) {
+      this.inputDigitLeft = this.configOptions.length - this.otp.length + " digits Left";
+      this.btnStatus = 'btn-light';
+    }
+
+    if(this.otp.length == this.configOptions.length) {
+      this.inputDigitLeft = "Let's go!";
+      this.btnStatus = 'btn-primary';
+    }
+  }
+
+  Verifyotp(){
+    this.employeeService.otpverify(this.otp).subscribe(
+        (data :any ) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Matched',
+            text: 'Success',
+          });
+          this.employeeService.showmemberbyeba(this.employee!.qtr!.allotment_id).subscribe(
+            (data :any ) => {
+              this.quarterDetails = data;
+              this.showquarterDetails = true;
+              this.recivedotp=false;
+            },(error) => {
+              if (error.status === 404) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'empty',
+                  text: 'empty data!!!!',
+                });
+              }
+            }
+        );
+        },
+        (error) => {
+          // Error response
+          console.log(error); // Log the error if needed
+          if (error.status === 401) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'OTP did not match',
+              text: 'Please try again!!!!',
+            });
+          }
+        }
+    );
+  }
+
+  PullEba(){
+    this.employeeService.getmemberbyeba(this.employee!.id!,this.quarterDetails!,this.employee!.qtr!).subscribe(
+      (data :any ) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'success',
+          text: 'Pulled successfully',
+        })
+            .then((result) => {
+                // if (result.isConfirmed) {
+                  // Redirect to the desired page
+                  window.location.reload();
+                })
+        ;
+      },
+      (error) => {
+        // Error response
+        console.log(error); // Log the error if needed
+        if (error.status === 401) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'warning',
+            text: 'empty quarter details!!!!',
+          });
+        }
+        if (error.status === 404) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'warning',
+            text: 'empty quarter info!!!!',
+          });
+        }
+      }
+    );
+  }
+
+
+
 
   /***************** Add Family Members Function End ***************8*******/
 
@@ -1680,4 +1794,9 @@ export class ProfileComponent implements OnInit{
   closeEbaPopup() {
     this.displayEba = "none";
   }
+
+
+
+
+
 }

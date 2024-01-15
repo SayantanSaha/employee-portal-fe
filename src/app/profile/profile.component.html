@@ -32,7 +32,9 @@
             </h2>
 
             <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-              <div class="accordion-body" *ngIf="editable">
+              <ng-container *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
+                <ng-container *ngFor="let change of employee!.temp_changes">
+              <div class="accordion-body" *ngIf="editable && change.model === 'Employee' && change.changed_data">
                 <div class="row">
                   <div class="col-md-12">
                     <div class="card ">
@@ -47,9 +49,8 @@
                           </div>
                         </div>
 
-                        <div *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
-                          <div *ngFor="let change of employee!.temp_changes">
-                            <div class="row" *ngIf="change.model === 'Employee' && change.changed_data"
+
+                            <div class="row"
                                  style="overflow:auto">
 
                               <div class="col-md-3">
@@ -273,8 +274,8 @@
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </ng-container>
+              </ng-container>
 
               <div class="accordion-body" >
                 <div class="row">
@@ -966,15 +967,16 @@
             <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
               <div class="accordion-body" *ngIf="editable">
                 <div class="row">
-                  <div class="col-md-9"></div>
-                  <div class="col-md-3" style="text-align: right">
+<!--                  <div class="col-md-9"></div>-->
+                  <div class="col" style="text-align: right">
+                    <label class="upload-icon-label" style="margin-left: 3%;color: green;" *ngIf="!employee?.AllotmentId || employee?.AllotmentId === null"
+                           title="RB quarter Exist?" (click)="pullEbaPopup()">
+                      If you've applied or reside in a quarter, click the question mark icon to retrieve Family and Out House details.
+                      <i class="bi bi-question-circle btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"></i>
+                    </label>
                     <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addMember()">
                       +Add Relative
                     </button>
-                    <label class="upload-icon-label" style="margin-left: 3%" *ngif="employee!.AllotmentId"
-                           title="RB quarter Exist?" (click)="pullEbaPopup()">
-                      <i class="bi bi-question-circle btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"></i>
-                    </label>
                   </div>
                 </div>
 
@@ -1117,17 +1119,16 @@
               <ng-container>
                 <div class="modal modal-above-header"
                      tabindex="-1" data-bs-backdrop="false"
-                     [ngStyle]="{'display': displayEba }" style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto;">
-                  <div class="modal-dialog modal-dialog-centered modal-m">
-                    <div class="modal-content" >
-                                  <div class="modal-header">
-                                    <h5 class="modal-title">
-                                      <b> Pull Quarter Details </b>
-                                    </h5>
-                                  </div>
+                     [ngStyle]="{'display': displayEba }" style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto;" >
+                  <div class="modal-dialog modal-dialog-centered modal-m" *ngIf=" !showquarterDetails">
+                    <div class="modal-content" *ngIf="!recivedotp && !showquarterDetails">
+                      <div class="modal-header">
+                        <h5 class="modal-title">
+                          <b> Pull Quarter Details </b>
+                        </h5>
+                      </div>
 
-                      <div class="modal-body" >
-
+                      <div class="modal-body">
                         <div class="row">
                           <div class ="col-md-4" style="margin-left: 1%;">
                             <label class="form-label">Location:</label>
@@ -1152,18 +1153,18 @@
                             </select>
                           </div>
                           </div>
-<!--                      <div class="row">-->
-<!--                        <div class ="col-md-4" style="margin-left: 1%">-->
-<!--                          <label class="form-label">Quarter address:</label>-->
-<!--                        </div>-->
-<!--                        <div class ="col-md-8" style="margin-left: -7%" >-->
-<!--                          <select class="form-control" [(ngModel)]="employee!.qtr_address" >-->
-<!--                            <option value="">&#45;&#45;Select&#45;&#45;</option>-->
-<!--                            <option [ngValue]="add.MobileNumber" *ngFor="let add of quarteraddress">-->
-<!--                              {{add!.qtr_no}}</option>-->
-<!--                          </select>-->
-<!--                        </div>-->
-<!--                      </div>-->
+                        <div class="row" *ngIf="quarterList !== null && quarterList.length > 0">
+                          <div class ="col-md-4" style="margin-left: 1%">
+                            <label class="form-label">Quarter address:</label>
+                          </div>
+                          <div class ="col-md-8" style="margin-left: -7%" >
+                            <select class="form-control" [(ngModel)]="employee!.qtr" >
+                              <option value="">--Select--</option>
+                              <option [ngValue]="qtr" *ngFor="let qtr of quarterList">
+                                {{qtr!.qtr_no}}</option>
+                            </select>
+                          </div>
+                        </div>
                       </div>
 
                       <div class="modal-footer">
@@ -1171,51 +1172,126 @@
                           Close
                         </button>
 
-                        <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="qtraddress()">
-                          Pull
+                        <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="sendOtp()" *ngIf="employee!.qtr">
+                          Send OTP
                         </button>
                       </div>
-
                     </div>
 
 
-<!--                    <div class="modal-content" >-->
-<!--                      <div class="modal-header">-->
-<!--                        <h5 class="modal-title">-->
-<!--                          <b>OTP </b>-->
-<!--                        </h5>-->
-<!--                      </div>-->
+                    <div class="modal-content" *ngIf="recivedotp && !showquarterDetails">
+                      <div class="modal-header">
+                        <h5 class="modal-title">
+                          <b>OTP </b>
+                        </h5>
+                      </div>
 
-<!--                      <div class="modal-body" style="text-align: center">-->
-<!--                        <div style="color: grey" >-->
-<!--                          Please enter OTP to verify your account-->
-<!--                        </div> <br>-->
-<!--                        <div style="color: darkgrey" >-->
-<!--                          An OTP has sent to below number-->
-<!--                        </div>-->
-<!--                        <div style="color: red">-->
-<!--                          2223-->
-<!--&lt;!&ndash;                          {{getMaskedNumber()}}&ndash;&gt;-->
-<!--                        </div>-->
-<!--                        <div class="otp-field">-->
-<!--                          <input type="text" class=" form-control" maxlength="1" />-->
-<!--                          <input type="text" class=" form-control" maxlength="1" />-->
-<!--                          <input  class=" form-control" type="text" maxlength="1" />-->
-<!--                          <input type="text" class=" form-control" maxlength="1" />-->
-<!--                          <input type="text" class=" form-control" maxlength="1" />-->
-<!--                          <input type="text" class=" form-control" maxlength="1" />-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                      <div class="modal-footer">-->
-<!--                        <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)" (click)="closeEbaPopup()">-->
-<!--                          Close-->
-<!--                        </button>-->
+                      <div class="modal-body" style="text-align: center">
+                        <br>
+                        <div style="color: grey" >
+                          An OTP has sent to below this number.
+                        </div>
+                        <div style="color: red">
+                          +91 {{getMaskedNumber()}}
+                        </div>
+                        <br>
+                        <div class="my-4">
+                          <ng-otp-input  (onInputChange)="onOtpChange($event)"   [config]="configOptions"></ng-otp-input>
+                        </div>
+<!--                        <button class="btn btn-lg w-100 mt-3 mb-4 py-3" [ngClass]="btnStatus">{{ this.inputDigitLeft }}</button>-->
+                        <br>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)" (click)="closeEbaPopup()">
+                          Close
+                        </button>
 
-<!--                        <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="otp()">-->
-<!--                          Verify-->
-<!--                        </button>-->
-<!--                      </div>-->
-<!--                    </div>-->
+                        <button type="button" class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="wrongQuarter()">
+                          Back
+                        </button>
+
+                        <button type="button" class="btn btn-outline-warning enlarge-on-hover" (click)="hoverClick($event)" (click)="sendOtp()">
+                          Resend
+                        </button>
+
+                        <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="Verifyotp()">
+                          Verify
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                    <div class="modal-dialog modal-dialog-centered modal-xl" *ngIf="!recivedotp && showquarterDetails">
+                    <div class="modal-content" *ngIf="!recivedotp && showquarterDetails">
+                      <div class="modal-header">
+                        <h5 class="modal-title">
+                          <b>EBA details</b>
+                        </h5>
+                      </div>
+
+                      <div class="modal-body" >
+                        <div class="row">
+                          <div class="row">
+                            <div class="col-md-2"><b>Name:</b></div>
+                            <div class="col-md-10" style="font-size: 120%;margin-left: -6%;">
+                              {{quarterDetails?.m_Item1?.[0]?.Name}}
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-2"><b>Designation:</b></div>
+                            <div class="col-md-10" style="margin-left: -6%;">
+                              {{quarterDetails?.m_Item1?.[0]?.Designation}}
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-2"><b>Section:</b></div>
+                            <div class="col-md-10" style="margin-left: -6%;">
+                              {{quarterDetails?.m_Item1?.[0]?.Section}}
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-2"><b>Address:</b></div>
+                            <div class="col-md-10" style="margin-left: -6%;">
+                              {{quarterDetails?.m_Item1?.[0]?.Address}}
+                            </div>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="row" style="overflow-x: auto;overflow-y: hidden; white-space: nowrap;">
+                          <ng-container *ngIf="quarterDetails?.m_Item1?.[0]?.Members">
+                            <tr>
+                            <ng-container *ngFor="let member of quarterDetails?.m_Item1?.[0]?.Members; let i = index">
+                              <td>
+                                <div class="d-flex flex-column align-items-center" style="width:100%; text-align: center; padding-top: 10px;">
+                                    <span *ngIf="member && member.PhotoUrl">
+                                      <img [src]="member.PhotoUrl" alt="Profile Photo" style="width: 150px; height: 128px"
+                                           class="rounded-circle" title="Profile Photo" />
+                                    </span>
+                                  <ng-container *ngIf="member">
+                                    <span style="font-size: 1.2em" *ngIf="member">{{member.MemberName}}</span>
+                                    <span *ngIf="member.PassNo">{{member.PassNo}}</span>
+                                    <!-- <span *ngIf="member!.DateOfBirth">{{formatDate(member!.DateOfBirth)}}</span> -->
+                                    <!-- <span *ngIf="member!.MobileNumber">{{member!.MobileNumber}}</span> -->
+                                  </ng-container>
+                                </div>
+                              </td>
+                            </ng-container>
+                            </tr>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)" (click)="closeEbaPopup()">
+                          Close
+                        </button>
+                        <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="PullEba()">
+                          PULL
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </ng-container>
@@ -1324,15 +1400,17 @@
             <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
               <div class="accordion-body" *ngIf="editable">
                 <div class="row">
-                  <div class="col-md-9"></div>
-                  <div class="col-md-3" style="text-align: right">
+<!--                  <div class="col-md-9"></div>-->
+                  <div class="col" style="text-align: right">
+                    <label class="upload-icon-label" style="margin-left: 3%;color: green;" *ngIf="!employee?.AllotmentId || employee?.AllotmentId === null"
+                           title="RB quarter Exist?" (click)="pullEbaPopup()">
+                      If you've applied or reside in a quarter, click the question mark icon to retrieve Family and Out House details.
+                      <i class="bi bi-question-circle btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"></i>
+                    </label>
                     <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addServant()">
                       +Add Domestic Help
                     </button>
-                    <label class="upload-icon-label" style="margin-left: 3%"
-                           title="RB quarter Exist?" (click)="pullEbaPopup()">
-                      <i class="bi bi-question-circle btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"></i>
-                    </label>
+
                   </div>
                 </div>
 

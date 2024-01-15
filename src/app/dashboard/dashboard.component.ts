@@ -87,7 +87,7 @@ export class DashboardComponent implements OnInit{
           console.log(data);
 
           // Open the URL in a new tab
-          window.open(data, '_blank');
+          window.open(data, '_self');
 
         // Swal.fire({
         //   icon: 'success',

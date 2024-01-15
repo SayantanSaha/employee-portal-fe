@@ -187,10 +187,17 @@ export class EmployeeService {
     return this.http.get<any[]>(this.apiUrl+"otp/"+number,{headers:this.createHeader()});
   }
 
-  getQuarterdetail(qtrtype:string ,location:string,empid:number): Observable<any[]>{
-    return this.http.get<any[]>(this.apiUrl+"qtrmaster/"+qtrtype+'/'+location+'/'+empid,{headers:this.createHeader()});
+  getQuarterdetail(qtrtype:string ,location:string): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"qtrmaster/"+qtrtype+'/'+location,{headers:this.createHeader()});
   }
 
+  showmemberbyeba(qtrdtls:any ): Observable<any>{
+    return this.http.get<any>(this.apiUrl+"showmember/"+qtrdtls,{headers:this.createHeader()});
+  }
+
+  getmemberbyeba(empid:number,qtrdtls:any,qtr:any ): Observable<any>{
+    return this.http.post<any>(this.apiUrl+"getmember/"+empid,{ qtrdtls, qtr },{headers:this.createHeader()});
+  }
 
 
   // Update Relation Of Employee API

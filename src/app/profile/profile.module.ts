@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgOtpInputModule } from 'ng-otp-input';
 import { ProfileRoutingModule } from './profile-routing.module';
 
 
@@ -8,7 +8,8 @@ import { ProfileRoutingModule } from './profile-routing.module';
   declarations: [],
   imports: [
     CommonModule,
-    ProfileRoutingModule
+    ProfileRoutingModule,
+    NgOtpInputModule
   ]
 })
 export class ProfileModule { }

@@ -20,4 +20,22 @@ describe('ProfileComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(ProfileComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });
+
+  it(`should have as title 'otp-app'`, () => {
+    const fixture = TestBed.createComponent(ProfileComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('otp-app');
+  });
+
+  it('should render title', () => {
+    const fixture = TestBed.createComponent(ProfileComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.content span')?.textContent).toContain('otp-app app is running!');
+  });
 });
