@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import {Designation} from "../model/Designation";
 import {Division} from "../model/Division";
 import {Idcards} from "../model/Idcards";
+import Swal from "sweetalert2";
+
 
 @Component({
   selector: 'app-ebaformview',
@@ -18,15 +20,19 @@ export class EbaformviewComponent implements OnInit {
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-  }
+  ) {}
 
   employee: any;
+
+  fromUrl: string='';
+
 
   ngOnInit(): void {
     // Retrieve data from router state
     this.employee = history.state.employeeData;
     console.log(this.employee);
+    this.fromUrl=history.state.fromUrl;
+    console.log(this.fromUrl);
   }
 
   getActiveDesignations(designations: Designation[]): string {
@@ -70,6 +76,119 @@ export class EbaformviewComponent implements OnInit {
       setTimeout(() => {
         button.classList.remove('clicked');
       }, 200); // Adjust the delay (in milliseconds) based on your transition duration
+    }
+  }
+
+
+
+  applyEba() {
+    if (this.employee) {
+      if (this.employee.designations === null || this.employee.designations.length === 0) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Empty Designation',
+          text: 'Designation does not have a value.',
+        });
+        return;
+      }
+
+      if (this.employee.divisions === null || this.employee.divisions.length === 0) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Empty Department',
+          text: 'Department does not have a value.',
+        });
+        return;
+      }
+
+      if (this.employee.organization === null) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Empty organization',
+          text: 'Organization does not have a value.',
+        });
+        return;
+      }
+
+      if (this.employee.qtr_code === null) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Empty Quarter',
+          text: 'Quarter does not have a value. First pull your data from profile',
+        });
+        return;
+      }
+
+
+
+
+      // Send the modified employee object to the server
+      this.employeeService.applyeba(this.employee).subscribe(
+
+        // this.employeeService.applyeba(Employee).subscribe(
+        // if (this.validationErrors.length > 0) {
+        //
+        //   const errorMessage = this.validationErrors
+        //       .map((error, index) => `${index + 1}. ${error}`)
+        //       .join('\n');
+        //
+        //   Swal.fire({
+        //     icon: 'error',
+        //     title: 'Error',
+        //     html: errorMessage.replace(/\n/g, '<br/>'),
+        //     width: 'auto', // Adjust as needed
+        //   });
+        //   return; // Exit without calling the API
+        // }
+
+        // Validation true then Api call otherwise please check
+        // data=>console.log(data),
+        // error=>console.log(error)
+
+
+        data => {
+          console.log(data);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Eba application applied successfully and pending for approval',
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     // Redirect to the desired page
+            //     window.location.reload();
+            //   }
+          }).then(() => {
+            this.fromUrl='';
+             this.router.navigate(['dashboard']);
+          });
+        },
+        (error) => {
+          console.log(error);
+          console.log(error.status);
+          console.log(error.error);
+          if(error){
+            // if(error.status === 302){
+            //   Swal.fire({
+            //     icon: 'warning',
+            //     title: 'Warning',
+            //     text: 'Previous Record is still pending !!!',
+            //   });
+            // }else if(error.status === 303){
+            //   Swal.fire({
+            //     icon: 'warning',
+            //     title: 'Warning',
+            //     text: 'you already have a approved application',
+            //   });
+            // }
+            // else{
+            Swal.fire({
+              icon: 'error',
+              title: 'API Error',
+              text: 'An error occurred while updating.',
+            });
+          }
+        }
+      );
     }
   }
 

@@ -465,7 +465,7 @@ export class EbaFormComponent {
 
 
 
-  applyEba() {
+   applyEba() {
     if (this.employee) {
       if (this.employee.designations === null || this.employee.designations.length === 0) {
         Swal.fire({
@@ -543,73 +543,73 @@ export class EbaFormComponent {
           return;
         }
       }
-
+      this.router.navigate(['eba-form-view'], { state: { employeeData: clonedEmployee, fromUrl: 'eba-form' } });
       // Send the modified employee object to the server
-      this.employeeService.applyeba(clonedEmployee).subscribe(
-
-          // this.employeeService.applyeba(Employee).subscribe(
-          // if (this.validationErrors.length > 0) {
-          //
-          //   const errorMessage = this.validationErrors
-          //       .map((error, index) => `${index + 1}. ${error}`)
-          //       .join('\n');
-          //
-          //   Swal.fire({
-          //     icon: 'error',
-          //     title: 'Error',
-          //     html: errorMessage.replace(/\n/g, '<br/>'),
-          //     width: 'auto', // Adjust as needed
-          //   });
-          //   return; // Exit without calling the API
-          // }
-
-          // Validation true then Api call otherwise please check
-          // data=>console.log(data),
-          // error=>console.log(error)
-
-
-          data => {
-            console.log(data);
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Eba application applied successfully and pending for approval',
-              // }).then((result) => {
-              //   if (result.isConfirmed) {
-              //     // Redirect to the desired page
-              //     window.location.reload();
-              //   }
-            }).then(() => {
-              this.router.navigate(['eba-form-view'], { state: { employeeData: clonedEmployee } });
-            });
-          },
-          (error) => {
-            console.log(error);
-            console.log(error.status);
-            console.log(error.error);
-            if(error){
-              // if(error.status === 302){
-              //   Swal.fire({
-              //     icon: 'warning',
-              //     title: 'Warning',
-              //     text: 'Previous Record is still pending !!!',
-              //   });
-              // }else if(error.status === 303){
-              //   Swal.fire({
-              //     icon: 'warning',
-              //     title: 'Warning',
-              //     text: 'you already have a approved application',
-              //   });
-              // }
-              // else{
-              Swal.fire({
-                icon: 'error',
-                title: 'API Error',
-                text: 'An error occurred while updating.',
-              });
-            }
-          }
-      );
+      // this.employeeService.applyeba(clonedEmployee).subscribe(
+      //
+      //     // this.employeeService.applyeba(Employee).subscribe(
+      //     // if (this.validationErrors.length > 0) {
+      //     //
+      //     //   const errorMessage = this.validationErrors
+      //     //       .map((error, index) => `${index + 1}. ${error}`)
+      //     //       .join('\n');
+      //     //
+      //     //   Swal.fire({
+      //     //     icon: 'error',
+      //     //     title: 'Error',
+      //     //     html: errorMessage.replace(/\n/g, '<br/>'),
+      //     //     width: 'auto', // Adjust as needed
+      //     //   });
+      //     //   return; // Exit without calling the API
+      //     // }
+      //
+      //     // Validation true then Api call otherwise please check
+      //     // data=>console.log(data),
+      //     // error=>console.log(error)
+      //
+      //
+      //     data => {
+      //       console.log(data);
+      //       Swal.fire({
+      //         icon: 'success',
+      //         title: 'Success',
+      //         text: 'Eba application applied successfully and pending for approval',
+      //         // }).then((result) => {
+      //         //   if (result.isConfirmed) {
+      //         //     // Redirect to the desired page
+      //         //     window.location.reload();
+      //         //   }
+      //       }).then(() => {
+      //         // this.router.navigate(['eba-form-view'], { state: { employeeData: clonedEmployee } });
+      //       });
+      //     },
+      //     (error) => {
+      //       console.log(error);
+      //       console.log(error.status);
+      //       console.log(error.error);
+      //       if(error){
+      //         // if(error.status === 302){
+      //         //   Swal.fire({
+      //         //     icon: 'warning',
+      //         //     title: 'Warning',
+      //         //     text: 'Previous Record is still pending !!!',
+      //         //   });
+      //         // }else if(error.status === 303){
+      //         //   Swal.fire({
+      //         //     icon: 'warning',
+      //         //     title: 'Warning',
+      //         //     text: 'you already have a approved application',
+      //         //   });
+      //         // }
+      //         // else{
+      //         Swal.fire({
+      //           icon: 'error',
+      //           title: 'API Error',
+      //           text: 'An error occurred while updating.',
+      //         });
+      //       }
+      //     }
+      // );
     }
   }
   approveapplication() {

@@ -844,17 +844,17 @@
                         <table class="table table-stripped">
                           <thead>
                           <tr>
-                            <!--                              <div *ngIf="urlid">-->
-                            <!--                                <div *ngIf="(user && user.role)" >-->
-                            <!--                                  <div *ngFor="let role of user.role">-->
-                            <!--                                    <div *ngIf="role.role_id === 4">-->
-                            <!--                                      <th>-->
-                            <!--                                        &nbsp;-->
-                            <!--                                      </th>-->
-                            <!--                                    </div>-->
-                            <!--                                  </div>-->
-                            <!--                                </div>-->
-                            <!--                              </div>-->
+<!--                                                          <div *ngIf="urlid">-->
+<!--                                                            <div *ngIf="(user && user.role)" >-->
+<!--                                                              <div *ngFor="let role of user.role">-->
+<!--                                                                <div *ngIf="role.role_id === 4">-->
+<!--                                                                  <th>-->
+<!--                                                                    &nbsp;-->
+<!--                                                                  </th>-->
+<!--                                                                </div>-->
+<!--                                                              </div>-->
+<!--                                                            </div>-->
+<!--                                                          </div>-->
                             <th>Sl No.</th>
                             <th>Vehicle Type</th>
                             <th>Vehicle Name.</th>
@@ -1192,7 +1192,7 @@
                   </button>
 
                   <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="applyEba()">
-                    Submit Form
+                    upload/Preview
                   </button>
                 </div>
               </div>
@@ -1239,7 +1239,23 @@
         </div>
         <div class="row">
           <div class="col-6" style="text-align: right">
-            <button type="submit" class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Approve" (click)="approveapplication()" >Forward</button>
+            <div *ngIf="urlid">
+              <div *ngIf="(user && user.role)" >
+                <div *ngFor="let role of user.role">
+                  <div *ngIf="role.role_id === 4 || role.role_id===5">
+                    <th>
+                      <button type="submit" class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Approve" (click)="approveapplication()" >Forward</button>
+                    </th>
+                  </div>
+                  <div *ngIf="role.role_id === 6 ">
+                    <th>
+                      <button type="submit" class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Approve" (click)="approveapplication()" >Approve</button>
+                    </th>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
           <div class="col-6" style="text-align: left">
             <button type="submit" class="btn btn-danger enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Return" (click)="returnapplication()">Return</button>

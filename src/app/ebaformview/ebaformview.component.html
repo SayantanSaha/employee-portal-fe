@@ -453,4 +453,13 @@
       <br>
     </div>
   </div>
+
+  <div class="row" *ngIf="fromUrl == 'eba-form' " style=" margin-left: 48%;width: 2cm">
+
+      <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="applyEba()">
+        Submit
+      </button>
+
+  </div>
+
 </div>
