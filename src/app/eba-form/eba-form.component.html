@@ -10,9 +10,15 @@
           EBA Application
         </div>
           <div *ngIf="editable && !urlid">
+
             <label>
               <input type="radio" name="relationType"  (click)="onSelectRelative()">
               Family
+            </label>
+
+            <label>
+              <input type="radio" name="relationType"  (click)="onSelectRelative()">
+              Relative
             </label>
 
             <label style="padding-left: 1%">

@@ -13,6 +13,41 @@
   //background-repeat: no-repeat;
 }
 
-.textbox{
-  position: absolute;color: white;z-index: 999
+
+.textbox {
+  position: absolute;color: white;z-index: 999;
+  padding: 20px;
+}
+
+.title {
+  font-family: 'Times New Roman';
+  font-size: 70px;
+}
+
+.subtitle {
+  font-family: 'Times New Roman';
+  font-size: 40px;
+}
+
+
+@media only screen and (max-width: 1350px) {
+  .title {
+    font-size: 50px;
+  }
+
+  .subtitle {
+    font-size: 30px;
+  }
+}
+
+@media only screen and (max-height: 800px) {
+  .textbox {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .textbox {
+    display: none;
+  }
 }
