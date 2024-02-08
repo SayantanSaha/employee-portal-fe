@@ -105,7 +105,7 @@
 
   <ng-container *ngIf="user && user.role" >
     <ng-container *ngFor="let role of user.role">
-      <ng-container *ngIf="role.role_id === 1" >
+      <ng-container *ngIf="role === 1">
         <div class="card shadow" style="width: 240px;height: 140px" (click)=" hoverClick($event)">
           <a [routerLink]="'/adminpanel'" style="text-decoration: none; color: inherit;">
             <div class="card-body">
@@ -116,6 +116,17 @@
           </a>
         </div>
      </ng-container>
+      <ng-container *ngIf="role === 4 || role === 5 || role === 6" >
+        <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
+          <a [routerLink]="'/ebapanel'" style="text-decoration: none; color: inherit;">
+            <div class="card-body">
+              <img class="card-img-top" src="https://rb.nic.in/assets/img/services/2.jpg" alt="eba" style="height: 23%;width: 17%">
+              <h5 class="card-title" style="color: darkblue">EBA</h5>
+              <p class="card-text">Click here to Verify applied EBA Applications</p>
+            </div>
+          </a>
+        </div>
+      </ng-container>
     </ng-container>
   </ng-container>
 
@@ -129,21 +140,11 @@
     </a>
   </div>-->
 
- <ng-container *ngIf="employee != null && employee.divisions != null">
-    <ng-container *ngFor="let div of employee!.divisions;">
-      <ng-container *ngIf="div.id === 47">
-        <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
-          <a [routerLink]="'/ebapanel'" style="text-decoration: none; color: inherit;">
-            <div class="card-body">
-              <img class="card-img-top" src="https://rb.nic.in/assets/img/services/2.jpg" alt="eba" style="height: 23%;width: 17%">
-              <h5 class="card-title" style="color: darkblue">EBA</h5>
-              <p class="card-text">Click here to Verify applied EBA Applications</p>
-            </div>
-          </a>
-        </div>
-      </ng-container>
-    </ng-container>
-  </ng-container>
+<!--  <ng-container *ngIf="user && user.role" >-->
+<!--    <ng-container *ngFor="let role of user.role">-->
+<!--     -->
+<!--    </ng-container>-->
+<!--  </ng-container>-->
 
 </div></div>
 

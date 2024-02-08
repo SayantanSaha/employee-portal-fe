@@ -1,4 +1,4 @@
-<script src="../app.module.ts"></script>
+<script src="../app.module.ts" xmlns="http://www.w3.org/1999/html"></script>
 <div class="container">
 <div class="row" *ngIf="employee!=null && employee.divisions!=null">
   <div  *ngFor="let div of employee!.divisions;">
@@ -15,7 +15,7 @@
             <div class="card-body" style="background: linear-gradient(to bottom right, rgba(1, 255, 255, 0.36), transparent);">
               <div class="row">
 
-                <div class="col-md-3">
+                <div class="col-md-4 col-lg-4 col-sm-4">
 <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
                     <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchEba(4)">
                       <div class="card-body" style="overflow: auto;">
@@ -34,15 +34,15 @@
                     </div>
 <!--                  </a>-->
                 </div>
-                <div class="col-md-3" >
+                <div class="col-md-4 col-lg-4 col-sm-4" >
 <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
                     <div class="card shadow enlarge-hover" (click)=" hoverClick($event)" (click)="searchEba(5)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="card-icon rounded-circle btn btn-outline-success">
-                            <a routerLink="/eba-pending">
+<!--                            <a routerLink="/eba-pending">-->
                               <i class="bi bi-people"></i>
-                            </a>
+<!--                            </a>-->
                           </div>
                           <div class="ps-5">
                             <p>
@@ -57,15 +57,15 @@
                 </div>
 
 
-                <div class="col-md-3" >
+                <div class="col-md-4 col-lg-4 col-sm-4" >
 <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
                     <div class="card shadow enlarge-hover" (click)=" hoverClick($event)" (click)="searchEba(6)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="card-icon rounded-circle btn btn-outline-danger">
-                            <a routerLink="/eba-pending">
+<!--                            <a routerLink="/eba-pending">-->
                               <i class="bi bi-people"></i>
-                            </a>
+<!--                            </a>-->
                           </div>
                           <div class="ps-5">
                             <p>
@@ -78,17 +78,17 @@
                     </div>
 <!--                  </a>-->
                 </div>
-
-
-                <div class="col-md-3" >
+              </div>
+                <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-4" >
 <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
                     <div class="card shadow enlarge-hover" (click)=" hoverClick($event)" (click)="searchEba(7)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="card-icon rounded-circle btn btn-outline-info">
-                            <a routerLink="/eba-pending" >
+<!--                            <a routerLink="/eba-pending" >-->
                               <i class="bi bi-people"></i>
-                            </a>
+<!--                            </a>-->
                           </div>
                           <div class="ps-5">
                             <p>
@@ -99,11 +99,34 @@
                         </div>
                       </div>
                     </div>
+                </div>
 <!--                  </a>-->
+                  <div class="col-md-4 col-lg-4 col-sm-4" ></div>
+
+                <div class="col-md-4 col-lg-4 col-sm-4" >
+                  <a routerLink="/eba-print" style="text-decoration: none; color: inherit;">
+                  <div class="card shadow enlarge-hover" (click)=" hoverClick($event)" >
+                    <div class="card-body" style="overflow: auto;">
+                      <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle btn btn-outline-info">
+<!--                          <a routerLink="/eba-print" >-->
+                            <i class="bi bi-people"></i>
+<!--                          </a>-->
+                        </div>
+                        <div class="ps-5">
+                          <p>
+                            <span class="text-muted small pt-2 ps-1 fw-bold">Print</span>
+                          </p>
+                          {{ebadashboardData.ebaprint}}
+                        </div>
+                      </div>
+                    </div>
+                  </div></a>
                 </div>
 
               </div>
               <br>
+
               <div class="row" >
                 <div class="col-md-12">
                   <div class="card shadow">

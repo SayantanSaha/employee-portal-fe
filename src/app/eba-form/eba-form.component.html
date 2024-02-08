@@ -12,11 +12,11 @@
           <div *ngIf="editable && !urlid">
 
             <label>
-              <input type="radio" name="relationType"  (click)="onSelectRelative()">
+              <input type="radio" name="relationType"  (click)="onSelectcloseFamily()">
               Family
             </label>
 
-            <label>
+            <label style="padding-left: 1%">
               <input type="radio" name="relationType"  (click)="onSelectRelative()">
               Relative
             </label>
@@ -72,8 +72,8 @@
                     <tr>
                       <td ><b>Address:</b></td>
                       <td >{{employee!.curr_add}},<br />
-                        {{employee!.curr_district!.district_name}}
-                        {{employee!.curr_state!.state_name}} - {{employee!.curr_pin}}</td>
+                        {{employee!.curr_district}}
+                        {{employee!.curr_state}} - {{employee!.curr_pin}}</td>
                     </tr>
                   </table>
                 </div>
@@ -88,16 +88,16 @@
                     <tr>
                       <td ><b>Designation:</b></td>
                       <td style="font-size: 120%" *ngIf="employee && employee.designations">
-                        {{ getActiveDesignations(employee.designations) }}
+                        {{ employee.designations }}
                       </td>
                     </tr>
                     <tr>
                       <td style="width: 58%;"><b>Department:</b></td>
-                      <td *ngIf="employee && employee.divisions">{{ getActiveDivision(employee.divisions)}}</td>
+                      <td *ngIf="employee && employee.divisions">{{ employee.divisions}}</td>
                     </tr>
                     <tr>
                       <td ><b>Posting place:</b></td>
-                      <td >{{employee!.organization!.org_desc}}</td>
+                      <td >{{employee!.organization}}</td>
                     </tr>
                     <tr>
                       <td><b>posting date:</b></td>
@@ -109,7 +109,7 @@
                     </tr>
                     <tr>
                       <td><b>Id Card NO:</b></td>
-                      <td *ngIf="employee && employee.id_cards">{{ getActiveIdCard(employee.id_cards) }}</td>
+                      <td *ngIf="employee && employee.id_cards">{{ employee.id_cards }}</td>
                     </tr>
                   </table>
                 </div>
@@ -120,8 +120,8 @@
       </div>
       <br>
 
-      <div *ngIf="applyingforRelative || urlid">
-        <div class="card shadow" *ngIf="employee && employee.relations && employee.relations.length > 0">
+      <div *ngIf="applyingforRelative || urlid ">
+        <div class="card shadow" *ngIf="employee && employee.closefamily && employee.closefamily.length > 0 && (applyingforclosefamily || urlid)">
           <div class="card-body">
             <h5 class="card-title" style=" color: indianred"> Officer's Family Details</h5>
             <hr class="row-divider">
@@ -133,10 +133,6 @@
                       <thead>
                       <tr>
                         <th>Select</th>
-<!--                        <th *ngIf="!urlid && editable">-->
-<!--                          &nbsp;-->
-<!--                        </th>-->
-<!--                        <th>Sl No.</th>-->
                         <th>Name</th>
                         <th>Relation</th>
                         <th>Mob No.</th>
@@ -144,15 +140,181 @@
                         <th>EBA NO</th>
                         <th *ngIf="!urlid && editable">Valid upto</th>
                         <th >Photo</th>
-                        <th >Sign.</th>
+<!--                        <th >Sign.</th>-->
                         <th >Id Proof</th>
                         <th *ngIf="urlid && !editable">Valid upto</th>
                         <th *ngIf="urlid && !editable">Remark</th>
                       </tr>
                       </thead>
                       <tbody>
-                      <tr *ngFor="let member of employee!.relations; let i = index">
-                        <ng-container *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
+                      <tr *ngFor="let member of employee!.closefamily; let i = index">
+                        <ng-container >
+                          <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
+                            <ng-container *ngIf="urlid && !editable">
+                              <td>
+                                <ng-container *ngIf="(user && user.role)" >
+                                  <ng-container *ngFor="let role of user.role">
+                                    <ng-container *ngIf="role.role_id === 4">
+                                      <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchclosefamilyCheck" data-toggle="toggle" [(ngModel)]="member.allSelected">
+                                      </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="role.role_id === 5 || role.role_id === 6">
+                                      <div style="color: blue;" *ngIf="member.allSelected">
+                                        Recommended
+                                      </div>
+                                      <div style="color: red;" *ngIf="!member.allSelected">
+                                        Denied
+                                      </div>
+                                    </ng-container >
+                                  </ng-container>
+                                </ng-container>
+                              </td>
+                            </ng-container>
+                            <ng-container *ngIf="editable && !urlid">
+                              <td>
+<!--                                <ng-container *ngIf="(eba_pass.eba_pass_no === null || isWithinTwoWeeks(eba_pass.eba_pass_exp_date))">-->
+                                  <input type="checkbox" class="selectItem" [(ngModel)]="member.allSelected" >
+<!--                                </ng-container>-->
+                              </td>
+                            </ng-container>
+                            <td>
+                              <span>{{ member!.pivot!.rel_name }}</span>
+                            </td>
+                            <td>
+                              <span>{{ member!.rel_desc }}</span>
+                            </td>
+                            <td>
+                              <span>{{ member!.pivot!.rel_mobile_no }}</span>
+                            </td>
+                            <td>
+                              <span>{{ member!.pivot!.rel_dob | date:'dd-MM-yyyy'}}</span>
+                            </td>
+                            <ng-container *ngIf="eba_pass">
+                              <td>
+                                <div>
+                                  <div *ngIf="eba_pass?.eba_pass_no && eba_pass?.eba_pass_no !== null ">
+                                    {{ eba_pass.eba_pass_no }}
+                                  </div>
+                                  <div style="color: blue;" *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">
+                                    new
+                                  </div>
+                                </div>
+                              </td>
+                              <td *ngIf="!urlid && editable">
+                                <span >{{ eba_pass.eba_pass_exp_date | date:'dd-MM-yyyy'}}</span>
+                              </td>
+                              <td>
+                                <ng-container *ngIf="eba_pass.photo_path_64 && eba_pass.photo_path_64!==null && (!eba_pass.photo_path_edit_64 || eba_pass.photo_path_edit_64===null)">
+                                  <img  [src]="eba_pass.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                </ng-container>
+                                <ng-container *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null">
+                                  <img  [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                </ng-container>
+                              </td>
+<!--                              <td  >-->
+<!--                                <div   *ngIf="eba_pass.sign_path && eba_pass.sign_path!==null">-->
+<!--                                <ng-container *ngIf="eba_pass.sign_path.startsWith('http')">-->
+<!--                                  &lt;!&ndash; Render image if photo_path starts with 'http' &ndash;&gt;-->
+<!--                                  <img [src]="eba_pass.sign_path" style="width: 150px; height: 128px" class="rounded-square" />-->
+<!--                                </ng-container>-->
+<!--                                <ng-container *ngIf="!eba_pass.sign_path.startsWith('http')">-->
+<!--                                  &lt;!&ndash; Render button/link if photo_path does not start with 'http' &ndash;&gt;-->
+<!--                                  <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="sign" (click)="openFileInNewPage(i,j,'sign')">-->
+<!--                                    <i class="bi bi-eye"></i>-->
+<!--                                  </a>-->
+<!--                                </ng-container>-->
+<!--                                </div>-->
+<!--&lt;!&ndash;                                <div class="col-md-6" style="text-align: right" *ngIf="eba_pass.sign_path && eba_pass.sign_path!==null">&ndash;&gt;-->
+<!--&lt;!&ndash;                                  <img [src]="eba_pass?.sign_path" style="width: 150px; height: 128px" class="rounded-square"/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                  <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'sign')" >&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <i class="bi bi-eye"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                  </a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--                              </td>-->
+                              <td>
+                                <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+                                  <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                     href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
+                                     title="Order File" target="_blank">
+                                    <i class="bi bi-eye "></i>
+                                  </a>
+                                </ng-container>
+                                <ng-template #naBlock>
+                                  N/A
+                                </ng-template>
+                              </td>
+
+                              <ng-container *ngIf="urlid && !editable">
+                                <ng-container *ngIf="(user && user.role)" >
+                                  <ng-container *ngFor="let role of user.role">
+                                    <ng-container *ngIf="role.role_id === 4">
+                                      <td>
+                                        <input type="date" class="form-control" [(ngModel)]="eba_pass.eba_pass_exp_date" [min]="minDate"
+                                               [value]="getDefaultExpDate(i,j,0,'relative')">
+                                      </td>
+                                      <td>
+                                        <textarea  class="form-control" [(ngModel)]="eba_pass.remark"></textarea>
+                                      </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="role.role_id === 5 || role.role_id === 6">
+                                      <td>
+                                        <div *ngIf="eba_pass.eba_pass_exp_date">
+                                          {{eba_pass.eba_pass_exp_date | date:'dd-MM-yyyy'}}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div *ngIf="eba_pass.remark">
+                                          {{eba_pass.remark}}
+                                        </div>
+                                      </td>
+                                    </ng-container >
+                                  </ng-container>
+                                </ng-container>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <div class="card shadow" *ngIf="employee && employee.family && employee.family.length > 0 && (!applyingforclosefamily|| urlid)">
+          <div class="card-body">
+            <h5 class="card-title" style=" color: indianred"> Officer's Relative Details</h5>
+            <hr class="row-divider">
+            <div class="row">
+              <div class="col-md">
+                <div class="card table-responsive">
+                  <div class="card-body">
+                    <table class="table table-stripped">
+                      <thead>
+                      <tr>
+                        <th>Select</th>
+                        <th>Name</th>
+                        <th>Relation</th>
+                        <th>Mob No.</th>
+                        <th>DOB</th>
+                        <th>EBA NO</th>
+                        <th *ngIf="!urlid && editable">Valid upto</th>
+                        <th >Photo</th>
+<!--                        <th >Sign.</th>-->
+                        <th >Id Proof</th>
+                        <th *ngIf="urlid && !editable">Valid upto</th>
+                        <th *ngIf="urlid && !editable">Remark</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let member of employee!.family; let i = index">
+                        <ng-container >
                           <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
                             <ng-container *ngIf="urlid && !editable">
                               <td>
@@ -177,12 +339,11 @@
                             </ng-container>
                             <ng-container *ngIf="editable && !urlid">
                               <td>
-<!--                                <ng-container *ngIf="(eba_pass.eba_pass_no === null || isWithinTwoWeeks(eba_pass.eba_pass_exp_date))">-->
-                                  <input type="checkbox" class="selectItem" [(ngModel)]="member.allSelected" >
-<!--                                </ng-container>-->
+                                <!--                                <ng-container *ngIf="(eba_pass.eba_pass_no === null || isWithinTwoWeeks(eba_pass.eba_pass_exp_date))">-->
+                                <input type="checkbox" class="selectItem" [(ngModel)]="member.allSelected" >
+                                <!--                                </ng-container>-->
                               </td>
                             </ng-container>
-<!--                            <td>{{ i + 1 }}</td>-->
                             <td>
                               <span>{{ member!.pivot!.rel_name }}</span>
                             </td>
@@ -197,22 +358,11 @@
                             </td>
                             <ng-container *ngIf="eba_pass">
                               <td>
-<!--                                <ng-container *ngIf="editable && !urlid">-->
-<!--                                  <ng-container *ngIf=" eba_pass.eba_pass_no !== null; else eba_pass_no_template">-->
-<!--                                    {{ eba_pass.eba_pass_no }}-->
-<!--                                  </ng-container>-->
-<!--                                  <ng-template #eba_pass_no_template>-->
-<!--                                    <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null ">-->
-<!--                                      new-->
-<!--                                    </div>-->
-<!--                                  </ng-template>-->
-<!--                                </ng-container>-->
-<!--                                <div *ngIf="urlid && !editable">-->
                                 <div>
-                                  <div *ngIf="eba_pass?.eba_pass_no !== null ">
+                                  <div *ngIf=" eba_pass?.eba_pass_no && eba_pass?.eba_pass_no !== null ">
                                     {{ eba_pass.eba_pass_no }}
                                   </div>
-                                  <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null ">
+                                  <div style="color: blue;" *ngIf="!eba_pass?.eba_pass_no ||eba_pass?.eba_pass_no === null ">
                                     new
                                   </div>
                                 </div>
@@ -220,64 +370,46 @@
                               <td *ngIf="!urlid && editable">
                                 <span >{{ eba_pass.eba_pass_exp_date | date:'dd-MM-yyyy'}}</span>
                               </td>
-                              <td  >
-                                <div   *ngIf="eba_pass.photo_path && eba_pass.photo_path!==null">
-                                  <ng-container *ngIf="eba_pass.photo_path.startsWith('http')">
-                                    <!-- Render image if photo_path starts with 'http' -->
-                                    <img [src]="eba_pass.photo_path" style="width: 150px; height: 128px" class="rounded-square" />
-                                  </ng-container>
-                                  <ng-container *ngIf="!eba_pass.photo_path.startsWith('http')">
-                                    <!-- Render button/link if photo_path does not start with 'http' -->
-                                    <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="photo" (click)="openFileInNewPage(i,j,'photo')">
-                                      <i class="bi bi-eye"></i>
-                                    </a>
-                                  </ng-container>
-<!--                                  <img [src]="eba_pass?.photo_path" style="width: 150px; height: 128px" class="rounded-square"/>-->
-
-<!--                                  <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'photo')" >-->
-<!--                                    <i class="bi bi-eye"></i>-->
-<!--                                  </a>-->
-                                </div>
-                              </td>
-                              <td  >
-                                <div   *ngIf="eba_pass.sign_path && eba_pass.sign_path!==null">
-                                <ng-container *ngIf="eba_pass.sign_path.startsWith('http')">
-                                  <!-- Render image if photo_path starts with 'http' -->
-                                  <img [src]="eba_pass.sign_path" style="width: 150px; height: 128px" class="rounded-square" />
+                              <td>
+                                <ng-container *ngIf="eba_pass.photo_path_64 && eba_pass.photo_path_64!==null && (!eba_pass.photo_path_edit_64 || eba_pass.photo_path_edit_64===null)">
+                                  <img  [src]="eba_pass.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
                                 </ng-container>
-                                <ng-container *ngIf="!eba_pass.sign_path.startsWith('http')">
-                                  <!-- Render button/link if photo_path does not start with 'http' -->
-                                  <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="sign" (click)="openFileInNewPage(i,j,'sign')">
-                                    <i class="bi bi-eye"></i>
+                                <ng-container *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null">
+                                  <img  [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                </ng-container>
+                              </td>
+<!--                              <td  >-->
+<!--                                <div   *ngIf="eba_pass.sign_path && eba_pass.sign_path!==null">-->
+<!--                                  <ng-container *ngIf="eba_pass.sign_path.startsWith('http')">-->
+<!--                                    &lt;!&ndash; Render image if photo_path starts with 'http' &ndash;&gt;-->
+<!--                                    <img [src]="eba_pass.sign_path" style="width: 150px; height: 128px" class="rounded-square" />-->
+<!--                                  </ng-container>-->
+<!--                                  <ng-container *ngIf="!eba_pass.sign_path.startsWith('http')">-->
+<!--                                    &lt;!&ndash; Render button/link if photo_path does not start with 'http' &ndash;&gt;-->
+<!--                                    <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="sign" (click)="openFileInNewPage(i,j,'sign')">-->
+<!--                                      <i class="bi bi-eye"></i>-->
+<!--                                    </a>-->
+<!--                                  </ng-container>-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash;                                <div class="col-md-6" style="text-align: right" *ngIf="eba_pass.sign_path && eba_pass.sign_path!==null">&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                  <img [src]="eba_pass?.sign_path" style="width: 150px; height: 128px" class="rounded-square"/>&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                                  <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'sign')" >&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                    <i class="bi bi-eye"></i>&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                  </a>&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--                              </td>-->
+                              <td>
+                                <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+                                  <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                     href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
+                                     title="Order File" target="_blank">
+                                    <i class="bi bi-eye "></i>
                                   </a>
                                 </ng-container>
-                                </div>
-<!--                                <div class="col-md-6" style="text-align: right" *ngIf="eba_pass.sign_path && eba_pass.sign_path!==null">-->
-<!--                                  <img [src]="eba_pass?.sign_path" style="width: 150px; height: 128px" class="rounded-square"/>-->
-
-<!--                                  <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'sign')" >-->
-<!--                                    <i class="bi bi-eye"></i>-->
-<!--                                  </a>-->
-<!--                                </div>-->
-                              </td>
-                              <td  >
-                                <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path !==null && eba_pass?.id_proof_path?.startsWith('http')">
-                                  <!-- Render image if photo_path starts with 'http' -->
-                                  <img [src]="eba_pass.id_proof_path" style="width: 150px; height: 128px" class="rounded-square" />
-                                </ng-container>
-                                <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path !==null && !eba_pass?.id_proof_path?.startsWith('http')">
-                                  <!-- Render button/link if photo_path does not start with 'http' -->
-                                  <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'id')">
-                                    <i class="bi bi-eye"></i>
-                                  </a>
-                                </ng-container>
-<!--                                <div class="col-md-6" style="text-align: right" *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path !==null">-->
-<!--                                  <img [src]="eba_pass?.id_proof_path" style="width: 150px; height: 128px" class="rounded-square"/>-->
-
-<!--                                  <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'id')" >-->
-<!--                                    <i class="bi bi-eye"></i>-->
-<!--                                  </a>-->
-<!--                                </div>-->
+                                <ng-template #naBlock>
+                                  N/A
+                                </ng-template>
                               </td>
 
                               <ng-container *ngIf="urlid && !editable">
@@ -407,18 +539,18 @@
                     <div class="row" *ngIf="urlid && !editable">
                       <ng-container *ngIf="(user && user.role)" >
                         <ng-container *ngFor="let role of user.role">
-                          <ng-container *ngIf="role.role_id === 4">
+                          <ng-container *ngIf="role.role_id === 4" >
                             <div class="col-md-6 d-flex align-items-center">
-                              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck" data-toggle="toggle" [(ngModel)]="servant.allSelected">
+                              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck" data-toggle="toggle" [(ngModel)]="servant.allSelected" *ngif="servant.allSelected">
                               <h5 class="card-title" style="color: saddlebrown; margin-left: 10px;">Domestic help Details</h5>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" *ngif="servant.allSelected">
                               <textarea class="form-control"  [(ngModel)]="servant_detail.remark" placeholder="remark"></textarea>
                             </div>
                           </ng-container>
                           <ng-container *ngIf="role.role_id === 5 || role.role_id === 6">
                             <div class="col-md-6 d-flex align-items-center">
-                              <div style="color: blue;" *ngIf="servant.allSelected">
+                              <div style="color: blue;" *ngIf="servant.allSelected" >
                                 Recommended
                               </div>
                               <div style="color: red;" *ngIf="!servant.allSelected">
@@ -426,7 +558,7 @@
                               </div>
                               <h5 class="card-title" style="color: saddlebrown; margin-left: 10px;">Domestic help Details</h5>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" *ngIf="servant.allSelected">
                               {{servant_detail.remark}}
                             </div>
                           </ng-container>
@@ -459,41 +591,37 @@
                               </div>
                               <div class="col-md-6">
                                 <div class="row">
-                                <td class="col-md-4"*ngIf="servant_detail.photo_path && servant_detail.photo_path!==null">
-<!--                                  <ng-container *ngIf="servant_detail.photo_path.startsWith('http')">-->
-                                    <!-- Render image if photo_path starts with 'http' -->
-                                    <img [src]="servant_detail.photo_path" style="width: 150px; height: 128px" class="rounded-square" />
-<!--                                  </ng-container>-->
-<!--                                  <ng-container *ngIf="!servant_detail.photo_path.startsWith('http')">-->
-<!--                                    &lt;!&ndash; Render button/link if photo_path does not start with 'http' &ndash;&gt;-->
-<!--                                    <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="sign" (click)="openFileInNewPage(i,k,'photo')">-->
-<!--                                      <i class="bi bi-eye"></i>-->
-<!--                                    </a>-->
-<!--                                  </ng-container>-->
+                                <td class="col-md-4">
+                                  <ng-container *ngIf="servant_detail.photo_path_64 && servant_detail.photo_path_64!==null && (!servant_detail.photo_path_edit_64 || servant_detail.photo_path_edit_64===null)">
+                                    <img [src]="servant_detail.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                  </ng-container>
+                                  <ng-container *ngIf="servant_detail.photo_path_edit_64 && servant_detail.photo_path_edit_64!==null">
+                                    <img  [src]="servant_detail.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                  </ng-container>
                                 </td>
-                                <td class="col-md-4"  *ngIf="servant_detail.sign_path && servant_detail.sign_path!==null">
-<!--                                  <ng-container *ngIf="servant_detail.sign_path.startsWith('http')">-->
-                                    <!-- Render image if photo_path starts with 'http' -->
-                                    <img [src]="servant_detail.sign_path" style="width: 150px; height: 128px" class="rounded-square" />
-<!--                                  </ng-container>-->
-<!--                                  <ng-container *ngIf="!servant_detail.sign_path.startsWith('http')">-->
-<!--                                    &lt;!&ndash; Render button/link if photo_path does not start with 'http' &ndash;&gt;-->
-<!--                                    <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="sign" (click)="openFileInNewPage(i,k,'sign')">-->
-<!--                                      <i class="bi bi-eye"></i>-->
-<!--                                    </a>-->
-<!--                                  </ng-container>-->
-                                </td>
+<!--                                <td class="col-md-4"  *ngIf="servant_detail.sign_path && servant_detail.sign_path!==null">-->
+<!--&lt;!&ndash;                                  <ng-container *ngIf="servant_detail.sign_path.startsWith('http')">&ndash;&gt;-->
+<!--                                    &lt;!&ndash; Render image if photo_path starts with 'http' &ndash;&gt;-->
+<!--                                    <img [src]="servant_detail.sign_path" style="width: 150px; height: 128px" class="rounded-square" />-->
+<!--&lt;!&ndash;                                  </ng-container>&ndash;&gt;-->
+<!--&lt;!&ndash;                                  <ng-container *ngIf="!servant_detail.sign_path.startsWith('http')">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    &lt;!&ndash; Render button/link if photo_path does not start with 'http' &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="sign" (click)="openFileInNewPage(i,k,'sign')">&ndash;&gt;-->
+<!--&lt;!&ndash;                                      <i class="bi bi-eye"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                  </ng-container>&ndash;&gt;-->
+<!--                                </td>-->
                                 <td class="col-md-4" *ngIf="servant_detail.id_proof_path && servant_detail.id_proof_path!==null">
-<!--                                  <ng-container *ngIf="servant_detail.id_proof_path.startsWith('http')">-->
-                                    <!-- Render image if photo_path starts with 'http' -->
-                                    <img [src]="servant_detail.id_proof_path" style="width: 150px; height: 128px" class="rounded-square" />
-<!--                                  </ng-container>-->
-<!--                                  <ng-container *ngIf="!servant_detail.id_proof_path.startsWith('http')">-->
-                                    <!-- Render button/link if photo_path does not start with 'http' -->
-<!--                                    <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="sign" (click)="openFileInNewPage(i,k,'id')">-->
-<!--                                      <i class="bi bi-eye"></i>-->
-<!--                                    </a>-->
-<!--                                  </ng-container>-->
+                                  <ng-container *ngIf="servant_detail.id_proof_path && servant_detail.id_proof_path!=null; else naBlock">
+                                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                       href="{{apiUrl}}getFile/{{servant_detail.id_proof_path}}"
+                                       title="Order File" target="_blank">
+                                      <i class="bi bi-eye "></i>
+                                    </a>
+                                  </ng-container>
+                                  <ng-template #naBlock>
+                                    N/A
+                                  </ng-template>
                                 </td>
                                 </div>
                               </div>
@@ -652,7 +780,7 @@
                   </ng-container>
                 </ng-container>
                 <div *ngIf="servant && servant.relations && servant.relations.length > 0">
-                  <h5 class="card-title" style=" color: indianred"> Domestic help's Family Details</h5>
+                  <h5 class="card-title" style=" color: indianred"> {{servant!.servant_name}}'s Family Details</h5>
                   <hr class="row-divider">
                   <div class="row">
                     <div class="col-md">
@@ -669,7 +797,7 @@
                               <th>EBA NO</th>
                               <th *ngIf="!urlid && editable">Valid upto</th>
                               <th >Photo</th>
-                              <th >Sign.</th>
+<!--                              <th >Sign.</th>-->
                               <th >Id Proof</th>
                               <th *ngIf="urlid && !editable">Valid upto</th>
                               <th *ngIf="urlid && !editable">Remark</th>
@@ -758,38 +886,38 @@
 
 
                                   <td>
-                                    <div   *ngIf="eba_pass.photo_path && eba_pass.photo_path!==null">
-<!--                                      <ng-container *ngIf="eba_pass.photo_path.startsWith('http')">-->
-                                        <!-- Render image if photo_path starts with 'http' -->
-                                        <img [src]="eba_pass.photo_path" style="width: 150px; height: 128px" class="rounded-square" />
-<!--                                      </ng-container>-->
-<!--                                      <ng-container *ngIf="!eba_pass.photo_path.startsWith('http')">-->
-                                        <!-- Render button/link if photo_path does not start with 'http' -->
-<!--                                        <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="photo" (click)="openFileInNewPage(i,j,'photo')">-->
-<!--                                          <i class="bi bi-eye"></i>-->
-<!--                                        </a>-->
-<!--                                      </ng-container>-->
-                                    </div>
+                                    <ng-container *ngIf="eba_pass.photo_path_64 && eba_pass.photo_path_64!==null && (!eba_pass.photo_path_edit_64 || eba_pass.photo_path_edit_64===null)">
+                                      <img [src]="eba_pass.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                    </ng-container>
+                                    <ng-container *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null">
+                                      <img  [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                    </ng-container>
                                   </td>
-                                  <td  >
-                                    <div   *ngIf="eba_pass.sign_path && eba_pass.sign_path!==null">
-<!--                                      <ng-container *ngIf="eba_pass.sign_path.startsWith('http')">-->
-                                        <!-- Render image if photo_path starts with 'http' -->
-                                        <img [src]="eba_pass.sign_path" style="width: 150px; height: 128px" class="rounded-square" />
-<!--                                      </ng-container>-->
-<!--                                      <ng-container *ngIf="!eba_pass.sign_path.startsWith('http')">-->
-<!--                                        &lt;!&ndash; Render button/link if photo_path does not start with 'http' &ndash;&gt;-->
-<!--                                        <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="sign" (click)="openFileInNewPage(i,j,'sign')">-->
-<!--                                          <i class="bi bi-eye"></i>-->
-<!--                                        </a>-->
-<!--                                      </ng-container>-->
-                                    </div>
-                                  </td>
-                                  <td  >
-<!--                                    <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path !==null && eba_pass?.id_proof_path?.startsWith('http')">-->
-                                      <!-- Render image if photo_path starts with 'http' -->
-                                      <img [src]="eba_pass.id_proof_path" style="width: 150px; height: 128px" class="rounded-square" />
-<!--                                    </ng-container>-->
+<!--                                  <td  >-->
+<!--                                    <div   *ngIf="eba_pass.sign_path && eba_pass.sign_path!==null">-->
+<!--&lt;!&ndash;                                      <ng-container *ngIf="eba_pass.sign_path.startsWith('http')">&ndash;&gt;-->
+<!--                                        &lt;!&ndash; Render image if photo_path starts with 'http' &ndash;&gt;-->
+<!--                                        <img [src]="eba_pass.sign_path" style="width: 150px; height: 128px" class="rounded-square" />-->
+<!--&lt;!&ndash;                                      </ng-container>&ndash;&gt;-->
+<!--&lt;!&ndash;                                      <ng-container *ngIf="!eba_pass.sign_path.startsWith('http')">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        &lt;!&ndash; Render button/link if photo_path does not start with 'http' &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="sign" (click)="openFileInNewPage(i,j,'sign')">&ndash;&gt;-->
+<!--&lt;!&ndash;                                          <i class="bi bi-eye"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                      </ng-container>&ndash;&gt;-->
+<!--                                    </div>-->
+<!--                                  </td>-->
+                                  <td>
+                                    <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                         href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
+                                         title="Order File" target="_blank">
+                                        <i class="bi bi-eye "></i>
+                                      </a>
+                                    </ng-container>
+                                    <ng-template #naBlock>
+                                      N/A
+                                    </ng-template>
 <!--                                    <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path !==null && !eba_pass?.id_proof_path?.startsWith('http')">-->
 <!--                                      &lt;!&ndash; Render button/link if photo_path does not start with 'http' &ndash;&gt;-->
 <!--                                      <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'id')">-->
@@ -935,7 +1063,7 @@
         </div>
       </div>
 
-    <div class="row" *ngIf="editable && !urlid && employee && ((applyingforRelative && employee!.relations! && employee!.relations!.length! > 0) ||(!applyingforRelative && employee!.servants! && employee!.servants!.length! > 0))">
+    <div class="row" *ngIf="editable && !urlid && employee && ((applyingforRelative && employee!.family! && employee!.family!.length! > 0) ||(!applyingforRelative && employee!.servants! && employee!.servants!.length! > 0))">
 <!--      <div class="row"  *ngIf="editable && !urlid">-->
         <div class="col-md-10" style="font-size: 200%; ">
           &nbsp;
@@ -951,12 +1079,20 @@
         <div class="col-md-6  " style="font-size: 200%; ">
           &nbsp;
         </div>
-        <div class="col-md-6" style="color: red;text-align: right" *ngIf="editable && applyingforRelative && !urlid && employee && (!employee.relations || employee.relations.length == 0)">
+        <div class="col-md-6" style="color: red;text-align: right" *ngIf="editable && applyingforRelative && applyingforclosefamily && !urlid && employee && (!employee.closefamily || employee.closefamily.length == 0)">
           Family data is not inserted. Kindly insert details through
           <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/profile/edit'">
             Profile
           </button>
         </div>
+
+        <div class="col-md-6" style="color: red;text-align: right" *ngIf="editable && applyingforRelative && !applyingforclosefamily && !urlid && employee && (!employee.family || employee.family.length == 0)">
+          Relative data is not inserted. Kindly insert details through
+          <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/profile/edit'">
+            Profile
+          </button>
+        </div>
+
         <div class="col-md-6" style="color: red;text-align: right" *ngIf="editable && !applyingforRelative && !urlid && employee && (!employee.servants || employee.servants.length == 0)">
           Domestic Help data is not inserted. Kindly insert details through
           <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/profile/edit'">
@@ -969,7 +1105,7 @@
         <ng-container>
           <div class="modal modal-above-header"
                tabindex="-1" data-bs-backdrop="false"
-               [ngStyle]="{'display': displayUpload }" style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto; max-height: 80vh; margin-top: 100px;">
+               [ngStyle]="{'display': displayUpload }" style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7);  ">
             <div class="modal-dialog modal-dialog-centered modal-xl">
               <div class="modal-content">
                 <!--            <div class="modal-header">-->
@@ -978,18 +1114,113 @@
                 <!--              </h5>-->
                 <!--            </div>-->
                 <div class="modal-body" >
-                  <div *ngIf="applyingforRelative && editable && !urlid && employee && employee.relations && employee.relations.length > 0 ">
+                  <div *ngIf="applyingforRelative && applyingforclosefamily && editable && !urlid && employee && employee.closefamily && employee.closefamily.length > 0 ">
                     <table class="table table-stripped">
                       <thead>
                       <tr>
                         <th>Relative Name</th>
                         <th>Eba Pass NO</th>
                         <th>Upload Photo</th>
-                        <th>Upload Signature</th>
+<!--                        <th>Upload Signature</th>-->
                         <th>Upload ID Proof</th>
                       </tr>
                       </thead>
-                      <ng-container *ngFor="let member of employee?.relations; let i = index">
+                      <ng-container *ngFor="let member of employee?.closefamily; let i = index">
+                        <ng-container *ngIf="member?.allSelected && member?.pivot?.eba_passes ">
+                          <tbody>
+                          <tr *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
+                            <td>
+                              <span>{{ member!.pivot!.rel_name }}</span>
+                            </td>
+                            <td>
+                              <div *ngIf="eba_pass.eba_pass_no !== null ">
+                                {{ eba_pass.eba_pass_no }}
+                              </div>
+                              <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null ">
+                                new
+                              </div>
+                            </td>
+
+                            <!-- Column for 'photo_path' -->
+                            <td>
+                              <div class="input-group" *ngIf="editable && !urlid">
+                                <div>
+                                  <label [for]="'photo'+i+j" class="upload-icon-label"  title="Upload Photo">
+                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                  </label>
+                                  <br>
+                                  <label class="upload-icon-label" *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null"
+                                         title="remove file">
+                                    <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile($event,i,j,0,'closefamily_photo_path')" ></i>
+                                  </label>
+                                </div>
+
+                                <ng-container *ngIf="eba_pass.photo_path_64 && eba_pass.photo_path_64!==null && (!eba_pass.photo_path_edit_64 || eba_pass.photo_path_edit_64===null)">
+                                  <img [src]="eba_pass.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                </ng-container>
+                                <ng-container *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null">
+                                  <img  [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                </ng-container>
+
+                                <input type="file" class="custom-file-input" [id]="'photo'+i+j" style="display: none"
+                                       (change)="onProfilePhotoSelected($event,i,j,0,'closefamily_photo_path')" *ngIf="editable"
+                                       [(ngModel)]="eba_pass.photo_path_edit_64">
+                              </div>
+                            </td>
+
+                            <!-- Column for 'sign_path' -->
+<!--                            <td>-->
+<!--                              <div class="input-group">-->
+<!--                                <label [for]="'signature'+ i + j" class="upload-icon-label" *ngIf="editable" title="signature">-->
+<!--                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>-->
+<!--                                </label>-->
+<!--                                <input type="file" class="custom-file-input" [id]="'signature' + i + j" style="display: none"-->
+<!--                                       (change)="onProfilePhotoSelected($event,i,j,0,'closefamily_signature')" *ngIf="editable"-->
+<!--                                       [(ngModel)]="eba_pass.sign_path">-->
+<!--                                <img [src]="eba_pass?.sign_path" style="width: 150px; height: 128px" class="rounded-square" />-->
+<!--                              </div>-->
+<!--                            </td>-->
+
+                            <!-- Column for 'id_proof_path' -->
+                            <td>
+                              <div class="input-group">
+                                <label [for]="'idPath'+ i + j" class="upload-icon-label" *ngIf="editable" title="signature">
+                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                </label>
+                                <input type="file" class="custom-file-input" [id]="'idPath' + i + j" style="display: none"
+                                       (change)="onFileSelected($event,i,j,0,'closefamily_id_proof_path')" *ngIf="editable"
+                                       [(ngModel)]="eba_pass.id_proof_path">
+                              </div>
+                              <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+                                <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                   href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
+                                   title="Order File" target="_blank">
+                                  <i class="bi bi-eye "></i>
+                                </a>
+                              </ng-container>
+                              <ng-template #naBlock>
+                                N/A
+                              </ng-template>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </ng-container>
+                      </ng-container>
+                    </table>
+                  </div>
+
+                  <div *ngIf="applyingforRelative && !applyingforclosefamily && editable && !urlid && employee && employee.family && employee.family.length > 0 ">
+                    <table class="table table-stripped">
+                      <thead>
+                      <tr>
+                        <th>Relative Name</th>
+                        <th>Eba Pass NO</th>
+                        <th>Upload Photo</th>
+<!--                        <th>Upload Signature</th>-->
+                        <th>Upload ID Proof</th>
+                      </tr>
+                      </thead>
+                      <ng-container *ngFor="let member of employee?.family; let i = index">
                         <ng-container *ngIf="member?.allSelected && member?.pivot?.eba_passes ">
                           <tbody>
                           <tr *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
@@ -1008,28 +1239,40 @@
                             <!-- Column for 'photo_path' -->
                             <td>
                               <div class="input-group">
-                                <label [for]="'photo'+i+j" class="upload-icon-label" *ngIf="editable" title="Upload Photo">
-                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
-                                </label>
+                                <div *ngIf="editable || !urlid">
+                                  <label [for]="'photo'+i+j" class="upload-icon-label" *ngIf="editable" title="Upload Photo">
+                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                  </label>
+                                  <br>
+                                  <label class="upload-icon-label" *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null"
+                                         title="remove file">
+                                    <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile($event,i,j,0,'family_photo_path')" ></i>
+                                  </label>
+                                </div>
                                 <input type="file" class="custom-file-input" [id]="'photo'+i+j" style="display: none"
-                                       (change)="onProfilePhotoSelected($event,i,j,0,'photo_path')" *ngIf="editable"
-                                       [(ngModel)]="eba_pass.photo_path">
-                                <img [src]="eba_pass?.photo_path" style="width: 150px; height: 128px" class="rounded-square" />
+                                       (change)="onProfilePhotoSelected($event,i,j,0,'family_photo_path')" *ngIf="editable"
+                                       [(ngModel)]="eba_pass.photo_path_edit_64">
+                                <ng-container *ngIf="eba_pass.photo_path_64 && eba_pass.photo_path_64!==null && (!eba_pass.photo_path_edit_64 || eba_pass.photo_path_edit_64===null)">
+                                  <img [src]="eba_pass.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                </ng-container>
+                                <ng-container *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null">
+                                  <img  [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                </ng-container>
                               </div>
                             </td>
 
                             <!-- Column for 'sign_path' -->
-                            <td>
-                              <div class="input-group">
-                                <label [for]="'signature'+ i + j" class="upload-icon-label" *ngIf="editable" title="signature">
-                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
-                                </label>
-                                <input type="file" class="custom-file-input" [id]="'signature' + i + j" style="display: none"
-                                       (change)="onProfilePhotoSelected($event,i,j,0,'signature')" *ngIf="editable"
-                                       [(ngModel)]="eba_pass.sign_path">
-                                <img [src]="eba_pass?.sign_path" style="width: 150px; height: 128px" class="rounded-square" />
-                              </div>
-                            </td>
+<!--                            <td>-->
+<!--                              <div class="input-group">-->
+<!--                                <label [for]="'signature'+ i + j" class="upload-icon-label" *ngIf="editable" title="signature">-->
+<!--                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>-->
+<!--                                </label>-->
+<!--                                <input type="file" class="custom-file-input" [id]="'signature' + i + j" style="display: none"-->
+<!--                                       (change)="onProfilePhotoSelected($event,i,j,0,'family_signature')" *ngIf="editable"-->
+<!--                                       [(ngModel)]="eba_pass.sign_path">-->
+<!--                                <img [src]="eba_pass?.sign_path" style="width: 150px; height: 128px" class="rounded-square" />-->
+<!--                              </div>-->
+<!--                            </td>-->
 
                             <!-- Column for 'id_proof_path' -->
                             <td>
@@ -1038,10 +1281,20 @@
                                   <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                                 </label>
                                 <input type="file" class="custom-file-input" [id]="'idPath' + i + j" style="display: none"
-                                       (change)="onProfilePhotoSelected($event,i,j,0,'id_proof_path')" *ngIf="editable"
+                                       (change)="onFileSelected($event,i,j,0,'family_id_proof_path')" *ngIf="editable"
                                        [(ngModel)]="eba_pass.id_proof_path">
-                                <img [src]="eba_pass?.id_proof_path" style="width: 150px; height: 128px" class="rounded-square" />
+
                               </div>
+                              <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+                                <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                   href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
+                                   title="Order File" target="_blank">
+                                  <i class="bi bi-eye "></i>
+                                </a>
+                              </ng-container>
+                              <ng-template #naBlock>
+                                N/A
+                              </ng-template>
                             </td>
                           </tr>
                           </tbody>
@@ -1057,7 +1310,7 @@
                         <th>Name</th>
                         <th>Eba Pass NO</th>
                         <th>Upload Photo</th>
-                        <th>Upload Signature</th>
+<!--                        <th>Upload Signature</th>-->
                         <th>Upload ID Proof</th>
                       </tr>
                       </thead>
@@ -1079,31 +1332,43 @@
                               </td>
                               <td>
                                 <div class="input-group">
-                                  <label [for]="'photo'+i+k" class="upload-icon-label" *ngIf="editable"
-                                         title="Upload Photo">
-                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
-                                  </label>
-                                  <input type="file" class="custom-file-input" [id]="'photo'+i+k"
-                                         style="display: none" (change)="onProfilePhotoSelected($event,i,k,0,'photo_path')"
-                                         *ngIf="editable" [(ngModel)]="eba_pass.photo_path">
-                                  <img [src]="eba_pass?.photo_path" style="width: 150px; height: 128px"
-                                       class="rounded-square" />
-                                </div>
-                              </td>
-                              <td>
-                                <div class="input-group">
-                                  <label [for]="'signature'+ i + k" class="upload-icon-label" *ngIf="editable"
-                                         title="signature">
-                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                  <div *ngIf="editable || !urlid">
+                                    <label [for]="'photo'+i+k" class="upload-icon-label" *ngIf="editable"
+                                           title="Upload Photo">
+                                      <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                    </label>
+                                    <br>
+                                    <label class="upload-icon-label" *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null"
+                                           title="remove file">
+                                      <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile($event,i,k,0,'servant_photo_path')" ></i>
+                                    </label>
+                                  </div>
 
-                                    <input type="file" class="custom-file-input" [id]="'signature' + i + k"
-                                           style="display: none" (change)="onProfilePhotoSelected($event,i,k,0,'signature')"
-                                           *ngIf="editable" [(ngModel)]="eba_pass.sign_path">
-                                  </label>
-                                  <img [src]="eba_pass?.sign_path" style="width: 150px; height: 128px"
-                                       class="rounded-square" />
+                                  <input type="file" class="custom-file-input" [id]="'photo'+i+k"
+                                         style="display: none" (change)="onProfilePhotoSelected($event,i,k,0,'servant_photo_path')"
+                                         *ngIf="editable" [(ngModel)]="eba_pass.photo_path_edit_64">
+                                  <ng-container *ngIf="eba_pass.photo_path_64 && eba_pass.photo_path_64!==null && (!eba_pass.photo_path_edit_64 || eba_pass.photo_path_edit_64===null)">
+                                    <img [src]="eba_pass.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                  </ng-container>
+                                  <ng-container *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null">
+                                    <img  [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                  </ng-container>
                                 </div>
                               </td>
+<!--                              <td>-->
+<!--                                <div class="input-group">-->
+<!--                                  <label [for]="'signature'+ i + k" class="upload-icon-label" *ngIf="editable"-->
+<!--                                         title="signature">-->
+<!--                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>-->
+
+<!--                                    <input type="file" class="custom-file-input" [id]="'signature' + i + k"-->
+<!--                                           style="display: none" (change)="onProfilePhotoSelected($event,i,k,0,'servant_signature')"-->
+<!--                                           *ngIf="editable" [(ngModel)]="eba_pass.sign_path">-->
+<!--                                  </label>-->
+<!--                                  <img [src]="eba_pass?.sign_path" style="width: 150px; height: 128px"-->
+<!--                                       class="rounded-square" />-->
+<!--                                </div>-->
+<!--                              </td>-->
                               <td>
                                 <div class="input-group">
                                   <label [for]="'idPath'+ i + k" class="upload-icon-label" *ngIf="editable"
@@ -1111,16 +1376,25 @@
                                     <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
 
                                     <input type="file" class="custom-file-input" [id]="'idPath' + i + k"
-                                           style="display: none" (change)="onProfilePhotoSelected($event,i,k,0,'id_proof_path')"
+                                           style="display: none" (change)="onFileSelected($event,i,k,0,'servant_id_proof_path')"
                                            *ngIf="editable" [(ngModel)]="eba_pass.id_proof_path">
                                   </label>
-                                  <img [src]="eba_pass?.id_proof_path" style="width: 150px; height: 128px"
-                                       class="rounded-square" />
                                 </div>
+                                <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+                                  <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                     href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
+                                     title="Order File" target="_blank">
+                                    <i class="bi bi-eye "></i>
+                                  </a>
+                                </ng-container>
+                                <ng-template #naBlock>
+                                  N/A
+                                </ng-template>
                               </td>
                             </tr>
                             </tbody>
                           </ng-container>
+                        </ng-container>
                           <ng-container *ngIf="servant!.relations && servant.relations.length >0">
                             <ng-container *ngFor="let member of servant!.relations; let f = index">
                               <ng-container *ngIf="member.allSelected && member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
@@ -1140,51 +1414,78 @@
                                   </td>
                                   <td>
                                     <div class="input-group">
-                                      <label [for]="'photo'+i+f+g" class="upload-icon-label" *ngIf="editable"
-                                             title="Upload Photo">
-                                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
-                                      </label>
+                                      <div *ngIf="editable || !urlid">
+                                        <label [for]="'photo'+i+f+g" class="upload-icon-label" *ngIf="editable"
+                                               title="Upload Photo">
+                                          <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                        </label>
+                                        <br>
+                                        <label class="upload-icon-label" *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null"
+                                               title="remove file">
+                                          <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile($event,i,f,g,'photo')" ></i>
+                                        </label>
+                                      </div>
+
                                       <input type="file" class="custom-file-input" [id]="'photo'+i+f+g"
                                              style="display: none" (change)="onProfilePhotoSelected($event,i,f,g,'photo')"
-                                             *ngIf="editable" [(ngModel)]="eba_pass.photo_path">
-                                      <img [src]="eba_pass?.photo_path" style="width: 150px; height: 128px"
-                                           class="rounded-square" />
+                                             *ngIf="editable" [(ngModel)]="eba_pass.photo_path_edit_64">
+                                      <ng-container *ngIf="eba_pass.photo_path_64 && eba_pass.photo_path_64!==null && (!eba_pass.photo_path_edit_64 || eba_pass.photo_path_edit_64===null)">
+                                        <img [src]="eba_pass.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                      </ng-container>
+                                      <ng-container *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null">
+                                        <img  [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                      </ng-container>
                                     </div>
                                   </td>
-                                  <td>
-                                    <div class="input-group">
-                                      <label [for]="'signature'+ i + f+g" class="upload-icon-label" *ngIf="editable"
-                                             title="signature">
-                                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
+<!--                                  <td>-->
+<!--                                    <div class="input-group">-->
+<!--                                      <label [for]="'signature'+ i + f+g" class="upload-icon-label" *ngIf="editable"-->
+<!--                                             title="signature">-->
+<!--                                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>-->
 
-                                        <input type="file" class="custom-file-input" [id]="'signature' + i + f +g"
-                                               style="display: none" (change)="onProfilePhotoSelected($event,i,f,g,'sign')"
-                                               *ngIf="editable" [(ngModel)]="eba_pass.sign_path">
-                                      </label>
-                                      <img [src]="eba_pass?.sign_path" style="width: 150px; height: 128px"
-                                           class="rounded-square" />
-                                    </div>
-                                  </td>
+<!--                                        <input type="file" class="custom-file-input" [id]="'signature' + i + f +g"-->
+<!--                                               style="display: none" (change)="onProfilePhotoSelected($event,i,f,g,'sign')"-->
+<!--                                               *ngIf="editable" [(ngModel)]="eba_pass.sign_path">-->
+<!--                                      </label>-->
+<!--                                      <img [src]="eba_pass?.sign_path" style="width: 150px; height: 128px"-->
+<!--                                           class="rounded-square" />-->
+<!--                                    </div>-->
+<!--                                  </td>-->
                                   <td>
-                                    <div class="input-group">
-                                      <label [for]="'idPath'+ i + f+g" class="upload-icon-label" *ngIf="editable"
-                                             title="signature">
-                                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
 
-                                        <input type="file" class="custom-file-input" [id]="'idPath' + i + f +g"
-                                               style="display: none" (change)="onProfilePhotoSelected($event,i,f,g,'id_proof')"
-                                               *ngIf="editable" [(ngModel)]="eba_pass.id_proof_path">
-                                      </label>
-                                      <img [src]="eba_pass?.id_proof_path" style="width: 150px; height: 128px"
-                                           class="rounded-square" />
-                                    </div>
+                                    <label [for]="'idPath'+ i + f+g" class="upload-icon-label" *ngIf="editable" title="signature">
+                                      <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                    </label>
+
+<!--                                      <img *ngIf="eba_pass.id_proof_path" [src]="eba_pass?.id_proof_path" style="width: 150px; height: 128px"-->
+<!--                                           class="rounded-square" />-->
+
+                                    <input type="file" class="custom-file-input" [id]="'idPath' + i + f +g"
+                                           style="display: none" (change)="onFileSelected($event,i,f,g,'id_proof')"
+                                           *ngIf="editable" [(ngModel)]="eba_pass.id_proof_path">
+
+                                    <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                         href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
+                                         title="Order File" target="_blank">
+                                        <i class="bi bi-eye "></i>
+                                      </a>
+<!--                                      <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'id')">-->
+<!--                                        <i class="bi bi-eye"></i>-->
+<!--                                      </a>-->
+                                    </ng-container>
+                                    <ng-template #naBlock>
+                                      N/A
+                                    </ng-template>
+
                                   </td>
+
+
                                 </tr>
                                 </tbody>
                               </ng-container>
                             </ng-container>
                           </ng-container>
-                        </ng-container>
                       </ng-container>
                     </table>
                   </div>
@@ -1232,17 +1533,26 @@
           <div class="col-md-6" style="text-align: left" *ngIf="file_path">
             <label class="upload-icon-label"
                    title="remove file">
-              <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile()" ></i>
+              <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile($event,0,0,0,'file_path')" ></i>
             </label>
           </div>
 
-          <input type="file" class="custom-file-input" [(ngModel)]="file_path" (change)="onProfilePhotoSelected($event,0,0,0,'file_path')"
+          <input type="file" class="custom-file-input" [(ngModel)]="file_path" (change)="onFileSelected($event,0,0,0,'file_path')"
                  style="display: none" [id]="'file_path'">
           <br>
 
-          <img [src]="file_path" [style.display]="file_path ? 'block' : 'none'" />
+          <ng-container *ngIf="file_path && file_path!=null">
+            <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+               href="{{apiUrl}}getFile/{{file_path}}"
+               title="Order File" target="_blank">
+              <i class="bi bi-eye "></i>
+            </a>
+          </ng-container>
 
+
+<!--          <img [src]="file_path" [style.display]="file_path ? 'block' : 'none'" />-->
         </div>
+
         <div class="row">
           <div class="col-6" style="text-align: right">
             <div *ngIf="urlid">
@@ -1261,12 +1571,13 @@
                 </div>
               </div>
             </div>
-
           </div>
+
           <div class="col-6" style="text-align: left">
             <button type="submit" class="btn btn-danger enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Return" (click)="returnapplication()">Return</button>
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -1284,9 +1595,16 @@
             <strong>Note #{{j+1}}</strong>
           </div>
           <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">
-            <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >
-              <i class="bi bi-eye"></i>
-            </a>
+<!--            <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >-->
+<!--              <i class="bi bi-eye"></i>-->
+<!--            </a>-->
+
+              <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                 href="{{apiUrl}}getFile/{{application.file_path}}"
+                 title="Order File" target="_blank">
+                <i class="bi bi-eye "></i>
+              </a>
+
           </div>
         </div>
       </div>

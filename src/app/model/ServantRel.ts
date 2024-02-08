@@ -1,3 +1,5 @@
+import {Ebapass} from "./Ebapass";
+
 export class ServantRel {
     id?: number = -1;
     deleted_at: Date | null = null;
@@ -15,7 +17,7 @@ export class ServantRel {
         rel_dob: Date | null;
         rel_mobile_no: string | null;
         deleted_at: Date | null;
-        eba_passes: any[]|null ;
+        eba_passes: Ebapass[] ;
         id_proof_path: string|null ;
         photo_path: string|null;
         sign_path: string|null ;
@@ -29,7 +31,7 @@ export class ServantRel {
         rel_dob: null,
         rel_mobile_no: null,
         deleted_at: null,
-        eba_passes: [],
+        eba_passes:  [],
         id_proof_path:  null,
         photo_path: null,
         sign_path:  null

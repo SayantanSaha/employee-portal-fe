@@ -42,6 +42,8 @@ export class Employee{
   updated_at: Date | null = null;
   profile_photo: string|null = null;
   relations: Relation[]|null = [];
+  closefamily: Relation[]|null = [];
+  family: Relation[]|null = [];
   servants: Servants[]|null = [];
   // servant_relations:ServantRel[]|null=[];
 

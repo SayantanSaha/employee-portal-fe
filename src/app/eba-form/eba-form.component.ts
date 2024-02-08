@@ -61,6 +61,7 @@ export class EbaFormComponent {
   relationstypelist: any[] = [];
   editable: boolean = false;
   applyingforRelative: boolean = false;
+  applyingforclosefamily: boolean = false;
   mode: string | null = null;
   modetwo: string | null = null;
   urlid: boolean = false;
@@ -183,12 +184,42 @@ export class EbaFormComponent {
     this.applyingforRelative = status;
   }
 
+  onSelectcloseFamily(){
+      this.applyingforRelative = true;
+    this.applyingforclosefamily = true;
+    this.employee!.family?.forEach(member => {
+      member.allSelected = false;
+    })
+    this.employee!.servants?.forEach(servant => {
+      servant.allSelected = false;
+      servant.relations?.forEach(relative => {
+        relative.allSelected = false;
+      })
+    })
+  }
+
   onSelectRelative(){
     this.applyingforRelative = true;
+      this.applyingforclosefamily = false;
+    this.employee!.closefamily?.forEach(member => {
+      member.allSelected = false;
+    })
+    this.employee!.servants?.forEach(servant => {
+      servant.allSelected = false;
+      servant.relations?.forEach(relative => {
+        relative.allSelected = false;
+      })
+    })
   }
 
   onSelectServant(){
     this.applyingforRelative = false;
+    this.employee!.closefamily?.forEach(member => {
+      member.allSelected = false;
+    })
+    this.employee!.family?.forEach(member => {
+      member.allSelected = false;
+    })
   }
 
   letverify(status:boolean){
@@ -222,28 +253,63 @@ export class EbaFormComponent {
   }
 
   // @ts-ignore
-  getDefaultExpDate(i: number, j: number,k:number ,property: string): string {
-    const twoYearsFromNow = new Date();
-    twoYearsFromNow.setFullYear(twoYearsFromNow.getFullYear() + 2);
-    if (property === 'relative') {
-      // @ts-ignore
-      this.employee.relations[i].pivot.eba_passes[j].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
-      return this.employee?.relations?.[i]?.pivot?.eba_passes?.[j]?.eba_pass_exp_date;
-    }
-    if (property === 'servant') {
-      // @ts-ignore
-      this.employee.servants[i].eba_passes[j].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
-      return this.employee?.servants?.[i]?.eba_passes?.[j]?.eba_pass_exp_date;
+  // getDefaultExpDate(i: number, j: number,k:number ,property: string): string {
+  //   const twoYearsFromNow = new Date();
+  //   twoYearsFromNow.setFullYear(twoYearsFromNow.getFullYear() + 2);
+  //   if (property === 'relative') {
+  //     // @ts-ignore
+  //     this.employee.relations[i].pivot.eba_passes[j].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
+  //     return this.employee?.relations?.[i]?.pivot?.eba_passes?.[j]?.eba_pass_exp_date;
+  //   }
+  //   if (property === 'servant') {
+  //     // @ts-ignore
+  //     this.employee.servants[i].eba_passes[j].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
+  //     return this.employee?.servants?.[i]?.eba_passes?.[j]?.eba_pass_exp_date;
+  //
+  //   }
+  //   if (property === 'servant_rel') {
+  //     // @ts-ignore
+  //     this.employee.servants[i].relations[j].pivot.eba_passes[k].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
+  //     return this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]?.eba_pass_exp_date;
+  //   }
+  // }
 
-    }
-    if (property === 'servant_rel') {
-      // @ts-ignore
-      this.employee.servants[i].relations[j].pivot.eba_passes[k].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
-      return this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]?.eba_pass_exp_date;
-    }
-  }
+    getDefaultExpDate(i: number, j: number, k: number, property: string): Date {
+        const twoYearsFromNow = new Date();
+        twoYearsFromNow.setFullYear(twoYearsFromNow.getFullYear() + 2);
 
-  isWithinTwoWeeks(expDate: Date | null): boolean {
+        let expDate: Date = twoYearsFromNow;
+
+        if (property === 'relative') {
+            // @ts-ignore
+            if (this.employee?.relations?.[i]?.pivot?.eba_passes?.[j]) {
+                this.employee.relations[i].pivot.eba_passes[j].eba_pass_exp_date = expDate;
+            }
+            return expDate;
+        }
+
+        if (property === 'servant') {
+            // @ts-ignore
+            if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
+                this.employee.servants[i].eba_passes[j].eba_pass_exp_date = expDate;
+            }
+            return expDate;
+        }
+
+        if (property === 'servant_rel') {
+            // @ts-ignore
+            if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
+                this.employee.servants[i].relations[j].pivot.eba_passes[k].eba_pass_exp_date = expDate;
+            }
+            return expDate;
+        }
+
+        // Default return
+        return expDate;
+    }
+
+
+    isWithinTwoWeeks(expDate: Date | null): boolean {
     if (expDate === null) {
       return true; // If eba_pass_exp_date is null, consider it within two weeks
     }
@@ -255,7 +321,7 @@ export class EbaFormComponent {
 
   updateRelationSelection(servant: any, relation: any): void {
     if(relation.allSelected == true)
-      servant.allSelected = true;
+      servant.reference = true;
   }
 
   addVehicle(i: number): void {
@@ -381,37 +447,41 @@ export class EbaFormComponent {
     if (inputElement?.files?.length) {
       const file: File = inputElement.files[0];
       // Check if the file type is JPEG or JPG
-      if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg' ) {
         // Check if the file size is less than or equal to 200KB
-        // if (file.size <= 200 * 1024) { // 200KB in bytes
+        if (file.size <= 200 * 1024) { // 200KB in bytes
         try {
           const base64String: string = await fileToBase64(file); // Convert the file to base64
 
-          if (this.employee?.relations?.[i]?.pivot?.eba_passes?.[j]) {
-            // Update the specific property based on the argument
-            if (property === 'photo_path') {
+          if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
+            if (property === 'closefamily_photo_path') {
               // @ts-ignore
-              this.employee.relations[i].pivot.eba_passes[j].photo_path = base64String;
-            } else if (property === 'signature') {
+              this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit_64 = base64String;
+            } else if (property === 'closefamily_signature') {
               // @ts-ignore
-              this.employee.relations[i].pivot.eba_passes[j].sign_path = base64String;
-            } else if (property === 'id_proof_path') {
+              this.employee.closefamily[i].pivot.eba_passes[j].sign_path = base64String;
+            }
+          }
+
+          if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
+            if (property === 'family_photo_path') {
               // @ts-ignore
-              this.employee.relations[i].pivot.eba_passes[j].id_proof_path = base64String;
+              // alert('ok');
+              this.employee.family[i].pivot.eba_passes[j].photo_path_edit_64 = base64String;
+            } else if (property === 'family_signature') {
+              // @ts-ignore
+              this.employee.family[i].pivot.eba_passes[j].sign_path = base64String;
             }
           }
 
           if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
             // Update the specific property based on the argument
-            if (property === 'photo_path') {
+            if (property === 'servant_photo_path') {
               // @ts-ignore
-              this.employee.servants[i].eba_passes[j].photo_path = base64String;
-            } else if (property === 'signature') {
+              this.employee.servants[i].eba_passes[j].photo_path_edit_64 = base64String;
+            } else if (property === 'servant_signature') {
               // @ts-ignore
               this.employee.servants[i].eba_passes[j].sign_path = base64String;
-            } else if (property === 'id_proof_path') {
-              // @ts-ignore
-              this.employee.servants[i].eba_passes[j].id_proof_path = base64String;
             }
           }
 
@@ -419,13 +489,10 @@ export class EbaFormComponent {
             // Update the specific property based on the argument
             if (property === 'photo') {
               // @ts-ignore
-              this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path = base64String;
+              this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path_edit_64 = base64String;
             } else if (property === 'sign') {
               // @ts-ignore
               this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = base64String;
-            } else if (property === 'id_proof') {
-              // @ts-ignore
-              this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path = base64String;
             }
           }
 
@@ -434,17 +501,19 @@ export class EbaFormComponent {
             this.file_path=base64String;
             }
           }
-        } catch (error) {
+        }
+        catch (error) {
           console.error('Failed to convert the file to base64:', error);
         }
-        // } else {
-        //   Swal.fire({
-        //     icon: 'error',
-        //     title: 'Invalid File',
-        //     text: 'File size exceeds 200KB.',
-        //   });
-        //   console.log('File size exceeds 200KB.');
-        // }
+        } else {
+          this. removeFile(event, i, j, k, property);
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 200KB.',
+          });
+          console.log('File size exceeds 200KB.');
+        }
       } else {
         Swal.fire({
           icon: 'error',
@@ -453,14 +522,144 @@ export class EbaFormComponent {
         });
         console.log('Invalid file type. Only JPEG or JPG files are allowed.');
       }
+
+    } else {
+      console.log('No file selected.');
+    }
+  }
+
+  async onFileSelected(event: Event,i:number,j:number,k:number,property: string): Promise<void> {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement?.files?.length) {
+      const file: File = inputElement.files[0];
+      // Check if the file type is JPEG or JPG
+      if (file.type === 'application/pdf' ) {
+        // Check if the file size is less than or equal to 200KB
+        if (file.size <= 1048576) { // 200KB in bytes
+          try {
+            const base64String: string = await fileToBase64(file); // Convert the file to base64
+
+            if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
+               if (property === 'closefamily_id_proof_path') {
+                // @ts-ignore
+                this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path = base64String;
+              }
+            }
+
+            if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
+              if (property === 'family_id_proof_path') {
+                // @ts-ignore
+                this.employee.family[i].pivot.eba_passes[j].id_proof_path = base64String;
+              }
+            }
+
+            if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
+              // Update the specific property based on the argument
+              if (property === 'servant_id_proof_path') {
+                // @ts-ignore
+                this.employee.servants[i].eba_passes[j].id_proof_path = base64String;
+              }
+            }
+
+            if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
+              // Update the specific property based on the argument
+              if (property === 'id_proof') {
+                // @ts-ignore
+                this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path = base64String;
+              }
+            }
+
+            if(this.file_path){
+              if (property === 'file_path') {
+                this.file_path=base64String;
+              }
+            }
+          }
+          catch (error) {
+            console.error('Failed to convert the file to base64:', error);
+          }
+        } else {
+          this. removeFile(event, i, j, k, property);
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 200KB.',
+          });
+          console.log('File size exceeds 1mb.');
+        }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid File',
+          text: 'Invalid file type. Only pdf files are allowed.',
+        });
+        console.log('Invalid file type. Only pdf files are allowed.');
+      }
+
     } else {
       console.log('No file selected.');
     }
   }
 
 
-  removeFile(): void {
-    this.file_path = null;
+  removeFile(event: Event,i:number,j:number,k:number,property: string): void {
+    if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
+      if (property === 'closefamily_photo_path') {
+        // @ts-ignore
+        this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit_64 = null;
+        // this.employee.closefamily[i].pivot.eba_passes[j].photo_path_64 = null;
+      } else if (property === 'closefamily_signature') {
+        // @ts-ignore
+        this.employee.closefamily[i].pivot.eba_passes[j].sign_path = null;
+      } else if (property === 'closefamily_id_proof_path') {
+        // @ts-ignore
+        this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path = null;
+      }
+    }
+    if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
+      if (property === 'family_photo_path') {
+        // @ts-ignore
+        // alert('ok');
+        this.employee.family[i].pivot.eba_passes[j].photo_path_edit_64 = null;
+      } else if (property === 'family_signature') {
+        // @ts-ignore
+        this.employee.family[i].pivot.eba_passes[j].sign_path = null;
+      } else if (property === 'family_id_proof_path') {
+        // @ts-ignore
+        this.employee.family[i].pivot.eba_passes[j].id_proof_path = null;
+      }
+    }
+
+    if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
+      // Update the specific property based on the argument
+      if (property === 'servant_photo_path') {
+        // @ts-ignore
+        this.employee.servants[i].eba_passes[j].photo_path_edit_64 = null;
+      } else if (property === 'servant_signature') {
+        // @ts-ignore
+        this.employee.servants[i].eba_passes[j].sign_path = null;
+      } else if (property === 'servant_id_proof_path') {
+        // @ts-ignore
+        this.employee.servants[i].eba_passes[j].id_proof_path = null;
+      }
+    }
+
+    if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
+      // Update the specific property based on the argument
+      if (property === 'photo') {
+        // @ts-ignore
+        this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path_edit_64 = null;
+      } else if (property === 'sign') {
+        // @ts-ignore
+        this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = null;
+      } else if (property === 'id_proof') {
+        // @ts-ignore
+        this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path = null;
+      }
+    }
+    if (property === 'file_path') {
+      this.file_path = null;
+    }
   }
 
 
@@ -505,33 +704,57 @@ export class EbaFormComponent {
 
       const clonedEmployee = { ...this.employee };
 
-      if (clonedEmployee.relations) {
-        clonedEmployee.relations = clonedEmployee.relations.filter(member => member.allSelected);
-      }
+      if(this.applyingforRelative) {
+        if (clonedEmployee.closefamily) {
+          clonedEmployee.closefamily = clonedEmployee.closefamily.filter(member => member.allSelected);
+          clonedEmployee.servants = [];
+        }
 
-      if (clonedEmployee.servants) {
-        clonedEmployee.servants = clonedEmployee.servants.filter(servant => servant.allSelected);
-        if (clonedEmployee.vehicles) {
-          clonedEmployee.vehicles = clonedEmployee.vehicles.filter(vehicle => vehicle.allSelected);
+        if (clonedEmployee.family) {
+          clonedEmployee.family = clonedEmployee.family.filter(member => member.allSelected);
+          clonedEmployee.servants = [];
+        }
+      }else {
+        clonedEmployee.closefamily = [];
+        clonedEmployee.family = [];
+        clonedEmployee.vehicles = [];
+        if (clonedEmployee.servants) {
+          clonedEmployee.servants = clonedEmployee.servants.filter(servant => {
+            return servant.allSelected || servant.reference;
+          });
+          //   if( clonedEmployee.vehicles)
+          //   clonedEmployee.vehicles = clonedEmployee.vehicles?.filter(vehicle => vehicle.allSelected);
+          // }
+        }
+
+        if (clonedEmployee.servants) {
+          clonedEmployee.servants.forEach(servant => {
+            if (servant.relations) {
+              servant.relations = servant.relations.filter(relation => relation.allSelected);
+            }
+          });
         }
       }
-
-      if (clonedEmployee.servants) {
-        clonedEmployee.servants.forEach(servant => {
-          if (servant.relations) {
-            servant.relations = servant.relations.filter(relation => relation.allSelected);
-          }
-        });
-      }
-
       if(this.applyingforRelative){
-        if (clonedEmployee.relations === null || clonedEmployee.relations.length === 0) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Empty Relative',
-            text: 'Atleast add one Relative',
-          });
-          return;
+        if(this.applyingforclosefamily){
+          if (clonedEmployee.closefamily === null || clonedEmployee.closefamily.length === 0) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Empty Relative',
+              text: 'Atleast add one family',
+            });
+            return;
+          }
+        }
+        else{
+          if (clonedEmployee.family === null || clonedEmployee.family.length === 0) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Empty Relative',
+              text: 'Atleast add one Relative',
+            });
+            return;
+          }
         }
       }else{
         if (clonedEmployee.servants === null || clonedEmployee.servants.length === 0) {
@@ -618,26 +841,32 @@ export class EbaFormComponent {
       if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => role.role_id === 4)) {
         if (this.employee) {
           console.log(this)
-          const clonedEmployee = {...this.employee};
-          if (clonedEmployee.relations) {
-            clonedEmployee.relations = clonedEmployee.relations.filter(member => member.allSelected);
-          }
-
-          if (clonedEmployee.servants) {
-            clonedEmployee.servants = clonedEmployee.servants.filter(servant => servant.allSelected);
-          }
-
-          if (
-              (clonedEmployee.relations === null || clonedEmployee.relations.length === 0) &&
-              (clonedEmployee.servants === null || clonedEmployee.servants.length === 0)
-          ) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Empty application',
-              text: 'At least add one person',
-            });
-            return;
-          }
+          // const clonedEmployee = {...this.employee};
+          // if (clonedEmployee.closefamily) {
+          //   clonedEmployee.closefamily = clonedEmployee.closefamily.filter(member => member.allSelected);
+          //
+          // }
+          //
+          // if (clonedEmployee.family) {
+          //   clonedEmployee.family = clonedEmployee.family.filter(member => member.allSelected);
+          //
+          // }
+          //
+          // if (clonedEmployee.servants) {
+          //   clonedEmployee.servants = clonedEmployee.servants.filter(servant => servant.allSelected);
+          // }
+          //
+          // if (
+          //     (clonedEmployee.relations === null || clonedEmployee.relations.length === 0) &&
+          //     (clonedEmployee.servants === null || clonedEmployee.servants.length === 0)
+          // ) {
+          //   Swal.fire({
+          //     icon: 'warning',
+          //     title: 'Empty application',
+          //     text: 'At least add one person',
+          //   });
+          //   return;
+          // }
 
           this.employeeService.updateeba(this.employee, id).subscribe(
               () => {

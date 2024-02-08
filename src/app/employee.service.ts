@@ -279,7 +279,9 @@ export class EmployeeService {
   getEbaDashboardData(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl+"ebadashboard",{headers:this.createHeader()});
   }
-
+  getEbaPrintData():Observable<any[]> {
+  return this.http.get<any[]>(this.apiUrl+"ebaprint",{headers:this.createHeader()});
+  }
   searchEba(searchEba: Search): Observable<any> {
     return this.http.post<any>(this.apiUrl+"searchEba",searchEba,{headers:this.createHeader()});
   }
@@ -297,6 +299,10 @@ export class EmployeeService {
     // const dataToSubmit = { relation: ebaPasses };
     // const options = { headers: this.createHeader() };
     return this.http.post<Employee>(this.apiUrl + "Eba",ebaPasses,{headers:this.createHeader()});
+  }
+
+  applyclosefamily(ebaPasses : Employee): Observable<any> {
+    return this.http.post<Employee>(this.apiUrl + "submitClosefamily",ebaPasses,{headers:this.createHeader()});
   }
 
   updateeba(ebaPasses : Employee,id: number): Observable<any> {

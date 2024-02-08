@@ -491,7 +491,7 @@
                           <div class="col-md-6">
                             <label class="form-label">Date of retirement</label>
                             <div class="input-group mb-3">
-                              {{employee!.dor}}
+                              {{formatDate(employee!.dor)}}
                             </div>
                           </div>
                         </div>
@@ -751,7 +751,7 @@
                                 </label>
 
                                 <input type="file" class="custom-file-input" [id]="'order_file_desg_' + i"
-                                       (change)="onFileSelected($event, i)" style="display: none">
+                                       (change)="onFileSelected($event, i);onInputChangeMap('Promotion', i)" style="display: none">
                               </div>
                             </td>
                             <td>
@@ -894,8 +894,8 @@
                             </td>
                             <td>
                               <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
-                                     [(ngModel)]="employee!.divisions[i].pivot!.to_date"
-                                     (ngModelChange)="onInputChangeMap('Posting', i)" [max]="maxDate">
+                                     [(ngModel)]="employee!.divisions[i].pivot!.to_date" (ngModelChange)="onInputChangeMap('Posting', i)"
+                                       [max]="maxDate">
                               <span *ngIf="!editable">{{formatDate(div!.pivot!.to_date)}}</span>
                             </td>
                             <td>
@@ -919,7 +919,7 @@
                                 </label>
 
                                 <input type="file" class="custom-file-input" [id]="'order_file_div_' + i"
-                                       (change)="onFileDivSelected($event, i)" style="display: none">
+                                       (change)="onFileDivSelected($event, i);onInputChangeMap('Posting', i)" style="display: none" >
                               </div>
                             </td>
                             <td>

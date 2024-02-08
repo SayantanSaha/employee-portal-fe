@@ -1,4 +1,5 @@
 import {Vehicles} from "./Vehicles";
+import {Ebapass} from "./Ebapass";
 
 export class Dependent{
   id?: number = -1 ;
@@ -10,6 +11,6 @@ export class Dependent{
   rel_dob: Date | null = null;
   rel_mobile_no: string | null = null;
   deleted_at: Date | null = null;
-  eba_passes: any[]|null = [];
+  eba_passes:  Ebapass[] = [];
 }
 

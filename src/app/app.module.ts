@@ -34,8 +34,9 @@ import { EbaformviewComponent } from './ebaformview/ebaformview.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EbaFormListComponent } from './eba-form-list/eba-form-list.component';
 import {NgOtpInputModule} from "ng-otp-input";
-
-
+import { EbaprintComponent } from './ebaprint/ebaprint.component';
+import { NgxBarcodeModule } from 'ngx-barcode';
+ // import { NgxPrintModule } from 'ngx-print';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import {NgOtpInputModule} from "ng-otp-input";
     PrevDirective,
     EbaformviewComponent,
     EbaFormListComponent,
+    EbaprintComponent,
 
 
   ],
@@ -74,6 +76,8 @@ import {NgOtpInputModule} from "ng-otp-input";
         FormsModule,
         NgbModule,
         NgOtpInputModule,
+      NgxBarcodeModule,
+       // NgxPrintModule,
     ],
   providers: [
     { provide: 'BASE_URL', useFactory: ()=>document.getElementsByTagName('base')[0].href }
