@@ -35,7 +35,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EbaFormListComponent } from './eba-form-list/eba-form-list.component';
 import {NgOtpInputModule} from "ng-otp-input";
 import { EbaprintComponent } from './ebaprint/ebaprint.component';
-import { NgxBarcodeModule } from 'ngx-barcode';
+import { NgxBarcode6Module } from 'ngx-barcode6';
  // import { NgxPrintModule } from 'ngx-print';
 
 @NgModule({
@@ -76,7 +76,7 @@ import { NgxBarcodeModule } from 'ngx-barcode';
         FormsModule,
         NgbModule,
         NgOtpInputModule,
-      NgxBarcodeModule,
+      NgxBarcode6Module,
        // NgxPrintModule,
     ],
   providers: [
