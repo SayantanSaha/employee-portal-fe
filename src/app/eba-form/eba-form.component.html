@@ -5,12 +5,11 @@
   <div  [class.col-md-10]="urlid">
 <!--    <div  style="width: 100%">-->
       <div class="row">
-        <div class="col-md-9" >
+        <div class="col-md-10" >
           <div style="font-size: 200%; color: deeppink">
           EBA Application
         </div>
-          <div *ngIf="editable && !urlid">
-
+          <div *ngIf="editable && !urlid" style="margin-top: 2%">
             <label>
               <input type="radio" name="relationType"  (click)="onSelectcloseFamily()">
               Family
@@ -45,20 +44,20 @@
       <!--    </div>-->
 
       <div class="card shadow" >
-        <div class="card-body">
+        <div class="card-body" style="font-size: 15px;">
           <div class="row">
             <div class="col col-md-6">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title" style=" color: #1d00ff"> Officer Details</h5>
+              <div class="card" >
+                <div class="card-body" style="max-height: 7cm;min-height: 6cm;">
+                  <h5 class="card-title mat-body-strong" style=" color: #1d00ff"> Officer Details</h5>
                   <hr class="row-divider">
                   <table>
-                    <tr>
+                    <tr style="margin: 0.1cm;">
                       <td ><b>Name:</b></td>
                       <td style="font-size: 120%" >{{employee!.emp_title}} {{employee!.emp_name}}</td>
                     </tr>
                     <tr>
-                      <td style="width: 30%;"><b>Date of Birth:</b></td>
+                      <td class="mat-body-strong" style="width: 30%;"><strong>Date of Birth:</strong></td>
                       <td >{{employee!.dob | date:'dd-MM-yyyy'}}</td>
                     </tr>
                     <tr>
@@ -81,8 +80,8 @@
             </div>
             <div class="col col-md-6">
               <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title" style=" color: #1d00ff">Gov Details</h5>
+                <div class="card-body" style="max-height: 7cm;min-height: 6cm">
+                  <h5 class="card-title mat-body-strong" style=" color: #1d00ff">Gov Details</h5>
                   <hr class="row-divider">
                   <table>
                     <tr>
@@ -123,7 +122,7 @@
       <div *ngIf="applyingforRelative || urlid ">
         <div class="card shadow" *ngIf="employee && employee.closefamily && employee.closefamily.length > 0 && (applyingforclosefamily || urlid)">
           <div class="card-body">
-            <h5 class="card-title" style=" color: indianred"> Officer's Family Details</h5>
+            <h5 class="card-title mat-body-strong" style=" color: indianred"> Officer's Family Details</h5>
             <hr class="row-divider">
             <div class="row">
               <div class="col-md">
@@ -289,7 +288,7 @@
 
         <div class="card shadow" *ngIf="employee && employee.family && employee.family.length > 0 && (!applyingforclosefamily|| urlid)">
           <div class="card-body">
-            <h5 class="card-title" style=" color: indianred"> Officer's Relative Details</h5>
+            <h5 class="card-title mat-body-strong" style=" color: indianred"> Officer's Relative Details</h5>
             <hr class="row-divider">
             <div class="row">
               <div class="col-md">
@@ -454,7 +453,7 @@
         <br>
         <div class="card shadow" *ngIf="employee && employee.vehicles && employee.vehicles.length > 0">
           <div class="card-body">
-            <h5 class="card-title" style=" color: saddlebrown">Officer's Vehicle Details</h5>
+            <h5 class="card-title mat-body-strong" style=" color: saddlebrown">Officer's Vehicle Details</h5>
             <hr class="row-divider">
             <div class="row">
               <div class="col-md">
@@ -542,7 +541,7 @@
                           <ng-container *ngIf="role.role_id === 4" >
                             <div class="col-md-6 d-flex align-items-center">
                               <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck" data-toggle="toggle" [(ngModel)]="servant.allSelected" *ngif="servant.allSelected">
-                              <h5 class="card-title" style="color: saddlebrown; margin-left: 10px;">Domestic help Details</h5>
+                              <h5 class="card-title mat-body-strong" style="color: saddlebrown; margin-left: 10px;">Domestic help Details</h5>
                             </div>
                             <div class="col-md-6" *ngif="servant.allSelected">
                               <textarea class="form-control"  [(ngModel)]="servant_detail.remark" placeholder="remark"></textarea>
@@ -556,7 +555,7 @@
                               <div style="color: red;" *ngIf="!servant.allSelected">
                                 Not Recommended
                               </div>
-                              <h5 class="card-title" style="color: saddlebrown; margin-left: 10px;">Domestic help Details</h5>
+                              <h5 class="card-title mat-body-strong" style="color: saddlebrown; margin-left: 10px;">Domestic help Details</h5>
                             </div>
                             <div class="col-md-6" *ngIf="servant.allSelected">
                               {{servant_detail.remark}}
@@ -568,7 +567,7 @@
                     <div class="row" *ngIf="editable && !urlid">
                       <div class="col-md-6 d-flex align-items-center">
                         <input type="checkbox" class="selectItem" [(ngModel)]="servant.allSelected">
-                        <h5 class="card-title" style="color: saddlebrown; margin-left: 10px;">Domestic help Details</h5>
+                        <h5 class="card-title mat-body-strong" style="color: saddlebrown; margin-left: 10px;">Domestic help Details</h5>
                       </div>
                     </div>
                     <hr class="row-divider">
@@ -780,7 +779,7 @@
                   </ng-container>
                 </ng-container>
                 <div *ngIf="servant && servant.relations && servant.relations.length > 0">
-                  <h5 class="card-title" style=" color: indianred"> {{servant!.servant_name}}'s Family Details</h5>
+                  <h5 class="card-title mat-body-strong" style=" color: indianred"> {{servant!.servant_name}}'s Family Details</h5>
                   <hr class="row-divider">
                   <div class="row">
                     <div class="col-md">
@@ -965,7 +964,7 @@
                   <br>
                 </div>
                 <ng-container *ngIf="servant && servant.vehicles && servant.vehicles.length > 0">
-                <h5 class="card-title" style=" color: saddlebrown" *ngIf="servant && servant.vehicles && servant.vehicles.length > 0">Domestic help's Vehicle Details
+                <h5 class="card-title mat-body-strong" style=" color: saddlebrown" *ngIf="servant && servant.vehicles && servant.vehicles.length > 0">Domestic help's Vehicle Details
                   <button type="button" *ngIf="editable && !urlid" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addVehicle(i)">
                     Add vehicle
                   </button>
@@ -1151,7 +1150,7 @@
                                   <br>
                                   <label class="upload-icon-label" *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null"
                                          title="remove file">
-                                    <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile($event,i,j,0,'closefamily_photo_path')" ></i>
+                                    <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile($event,i,j,'k','closefamily_photo_path')" ></i>
                                   </label>
                                 </div>
 
@@ -1188,8 +1187,13 @@
                                   <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                                 </label>
                                 <input type="file" class="custom-file-input" [id]="'idPath' + i + j" style="display: none"
-                                       (change)="onFileSelected($event,i,j,0,'closefamily_id_proof_path')" *ngIf="editable"
+                                       (change)="onFileSelected($event,i,j,'k','closefamily_id_proof_path')" *ngIf="editable"
                                        [(ngModel)]="eba_pass.id_proof_path">
+                                <br>
+                                <label class="upload-icon-label" *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null"
+                                       title="remove file">
+                                  <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event);removeFile($event,i,j,'k','closefamily_id_proof_path')" ></i>
+                                </label>
                               </div>
                               <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
                                 <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
@@ -1246,7 +1250,7 @@
                                   <br>
                                   <label class="upload-icon-label" *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null"
                                          title="remove file">
-                                    <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile($event,i,j,0,'family_photo_path')" ></i>
+                                    <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile($event,i,j,'k','family_photo_path')" ></i>
                                   </label>
                                 </div>
                                 <input type="file" class="custom-file-input" [id]="'photo'+i+j" style="display: none"
@@ -1276,25 +1280,34 @@
 
                             <!-- Column for 'id_proof_path' -->
                             <td>
-                              <div class="input-group">
-                                <label [for]="'idPath'+ i + j" class="upload-icon-label" *ngIf="editable" title="signature">
-                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
-                                </label>
-                                <input type="file" class="custom-file-input" [id]="'idPath' + i + j" style="display: none"
-                                       (change)="onFileSelected($event,i,j,0,'family_id_proof_path')" *ngIf="editable"
-                                       [(ngModel)]="eba_pass.id_proof_path">
+                              <label [for]="'idPath'+ i + j" class="upload-icon-label" *ngIf="editable &&  (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)" title="idPath" >
+                                <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
+                              </label>
 
-                              </div>
-                              <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+                              <input type="file" class="custom-file-input" [id]="'idPath' + i + j" style="display: none"
+                                     (change)="onFileSelected($event,i,j,'k','family_id_proof_path')" *ngIf="editable"
+                                     [(ngModel)]="eba_pass.id_proof_path_edit">
+
+                              <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null && (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)">
                                 <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
                                    href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
                                    title="Order File" target="_blank">
-                                  <i class="bi bi-eye "></i>
+                                  <i class="bi bi-eye"></i>
                                 </a>
                               </ng-container>
-                              <ng-template #naBlock>
-                                N/A
-                              </ng-template>
+
+                              <ng-container *ngIf="eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null">
+                                <a class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)"
+                                   href="{{apiUrl}}getFile/{{eba_pass.id_proof_path_edit}}"
+                                   title="Order File" target="_blank">
+                                  <i class="bi bi-eye"></i>
+                                </a>
+                              </ng-container>
+
+                              <label class="upload-icon-label" *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!==null && eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null"
+                                     title="remove file">
+                                <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event);removeFile($event,i,j,'k','family_id_proof_path')" ></i>
+                              </label>
                             </td>
                           </tr>
                           </tbody>
@@ -1340,7 +1353,7 @@
                                     <br>
                                     <label class="upload-icon-label" *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null"
                                            title="remove file">
-                                      <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile($event,i,k,0,'servant_photo_path')" ></i>
+                                      <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="removeFile($event,i,k,'k','servant_photo_path')" ></i>
                                     </label>
                                   </div>
 
@@ -1376,7 +1389,7 @@
                                     <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
 
                                     <input type="file" class="custom-file-input" [id]="'idPath' + i + k"
-                                           style="display: none" (change)="onFileSelected($event,i,k,0,'servant_id_proof_path')"
+                                           style="display: none" (change)="onFileSelected($event,i,k,'k','servant_id_proof_path')"
                                            *ngIf="editable" [(ngModel)]="eba_pass.id_proof_path">
                                   </label>
                                 </div>

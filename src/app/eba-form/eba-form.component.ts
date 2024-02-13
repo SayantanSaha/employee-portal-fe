@@ -452,7 +452,7 @@ export class EbaFormComponent {
         if (file.size <= 200 * 1024) { // 200KB in bytes
         try {
           const base64String: string = await fileToBase64(file); // Convert the file to base64
-
+          if (property === 'closefamily_photo_path' || 'closefamily_signature') {
           if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
             if (property === 'closefamily_photo_path') {
               // @ts-ignore
@@ -462,7 +462,8 @@ export class EbaFormComponent {
               this.employee.closefamily[i].pivot.eba_passes[j].sign_path = base64String;
             }
           }
-
+          }
+          if (property === 'family_photo_path' || 'family_signature') {
           if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
             if (property === 'family_photo_path') {
               // @ts-ignore
@@ -473,7 +474,9 @@ export class EbaFormComponent {
               this.employee.family[i].pivot.eba_passes[j].sign_path = base64String;
             }
           }
+          }
 
+          if (property === 'servant_photo_path' || 'servant_signature') {
           if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
             // Update the specific property based on the argument
             if (property === 'servant_photo_path') {
@@ -484,18 +487,20 @@ export class EbaFormComponent {
               this.employee.servants[i].eba_passes[j].sign_path = base64String;
             }
           }
-
-          if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
-            // Update the specific property based on the argument
-            if (property === 'photo') {
-              // @ts-ignore
-              this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path_edit_64 = base64String;
-            } else if (property === 'sign') {
-              // @ts-ignore
-              this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = base64String;
-            }
           }
 
+          if (property === 'photo' || 'sign') {
+            if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
+              // Update the specific property based on the argument
+              if (property === 'photo') {
+                // @ts-ignore
+                this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path_edit_64 = base64String;
+              } else if (property === 'sign') {
+                // @ts-ignore
+                this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = base64String;
+              }
+            }
+          }
           if(this.file_path){
             if (property === 'file_path') {
             this.file_path=base64String;
@@ -528,7 +533,7 @@ export class EbaFormComponent {
     }
   }
 
-  async onFileSelected(event: Event,i:number,j:number,k:number,property: string): Promise<void> {
+  async onFileSelected(event: Event,i:any,j:any,k:any,property: string): Promise<void> {
     const inputElement = event.target as HTMLInputElement;
     if (inputElement?.files?.length) {
       const file: File = inputElement.files[0];
@@ -539,33 +544,31 @@ export class EbaFormComponent {
           try {
             const base64String: string = await fileToBase64(file); // Convert the file to base64
 
+            if (property === 'closefamily_id_proof_path') {
             if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
-               if (property === 'closefamily_id_proof_path') {
-                // @ts-ignore
-                this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path = base64String;
+              // @ts-ignore
+                this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit_64 = base64String;
               }
             }
 
+            if (property === 'family_id_proof_path') {
             if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
-              if (property === 'family_id_proof_path') {
                 // @ts-ignore
-                this.employee.family[i].pivot.eba_passes[j].id_proof_path = base64String;
+                this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit_64 = base64String;
               }
             }
 
+            if (property === 'servant_id_proof_path') {
             if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
-              // Update the specific property based on the argument
-              if (property === 'servant_id_proof_path') {
                 // @ts-ignore
-                this.employee.servants[i].eba_passes[j].id_proof_path = base64String;
+                this.employee.servants[i].eba_passes[j].id_proof_path_edit_64 = base64String;
               }
             }
 
+            if (property === 'id_proof') {
             if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
-              // Update the specific property based on the argument
-              if (property === 'id_proof') {
                 // @ts-ignore
-                this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path = base64String;
+                this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit_64 = base64String;
               }
             }
 
@@ -602,20 +605,24 @@ export class EbaFormComponent {
   }
 
 
-  removeFile(event: Event,i:number,j:number,k:number,property: string): void {
+  removeFile(event: Event,i:any,j:any,k:any,property: string): void {
+    if (property === 'closefamily_photo_path' || 'closefamily_signature' || 'closefamily_id_proof_path') {
     if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
       if (property === 'closefamily_photo_path') {
         // @ts-ignore
         this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit_64 = null;
-        // this.employee.closefamily[i].pivot.eba_passes[j].photo_path_64 = null;
+         // this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit = null;
       } else if (property === 'closefamily_signature') {
         // @ts-ignore
         this.employee.closefamily[i].pivot.eba_passes[j].sign_path = null;
       } else if (property === 'closefamily_id_proof_path') {
         // @ts-ignore
-        this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path = null;
+        this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit_64 = null;
+        this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit = null;
       }
     }
+    }
+    if (property === 'family_photo_path' || 'family_signature' || 'family_id_proof_path') {
     if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
       if (property === 'family_photo_path') {
         // @ts-ignore
@@ -626,10 +633,12 @@ export class EbaFormComponent {
         this.employee.family[i].pivot.eba_passes[j].sign_path = null;
       } else if (property === 'family_id_proof_path') {
         // @ts-ignore
-        this.employee.family[i].pivot.eba_passes[j].id_proof_path = null;
+        this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit_64 = null;
+        this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit = null;
       }
     }
-
+    }
+    if (property === 'servant_photo_path' || 'servant_signature' || 'servant_id_proof_path') {
     if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
       // Update the specific property based on the argument
       if (property === 'servant_photo_path') {
@@ -640,10 +649,12 @@ export class EbaFormComponent {
         this.employee.servants[i].eba_passes[j].sign_path = null;
       } else if (property === 'servant_id_proof_path') {
         // @ts-ignore
-        this.employee.servants[i].eba_passes[j].id_proof_path = null;
+        this.employee.servants[i].eba_passes[j].id_proof_path_edit_64 = null;
+        this.employee.servants[i].eba_passes[j].id_proof_path_edit = null;
       }
     }
-
+    }
+      if (property === 'photo' || 'sign' || 'id_proof') {
     if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
       // Update the specific property based on the argument
       if (property === 'photo') {
@@ -654,9 +665,11 @@ export class EbaFormComponent {
         this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = null;
       } else if (property === 'id_proof') {
         // @ts-ignore
-        this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path = null;
+        this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit_64 = null;
+          this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit = null;
       }
     }
+      }
     if (property === 'file_path') {
       this.file_path = null;
     }

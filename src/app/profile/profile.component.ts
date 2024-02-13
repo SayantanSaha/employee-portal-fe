@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 import { Router } from "@angular/router";
 import { DatePipe } from '@angular/common';
 import {Domestic_help, Relation} from "../model/Relation";
-import { fileToBase64 } from '../profile/fileToBase64';
+import { fileToBase64 } from './fileToBase64';
 import { environment } from 'src/environments/environment';
 import { ParseChangedDataPipe } from '../parse-changed-data.pipe';
 import {Servants} from "../model/Servants"; // Update the path accordingly

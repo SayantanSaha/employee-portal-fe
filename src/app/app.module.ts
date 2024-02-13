@@ -36,7 +36,8 @@ import { EbaFormListComponent } from './eba-form-list/eba-form-list.component';
 import {NgOtpInputModule} from "ng-otp-input";
 import { EbaprintComponent } from './ebaprint/ebaprint.component';
 import { NgxBarcode6Module } from 'ngx-barcode6';
- // import { NgxPrintModule } from 'ngx-print';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+  import { NgxPrintModule } from 'ngx-print';
 
 @NgModule({
   declarations: [
@@ -77,10 +78,11 @@ import { NgxBarcode6Module } from 'ngx-barcode6';
         NgbModule,
         NgOtpInputModule,
       NgxBarcode6Module,
-       // NgxPrintModule,
+        NgxPrintModule,
     ],
   providers: [
-    { provide: 'BASE_URL', useFactory: ()=>document.getElementsByTagName('base')[0].href }
+    { provide: 'BASE_URL', useFactory: ()=>document.getElementsByTagName('base')[0].href },
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

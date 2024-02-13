@@ -246,7 +246,7 @@ a.logo-align {
 
 .visitor-sec {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   justify-content: flex-start;
   flex-direction: column
 }
@@ -372,3 +372,15 @@ a.star {
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

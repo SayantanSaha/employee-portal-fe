@@ -27,6 +27,7 @@ export class Ebapass{
   id_proof_path : any | null = null;
   id_proof_path_64 : any | null = null;
   id_proof_path_edit : any | null = null;
+  id_proof_path_edit_64 : any | null = null;
 
   photo_path   : any | null = null;
   photo_path_64   : any | null = null;
