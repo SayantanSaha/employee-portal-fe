@@ -7,6 +7,7 @@ import {Designation} from "../model/Designation";
 import {Division} from "../model/Division";
 import {Idcards} from "../model/Idcards";
 import Swal from "sweetalert2";
+import {environment} from "../../environments/environment";
 
 
 @Component({
@@ -23,7 +24,7 @@ export class EbaformviewComponent implements OnInit {
   ) {}
 
   employee: any;
-
+  apiUrl = environment.apiUrl;
   fromUrl: string='';
 
 
@@ -35,38 +36,7 @@ export class EbaformviewComponent implements OnInit {
     console.log(this.fromUrl);
   }
 
-  getActiveDesignations(designations: Designation[]): string {
-    const activeDesignations = designations
-      .filter(designation => designation.pivot.active == true)
-      .map(designation => designation.desg_desc);
 
-    return activeDesignations.join(', ');
-  }
-
-  getActiveDivision(division: Division[]): string {
-    const activeDivision = division
-      .filter(division => division.pivot.active == true)
-      .map(division => division.div_desc);
-
-    return activeDivision.join(', ');
-  }
-
-  getActiveIdCard(IdCards: Idcards[]): string {
-    const activeIdCard = IdCards
-      .filter(idCard => idCard.active == true)
-      .map(idCard => idCard.card_no);
-
-    return activeIdCard.join(', ');
-  }
-
-  openImageInNewTab(i: number, j: number) {
-    const encodedImage = encodeURIComponent(this.employee.relations[i].pivot.eba_passes[j].photo_path);
-    const imageWindow = window.open();
-    if (imageWindow) {
-      imageWindow.document.write(`<img src="${encodedImage}" alt="Photo">`);
-      imageWindow.document.close();
-    }
-  }
   hoverClick(event: MouseEvent) {
     const button = event.currentTarget as HTMLElement;
     if (button) {
@@ -79,7 +49,11 @@ export class EbaformviewComponent implements OnInit {
     }
   }
 
-
+  openPdfInNewTab(pdfData: string): void {
+    const pdfWindow = window.open();
+    // @ts-ignore
+    pdfWindow.document.write(`<iframe width='100%' height='100%' src='${pdfData}'></iframe>`);
+  }
 
   applyEba() {
     if (this.employee) {

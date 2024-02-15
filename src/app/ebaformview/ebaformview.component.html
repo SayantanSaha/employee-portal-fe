@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <div class="card shadow" >
+  <div class="card shadow" style="margin-top: 1%">
     <div class="card-body">
       <div class="row">
         <div class="col col-md-6">
@@ -82,9 +82,8 @@
   </div>
   <br>
 
-
-  <div class="card shadow" *ngIf="employee && employee.family && employee.family.length > 0">
-
+  <div *ngIf="employee && employee.family && employee.family.length > 0">
+  <div class="card shadow" >
     <div class="card-body">
       <h5 class="card-title" style=" color: indianred"> Officer's Relative Details</h5>
       <hr class="row-divider">
@@ -135,9 +134,12 @@
                         </td>
                         <td>{{ eba_pass.eba_pass_exp_date | date:'dd-MM-yyyy'}}</td>
                         <td>
-                          <span *ngIf="eba_pass?.photo_path">
-                            <img [src]="eba_pass?.photo_path" style="width: 150px; height: 128px" class="rounded-square"/>
-                          </span>
+                          <ng-container *ngIf="eba_pass.photo_path_64 && eba_pass.photo_path_64!==null && (!eba_pass.photo_path_edit_64 || eba_pass.photo_path_edit_64===null)">
+                            <img  [src]="eba_pass.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                          </ng-container>
+                          <ng-container *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null">
+                            <img  [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                          </ng-container>
                         </td>
 <!--                        <td>-->
 <!--                          <span *ngIf="eba_pass?.sign_path" >-->
@@ -145,9 +147,26 @@
 <!--                          </span>-->
 <!--                        </td>-->
                         <td>
-                          <span *ngIf="eba_pass?.id_proof_path" >
-                            <img [src]="eba_pass?.id_proof_path" style="width: 150px; height: 128px" class="rounded-square"/>
-                          </span>
+                          <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null && (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null) && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null)">
+                            <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                               href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
+                               title="Order File" target="_blank">
+                              <i class="bi bi-eye"></i>
+                            </a>
+                          </ng-container>
+
+                          <ng-container *ngIf="eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null) ">
+                            <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                               href="{{apiUrl}}getFile/{{eba_pass.id_proof_path_edit}}"
+                               title="Order File" target="_blank">
+                              <i class="bi bi-eye"></i>
+                            </a>
+                          </ng-container>
+
+                          <ng-container *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!=null">
+                            <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
+                            <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(eba_pass.id_proof_path_edit_64);hoverClick($event)"></i>
+                          </ng-container>
                         </td>
                       </ng-container>
                     </ng-container>
@@ -161,9 +180,11 @@
       </div>
     </div>
   </div>
-  <br>
+    <br>
+  </div>
 
-  <div class="card shadow" *ngIf="employee && employee.closefamily && employee.closefamily.length > 0">
+  <div *ngIf="employee && employee.closefamily && employee.closefamily.length > 0">
+  <div class="card shadow" >
     <div class="card-body">
       <h5 class="card-title" style=" color: indianred"> Officer's Family Details</h5>
       <hr class="row-divider">
@@ -214,9 +235,12 @@
                         </td>
                         <td>{{ eba_pass.eba_pass_exp_date | date:'dd-MM-yyyy'}}</td>
                         <td>
-                          <span *ngIf="eba_pass?.photo_path">
-                            <img [src]="eba_pass?.photo_path" style="width: 150px; height: 128px" class="rounded-square"/>
-                          </span>
+                          <ng-container *ngIf="eba_pass.photo_path_64 && eba_pass.photo_path_64!==null && (!eba_pass.photo_path_edit_64 || eba_pass.photo_path_edit_64===null)">
+                            <img  [src]="eba_pass.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                          </ng-container>
+                          <ng-container *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null">
+                            <img  [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                          </ng-container>
                         </td>
 <!--                        <td>-->
 <!--                          <span *ngIf="eba_pass?.sign_path" >-->
@@ -224,9 +248,26 @@
 <!--                          </span>-->
 <!--                        </td>-->
                         <td>
-                          <span *ngIf="eba_pass?.id_proof_path" >
-                            <img [src]="eba_pass?.id_proof_path" style="width: 150px; height: 128px" class="rounded-square"/>
-                          </span>
+                          <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null && (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null) && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null)">
+                            <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                               href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
+                               title="Order File" target="_blank">
+                              <i class="bi bi-eye"></i>
+                            </a>
+                          </ng-container>
+
+                          <ng-container *ngIf="eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null) ">
+                            <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                               href="{{apiUrl}}getFile/{{eba_pass.id_proof_path_edit}}"
+                               title="Order File" target="_blank">
+                              <i class="bi bi-eye"></i>
+                            </a>
+                          </ng-container>
+
+                          <ng-container *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!=null">
+                            <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
+                            <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(eba_pass.id_proof_path_edit_64);hoverClick($event)"></i>
+                          </ng-container>
                         </td>
                       </ng-container>
                     </ng-container>
@@ -240,10 +281,12 @@
       </div>
     </div>
   </div>
-  <br>
+    <br>
+  </div>
 
 
-  <div class="card shadow" *ngIf="employee && employee.vehicles && employee.vehicles.length > 0">
+<div *ngIf="employee && employee.vehicles && employee.vehicles.length > 0">
+  <div class="card shadow" >
     <div class="card-body">
       <h5 class="card-title" style=" color: saddlebrown">Officer's Vehicle Details</h5>
       <hr class="row-divider">
@@ -286,7 +329,9 @@
       </div>
     </div>
   </div>
-  <br>
+    <br>
+  </div>
+
   <div *ngIf="employee && employee.servants && employee.servants.length > 0">
     <div *ngFor="let servant of employee!.servants; let i = index">
       <div class="card shadow" >
@@ -317,13 +362,37 @@
                     <div class="col-md-6">
                       <div class="row">
                         <td class="col-md-4" style="text-align: right" *ngIf="servant_detail.photo_path && servant_detail.photo_path!==null">
-                          <img [src]="servant_detail.photo_path" style="width: 150px; height: 128px" class="rounded-square" />
-                        </td>
+                        <ng-container *ngIf="servant_detail.photo_path_64 && servant_detail.photo_path_64!==null && (!servant_detail.photo_path_edit_64 || servant_detail.photo_path_edit_64===null)">
+                          <img  [src]="servant_detail.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                        </ng-container>
+                        <ng-container *ngIf="servant_detail.photo_path_edit_64 && servant_detail.photo_path_edit_64!==null">
+                          <img  [src]="servant_detail.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                        </ng-container>
+                      </td>
 <!--                        <td class="col-md-4" style="text-align: right" *ngIf="servant_detail.sign_path && servant_detail.sign_path!==null">-->
 <!--                          <img [src]="servant_detail.sign_path" style="width: 150px; height: 128px" class="rounded-square" />-->
 <!--                        </td>-->
                         <td class="col-md-4" style="text-align: right" *ngIf="servant_detail.id_proof_path && servant_detail.id_proof_path!==null">
-                          <img [src]="servant_detail.id_proof_path" style="width: 150px; height: 128px" class="rounded-square" />
+                          <ng-container *ngIf="servant_detail.id_proof_path && servant_detail.id_proof_path!=null && (!servant_detail.id_proof_path_edit || servant_detail.id_proof_path_edit===null) && (!servant_detail.id_proof_path_edit_64 || servant_detail.id_proof_path_edit_64===null)">
+                            <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                               href="{{apiUrl}}getFile/{{servant_detail.id_proof_path}}"
+                               title="Order File" target="_blank">
+                              <i class="bi bi-eye"></i>
+                            </a>
+                          </ng-container>
+
+                          <ng-container *ngIf="servant_detail.id_proof_path_edit && servant_detail.id_proof_path_edit!=null && (!servant_detail.id_proof_path_edit_64 || servant_detail.id_proof_path_edit_64===null) ">
+                            <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                               href="{{apiUrl}}getFile/{{servant_detail.id_proof_path_edit}}"
+                               title="Order File" target="_blank">
+                              <i class="bi bi-eye"></i>
+                            </a>
+                          </ng-container>
+
+                          <ng-container *ngIf="servant_detail.id_proof_path_edit_64 && servant_detail.id_proof_path_edit_64!=null">
+                            <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
+                            <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(servant_detail.id_proof_path_edit_64);hoverClick($event)"></i>
+                          </ng-container>
                         </td>
                       </div>
                     </div>
@@ -459,12 +528,38 @@
                             {{eba_pass.eba_pass_exp_date | date:'dd-MM-yyyy'}}
                           </td>
                           <td  >
-                            <img [src]="eba_pass.photo_path" style="width: 150px; height: 128px" class="rounded-square" />
+                            <td>
+                              <ng-container *ngIf="eba_pass.photo_path_64 && eba_pass.photo_path_64!==null && (!eba_pass.photo_path_edit_64 || eba_pass.photo_path_edit_64===null)">
+                                <img  [src]="eba_pass.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                              </ng-container>
+                              <ng-container *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null">
+                                <img  [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                              </ng-container>
+                            </td>
 <!--                          <td  >-->
 <!--                          <img [src]="eba_pass.sign_path" style="width: 150px; height: 128px" class="rounded-square" />-->
 <!--                        </td>-->
                           <td  >
-                            <img [src]="eba_pass.id_proof_path" style="width: 150px; height: 128px" class="rounded-square" />
+                            <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null && (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null) && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null)">
+                              <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                 href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
+                                 title="Order File" target="_blank">
+                                <i class="bi bi-eye"></i>
+                              </a>
+                            </ng-container>
+
+                            <ng-container *ngIf="eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null) ">
+                              <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                 href="{{apiUrl}}getFile/{{eba_pass.id_proof_path_edit}}"
+                                 title="Order File" target="_blank">
+                                <i class="bi bi-eye"></i>
+                              </a>
+                            </ng-container>
+
+                            <ng-container *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!=null">
+                              <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
+                              <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(eba_pass.id_proof_path_edit_64);hoverClick($event)"></i>
+                            </ng-container>
                           </td>
                           </ng-container>
                         </ng-container>

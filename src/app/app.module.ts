@@ -70,15 +70,15 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
   ],
     imports: [
-        BrowserModule,
-        RouterModule.forRoot([], {enableTracing: true}),
-        LayoutModule,
-        HttpClientModule,
-        FormsModule,
-        NgbModule,
-        NgOtpInputModule,
+      BrowserModule,
+      RouterModule.forRoot([], {enableTracing: true}),
+      LayoutModule,
+      HttpClientModule,
+      FormsModule,
+      NgbModule,
+      NgOtpInputModule,
       NgxBarcode6Module,
-        NgxPrintModule,
+      NgxPrintModule,
     ],
   providers: [
     { provide: 'BASE_URL', useFactory: ()=>document.getElementsByTagName('base')[0].href },
