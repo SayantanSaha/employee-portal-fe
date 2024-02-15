@@ -1,0 +1,136 @@
+<ng-container *ngIf="printData && printData!= null">
+  <ng-container *ngIf="fromUrl && fromUrl== 'ebaprint'">
+
+
+
+
+    <div class="page-break">
+      <!--      <td>-->
+      <table>
+        <div style="width: 90mm; height: 60mm; background-color: white; border: 1px solid #ccc; max-width: 90mm;max-height: 60mm">
+
+          <div style="height: 18mm; background-color: green; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
+            <strong style="font-size: 4.9mm; color: white; transform: scaleY(2); line-height: 13mm;">
+              PRESIDENT'S ESTATE RESIDENT PASS
+            </strong>
+            <div style=" color: white;line-height: 6mm;"><b>{{printData.eba_pass_no}}</b></div>
+          </div>
+
+          <table style="height: 34mm; display: flex; font-size: 3mm;text-align: center;justify-content: center;align-items: center;">
+            <tr >
+              <td style="min-width:30mm;max-width:30mm;">
+                <img [src]="printData.photo_path" style="width: 35mm; height: 35mm;padding: 2mm"  />
+              </td>
+
+              <td style="min-width:60mm;max-width:60mm;padding: 10mm;">
+                <table >
+                  <tr>
+                    <td >
+                      <b style="color: red">
+                        VALID UPTO:
+                      </b>
+                      <b style="border: 1px solid black;  display: inline-block;">
+                        {{ printData!.eba_pass_exp_date | date:'MMM':'en-US' | uppercase }}
+
+                      </b>
+                      <b style="border: 1px solid black;  display: inline-block;">
+                        {{ printData!.eba_pass_exp_date |  date:'yyyy' }}
+                      </b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b>{{printData.closefamily.pivot.rel_name}}</b></td>
+                  </tr>
+                  <tr>
+                    <td><b>Relationship with Allottee</b></td>
+                  </tr>
+                  <tr>
+                    <td><b>{{printData.closefamily.rel_desc}}</b></td>
+                  </tr>
+                  <tr>
+                    <td><b>Date Of Birth:
+                      {{ printData!.closefamily.pivot.rel_dob | date:'dd-MM-yyyy'}}
+                    </b></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+
+          <div style="height: 4mm; display: flex; flex-direction: column;margin-top: -1.5mm;margin-left: 70mm  ">
+             <span *ngIf="printData.ussign">
+                <img [src]="printData.ussign" alt="Signature"
+                     style="width: 10mm; height: 4mm" class="rounded-square"
+                     title="Employee Signature" />
+              </span>
+          </div>
+
+          <div style="height: 4mm; background-color: green; display: flex; flex-direction: column; text-align: right;margin-top: 1.5mm; ">
+            <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;"><b>UNDER SECRETARY (EBA)</b></div>
+          </div>
+
+        </div>
+
+      </table>
+      <!--                  </td>-->
+
+    </div>
+
+
+    <!--                  <td>-->
+    <div class="page-break">
+      <table>
+        <div style="width: 90mm; height: 60mm;  display: flex;flex-direction: column;border: 1px solid #ccc; font-size: 2.5mm;padding: 1mm;max-width: 90mm;max-height: 60mm">
+          <table >
+            <tr >
+              <td><b>Address:</b></td>
+              <td colspan="2">
+                {{printData!.address}}<br />
+              </td>
+
+            </tr>
+            <tr >
+              <td><b>Blood Group:</b></td>
+              <td >N/A</td>
+            </tr>
+            <tr>
+              <td style="width: 30%;"><b>Date of issue:</b></td>
+              <td>{{ printData!.created_at | date:'dd-MM-yyyy'}}</td>
+            </tr>
+            <tr>
+              <td><b>ID mark:</b></td>
+              <td>N/A</td>
+            </tr>
+            <br>
+            <tr>
+              <td colspan="3">
+                This Photo Entry Pass is the property of President's Secretariat. It must be returned by the holder when demanded by the issuing Authority.
+              </td>
+            </tr>
+            <br>
+
+            <tr>
+              <td colspan="2">
+                If found please return the pass to:-
+                <br><b>The Under Secretary (EBA)</b>
+                <br><b>Rashdivapati Bhavan</b>
+                <br><b>New Delhi-110004</b>
+                <br><b>Tel.No. 011-23015321</b>
+              </td>
+              <td >
+                <ngx-barcode6 [bc-format]="'CODE128'" [bc-value]="(printData!.eba_pass_no ) || ''" [bc-width]="1" [bc-height]="30"></ngx-barcode6>
+              </td>
+
+            </tr>
+          </table>
+        </div>
+
+      </table>
+      <!--      </td>-->
+    </div>
+
+
+    <!--          <button class="btn btn-outline-success" *ngIf="printbutton" (click)="printbuttonchange();print()">Print</button>-->
+
+  </ng-container>
+</ng-container>

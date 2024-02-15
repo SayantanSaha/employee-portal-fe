@@ -1,8 +1,9 @@
-import { Component,Renderer2, ElementRef, AfterViewInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {Component, Renderer2, ElementRef, AfterViewInit, Inject} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {EmployeeService} from "../employee.service";
 import {DatePipe} from "@angular/common";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-ebaprint',
@@ -12,9 +13,11 @@ import {DatePipe} from "@angular/common";
 export class EbaprintComponent {
   ebaprintData:  any[] = [];
   constructor(
-
+    @Inject('BASE_URL') baseUrl: string,private employeeService: EmployeeService,
+    private route: ActivatedRoute,
+    private router: Router,
     // private renderer: Renderer2, private el: ElementRef,
-    private employeeService: EmployeeService,
+
 
   ) {}
   ngOnInit() {
@@ -25,6 +28,13 @@ export class EbaprintComponent {
       },
       error => {
         console.error('Error fetching data:', error);
+        if (error.status === 404) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'US signature empty',
+            text: 'US signature required !!!',
+          });
+        }
       }
     );
   }
@@ -43,7 +53,7 @@ export class EbaprintComponent {
   }
 
   ebacard: any = 'none';
-   printData: any ;
+  printData: any ;
 
   openebacardPopup(i:number) {
     this.ebacard = "block";
@@ -51,6 +61,11 @@ export class EbaprintComponent {
   }
   closeebacardPopup() {
     this.ebacard = "none";
+  }
+
+
+  printpage(i:number){
+  this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'ebaprint' } });
   }
 
   // ngAfterViewInit() {

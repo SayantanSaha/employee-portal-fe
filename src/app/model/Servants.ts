@@ -13,6 +13,7 @@ export class Servants{
   out_house_address: string | null = null;
   deleted_at: Date | null = null;
   allSelected: boolean = false;
+  Selected_dh: boolean = false;
   reference: boolean = false;
   // out_house_id: number=-1;
   relations: ServantRel[]  = [];

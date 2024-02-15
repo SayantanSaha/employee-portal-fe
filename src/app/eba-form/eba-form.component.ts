@@ -33,7 +33,7 @@ export class EbaFormComponent {
   minDate : string;
 
   constructor(
-    @Inject('BASE_URL') baseUrl: string,private employeeService: EmployeeService,
+      @Inject('BASE_URL') baseUrl: string,private employeeService: EmployeeService,
       private route: ActivatedRoute,
       private router: Router,
   ) {
@@ -65,10 +65,11 @@ export class EbaFormComponent {
   mode: string | null = null;
   modetwo: string | null = null;
   urlid: boolean = false;
+  returnapp: boolean = false;
   id: string | null = null;
-  remark: string = '';
+  remark: string | null = null;
   file_path: string | null = null;
-
+  file_path_64:string|null=null;
 
   ngOnInit() {
 
@@ -82,28 +83,34 @@ export class EbaFormComponent {
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
 
-    if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => (role.role_id === 5 || role.role_id == 6 || role.role_id == 4))) {
+    if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4 || role == 9|| role == 10))||(this.modetwo == 'return')) {
       this.id = this.route.snapshot.paramMap.get('id');
-      this.letverify(!isNaN(+this.id!));
+      if(this.modetwo !== 'return'){
+        this.letverify(!isNaN(+this.id!));}
     }
 
     if (this.id) {
       // 'id' is present, try to convert it to a number
       const idNumber = +this.id;
       if (!isNaN(idNumber)) {
-        if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => (role.role_id === 5 || role.role_id == 6 || role.role_id == 4))) {
+        if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4 || role == 9|| role == 10))||(this.modetwo == 'return')) {
           // 'id' is a valid number, call getEbaProfile
           this.employeeService.getEbaProfile(idNumber).subscribe(
               (data: any) => {
                 this.employee = data;
+                  this.setexpdate();
+                if(this.modetwo == 'return') {
+                  this.returnedapplication(this.modetwo == 'return');
+                }
               }
           );
-        }} else {
+        }
+      } else {
         // 'id' is not a valid number, call getMyebaProfile
         this.employeeService.getMyebaProfile().subscribe(
             (data: any) => {
               this.employee = data;
-
+              this.setexpdate();
               // @ts-ignore
               // this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
               // // @ts-ignore
@@ -116,7 +123,6 @@ export class EbaFormComponent {
       this.employeeService.getMyebaProfile().subscribe(
           (data: any) => {
             this.employee = data;
-
             // @ts-ignore
             // this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
             // // @ts-ignore
@@ -124,6 +130,7 @@ export class EbaFormComponent {
           }
       );
     }
+
 
     // this.employeeService.getStates().subscribe(
     //   data=>this.states=data,
@@ -175,6 +182,99 @@ export class EbaFormComponent {
     //     error => console.log(error)
     // );
   }
+  setexpdate(){
+    const today = new Date();
+
+    if((this.employee!.family && this.employee!.family.length>0) || (this.employee!.closefamily && this.employee!.closefamily.length>0)) {
+      const fiveYearsLater = new Date();
+      fiveYearsLater.setFullYear(today.getFullYear() + 5);
+
+      // Format the date as 'yyyy-MM-dd' (the format that input type date expects)
+      const formattedDate = this.formatDate(fiveYearsLater);
+
+      this.employee!.family?.forEach(member => {
+        member.pivot.eba_passes?.forEach(ebapass=>{
+          if(!ebapass.eba_pass_exp_date_edited && formattedDate<=this.employee!.dor && this.employee?.dh){
+            ebapass.eba_pass_exp_date_edit=formattedDate;
+          }
+          if(formattedDate>this.employee!.dor && this.employee?.dh && !ebapass.eba_pass_exp_date_edited){
+            ebapass.eba_pass_exp_date_edit=this.employee!.dor;
+          }
+        })
+      })
+      this.employee!.closefamily?.forEach(member => {
+        member.pivot.eba_passes?.forEach(ebapass=>{
+          if( formattedDate<=this.employee!.dor ){
+            ebapass.eba_pass_exp_date_edit=formattedDate;
+          }
+          if(formattedDate>this.employee!.dor ){
+            ebapass.eba_pass_exp_date_edit=this.employee!.dor;
+          }
+        })
+      })
+    }
+    if((this.employee!.servants && this.employee!.servants.length>0)) {
+      const oneYearsLater = new Date();
+      oneYearsLater.setFullYear(today.getFullYear() + 1);
+      const formattedDate = this.formatDate(oneYearsLater);
+      this.employee!.servants?.forEach(servant => {
+        servant.eba_passes?.forEach(ebapass=>{
+          if(!ebapass.eba_pass_exp_date_edited && formattedDate<=this.employee!.dor && servant.Selected_dh && this.employee?.dh){
+            ebapass.eba_pass_exp_date_edit=formattedDate;
+          }
+          if(formattedDate>this.employee!.dor && servant.Selected_dh && this.employee?.dh && !ebapass.eba_pass_exp_date_edited){
+            ebapass.eba_pass_exp_date_edit=this.employee!.dor;
+          }
+        })
+        servant.relations?.forEach(member=>{
+          member.pivot.eba_passes?.forEach(ebapass=>{
+            if(!ebapass.eba_pass_exp_date_edited && formattedDate<=this.employee!.dor && this.employee?.dh){
+              ebapass.eba_pass_exp_date_edit=formattedDate;
+            }
+            if(formattedDate>this.employee!.dor && this.employee?.dh && !ebapass.eba_pass_exp_date_edited){
+              ebapass.eba_pass_exp_date_edit=this.employee!.dor;
+            }
+          })
+        })
+      })
+    }
+  }
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  expedit(i:any,j:any,k:any,property:string){
+    if (property === 'closefamily' ) {
+      if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
+        // @ts-ignore
+        this.employee.closefamily[i].pivot.eba_passes[j].eba_pass_exp_date_edited = true;
+      }
+    }
+    if (property === 'family') {
+      if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
+          // @ts-ignore
+          this.employee.family[i].pivot.eba_passes[j].eba_pass_exp_date_edited = true;
+
+      }
+    }
+
+    if (property === 'servant') {
+      if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
+          // @ts-ignore
+          this.employee.servants[i].eba_passes[j].eba_pass_exp_date_edited = true;
+      }
+    }
+
+    if (property === 'servantrel') {
+      if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
+          // @ts-ignore
+          this.employee.servants[i].relations[j].pivot.eba_passes[k].eba_pass_exp_date_edited = true;
+      }
+    }
+  }
 
   setEditable(status:boolean){
     this.editable = status;
@@ -184,8 +284,23 @@ export class EbaFormComponent {
     this.applyingforRelative = status;
   }
 
-  onSelectcloseFamily(){
+  returnedapplication(status:boolean){
+    this.returnapp = status;
+    if(this.employee!.family && this.employee!.family.length>0){
       this.applyingforRelative = true;
+      this.applyingforclosefamily = false;
+    }
+    if(this.employee!.servants && this.employee!.servants.length>0){
+      this.applyingforRelative = false;
+    }
+  }
+
+  letverify(status:boolean){
+    this.urlid = status;
+  }
+
+  onSelectcloseFamily(){
+    this.applyingforRelative = true;
     this.applyingforclosefamily = true;
     this.employee!.family?.forEach(member => {
       member.allSelected = false;
@@ -200,7 +315,7 @@ export class EbaFormComponent {
 
   onSelectRelative(){
     this.applyingforRelative = true;
-      this.applyingforclosefamily = false;
+    this.applyingforclosefamily = false;
     this.employee!.closefamily?.forEach(member => {
       member.allSelected = false;
     })
@@ -222,9 +337,7 @@ export class EbaFormComponent {
     })
   }
 
-  letverify(status:boolean){
-    this.urlid = status;
-  }
+
 
 
 
@@ -252,64 +365,10 @@ export class EbaFormComponent {
     return activeIdCard.join(', ');
   }
 
-  // @ts-ignore
-  // getDefaultExpDate(i: number, j: number,k:number ,property: string): string {
-  //   const twoYearsFromNow = new Date();
-  //   twoYearsFromNow.setFullYear(twoYearsFromNow.getFullYear() + 2);
-  //   if (property === 'relative') {
-  //     // @ts-ignore
-  //     this.employee.relations[i].pivot.eba_passes[j].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
-  //     return this.employee?.relations?.[i]?.pivot?.eba_passes?.[j]?.eba_pass_exp_date;
-  //   }
-  //   if (property === 'servant') {
-  //     // @ts-ignore
-  //     this.employee.servants[i].eba_passes[j].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
-  //     return this.employee?.servants?.[i]?.eba_passes?.[j]?.eba_pass_exp_date;
-  //
-  //   }
-  //   if (property === 'servant_rel') {
-  //     // @ts-ignore
-  //     this.employee.servants[i].relations[j].pivot.eba_passes[k].eba_pass_exp_date = twoYearsFromNow.toISOString().split('T')[0];
-  //     return this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]?.eba_pass_exp_date;
-  //   }
-  // }
-
-    getDefaultExpDate(i: number, j: number, k: number, property: string): Date {
-        const twoYearsFromNow = new Date();
-        twoYearsFromNow.setFullYear(twoYearsFromNow.getFullYear() + 2);
-
-        let expDate: Date = twoYearsFromNow;
-
-        if (property === 'relative') {
-            // @ts-ignore
-            if (this.employee?.relations?.[i]?.pivot?.eba_passes?.[j]) {
-                this.employee.relations[i].pivot.eba_passes[j].eba_pass_exp_date = expDate;
-            }
-            return expDate;
-        }
-
-        if (property === 'servant') {
-            // @ts-ignore
-            if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
-                this.employee.servants[i].eba_passes[j].eba_pass_exp_date = expDate;
-            }
-            return expDate;
-        }
-
-        if (property === 'servant_rel') {
-            // @ts-ignore
-            if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
-                this.employee.servants[i].relations[j].pivot.eba_passes[k].eba_pass_exp_date = expDate;
-            }
-            return expDate;
-        }
-
-        // Default return
-        return expDate;
-    }
 
 
-    isWithinTwoWeeks(expDate: Date | null): boolean {
+
+  isWithinTwoWeeks(expDate: Date | null): boolean {
     if (expDate === null) {
       return true; // If eba_pass_exp_date is null, consider it within two weeks
     }
@@ -319,10 +378,10 @@ export class EbaFormComponent {
     return new Date(expDate) <= twoWeeksBeforeNow ;
   }
 
-  updateRelationSelection(servant: any, relation: any): void {
-    if(relation.allSelected == true)
-      servant.reference = true;
-  }
+  // updateRelationSelection(servant: any, relation: any): void {
+  //   if(relation.allSelected == true)
+  //     servant.reference = true;
+  // }
 
   addVehicle(i: number): void {
     if (
@@ -355,7 +414,7 @@ export class EbaFormComponent {
 
   onMobileNoInput(event: any, i: number, J: number): void {
     if (
-      this.employee?.servants?.[i]?.eba_passes?.[J].reference_1_phone_no !== null
+        this.employee?.servants?.[i]?.eba_passes?.[J].reference_1_phone_no !== null
     ) {
       // Get the input value
       const inputValue = event.target.value;
@@ -374,7 +433,7 @@ export class EbaFormComponent {
 
   onMobileNo(event: any, i: number, J: number): void {
     if (
-      this.employee?.servants?.[i]?.eba_passes?.[J].reference_2_phone_no !== null
+        this.employee?.servants?.[i]?.eba_passes?.[J].reference_2_phone_no !== null
     ) {
       // Get the input value
       const inputValue = event.target.value;
@@ -450,66 +509,66 @@ export class EbaFormComponent {
       if (file.type === 'image/jpeg' || file.type === 'image/jpg' ) {
         // Check if the file size is less than or equal to 200KB
         if (file.size <= 200 * 1024) { // 200KB in bytes
-        try {
-          const base64String: string = await fileToBase64(file); // Convert the file to base64
-          if (property === 'closefamily_photo_path' || 'closefamily_signature') {
-          if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
-            if (property === 'closefamily_photo_path') {
-              // @ts-ignore
-              this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit_64 = base64String;
-            } else if (property === 'closefamily_signature') {
-              // @ts-ignore
-              this.employee.closefamily[i].pivot.eba_passes[j].sign_path = base64String;
+          try {
+            const base64String: string = await fileToBase64(file); // Convert the file to base64
+            if (property === 'closefamily_photo_path' || 'closefamily_signature') {
+              if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
+                if (property === 'closefamily_photo_path') {
+                  // @ts-ignore
+                  this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit_64 = base64String;
+                } else if (property === 'closefamily_signature') {
+                  // @ts-ignore
+                  this.employee.closefamily[i].pivot.eba_passes[j].sign_path = base64String;
+                }
+              }
             }
-          }
-          }
-          if (property === 'family_photo_path' || 'family_signature') {
-          if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
-            if (property === 'family_photo_path') {
-              // @ts-ignore
-              // alert('ok');
-              this.employee.family[i].pivot.eba_passes[j].photo_path_edit_64 = base64String;
-            } else if (property === 'family_signature') {
-              // @ts-ignore
-              this.employee.family[i].pivot.eba_passes[j].sign_path = base64String;
+            if (property === 'family_photo_path' || 'family_signature') {
+              if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
+                if (property === 'family_photo_path') {
+                  // @ts-ignore
+                  // alert('ok');
+                  this.employee.family[i].pivot.eba_passes[j].photo_path_edit_64 = base64String;
+                } else if (property === 'family_signature') {
+                  // @ts-ignore
+                  this.employee.family[i].pivot.eba_passes[j].sign_path = base64String;
+                }
+              }
             }
-          }
-          }
 
-          if (property === 'servant_photo_path' || 'servant_signature') {
-          if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
-            // Update the specific property based on the argument
-            if (property === 'servant_photo_path') {
-              // @ts-ignore
-              this.employee.servants[i].eba_passes[j].photo_path_edit_64 = base64String;
-            } else if (property === 'servant_signature') {
-              // @ts-ignore
-              this.employee.servants[i].eba_passes[j].sign_path = base64String;
+            if (property === 'servant_photo_path' || 'servant_signature') {
+              if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
+                // Update the specific property based on the argument
+                if (property === 'servant_photo_path') {
+                  // @ts-ignore
+                  this.employee.servants[i].eba_passes[j].photo_path_edit_64 = base64String;
+                } else if (property === 'servant_signature') {
+                  // @ts-ignore
+                  this.employee.servants[i].eba_passes[j].sign_path = base64String;
+                }
+              }
             }
-          }
-          }
 
-          if (property === 'photo' || 'sign') {
-            if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
-              // Update the specific property based on the argument
-              if (property === 'photo') {
-                // @ts-ignore
-                this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path_edit_64 = base64String;
-              } else if (property === 'sign') {
-                // @ts-ignore
-                this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = base64String;
+            if (property === 'photo' || 'sign') {
+              if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
+                // Update the specific property based on the argument
+                if (property === 'photo') {
+                  // @ts-ignore
+                  this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path_edit_64 = base64String;
+                } else if (property === 'sign') {
+                  // @ts-ignore
+                  this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = base64String;
+                }
+              }
+            }
+            if(this.file_path){
+              if (property === 'file_path') {
+                this.file_path=base64String;
               }
             }
           }
-          if(this.file_path){
-            if (property === 'file_path') {
-            this.file_path=base64String;
-            }
+          catch (error) {
+            console.error('Failed to convert the file to base64:', error);
           }
-        }
-        catch (error) {
-          console.error('Failed to convert the file to base64:', error);
-        }
         } else {
           this. removeFile(event, i, j, k, property);
           Swal.fire({
@@ -520,6 +579,7 @@ export class EbaFormComponent {
           console.log('File size exceeds 200KB.');
         }
       } else {
+        this. removeFile(event, i, j, k, property);
         Swal.fire({
           icon: 'error',
           title: 'Invalid File',
@@ -545,36 +605,36 @@ export class EbaFormComponent {
             const base64String: string = await fileToBase64(file); // Convert the file to base64
 
             if (property === 'closefamily_id_proof_path') {
-            if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
-              // @ts-ignore
+              if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
+                // @ts-ignore
                 this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit_64 = base64String;
               }
             }
 
             if (property === 'family_id_proof_path') {
-            if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
+              if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
                 // @ts-ignore
                 this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit_64 = base64String;
               }
             }
 
             if (property === 'servant_id_proof_path') {
-            if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
+              if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
                 // @ts-ignore
                 this.employee.servants[i].eba_passes[j].id_proof_path_edit_64 = base64String;
               }
             }
 
             if (property === 'id_proof') {
-            if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
+              if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
                 // @ts-ignore
                 this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit_64 = base64String;
               }
             }
 
-            if(this.file_path){
+            if(this.file_path_64){
               if (property === 'file_path') {
-                this.file_path=base64String;
+                this.file_path_64=base64String;
               }
             }
           }
@@ -591,6 +651,7 @@ export class EbaFormComponent {
           console.log('File size exceeds 1mb.');
         }
       } else {
+        this. removeFile(event, i, j, k, property);
         Swal.fire({
           icon: 'error',
           title: 'Invalid File',
@@ -607,77 +668,81 @@ export class EbaFormComponent {
 
   removeFile(event: Event,i:any,j:any,k:any,property: string): void {
     if (property === 'closefamily_photo_path' || 'closefamily_signature' || 'closefamily_id_proof_path') {
-    if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
-      if (property === 'closefamily_photo_path') {
-        // @ts-ignore
-        this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit_64 = null;
-         // this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit = null;
-      } else if (property === 'closefamily_signature') {
-        // @ts-ignore
-        this.employee.closefamily[i].pivot.eba_passes[j].sign_path = null;
-      } else if (property === 'closefamily_id_proof_path') {
-        // @ts-ignore
-        this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit_64 = null;
-        this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit = null;
+      if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
+        if (property === 'closefamily_photo_path') {
+          // @ts-ignore
+          this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit_64 = null;
+          // this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit = null;
+        } else if (property === 'closefamily_signature') {
+          // @ts-ignore
+          this.employee.closefamily[i].pivot.eba_passes[j].sign_path = null;
+        } else if (property === 'closefamily_id_proof_path') {
+          // @ts-ignore
+          this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit_64 = null;
+          this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit = null;
+        }
       }
-    }
     }
     if (property === 'family_photo_path' || 'family_signature' || 'family_id_proof_path') {
-    if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
-      if (property === 'family_photo_path') {
-        // @ts-ignore
-        // alert('ok');
-        this.employee.family[i].pivot.eba_passes[j].photo_path_edit_64 = null;
-      } else if (property === 'family_signature') {
-        // @ts-ignore
-        this.employee.family[i].pivot.eba_passes[j].sign_path = null;
-      } else if (property === 'family_id_proof_path') {
-        // @ts-ignore
-        this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit_64 = null;
-        this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit = null;
+      if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
+        if (property === 'family_photo_path') {
+          // @ts-ignore
+          // alert('ok');
+          this.employee.family[i].pivot.eba_passes[j].photo_path_edit_64 = null;
+        } else if (property === 'family_signature') {
+          // @ts-ignore
+          this.employee.family[i].pivot.eba_passes[j].sign_path = null;
+        } else if (property === 'family_id_proof_path') {
+          // @ts-ignore
+          this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit_64 = null;
+          this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit = null;
+        }
       }
-    }
     }
     if (property === 'servant_photo_path' || 'servant_signature' || 'servant_id_proof_path') {
-    if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
-      // Update the specific property based on the argument
-      if (property === 'servant_photo_path') {
-        // @ts-ignore
-        this.employee.servants[i].eba_passes[j].photo_path_edit_64 = null;
-      } else if (property === 'servant_signature') {
-        // @ts-ignore
-        this.employee.servants[i].eba_passes[j].sign_path = null;
-      } else if (property === 'servant_id_proof_path') {
-        // @ts-ignore
-        this.employee.servants[i].eba_passes[j].id_proof_path_edit_64 = null;
-        this.employee.servants[i].eba_passes[j].id_proof_path_edit = null;
+      if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
+        // Update the specific property based on the argument
+        if (property === 'servant_photo_path') {
+          // @ts-ignore
+          this.employee.servants[i].eba_passes[j].photo_path_edit_64 = null;
+        } else if (property === 'servant_signature') {
+          // @ts-ignore
+          this.employee.servants[i].eba_passes[j].sign_path = null;
+        } else if (property === 'servant_id_proof_path') {
+          // @ts-ignore
+          this.employee.servants[i].eba_passes[j].id_proof_path_edit_64 = null;
+          this.employee.servants[i].eba_passes[j].id_proof_path_edit = null;
+        }
       }
     }
-    }
-      if (property === 'photo' || 'sign' || 'id_proof') {
-    if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
-      // Update the specific property based on the argument
-      if (property === 'photo') {
-        // @ts-ignore
-        this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path_edit_64 = null;
-      } else if (property === 'sign') {
-        // @ts-ignore
-        this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = null;
-      } else if (property === 'id_proof') {
-        // @ts-ignore
-        this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit_64 = null;
+    if (property === 'photo' || 'sign' || 'id_proof') {
+      if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
+        // Update the specific property based on the argument
+        if (property === 'photo') {
+          // @ts-ignore
+          this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path_edit_64 = null;
+        } else if (property === 'sign') {
+          // @ts-ignore
+          this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = null;
+        } else if (property === 'id_proof') {
+          // @ts-ignore
+          this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit_64 = null;
           this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit = null;
+        }
       }
     }
-      }
     if (property === 'file_path') {
-      this.file_path = null;
+      this.file_path_64 = null;
     }
   }
 
+  openPdfInNewTab(pdfData: string): void {
+    const pdfWindow = window.open();
+    // @ts-ignore
+    pdfWindow.document.write(`<iframe width='100%' height='100%' src='${pdfData}'></iframe>`);
+  }
 
-
-   applyEba() {
+  applyEba() {
     if (this.employee) {
       if (this.employee.designations === null || this.employee.designations.length === 0) {
         Swal.fire({
@@ -731,20 +796,36 @@ export class EbaFormComponent {
         clonedEmployee.closefamily = [];
         clonedEmployee.family = [];
         clonedEmployee.vehicles = [];
-        if (clonedEmployee.servants) {
-          clonedEmployee.servants = clonedEmployee.servants.filter(servant => {
-            return servant.allSelected || servant.reference;
-          });
-          //   if( clonedEmployee.vehicles)
-          //   clonedEmployee.vehicles = clonedEmployee.vehicles?.filter(vehicle => vehicle.allSelected);
-          // }
-        }
+        // if (clonedEmployee.servants) {
+        //   clonedEmployee.servants = clonedEmployee.servants.filter(servant => {
+        //     return servant.allSelected || servant.reference;
+        //   });
+        //   //   if( clonedEmployee.vehicles)
+        //   //   clonedEmployee.vehicles = clonedEmployee.vehicles?.filter(vehicle => vehicle.allSelected);
+        //   // }
+        // }
 
         if (clonedEmployee.servants) {
-          clonedEmployee.servants.forEach(servant => {
+          // Filter out servants with empty relations array and allSelected is false
+          clonedEmployee.servants = clonedEmployee.servants.filter(servant => {
             if (servant.relations) {
               servant.relations = servant.relations.filter(relation => relation.allSelected);
             }
+
+            // Filter out vehicles where all specified keys are null
+            if (servant.vehicles) {
+              servant.vehicles = servant.vehicles.filter(vehicle => {
+                return !(
+                    vehicle['vehicle_owner'] === null &&
+                    vehicle['vehicle_no'] === null &&
+                    vehicle['vehicle_type'] === null &&
+                    vehicle['model_name'] === null
+                );
+              });
+            }
+
+            // Include servants only if relations array is not empty or allSelected is true
+            return servant.relations.length > 0 || servant.allSelected;
           });
         }
       }
@@ -779,7 +860,12 @@ export class EbaFormComponent {
           return;
         }
       }
-      this.router.navigate(['eba-form-view'], { state: { employeeData: clonedEmployee, fromUrl: 'eba-form' } });
+      if(this.modetwo == 'return'){
+        const id = +this.route.snapshot.params['id'];
+        this.router.navigate(['eba-form-view'], { state: { employeeData: clonedEmployee, fromUrl: 'eba-form',submit:'update',id:id } });
+      }else{
+        this.router.navigate(['eba-form-view'], { state: { employeeData: clonedEmployee, fromUrl: 'eba-form' } });
+      }
       // Send the modified employee object to the server
       // this.employeeService.applyeba(clonedEmployee).subscribe(
       //
@@ -851,24 +937,106 @@ export class EbaFormComponent {
   approveapplication() {
     const id = +this.route.snapshot.params['id'];
     if (!isNaN(id)) {
-      if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => role.role_id === 4)) {
+      if (this.user && this.user.role && this.user.role.some((role:  number) => role === 4)) {
         if (this.employee) {
           console.log(this)
-          // const clonedEmployee = {...this.employee};
-          // if (clonedEmployee.closefamily) {
-          //   clonedEmployee.closefamily = clonedEmployee.closefamily.filter(member => member.allSelected);
-          //
-          // }
-          //
-          // if (clonedEmployee.family) {
-          //   clonedEmployee.family = clonedEmployee.family.filter(member => member.allSelected);
-          //
-          // }
-          //
-          // if (clonedEmployee.servants) {
-          //   clonedEmployee.servants = clonedEmployee.servants.filter(servant => servant.allSelected);
-          // }
-          //
+          const clonedEmployee = {...this.employee};
+          let shouldStop = false;
+
+          if (clonedEmployee.family && clonedEmployee.family.length >= 0) {
+            clonedEmployee.family?.forEach(family => {
+              if (family.pivot.eba_passes) {
+                family.pivot.eba_passes?.forEach(eba_pass => {
+                  if (family.Selected_dh) {
+                    if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
+                      Swal.fire({
+                        icon: 'warning',
+                        title: 'Enter valid date ',
+                        text: family.pivot.rel_name + ' exp date is not valid',
+                      });
+                      shouldStop = true;
+                      return;
+                    }
+                  } else {
+                    if (eba_pass.remark  == null) {
+                      Swal.fire({
+                        icon: 'warning',
+                        title: 'Enter remark ',
+                        text: family.pivot.rel_name + ' remark is empty',
+                      });
+                      shouldStop = true;
+                      return;
+                    }
+                  }
+                });
+              }
+            });
+          }
+
+
+          if (clonedEmployee.servants && clonedEmployee.servants.length >= 0) {
+            clonedEmployee.servants?.forEach(servant => {
+              if (servant.eba_passes) {
+                servant.eba_passes?.forEach(eba_pass => {
+                  if (servant.Selected_dh) {
+                    if(eba_pass.eba_pass_exp_date_edit ==null || eba_pass.eba_pass_exp_date_edit<= new Date()){
+                      Swal.fire({
+                        icon: 'warning',
+                        title: 'enter valid date ',
+                        text: servant.servant_name+' exp date is not valid',
+                      });
+                      shouldStop = true;
+                      return;
+                    }
+                  }else {
+                    if (eba_pass.remark  == null) {
+                      Swal.fire({
+                        icon: 'warning',
+                        title: 'Enter remark ',
+                        text: servant.servant_name + ' remark is empty',
+                      });
+                      shouldStop = true;
+                      return;
+                    }
+                  }
+                });
+              }
+
+              if (servant.relations && servant.relations.length >= 0) {
+                servant.relations?.forEach(family=>{
+                  if (family.pivot.eba_passes) {
+                    family.pivot.eba_passes?.forEach(eba_pass => {
+                      if (family.Selected_dh) {
+                        if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
+                          Swal.fire({
+                            icon: 'warning',
+                            title: 'Enter valid date ',
+                            text: family.pivot.rel_name + ' exp date is not valid',
+                          });
+                          shouldStop = true;
+                          return;
+                        }
+                      } else {
+                        if (eba_pass.remark  == null) {
+                          Swal.fire({
+                            icon: 'warning',
+                            title: 'Enter remark ',
+                            text: family.pivot.rel_name + ' remark is empty',
+                          });
+                          shouldStop = true;
+                          return;
+                        }
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+          if (shouldStop) {
+            return;
+          }
+
           // if (
           //     (clonedEmployee.relations === null || clonedEmployee.relations.length === 0) &&
           //     (clonedEmployee.servants === null || clonedEmployee.servants.length === 0)
@@ -883,12 +1051,12 @@ export class EbaFormComponent {
 
           this.employeeService.updateeba(this.employee, id).subscribe(
               () => {
-                this.employeeService.updateebastatus(id, 'Approve', this.remark, this.file_path ?? '').subscribe(
+                this.employeeService.updateebastatus(id, 'Approve', this.remark?? '', this.file_path_64 ?? '').subscribe(
                     () => {
                       Swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: 'Approved successfully',
+                        text: 'Forwarded successfully',
                       }).then(() => {
                         // Redirect to the dashboard route
                         this.router.navigate(['ebapanel']);
@@ -923,10 +1091,18 @@ export class EbaFormComponent {
                 });
               }
           );
+        }else {
+          console.error('ID parameter is missing or invalid in the URL.');
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'data missing !!!',
+          });
+          return;
         }
       }
-      else if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => (role.role_id === 5 || role.role_id == 6))) {
-        this.employeeService.updateebastatus(id, 'Approve', this.remark, this.file_path ?? '').subscribe(
+      else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 5 || role == 6|| role == 9|| role == 10))) {
+        this.employeeService.updateebastatus(id, 'Approve', this.remark?? '', this.file_path_64 ?? '').subscribe(
             () =>{
               Swal.fire({
                 icon: 'success',
@@ -978,50 +1154,123 @@ export class EbaFormComponent {
   {
     // Extract id from route parameters
     const id = +this.route.snapshot.params['id'];
+    if (this.user && this.user.role && this.user.role.some((role:  number) => role === 4)) {
+      if(this.employee){
+        if(this.remark == null ){
+          Swal.fire({
+            icon: 'warning',
+            title: 'Enter note ',
+            text: 'enter note for ' +this.employee.emp_name,
+          });
+          return;
+        }
+        this.employeeService.updateeba(this.employee, id).subscribe(() => {
+          if (!isNaN(id)) {
+            this.employeeService.updateebastatus(id, 'Return', this.remark ?? '', this.file_path_64 ?? '').subscribe(
 
-    // Check if 'id' parameter exists in the URL
-    if (!isNaN(id)) {
-      this.employeeService.updateebastatus(id, 'Return', this.remark, this.file_path ?? '').subscribe(
-          () => {
+                () => {
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Returned successfully',
+                  }).then(() => {
+                    // Redirect to the dashboard route
+                    this.router.navigate(['ebapanel']);
+                  });
+                },
+                (error) => {
+                  console.log(error);
+                  console.log(error.status);
+                  console.log(error.error);
+
+                  if (error.status === 302) {
+                    Swal.fire({
+                      icon: 'warning',
+                      title: 'Warning',
+                      text: 'You are not authorized !!!',
+                    });
+                  } else {
+                    // Handle other errors here
+                    console.error('An error occurred:', error);
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: 'An error occurred while Approving application status.',
+                    });
+                  }
+                }
+            );
+          } else {
+            console.error('ID parameter is missing or invalid in the URL.');
             Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Returned successfully',
-            }).then(() => {
-              // Redirect to the dashboard route
-              this.router.navigate(['ebapanel']);
+              icon: 'warning',
+              title: 'Warning',
+              text: 'id missing !!!',
             });
-          },
-          (error) => {
-            console.log(error);
-            console.log(error.status);
-            console.log(error.error);
-
-            if (error.status === 302) {
-              Swal.fire({
-                icon: 'warning',
-                title: 'Warning',
-                text: 'You are not authorized !!!',
-              });
-            } else {
-              // Handle other errors here
-              console.error('An error occurred:', error);
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'An error occurred while Approving application status.',
-              });
-            }
+            return;
           }
-      );
-    } else {
-      console.error('ID parameter is missing or invalid in the URL.');
-      Swal.fire({
-        icon: 'warning',
-        title: 'Warning',
-        text: 'id missing !!!',
-      });
-      return;
+        },(error) => {
+          console.log('Error in updateeba:', error);
+          // Handle specific errors or use a generic error message
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while updating the application.',
+          });
+        });
+      }else {
+        console.error('ID parameter is missing or invalid in the URL.');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Warning',
+          text: 'data missing !!!',
+        });
+        return;
+      }
+    }else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 5 || role == 6|| role == 9|| role == 10))){
+      if (!isNaN(id)) {
+        this.employeeService.updateebastatus(id, 'Return', this.remark ?? '', this.file_path_64 ?? '').subscribe(
+            () => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Returned successfully',
+              }).then(() => {
+                // Redirect to the dashboard route
+                this.router.navigate(['ebapanel']);
+              });
+            },
+            (error) => {
+              console.log(error);
+              console.log(error.status);
+              console.log(error.error);
+
+              if (error.status === 302) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'You are not authorized !!!',
+                });
+              } else {
+                // Handle other errors here
+                console.error('An error occurred:', error);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'An error occurred while Approving application status.',
+                });
+              }
+            }
+        );
+      } else {
+        console.error('ID parameter is missing or invalid in the URL.');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Warning',
+          text: 'id missing !!!',
+        });
+        return;
+      }
     }
   }
 
@@ -1040,20 +1289,20 @@ export class EbaFormComponent {
       if (application && application.photo_path) {
         this.employeeService.getpic(application.photo_path).subscribe(
             (data) => {
-          const blob = new Blob([data], { type: 'image/jpeg' });
-          const url = window.URL.createObjectURL(blob);
-          window.open(url, '_blank');
-        },
-          (error) => {
-            console.log(error);
-            console.log(error.status);
-            console.log(error.error);
-            if (error) {
-              if (error.status === 404) {
-                window.open(application.photo_path, '_blank');
+              const blob = new Blob([data], { type: 'image/jpeg' });
+              const url = window.URL.createObjectURL(blob);
+              window.open(url, '_blank');
+            },
+            (error) => {
+              console.log(error);
+              console.log(error.status);
+              console.log(error.error);
+              if (error) {
+                if (error.status === 404) {
+                  window.open(application.photo_path, '_blank');
+                }
               }
-            }
-          });
+            });
       }
     }
     else if(property == 'sign'){
@@ -1084,10 +1333,10 @@ export class EbaFormComponent {
       const application = this.employee?.relations?.[i]?.pivot?.eba_passes?.[j];
       if (application && application.id_proof_path) {
         this.employeeService.getpic(application.id_proof_path).subscribe((data) => {
-          const blob = new Blob([data], { type: 'image/jpeg' });
-          const url = window.URL.createObjectURL(blob);
-          window.open(url, '_blank');
-        },
+              const blob = new Blob([data], { type: 'image/jpeg' });
+              const url = window.URL.createObjectURL(blob);
+              window.open(url, '_blank');
+            },
             (error) => {
               console.log(error);
               console.log(error.status);

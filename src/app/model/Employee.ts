@@ -21,7 +21,7 @@ export class Employee{
   doj_gs: Date|null = null;
   gender: string = '';
   dob: Date|null = null;
-  dor: Date|null = null;
+  dor: any| null = null;
   email_id: string  = '';
   mobile: string  = '';
   AllotmentId: string ='';
@@ -58,7 +58,14 @@ export class Employee{
   sign_path: string|null = null;
   id_cards: Idcards[]|null = null;
   temp_changes: any;
-
-
-
+  dh: boolean = false;
+  so: boolean = false;
+  us: boolean = false;
+  director: boolean = false;
+  asp: boolean = false;
+  approve: boolean = false;
+  returnshow: boolean = false;
+  visual: boolean = false;
+  reg_no:string|null = null;
+  status:string|null = null;
 }

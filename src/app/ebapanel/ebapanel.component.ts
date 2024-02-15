@@ -21,7 +21,7 @@ export class EbapanelComponent implements OnInit{
   empTempDetails : any={};
   employee: Employee | null = null;
   search: Search = new Search();
-
+  user:User = new User();
 
   constructor(
       private router: Router,
@@ -32,7 +32,8 @@ export class EbapanelComponent implements OnInit{
 
 
   ngOnInit() {
-
+    let userString:string|null = sessionStorage.getItem('user')!=null?sessionStorage.getItem('user'):'[]';
+    this.user = JSON.parse(userString!);
 
 
 
@@ -82,7 +83,7 @@ export class EbapanelComponent implements OnInit{
       this.employeeService.searchEba(this.search).subscribe(
         (data) => {
           console.log('Search successful:', data);
-          this.router.navigate(['eba-pending'], { state: {  data } });
+          this.router.navigate(['eba-pending'], { state: {  employeeData: data, roleId:this.search.role  } });
         },
         (error) => {
           console.error('Search error:', error);
