@@ -311,12 +311,12 @@ export class EmployeeService {
     return this.http.put<Employee>(this.apiUrl + "Eba/"+id,ebaPasses,{headers:this.createHeader()});
   }
 
-  updateebastatus(id: number, action: string, remark: string,file_path:string): Observable<any> {
+  updateebastatus(id: number, action: string, remark: string,file_path_64:string): Observable<any> {
     const options = { headers: this.createHeader() };
     const requestBody = {
       action: action,
       remark: remark,
-      file_path:file_path
+        file_path_64:file_path_64
     };
 
     return this.http.post<any>(this.apiUrl + "Ebastatus/"+id, requestBody, options);

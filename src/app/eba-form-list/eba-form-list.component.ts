@@ -38,7 +38,7 @@ export class EbaFormListComponent implements OnInit{
     const employeeDataString = this.applicationList[i].employee_details;
     const employeeData = JSON.parse(employeeDataString);
     if (employeeData) {
-      this.router.navigate(['eba-form-view'], { state: { employeeData:employeeData , fromUrl: 'eba-form-list'} });
+      this.router.navigate(['eba-form-view'], { state: { employeeData:employeeData , fromUrl: 'eba-form-list' ,status:this.getActiveRole(this.applicationList[i].roles),reg_no:this.applicationList[i].reg_no} });
     } else {
       console.error('Employee data is null or undefined.');
     }

@@ -7,7 +7,11 @@ export class Ebapass{
   emp_rel_id: number|null = null;
   servant_id: number|null = null;
   servant_rel_id: number|null = null;
-  eba_pass_exp_date: Date|null = null;
+
+  eba_pass_exp_date: any| null = null;
+  eba_pass_exp_date_edit: any| null = null;
+  eba_pass_exp_date_edited: boolean=false;
+
   living_at_president_sect: Date|null = null;
   curr_address: string | null = null;
   perm_address: string | null = null;
@@ -39,7 +43,7 @@ export class Ebapass{
   sign_path_64   : any | null = null;
   sign_path_edit_64   : any | null = null;
 
-  curl_post     :boolean=false;
+  curl_post:boolean=false;
   print:boolean=false;
   remark: string|null=null;
 }

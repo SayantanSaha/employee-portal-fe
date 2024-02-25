@@ -5,7 +5,7 @@ export class ServantRel {
     deleted_at: Date | null = null;
     rel_desc: string | null = null;
     allSelected: boolean = false;
-
+    Selected_dh: boolean = false;
 
     pivot: {
         id: number;

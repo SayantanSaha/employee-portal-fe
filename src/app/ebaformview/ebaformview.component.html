@@ -3,6 +3,12 @@
   <div class="row">
     <div class="col-md-10" style="font-size: 200%; color: deeppink">
       EBA Application
+      <ng-container *ngIf="employee!.reg_no || reg_no" >
+        / {{employee!.reg_no}}{{reg_no}}
+      </ng-container>
+      <ng-container *ngIf="employee!.status || status" >
+        / {{employee!.status}}{{status}}
+      </ng-container>
     </div>
   </div>
 
@@ -128,7 +134,7 @@
                           <div *ngIf="eba_pass?.eba_pass_no !== null ">
                             {{ eba_pass.eba_pass_no }}
                           </div>
-                          <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null ">
+                          <div style="color: blue;" *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">
                             new
                           </div>
                         </td>
@@ -229,7 +235,7 @@
                           <div *ngIf="eba_pass?.eba_pass_no !== null ">
                             {{ eba_pass.eba_pass_no }}
                           </div>
-                          <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null ">
+                          <div style="color: blue;" *ngIf="!eba_pass?.eba_pass_no ||eba_pass?.eba_pass_no === null ">
                             new
                           </div>
                         </td>
@@ -340,7 +346,7 @@
             <ng-container *ngFor="let servant_detail of servant.eba_passes; let k = index">
           <div class="row">
             <div class="col-md-6 d-flex align-items-center">
-              <h5 class="card-title" style="color: saddlebrown; margin-left: 10px;">Domestic help Details</h5>
+              <h5 class="card-title" style="color: saddlebrown; margin-left: 10px;">{{servant!.servant_name}}'s Details</h5>
             </div>
           </div>
           <hr class="row-divider">
@@ -361,7 +367,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="row">
-                        <td class="col-md-4" style="text-align: right" *ngIf="servant_detail.photo_path && servant_detail.photo_path!==null">
+                        <td class="col-md-4" style="text-align: left" >
                         <ng-container *ngIf="servant_detail.photo_path_64 && servant_detail.photo_path_64!==null && (!servant_detail.photo_path_edit_64 || servant_detail.photo_path_edit_64===null)">
                           <img  [src]="servant_detail.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
                         </ng-container>
@@ -372,7 +378,7 @@
 <!--                        <td class="col-md-4" style="text-align: right" *ngIf="servant_detail.sign_path && servant_detail.sign_path!==null">-->
 <!--                          <img [src]="servant_detail.sign_path" style="width: 150px; height: 128px" class="rounded-square" />-->
 <!--                        </td>-->
-                        <td class="col-md-4" style="text-align: right" *ngIf="servant_detail.id_proof_path && servant_detail.id_proof_path!==null">
+                        <td class="col-md-4" style="text-align: right" >
                           <ng-container *ngIf="servant_detail.id_proof_path && servant_detail.id_proof_path!=null && (!servant_detail.id_proof_path_edit || servant_detail.id_proof_path_edit===null) && (!servant_detail.id_proof_path_edit_64 || servant_detail.id_proof_path_edit_64===null)">
                             <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
                                href="{{apiUrl}}getFile/{{servant_detail.id_proof_path}}"
@@ -404,7 +410,7 @@
                       <div *ngIf="servant_detail.eba_pass_no !== null">
                         {{ servant_detail.eba_pass_no }}
                       </div>
-                      <div style="color:blue;" *ngIf="servant_detail.eba_pass_no === null ">
+                      <div style="color:blue;" *ngIf="!servant_detail?.eba_pass_no ||servant_detail.eba_pass_no === null ">
                         new
                       </div>
                     </div>
@@ -478,7 +484,7 @@
             </ng-container>
           </ng-container>
           <div *ngIf="servant && servant.relations && servant.relations.length > 0">
-            <h5 class="card-title" style=" color: indianred"> Domestic help's Family Details</h5>
+            <h5 class="card-title" style=" color: indianred"> {{servant!.servant_name}}'s Family Details</h5>
             <hr class="row-divider">
             <div class="row">
               <div class="col-md">
@@ -520,22 +526,22 @@
                           <div *ngIf="eba_pass?.eba_pass_no !== null ">
                             {{ eba_pass.eba_pass_no }}
                           </div>
-                          <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null ">
+                          <div style="color: blue;" *ngIf="!eba_pass?.eba_pass_no ||eba_pass?.eba_pass_no === null ">
                             new
                           </div>
                         </td>
                           <td >
                             {{eba_pass.eba_pass_exp_date | date:'dd-MM-yyyy'}}
                           </td>
-                          <td  >
-                            <td>
-                              <ng-container *ngIf="eba_pass.photo_path_64 && eba_pass.photo_path_64!==null && (!eba_pass.photo_path_edit_64 || eba_pass.photo_path_edit_64===null)">
-                                <img  [src]="eba_pass.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
-                              </ng-container>
-                              <ng-container *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null">
-                                <img  [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
-                              </ng-container>
-                            </td>
+
+                          <td>
+                            <ng-container *ngIf="eba_pass.photo_path_64 && eba_pass.photo_path_64!==null && (!eba_pass.photo_path_edit_64 || eba_pass.photo_path_edit_64===null)">
+                              <img  [src]="eba_pass.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                            </ng-container>
+                            <ng-container *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null">
+                              <img  [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                            </ng-container>
+                          </td>
 <!--                          <td  >-->
 <!--                          <img [src]="eba_pass.sign_path" style="width: 150px; height: 128px" class="rounded-square" />-->
 <!--                        </td>-->
@@ -573,7 +579,7 @@
             <br>
           </div>
           <div *ngIf="servant && servant.vehicles && servant.vehicles.length > 0">
-            <h5 class="card-title" style=" color: saddlebrown">Domestic help's Vehicle Details
+            <h5 class="card-title" style=" color: saddlebrown">{{servant!.servant_name}}'s Vehicle Details
             </h5>
             <hr class="row-divider">
             <div class="row">
@@ -605,7 +611,7 @@
                         </td>
                         <td>
 
-                          {{vehicle.vehicle_type}}
+                          {{vehicle.model_name}}
                         </td>
                         <td>
 
@@ -631,9 +637,13 @@
 
   <div class="row" *ngIf="fromUrl == 'eba-form' " style=" margin-left: 48%;width: 2cm">
 
-      <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="applyEba()">
+      <button  *ngIf="!submit" class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="applyEba()">
         Submit
       </button>
+
+    <button  *ngIf="submit == 'update' " class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="updateEba()">
+      Update
+    </button>
 
   </div>
 

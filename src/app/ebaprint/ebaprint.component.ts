@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {EmployeeService} from "../employee.service";
 import {DatePipe} from "@angular/common";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-ebaprint',
@@ -27,6 +28,13 @@ export class EbaprintComponent {
       },
       error => {
         console.error('Error fetching data:', error);
+        if (error.status === 404) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'US signature empty',
+            text: 'US signature required !!!',
+          });
+        }
       }
     );
   }

@@ -5,7 +5,13 @@
       <div class="card shadow">
         <div class="card-header" >
           <div  class="float-start">
-            <b>Approval Pending Details</b>
+            <b *ngIf="roleId==4">Pending with DH({{ebaPendingList.length}})</b>
+            <b *ngIf="roleId==5">Pending with SO({{ebaPendingList.length}})</b>
+            <b *ngIf="roleId==6">Pending with US({{ebaPendingList.length}})</b>
+            <b *ngIf="roleId==7">Approved({{ebaPendingList.length}})</b>
+            <b *ngIf="roleId==8">Returned({{ebaPendingList.length}})</b>
+            <b *ngIf="roleId==9">Pending with Director({{ebaPendingList.length}})</b>
+            <b *ngIf="roleId==10">Pending with ASP({{ebaPendingList.length}})</b>
           </div>
         </div>
         <div class="card-body" *ngIf="ebaPendingList!=null ">
@@ -15,6 +21,7 @@
                 <thead>
                 <tr>
                   <th>Sl No.</th>
+                  <th>Reg No.</th>
                   <th>Id Card No.</th>
                   <th>Employee Name</th>
                   <!-- <th>Email ID</th> -->
@@ -26,6 +33,7 @@
                 <tbody>
                 <tr *ngFor="let ebaPending of ebaPendingList; let i = index">
                   <td>{{ i + 1 }}</td>
+                  <td>{{ ebaPending.reg_no}}</td>
                   <td>{{ ebaPending.id_cards[0].card_no}}</td>
                   <td>{{ ebaPending.employee.emp_name }}</td>
                   <td>{{ ebaPending.employee.mobile }}</td>
