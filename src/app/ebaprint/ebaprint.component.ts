@@ -12,6 +12,8 @@ import Swal from "sweetalert2";
 })
 export class EbaprintComponent {
   ebaprintData:  any[] = [];
+  Rfid:  any;
+  fromfunction: any;
   constructor(
     @Inject('BASE_URL') baseUrl: string,private employeeService: EmployeeService,
     private route: ActivatedRoute,
@@ -21,22 +23,31 @@ export class EbaprintComponent {
 
   ) {}
   ngOnInit() {
-    this.employeeService.getEbaPrintData().subscribe(
-      (data: any) => {
-        console.log(data);
-        this.ebaprintData = data;
-      },
-      error => {
-        console.error('Error fetching data:', error);
-        if (error.status === 404) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'US signature empty',
-            text: 'US signature required !!!',
-          });
+    this.ebaprintData = history.state.employeeData;
+    console.log(this.ebaprintData);
+    this.fromfunction = history.state.fromfunction;
+    console.log(this.fromfunction);
+
+    if(!this.ebaprintData || this.ebaprintData.length==0) {
+      this.employeeService.getEbaPrintData().subscribe(
+        (data: any) => {
+          console.log(data);
+          this.ebaprintData = data;
+        },
+        error => {
+          console.error('Error fetching data:', error);
+          if (error.status === 404) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'US signature empty',
+              text: 'US signature required !!!',
+            });
+          }
         }
-      }
-    );
+      );
+    }
+
+
   }
 
 
@@ -73,7 +84,42 @@ export class EbaprintComponent {
   //   this.renderer.addClass(this.el.nativeElement.querySelector('.print'), 'print');
   // }
 
-  print(){
-    window.print();
+  rfid(ebapassno: any) {
+    // Check if RFID is available and not null
+    if (this.Rfid && this.Rfid !== null) {
+      // Call the employeeService to update EBA pass using RFID and ebapassno
+      this.employeeService.RFID(this.Rfid, ebapassno).subscribe(
+        // On success
+        () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Updated successfully', // Corrected spelling here
+          }).then(() => {
+            location.reload();
+          });
+        },
+        // On error
+        (error) => {
+          console.log(error);
+          console.log(error.status);
+          console.log(error.error);
+          // Handle other errors here
+          console.error('An error occurred:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while updating EBA.',
+          });
+        }
+      );
+    }else{
+      Swal.fire({
+        icon: 'warning',
+        title: 'warning',
+        text: 'rfid empty.',
+      });
+    }
   }
+
 }

@@ -311,6 +311,14 @@ export class EmployeeService {
     return this.http.put<Employee>(this.apiUrl + "Eba/"+id,ebaPasses,{headers:this.createHeader()});
   }
 
+  RFID(rfid : any,passno: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}rfid/${rfid}/${passno}`, { headers: this.createHeader() });
+  }
+
+  ebapasses(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}ebapasses`, { headers: this.createHeader() });
+  }
+
   updateebastatus(id: number, action: string, remark: string,file_path_64:string): Observable<any> {
     const options = { headers: this.createHeader() };
     const requestBody = {
@@ -323,7 +331,7 @@ export class EmployeeService {
   }
 
   applyEvahaan(): Observable<any[]>{
-    return this.http.get<any[]>(this.apiUrl+"evahaan",{headers:this.createHeader()});
+     return this.http.get<any[]>(this.apiUrl+"evahaan",{headers:this.createHeader()});
   }
 
 

@@ -39,17 +39,27 @@
                     </td>
                   </tr>
                   <tr>
-                    <td><b>{{printData.closefamily.pivot.rel_name}}</b></td>
+                    <td *ngIf="printData?.closefamily?.pivot?.rel_name"><b>{{printData.closefamily.pivot.rel_name}}</b></td>
+                    <td *ngIf="printData?.servantfamily?.pivot?.rel_name"><b>{{printData.servantfamily.pivot.rel_name}}</b></td>
+                    <td *ngIf="printData?.servant?.servant_name"><b>{{printData.servant.servant_name}}</b></td>
                   </tr>
                   <tr>
                     <td><b>Relationship with Allottee</b></td>
                   </tr>
                   <tr>
-                    <td><b>{{printData.closefamily.rel_desc}}</b></td>
+                    <td *ngIf="printData?.closefamily?.rel_desc"><b>{{printData.closefamily.rel_desc}}</b></td>
+                    <td *ngIf="printData?.servantfamily?.rel_desc"><b>Domestic Help {{printData.servantfamily.rel_desc}}</b></td>
+                    <td *ngIf="printData?.servant"><b>Domestic Help</b></td>
                   </tr>
                   <tr>
-                    <td><b>Date Of Birth:
+                    <td *ngIf="printData?.closefamily?.pivot?.rel_dob"><b>Date Of Birth:
                       {{ printData!.closefamily.pivot.rel_dob | date:'dd-MM-yyyy'}}
+                    </b></td>
+                    <td *ngIf="printData?.servantfamily?.pivot?.rel_dob"><b>Date Of Birth:
+                      {{ printData!.servantfamily.pivot.rel_dob | date:'dd-MM-yyyy'}}
+                    </b></td>
+                    <td *ngIf="printData?.servant?.rel_dob"><b>Date Of Birth:
+                      {{ printData!.servant.rel_dob | date:'dd-MM-yyyy'}}
                     </b></td>
                   </tr>
                 </table>

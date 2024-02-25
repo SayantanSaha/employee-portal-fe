@@ -782,6 +782,7 @@ export class EbaFormComponent {
 
       const clonedEmployee = { ...this.employee };
 
+      if(!clonedEmployee!.reg_no ||  clonedEmployee!.reg_no==null){
       if(this.applyingforRelative) {
         if (clonedEmployee.closefamily) {
           clonedEmployee.closefamily = clonedEmployee.closefamily.filter(member => member.allSelected);
@@ -827,7 +828,7 @@ export class EbaFormComponent {
             // Include servants only if relations array is not empty or allSelected is true
             return servant.relations.length > 0 || servant.allSelected;
           });
-        }
+        }}
       }
       if(this.applyingforRelative){
         if(this.applyingforclosefamily){
@@ -947,7 +948,8 @@ export class EbaFormComponent {
             clonedEmployee.family?.forEach(family => {
               if (family.pivot.eba_passes) {
                 family.pivot.eba_passes?.forEach(eba_pass => {
-                  if (family.Selected_dh) {
+                  if(family.allSelected){
+                  if (family.Selected_dh ) {
                     if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
                       Swal.fire({
                         icon: 'warning',
@@ -967,7 +969,7 @@ export class EbaFormComponent {
                       shouldStop = true;
                       return;
                     }
-                  }
+                  }}
                 });
               }
             });
@@ -978,7 +980,8 @@ export class EbaFormComponent {
             clonedEmployee.servants?.forEach(servant => {
               if (servant.eba_passes) {
                 servant.eba_passes?.forEach(eba_pass => {
-                  if (servant.Selected_dh) {
+                  if(servant.allSelected){
+                  if (servant.Selected_dh ) {
                     if(eba_pass.eba_pass_exp_date_edit ==null || eba_pass.eba_pass_exp_date_edit<= new Date()){
                       Swal.fire({
                         icon: 'warning',
@@ -998,7 +1001,7 @@ export class EbaFormComponent {
                       shouldStop = true;
                       return;
                     }
-                  }
+                  }}
                 });
               }
 
@@ -1006,6 +1009,7 @@ export class EbaFormComponent {
                 servant.relations?.forEach(family=>{
                   if (family.pivot.eba_passes) {
                     family.pivot.eba_passes?.forEach(eba_pass => {
+                      if(family.allSelected){
                       if (family.Selected_dh) {
                         if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
                           Swal.fire({
@@ -1026,7 +1030,7 @@ export class EbaFormComponent {
                           shouldStop = true;
                           return;
                         }
-                      }
+                      }}
                     });
                   }
                 });

@@ -326,7 +326,7 @@
                           <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
                             <ng-container *ngIf="urlid && !editable">
                               <td>
-                                <ng-container *ngIf="employee!.dh==true && member.allSelected" >
+                                <ng-container *ngIf="employee!.dh==true && member.allSelected">
                                   <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" data-toggle="toggle" [(ngModel)]="member.Selected_dh">
                                   </div>
@@ -335,11 +335,13 @@
                                   <div style="color: blue;" *ngIf="member.allSelected && member.Selected_dh">
                                     Recommended
                                   </div>
-                                  <div style="color: red;" *ngIf="!member.allSelected && !member.Selected_dh">
+                                  <div style="color: red;" *ngIf="member.allSelected && !member.Selected_dh">
                                     Not Recommended
                                   </div>
+                                  <div style="color: red;" *ngIf="!member.allSelected ">
+                                    Not Selecetd
+                                  </div>
                                 </ng-container >
-
                               </td>
                             </ng-container>
                             <ng-container *ngIf="editable && !urlid">
@@ -429,7 +431,7 @@
                               </td>
 
                               <ng-container *ngIf="urlid && !editable">
-                                <ng-container *ngIf="employee!.dh==true ">
+                                <ng-container *ngIf="employee!.dh==true && member.allSelected">
                                   <td>
                                     <input type="date" class="form-control" [(ngModel)]="eba_pass.eba_pass_exp_date_edit" [min]="minDate" (change)="expedit(i,j,'k','family')">
                                   </td>
@@ -437,7 +439,7 @@
                                     <textarea  class="form-control" [(ngModel)]="eba_pass.remark"></textarea>
                                   </td>
                                 </ng-container>
-                                <ng-container *ngIf="employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true">
+                                <ng-container *ngIf="(employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true)&& member.allSelected">
                                   <td>
                                     <div *ngIf="eba_pass.eba_pass_exp_date_edit">
                                       {{eba_pass.eba_pass_exp_date_edit | date:'dd-MM-yyyy'}}
@@ -449,6 +451,13 @@
                                     </div>
                                   </td>
                                 </ng-container >
+                              <ng-container *ngIf="(employee!.dh==true|| employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true)&& !member.allSelected">
+                                <td>
+                                </td>
+                                <td>
+                                  {{eba_pass.remark}}
+                                </td>
+                              </ng-container>
                               </ng-container>
                             </ng-container>
                           </ng-container>
@@ -563,6 +572,9 @@
                           <div style="color: red;" *ngIf="servant.allSelected==true && !servant.Selected_dh">
                             Not Recommended
                           </div>
+                          <div style="color: red;" *ngIf="!servant.allSelected">
+                            Not Selecetd
+                          </div>
                           <h5 class="card-title mat-body-strong" style="color: saddlebrown; margin-left: 10px;">{{servant!.servant_name}}'s Details</h5>
                         </div>
                         <div class="col-md-6" >
@@ -644,7 +656,6 @@
                                       <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
                                       <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(servant_detail.id_proof_path_edit_64);hoverClick($event)"></i>
                                     </ng-container>
-
                                   </td>
                                 </div>
                               </div>
@@ -830,8 +841,11 @@
                                         <div style="color: blue;" *ngIf="member.allSelected && member.Selected_dh">
                                           Recommended
                                         </div>
-                                        <div style="color: red;" *ngIf="!member.allSelected && !member.Selected_dh">
+                                        <div style="color: red;" *ngIf="member.allSelected && !member.Selected_dh">
                                           Not Recommended
+                                        </div>
+                                        <div style="color: red;" *ngIf="!member.allSelected">
+                                          Not Selected
                                         </div>
                                       </ng-container >
                                     </td>
@@ -925,7 +939,7 @@
                                     <!--                                    </ng-container>-->
                                   </td>
                                   <ng-container *ngIf="urlid && !editable">
-                                    <ng-container *ngIf="employee!.dh==true ">
+                                    <ng-container *ngIf="employee!.dh==true && member.allSelected">
                                       <td>
                                         <input type="date" class="form-control" [(ngModel)]="eba_pass.eba_pass_exp_date_edit" [min]="minDate" (change)="expedit(i,k,j,'servantrel')">
                                       </td>
@@ -933,7 +947,7 @@
                                         <textarea  class="form-control" [(ngModel)]="eba_pass.remark"></textarea>
                                       </td>
                                     </ng-container>
-                                    <ng-container *ngIf="employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true">
+                                    <ng-container *ngIf="(employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true)&& member.allSelected">
                                       <td>
                                         <div *ngIf="eba_pass.eba_pass_exp_date_edit">
                                           {{eba_pass.eba_pass_exp_date_edit | date:'dd-MM-yyyy'}}
@@ -945,6 +959,13 @@
                                         </div>
                                       </td>
                                     </ng-container >
+                                    <ng-container *ngIf="(employee!.dh==true|| employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true)&& !member.allSelected">
+                                      <td>
+                                      </td>
+                                      <td>
+                                        {{eba_pass.remark}}
+                                      </td>
+                                    </ng-container>
                                   </ng-container>
                                 </ng-container>
                               </ng-container>
@@ -1528,9 +1549,9 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <div class="col" style="color: red" >
-                    Photograph & Signature can be captured For Your Application at Gate No-17,35 & 31
-                  </div>
+<!--                  <div class="col" style="color: red" >-->
+<!--                    Photograph  can be captured For Your Application at Gate No-17,35 & 31-->
+<!--                  </div>-->
                   <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)" (click)="closeUploadPopup()">
                     Close
                   </button>

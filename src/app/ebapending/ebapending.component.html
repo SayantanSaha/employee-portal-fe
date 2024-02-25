@@ -12,6 +12,7 @@
             <b *ngIf="roleId==8">Returned({{ebaPendingList.length}})</b>
             <b *ngIf="roleId==9">Pending with Director({{ebaPendingList.length}})</b>
             <b *ngIf="roleId==10">Pending with ASP({{ebaPendingList.length}})</b>
+            <b *ngIf="!roleId">Applications({{ebaPendingList.length}})</b>
           </div>
         </div>
         <div class="card-body" *ngIf="ebaPendingList!=null ">
@@ -24,9 +25,9 @@
                   <th>Reg No.</th>
                   <th>Id Card No.</th>
                   <th>Employee Name</th>
-                  <!-- <th>Email ID</th> -->
                   <th>Mobile No.</th>
                   <th>Last Updated Date</th>
+                  <th *ngIf="!roleId">status</th>
                   <th>Action</th>
                 </tr>
                 </thead>
@@ -38,6 +39,7 @@
                   <td>{{ ebaPending.employee.emp_name }}</td>
                   <td>{{ ebaPending.employee.mobile }}</td>
                   <td>{{ formatDate(ebaPending.created_at) }}</td>
+                  <td>{{  ebaPending.roles[0].role_desc }}</td>
                   <td>
                     <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/eba-form/' + 'view/'+'EBA/'+ebaPending.id">Details</a>
                   </td>

@@ -1,263 +1,321 @@
 <script src="../app.module.ts" xmlns="http://www.w3.org/1999/html"></script>
 <div class="container">
-    <ng-container *ngIf="user && user.role" >
-        <ng-container *ngFor="let role of user.role">
-            <ng-container *ngIf="role === 4 || role === 5 || role === 6|| role === 9|| role === 10" >
-                <div class="row">
-                    <div class="container">
-                        <div class="card shadow">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    <b>EBA({{ebadashboardData.totalApplications}})</b>
-                                </div>
-                            </div>
-
-                            <div class="card-body" style="background: linear-gradient(to bottom right, rgba(1, 255, 255, 0.36), transparent);">
-                                <div class="row">
-                                    <div class="col-md-4 col-lg-4 col-sm-4" >
-                                        <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
-                                        <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchEba(8)">
-                                            <div class="card-body" style="overflow: auto;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
-                                                        <!--                            <a routerLink="/eba-pending" >-->
-                                                        <i class="bi bi-people"></i>
-                                                        <!--                            </a>-->
-                                                    </div>
-                                                    <div class="ps-5">
-                                                        <p>
-                                                            <span class="text-muted small pt-2 ps-1 fw-bold">Returned</span>
-                                                        </p>
-                                                        {{ebadashboardData.returned}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-4 col-sm-4">
-                                        <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
-                                        <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchEba(4)">
-                                            <div class="card-body" style="overflow: auto;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
-                                                        <i class="bi bi-people"></i>
-                                                    </div>
-                                                    <div class="ps-5">
-                                                        <p>
-                                                            <span class="text-muted small pt-2 ps-1 fw-bold">Pending at DH</span>
-                                                        </p>
-                                                        {{ebadashboardData.pendingdh}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--                  </a>-->
-                                    </div>
-                                    <div class="col-md-4 col-lg-4 col-sm-4" >
-                                        <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
-                                        <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchEba(5)">
-                                            <div class="card-body" style="overflow: auto;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
-                                                        <!--                            <a routerLink="/eba-pending">-->
-                                                        <i class="bi bi-people"></i>
-                                                        <!--                            </a>-->
-                                                    </div>
-                                                    <div class="ps-5">
-                                                        <p>
-                                                            <span class="text-muted small pt-2 ps-1 fw-bold">Pending at SO</span>
-                                                        </p>
-                                                        {{ebadashboardData.pendingso}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--                  </a>-->
-                                    </div>
-
-
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4 col-lg-4 col-sm-4" >
-                                        <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
-                                        <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchEba(6)">
-                                            <div class="card-body" style="overflow: auto;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="enlarge-hover card-icon rounded-circle btn btn-outline-danger">
-                                                        <!--                            <a routerLink="/eba-pending">-->
-                                                        <i class="bi bi-people"></i>
-                                                        <!--                            </a>-->
-                                                    </div>
-                                                    <div class="ps-5">
-                                                        <p>
-                                                            <span class="text-muted small pt-2 ps-1 fw-bold">Pending at US</span>
-                                                        </p>
-                                                        {{ebadashboardData.pendingus}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 col-lg-4 col-sm-4" >
-                                        <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
-                                        <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchEba(9)">
-                                            <div class="card-body" style="overflow: auto;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="enlarge-hover card-icon rounded-circle btn btn-outline-danger">
-                                                        <!--                            <a routerLink="/eba-pending" >-->
-                                                        <i class="bi bi-people"></i>
-                                                        <!--                            </a>-->
-                                                    </div>
-                                                    <div class="ps-5">
-                                                        <p>
-                                                            <span class="text-muted small pt-2 ps-1 fw-bold">Pending at Director</span>
-                                                        </p>
-                                                        {{ebadashboardData.pendingdirector}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4 col-lg-4 col-sm-4" >
-                                        <a routerLink="/eba-print" style="text-decoration: none; color: inherit;">
-                                            <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchEba(10)" >
-                                                <div class="card-body" style="overflow: auto;">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="enlarge-hover card-icon rounded-circle btn btn-outline-danger">
-                                                            <!--                          <a routerLink="/eba-print" >-->
-                                                            <i class="bi bi-people"></i>
-                                                            <!--                          </a>-->
-                                                        </div>
-                                                        <div class="ps-5">
-                                                            <p>
-                                                                <span class="text-muted small pt-2 ps-1 fw-bold">Pending at ASP</span>
-                                                            </p>
-                                                            {{ebadashboardData.pendingasp}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-
-
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4 col-lg-4 col-sm-4" >
-                                        <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchEba(7)">
-                                            <div class="card-body" style="overflow: auto;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="enlarge-hover card-icon rounded-circle btn btn-outline-primary">
-                                                        <!--                          <a routerLink="/eba-print" >-->
-                                                        <i class="bi bi-people"></i>
-                                                        <!--                          </a>-->
-                                                    </div>
-                                                    <div class="ps-5">
-                                                        <p>
-                                                            <span class="text-muted small pt-2 ps-1 fw-bold">Approved</span>
-                                                        </p>
-                                                        {{ebadashboardData.approvedCount}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4 col-lg-4 col-sm-4" >
-                                        <a routerLink="/eba-print" style="text-decoration: none; color: inherit;">
-                                            <div class="card shadow enlarge-hover" (click)=" hoverClick($event)" >
-                                                <div class="card-body" style="overflow: auto;">
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="enlarge-hover card-icon rounded-circle btn btn-outline-info">
-                                                            <!--                          <a routerLink="/eba-print" >-->
-                                                            <i class="bi bi-people"></i>
-                                                            <!--                          </a>-->
-                                                        </div>
-                                                        <div class="ps-5">
-                                                            <p>
-                                                                <span class="text-muted small pt-2 ps-1 fw-bold">Print</span>
-                                                            </p>
-                                                            {{ebadashboardData.ebaprint}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="col-md-4 col-lg-4 col-sm-4" >
-                                        <div class="card shadow" >
-                                            <div class="card-body" style="overflow: auto;">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
-                                                        <!--                          <a routerLink="/eba-print" >-->
-                                                        <i class="bi bi-people"></i>
-                                                        <!--                          </a>-->
-                                                    </div>
-                                                    <div class="ps-5">
-                                                        <p>
-                                                            <span class="text-muted small pt-2 ps-1 fw-bold">Total Eba passes</span>
-                                                        </p>
-                                                        {{ebadashboardData.active}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-
-                                <div class="row" >
-                                    <div class="col-md-12">
-                                        <div class="card shadow">
-                                            <div class="card-header">
-                                                <div class="card-title">
-                                                    <b>Today's List({{ebadashboardData.todayList.length}})</b>
-                                                </div>
-                                            </div>
-                                            <div class="card-body" style="overflow: auto;">
-                                                <div style="padding: 1%">
-                                                    <div class="row mb-12">
-                                                        <table class="table table-stripped">
-                                                            <thead>
-                                                            <tr>
-                                                                <th>Sl No.</th>
-                                                                <th>Reg no.</th>
-                                                                <th>Id Card No.</th>
-                                                                <th>Employee Name</th>
-                                                                <!-- <th>Email ID</th> -->
-                                                                <th>Mobile No.</th>
-                                                                <th>Last Updated Date</th>
-                                                                <th>Action</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody *ngIf="ebadashboardData && ebadashboardData.todayList">
-                                                            <tr *ngFor="let ebaapplication of ebadashboardData.todayList; let i = index">
-                                                                <td>{{ i + 1 }}</td>
-                                                                <td>{{ ebaapplication.reg_no }}</td>
-                                                                <td>{{ ebaapplication.id_cards[0].card_no}}</td>
-                                                                <td>{{ ebaapplication.employee.emp_name }}</td>
-                                                                <td>{{ ebaapplication.employee.mobile }}</td>
-                                                                <td>{{ formatDate(ebaapplication.created_at) }}</td>
-                                                                <td>
-                                                                    <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/eba-form/' + 'view/'+'EBA/'+ebaapplication.id">Details</a>
-                                                                </td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+  <ng-container *ngIf="user && user.role" >
+    <ng-container *ngFor="let role of user.role">
+      <ng-container *ngIf="role === 4 || role === 5 || role === 6|| role === 9|| role === 10" >
+        <div class="row">
+          <div class="container">
+            <div class="card shadow">
+              <div class="card-header">
+                <div class="card-title">
+                  <div class="row">
+                    <div class="col-6" >
+                      <b>EBA({{ebadashboardData.totalApplications}})</b>
                     </div>
+                    <div class="col-6" style="text-align: right">
+                      <button class="btn btn-success enlarge-hover " (click)=" hoverClick($event);opensearch()"> <i class="bi bi-search"></i> </button>
+                    </div>
+                  </div>
                 </div>
-            </ng-container>
-        </ng-container>
+              </div>
+
+              <div class="card-body" style="background: linear-gradient(to bottom right, rgba(1, 255, 255, 0.36), transparent);">
+                <div class="row">
+                  <div class="col-md-4 col-lg-4 col-sm-4" >
+                    <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
+                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchEba(8)">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
+                            <!--                            <a routerLink="/eba-pending" >-->
+                            <i class="bi bi-people"></i>
+                            <!--                            </a>-->
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Returned</span>
+                            </p>
+                            {{ebadashboardData.returned}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-4">
+                    <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
+                    <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchEba(4)">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
+                            <i class="bi bi-people"></i>
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Pending at DH</span>
+                            </p>
+                            {{ebadashboardData.pendingdh}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--                  </a>-->
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-4" >
+                    <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
+                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchEba(5)">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
+                            <!--                            <a routerLink="/eba-pending">-->
+                            <i class="bi bi-people"></i>
+                            <!--                            </a>-->
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Pending at SO</span>
+                            </p>
+                            {{ebadashboardData.pendingso}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--                  </a>-->
+                  </div>
+
+
+
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-lg-4 col-sm-4" >
+                    <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
+                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchEba(6)">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-danger">
+                            <!--                            <a routerLink="/eba-pending">-->
+                            <i class="bi bi-people"></i>
+                            <!--                            </a>-->
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Pending at US</span>
+                            </p>
+                            {{ebadashboardData.pendingus}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-4" >
+                    <!--                  <a routerLink="/eba-pending" style="text-decoration: none; color: inherit;">-->
+                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchEba(9)">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-danger">
+                            <!--                            <a routerLink="/eba-pending" >-->
+                            <i class="bi bi-people"></i>
+                            <!--                            </a>-->
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Pending at Director</span>
+                            </p>
+                            {{ebadashboardData.pendingdirector}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-lg-4 col-sm-4" >
+                    <a routerLink="/eba-print" style="text-decoration: none; color: inherit;">
+                      <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchEba(10)" >
+                        <div class="card-body" style="overflow: auto;">
+                          <div class="d-flex align-items-center">
+                            <div class="enlarge-hover card-icon rounded-circle btn btn-outline-danger">
+                              <!--                          <a routerLink="/eba-print" >-->
+                              <i class="bi bi-people"></i>
+                              <!--                          </a>-->
+                            </div>
+                            <div class="ps-5">
+                              <p>
+                                <span class="text-muted small pt-2 ps-1 fw-bold">Pending at ASP</span>
+                              </p>
+                              {{ebadashboardData.pendingasp}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+
+
+
+                </div>
+                <div class="row">
+                  <div class="col-md-4 col-lg-4 col-sm-4" >
+                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchEba(7)">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-primary">
+                            <!--                          <a routerLink="/eba-print" >-->
+                            <i class="bi bi-people"></i>
+                            <!--                          </a>-->
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Approved</span>
+                            </p>
+                            {{ebadashboardData.approvedCount}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-lg-4 col-sm-4" >
+                    <a routerLink="/eba-print" style="text-decoration: none; color: inherit;">
+                      <div class="card shadow enlarge-hover" (click)=" hoverClick($event)" >
+                        <div class="card-body" style="overflow: auto;">
+                          <div class="d-flex align-items-center">
+                            <div class="enlarge-hover card-icon rounded-circle btn btn-outline-info">
+                              <!--                          <a routerLink="/eba-print" >-->
+                              <i class="bi bi-people"></i>
+                              <!--                          </a>-->
+                            </div>
+                            <div class="ps-5">
+                              <p>
+                                <span class="text-muted small pt-2 ps-1 fw-bold">Print</span>
+                              </p>
+                              {{ebadashboardData.ebaprint}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-4" >
+                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event);ebapasses()">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
+                            <!--                          <a routerLink="/eba-print" >-->
+                            <i class="bi bi-people"></i>
+                            <!--                          </a>-->
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Total Eba passes</span>
+                            </p>
+                            {{ebadashboardData.active}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row" >
+                  <div class="col-md-12">
+                    <div class="card shadow">
+                      <div class="card-header">
+                        <div class="card-title">
+                          <b>Today's List({{ebadashboardData.todayList.length}})</b>
+                        </div>
+                      </div>
+                      <div class="card-body" style="overflow: auto;">
+                        <div style="padding: 1%">
+                          <div class="row mb-12">
+                            <table class="table table-stripped">
+                              <thead>
+                              <tr>
+                                <th>Sl No.</th>
+                                <th>Reg no.</th>
+                                <th>Id Card No.</th>
+                                <th>Employee Name</th>
+                                <!-- <th>Email ID</th> -->
+                                <th>Mobile No.</th>
+                                <th>Last Updated Date</th>
+                                <th>Action</th>
+                              </tr>
+                              </thead>
+                              <tbody *ngIf="ebadashboardData && ebadashboardData.todayList">
+                              <tr *ngFor="let ebaapplication of ebadashboardData.todayList; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ ebaapplication.reg_no }}</td>
+                                <td>{{ ebaapplication.id_cards[0].card_no}}</td>
+                                <td>{{ ebaapplication.employee.emp_name }}</td>
+                                <td>{{ ebaapplication.employee.mobile }}</td>
+                                <td>{{ formatDate(ebaapplication.created_at) }}</td>
+                                <td>
+                                  <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/eba-form/' + 'view/'+'EBA/'+ebaapplication.id">Details</a>
+                                </td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </ng-container>
+  </ng-container>
+</div>
+<div class="modal modal-above-header"
+     tabindex="-1" data-bs-backdrop="false"
+     [ngStyle]="{'display': searchbox }" style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto; ">
+  <div class="modal-dialog modal-dialog-centered modal-l">
+    <div class="modal-content" >
+      <div class="modal-body">
+        <div class="row">
+          <label class="form-label">Role</label>
+          <select class="form-control" [(ngModel)]="search!.role">
+            <option value="null">-Select-</option>
+            <option [ngValue]=4>Dh</option>
+            <option [ngValue]=5>So</option>
+            <option [ngValue]=6>US</option>
+            <option [ngValue]=9>Director</option>
+            <option [ngValue]=10>Asp</option>
+            <option [ngValue]=7>Approved</option>
+            <option [ngValue]=8>Returned</option>
+          </select>
+        </div><br>
+        <div class="row">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control"  placeholder="Search by Name" aria-label="Name" [(ngModel)]="search!.applicant_name">
+        </div><br>
+        <div class="row">
+          <label class="form-label">Reg no</label>
+          <input type="text" class="form-control" placeholder="Search by Reg no" aria-label="Name" [(ngModel)]="search!.reg_no">
+        </div><br>
+        <div class="row">
+          <div class="col-6">
+            <label class="form-label">From Date</label>
+            <input type="date" class="form-control" aria-label="Name" [(ngModel)]="search!.app_date_from">
+          </div>
+          <div class="col-6">
+            <label class="form-label">To Date</label>
+            <input type="date" class="form-control" aria-label="Name" [(ngModel)]="search!.app_date_to">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event);closesearch()">
+          Close
+        </button>
+
+        <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event);Search()" >
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
