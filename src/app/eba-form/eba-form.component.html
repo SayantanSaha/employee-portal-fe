@@ -153,12 +153,12 @@
                               <td>
                                 <ng-container *ngIf="(user && user.role)" >
                                   <ng-container *ngFor="let role of user.role">
-                                    <ng-container *ngIf="role.role_id === 4">
+                                    <ng-container *ngIf="role === 4">
                                       <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchclosefamilyCheck" data-toggle="toggle" [(ngModel)]="member.allSelected">
                                       </div>
                                     </ng-container>
-                                    <ng-container *ngIf="role.role_id === 5 || role.role_id === 6">
+                                    <ng-container *ngIf="role === 5 || role === 6">
                                       <div style="color: blue;" *ngIf="member.allSelected">
                                         Recommended
                                       </div>
@@ -233,31 +233,43 @@
 <!--&lt;!&ndash;                                </div>&ndash;&gt;-->
 <!--                              </td>-->
                               <td>
-                                <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+                                <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null && (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null) && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null)">
                                   <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
                                      href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
                                      title="Order File" target="_blank">
-                                    <i class="bi bi-eye "></i>
+                                    <i class="bi bi-eye"></i>
                                   </a>
                                 </ng-container>
-                                <ng-template #naBlock>
-                                  N/A
-                                </ng-template>
+
+                                <ng-container *ngIf="eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null) ">
+                                  <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                     href="{{apiUrl}}getFile/{{eba_pass.id_proof_path_edit}}"
+                                     title="Order File" target="_blank">
+                                    <i class="bi bi-eye"></i>
+                                  </a>
+                                </ng-container>
+
+                                <ng-container *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!=null">
+                                  <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
+                                  <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(eba_pass.id_proof_path_edit_64);hoverClick($event)"></i>
+                                </ng-container>
+
+
                               </td>
 
                               <ng-container *ngIf="urlid && !editable">
                                 <ng-container *ngIf="(user && user.role)" >
                                   <ng-container *ngFor="let role of user.role">
-                                    <ng-container *ngIf="role.role_id === 4">
+                                    <ng-container *ngIf="role === 4">
                                       <td>
                                         <input type="date" class="form-control" [(ngModel)]="eba_pass.eba_pass_exp_date" [min]="minDate"
                                                [value]="getDefaultExpDate(i,j,0,'relative')">
                                       </td>
                                       <td>
-                                        <textarea  class="form-control" [(ngModel)]="eba_pass.remark"></textarea>
+                                        <textarea  class="form-control" [(ngModel)]="eba_pass.remark" [required]="!member.allSelected"></textarea>
                                       </td>
                                     </ng-container>
-                                    <ng-container *ngIf="role.role_id === 5 || role.role_id === 6">
+                                    <ng-container *ngIf="role === 5 || role === 6">
                                       <td>
                                         <div *ngIf="eba_pass.eba_pass_exp_date">
                                           {{eba_pass.eba_pass_exp_date | date:'dd-MM-yyyy'}}
@@ -283,8 +295,9 @@
               </div>
             </div>
           </div>
+          <br>
         </div>
-        <br>
+
 
         <div class="card shadow" *ngIf="employee && employee.family && employee.family.length > 0 && (!applyingforclosefamily|| urlid)">
           <div class="card-body">
@@ -319,12 +332,12 @@
                               <td>
                                 <ng-container *ngIf="(user && user.role)" >
                                   <ng-container *ngFor="let role of user.role">
-                                    <ng-container *ngIf="role.role_id === 4">
+                                    <ng-container *ngIf="role === 4">
                                       <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" data-toggle="toggle" [(ngModel)]="member.allSelected">
                                       </div>
                                     </ng-container>
-                                    <ng-container *ngIf="role.role_id === 5 || role.role_id === 6">
+                                    <ng-container *ngIf="role === 5 || role === 6">
                                       <div style="color: blue;" *ngIf="member.allSelected">
                                         Recommended
                                       </div>
@@ -399,31 +412,42 @@
 <!--                                &lt;!&ndash;                                </div>&ndash;&gt;-->
 <!--                              </td>-->
                               <td>
-                                <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+
+                                <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null && (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null) && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null)">
                                   <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
                                      href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
                                      title="Order File" target="_blank">
-                                    <i class="bi bi-eye "></i>
+                                    <i class="bi bi-eye"></i>
                                   </a>
                                 </ng-container>
-                                <ng-template #naBlock>
-                                  N/A
-                                </ng-template>
+
+                                <ng-container *ngIf="eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null) ">
+                                  <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                     href="{{apiUrl}}getFile/{{eba_pass.id_proof_path_edit}}"
+                                     title="Order File" target="_blank">
+                                    <i class="bi bi-eye"></i>
+                                  </a>
+                                </ng-container>
+
+                                <ng-container *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!=null">
+                                  <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
+                                  <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(eba_pass.id_proof_path_edit_64);hoverClick($event)"></i>
+                                </ng-container>
                               </td>
 
                               <ng-container *ngIf="urlid && !editable">
                                 <ng-container *ngIf="(user && user.role)" >
                                   <ng-container *ngFor="let role of user.role">
-                                    <ng-container *ngIf="role.role_id === 4">
+                                    <ng-container *ngIf="role === 4">
                                       <td>
                                         <input type="date" class="form-control" [(ngModel)]="eba_pass.eba_pass_exp_date" [min]="minDate"
                                                [value]="getDefaultExpDate(i,j,0,'relative')">
                                       </td>
                                       <td>
-                                        <textarea  class="form-control" [(ngModel)]="eba_pass.remark"></textarea>
+                                        <textarea  class="form-control" [(ngModel)]="eba_pass.remark"  [required]="!member.allSelected"></textarea>
                                       </td>
                                     </ng-container>
-                                    <ng-container *ngIf="role.role_id === 5 || role.role_id === 6">
+                                    <ng-container *ngIf="role === 5 || role === 6">
                                       <td>
                                         <div *ngIf="eba_pass.eba_pass_exp_date">
                                           {{eba_pass.eba_pass_exp_date | date:'dd-MM-yyyy'}}
@@ -465,7 +489,7 @@
                         <!--                        <div *ngIf="urlid">-->
                         <!--                          <div *ngIf="(user && user.role)" >-->
                         <!--                            <div *ngFor="let role of user.role">-->
-                        <!--                              <div *ngIf="role.role_id === 4">-->
+                        <!--                              <div *ngIf="role === 4">-->
                         <!--                                <th>-->
                         <!--                                  &nbsp;-->
                         <!--                                </th>-->
@@ -490,7 +514,7 @@
                         <!--                        <div *ngIf="urlid">-->
                         <!--                          <div *ngIf="(user && user.role)" >-->
                         <!--                            <div *ngFor="let role of user.role">-->
-                        <!--                              <div *ngIf="role.role_id === 4">-->
+                        <!--                              <div *ngIf="role === 4">-->
                         <!--                                <td>-->
                         <!--                                  <input type="checkbox" class="selectItem" [(ngModel)]="vehicle.allSelected" >-->
                         <!--                                </td>-->
@@ -538,7 +562,7 @@
                     <div class="row" *ngIf="urlid && !editable">
                       <ng-container *ngIf="(user && user.role)" >
                         <ng-container *ngFor="let role of user.role">
-                          <ng-container *ngIf="role.role_id === 4" >
+                          <ng-container *ngIf="role === 4" >
                             <div class="col-md-6 d-flex align-items-center">
                               <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck" data-toggle="toggle" [(ngModel)]="servant.allSelected" *ngif="servant.allSelected">
                               <h5 class="card-title mat-body-strong" style="color: saddlebrown; margin-left: 10px;">Domestic help Details</h5>
@@ -547,7 +571,7 @@
                               <textarea class="form-control"  [(ngModel)]="servant_detail.remark" placeholder="remark"></textarea>
                             </div>
                           </ng-container>
-                          <ng-container *ngIf="role.role_id === 5 || role.role_id === 6">
+                          <ng-container *ngIf="role === 5 || role === 6">
                             <div class="col-md-6 d-flex align-items-center">
                               <div style="color: blue;" *ngIf="servant.allSelected" >
                                 Recommended
@@ -646,13 +670,13 @@
                                     </div>
                                     <ng-container *ngIf="(user && user.role) && !editable && urlid" >
                                       <ng-container *ngFor="let role of user.role">
-                                        <ng-container *ngIf="role.role_id === 4">
+                                        <ng-container *ngIf="role === 4">
                                           <td>
                                             <input type="date" class="form-control" [(ngModel)]="servant_detail.eba_pass_exp_date" [min]="minDate"
                                                    [value]="getDefaultExpDate(i,k,0,'servant')">
                                           </td>
                                         </ng-container>
-                                        <ng-container *ngIf="role.role_id === 5 || role.role_id === 6">
+                                        <ng-container *ngIf="role === 5 || role === 6">
                                           <td>
                                             <div *ngIf="servant_detail.eba_pass_exp_date">
                                               {{servant_detail.eba_pass_exp_date | date:'dd-MM-yyyy'}}
@@ -810,12 +834,12 @@
                                     <td>
                                       <ng-container *ngIf="(user && user.role)" >
                                         <ng-container *ngFor="let role of user.role">
-                                          <ng-container *ngIf="role.role_id === 4">
+                                          <ng-container *ngIf="role === 4">
                                             <div class="form-check form-switch">
                                               <input class="form-check-input" type="checkbox" role="switch" id="flexSwitch" data-toggle="toggle" [(ngModel)]="member.allSelected">
                                             </div>
                                           </ng-container>
-                                          <ng-container *ngIf="role.role_id === 5 || role.role_id === 6">
+                                          <ng-container *ngIf="role === 5 || role === 6">
                                             <div style="color: blue;" *ngIf="member.allSelected">
                                               Recommended
                                             </div>
@@ -838,7 +862,7 @@
 <!--                                  <div *ngIf="urlid && !editable">-->
 <!--                                    <div *ngIf="(user && user.role)" >-->
 <!--                                      <div *ngFor="let role of user.role">-->
-<!--                                        <div *ngIf="role.role_id === 4">-->
+<!--                                        <div *ngIf="role === 4">-->
 <!--                                          <td>-->
 <!--                                            <div *ngIf="(eba_pass.eba_pass_no === null || eba_pass.eba_pass_exp_date === null)">-->
 <!--                                              <input class="form-check-input" type="checkbox" role="switch" id="flexSwitch" data-toggle="toggle" [(ngModel)]="member.allSelected">-->
@@ -927,7 +951,7 @@
                                   <ng-container *ngIf="urlid && !editable">
                                     <ng-container *ngIf="(user && user.role)" >
                                       <ng-container *ngFor="let role of user.role">
-                                        <ng-container *ngIf="role.role_id === 4">
+                                        <ng-container *ngIf="role === 4">
                                           <td>
                                             <input type="date" class="form-control" [(ngModel)]="eba_pass.eba_pass_exp_date" [min]="minDate"
                                                    [value]="getDefaultExpDate(i,k,j,'servant_rel')">
@@ -936,7 +960,7 @@
                                             <textarea class="form-control" [(ngModel)]="eba_pass.remark"></textarea>
                                           </td>
                                         </ng-container>
-                                        <ng-container *ngIf="role.role_id === 5 || role.role_id === 6">
+                                        <ng-container *ngIf="role === 5 || role === 6">
                                           <td>
                                             <div *ngIf="eba_pass.eba_pass_exp_date">
                                               {{eba_pass.eba_pass_exp_date | date:'dd-MM-yyyy'}}
@@ -980,7 +1004,7 @@
 <!--                                                          <div *ngIf="urlid">-->
 <!--                                                            <div *ngIf="(user && user.role)" >-->
 <!--                                                              <div *ngFor="let role of user.role">-->
-<!--                                                                <div *ngIf="role.role_id === 4">-->
+<!--                                                                <div *ngIf="role === 4">-->
 <!--                                                                  <th>-->
 <!--                                                                    &nbsp;-->
 <!--                                                                  </th>-->
@@ -1182,29 +1206,40 @@
 
                             <!-- Column for 'id_proof_path' -->
                             <td>
-                              <div class="input-group">
-                                <label [for]="'idPath'+ i + j" class="upload-icon-label" *ngIf="editable" title="signature">
-                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
-                                </label>
-                                <input type="file" class="custom-file-input" [id]="'idPath' + i + j" style="display: none"
-                                       (change)="onFileSelected($event,i,j,'k','closefamily_id_proof_path')" *ngIf="editable"
-                                       [(ngModel)]="eba_pass.id_proof_path">
-                                <br>
-                                <label class="upload-icon-label" *ngIf="eba_pass.photo_path_edit_64 && eba_pass.photo_path_edit_64!==null"
-                                       title="remove file">
-                                  <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event);removeFile($event,i,j,'k','closefamily_id_proof_path')" ></i>
-                                </label>
-                              </div>
-                              <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+                              <label [for]="'idPath'+ i + j" class="upload-icon-label" *ngIf="editable &&  (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)" title="idPath" >
+                                <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
+                              </label>
+
+                              <input type="file" class="custom-file-input" [id]="'idPath' + i + j" style="display: none"
+                                     (change)="onFileSelected($event,i,j,'k','closefamily_id_proof_path')" *ngIf="editable"
+                                     [(ngModel)]="eba_pass.id_proof_path_edit">
+
+                              <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null && (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null) && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null)">
                                 <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
                                    href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
                                    title="Order File" target="_blank">
-                                  <i class="bi bi-eye "></i>
+                                  <i class="bi bi-eye"></i>
                                 </a>
                               </ng-container>
-                              <ng-template #naBlock>
-                                N/A
-                              </ng-template>
+
+                              <ng-container *ngIf="eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null) ">
+                                <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                   href="{{apiUrl}}getFile/{{eba_pass.id_proof_path_edit}}"
+                                   title="Order File" target="_blank">
+                                  <i class="bi bi-eye"></i>
+                                </a>
+                              </ng-container>
+
+                              <ng-container *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!=null">
+                                <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
+                                <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(eba_pass.id_proof_path_edit_64);hoverClick($event)"></i>
+                              </ng-container>
+
+                              <label class="upload-icon-label" *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!==null && eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null"
+                                     title="remove file">
+                                <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event);removeFile($event,i,j,'k','closefamily_id_proof_path')" ></i>
+                              </label>
+
                             </td>
                           </tr>
                           </tbody>
@@ -1288,7 +1323,7 @@
                                      (change)="onFileSelected($event,i,j,'k','family_id_proof_path')" *ngIf="editable"
                                      [(ngModel)]="eba_pass.id_proof_path_edit">
 
-                              <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null && (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)">
+                              <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null && (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null) && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null)">
                                 <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
                                    href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
                                    title="Order File" target="_blank">
@@ -1296,18 +1331,24 @@
                                 </a>
                               </ng-container>
 
-                              <ng-container *ngIf="eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null">
-                                <a class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)"
+                              <ng-container *ngIf="eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null) ">
+                                <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
                                    href="{{apiUrl}}getFile/{{eba_pass.id_proof_path_edit}}"
                                    title="Order File" target="_blank">
                                   <i class="bi bi-eye"></i>
                                 </a>
                               </ng-container>
 
+                              <ng-container *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!=null">
+<!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
+                                <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(eba_pass.id_proof_path_edit_64);hoverClick($event)"></i>
+                              </ng-container>
+
                               <label class="upload-icon-label" *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!==null && eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null"
                                      title="remove file">
                                 <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event);removeFile($event,i,j,'k','family_id_proof_path')" ></i>
                               </label>
+
                             </td>
                           </tr>
                           </tbody>
@@ -1383,26 +1424,39 @@
 <!--                                </div>-->
 <!--                              </td>-->
                               <td>
-                                <div class="input-group">
-                                  <label [for]="'idPath'+ i + k" class="upload-icon-label" *ngIf="editable"
-                                         title="signature">
-                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                <label [for]="'idPath'+ i + k" class="upload-icon-label" *ngIf="editable &&  (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)" title="idPath" >
+                                  <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                </label>
 
-                                    <input type="file" class="custom-file-input" [id]="'idPath' + i + k"
-                                           style="display: none" (change)="onFileSelected($event,i,k,'k','servant_id_proof_path')"
-                                           *ngIf="editable" [(ngModel)]="eba_pass.id_proof_path">
-                                  </label>
-                                </div>
-                                <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+                                <input type="file" class="custom-file-input" [id]="'idPath' + i + k" style="display: none"
+                                       (change)="onFileSelected($event,i,k,'k','servant_id_proof_path')" *ngIf="editable"
+                                       [(ngModel)]="eba_pass.id_proof_path_edit">
+
+                                <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null && (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null) && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null)">
                                   <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
                                      href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
                                      title="Order File" target="_blank">
-                                    <i class="bi bi-eye "></i>
+                                    <i class="bi bi-eye"></i>
                                   </a>
                                 </ng-container>
-                                <ng-template #naBlock>
-                                  N/A
-                                </ng-template>
+
+                                <ng-container *ngIf="eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null) ">
+                                  <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                     href="{{apiUrl}}getFile/{{eba_pass.id_proof_path_edit}}"
+                                     title="Order File" target="_blank">
+                                    <i class="bi bi-eye"></i>
+                                  </a>
+                                </ng-container>
+
+                                <ng-container *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!=null">
+                                  <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
+                                  <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(eba_pass.id_proof_path_edit_64);hoverClick($event)"></i>
+                                </ng-container>
+
+                                <label class="upload-icon-label" *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!==null && eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null"
+                                       title="remove file">
+                                  <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event);removeFile($event,i,k,'k','servant_id_proof_path')" ></i>
+                                </label>
                               </td>
                             </tr>
                             </tbody>
@@ -1465,35 +1519,40 @@
 <!--                                    </div>-->
 <!--                                  </td>-->
                                   <td>
-
-                                    <label [for]="'idPath'+ i + f+g" class="upload-icon-label" *ngIf="editable" title="signature">
+                                    <label [for]="'idPath'+ i + f+g" class="upload-icon-label" *ngIf="editable &&  (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)" title="idPath" >
                                       <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                                     </label>
 
-<!--                                      <img *ngIf="eba_pass.id_proof_path" [src]="eba_pass?.id_proof_path" style="width: 150px; height: 128px"-->
-<!--                                           class="rounded-square" />-->
+                                    <input type="file" class="custom-file-input" [id]="'idPath' + i + f+g" style="display: none"
+                                           (change)="onFileSelected($event,i,f,g,'id_proof')" *ngIf="editable"
+                                           [(ngModel)]="eba_pass.id_proof_path_edit">
 
-                                    <input type="file" class="custom-file-input" [id]="'idPath' + i + f +g"
-                                           style="display: none" (change)="onFileSelected($event,i,f,g,'id_proof')"
-                                           *ngIf="editable" [(ngModel)]="eba_pass.id_proof_path">
-
-                                    <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null; else naBlock">
+                                    <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null && (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null) && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null)">
                                       <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
                                          href="{{apiUrl}}getFile/{{eba_pass.id_proof_path}}"
                                          title="Order File" target="_blank">
-                                        <i class="bi bi-eye "></i>
+                                        <i class="bi bi-eye"></i>
                                       </a>
-<!--                                      <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'id')">-->
-<!--                                        <i class="bi bi-eye"></i>-->
-<!--                                      </a>-->
                                     </ng-container>
-                                    <ng-template #naBlock>
-                                      N/A
-                                    </ng-template>
 
+                                    <ng-container *ngIf="eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null) ">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                         href="{{apiUrl}}getFile/{{eba_pass.id_proof_path_edit}}"
+                                         title="Order File" target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                      </a>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!=null">
+                                      <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
+                                      <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(eba_pass.id_proof_path_edit_64);hoverClick($event)"></i>
+                                    </ng-container>
+
+                                    <label class="upload-icon-label" *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!==null && eba_pass.id_proof_path_edit && eba_pass.id_proof_path_edit!=null"
+                                           title="remove file">
+                                      <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event);removeFile($event,i,f,g,'id_proof')" ></i>
+                                    </label>
                                   </td>
-
-
                                 </tr>
                                 </tbody>
                               </ng-container>
@@ -1571,12 +1630,12 @@
             <div *ngIf="urlid">
               <div *ngIf="(user && user.role)" >
                 <div *ngFor="let role of user.role">
-                  <div *ngIf="role.role_id === 4 || role.role_id===5">
+                  <div *ngIf="role === 4 || role===5">
                     <th>
                       <button type="submit" class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Approve" (click)="approveapplication()" >Forward</button>
                     </th>
                   </div>
-                  <div *ngIf="role.role_id === 6 ">
+                  <div *ngIf="role === 6 ">
                     <th>
                       <button type="submit" class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Approve" (click)="approveapplication()" >Approve</button>
                     </th>

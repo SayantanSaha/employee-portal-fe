@@ -82,7 +82,7 @@ export class EbaFormComponent {
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
 
-    if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => (role.role_id === 5 || role.role_id == 6 || role.role_id == 4))) {
+    if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4))) {
       this.id = this.route.snapshot.paramMap.get('id');
       this.letverify(!isNaN(+this.id!));
     }
@@ -91,7 +91,7 @@ export class EbaFormComponent {
       // 'id' is present, try to convert it to a number
       const idNumber = +this.id;
       if (!isNaN(idNumber)) {
-        if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => (role.role_id === 5 || role.role_id == 6 || role.role_id == 4))) {
+        if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4))) {
           // 'id' is a valid number, call getEbaProfile
           this.employeeService.getEbaProfile(idNumber).subscribe(
               (data: any) => {
@@ -520,6 +520,7 @@ export class EbaFormComponent {
           console.log('File size exceeds 200KB.');
         }
       } else {
+        this. removeFile(event, i, j, k, property);
         Swal.fire({
           icon: 'error',
           title: 'Invalid File',
@@ -591,6 +592,7 @@ export class EbaFormComponent {
           console.log('File size exceeds 1mb.');
         }
       } else {
+        this. removeFile(event, i, j, k, property);
         Swal.fire({
           icon: 'error',
           title: 'Invalid File',
@@ -607,75 +609,79 @@ export class EbaFormComponent {
 
   removeFile(event: Event,i:any,j:any,k:any,property: string): void {
     if (property === 'closefamily_photo_path' || 'closefamily_signature' || 'closefamily_id_proof_path') {
-    if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
-      if (property === 'closefamily_photo_path') {
-        // @ts-ignore
-        this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit_64 = null;
-         // this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit = null;
-      } else if (property === 'closefamily_signature') {
-        // @ts-ignore
-        this.employee.closefamily[i].pivot.eba_passes[j].sign_path = null;
-      } else if (property === 'closefamily_id_proof_path') {
-        // @ts-ignore
-        this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit_64 = null;
-        this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit = null;
+      if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
+        if (property === 'closefamily_photo_path') {
+          // @ts-ignore
+          this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit_64 = null;
+           // this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit = null;
+        } else if (property === 'closefamily_signature') {
+          // @ts-ignore
+          this.employee.closefamily[i].pivot.eba_passes[j].sign_path = null;
+        } else if (property === 'closefamily_id_proof_path') {
+          // @ts-ignore
+          this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit_64 = null;
+          this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit = null;
+        }
       }
-    }
     }
     if (property === 'family_photo_path' || 'family_signature' || 'family_id_proof_path') {
-    if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
-      if (property === 'family_photo_path') {
-        // @ts-ignore
-        // alert('ok');
-        this.employee.family[i].pivot.eba_passes[j].photo_path_edit_64 = null;
-      } else if (property === 'family_signature') {
-        // @ts-ignore
-        this.employee.family[i].pivot.eba_passes[j].sign_path = null;
-      } else if (property === 'family_id_proof_path') {
-        // @ts-ignore
-        this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit_64 = null;
-        this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit = null;
+      if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
+        if (property === 'family_photo_path') {
+          // @ts-ignore
+          // alert('ok');
+          this.employee.family[i].pivot.eba_passes[j].photo_path_edit_64 = null;
+        } else if (property === 'family_signature') {
+          // @ts-ignore
+          this.employee.family[i].pivot.eba_passes[j].sign_path = null;
+        } else if (property === 'family_id_proof_path') {
+          // @ts-ignore
+          this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit_64 = null;
+          this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit = null;
+        }
       }
-    }
     }
     if (property === 'servant_photo_path' || 'servant_signature' || 'servant_id_proof_path') {
-    if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
-      // Update the specific property based on the argument
-      if (property === 'servant_photo_path') {
-        // @ts-ignore
-        this.employee.servants[i].eba_passes[j].photo_path_edit_64 = null;
-      } else if (property === 'servant_signature') {
-        // @ts-ignore
-        this.employee.servants[i].eba_passes[j].sign_path = null;
-      } else if (property === 'servant_id_proof_path') {
-        // @ts-ignore
-        this.employee.servants[i].eba_passes[j].id_proof_path_edit_64 = null;
-        this.employee.servants[i].eba_passes[j].id_proof_path_edit = null;
+      if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
+        // Update the specific property based on the argument
+        if (property === 'servant_photo_path') {
+          // @ts-ignore
+          this.employee.servants[i].eba_passes[j].photo_path_edit_64 = null;
+        } else if (property === 'servant_signature') {
+          // @ts-ignore
+          this.employee.servants[i].eba_passes[j].sign_path = null;
+        } else if (property === 'servant_id_proof_path') {
+          // @ts-ignore
+          this.employee.servants[i].eba_passes[j].id_proof_path_edit_64 = null;
+          this.employee.servants[i].eba_passes[j].id_proof_path_edit = null;
+        }
       }
     }
-    }
-      if (property === 'photo' || 'sign' || 'id_proof') {
-    if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
-      // Update the specific property based on the argument
-      if (property === 'photo') {
-        // @ts-ignore
-        this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path_edit_64 = null;
-      } else if (property === 'sign') {
-        // @ts-ignore
-        this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = null;
-      } else if (property === 'id_proof') {
-        // @ts-ignore
-        this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit_64 = null;
-          this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit = null;
+    if (property === 'photo' || 'sign' || 'id_proof') {
+      if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
+        // Update the specific property based on the argument
+        if (property === 'photo') {
+          // @ts-ignore
+          this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path_edit_64 = null;
+        } else if (property === 'sign') {
+          // @ts-ignore
+          this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = null;
+        } else if (property === 'id_proof') {
+          // @ts-ignore
+          this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit_64 = null;
+            this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit = null;
+        }
       }
     }
-      }
     if (property === 'file_path') {
       this.file_path = null;
     }
   }
 
-
+  openPdfInNewTab(pdfData: string): void {
+    const pdfWindow = window.open();
+    // @ts-ignore
+    pdfWindow.document.write(`<iframe width='100%' height='100%' src='${pdfData}'></iframe>`);
+  }
 
    applyEba() {
     if (this.employee) {
@@ -851,7 +857,7 @@ export class EbaFormComponent {
   approveapplication() {
     const id = +this.route.snapshot.params['id'];
     if (!isNaN(id)) {
-      if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => role.role_id === 4)) {
+      if (this.user && this.user.role && this.user.role.some((role:  number) => role === 4)) {
         if (this.employee) {
           console.log(this)
           // const clonedEmployee = {...this.employee};
@@ -925,7 +931,7 @@ export class EbaFormComponent {
           );
         }
       }
-      else if (this.user && this.user.role && this.user.role.some((role: { role_id: number; }) => (role.role_id === 5 || role.role_id == 6))) {
+      else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 5 || role == 6))) {
         this.employeeService.updateebastatus(id, 'Approve', this.remark, this.file_path ?? '').subscribe(
             () =>{
               Swal.fire({
