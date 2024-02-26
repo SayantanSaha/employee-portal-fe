@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class EbapendingComponent {
   ebaPendingList: any;
   roleId: any;
+  from:any;
   constructor(
     private employeeService: EmployeeService,
     private datePipe: DatePipe,
@@ -23,6 +24,8 @@ export class EbapendingComponent {
     console.log(this.ebaPendingList);
     this.roleId = history.state.roleId;
     console.log(this.roleId);
+    this.from = history.state.from;
+    console.log(this.from);
     // const state = this.router.getCurrentNavigation()?.extras.state;
     // if (state && state['ebaPendingList']) {
     //   this.ebaPendingList = state['ebaPendingList'];

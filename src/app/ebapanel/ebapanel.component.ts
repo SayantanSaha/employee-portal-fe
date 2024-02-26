@@ -92,7 +92,7 @@ export class EbapanelComponent implements OnInit{
       this.employeeService.searchEba(this.search).subscribe(
         (data) => {
           console.log('Search successful:', data);
-          this.router.navigate(['eba-pending'], { state: {  employeeData: data, roleId:this.search.role  } });
+          this.router.navigate(['eba-pending'], { state: {  employeeData: data, roleId:this.search.role , from:'serachEba' } });
         },
         (error) => {
           console.error('Search error:', error);
@@ -110,7 +110,7 @@ export class EbapanelComponent implements OnInit{
       this.employeeService.searchEba(this.search).subscribe(
         (data) => {
           console.log('Search successful:', data);
-          this.router.navigate(['eba-pending'], { state: {  employeeData: data, roleId:this.search.role  } });
+          this.router.navigate(['eba-pending'], { state: {  employeeData: data , from:'serach' } });
         },
         (error) => {
           console.error('Search error:', error);
