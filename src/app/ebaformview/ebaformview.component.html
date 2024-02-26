@@ -100,7 +100,7 @@
               <table class="table table-stripped">
                 <thead>
                 <tr>
-<!--                  <th>Sl No.</th>-->
+                  <th>Select</th>
                   <th>Relative Name</th>
                   <th>Relation</th>
                   <th>Mobile No.</th>
@@ -114,7 +114,12 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let member of employee!.family; let i = index">
-<!--                  <td>{{ i + 1 }}</td>-->
+                  <td style=" color: green" *ngIf="member.allSelected">
+                    Selected
+                  </td>
+                  <td style=" color: red" *ngIf="!member.allSelected">
+                    Not Selected
+                  </td>
                   <td>
                     <span>{{ member!.pivot!.rel_name }}</span>
                   </td>
@@ -346,6 +351,12 @@
             <ng-container *ngFor="let servant_detail of servant.eba_passes; let k = index">
           <div class="row">
             <div class="col-md-6 d-flex align-items-center">
+              <ng-container style=" color: green" *ngIf="servant.allSelected">
+                Selected
+              </ng-container>
+              <ng-container style=" color: red" *ngIf="!servant.allSelected">
+                Not Selected
+              </ng-container>
               <h5 class="card-title" style="color: saddlebrown; margin-left: 10px;">{{servant!.servant_name}}'s Details</h5>
             </div>
           </div>
@@ -494,6 +505,7 @@
                       <thead>
                       <tr>
 <!--                        <th>Sl No.</th>-->
+                        <th>Select</th>
                         <th>Relative Name</th>
                         <th>Relation</th>
                         <th>Mobile No.</th>
@@ -510,6 +522,12 @@
                         <ng-container *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
                           <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
 <!--                        <td>{{ j + 1 }}</td>-->
+                            <td style=" color: green" *ngIf="member.allSelected">
+                              Selected
+                            </td>
+                            <td style=" color: red" *ngIf="!member.allSelected">
+                              Not Selected
+                            </td>
                         <td>
                           <span>{{ member!.pivot!.rel_name }}</span>
                         </td>

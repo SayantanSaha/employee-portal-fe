@@ -22,6 +22,8 @@ export class EbapanelComponent implements OnInit{
   employee: Employee | null = null;
   search: Search = new Search();
   user:User = new User();
+  searchbox: any = 'none';
+
 
   constructor(
       private router: Router,
@@ -71,19 +73,26 @@ export class EbapanelComponent implements OnInit{
     }
   }
 
+
+  opensearch() {
+    this.searchbox = "block";
+  }
+  closesearch() {
+    this.searchbox = "none";
+  }
+
   formatDate(date: string | Date): string {
     return this.datePipe.transform(date, 'dd/MM/YYYY') || 'N/A';
   }
 
   searchEba(i: number) {
-
     // @ts-ignore
     this.search.role = i;
     if (this.search) {
       this.employeeService.searchEba(this.search).subscribe(
         (data) => {
           console.log('Search successful:', data);
-          this.router.navigate(['eba-pending'], { state: {  employeeData: data, roleId:this.search.role  } });
+          this.router.navigate(['eba-pending'], { state: {  employeeData: data, roleId:this.search.role , from:'serachEba' } });
         },
         (error) => {
           console.error('Search error:', error);
@@ -93,6 +102,39 @@ export class EbapanelComponent implements OnInit{
         }
       );
     }
+  }
+
+  Search() {
+    // @ts-ignore
+    if (this.search) {
+      this.employeeService.searchEba(this.search).subscribe(
+        (data) => {
+          console.log('Search successful:', data);
+          this.router.navigate(['eba-pending'], { state: {  employeeData: data , from:'serach' } });
+        },
+        (error) => {
+          console.error('Search error:', error);
+        },
+        () => {
+          console.log('Search completed');
+        }
+      );
+    }
+  }
+
+  ebapasses(){
+    this.employeeService.ebapasses().subscribe(
+      (data) => {
+        console.log('Search successful:', data);
+        this.router.navigate(['eba-print'], { state: {  employeeData: data, fromfunction:'totalpass'} });
+      },
+      (error) => {
+        console.error('Search error:', error);
+      },
+      () => {
+        console.log('Search completed');
+      }
+    );
   }
 
 }
