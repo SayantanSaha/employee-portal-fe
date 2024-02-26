@@ -1319,44 +1319,106 @@ export class ProfileComponent implements OnInit{
       }
 
     }
-
-
-    validateCurrPin(event: any): void {
-        if (this.employee?.curr_pin !== null) {
-            // Get the input value
-            const inputValue = event.target.value;
-
-            // Remove non-numeric characters using a regular expression
-            const numericValue = inputValue.replace(/[^0-9]/g, '');
-
-            // Update the input value
-            event.target.value = numericValue;
-
-            // Update the ngModel bound variable (if necessary)
-            if (this.employee?.curr_pin) {
-                this.employee.curr_pin = numericValue;
-            }
-        }
+  validateMobile() {
+    const mobilePattern = /^\d{10}$/;
+    if(!mobilePattern.test(this.employee!.mobile)) {
+      this.validationErrors.push('Invalid Mobile Number');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Invalid Mobile Number',
+      });
+    }else {
+      // Clear the validation error message for mobile if it's valid
+      const index = this.validationErrors.indexOf('Invalid Mobile Number');
+      if (index !== -1) {
+        this.validationErrors.splice(index, 1);
+      }
     }
+  }
 
 
-    validatePermPin(event: any): void {
-        if (this.employee?.perm_pin !== null) {
-            // Get the input value
-            const inputValue = event.target.value;
-
-            // Remove non-numeric characters using a regular expression
-            const numericValue = inputValue.replace(/[^0-9]/g, '');
-
-            // Update the input value
-            event.target.value = numericValue;
-
-            // Update the ngModel bound variable (if necessary)
-            if (this.employee?.perm_pin) {
-                this.employee.perm_pin = numericValue;
-            }
+  validateCurrPin() {
+    if (this.employee!.curr_pin !== null) {
+      const pinPattern = /^\d{6}$/;
+      if (!pinPattern.test(this.employee!.curr_pin)) {
+        this.validationErrors.push('Invalid Current PIN code.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Invalid Current PIN code.',
+        });
+      }else {
+        // Clear the validation error message for Pin Code if it's valid
+        const index = this.validationErrors.indexOf('Invalid Current PIN code.');
+        if (index !== -1) {
+          this.validationErrors.splice(index, 1);
         }
+      }
+
     }
+  }
+
+
+  validatePermPin() {
+    if (this.employee!.perm_pin !== null) {
+      const pinPattern = /^\d{6}$/;
+
+      if (!pinPattern.test(this.employee!.perm_pin)) {
+
+        this.validationErrors.push('Invalid Premanent Pin Code');
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Invalid Premanent Pin Code',
+        });
+      }else {
+        // Clear the validation error message for Pin Code if it's valid
+        const index = this.validationErrors.indexOf('Invalid Premanent Pin Code');
+        if (index !== -1) {
+          this.validationErrors.splice(index, 1);
+        }
+      }
+    }
+  }
+
+    // validateCurrPin(event: any): void {
+    //     if (this.employee?.curr_pin !== null) {
+    //         // Get the input value
+    //         const inputValue = event.target.value;
+    //
+    //         // Remove non-numeric characters using a regular expression
+    //         const numericValue = inputValue.replace(/[^0-9]/g, '');
+    //
+    //         // Update the input value
+    //         event.target.value = numericValue;
+    //
+    //         // Update the ngModel bound variable (if necessary)
+    //         if (this.employee?.curr_pin) {
+    //             this.employee.curr_pin = numericValue;
+    //         }
+    //     }
+    // }
+    //
+    //
+    // validatePermPin(event: any): void {
+    //     if (this.employee?.perm_pin !== null) {
+    //         // Get the input value
+    //         const inputValue = event.target.value;
+    //
+    //         // Remove non-numeric characters using a regular expression
+    //         const numericValue = inputValue.replace(/[^0-9]/g, '');
+    //
+    //         // Update the input value
+    //         event.target.value = numericValue;
+    //
+    //         // Update the ngModel bound variable (if necessary)
+    //         if (this.employee?.perm_pin) {
+    //             this.employee.perm_pin = numericValue;
+    //         }
+    //     }
+    // }
 
   /************************* Validation Check Function End *************************/
 
