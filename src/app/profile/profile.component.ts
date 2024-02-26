@@ -247,6 +247,11 @@ export class ProfileComponent implements OnInit{
         //     window.location.reload();
         //   }
         });
+        const newChange = {
+          model: 'Employee',
+          changed_data: this.employee
+        };
+        this.employee!.temp_changes.push(newChange);
       },
       (error) => {
         console.log(error);
@@ -290,8 +295,6 @@ export class ProfileComponent implements OnInit{
   }
 
   addDesignation() {
-
-
     let d = new Designation();
     d.pivot.employee_id = this.employee?.id!;
     this.employee?.designations?.push(d);
@@ -330,6 +333,11 @@ export class ProfileComponent implements OnInit{
           title: 'Success',
           text: 'Request for approval of Designation have been saved successfully and pending for approval',
           });
+          const newChange = {
+            model: 'promotion',
+            changed_data: promotion
+          };
+          this.employee!.temp_changes.push(newChange);
         },
         e => {
           console.log(e);
@@ -370,6 +378,11 @@ export class ProfileComponent implements OnInit{
               title: 'Success',
               text: 'Request for approval of designation have been updated successfully and pending for approval',
             });
+            const newChange = {
+              model: 'promotion',
+              changed_data: promotion
+            };
+            this.employee!.temp_changes.push(newChange);
           },
           e => {
             console.log(e);
@@ -479,6 +492,11 @@ export class ProfileComponent implements OnInit{
             //     window.location.reload();
             //   }
             });
+            const newChange = {
+              model: 'posting',
+              changed_data: postingDtls
+            };
+            this.employee!.temp_changes.push(newChange);
           },
           e => {
             console.log(e);
@@ -525,6 +543,11 @@ export class ProfileComponent implements OnInit{
               //     window.location.reload();
               //   }
               });
+              const newChange = {
+                model: 'posting',
+                changed_data: postingDtls
+              };
+              this.employee!.temp_changes.push(newChange);
             },
             e => {
               console.log(e);
@@ -605,6 +628,11 @@ export class ProfileComponent implements OnInit{
             //     window.location.reload();
             //   }
             });
+            const newChange = {
+              model: 'employee_rel',
+              changed_data: membersDtls,
+            };
+            this.employee!.temp_changes.push(newChange);
           },
           e => {
             console.log(e);
@@ -651,6 +679,11 @@ export class ProfileComponent implements OnInit{
               //     window.location.reload();
               //   }
               });
+              const newChange = {
+                model: 'employee_rel',
+                changed_data: membersDtls,
+              };
+              this.employee!.temp_changes.push(newChange);
             },
             e => {
               console.log(e);
@@ -923,6 +956,11 @@ export class ProfileComponent implements OnInit{
                 title: 'Success',
                 text: 'Request for approval of Domestic Help has been saved successfully and is pending approval',
               });
+              const newChange = {
+                model: 'servant',
+                changed_data: this.employee!.servants[i]
+              };
+              this.employee!.temp_changes.push(newChange);
             }
           },
           (e) => {
@@ -954,6 +992,11 @@ export class ProfileComponent implements OnInit{
                 title: 'Success',
                 text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
               });
+              const newChange = {
+                model: 'servant',
+                changed_data: this.employee!.servants[i]
+              };
+              this.employee!.temp_changes.push(newChange);
             }
           },
           (e) => {
@@ -1023,6 +1066,11 @@ export class ProfileComponent implements OnInit{
               title: 'Success',
               text: 'Request for approval of Domestic Help has been saved successfully and is pending approval',
             });
+          //   const newChange = {
+          //     model: 'servant_rel',
+          //     changed_data: servantsRelDtls
+          //   };
+          //   this.employee!.temp_changes.push(newChange);
           }
         },
         (e) => {
@@ -1059,6 +1107,12 @@ export class ProfileComponent implements OnInit{
               title: 'Success',
               text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
             });
+            // const newChange = {
+              //     model: 'servant_rel',
+              //     changed_data: servantsRelDtls
+              //   };
+              //   this.employee!.temp_changes.push(newChange);
+
           }
         },
         (e) => {
@@ -1095,6 +1149,42 @@ export class ProfileComponent implements OnInit{
       // Update the ngModel bound variable (if necessary)
       if (this.employee?.servants?.[i]) {
         this.employee.servants[i].servant_mobile_no = numericValue;
+      }
+    }
+  }
+
+  onMobileNo(event: any): void {
+    if (this.employee?.mobile !== null) {
+      // Get the input value
+      const inputValue = event.target.value;
+
+      // Remove non-numeric characters using a regular expression
+      const numericValue = inputValue.replace(/[^0-9]/g, '');
+
+      // Update the input value
+      event.target.value = numericValue;
+
+      // Update the ngModel bound variable (if necessary)
+      if (this.employee?.mobile) {
+        this.employee.mobile = numericValue;
+      }
+    }
+  }
+
+  onrelationMobileNo(event: any, i: number): void {
+    if (this.employee?.relations?.[i]?.pivot.rel_mobile_no !== null) {
+      // Get the input value
+      const inputValue = event.target.value;
+
+      // Remove non-numeric characters using a regular expression
+      const numericValue = inputValue.replace(/[^0-9]/g, '');
+
+      // Update the input value
+      event.target.value = numericValue;
+
+      // Update the ngModel bound variable (if necessary)
+      if (this.employee?.relations?.[i]) {
+        this.employee.relations[i].pivot.rel_mobile_no = numericValue;
       }
     }
   }
@@ -1231,68 +1321,41 @@ export class ProfileComponent implements OnInit{
     }
 
 
-    validateMobile() {
-      const mobilePattern = /^\d{10}$/;
-      if(!mobilePattern.test(this.employee!.mobile)) {
-        this.validationErrors.push('Invalid Mobile Number');
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Invalid Mobile Number',
-        });
-      }else {
-        // Clear the validation error message for mobile if it's valid
-        const index = this.validationErrors.indexOf('Invalid Mobile Number');
-        if (index !== -1) {
-          this.validationErrors.splice(index, 1);
+    validateCurrPin(event: any): void {
+        if (this.employee?.curr_pin !== null) {
+            // Get the input value
+            const inputValue = event.target.value;
+
+            // Remove non-numeric characters using a regular expression
+            const numericValue = inputValue.replace(/[^0-9]/g, '');
+
+            // Update the input value
+            event.target.value = numericValue;
+
+            // Update the ngModel bound variable (if necessary)
+            if (this.employee?.curr_pin) {
+                this.employee.curr_pin = numericValue;
+            }
         }
-      }
     }
 
 
-    validateCurrPin() {
-      if (this.employee!.curr_pin !== null) {
-        const pinPattern = /^\d{6}$/;
-        if (!pinPattern.test(this.employee!.curr_pin)) {
-          this.validationErrors.push('Invalid Current PIN code.');
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Invalid Current PIN code.',
-          });
-        }else {
-          // Clear the validation error message for Pin Code if it's valid
-          const index = this.validationErrors.indexOf('Invalid Current PIN code.');
-          if (index !== -1) {
-            this.validationErrors.splice(index, 1);
-          }
+    validatePermPin(event: any): void {
+        if (this.employee?.perm_pin !== null) {
+            // Get the input value
+            const inputValue = event.target.value;
+
+            // Remove non-numeric characters using a regular expression
+            const numericValue = inputValue.replace(/[^0-9]/g, '');
+
+            // Update the input value
+            event.target.value = numericValue;
+
+            // Update the ngModel bound variable (if necessary)
+            if (this.employee?.perm_pin) {
+                this.employee.perm_pin = numericValue;
+            }
         }
-
-      }
-    }
-
-
-    validatePermPin() {
-      if (this.employee!.perm_pin !== null) {
-        const pinPattern = /^\d{6}$/;
-
-        if (!pinPattern.test(this.employee!.perm_pin)) {
-
-          this.validationErrors.push('Invalid Premanent Pin Code');
-
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Invalid Premanent Pin Code',
-          });
-        }else {
-          // Clear the validation error message for Pin Code if it's valid
-          const index = this.validationErrors.indexOf('Invalid Premanent Pin Code');
-          if (index !== -1) {
-            this.validationErrors.splice(index, 1);
-          }
-        }
-      }
     }
 
   /************************* Validation Check Function End *************************/

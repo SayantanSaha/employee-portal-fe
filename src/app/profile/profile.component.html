@@ -414,7 +414,7 @@
                             <label class="form-label">Mobile</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="text" maxlength="10" minlength="10" class="form-control" placeholder="Mobile"
-                                     aria-label="Mobile" [(ngModel)]="employee!.mobile" (change)="validateMobile()"
+                                     aria-label="Mobile" [(ngModel)]="employee!.mobile" (input)="onMobileNo($event)"
                                      (ngModelChange)="onInputChange()">
                             </div>
 
@@ -534,7 +534,7 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
-                                         aria-label="pin" [(ngModel)]="employee!.curr_pin" (change)="validateCurrPin()"
+                                         aria-label="pin" [(ngModel)]="employee!.curr_pin" (input)="validateCurrPin($event)"
                                          (ngModelChange)="onInputChange()">
                                 </div>
                               </div>
@@ -592,7 +592,7 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
-                                         aria-label="pin" [(ngModel)]="employee!.perm_pin" (change)="validatePermPin()"
+                                         aria-label="pin" [(ngModel)]="employee!.perm_pin" (input)="validatePermPin($event)"
                                          [readonly]="isCpAddressChecked" (ngModelChange)="onInputChange()">
                                 </div>
                               </div>
@@ -671,19 +671,17 @@
                             <th>Joining Date</th>
                             <th>Order No.</th>
                             <th>Order Date</th>
-                            <th>Order File</th>
+<!--                            <th>Order File</th>-->
                           </tr>
                           </thead>
                           <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
                           <ng-container *ngFor="let change of employee!.temp_changes; let i = index">
                             <tr *ngIf="change.model === 'promotion' && change.changed_data">
                               <td *ngIf="change.model === 'promotion'">{{ change.changed_data.desg_desc }}</td>
-                              <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.join_date) }}
-                              </td>
+                              <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.join_date)}}</td>
                               <td *ngIf="change.model === 'promotion'">{{ change.changed_data.order_no }}</td>
-                              <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.order_date)
-                                }}</td>
-                              <td *ngIf="change.model === 'promotion'">{{ change.changed_data.order_path }}</td>
+                              <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.order_date)}}</td>
+<!--                              <td *ngIf="change.model === 'promotion'">{{ change.changed_data.order_path }}</td>-->
                             </tr>
                           </ng-container>
                           </tbody>
@@ -828,21 +826,18 @@
                             <th>To Date</th>
                             <th>Order No.</th>
                             <th>Order Date</th>
-                            <th>Order File</th>
+<!--                            <th>Order File</th>-->
                           </tr>
                           </thead>
                           <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
                           <ng-container *ngFor="let change of employee!.temp_changes; let i = index">
                             <tr *ngIf="change.model === 'posting' && change.changed_data">
                               <td *ngIf="change.model === 'posting'">{{ change.changed_data.div_desc }}</td>
-                              <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.from_date) }}
-                              </td>
-                              <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.to_date) }}
-                              </td>
+                              <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.from_date) }}</td>
+                              <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.to_date) }}</td>
                               <td *ngIf="change.model === 'posting'">{{ change.changed_data.order_no }}</td>
-                              <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.order_date) }}
-                              </td>
-                              <td *ngIf="change.model === 'posting'">{{ change.changed_data.order_path }}</td>
+                              <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.order_date) }}</td>
+<!--                              <td *ngIf="change.model === 'posting'">{{ change.changed_data.order_path }}</td>-->
                             </tr>
                           </ng-container>
                           </tbody>
@@ -1086,7 +1081,7 @@
                             <td>
                               <input *ngIf="employee!.relations && editable" class="form-control" type="text"
                                      [(ngModel)]="employee!.relations[i].pivot!.rel_mobile_no" placeholder="Mobile No."
-                                     maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('Relations', i)">
+                                     maxlength="10" minlength="10" (ngModelChange)="onInputChangeMap('Relations', i)" (input)="onrelationMobileNo($event, i)">
 
                               <span *ngIf="!editable">{{member!.pivot!.rel_mobile_no}}</span>
                             </td>
