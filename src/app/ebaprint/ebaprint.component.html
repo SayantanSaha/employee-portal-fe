@@ -18,6 +18,7 @@
               <th>Relation</th>
               <th>EBA Card</th>
               <th>Issue Date</th>
+              <th>Valid upto</th>
               <th *ngIf="!fromfunction || fromfunction ==null">Rfid</th>
               <th *ngIf="!fromfunction || fromfunction ==null">Action</th>
             </tr>
@@ -44,6 +45,7 @@
               </td>
               <td >{{ebaprint.eba_pass_no}}</td>
               <td >{{ ebaprint!.created_at | date:'dd-MM-yyyy'}}</td>
+              <td >{{ ebaprint!.eba_pass_exp_date | date:'dd-MM-yyyy'}}</td>
               <td *ngIf="!fromfunction || fromfunction ==null">
                 <div class="col" *ngIf="ebaprint.rfid ==null ">
                   <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="openebacardPopup(i)">
