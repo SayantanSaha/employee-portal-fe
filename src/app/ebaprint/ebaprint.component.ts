@@ -5,15 +5,18 @@ import {EmployeeService} from "../employee.service";
 import {DatePipe} from "@angular/common";
 import Swal from "sweetalert2";
 
+
 @Component({
   selector: 'app-ebaprint',
   templateUrl: './ebaprint.component.html',
   styleUrls: ['./ebaprint.component.scss']
 })
+
 export class EbaprintComponent {
   ebaprintData:  any[] = [];
   Rfid:  any;
   fromfunction: any;
+  isLoading: boolean = false;
   constructor(
     @Inject('BASE_URL') baseUrl: string,private employeeService: EmployeeService,
     private route: ActivatedRoute,
@@ -76,28 +79,14 @@ export class EbaprintComponent {
 
 
   printpage(i:number){
-  this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'ebaprint' } });
-  }
-
-  // ngAfterViewInit() {
-  //   // Add 'print' class to elements you want to print
-  //   this.renderer.addClass(this.el.nativeElement.querySelector('.print'), 'print');
-  // }
-
-  rfid(ebapassno: any) {
-    // Check if RFID is available and not null
-    if (this.Rfid && this.Rfid !== null) {
-      // Call the employeeService to update EBA pass using RFID and ebapassno
-      this.employeeService.RFID(this.Rfid, ebapassno).subscribe(
+    if(this.ebaprintData[i].printStatus == true){
+      this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'ebaprint' } });
+    }
+    else{
+    this.employeeService.printstatus( this.ebaprintData[i].id).subscribe(
         // On success
         () => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Updated successfully', // Corrected spelling here
-          }).then(() => {
-            location.reload();
-          });
+          this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'ebaprint' } });
         },
         // On error
         (error) => {
@@ -112,6 +101,47 @@ export class EbaprintComponent {
             text: 'An error occurred while updating EBA.',
           });
         }
+    );}
+  }
+
+
+
+  // ngAfterViewInit() {
+  //   // Add 'print' class to elements you want to print
+  //   this.renderer.addClass(this.el.nativeElement.querySelector('.print'), 'print');
+  // }
+
+  rfid(ebapassno: any) {
+    // Check if RFID is available and not null
+    if (this.Rfid && this.Rfid !== null) {
+      this.isLoading = true;
+      // Call the employeeService to update EBA pass using RFID and ebapassno
+      this.employeeService.RFID(this.Rfid, ebapassno).subscribe(
+          // On success
+          () => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Updated successfully', // Corrected spelling here
+            }).then(() => {
+              location.reload();
+            });
+          },
+          // On error
+          (error) => {
+            console.log(error);
+            console.log(error.status);
+            console.log(error.error);
+            // Handle other errors here
+            console.error('An error occurred:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'An error occurred while updating EBA.',
+            });
+          },() => {
+            this.isLoading = false; // Hide loading symbol
+          }
       );
     }else{
       Swal.fire({

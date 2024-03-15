@@ -7,9 +7,9 @@
     <div class="page-break">
       <!--      <td>-->
       <table>
-        <div style="width: 90mm; height: 60mm; background-color: white; border: 1px solid #ccc; max-width: 90mm;max-height: 60mm">
+        <div class="print-border" style="width: 97mm; height: 61mm; background-color: white;  border: 1px solid #ccc;max-width: 97mm;max-height: 61mm">
 
-          <div style="height: 18mm; background-color: green; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
+          <div style="height: 18mm; background-color: darkred; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
             <strong style="font-size: 4.9mm; color: white; transform: scaleY(2); line-height: 13mm;">
               PRESIDENT'S ESTATE RESIDENT PASS
             </strong>
@@ -18,11 +18,11 @@
 
           <table style="height: 34mm; display: flex; font-size: 3mm;text-align: center;justify-content: center;align-items: center;">
             <tr >
-              <td style="min-width:30mm;max-width:30mm;">
+              <td style="min-width:31mm;max-width:31mm;"  >
                 <img [src]="printData.photo_path" style="width: 35mm; height: 35mm;padding: 2mm"  />
               </td>
 
-              <td style="min-width:60mm;max-width:60mm;padding: 10mm;">
+              <td style="min-width:61mm;max-width:61mm;padding: 10mm;">
                 <table >
                   <tr>
                     <td >
@@ -67,7 +67,7 @@
             </tr>
           </table>
 
-          <div style="height: 4mm; display: flex; flex-direction: column;margin-top: -1.5mm;margin-left: 70mm  ">
+          <div style="height: 4mm; display: flex; flex-direction: column;margin-top: -1mm;margin-left: 75mm  ">
              <span *ngIf="printData.ussign">
                 <img [src]="printData.ussign" alt="Signature"
                      style="width: 10mm; height: 4mm" class="rounded-square"
@@ -75,7 +75,7 @@
               </span>
           </div>
 
-          <div style="height: 4mm; background-color: green; display: flex; flex-direction: column; text-align: right;margin-top: 1.5mm; ">
+          <div style="height: 4mm; background-color: darkred; display: flex; flex-direction: column; text-align: right;margin-top: 3mm; ">
             <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;"><b>UNDER SECRETARY (EBA)</b></div>
           </div>
 
@@ -86,11 +86,11 @@
 
     </div>
 
-
+    <div class="row print-hidden"></div>
     <!--                  <td>-->
     <div class="page-break">
       <table>
-        <div style="width: 90mm; height: 60mm;  display: flex;flex-direction: column;border: 1px solid #ccc; font-size: 2.5mm;padding: 1mm;max-width: 90mm;max-height: 60mm">
+        <div style="width: 97mm; height: 61.7mm;  display: flex;flex-direction: column;border: 1px solid #ccc; font-size: 2.5mm;padding: 1mm;max-width: 97mm;max-height: 61.7mm">
           <table >
             <tr >
               <td><b>Address:</b></td>

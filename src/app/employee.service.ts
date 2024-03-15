@@ -315,6 +315,10 @@ export class EmployeeService {
     return this.http.get<any>(`${this.apiUrl}rfid/${rfid}/${passno}`, { headers: this.createHeader() });
   }
 
+  printstatus(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}printStatus/${id}`, { headers: this.createHeader() });
+  }
+
   ebapasses(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}ebapasses`, { headers: this.createHeader() });
   }

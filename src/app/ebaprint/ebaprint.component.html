@@ -58,9 +58,14 @@
                 </div>
               </td>
               <td *ngIf="!fromfunction || fromfunction ==null">
-                <div class="col" *ngIf="ebaprint.rfid ==null ">
+                <div class="col" *ngIf="ebaprint.rfid ==null && (ebaprint.printStatus==false ||  ebaprint.printStatus==null)">
                   <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" (click)="printpage(i)">
                     Print
+                  </button>
+                </div>
+                <div class="col" *ngIf="ebaprint.rfid ==null && ebaprint.printStatus==true ">
+                  <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" (click)="printpage(i)">
+                    Re-Print
                   </button>
                 </div>
               </td>
@@ -109,3 +114,6 @@
     </div>
   </div>
 </td>
+
+<mat-progress-spinner *ngIf="isLoading" mode="indeterminate" class="loading-spinner"></mat-progress-spinner>
+

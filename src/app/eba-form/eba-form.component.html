@@ -138,7 +138,7 @@
                     <table class="table table-stripped">
                       <thead>
                       <tr>
-                        <th>Select</th>
+                        <th  *ngIf="!urlid && editable">Select</th>
                         <th>Name</th>
                         <th>Relation</th>
                         <th>Mob No.</th>
@@ -148,6 +148,7 @@
                         <th >Photo</th>
                         <!--                        <th >Sign.</th>-->
                         <th >Id Proof</th>
+                        <th *ngIf="urlid && !editable">Recommend</th>
                         <th *ngIf="urlid && !editable">Valid upto</th>
 <!--                        <th *ngIf="urlid && !editable">Remark</th>-->
                       </tr>
@@ -155,25 +156,7 @@
                       <tbody>
                       <tr *ngFor="let member of employee!.closefamily; let i = index">
                         <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
-                          <ng-container *ngIf="urlid && !editable">
-                            <td>
 
-                              <!--                                    <ng-container *ngIf="employee!.dh==true">-->
-                              <!--                                      <div class="form-check form-switch">-->
-                              <!--                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchclosefamilyCheck" data-toggle="toggle" [(ngModel)]="member.allSelected">-->
-                              <!--                                      </div>-->
-                              <!--                                    </ng-container>-->
-                              <ng-container *ngIf="employee!.visual==true">
-                                <div style="color: blue;" *ngIf="member.allSelected">
-                                  Recommended
-                                </div>
-                                <div style="color: red;" *ngIf="!member.allSelected">
-                                  Not Recommended
-                                </div>
-                              </ng-container >
-
-                            </td>
-                          </ng-container>
                           <ng-container *ngIf="editable && !urlid">
                             <td>
                               <!--                                <ng-container *ngIf="(eba_pass.eba_pass_no === null || isWithinTwoWeeks(eba_pass.eba_pass_exp_date))">-->
@@ -259,6 +242,25 @@
                               </ng-container>
                             </td>
                             <ng-container *ngIf="urlid && !editable">
+                              <td>
+
+                                <!--                                    <ng-container *ngIf="employee!.dh==true">-->
+                                <!--                                      <div class="form-check form-switch">-->
+                                <!--                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchclosefamilyCheck" data-toggle="toggle" [(ngModel)]="member.allSelected">-->
+                                <!--                                      </div>-->
+                                <!--                                    </ng-container>-->
+                                <ng-container *ngIf="employee!.visual==true">
+                                  <div style="color: blue;" *ngIf="member.allSelected">
+                                    Yes
+                                  </div>
+                                  <div style="color: red;" *ngIf="!member.allSelected">
+                                    No
+                                  </div>
+                                </ng-container >
+
+                              </td>
+                            </ng-container>
+                            <ng-container *ngIf="urlid && !editable">
 <!--                              <ng-container *ngIf="employee!.dh==true">-->
 <!--                                      <td>-->
 <!--                                        <input type="date" class="form-control" [(ngModel)]="eba_pass.eba_pass_exp_date" [min]="minDate">-->
@@ -306,7 +308,7 @@
                     <table class="table table-stripped">
                       <thead>
                       <tr>
-                        <th>Select</th>
+                        <th *ngIf="!urlid && editable">Select</th>
                         <th>Name</th>
                         <th>Relation</th>
                         <th>Mob No.</th>
@@ -316,7 +318,8 @@
                         <th >Photo</th>
                         <!--                        <th >Sign.</th>-->
                         <th >Id Proof</th>
-                        <th *ngIf="urlid && !editable">Valid upto</th>
+                        <th *ngIf="urlid && !editable">Recommend</th>
+                        <th *ngIf="urlid && !editable">New Valid upto</th>
                         <th *ngIf="urlid && !editable">Remark</th>
                       </tr>
                       </thead>
@@ -324,26 +327,6 @@
                       <tr *ngFor="let member of employee!.family; let i = index">
                         <ng-container >
                           <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
-                            <ng-container *ngIf="urlid && !editable">
-                              <td>
-                                <ng-container *ngIf="employee!.dh==true && member.allSelected">
-                                  <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" data-toggle="toggle" [(ngModel)]="member.Selected_dh">
-                                  </div>
-                                </ng-container>
-                                <ng-container *ngIf="employee!.so || employee!.us || employee!.director || employee!.asp || employee!.visual">
-                                  <div style="color: blue;" *ngIf="member.allSelected && member.Selected_dh">
-                                    Recommended
-                                  </div>
-                                  <div style="color: red;" *ngIf="member.allSelected && !member.Selected_dh">
-                                    Not Recommended
-                                  </div>
-                                  <div style="color: red;" *ngIf="!member.allSelected ">
-                                    Not Selecetd
-                                  </div>
-                                </ng-container >
-                              </td>
-                            </ng-container>
                             <ng-container *ngIf="editable && !urlid">
                               <td>
                                 <!--                                <ng-container *ngIf="(eba_pass.eba_pass_no === null || isWithinTwoWeeks(eba_pass.eba_pass_exp_date))">-->
@@ -429,7 +412,26 @@
                                   <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(eba_pass.id_proof_path_edit_64);hoverClick($event)"></i>
                                 </ng-container>
                               </td>
-
+                              <ng-container *ngIf="urlid && !editable">
+                                <td>
+                                  <ng-container *ngIf="employee!.dh==true && member.allSelected">
+                                    <div class="form-check form-switch">
+                                      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" data-toggle="toggle" [(ngModel)]="member.Selected_dh">
+                                    </div>
+                                  </ng-container>
+                                  <ng-container *ngIf="employee!.so || employee!.us || employee!.director || employee!.asp || employee!.visual">
+                                    <div style="color: blue;" *ngIf="member.allSelected && member.Selected_dh">
+                                      Yes
+                                    </div>
+                                    <div style="color: red;" *ngIf="member.allSelected && !member.Selected_dh">
+                                      No
+                                    </div>
+                                    <div style="color: red;" *ngIf="!member.allSelected ">
+                                      Removed
+                                    </div>
+                                  </ng-container >
+                                </td>
+                              </ng-container>
                               <ng-container *ngIf="urlid && !editable">
                                 <ng-container *ngIf="employee!.dh==true && member.allSelected">
                                   <td>
@@ -550,44 +552,8 @@
               <div class="card-body">
                 <ng-container *ngIf="servant.eba_passes != null && servant.eba_passes.length > 0">
                   <ng-container *ngFor="let servant_detail of servant.eba_passes; let k = index">
-                    <div class="row" *ngIf="urlid && !editable">
-                      <ng-container *ngIf="employee!.dh==true">
-                        <div class="col-md-6 d-flex align-items-center">
-                          <div class="form-check form-switch" *ngIf="servant.allSelected==true">
-                          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck" data-toggle="toggle" [(ngModel)]="servant.Selected_dh">
-                          </div>
-                          <h5 class="card-title mat-body-strong" style="color: saddlebrown; margin-left: 10px;">{{servant!.servant_name}}'s Details</h5>
-                        </div>
-                        <ng-container *ngIf="servant.allSelected==true">
-                          <div class="col-md-6">
-                            <textarea class="form-control"  [(ngModel)]="servant_detail.remark" placeholder="remark"></textarea>
-                          </div>
-                        </ng-container>
-                      </ng-container>
-                      <ng-container *ngIf="employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true">
-                        <div class="col-md-6 d-flex align-items-center">
-                          <div style="color: blue;" *ngIf="servant.allSelected==true&& servant.Selected_dh" >
-                            Recommended
-                          </div>
-                          <div style="color: red;" *ngIf="servant.allSelected==true && !servant.Selected_dh">
-                            Not Recommended
-                          </div>
-                          <div style="color: red;" *ngIf="!servant.allSelected">
-                            Not Selecetd
-                          </div>
-                          <h5 class="card-title mat-body-strong" style="color: saddlebrown; margin-left: 10px;">{{servant!.servant_name}}'s Details</h5>
-                        </div>
-                        <div class="col-md-6" >
-                          {{servant_detail.remark}}
-                        </div>
-                      </ng-container>
-                    </div>
-                    <div class="row" *ngIf="editable && !urlid">
-                      <div class="col-md-6 d-flex align-items-center">
-                        <input type="checkbox" class="selectItem" [(ngModel)]="servant.allSelected">
-                        <h5 class="card-title mat-body-strong" style="color: saddlebrown; margin-left: 10px;">{{servant!.servant_name}}'s Details</h5>
-                      </div>
-                    </div>
+                    <h5 class="card-title mat-body-strong" style="color: saddlebrown; margin-left: 10px;">{{servant!.servant_name}}'s Details</h5>
+
                     <hr class="row-divider">
                     <div class="row">
                       <tr>
@@ -616,11 +582,8 @@
                               <div class="col-md-6">
                                 <div class="row">
                                   <td class="col-md-4">
-                                    <ng-container *ngIf="servant_detail.photo_path_64 && servant_detail.photo_path_64!==null && (!servant_detail.photo_path_edit_64 || servant_detail.photo_path_edit_64===null)">
+                                    <ng-container *ngIf="servant_detail.photo_path_64 && servant_detail.photo_path_64!==null">
                                       <img [src]="servant_detail.photo_path_64" style="width: 150px; height: 150px" class="rounded-square" />
-                                    </ng-container>
-                                    <ng-container *ngIf="servant_detail.photo_path_edit_64 && servant_detail.photo_path_edit_64!==null">
-                                      <img  [src]="servant_detail.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
                                     </ng-container>
                                   </td>
                                   <!--                                <td class="col-md-4"  *ngIf="servant_detail.sign_path && servant_detail.sign_path!==null">-->
@@ -636,7 +599,7 @@
                                   <!--&lt;!&ndash;                                  </ng-container>&ndash;&gt;-->
                                   <!--                                </td>-->
                                   <td class="col-md-4" >
-                                    <ng-container *ngIf="servant_detail.id_proof_path && servant_detail.id_proof_path!=null && (!servant_detail.id_proof_path_edit || servant_detail.id_proof_path_edit===null) && (!servant_detail.id_proof_path_edit_64 || servant_detail.id_proof_path_edit_64===null)">
+                                    <ng-container *ngIf="servant_detail.id_proof_path && servant_detail.id_proof_path!=null ">
                                       <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
                                          href="{{apiUrl}}getFile/{{servant_detail.id_proof_path}}"
                                          title="Order File" target="_blank">
@@ -644,18 +607,6 @@
                                       </a>
                                     </ng-container>
 
-                                    <ng-container *ngIf="servant_detail.id_proof_path_edit && servant_detail.id_proof_path_edit!=null && (!servant_detail.id_proof_path_edit_64 || servant_detail.id_proof_path_edit_64===null) ">
-                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
-                                         href="{{apiUrl}}getFile/{{servant_detail.id_proof_path_edit}}"
-                                         title="Order File" target="_blank">
-                                        <i class="bi bi-eye"></i>
-                                      </a>
-                                    </ng-container>
-
-                                    <ng-container *ngIf="servant_detail.id_proof_path_edit_64 && servant_detail.id_proof_path_edit_64!=null">
-                                      <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
-                                      <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(servant_detail.id_proof_path_edit_64);hoverClick($event)"></i>
-                                    </ng-container>
                                   </td>
                                 </div>
                               </div>
@@ -669,22 +620,22 @@
                                     {{ servant_detail.eba_pass_exp_date | date:'dd-MM-yyyy'}}
                                   </div>
                                 </div>
-                                <div class="col-md-6" *ngIf="urlid && !editable && servant.allSelected">
-                                  <label class="form-label">New Valid Upto</label>
-                                  <br>
-                                    <ng-container *ngIf="employee!.dh==true ">
-                                      <td>
-                                        <input type="date" class="form-control" [(ngModel)]="servant_detail.eba_pass_exp_date_edit" [min]="minDate" (change)="expedit(i,k,'J','servant')">
-                                      </td>
-                                    </ng-container>
-                                    <ng-container *ngIf="employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true">
-                                      <td>
-                                        <div *ngIf="servant_detail.eba_pass_exp_date_edit">
-                                          {{servant_detail.eba_pass_exp_date_edit | date:'dd-MM-yyyy'}}
-                                        </div>
-                                      </td>
-                                    </ng-container >
-                                </div>
+<!--                                <div class="col-md-6" *ngIf="urlid && !editable && servant.allSelected">-->
+<!--                                  <label class="form-label">New Valid Upto</label>-->
+<!--                                  <br>-->
+<!--                                    <ng-container *ngIf="employee!.dh==true ">-->
+<!--                                      <td>-->
+<!--                                        <input type="date" class="form-control" [(ngModel)]="servant_detail.eba_pass_exp_date_edit" [min]="minDate" (change)="expedit(i,k,'J','servant')">-->
+<!--                                      </td>-->
+<!--                                    </ng-container>-->
+<!--                                    <ng-container *ngIf="employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true">-->
+<!--                                      <td>-->
+<!--                                        <div *ngIf="servant_detail.eba_pass_exp_date_edit">-->
+<!--                                          {{servant_detail.eba_pass_exp_date_edit | date:'dd-MM-yyyy'}}-->
+<!--                                        </div>-->
+<!--                                      </td>-->
+<!--                                    </ng-container >-->
+<!--                                </div>-->
                               </div>
 
                               <br>
@@ -802,7 +753,7 @@
                     <br>
                   </ng-container>
                 </ng-container>
-                <div *ngIf="servant && servant.relations && servant.relations.length > 0">
+
                   <h5 class="card-title mat-body-strong" style=" color: indianred"> {{servant!.servant_name}}'s Family Details</h5>
                   <hr class="row-divider">
                   <div class="row">
@@ -812,7 +763,7 @@
                           <table class="table table-stripped">
                             <thead>
                             <tr>
-                              <th>Select</th>
+                              <th *ngIf="!urlid && editable">Select</th>
                               <th>Name</th>
                               <th>Relation</th>
                               <th>Mob No.</th>
@@ -822,34 +773,245 @@
                               <th >Photo</th>
                               <!--                              <th >Sign.</th>-->
                               <th >Id Proof</th>
-                              <th *ngIf="urlid && !editable">Valid upto</th>
+                              <th *ngIf="urlid && !editable">Recommend</th>
+                              <th *ngIf="urlid && !editable">New Valid upto</th>
                               <th *ngIf="urlid && !editable">Remark</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr *ngFor="let member of servant!.relations; let k = index">
-                              <ng-container *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
-                                <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
-                                  <ng-container *ngIf="urlid && !editable">
+                            <tr *ngIf="editable && !urlid">
+                              <ng-container *ngIf="servant.eba_passes != null && servant.eba_passes.length > 0 ">
+                                <ng-container *ngFor="let servant_detail of servant.eba_passes; let k = index">
+
+
                                     <td>
-                                      <ng-container *ngIf="employee!.dh==true && member.allSelected">
+                                      <input type="checkbox" class="selectItem" [(ngModel)]="servant.allSelected">
+
+                                    </td>
+
+
+                                  <!--                                  <td>{{ j + 1 }}</td>-->
+                                  <td>
+                                    <span>{{servant!.servant_name}}</span>
+                                  </td>
+                                  <td>
+                                    <span>Self</span>
+                                  </td>
+                                  <td>
+                                    <span>{{servant!.servant_mobile_no}}</span>
+                                  </td>
+                                  <td>
+                                    <span>{{servant!.servant_dob| date:'dd-MM-yyyy'}}</span>
+                                  </td>
+                                  <td>
+                                    <div>
+                                      <div *ngIf="servant_detail?.eba_pass_no !== null">
+                                        {{ servant_detail.eba_pass_no }}
+                                      </div>
+
+                                      <div style="color: blue;" *ngIf="servant_detail?.eba_pass_no === null">
+                                        new
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td >
+                                    {{servant_detail.eba_pass_exp_date | date:'dd-MM-yyyy'}}
+                                  </td>
+
+
+                                  <td>
+                                    <ng-container *ngIf="servant_detail.photo_path_64 && servant_detail.photo_path_64!==null && (!servant_detail.photo_path_edit_64 || servant_detail.photo_path_edit_64===null)">
+                                      <img [src]="servant_detail.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                    </ng-container>
+                                    <ng-container *ngIf="servant_detail.photo_path_edit_64 && servant_detail.photo_path_edit_64!==null">
+                                      <img  [src]="servant_detail.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                    </ng-container>
+                                  </td>
+                                  <!--                                  <td  >-->
+                                  <!--                                    <div   *ngIf="eba_pass.sign_path && eba_pass.sign_path!==null">-->
+                                  <!--&lt;!&ndash;                                      <ng-container *ngIf="eba_pass.sign_path.startsWith('http')">&ndash;&gt;-->
+                                  <!--                                        &lt;!&ndash; Render image if photo_path starts with 'http' &ndash;&gt;-->
+                                  <!--                                        <img [src]="eba_pass.sign_path" style="width: 150px; height: 128px" class="rounded-square" />-->
+                                  <!--&lt;!&ndash;                                      </ng-container>&ndash;&gt;-->
+                                  <!--&lt;!&ndash;                                      <ng-container *ngIf="!eba_pass.sign_path.startsWith('http')">&ndash;&gt;-->
+                                  <!--&lt;!&ndash;                                        &lt;!&ndash; Render button/link if photo_path does not start with 'http' &ndash;&gt;&ndash;&gt;-->
+                                  <!--&lt;!&ndash;                                        <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="sign" (click)="openFileInNewPage(i,j,'sign')">&ndash;&gt;-->
+                                  <!--&lt;!&ndash;                                          <i class="bi bi-eye"></i>&ndash;&gt;-->
+                                  <!--&lt;!&ndash;                                        </a>&ndash;&gt;-->
+                                  <!--&lt;!&ndash;                                      </ng-container>&ndash;&gt;-->
+                                  <!--                                    </div>-->
+                                  <!--                                  </td>-->
+                                  <td>
+                                    <ng-container *ngIf="servant_detail.id_proof_path && servant_detail.id_proof_path!=null && (!servant_detail.id_proof_path_edit || servant_detail.id_proof_path_edit===null) && (!servant_detail.id_proof_path_edit_64 || servant_detail.id_proof_path_edit_64===null)">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                         href="{{apiUrl}}getFile/{{servant_detail.id_proof_path}}"
+                                         title="Order File" target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                      </a>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="servant_detail.id_proof_path_edit && servant_detail.id_proof_path_edit!=null && (!servant_detail.id_proof_path_edit_64 || servant_detail.id_proof_path_edit_64===null) ">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                         href="{{apiUrl}}getFile/{{servant_detail.id_proof_path_edit}}"
+                                         title="Order File" target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                      </a>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="servant_detail.id_proof_path_edit_64 && servant_detail.id_proof_path_edit_64!=null">
+                                      <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
+                                      <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(servant_detail.id_proof_path_edit_64);hoverClick($event)"></i>
+                                    </ng-container>
+                                    <!--                                    <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path !==null && !eba_pass?.id_proof_path?.startsWith('http')">-->
+                                    <!--                                      &lt;!&ndash; Render button/link if photo_path does not start with 'http' &ndash;&gt;-->
+                                    <!--                                      <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'id')">-->
+                                    <!--                                        <i class="bi bi-eye"></i>-->
+                                    <!--                                      </a>-->
+                                    <!--                                    </ng-container>-->
+                                  </td>
+                                </ng-container>
+                              </ng-container>
+                            </tr>
+
+                            <tr *ngIf="!editable && urlid && servant.allSelected">
+                              <ng-container *ngIf="servant.eba_passes != null && servant.eba_passes.length > 0 ">
+                                <ng-container *ngFor="let servant_detail of servant.eba_passes; let k = index">
+                                  <!--                                  <td>{{ j + 1 }}</td>-->
+                                  <td>
+                                    <span>{{servant!.servant_name}}</span>
+                                  </td>
+                                  <td>
+                                    <span>Self</span>
+                                  </td>
+                                  <td>
+                                    <span>{{servant!.servant_mobile_no}}</span>
+                                  </td>
+                                  <td>
+                                    <span>{{servant!.servant_dob| date:'dd-MM-yyyy'}}</span>
+                                  </td>
+                                  <td>
+                                    <div>
+                                      <div *ngIf="servant_detail?.eba_pass_no !== null">
+                                        {{ servant_detail.eba_pass_no }}
+                                      </div>
+
+                                      <div style="color: blue;" *ngIf="servant_detail?.eba_pass_no === null">
+                                        new
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td >
+                                    {{servant_detail.eba_pass_exp_date | date:'dd-MM-yyyy'}}
+                                  </td>
+
+
+                                  <td>
+                                    <ng-container *ngIf="servant_detail.photo_path_64 && servant_detail.photo_path_64!==null && (!servant_detail.photo_path_edit_64 || servant_detail.photo_path_edit_64===null)">
+                                      <img [src]="servant_detail.photo_path_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                    </ng-container>
+                                    <ng-container *ngIf="servant_detail.photo_path_edit_64 && servant_detail.photo_path_edit_64!==null">
+                                      <img  [src]="servant_detail.photo_path_edit_64" style="width: 150px; height: 128px" class="rounded-square" />
+                                    </ng-container>
+                                  </td>
+                                  <!--                                  <td  >-->
+                                  <!--                                    <div   *ngIf="eba_pass.sign_path && eba_pass.sign_path!==null">-->
+                                  <!--&lt;!&ndash;                                      <ng-container *ngIf="eba_pass.sign_path.startsWith('http')">&ndash;&gt;-->
+                                  <!--                                        &lt;!&ndash; Render image if photo_path starts with 'http' &ndash;&gt;-->
+                                  <!--                                        <img [src]="eba_pass.sign_path" style="width: 150px; height: 128px" class="rounded-square" />-->
+                                  <!--&lt;!&ndash;                                      </ng-container>&ndash;&gt;-->
+                                  <!--&lt;!&ndash;                                      <ng-container *ngIf="!eba_pass.sign_path.startsWith('http')">&ndash;&gt;-->
+                                  <!--&lt;!&ndash;                                        &lt;!&ndash; Render button/link if photo_path does not start with 'http' &ndash;&gt;&ndash;&gt;-->
+                                  <!--&lt;!&ndash;                                        <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="sign" (click)="openFileInNewPage(i,j,'sign')">&ndash;&gt;-->
+                                  <!--&lt;!&ndash;                                          <i class="bi bi-eye"></i>&ndash;&gt;-->
+                                  <!--&lt;!&ndash;                                        </a>&ndash;&gt;-->
+                                  <!--&lt;!&ndash;                                      </ng-container>&ndash;&gt;-->
+                                  <!--                                    </div>-->
+                                  <!--                                  </td>-->
+                                  <td>
+                                    <ng-container *ngIf="servant_detail.id_proof_path && servant_detail.id_proof_path!=null && (!servant_detail.id_proof_path_edit || servant_detail.id_proof_path_edit===null) && (!servant_detail.id_proof_path_edit_64 || servant_detail.id_proof_path_edit_64===null)">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                         href="{{apiUrl}}getFile/{{servant_detail.id_proof_path}}"
+                                         title="Order File" target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                      </a>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="servant_detail.id_proof_path_edit && servant_detail.id_proof_path_edit!=null && (!servant_detail.id_proof_path_edit_64 || servant_detail.id_proof_path_edit_64===null) ">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                         href="{{apiUrl}}getFile/{{servant_detail.id_proof_path_edit}}"
+                                         title="Order File" target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                      </a>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="servant_detail.id_proof_path_edit_64 && servant_detail.id_proof_path_edit_64!=null">
+                                      <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
+                                      <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(servant_detail.id_proof_path_edit_64);hoverClick($event)"></i>
+                                    </ng-container>
+                                    <!--                                    <ng-container *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path !==null && !eba_pass?.id_proof_path?.startsWith('http')">-->
+                                    <!--                                      &lt;!&ndash; Render button/link if photo_path does not start with 'http' &ndash;&gt;-->
+                                    <!--                                      <a class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(i,j,'id')">-->
+                                    <!--                                        <i class="bi bi-eye"></i>-->
+                                    <!--                                      </a>-->
+                                    <!--                                    </ng-container>-->
+                                  </td>
+
+                                    <td>
+                                      <ng-container *ngIf="employee!.dh==true && servant.allSelected">
                                         <div class="form-check form-switch">
-                                          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitch" data-toggle="toggle" [(ngModel)]="member.Selected_dh">
+                                          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheck" data-toggle="toggle" [(ngModel)]="servant.Selected_dh" >
                                         </div>
                                       </ng-container>
                                       <ng-container *ngIf="employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true">
-                                        <div style="color: blue;" *ngIf="member.allSelected && member.Selected_dh">
-                                          Recommended
+                                        <div style="color: blue;" *ngIf="servant.allSelected && servant.Selected_dh">
+                                          Yes
                                         </div>
-                                        <div style="color: red;" *ngIf="member.allSelected && !member.Selected_dh">
-                                          Not Recommended
+                                        <div style="color: red;" *ngIf="servant.allSelected && !servant.Selected_dh">
+                                          No
                                         </div>
-                                        <div style="color: red;" *ngIf="!member.allSelected">
-                                          Not Selected
+                                        <div style="color: red;" *ngIf="!servant.allSelected">
+                                          Removed
                                         </div>
                                       </ng-container >
                                     </td>
-                                  </ng-container>
+
+                                    <ng-container *ngIf="employee!.dh==true && servant.allSelected">
+                                      <td>
+                                        <input type="date" class="form-control" [(ngModel)]="servant_detail.eba_pass_exp_date_edit" [min]="minDate" (change)="expedit(i,k,'J','servant')">
+                                      </td>
+                                      <td>
+                                        <textarea  class="form-control" [(ngModel)]="servant_detail.remark"></textarea>
+                                      </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true)&& servant.allSelected">
+                                      <td>
+                                        <div *ngIf="servant_detail.eba_pass_exp_date_edit">
+                                          {{servant_detail.eba_pass_exp_date_edit | date:'dd-MM-yyyy'}}
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div *ngIf="servant_detail.remark">
+                                          {{servant_detail.remark}}
+                                        </div>
+                                      </td>
+                                    </ng-container >
+                                    <ng-container *ngIf="(employee!.dh==true|| employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true)&& !servant.allSelected">
+                                      <td>
+                                      </td>
+                                      <td>
+                                        {{servant_detail.remark}}
+                                      </td>
+                                    </ng-container>
+                                </ng-container>
+                              </ng-container>
+                            </tr>
+
+
+
+                            <tr *ngFor="let member of servant!.relations; let k = index">
+                              <ng-container *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
+                                <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
+
                                   <ng-container *ngIf="editable && !urlid">
                                     <td>
                                       <!--                                <ng-container *ngIf="(eba_pass.eba_pass_no === null || isWithinTwoWeeks(eba_pass.eba_pass_exp_date))">-->
@@ -939,6 +1101,26 @@
                                     <!--                                    </ng-container>-->
                                   </td>
                                   <ng-container *ngIf="urlid && !editable">
+                                    <td>
+                                      <ng-container *ngIf="employee!.dh==true && member.allSelected">
+                                        <div class="form-check form-switch">
+                                          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitch" data-toggle="toggle" [(ngModel)]="member.Selected_dh" >
+                                        </div>
+                                      </ng-container>
+                                      <ng-container *ngIf="employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true">
+                                        <div style="color: blue;" *ngIf="member.allSelected && member.Selected_dh">
+                                          Yes
+                                        </div>
+                                        <div style="color: red;" *ngIf="member.allSelected && !member.Selected_dh">
+                                          No
+                                        </div>
+                                        <div style="color: red;" *ngIf="!member.allSelected">
+                                          Removed
+                                        </div>
+                                      </ng-container >
+                                    </td>
+                                  </ng-container>
+                                  <ng-container *ngIf="urlid && !editable">
                                     <ng-container *ngIf="employee!.dh==true && member.allSelected">
                                       <td>
                                         <input type="date" class="form-control" [(ngModel)]="eba_pass.eba_pass_exp_date_edit" [min]="minDate" (change)="expedit(i,k,j,'servantrel')">
@@ -975,11 +1157,10 @@
                         </div>
                       </div>
                     </div>
-                  </div>
                   <br>
                 </div>
                 <ng-container >
-                  <h5 class="card-title mat-body-strong" style=" color: saddlebrown" >Domestic help's Vehicle Details
+                  <h5 class="card-title mat-body-strong" style=" color: saddlebrown" >{{servant!.servant_name}}'s Vehicle Details
                     <button type="button" *ngIf="editable && !urlid" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addVehicle(i)">
                       Add vehicle
                     </button>
@@ -1130,9 +1311,9 @@
                       <tr>
                         <th>Relative Name</th>
                         <th>Eba Pass NO</th>
-                        <th>Upload Photo</th>
+                        <th>Upload Photo (jpg/jpeg/200kb)</th>
                         <!--                        <th>Upload Signature</th>-->
-                        <th>Upload ID Proof</th>
+                        <th>Upload ID Proof (pdf/200kb)</th>
                       </tr>
                       </thead>
                       <ng-container *ngFor="let member of employee?.closefamily; let i = index">
@@ -1193,7 +1374,7 @@
 
                             <!-- Column for 'id_proof_path' -->
                             <td>
-                              <label [for]="'idPath'+ i + j" class="upload-icon-label" *ngIf="editable &&  (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)" title="idPath" >
+                              <label [for]="'idPath'+ i + j" class="upload-icon-label" *ngIf="editable &&  (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)" title="idProof" >
                                 <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                               </label>
 
@@ -1241,9 +1422,9 @@
                       <tr>
                         <th>Relative Name</th>
                         <th>Eba Pass NO</th>
-                        <th>Upload Photo</th>
+                        <th>Upload Photo (jpg/jpeg/200kb)</th>
                         <!--                        <th>Upload Signature</th>-->
-                        <th>Upload ID Proof</th>
+                        <th>Upload ID Proof (pdf/200kb)</th>
                       </tr>
                       </thead>
                       <ng-container *ngFor="let member of employee?.family; let i = index">
@@ -1302,7 +1483,7 @@
 
                             <!-- Column for 'id_proof_path' -->
                             <td>
-                              <label [for]="'idPath'+ i + j" class="upload-icon-label" *ngIf="editable &&  (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)" title="idPath" >
+                              <label [for]="'idPath'+ i + j" class="upload-icon-label" *ngIf="editable &&  (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)" title="idProof" >
                                 <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                               </label>
 
@@ -1350,9 +1531,9 @@
                       <tr>
                         <th>Name</th>
                         <th>Eba Pass NO</th>
-                        <th>Upload Photo</th>
+                        <th>Upload Photo (jpg/jpeg/200kb)</th>
                         <!--                        <th>Upload Signature</th>-->
-                        <th>Upload ID Proof</th>
+                        <th>Upload ID Proof (pdf/200kb)</th>
                       </tr>
                       </thead>
                       <ng-container *ngFor="let servant of employee!.servants; let i = index">
@@ -1411,7 +1592,7 @@
                               <!--                                </div>-->
                               <!--                              </td>-->
                               <td>
-                                <label [for]="'idPath'+ i + k" class="upload-icon-label" *ngIf="editable &&  (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)" title="idPath" >
+                                <label [for]="'idPath'+ i + k" class="upload-icon-label" *ngIf="editable &&  (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)" title="idProof" >
                                   <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                                 </label>
 
@@ -1505,7 +1686,7 @@
                                 <!--                                    </div>-->
                                 <!--                                  </td>-->
                                 <td>
-                                  <label [for]="'idPath'+ i + f+g" class="upload-icon-label" *ngIf="editable &&  (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)" title="idPath" >
+                                  <label [for]="'idPath'+ i + f+g" class="upload-icon-label" *ngIf="editable &&  (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null)" title="idProof" >
                                     <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"></i>
                                   </label>
 
@@ -1571,7 +1752,7 @@
         <ng-container  *ngFor="let application of employee!.eba_applicationsstatus; let j = index">
           <ng-container  *ngIf="urlid && !editable && !returnapp">
             <div class="card shadow" *ngIf="application.role_id!==8" style="background-color: #bde3f3; " >
-              <div class="card-header">
+              <div class="card-body">
                 <div class="row">
                   <div class="col-md-6" style="text-align: left;font-style: italic">
                     <strong>Note #{{j+1}}</strong>
@@ -1590,19 +1771,15 @@
 
                   </div>
                 </div>
-              </div>
-              <div class="card-body">
                 <div class="row">
-                  <div class="col">
+                  <div class="col" style="min-height: 1cm">
                     {{application.remarks}}<br><br>
                   </div>
                 </div>
-              </div>
-              <div class="card-footer">
                 <div class="row">
                   <div class="col-md-6" style="text-align: left">
                     &nbsp;<br>
-                    <b> {{application.created_at | date:'dd-MM-yyyy'}}</b>
+                    <b>{{ application.created_at | date:'HH:mm:ss dd-MM-yyyy ' }}</b>
                   </div>
                   <div class="col-md-6" style="text-align: right">
                     <strong>{{application.created_by}}</strong><br>{{application.desg_desc}}
@@ -1799,3 +1976,4 @@
 
 </div>
 
+<mat-progress-spinner *ngIf="isLoading" mode="indeterminate" class="loading-spinner"></mat-progress-spinner>

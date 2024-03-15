@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import {environment} from "../../environments/environment";
 
 
+
 @Component({
   selector: 'app-ebaformview',
   templateUrl: './ebaformview.component.html',
@@ -30,7 +31,10 @@ export class EbaformviewComponent implements OnInit {
   id: any;
   status:string='';
   reg_no:string='';
+  isLoading: boolean = false;
+
   ngOnInit(): void {
+    this.isLoading=true;
     // Retrieve data from router state
     this.employee = history.state.employeeData;
     console.log(this.employee);
@@ -44,6 +48,7 @@ export class EbaformviewComponent implements OnInit {
     console.log(this.status);
     this.reg_no=history.state.reg_no;
     console.log(this.reg_no);
+    this.isLoading=false;
   }
 
 

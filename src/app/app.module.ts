@@ -38,6 +38,7 @@ import { EbaprintComponent } from './ebaprint/ebaprint.component';
 import { NgxBarcode6Module } from 'ngx-barcode6';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
   import { NgxPrintModule } from 'ngx-print';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
       NgOtpInputModule,
       NgxBarcode6Module,
       NgxPrintModule,
+      MatProgressSpinnerModule,
     ],
   providers: [
     { provide: 'BASE_URL', useFactory: ()=>document.getElementsByTagName('base')[0].href },

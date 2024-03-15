@@ -70,9 +70,10 @@ export class EbaFormComponent {
   remark: string | null = null;
   file_path: string | null = null;
   file_path_64:string|null=null;
+  isLoading: boolean = false;
 
   ngOnInit() {
-
+    this.isLoading=true;
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.setEditable(this.mode == 'edit');
 
@@ -181,6 +182,7 @@ export class EbaFormComponent {
     //     data=>this.quarteraddress=data,
     //     error => console.log(error)
     // );
+    this.isLoading=false;
   }
   setexpdate(){
     const today = new Date();
