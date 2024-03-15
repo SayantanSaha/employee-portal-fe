@@ -1073,7 +1073,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="editable && !urlid && employee && ((applyingforRelative && employee!.family! && employee!.family!.length! > 0) ||(!applyingforRelative && employee!.servants! && employee!.servants!.length! > 0))">
+      <div class="row" *ngIf="editable && !urlid && employee && ((applyingforRelative && employee!.family! && employee!.family!.length! > 0) || (applyingforRelative && applyingforclosefamily && employee!.closefamily! && employee!.closefamily!.length! > 0) || (!applyingforRelative && employee!.servants! && employee!.servants!.length! > 0))">
         <!--      <div class="row"  *ngIf="editable && !urlid">-->
         <div class="col-md-10" style="font-size: 200%; ">
           &nbsp;

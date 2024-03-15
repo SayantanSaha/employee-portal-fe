@@ -188,17 +188,29 @@ export class EbaFormComponent {
     if((this.employee!.family && this.employee!.family.length>0) || (this.employee!.closefamily && this.employee!.closefamily.length>0)) {
       const fiveYearsLater = new Date();
       fiveYearsLater.setFullYear(today.getFullYear() + 5);
-
-      // Format the date as 'yyyy-MM-dd' (the format that input type date expects)
       const formattedDate = this.formatDate(fiveYearsLater);
+
+      const onemonthLater = new Date();
+        onemonthLater.setMonth(onemonthLater.getMonth() + 1);
+      const onemonthformat = this.formatDate(onemonthLater);
 
       this.employee!.family?.forEach(member => {
         member.pivot.eba_passes?.forEach(ebapass=>{
-          if(!ebapass.eba_pass_exp_date_edited && formattedDate<=this.employee!.dor && this.employee?.dh){
-            ebapass.eba_pass_exp_date_edit=formattedDate;
+          if (member.id !== 27){
+            if(!ebapass.eba_pass_exp_date_edited && formattedDate<=this.employee!.dor && this.employee?.dh){
+              ebapass.eba_pass_exp_date_edit=formattedDate;
+            }
+            if(formattedDate>this.employee!.dor && this.employee?.dh && !ebapass.eba_pass_exp_date_edited){
+              ebapass.eba_pass_exp_date_edit=this.employee!.dor;
+            }
           }
-          if(formattedDate>this.employee!.dor && this.employee?.dh && !ebapass.eba_pass_exp_date_edited){
-            ebapass.eba_pass_exp_date_edit=this.employee!.dor;
+          if (member.id === 27){
+            if(!ebapass.eba_pass_exp_date_edited && onemonthformat<=this.employee!.dor && this.employee?.dh){
+              ebapass.eba_pass_exp_date_edit=onemonthformat;
+            }
+            if(onemonthformat>this.employee!.dor && this.employee?.dh && !ebapass.eba_pass_exp_date_edited){
+              ebapass.eba_pass_exp_date_edit=this.employee!.dor;
+            }
           }
         })
       })
@@ -217,6 +229,9 @@ export class EbaFormComponent {
       const oneYearsLater = new Date();
       oneYearsLater.setFullYear(today.getFullYear() + 1);
       const formattedDate = this.formatDate(oneYearsLater);
+      const onemonthLater = new Date();
+      onemonthLater.setMonth(onemonthLater.getMonth() + 1);
+      const onemonthformat = this.formatDate(onemonthLater);
       this.employee!.servants?.forEach(servant => {
         servant.eba_passes?.forEach(ebapass=>{
           if(!ebapass.eba_pass_exp_date_edited && formattedDate<=this.employee!.dor && servant.Selected_dh && this.employee?.dh){
@@ -228,11 +243,21 @@ export class EbaFormComponent {
         })
         servant.relations?.forEach(member=>{
           member.pivot.eba_passes?.forEach(ebapass=>{
-            if(!ebapass.eba_pass_exp_date_edited && formattedDate<=this.employee!.dor && this.employee?.dh){
-              ebapass.eba_pass_exp_date_edit=formattedDate;
+            if (member.id !== 27){
+              if(!ebapass.eba_pass_exp_date_edited && formattedDate<=this.employee!.dor && this.employee?.dh){
+                ebapass.eba_pass_exp_date_edit=formattedDate;
+              }
+              if(formattedDate>this.employee!.dor && this.employee?.dh && !ebapass.eba_pass_exp_date_edited){
+                ebapass.eba_pass_exp_date_edit=this.employee!.dor;
+              }
             }
-            if(formattedDate>this.employee!.dor && this.employee?.dh && !ebapass.eba_pass_exp_date_edited){
-              ebapass.eba_pass_exp_date_edit=this.employee!.dor;
+            if (member.id === 27){
+              if(!ebapass.eba_pass_exp_date_edited && onemonthformat<=this.employee!.dor && this.employee?.dh){
+                ebapass.eba_pass_exp_date_edit=onemonthformat;
+              }
+              if(onemonthformat>this.employee!.dor && this.employee?.dh && !ebapass.eba_pass_exp_date_edited){
+                ebapass.eba_pass_exp_date_edit=this.employee!.dor;
+              }
             }
           })
         })
