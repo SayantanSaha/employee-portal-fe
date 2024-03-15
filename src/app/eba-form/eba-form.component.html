@@ -1073,7 +1073,7 @@
         </div>
       </div>
 
-      <div class="row" *ngIf="editable && !urlid && employee && ((applyingforRelative && employee!.family! && employee!.family!.length! > 0) ||(!applyingforRelative && employee!.servants! && employee!.servants!.length! > 0))">
+      <div class="row" *ngIf="editable && !urlid && employee && ((applyingforRelative && employee!.family! && employee!.family!.length! > 0) || (applyingforRelative && applyingforclosefamily && employee!.closefamily! && employee!.closefamily!.length! > 0) || (!applyingforRelative && employee!.servants! && employee!.servants!.length! > 0))">
         <!--      <div class="row"  *ngIf="editable && !urlid">-->
         <div class="col-md-10" style="font-size: 200%; ">
           &nbsp;
@@ -1744,7 +1744,7 @@
               </div>
 
 
-              <div class="row" *ngIf="employee!.so==true || employee!.dh==true || employee!.director==true">
+              <div class="row" *ngIf="employee!.so==true || employee!.dh==true ">
                 <div  class="col-6" style="text-align: right" >
                   <button type="submit" class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Approve" (click)="approveapplication()" >Forward</button>
                 </div>
@@ -1763,6 +1763,18 @@
                 </div>
 
                 <div class="col-6" style="text-align: left">
+                  <button type="submit" class="btn btn-danger enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Return" (click)="returnapplication()">Return</button>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="employee!.director==true">
+                <div  class="col-4" style="text-align: center">
+                  <button type="submit" class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Approve" (click)="approveapplication()" >Approve</button>
+                </div>
+                <div  class="col-4" style="text-align: center">
+                  <button type="submit" class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Forward" (click)="Forwardapplication()" >Forward</button>
+                </div>
+                <div class="col-4" style="text-align: center">
                   <button type="submit" class="btn btn-danger enlarge-on-hover" (click)="hoverClick($event)" name="submit" value="Return" (click)="returnapplication()">Return</button>
                 </div>
               </div>
