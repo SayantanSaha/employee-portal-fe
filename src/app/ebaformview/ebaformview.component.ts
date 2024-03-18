@@ -34,7 +34,6 @@ export class EbaformviewComponent implements OnInit {
   isLoading: boolean = false;
 
   ngOnInit(): void {
-    this.isLoading=true;
     // Retrieve data from router state
     this.employee = history.state.employeeData;
     console.log(this.employee);
@@ -48,7 +47,6 @@ export class EbaformviewComponent implements OnInit {
     console.log(this.status);
     this.reg_no=history.state.reg_no;
     console.log(this.reg_no);
-    this.isLoading=false;
   }
 
 
@@ -109,6 +107,7 @@ export class EbaformviewComponent implements OnInit {
       }
 
       if (this.employee.closefamily && this.employee.closefamily.length > 0) {
+        this.isLoading=true;
         this.employeeService.applyclosefamily(this.employee).subscribe(
           // this.employeeService.applyeba(Employee).subscribe(
           // if (this.validationErrors.length > 0) {
@@ -172,9 +171,12 @@ export class EbaformviewComponent implements OnInit {
                 text: 'An error occurred while updating.',
               });
             }
-          }
+          },() => {
+              this.isLoading = false; // Hide loading symbol
+            }
         );
       } else {
+        this.isLoading=true;
         // Send the modified employee object to the server
         this.employeeService.applyeba(this.employee).subscribe(
           // this.employeeService.applyeba(Employee).subscribe(
@@ -239,7 +241,9 @@ export class EbaformviewComponent implements OnInit {
                 text: 'An error occurred while updating.',
               });
             }
-          }
+          },() => {
+              this.isLoading = false; // Hide loading symbol
+            }
         );
       }
     }
@@ -283,6 +287,7 @@ export class EbaformviewComponent implements OnInit {
         });
         return;
       }
+      this.isLoading=true;
       this.employeeService.updateeba(this.employee, this.id).subscribe(
           data => {
             console.log(data);
@@ -325,6 +330,8 @@ export class EbaformviewComponent implements OnInit {
                 text: 'An error occurred while updating.',
               });
             }
+          },() => {
+            this.isLoading = false; // Hide loading symbol
           }
       );
 

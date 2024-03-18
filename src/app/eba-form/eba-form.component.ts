@@ -1079,7 +1079,7 @@ export class EbaFormComponent {
           //   });
           //   return;
           // }
-
+          this.isLoading=true;
           this.employeeService.updateeba(this.employee, id).subscribe(
               () => {
                 this.employeeService.updateebastatus(id, 'Approve', this.remark?? '', this.file_path_64 ?? '').subscribe(
@@ -1109,6 +1109,8 @@ export class EbaFormComponent {
                           text: 'An error occurred while Approving application status.',
                         });
                       }
+                    },() => {
+                      this.isLoading = false; // Hide loading symbol
                     }
                 );
               },
@@ -1134,6 +1136,7 @@ export class EbaFormComponent {
       }
 
       else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 5 || role == 6|| role == 9|| role == 10))) {
+        this.isLoading=true;
         this.employeeService.updateebastatus(id, 'Approve', this.remark?? '', this.file_path_64 ?? '').subscribe(
             () =>{
               Swal.fire({
@@ -1162,6 +1165,8 @@ export class EbaFormComponent {
                   text: 'An error occurred while Approving application status.',
                 });
               }
+            },() => {
+              this.isLoading = false; // Hide loading symbol
             }
         );
       } else{
@@ -1185,6 +1190,7 @@ export class EbaFormComponent {
   Forwardapplication(){
     const id = +this.route.snapshot.params['id'];
     if (!isNaN(id)) {if (this.user && this.user.role && this.user.role.some((role:  number ) => (role == 9))) {
+      this.isLoading=true;
       this.employeeService.updateebastatus(id, 'Forward', this.remark?? '', this.file_path_64 ?? '').subscribe(
           () =>{
             Swal.fire({
@@ -1213,6 +1219,8 @@ export class EbaFormComponent {
                 text: 'An error occurred while Approving application status.',
               });
             }
+          },() => {
+            this.isLoading = false; // Hide loading symbol
           }
       );
     } else{
@@ -1248,6 +1256,7 @@ export class EbaFormComponent {
           });
           return;
         }
+        this.isLoading=true;
         this.employeeService.updateeba(this.employee, id).subscribe(() => {
           if (!isNaN(id)) {
             this.employeeService.updateebastatus(id, 'Return', this.remark ?? '', this.file_path_64 ?? '').subscribe(
@@ -1282,6 +1291,8 @@ export class EbaFormComponent {
                       text: 'An error occurred while Approving application status.',
                     });
                   }
+                },() => {
+                  this.isLoading = false; // Hide loading symbol
                 }
             );
           } else {
@@ -1301,7 +1312,10 @@ export class EbaFormComponent {
             title: 'Error',
             text: 'An error occurred while updating the application.',
           });
-        });
+        }
+            ,() => {
+              this.isLoading = false; // Hide loading symbol
+            });
       }else {
         console.error('ID parameter is missing or invalid in the URL.');
         Swal.fire({
@@ -1313,6 +1327,7 @@ export class EbaFormComponent {
       }
     }else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 5 || role == 6|| role == 9|| role == 10))){
       if (!isNaN(id)) {
+        this.isLoading=true;
         this.employeeService.updateebastatus(id, 'Return', this.remark ?? '', this.file_path_64 ?? '').subscribe(
             () => {
               Swal.fire({
@@ -1344,6 +1359,8 @@ export class EbaFormComponent {
                   text: 'An error occurred while Approving application status.',
                 });
               }
+            },() => {
+              this.isLoading = false; // Hide loading symbol
             }
         );
       } else {
