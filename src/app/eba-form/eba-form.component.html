@@ -1755,7 +1755,19 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6" style="text-align: left;font-style: italic">
-                    <strong>Note #{{j+1}}</strong>
+                    <strong>Note #{{j+1}}
+                      <ng-container *ngIf="j == 0">
+                        Forwarded
+                      </ng-container>
+                    <ng-container *ngIf="j > 0">
+                      <ng-container *ngIf="application.role_id > employee?.eba_applicationsstatus[j - 1].role_id">
+                        Forwarded
+                      </ng-container>
+                      <ng-container *ngIf="application.role_id < employee?.eba_applicationsstatus[j - 1].role_id">
+                        Returned
+                      </ng-container>
+                    </ng-container>
+                    </strong>
                   </div>
                   <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">
 
@@ -1791,7 +1803,19 @@
               <div class="card-header">
                 <div class="row">
                   <div class="col-md-6" style="text-align: left;font-style: italic">
-                    <strong>Note #{{j+1}}</strong>
+                    <strong>Note #{{j+1}}
+                    <ng-container *ngIf="j == 0">
+                      Forwarded
+                    </ng-container>
+                    <ng-container *ngIf="j > 0">
+                      <ng-container *ngIf="application.role_id > employee?.eba_applicationsstatus[j - 1].role_id">
+                        Forwarded
+                      </ng-container>
+                      <ng-container *ngIf="application.role_id < employee?.eba_applicationsstatus[j - 1].role_id">
+                        Returned
+                      </ng-container>
+                    </ng-container>
+                    </strong>
                   </div>
                   <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">
 
