@@ -750,6 +750,19 @@ export class ProfileComponent implements OnInit{
     );
   }
 
+  isResendDisabled: boolean = false;
+  remainingTime: number = 0;
+  startCountdown(seconds: number): void {
+    this.remainingTime = seconds;
+    const interval = setInterval(() => {
+      this.remainingTime--;
+      if (this.remainingTime <= 0) {
+        clearInterval(interval);
+        this.isResendDisabled = false; // Re-enable the button after countdown finishes
+      }
+    }, 1000); // Update every second
+  }
+
   sendOtp(){
       if(this.employee!.qtr !== '' && this.employee!.qtr!.MobileNumber  !== '') {
         this.employeeService.getQuarterotp(this.employee!.qtr!.MobileNumber).subscribe(
@@ -759,7 +772,9 @@ export class ProfileComponent implements OnInit{
                 icon: 'success',
                 title: 'Success',
                 text: 'OTP sent Successfully',
-              })
+              }),
+                this.isResendDisabled = true;
+              this.startCountdown(120);
             },
             (error) => {
               // Error response
@@ -862,12 +877,15 @@ export class ProfileComponent implements OnInit{
           title: 'success',
           text: 'Pulled successfully',
         })
-            .then((result) => {
-                // if (result.isConfirmed) {
-                  // Redirect to the desired page
-                  window.location.reload();
-                })
-        ;
+       this.closeEbaPopup();
+        this.employeeService.getMyProfile().subscribe(
+          datas=>{
+            this.employee = datas;
+
+            this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+            this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+          }
+        );
       },
       (error) => {
         // Error response

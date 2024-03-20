@@ -1205,8 +1205,9 @@
                           Back
                         </button>
 
-                        <button type="button" class="btn btn-outline-warning enlarge-on-hover" (click)="hoverClick($event)" (click)="sendOtp()">
-                          Resend
+                        <button type="button" class="btn btn-outline-warning enlarge-on-hover" (click)="sendOtp()" [disabled]="isResendDisabled">
+                          <ng-container *ngIf="!isResendDisabled; else countdown">{{ 'Resend' }}</ng-container>
+                          <ng-template #countdown>Resend in {{ remainingTime }}</ng-template>
                         </button>
 
                         <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="Verifyotp()">
