@@ -11,15 +11,14 @@ export class Ebapass{
   eba_pass_exp_date: any| null = null;
   eba_pass_exp_date_edit: any| null = null;
   eba_pass_exp_date_edited: boolean=false;
-
-  living_at_president_sect: Date|null = null;
   curr_address: string | null = null;
-  perm_address: string | null = null;
   created_at: Date|null = null;
   updated_at: Date|null = null;
   deleted_at: Date|null = null;
   last_updated_from : string | null = null;
   last_updated_by: number|null = null;
+  living_at_president_sect: Date|null = null;
+  perm_address: string | null = null;
   last_5yr_address : string | null = null;
   reference_1_name : string | null = null;
   reference_1_phone_no: string | null = null;

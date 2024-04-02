@@ -1159,9 +1159,17 @@
                     </div>
                   <br>
                 </div>
+
+                <div class="row" *ngIf="editable && !urlid">
+                  <br>
+                  <label >
+                    <input type="checkbox" [(ngModel)]="servant.showVehiclePart" (change)="removeallVehicle(i)"> Do You want to Add Vehicle?
+                  </label>
+                </div>
+
                 <ng-container >
                   <h5 class="card-title mat-body-strong" style=" color: saddlebrown" >{{servant!.servant_name}}'s Vehicle Details
-                    <button type="button" *ngIf="editable && !urlid" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addVehicle(i)">
+                    <button type="button" *ngIf="editable && !urlid && servant.showVehiclePart" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addVehicle(i)" >
                       Add vehicle
                     </button>
                   </h5>

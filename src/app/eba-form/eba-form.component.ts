@@ -32,6 +32,7 @@ export class EbaFormComponent {
   baseUrl: string = '';
   minDate : string;
 
+
   constructor(
       @Inject('BASE_URL') baseUrl: string,private employeeService: EmployeeService,
       private route: ActivatedRoute,
@@ -434,7 +435,24 @@ export class EbaFormComponent {
         this.employee.servants[i] &&
         this.employee.servants[i].vehicles
     ) {
-      this.employee.servants[i].vehicles!.splice(k, 1);
+
+        // Otherwise, remove the vehicle at index k
+        this.employee.servants[i].vehicles!.splice(k, 1);
+
+    }
+  }
+
+  removeallVehicle(i:number):void {
+    if (
+      this.employee &&
+      this.employee.servants &&
+      this.employee.servants[i] &&
+      this.employee.servants[i].vehicles
+    ) {
+      if (this.employee.servants[i].showVehiclePart==false) {
+        // @ts-ignore
+        this.employee.servants[i].vehicles = this.employee.servants[i].vehicles.filter(vehicle => vehicle.id !== -1);
+      }
     }
   }
 
@@ -770,6 +788,7 @@ export class EbaFormComponent {
   }
 
   applyEba() {
+    let shouldContinue = true;
     if (this.employee) {
       if (this.employee.designations === null || this.employee.designations.length === 0) {
         Swal.fire({
@@ -798,14 +817,14 @@ export class EbaFormComponent {
         return;
       }
 
-      if (this.employee.qtr_code === null) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Empty Quarter',
-          text: 'Quarter does not have a value. First pull your data from profile',
-        });
-        return;
-      }
+      // if (this.employee.qtr_code === null) {
+      //   Swal.fire({
+      //     icon: 'warning',
+      //     title: 'Empty Quarter',
+      //     text: 'Quarter does not have a value. First pull your data from profile',
+      //   });
+      //   return;
+      // }
 
       const clonedEmployee = { ...this.employee };
 
@@ -852,11 +871,56 @@ export class EbaFormComponent {
               });
             }
 
+            if (servant.showVehiclePart) {
+              // Check if there's at least one vehicle with ID -1
+              // @ts-ignore
+              const hasAtLeastOneNegativeId = servant.vehicles.some(vehicle => vehicle.id === -1);
+
+              // If there's no vehicle with ID -1, add one
+              if (!hasAtLeastOneNegativeId) {
+                shouldContinue = false;
+                Swal.fire({
+                  title: 'Add Vehicle for ' + servant.servant_name,
+                  text: 'You need to add at least one vehicle before continuing.',
+                  icon: 'info',
+                });
+                return;
+              }
+            }
+
+            if(servant.allSelected){
+
+              const missingFields: string[] = [];
+
+              // Check if any of the specified fields is null
+              if (servant.eba_passes[0].living_at_president_sect == null) missingFields.push('Living at President Sect');
+              if (servant.eba_passes[0].perm_address == null) missingFields.push('Permanent Address');
+              if (servant.eba_passes[0].last_5yr_address == null) missingFields.push('Last 5 Years Address');
+              if (servant.eba_passes[0].reference_1_name == null) missingFields.push('Reference 1 Name');
+              if (servant.eba_passes[0].reference_1_phone_no == null) missingFields.push('Reference 1 Phone No');
+              if (servant.eba_passes[0].reference_1_address == null) missingFields.push('Reference 1 Address');
+              if (servant.eba_passes[0].reference_2_name == null) missingFields.push('Reference 2 Name');
+              if (servant.eba_passes[0].reference_2_phone_no == null) missingFields.push('Reference 2 Phone No');
+              if (servant.eba_passes[0].reference_2_address == null) missingFields.push('Reference 2 Address');
+
+              if (missingFields.length > 0) {
+                shouldContinue = false;
+                const missingFieldsText = missingFields.join(', ');
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Missing Information',
+                  text: `The following fields are missing for ${servant.servant_name}: ${missingFieldsText}. Please fill out all required fields.`,
+                });
+                return; // Stop further execution
+              }
+            }
+
             // Include servants only if relations array is not empty or allSelected is true
             return servant.relations.length > 0 || servant.allSelected;
           });
         }}
       }
+      if (shouldContinue) {
       if(this.applyingforRelative){
         if(this.applyingforclosefamily){
           if (clonedEmployee.closefamily === null || clonedEmployee.closefamily.length === 0) {
@@ -888,11 +952,20 @@ export class EbaFormComponent {
           return;
         }
       }
-      if(this.modetwo == 'return'){
-        const id = +this.route.snapshot.params['id'];
-        this.router.navigate(['eba-form-view'], { state: { employeeData: clonedEmployee, fromUrl: 'eba-form',submit:'update',id:id } });
-      }else{
-        this.router.navigate(['eba-form-view'], { state: { employeeData: clonedEmployee, fromUrl: 'eba-form' } });
+
+        if (this.modetwo == 'return') {
+          const id = +this.route.snapshot.params['id'];
+          this.router.navigate(['eba-form-view'], {
+            state: {
+              employeeData: clonedEmployee,
+              fromUrl: 'eba-form',
+              submit: 'update',
+              id: id
+            }
+          });
+        } else {
+          this.router.navigate(['eba-form-view'], {state: {employeeData: clonedEmployee, fromUrl: 'eba-form'}});
+        }
       }
       // Send the modified employee object to the server
       // this.employeeService.applyeba(clonedEmployee).subscribe(

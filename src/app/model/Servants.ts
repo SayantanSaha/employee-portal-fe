@@ -19,5 +19,6 @@ export class Servants{
   relations: ServantRel[]  = [];
   eba_passes: Ebapass[] = [];
   vehicles: Vehicles[]|null = [];
+  showVehiclePart: boolean = false;
 }
 
