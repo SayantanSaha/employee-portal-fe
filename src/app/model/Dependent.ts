@@ -6,6 +6,7 @@ export class Dependent{
 
   employee_id: number=0;
   relation_id: number=0;
+  service_id: number=0;
   gender: string | null = null;
   rel_name: string | null = null;
   rel_dob: Date | null = null;

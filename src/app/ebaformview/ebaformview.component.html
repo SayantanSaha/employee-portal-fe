@@ -105,6 +105,7 @@
                     <th>Relation</th>
                     <th>Mobile No.</th>
                     <th>Date Of Birth</th>
+                    <th>Service</th>
                     <th>Eba Pass NO</th>
                     <th>Valid upto</th>
                     <th>Photo</th>
@@ -131,6 +132,11 @@
                     </td>
                     <td>
                       <span>{{ member!.pivot!.rel_dob | date:'dd-MM-yyyy'}}</span>
+                    </td>
+                    <td>
+                      <span *ngIf=" member!.pivot!.service_id === 1"> Not Working</span>
+                      <span *ngIf=" member!.pivot!.service_id === 2"> Government Job</span>
+                      <span *ngIf=" member!.pivot!.service_id === 3"> Private Job</span>
                     </td>
                     <ng-container *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
                       <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
@@ -211,6 +217,7 @@
                     <th>Relation</th>
                     <th>Mobile No.</th>
                     <th>Date Of Birth</th>
+                    <th>Service</th>
                     <th>Eba Pass NO</th>
                     <th>Valid upto</th>
                     <th>Photo</th>
@@ -232,6 +239,11 @@
                     </td>
                     <td>
                       <span>{{ member!.pivot!.rel_dob | date:'dd-MM-yyyy'}}</span>
+                    </td>
+                    <td>
+                      <span *ngIf=" member!.pivot!.service_id === 1"> Not Working</span>
+                      <span *ngIf=" member!.pivot!.service_id === 2"> Government Job</span>
+                      <span *ngIf=" member!.pivot!.service_id === 3"> Private Job</span>
                     </td>
                     <ng-container *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
                       <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">

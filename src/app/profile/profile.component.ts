@@ -30,7 +30,8 @@ export class ProfileComponent implements OnInit{
 
 
   divisiontypelist: any[] = [];  // Initialize as an empty array or with appropriate data type
-  relationstypelist: any[] = []; // Initialize as an empty array or with appropriate data type
+  relationstypelist: any[] = [];
+  serviceTypelist: any[] = [];// Initialize as an empty array or with appropriate data type
   servantstypelist: any[] =[];
   validationErrors:string[] = [];
   blockstypelist: any[] = [];
@@ -144,6 +145,11 @@ export class ProfileComponent implements OnInit{
 
     this.employeeService.getRelationMasterList().subscribe(
       data=>this.relationstypelist=data,
+      error => console.log(error)
+    );
+
+    this.employeeService.getServiceMasterList().subscribe(
+      data=>this.serviceTypelist=data,
       error => console.log(error)
     );
 
@@ -588,6 +594,10 @@ export class ProfileComponent implements OnInit{
     compareRelation(first:Relation,second:Relation): boolean{
       return first !=null && second!=null && first==second ;//&& first.id===second.id
     }
+
+  compareService(first:Relation,second:Relation): boolean{
+    return first !=null && second!=null && first==second ;//&& first.id===second.id
+  }
 
     //Add Member Column Function
     addMember() {
@@ -1926,6 +1936,8 @@ export class ProfileComponent implements OnInit{
       this.changesVehicle[index] = true;
     } else if(param === 'ServantRelation'){
       this.changesServantRelation[index] = true;
+    }else if(param === 'service') {
+      this.changesRelationMade[index] = true;
     }
   }
 

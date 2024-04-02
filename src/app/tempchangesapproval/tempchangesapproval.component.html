@@ -632,6 +632,7 @@
                               <th>Relation</th>
                               <th>Mobile No.</th>
                               <th>Date Of Birth</th>
+                              <th>Service</th>
                             </tr>
                             </thead>
                             <tbody
@@ -660,6 +661,10 @@
                               <td>{{basicDetails.old_table_data.pivot.rel_dob ?
                                 formatDate(basicDetails.old_table_data.pivot.rel_dob)
                                 : 'N/A'}}
+                              </td>
+                              <td>{{basicDetails.old_table_data.service_name ?
+                                basicDetails.old_table_data.service_name :
+                                'N/A'}}
                               </td>
                             </tr>
                             </tbody>
@@ -698,6 +703,7 @@
                               <th>Relation</th>
                               <th>Mobile No.</th>
                               <th>Date Of Birth</th>
+                              <th>Service</th>
                             </tr>
                             </thead>
 
@@ -756,6 +762,17 @@
                                   basicDetails.old_table_data?.pivot?.rel_dob ?
                                     formatDate(basicDetails.old_table_data.pivot.rel_dob)
                                     :
+                                    'N/A'
+                                }}
+                              </td>
+
+                              <td
+                                [style.color]="changedDataDetails.service_name ? 'red' : 'inherit'">
+                                {{
+                                changedDataDetails.service_name ?
+                                  changedDataDetails.service_name :
+                                  basicDetails.old_table_data?.service_name ?
+                                    basicDetails.old_table_data.service_name :
                                     'N/A'
                                 }}
                               </td>

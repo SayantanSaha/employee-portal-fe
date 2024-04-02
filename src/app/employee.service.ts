@@ -167,6 +167,10 @@ export class EmployeeService {
     return this.http.get<any[]>(this.apiUrl+"relationsMaster",{headers:this.createHeader()});
   }
 
+  getServiceMasterList(): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"service",{headers:this.createHeader()});
+  }
+
   getBlockType(): Observable<any[]>{
     return this.http.get<any[]>(this.apiUrl+"BlockType",{headers:this.createHeader()});
   }

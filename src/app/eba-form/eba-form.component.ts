@@ -318,6 +318,10 @@ export class EbaFormComponent {
       this.applyingforRelative = true;
       this.applyingforclosefamily = false;
     }
+    if(this.employee!.closefamily && this.employee!.closefamily.length>0){
+      this.applyingforRelative = true;
+      this.applyingforclosefamily = true;
+    }
     if(this.employee!.servants && this.employee!.servants.length>0){
       this.applyingforRelative = false;
     }
@@ -1075,6 +1079,37 @@ export class EbaFormComponent {
             });
           }
 
+          if (clonedEmployee.closefamily && clonedEmployee.closefamily.length >= 0) {
+            clonedEmployee.closefamily?.forEach(closefamily => {
+              if (closefamily.pivot.eba_passes) {
+                closefamily.pivot.eba_passes?.forEach(eba_pass => {
+                  if(closefamily.allSelected){
+                    if (closefamily.Selected_dh ) {
+                      if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
+                        Swal.fire({
+                          icon: 'warning',
+                          title: 'Enter valid date ',
+                          text: closefamily.pivot.rel_name + ' exp date is not valid',
+                        });
+                        shouldStop = true;
+                        return;
+                      }
+                    } else {
+                      if (eba_pass.remark  == null) {
+                        Swal.fire({
+                          icon: 'warning',
+                          title: 'Enter remark ',
+                          text: closefamily.pivot.rel_name + ' remark is empty',
+                        });
+                        shouldStop = true;
+                        return;
+                      }
+                    }}
+                });
+              }
+            });
+          }
+
 
           if (clonedEmployee.servants && clonedEmployee.servants.length >= 0) {
             clonedEmployee.servants?.forEach(servant => {
@@ -1262,14 +1297,14 @@ export class EbaFormComponent {
 
   Forwardapplication(){
     const id = +this.route.snapshot.params['id'];
-    if (!isNaN(id)) {if (this.user && this.user.role && this.user.role.some((role:  number ) => (role == 9))) {
+    if (!isNaN(id)) {if (this.user && this.user.role && this.user.role.some((role:  number ) => (role == 6 || role == 9))) {
       this.isLoading=true;
       this.employeeService.updateebastatus(id, 'Forward', this.remark?? '', this.file_path_64 ?? '').subscribe(
           () =>{
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Approved successfully',
+              text: 'Forwarded successfully',
             }).then(() => {
               // Redirect to the dashboard route
               this.router.navigate(['ebapanel']);
