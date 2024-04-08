@@ -117,7 +117,17 @@ export class EbaFormComponent {
               // this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
               // // @ts-ignore
               // this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            },(error) => {
+            if (error.status === 400 && error.error.msg === "Not allowed") {
+              Swal.fire({
+                title: 'Not Allowed',
+                text: 'You are not allowed to access this resource.',
+                icon: 'error',
+              }).then(() => {
+                this.router.navigate(['/dashboard']);
+              });
             }
+          }
         );
       }
     } else {
@@ -125,11 +135,22 @@ export class EbaFormComponent {
       this.employeeService.getMyebaProfile().subscribe(
           (data: any) => {
             this.employee = data;
+            this.setexpdate();
             // @ts-ignore
             // this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
             // // @ts-ignore
             // this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+          },(error) => {
+          if (error.status === 400 && error.error.msg === "Not allowed") {
+            Swal.fire({
+              title: 'Not Allowed',
+              text: 'You are not allowed to access this resource.',
+              icon: 'error',
+            }).then(() => {
+              this.router.navigate(['/dashboard']);
+            });
           }
+        }
       );
     }
 
