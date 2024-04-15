@@ -38,9 +38,12 @@ export class ProfileComponent implements OnInit{
   locationtypelist: any[] =[];
   quarterstypelist: any[] = [];
   quarterList: any[] = [];
+  EbaCardData: any[] = [];
   showquarterDetails: boolean = false;
+  showEBACardDetails: boolean = false;
   quarterDetails:any = null;
   recivedotp:boolean = false;
+  recivedotpEBACard:boolean = false;
   changesMade: boolean = false;
   isCpAddressChecked: boolean = false;
   changesPostingMade: boolean[] = [];
@@ -51,6 +54,7 @@ export class ProfileComponent implements OnInit{
   changesServantRelation:boolean[]=[];
   maxDate: string = "";
   baseUrl: string = '';
+  EbaCardNo: string|null = null;
 
 
   constructor(
@@ -760,6 +764,73 @@ export class ProfileComponent implements OnInit{
     );
   }
 
+  EbaCardDetail(){
+    this.employeeService.getEbaCardDetail(this.EbaCardNo!).subscribe(
+      (data :any ) => {
+        this.EbaCardData =data;
+        if(this.EbaCardData[0]!.mob_no==null || this.EbaCardData[0]!.mob_no==''){
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'this eba card does not have a number to verify .',
+          });
+          return;
+        }
+        this.employeeService.getotp(this.EbaCardData[0]!.mob_no,'ebaCardOtp').subscribe(
+          (data :any ) => {
+            this.recivedotpEBACard=true;
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'OTP sent Successfully',
+            }),
+              this.isResendDisabled = true;
+            this.startCountdown(120);
+          },
+          (error) => {
+            // Error response
+            console.log(error); // Log the error if needed
+            if (error.status === 400) {
+              this.recivedotpEBACard=false;
+              Swal.fire({
+                icon: 'error',
+                title: 'error while sending sms',
+                text: 'Wait then try again later else contact NIC .',
+              });
+            }
+          }
+        );
+      },
+      (error) => {
+        console.log(error);
+        if (error.status === 404) {
+          this.EbaCardData =[];
+          this.EbaCardNo = null;
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'empty EBA Card details .',
+          });
+        }
+        if (error.status === 400) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Something went wrong.',
+          });
+        }
+        if (error.status === 405) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'EBA Card already exist.',
+          });
+        }
+      }
+    );
+  }
+
+
   isResendDisabled: boolean = false;
   remainingTime: number = 0;
   startCountdown(seconds: number): void {
@@ -775,7 +846,7 @@ export class ProfileComponent implements OnInit{
 
   sendOtp(){
       if(this.employee!.qtr !== '' && this.employee!.qtr!.MobileNumber  !== '') {
-        this.employeeService.getQuarterotp(this.employee!.qtr!.MobileNumber).subscribe(
+        this.employeeService.getotp(this.employee!.qtr!.MobileNumber,'qtrotp').subscribe(
             (data :any ) => {
               this.recivedotp=true;
               Swal.fire({
@@ -808,14 +879,26 @@ export class ProfileComponent implements OnInit{
       }
     }
 
+
+
   getMaskedNumber(): string {
     const originalNumber = this.employee!.qtr!.MobileNumber
     const maskedNumber = 'xxxxxx' + originalNumber.slice(6);
     return maskedNumber;
   }
 
+  getMaskedEBACardNumber(): string {
+    const originalNumber = this.EbaCardData[0]!.mob_no
+    const maskedNumber = 'xxxxxx' + originalNumber.slice(6);
+    return maskedNumber;
+  }
+
   wrongQuarter(){
     this.recivedotp=false;
+  }
+
+  wrongEbaCard(){
+    this.recivedotpEBACard=false;
   }
 
   title = 'otp-app';
@@ -841,29 +924,47 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  Verifyotp(){
-    this.employeeService.otpverify(this.otp).subscribe(
+  Verifyotp(detail:string){
+    this.employeeService.otpverify(this.otp,detail).subscribe(
         (data :any ) => {
           Swal.fire({
             icon: 'success',
             title: 'Matched',
             text: 'Success',
           });
-          this.employeeService.showmemberbyeba(this.employee!.qtr!.allotment_id).subscribe(
-            (data :any ) => {
-              this.quarterDetails = data;
-              this.showquarterDetails = true;
-              this.recivedotp=false;
-            },(error) => {
-              if (error.status === 404) {
-                Swal.fire({
-                  icon: 'warning',
-                  title: 'empty',
-                  text: 'empty data!!!!',
-                });
-              }
-            }
-        );
+          if(detail=='qtrotp') {
+            this.employeeService.showmemberbyeba(this.employee!.qtr!.allotment_id).subscribe(
+                (data: any) => {
+                  this.quarterDetails = data;
+                  this.showquarterDetails = true;
+                  this.recivedotp = false;
+                }, (error) => {
+                  if (error.status === 404) {
+                    Swal.fire({
+                      icon: 'warning',
+                      title: 'empty',
+                      text: 'empty data!!!!',
+                    });
+                  }
+                }
+            );
+          }
+          if(detail=='ebaCardOtp') {
+            // this.employeeService.showmemberbyeba(this.employee!.qtr!.allotment_id).subscribe(
+            //     (data: any) => {
+                  this.showEBACardDetails = true;
+                  this.recivedotpEBACard = false;
+            //     }, (error) => {
+            //       if (error.status === 404) {
+            //         Swal.fire({
+            //           icon: 'warning',
+            //           title: 'empty',
+            //           text: 'empty data!!!!',
+            //         });
+            //       }
+            //     }
+            // );
+          }
         },
         (error) => {
           // Error response
@@ -915,6 +1016,52 @@ export class ProfileComponent implements OnInit{
           });
         }
       }
+    );
+  }
+
+  PullEbaCard(){
+    this.employeeService.PullEbaCard(this.employee!.id!,this.EbaCardData[0]!, this.displayEbaCarddetail).subscribe(
+        (data :any ) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'success',
+            text: 'Pulled successfully',
+          })
+          this.closeEbaCardPopup();
+          this.employeeService.getMyProfile().subscribe(
+              datas=>{
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+                this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+              }
+          );
+        },
+        (error) => {
+          // Error response
+          console.log(error); // Log the error if needed
+          if (error.status === 404) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'warning',
+              text: 'empty details!!!!',
+            });
+          }
+          if (error.status === 401) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'warning',
+              text: 'Some thing went wrong!!!!',
+            });
+          }
+          if (error.status === 405) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'warning',
+              text: 'Not allowed!!!!',
+            });
+          }
+        }
     );
   }
 
@@ -1948,6 +2095,18 @@ export class ProfileComponent implements OnInit{
   }
   closeEbaPopup() {
     this.displayEba = "none";
+  }
+
+  displayEbaCard: any = 'none';
+  displayEbaCarddetail: any[]=[];
+  pullEbaCardPopup(property:string,i:any,j:any) {
+    this.displayEbaCarddetail = [property, i, j];
+    this.displayEbaCard = "block";
+  }
+  closeEbaCardPopup() {
+    this.recivedotpEBACard=false;
+    this.showEBACardDetails=false;
+    this.displayEbaCard = "none";
   }
 
 

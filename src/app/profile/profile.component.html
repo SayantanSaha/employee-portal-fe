@@ -1027,6 +1027,7 @@
                           <thead>
                           <tr>
                             <th>Sl No.</th>
+                            <th>Eba Card</th>
                             <th>Name</th>
                             <th>Gender</th>
                             <th>Relation</th>
@@ -1039,6 +1040,24 @@
                           <tbody *ngIf="employee!=null && employee.relations!=null">
                           <tr *ngFor="let member of employee!.relations; let i = index">
                             <td>{{ i + 1 }}</td>
+                            <td>
+                              <ng-container *ngIf="member.pivot.eba_passes">
+                                <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
+                                  <div *ngIf="eba_pass?.eba_pass_no && eba_pass?.eba_pass_no !== null ">
+                                    {{ eba_pass.eba_pass_no }}
+                                  </div>
+                                  <div style="color: blue;" *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">
+                                    new
+                                  </div>
+                                </ng-container>
+                              </ng-container>
+                              <ng-container *ngIf="!member.pivot.eba_passes || member.pivot.eba_passes==null || member.pivot.eba_passes.length==0">
+                                <label class="upload-icon-label" style="margin-left: 3%;color: blue;" *ngIf="employee?.AllotmentId || employee?.AllotmentId !== null"
+                                       title="Search Eba card" (click)="pullEbaCardPopup('relative','i','j')">
+                                  <i class="bi bi-person-vcard-fill btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                </label>
+                              </ng-container>
+                            </td>
                             <td>
                               <input *ngIf="employee!.relations && editable" class="form-control" type="text"
                                      [(ngModel)]="employee!.relations[i].pivot!.rel_name" placeholder="Name"
@@ -1127,6 +1146,122 @@
               </div>
             </div>
             <td>
+              <ng-container>
+                <div class="modal modal-above-header"
+                     tabindex="-1" data-bs-backdrop="false"
+                     [ngStyle]="{'display': displayEbaCard  }" style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto;" >
+                  <div class="modal-dialog modal-dialog-centered modal-m" *ngIf=" !showEBACardDetails">
+                    <div class="modal-content" *ngIf="!recivedotpEBACard && !showEBACardDetails">
+                      <div class="modal-header">
+                        <h5 class="modal-title">
+                          <b>Pull Eba Card Details </b>
+                        </h5>
+                      </div>
+
+                      <div class="modal-body">
+                        <div class="row">
+                          <div class ="col-md-4" style="margin-left: 1%;">
+                            <label class="form-label">Eba Card:</label>
+                          </div>
+                          <div class ="col-md-8" style="margin-left: -7%" >
+                            <input type="text" class="form-control" placeholder="card-no" aria-label="Eba card"
+                                   [(ngModel)]="EbaCardNo" >
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)" (click)="closeEbaCardPopup()">
+                          Close
+                        </button>
+
+                        <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="EbaCardDetail()" *ngIf="EbaCardNo && EbaCardNo!==null">
+                          Send Otp
+                        </button>
+                      </div>
+                    </div>
+
+
+                    <div class="modal-content" *ngIf="recivedotpEBACard && !showEBACardDetails">
+                      <div class="modal-header">
+                        <h5 class="modal-title">
+                          <b>OTP </b>
+                        </h5>
+                      </div>
+
+                      <div class="modal-body" style="text-align: center">
+                        <br>
+                        <div style="color: grey" >
+                          An OTP has sent to below this number.
+                        </div>
+                        <div style="color: red">
+                          +91 {{getMaskedEBACardNumber()}}
+                        </div>
+                        <br>
+                        <div class="my-4">
+                          <ng-otp-input  (onInputChange)="onOtpChange($event)"   [config]="configOptions"></ng-otp-input>
+                        </div>
+                        <!--                        <button class="btn btn-lg w-100 mt-3 mb-4 py-3" [ngClass]="btnStatus">{{ this.inputDigitLeft }}</button>-->
+                        <br>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)" (click)="closeEbaCardPopup()">
+                          Close
+                        </button>
+
+                        <button type="button" class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)" (click)="wrongEbaCard()">
+                          Back
+                        </button>
+
+                        <button type="button" class="btn btn-outline-warning enlarge-on-hover" (click)="EbaCardDetail()" [disabled]="isResendDisabled">
+                          <ng-container *ngIf="!isResendDisabled; else countdown">{{ 'Resend' }}</ng-container>
+                          <ng-template #countdown>Resend in {{ remainingTime }}</ng-template>
+                        </button>
+
+                        <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="Verifyotp('ebaCardOtp')">
+                          Verify
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal-dialog modal-dialog-centered modal-l" *ngIf="!recivedotpEBACard && showEBACardDetails">
+                    <div class="modal-content" *ngIf="!recivedotpEBACard && showEBACardDetails">
+                      <div class="modal-header">
+                        <h5 class="modal-title">
+                          <b>EBA-Card details</b>
+                        </h5>
+                      </div>
+
+                      <div class="modal-body" >
+                        <div class="row" style="overflow-x: auto;overflow-y: hidden; white-space: nowrap;">
+                          <ng-container *ngIf="EbaCardData[0]">
+                                  <div class="d-flex flex-column align-items-center" style="width:100%; text-align: center; padding-top: 10px;">
+                                    <span *ngIf="EbaCardData[0] && EbaCardData[0].photo">
+                                      <img [src]="EbaCardData[0].photo" alt="Profile Photo" style="width: 150px; height: 128px"
+                                           class="rounded-circle" title="Profile Photo" />
+                                    </span>
+                                      <span style="font-size: 1.2em" *ngIf="EbaCardData[0].name">{{EbaCardData[0].name}}</span>
+                                      <span *ngIf="EbaCardData[0].pass_no">{{EbaCardData[0].pass_no}}</span>
+<!--                                    <span  *ngIf="EbaCardData[0].dob">{{formatDate(EbaCardData[0].dob)}}</span>-->
+<!--                                    <span *ngIf="EbaCardData[0].mob_no">{{EbaCardData[0].mob_no}}</span>-->
+                                  </div>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)" (click)="closeEbaCardPopup()">
+                          Close
+                        </button>
+                        <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="PullEbaCard()">
+                          PULL
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
               <ng-container>
                 <div class="modal modal-above-header"
                      tabindex="-1" data-bs-backdrop="false"
@@ -1226,7 +1361,7 @@
                           <ng-template #countdown>Resend in {{ remainingTime }}</ng-template>
                         </button>
 
-                        <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="Verifyotp()">
+                        <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="Verifyotp('qtrotp')">
                           Verify
                         </button>
                       </div>
@@ -1479,6 +1614,7 @@
                             <thead>
                             <tr>
                               <th>Sl No.</th>
+                              <th>Eba Card</th>
                               <th>Name</th>
                               <th>Gender</th>
                               <th>Mobile No.</th>
@@ -1490,6 +1626,24 @@
                             <tbody>
                             <tr>
                               <td>{{ i + 1 }}</td>
+                              <td>
+                                <ng-container *ngIf="servant.eba_passes">
+                                  <ng-container *ngFor="let servant_detail of servant.eba_passes; let J = index">
+                                    <div *ngIf="servant_detail?.eba_pass_no && servant_detail?.eba_pass_no !== null ">
+                                      {{ servant_detail.eba_pass_no }}
+                                    </div>
+                                    <div style="color: blue;" *ngIf="!servant_detail?.eba_pass_no || servant_detail?.eba_pass_no === null ">
+                                      new
+                                    </div>
+                                  </ng-container>
+                                </ng-container>
+                                <ng-container *ngIf="!servant.eba_passes || servant.eba_passes==null || servant.eba_passes.length==0">
+                                  <label class="upload-icon-label" style="margin-left: 3%;color: blue;" *ngIf="employee?.AllotmentId || employee?.AllotmentId !== null"
+                                         title="Search Eba card" (click)="pullEbaCardPopup('servant',i,'j')">
+                                    <i class="bi bi-person-vcard-fill btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                  </label>
+                                </ng-container>
+                              </td>
                               <td>
                                 <input *ngIf="employee.servants && editable" class="form-control" type="text"
                                        [(ngModel)]="employee.servants[i].servant_name" placeholder="Name"
@@ -1573,6 +1727,7 @@
                                     <thead>
                                     <tr>
                                       <th>Sl No.</th>
+                                      <th>Eba Card</th>
                                       <th>Name</th>
                                       <th>Gender</th>
                                       <th>Relation</th>
@@ -1584,7 +1739,24 @@
                                     <tbody *ngIf="employee?.servants?.[i]?.relations != null">
                                     <tr  *ngFor="let servantRelative of servant!.relations; let k = index">
                                       <td>{{ k + 1 }}</td>
-
+                                      <td>
+                                        <ng-container *ngIf="servantRelative.pivot.eba_passes">
+                                          <ng-container *ngFor="let eba_pass of servantRelative.pivot.eba_passes; let j = index">
+                                            <div *ngIf="eba_pass?.eba_pass_no && eba_pass?.eba_pass_no !== null ">
+                                              {{ eba_pass.eba_pass_no }}
+                                            </div>
+                                            <div style="color: blue;" *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">
+                                              new
+                                            </div>
+                                          </ng-container>
+                                        </ng-container>
+                                        <ng-container *ngIf="!servantRelative.pivot.eba_passes || servantRelative.pivot.eba_passes==null || servantRelative.pivot.eba_passes.length==0">
+                                          <label class="upload-icon-label" style="margin-left: 3%;color: blue;" *ngIf="employee?.AllotmentId || employee?.AllotmentId !== null"
+                                                 title="Search Eba card" (click)="pullEbaCardPopup('servant_rel',i,k)">
+                                            <i class="bi bi-person-vcard-fill btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                          </label>
+                                        </ng-container>
+                                      </td>
                                       <td>
                                         <input *ngIf="editable" class="form-control" type="text"
                                                [(ngModel)]="employee.servants[i].relations[k].pivot!.rel_name" placeholder="Name"
