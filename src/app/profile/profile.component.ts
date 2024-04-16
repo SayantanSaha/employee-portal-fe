@@ -2100,10 +2100,12 @@ export class ProfileComponent implements OnInit{
   displayEbaCard: any = 'none';
   displayEbaCarddetail: any[]=[];
   pullEbaCardPopup(property:string,i:any,j:any) {
+    this.displayEbaCarddetail=[];
     this.displayEbaCarddetail = [property, i, j];
     this.displayEbaCard = "block";
   }
   closeEbaCardPopup() {
+    this.displayEbaCarddetail=[];
     this.recivedotpEBACard=false;
     this.showEBACardDetails=false;
     this.displayEbaCard = "none";
