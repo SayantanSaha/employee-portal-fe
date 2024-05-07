@@ -1052,9 +1052,9 @@
                                 </ng-container>
                               </ng-container>
                               <ng-container *ngIf="!member.pivot.eba_passes || member.pivot.eba_passes==null || member.pivot.eba_passes.length==0">
-                                <label class="upload-icon-label" style="margin-left: 3%;color: blue;" *ngIf="employee?.AllotmentId || employee?.AllotmentId !== null"
-                                       title="Search Eba card" (click)="pullEbaCardPopup('relative','i','j')">
-                                  <i class="bi bi-person-vcard-fill btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                <label class="upload-icon-label" style="margin-left: 3%;color: blue;"
+                                       title="Search Eba card" (click)="pullEbaCardPopup('relative','i','j')" >
+                                  <i class="bi bi-person-vcard-fill btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event);onInputReverseChange('Relations', i)" ></i>
                                 </label>
                               </ng-container>
                             </td>
@@ -1176,7 +1176,7 @@
                         </button>
 
                         <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="EbaCardDetail()" *ngIf="EbaCardNo && EbaCardNo!==null">
-                          Send Otp
+                          Fetch
                         </button>
                       </div>
                     </div>
@@ -1638,9 +1638,9 @@
                                   </ng-container>
                                 </ng-container>
                                 <ng-container *ngIf="!servant.eba_passes || servant.eba_passes==null || servant.eba_passes.length==0">
-                                  <label class="upload-icon-label" style="margin-left: 3%;color: blue;" *ngIf="employee?.AllotmentId || employee?.AllotmentId !== null"
+                                  <label class="upload-icon-label" style="margin-left: 3%;color: blue;"
                                          title="Search Eba card" (click)="pullEbaCardPopup('servant',i,'j')">
-                                    <i class="bi bi-person-vcard-fill btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"></i>
+                                    <i class="bi bi-person-vcard-fill btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event);onInputReverseChange('Servants', i)"></i>
                                   </label>
                                 </ng-container>
                               </td>
@@ -1751,8 +1751,8 @@
                                           </ng-container>
                                         </ng-container>
                                         <ng-container *ngIf="!servantRelative.pivot.eba_passes || servantRelative.pivot.eba_passes==null || servantRelative.pivot.eba_passes.length==0">
-                                          <label class="upload-icon-label" style="margin-left: 3%;color: blue;" *ngIf="employee?.AllotmentId || employee?.AllotmentId !== null"
-                                                 title="Search Eba card" (click)="pullEbaCardPopup('servant_rel',i,k)">
+                                          <label class="upload-icon-label" style="margin-left: 3%;color: blue;"
+                                                 title="Search Eba card" (click)="pullEbaCardPopup('servant_rel',i,k);onInputReverseChange('ServantRelation', i)">
                                             <i class="bi bi-person-vcard-fill btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"></i>
                                           </label>
                                         </ng-container>

@@ -767,39 +767,46 @@ export class ProfileComponent implements OnInit{
   EbaCardDetail(){
     this.employeeService.getEbaCardDetail(this.EbaCardNo!).subscribe(
       (data :any ) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Data Fetched Successfully',
+        })
         this.EbaCardData =data;
-        if(this.EbaCardData[0]!.mob_no==null || this.EbaCardData[0]!.mob_no==''){
-          Swal.fire({
-            icon: 'warning',
-            title: 'Warning',
-            text: 'this eba card does not have a number to verify .',
-          });
-          return;
-        }
-        this.employeeService.getotp(this.EbaCardData[0]!.mob_no,'ebaCardOtp').subscribe(
-          (data :any ) => {
-            this.recivedotpEBACard=true;
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'OTP sent Successfully',
-            }),
-              this.isResendDisabled = true;
-            this.startCountdown(120);
-          },
-          (error) => {
-            // Error response
-            console.log(error); // Log the error if needed
-            if (error.status === 400) {
-              this.recivedotpEBACard=false;
-              Swal.fire({
-                icon: 'error',
-                title: 'error while sending sms',
-                text: 'Wait then try again later else contact NIC .',
-              });
-            }
-          }
-        );
+        this.showEBACardDetails = true;
+        this.recivedotpEBACard = false;
+        // if(this.EbaCardData[0]!.mob_no==null || this.EbaCardData[0]!.mob_no==''){
+        //   Swal.fire({
+        //     icon: 'warning',
+        //     title: 'Warning',
+        //     text: 'this eba card does not have a number to verify .',
+        //   });
+        //   return;
+        // }
+        // this.employeeService.getotp(this.EbaCardData[0]!.mob_no,'ebaCardOtp').subscribe(
+        //   (data :any ) => {
+        //     this.recivedotpEBACard=true;
+        //     Swal.fire({
+        //       icon: 'success',
+        //       title: 'Success',
+        //       text: 'OTP sent Successfully',
+        //     }),
+        //       this.isResendDisabled = true;
+        //     this.startCountdown(120);
+        //   },
+        //   (error) => {
+        //     // Error response
+        //     console.log(error); // Log the error if needed
+        //     if (error.status === 400) {
+        //       this.recivedotpEBACard=false;
+        //       Swal.fire({
+        //         icon: 'error',
+        //         title: 'error while sending sms',
+        //         text: 'Wait then try again later else contact NIC .',
+        //       });
+        //     }
+        //   }
+        // );
       },
       (error) => {
         console.log(error);
@@ -2085,6 +2092,16 @@ export class ProfileComponent implements OnInit{
       this.changesServantRelation[index] = true;
     }else if(param === 'service') {
       this.changesRelationMade[index] = true;
+    }
+  }
+
+  onInputReverseChange(param : String, index: number){
+    if(param === 'Relations'){
+      this.changesRelationMade[index] = false;
+    }else if(param === 'Servants'){
+      this.changesServantMade[index] = false;
+    } else if(param === 'ServantRelation'){
+      this.changesServantRelation[index] = false;
     }
   }
 
