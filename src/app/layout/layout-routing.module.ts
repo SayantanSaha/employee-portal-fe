@@ -24,6 +24,11 @@ const routes: Routes = [
       { path: 'dashboard',loadChildren: () => import('../dashboard/dashboard.module').then(d => d.DashboardModule), canActivate: [AuthGuard]},
       // { path: 'profile/:mode',loadChildren: () => import('../profile/profile.module').then(d => d.ProfileModule), canActivate: [AuthGuard]},
       {
+        path: 'profile/create',
+        loadChildren: () => import('../profile/profile.module').then(d => d.ProfileModule),
+
+      },
+      {
         path: 'profile/:mode',
         loadChildren: () => import('../profile/profile.module').then(d => d.ProfileModule),
         canActivate: [AuthGuard]
@@ -46,6 +51,7 @@ const routes: Routes = [
       { path: 'ebapanel',loadChildren: () => import('../ebapanel/ebapanel.module').then(d => d.EbapanelModule), canActivate: [AuthGuard]},
       { path: 'ebaformlist',loadChildren: () => import('../eba-form-list/eba-form-list.module').then(d => d.EbaFormListModule), canActivate: [AuthGuard]},
       { path: 'adminpanel',loadChildren: () => import('../adminpanel/adminpanel.module').then(d => d.AdminpanelModule), canActivate: [AuthGuard]},
+      { path: 'registration', loadChildren:()=>import('../registration/registration.module').then(r=>r.RegistrationModule) },
     ]
   },
 
@@ -55,7 +61,7 @@ const routes: Routes = [
     children: [
       { path: 'login', loadChildren:()=>import('../login/login.module').then(l=>l.LoginModule) },
       { path: 'logout', loadChildren:()=>import('../logout/logout.module').then(l=>l.LogoutModule) },
-      { path: 'registration', loadChildren:()=>import('../registration/registration.module').then(r=>r.RegistrationModule) }
+
     ]
   },
 

@@ -52,7 +52,19 @@
   <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
     <a [routerLink]="'/eba-form/edit/relative/view'" style="text-decoration: none; color: inherit;">
       <div class="card-body">
-        <i class="bi bi-file-earmark-medical"></i>
+        <img src="https://cdn-icons-png.flaticon.com/512/4093/4093884.png" alt="evahaan" style="height: 23%;width: 13%">
+<!--        <i class="bi bi-person-badge-fill"></i>-->
+        <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Apply RB Card</h5>
+        <p class="card-text">Click here to apply for Family/Domestic Help</p>
+      </div>
+    </a>
+  </div>
+
+  <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
+    <a [routerLink]="'/eba-form/edit/relative/view'" style="text-decoration: none; color: inherit;">
+      <div class="card-body">
+        <img src="https://static.vecteezy.com/system/resources/previews/014/711/297/original/id-card-isolated-on-white-background-identification-card-icon-business-identity-id-card-icon-template-badge-identification-personal-contact-in-flat-style-vector.jpg" alt="evahaan" style="height: 23%;width: 17%">
+<!--        <i class="bi bi-person-vcard-fill"></i>-->
         <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Apply EBA </h5>
         <p class="card-text">Click here to apply for Family/Domestic Help</p>
       </div>
@@ -122,6 +134,17 @@
             <div class="card-body">
               <img class="card-img-top" src="https://rb.nic.in/assets/img/services/2.jpg" alt="eba" style="height: 23%;width: 17%">
               <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">EBA</h5>
+              <p class="card-text">Click here to Verify applied EBA Applications</p>
+            </div>
+          </a>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="role === 4 || role === 5 || role === 6|| role === 9|| role === 10" >
+        <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
+          <a [routerLink]="'/ebapanel'" style="text-decoration: none; color: inherit;">
+            <div class="card-body">
+              <img class="card-img-top" src="https://cdn0.iconfinder.com/data/icons/flat-profession-icons-2/48/105-1024.png" alt="eba" style="height: 23%;width: 17%">
+              <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">DCP office</h5>
               <p class="card-text">Click here to Verify applied EBA Applications</p>
             </div>
           </a>

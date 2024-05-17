@@ -5,6 +5,7 @@ import {Authorisation} from "../model/Authorisation";
 import {Router} from "@angular/router";
 import {User} from "../model/User";
 import Swal from 'sweetalert2';
+import {registerLocaleData} from "@angular/common";
 
 
 @Component({
@@ -95,4 +96,5 @@ export class LoginComponent {
     }
   }
 
+  protected readonly registerLocaleData = registerLocaleData;
 }
