@@ -94,6 +94,7 @@ export class ProfileComponent implements OnInit{
 
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.setEditable(this.mode=='edit');
+    this.setEditable(this.mode=='create');
 
     this.route.params.subscribe(params => {
       const id = +params['id']; // Extract id from route parameters
