@@ -47,8 +47,8 @@ export class EmployeeService {
     return this.http.post<Login>(this.apiUrl+"login",{username: username, password: password});
   }
 
-  postRegistration(username:string, password:string, firstName: string, lastName: string, mobile: string):Observable<Login>{
-    return this.http.post<Login>(this.apiUrl+"register",{email: username, password: password, name:firstName+' '+lastName, mobile:mobile});
+  postRegistration(email:string, password:string, firstName: string, lastName: string, mobile: string):Observable<Login>{
+    return this.http.post<Login>(this.apiUrl+"register",{username: mobile, password: password, name:firstName+' '+lastName, email:email});
   }
 
   getMyProfile():Observable<Employee>{

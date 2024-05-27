@@ -2,11 +2,20 @@ import { Component } from '@angular/core';
 import {EmployeeService} from "../employee.service";
 import {Alert} from "../model/alert";
 import {Router} from "@angular/router";
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+  styleUrls: ['./registration.component.scss'],
+  animations: [
+    trigger('slideAnimation', [
+      state('0', style({ transform: 'translateX(0)' })),
+      state('1', style({ transform: 'translateX(-100%)' })),
+      state('2', style({ transform: 'translateX(-200%)' })),
+      transition('* => *', animate('300ms ease'))
+    ])
+  ]
 })
 export class RegistrationComponent {
   constructor(
@@ -50,6 +59,21 @@ export class RegistrationComponent {
       valid=false;
     }
     return valid;
+  }
+
+  currentPageIndex = 0;
+  totalPages = 3; // Update this if you add or remove pages
+
+  goToNextPage() {
+    if (this.currentPageIndex < this.totalPages - 1) {
+      this.currentPageIndex++;
+    }
+  }
+
+  goToPreviousPage() {
+    if (this.currentPageIndex > 0) {
+      this.currentPageIndex--;
+    }
   }
 
 }

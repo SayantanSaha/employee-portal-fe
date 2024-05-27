@@ -1,0 +1,25 @@
+.sliding-container {
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.slides {
+  display: flex;
+  //width: 300%; /* Adjust according to the number of pages */
+  transition: transform 0.3s ease;
+}
+
+.slide {
+  width: 100%;
+  flex-shrink: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}

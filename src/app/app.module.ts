@@ -39,6 +39,8 @@ import { NgxBarcode6Module } from 'ngx-barcode6';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
   import { NgxPrintModule } from 'ngx-print';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {RegistrationComponent} from "./registration/registration.component";
 
 @NgModule({
   declarations: [
@@ -68,7 +70,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     EbaFormListComponent,
     EbaprintComponent,
 
-
   ],
     imports: [
       BrowserModule,
@@ -81,6 +82,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
       NgxBarcode6Module,
       NgxPrintModule,
       MatProgressSpinnerModule,
+      BrowserAnimationsModule
     ],
   providers: [
     { provide: 'BASE_URL', useFactory: ()=>document.getElementsByTagName('base')[0].href },
