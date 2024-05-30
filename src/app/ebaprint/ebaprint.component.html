@@ -1,0 +1,119 @@
+
+<div class="container">
+  <div class="card shadow">
+    <div class="card-header">
+      <div class="card-title">
+        <b>Approved List ({{ebaprintData.length}})</b>
+      </div>
+    </div>
+    <div class="card-body">
+      <div style="padding: 1%">
+        <div class="row mb-12">
+          <table class="table table-stripped">
+            <thead>
+            <tr>
+              <th>Sl No.</th>
+              <th>Officer Name</th>
+              <th>Name</th>
+              <th>Relation</th>
+              <th>EBA Card</th>
+              <th>Issue Date</th>
+              <th>Valid upto</th>
+              <th *ngIf="!fromfunction || fromfunction ==null">Rfid</th>
+              <th *ngIf="!fromfunction || fromfunction ==null">Action</th>
+            </tr>
+            </thead>
+            <tbody >
+            <tr *ngFor="let ebaprint of ebaprintData; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <ng-container *ngIf="ebaprint?.closefamily?.emp_name">{{ebaprint?.closefamily?.emp_name}}</ng-container>
+                <ng-container *ngIf="ebaprint?.servantfamily?.emp_name">{{ebaprint?.servantfamily?.emp_name}}</ng-container>
+                <ng-container *ngIf="ebaprint?.servant?.emp_name">{{ebaprint?.servant?.emp_name}}</ng-container>
+              </td>
+              <td>
+                <ng-container *ngIf="ebaprint?.closefamily?.pivot?.rel_name">{{ebaprint?.closefamily?.pivot?.rel_name}}</ng-container>
+                <ng-container *ngIf="ebaprint?.servantfamily?.pivot?.rel_name">{{ebaprint?.servantfamily?.pivot?.rel_name}}</ng-container>
+                <ng-container *ngIf="ebaprint?.servant?.servant_name">{{ebaprint?.servant?.servant_name}}</ng-container>
+                <ng-container *ngIf="ebaprint?.closefamily?.rel_name">{{ebaprint?.closefamily?.rel_name}}</ng-container>
+                <ng-container *ngIf="ebaprint?.servantfamily?.rel_name">{{ebaprint?.servantfamily?.rel_name}}</ng-container>
+              </td>
+              <td>
+                <ng-container *ngIf="ebaprint?.closefamily?.rel_desc">{{ebaprint.closefamily.rel_desc}}</ng-container>
+                <ng-container *ngIf="ebaprint?.servantfamily?.rel_desc">Domestic Help {{ebaprint.servantfamily.rel_desc}}</ng-container>
+                <ng-container *ngIf="ebaprint?.servant">Domestic Help</ng-container>
+              </td>
+              <td >{{ebaprint.eba_pass_no}}</td>
+              <td >{{ ebaprint!.created_at | date:'dd-MM-yyyy'}}</td>
+              <td >{{ ebaprint!.eba_pass_exp_date | date:'dd-MM-yyyy'}}</td>
+              <td *ngIf="!fromfunction || fromfunction ==null">
+                <div class="col" *ngIf="ebaprint.rfid ==null ">
+                  <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="openebacardPopup(i)">
+                    <!--                  <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="printpage(i)">-->
+                    Update
+                  </button>
+                </div>
+                <div class="col" *ngIf="ebaprint.rfid !==null ">
+                  {{ebaprint.rfid}}
+                </div>
+              </td>
+              <td *ngIf="!fromfunction || fromfunction ==null">
+                <div class="col" *ngIf="ebaprint.rfid ==null && (ebaprint.printStatus==false ||  ebaprint.printStatus==null)">
+                  <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" (click)="printpage(i)">
+                    Print
+                  </button>
+                </div>
+                <div class="col" *ngIf="ebaprint.rfid ==null && ebaprint.printStatus==true ">
+                  <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" (click)="printpage(i)">
+                    Re-Print
+                  </button>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<td *ngIf="printData && printData!= null">
+  <div class="modal modal-above-header"
+       tabindex="-1" data-bs-backdrop="false"
+       [ngStyle]="{'display': ebacard }" style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto; ">
+    <div class="modal-dialog modal-dialog-centered modal-m">
+      <div class="modal-content" style="width:100mm">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <b>{{printData.eba_pass_no}}</b>
+          </h5>
+        </div>
+        <div class="modal-body" >
+          <label class="form-label">Rfid no</label>
+          <input type="text" class="form-control" placeholder="xxxxx" aria-label="Name"
+                 [(ngModel)]="Rfid">
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)" (click)="closeebacardPopup()">
+            Close
+          </button>
+
+          <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="rfid(printData.eba_pass_no)">
+            Update Rfid
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</td>
+
+<mat-progress-spinner *ngIf="isLoading" mode="indeterminate" class="loading-spinner"></mat-progress-spinner>
+

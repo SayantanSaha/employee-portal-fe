@@ -1,0 +1,9 @@
+.dontprint {
+  display: none;
+}
+
+@media print {
+  .dontprint {
+    display: none;
+  }
+}

@@ -1,0 +1,10 @@
+table tr {
+  margin-bottom: 0.5mm; /* Adjust the margin as needed */
+}
+.loading-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999; /* Ensure it's on top of everything */
+}

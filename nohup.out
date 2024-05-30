@@ -1,0 +1,88 @@
+
+> employee-portal@0.0.0 start
+> ng serve --host 0.0.0.0 --configuration=production
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues. You might need to use "--disable-host-check" if that's the
+case.
+Warning: 'outputHashing' option is disabled when using the dev-server.
+****************************************************************************************
+This is a simple server for use in testing or debugging Angular applications locally.
+It hasn't been reviewed for security issues.
+
+DON'T USE IT FOR PRODUCTION!
+****************************************************************************************
+- Generating browser application bundles (phase: setup)...
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files   | Names                                  |  Raw Size | Estimated Transfer Size
+main.js               | main                                   | 773.41 kB |               176.12 kB
+styles.css, styles.js | styles                                 | 387.69 kB |                58.48 kB
+scripts.js            | scripts                                | 165.88 kB |                48.59 kB
+polyfills.js          | polyfills                              | 152.35 kB |                39.63 kB
+runtime.js            | runtime                                |   2.76 kB |                 1.29 kB
+
+| Initial Total                          |   1.45 MB |               324.11 kB
+
+Lazy Chunk Files      | Names                                  |  Raw Size | Estimated Transfer Size
+606.js                | profile-profile-module                 | 101.06 kB |                21.42 kB
+159.js                | approveemployee-approveemployee-module |  22.94 kB |                 3.45 kB
+308.js                | registration-registration-module       |   4.52 kB |                 1.41 kB
+905.js                | dashboard-dashboard-module             |   3.67 kB |                 1.29 kB
+222.js                | tempchangesdata-tempchangesdata-module |   2.69 kB |                 1.04 kB
+823.js                | login-login-module                     |   2.66 kB |              1001 bytes
+0.js                  | state-state-module                     |   2.40 kB |              1023 bytes
+482.js                | logout-logout-module                   | 893 bytes |               447 bytes
+common.js             | common                                 | 208 bytes |               133 bytes
+
+Build at: 2023-08-22T10:33:21.048Z - Hash: 8b58afed3148b5a9 - Time: 5804ms
+
+Warning: /home/developer/code/employee-portal-fe/src/app/profile/profile.component.ts depends on 'sweetalert2'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies
+
+Warning: 1 rules skipped due to selector errors:
+  legend + * -> Cannot read properties of undefined (reading 'type')
+
+
+
+** Angular Live Development Server is listening on 0.0.0.0:4200, open your browser on http://localhost:4200/ **
+
+
+✔ Compiled successfully.
+
+> employee-portal@0.0.0 start
+> ng serve
+
+
+Initial Chunk Files                                          | Names                                          |  Raw Size
+vendor.js                                                    | vendor                                         |   2.55 MB |
+styles.css, styles.js                                        | styles                                         | 537.43 kB |
+polyfills.js                                                 | polyfills                                      | 314.28 kB |
+main.js                                                      | main                                           | 308.30 kB |
+scripts.js                                                   | scripts                                        | 166.41 kB |
+runtime.js                                                   | runtime                                        |  12.63 kB |
+
+| Initial Total                                  |   3.86 MB
+
+Lazy Chunk Files                                             | Names                                          |  Raw Size
+src_app_registration_registration_module_ts.js               | registration-registration-module               |  16.89 kB |
+src_app_login_login_module_ts.js                             | login-login-module                             |  10.38 kB |
+src_app_logout_logout_module_ts.js                           | logout-logout-module                           |   5.65 kB |
+src_app_approveemployeelist_approveemployeelist_module_ts.js | approveemployeelist-approveemployeelist-module |   4.25 kB |
+src_app_tempchangesapproval_tempchangesapproval_module_ts.js | tempchangesapproval-tempchangesapproval-module |   4.25 kB |
+src_app_tempchangesdata_tempchangesdata_module_ts.js         | tempchangesdata-tempchangesdata-module         |   4.04 kB |
+src_app_employeelist_employeelist_module_ts.js               | employeelist-employeelist-module               |   3.91 kB |
+src_app_dashboard_dashboard_module_ts.js                     | dashboard-dashboard-module                     |   3.72 kB |
+src_app_profile_profile_module_ts.js                         | profile-profile-module                         |   3.66 kB |
+src_app_state_state_module_ts.js                             | state-state-module                             |   3.54 kB |
+
+Build at: 2023-08-25T11:03:37.413Z - Hash: f942ba77cb858646 - Time: 8460ms
+
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+
+
+✔ Compiled successfully.

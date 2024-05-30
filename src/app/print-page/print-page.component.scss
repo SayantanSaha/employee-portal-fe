@@ -1,0 +1,14 @@
+@media print {
+  .page-break {
+    page-break-before: always; /* or page-break-after: always; */
+  }
+}
+@media print {
+  .print-border {
+    border: none; /* Remove border for printing */
+  }
+}@media print {
+  .print-hidden {
+    display: none; /* Hide the element when printing */
+  }
+}

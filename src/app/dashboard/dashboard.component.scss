@@ -1,0 +1,75 @@
+.card-container {
+  position: relative;
+  overflow: hidden;
+
+}
+
+
+
+.card:hover {
+  box-shadow: 10px 10px 10px rgba(0,0,0,0.7);
+  transform:scale(1.12) ;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-image:  linear-gradient(to bottom right, #f3ddba,transparent), url('../../assets/images/R (1).png');
+  background-size: auto,64vh;
+  background-position: center,left bottom ;
+  background-repeat: no-repeat;
+}
+
+.card img:hover {
+  transform: scale(1.07);
+}
+
+.card.clicked {
+  box-shadow: none;
+  transform: scale(0.9);
+}
+
+.card {
+  //background-image:  linear-gradient(to bottom right, lavender, linen);
+  //background-repeat: no-repeat;
+  //background-position: center ;
+
+  background-image: url("https://www.clipartmax.com/png/small/44-446497_lines-clipart-vertical-line-blue-vertical-line-png.png") ,
+  url("https://www.clipartmax.com/png/small/44-446497_lines-clipart-vertical-line-blue-vertical-line-png.png") ,
+  linear-gradient(to bottom right, lavender, linen);
+  background-repeat: no-repeat,no-repeat,no-repeat;
+  background-position: right top, right 5px top, center;
+  background-size: 0.7vh, 0.7vh, auto;
+
+
+  width: 240px; /* Set the width explicitly for better control */
+  height: 140px; /* Set the height explicitly for better control */
+  margin-left: 2%;
+  cursor: pointer;
+}
+
+
+.nav-link:hover {
+  color: blue;
+}
+
+//.product{
+//  margin-top: 27%;
+//}
+//
+//.slider-wrap{
+//  position: relative;
+//  overflow: hidden;
+//  height: 400px;
+//}
+//
+//.slider-main{
+//  position: absolute;
+//  width: 200%;
+//}
+//
+//.item{
+//  margin-top: 20px;
+//  display: inline-block;
+//  margin-left: 80px;
+//  width: 300px;
+//  height: 400px;
+//  position: relative;
+//}
+

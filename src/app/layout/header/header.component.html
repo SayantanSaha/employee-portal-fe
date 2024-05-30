@@ -1,0 +1,174 @@
+<!--<div class="fixed-top">-->
+<!--  <div class="pre-header">-->
+<!--    <div class="container-fluid">-->
+<!--      <div class="col-md-6">-->
+
+<!--        <a href="http://presidentofindia.nic.in/" class="nav-link px-2 link-light" target="_blank"-->
+<!--          title="http://presidentofindia.nic.in/, The President of India : External website that opens in a new window">The-->
+<!--          President of India Website<img src="https://rb.nic.in/rbvisit/images/ext-link-icon.gif"-->
+<!--            alt="External website that opens in a new window" title="External website that opens in a new window"-->
+<!--            width="9" height="9" class="extIcon" /></a>-->
+
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <nav class="p-3 mb-3 border-bottom navbar navbar-fixed-top">-->
+<!--    <div class="container-fluid">-->
+
+<!--      <a [routerLink]="'/dashboard'" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">-->
+<!--        <img class="bi me-2" width="213" height="51" role="img" aria-label="Bootstrap"-->
+<!--          src="https://rb.nic.in/rbvisit/images/logonew.png" />-->
+<!--      </a>-->
+
+<!--&lt;!&ndash;      <ul class="nav col-1 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">&ndash;&gt;-->
+
+<!--&lt;!&ndash;        <li>&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="bd-navbar-toggle">&ndash;&gt;-->
+<!--&lt;!&ndash;            <button class="navbar-toggler p-2" type="button" aria-label="Toggle menu" (click)="expandContract()">&ndash;&gt;-->
+<!--&lt;!&ndash;              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor"&ndash;&gt;-->
+<!--&lt;!&ndash;                viewBox="0 0 16 16">&ndash;&gt;-->
+<!--&lt;!&ndash;                <path fill-rule="evenodd"&ndash;&gt;-->
+<!--&lt;!&ndash;                  d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z">&ndash;&gt;-->
+<!--&lt;!&ndash;                </path>&ndash;&gt;-->
+<!--&lt;!&ndash;              </svg>&ndash;&gt;-->
+
+<!--&lt;!&ndash;              <span class="d-none fs-6 pe-1">Menu</span>&ndash;&gt;-->
+<!--&lt;!&ndash;            </button>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </li>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      </ul>&ndash;&gt;-->
+
+<!--      <div class="d-flex float-end">-->
+<!--        &lt;!&ndash;<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 " role="search">-->
+<!--          <input type="search" class="form-control" placeholder="Search..." aria-label="Search">-->
+<!--        </form>&ndash;&gt;-->
+<!--        <div></div>-->
+<!--        <div class="dropdown text-end">-->
+
+<!--          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"-->
+<!--            aria-expanded="false">-->
+<!--            &lt;!&ndash; <img [src]="user.profile_photo" alt="mdo" width="32" height="32" class="rounded-circle"/>&nbsp;{{user.name}} &ndash;&gt;-->
+<!--            <img *ngIf="user.profile_photo" [src]="user.profile_photo ? user.profile_photo : '' " alt="mdo"-->
+<!--              width="32" height="32" class="rounded-circle">-->
+<!--            &nbsp;{{user.name}}-->
+
+<!--          </a>-->
+
+<!--          <ul class="dropdown-menu text-small">-->
+<!--            <li><a class="dropdown-item" href="{{baseUrl}}/profile/edit">Profile</a></li>-->
+<!--&lt;!&ndash;            <li><a class="dropdown-item" href="{{baseUrl}}/dashboard">Dashboard</a></li>&ndash;&gt;-->
+<!--            <li><a class="dropdown-item" [routerLink]="'/change-password'">Change Password</a></li>-->
+<!--            <li><hr class="dropdown-divider"></li>-->
+<!--            <li><a class="dropdown-item" href="{{baseUrl}}/logout">Sign out</a></li>-->
+<!--          </ul>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--    </div>-->
+<!--  </nav>-->
+<!--  <div class="menue-div elevation-2" id="menu">-->
+<!--    <div class="container px-4 py-5" id="featured-3">-->
+<!--      <div class="row">-->
+<!--        <div class="col">-->
+<!--          <span class="pb-2 border-bottom link-grp">Dashboard</span>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="row row-cols-1 row-cols-lg-3">-->
+<!--        <div class="col" style="padding: 10px;">-->
+<!--          <a routerLink="/dashboard">Dashboard</a>-->
+<!--        </div>-->
+<!--        <div class="col" style="padding: 10px;">-->
+<!--          <a routerLink="/employee-list">Employee List</a>-->
+<!--        </div>-->
+<!--        <div class="col" style="padding: 10px;">-->
+<!--          <a routerLink="/approval-pending-emp-dtls">Approval Pending Employee List</a>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <br>-->
+<!--      <div class="row">-->
+<!--        <div class="col">-->
+<!--          <span class="pb-2 border-bottom link-grp">Forms</span>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--&lt;!&ndash;      <div class="row row-cols-1 row-cols-lg-3">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="col" style="padding: 10px;">&ndash;&gt;-->
+<!--&lt;!&ndash;          <a routerLink="/eba-form/edit">Apply EBA</a>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--    </div>-->
+
+<!--  </div>-->
+
+<!--</div>-->
+
+<!--<br><br><br><br><br><br>-->
+<header>
+  <!-- Top Header Section End -->
+  <!-- Logo Section Header Start -->
+  <div class="logo-sec-wraper">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-5 col-lg-5 logo-sec">
+          <a  href="http://presidentofindia.nic.in/" class="logo-align enlarge-hover" (click)="hoverClick($event)" title="Rashtrapati Bhavan" target="_blank">
+            <img src="assets/images/img_5.png" alt="emblem">
+            <div class="brand-text">
+              <h4>
+                राष्ट्रपति भवन
+                <span>Rashtrapati Bhavan</span>
+              </h4>
+            </div>
+          </a>
+        </div>
+        <div class="col-12 col-sm-12 col-md-2 col-lg-2 RBbuilding-sec wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">
+          <a class="RB-building  enlarge-hover" (click)="hoverClick($event)" [routerLink]="'/dashboard'" >
+            <img src="assets/images/img.png" alt="emblem">
+          </a>
+        </div>
+        <div class="col-12 col-sm-12 col-md-5 col-lg-5">
+          <div class="logo-des  wow fadeInRight floatright">
+            <a class="logo-align wow fadeInLeft"  style="cursor: pointer" >
+              <img src="assets/images/icons8-apply-64.png" alt="emblem" style="width: 65px" >
+              <div class="brand-text" style="padding-left: 1%">
+                <h4>
+                  समेकित
+                  <span>Samekit</span>
+                </h4>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Logo Section Header End -->
+</header>
+
+<nav class="main-header navbar navbar-expand navbar-light font-weight-bold" style="background-color: #4d305c;">
+  <div class="container">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link text-bold text-white" [routerLink]="'/profile/edit'">
+          <img *ngIf="user.profile_photo" [src]="user.profile_photo ? user.profile_photo : '' " alt="mdo"
+                                                               width="32" height="32" class="rounded-circle">
+         Welcome, &nbsp;{{user.name}}</a>
+      </li>
+    </ul>
+    <!-- Right navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link text-bold fontd" [routerLink]="'/dashboard'">Home </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white text-bold ">| </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-bold fontd" href="{{baseUrl}}/logout">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

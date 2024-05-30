@@ -1,0 +1,50 @@
+<!--<div class="row">-->
+<!--  <div class="col-md-12" >-->
+<!--    <div class="col col-md-12" style="padding: 2%;" >-->
+<div class="container">
+<div class="card shadow" *ngIf="tempchangesList!=null">
+  <div class="card-header" >
+    <div  class="float-start">
+      <b>Approval Pending Details</b>
+    </div>
+    <!-- <div  class="float-end">
+      <a class="btn btn-outline-info" [routerLink]="'/approve-temp-changes/' + tempchanges.id">Details</a>
+    </div> -->
+  </div>
+  <div class="card-body" *ngIf="tempchangesList!=null ">
+    <div style="padding: 1%">
+      <div class="row mb-12">
+        <table class="table table-stripped">
+          <thead>
+          <tr>
+            <th>Sl No.</th>
+            <th>Id Card No.</th>
+            <th>Employee Name</th>
+            <!-- <th>Email ID</th> -->
+            <th>Mobile No.</th>
+            <th>Last Updated Date</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody *ngIf="tempchangesList!=null">
+          <tr *ngFor="let tempchanges of tempchangesList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{tempchanges.id_cards[0].card_no}}</td>
+            <td>{{ tempchanges.emp_title}} {{ tempchanges.emp_name}}</td>
+            <!-- <td>{{ tempchanges.email_id}}</td> -->
+            <td>{{ tempchanges.mobile}}</td>
+            <td>{{ formatDate(tempchanges.changed_at)}}</td>
+            <td>
+              <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/changes-approval-dtls/' + tempchanges.temp_id">Details</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
