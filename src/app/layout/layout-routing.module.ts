@@ -51,7 +51,7 @@ const routes: Routes = [
       { path: 'ebapanel',loadChildren: () => import('../ebapanel/ebapanel.module').then(d => d.EbapanelModule), canActivate: [AuthGuard]},
       { path: 'ebaformlist',loadChildren: () => import('../eba-form-list/eba-form-list.module').then(d => d.EbaFormListModule), canActivate: [AuthGuard]},
       { path: 'adminpanel',loadChildren: () => import('../adminpanel/adminpanel.module').then(d => d.AdminpanelModule), canActivate: [AuthGuard]},
-
+      { path: 'id-form/:mode/:id',loadChildren: () => import('../id-form/id-form.module').then(d => d.IdFormModule), canActivate: [AuthGuard]},
     ]
   },
 

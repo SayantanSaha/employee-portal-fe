@@ -88,7 +88,8 @@ export class EbaFormComponent {
     if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4 || role == 9|| role == 10))||(this.modetwo == 'return')) {
       this.id = this.route.snapshot.paramMap.get('id');
       if(this.modetwo !== 'return'){
-        this.letverify(!isNaN(+this.id!));}
+        this.letverify(!isNaN(+this.id!));
+      }
     }
 
     if (this.id) {

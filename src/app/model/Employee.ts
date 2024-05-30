@@ -17,6 +17,9 @@ export class Employee{
   emp_name: string = '';
   emp_title_hi: string = '';
   emp_name_hi: string = '';
+  body_mark:string = '';
+  police_verification_no:string = '';
+  blood_group:string='';
   doj_rb: Date|null = null;
   doj_gs: Date|null = null;
   gender: string = '';
@@ -43,6 +46,7 @@ export class Employee{
   profile_photo: string|null = null;
   relations: Relation[]|null = [];
   closefamily: Relation[]|null = [];
+  father_name:string|null=null;
   family: Relation[]|null = [];
   servants: Servants[]|null = [];
   // servant_relations:ServantRel[]|null=[];
@@ -54,7 +58,10 @@ export class Employee{
   divisions: Division[]|null = null;
   organization: Organization|null = null;
   designations: Designation[]|null = null;
-  //aadhar_card: string|null = null;
+  division: string | null = null;
+  org: string | null = null;
+  designation: string | null = null;
+  id_proof: string|null = null;
   sign_path: string|null = null;
   id_cards: Idcards[]|null = null;
   temp_changes: any;

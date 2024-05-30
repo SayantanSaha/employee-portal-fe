@@ -81,7 +81,7 @@ export class ProfileComponent implements OnInit{
 
   vehicles: Vehicles[]=[];
   apiUrl = environment.apiUrl;
-
+    bloodGroups: string[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
   ngOnInit() {
 
@@ -1859,57 +1859,58 @@ export class ProfileComponent implements OnInit{
   }
 
 
-  // async onaadharSelected(event: any): Promise<void> {
-  //   const selectedFile = event.target.files[0]; // Get the first selected file
-  //
-  //   try {
-  //     if (selectedFile) {
-  //       const fileType = selectedFile.type;
-  //       const fileSize = selectedFile.size;
-  //
-  //       // Check if the selected file is a PDF and the size is within limits
-  //       if (fileType === 'application/pdf' && fileSize <= 1048576) {
-  //         const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
-  //         if (this.employee) {
-  //           this.employee.aadhar_card = base64String;
-  //         } else {
-  //           console.log('this.employee is null.');
-  //         }
-  //       } else {
-  //         Swal.fire({
-  //           icon: 'error',
-  //           title: 'Invalid File',
-  //           text: 'File size exceeds 1mb or it is not a pdf',
-  //         });
-  //         console.log('File size exceeds 1mb or not a pdf');
-  //       }
-  //     } else {
-  //       Swal.fire({
-  //         icon: 'error',
-  //         title: 'File is not present',
-  //         text: 'No file selected',
-  //       });
-  //       console.log('No file selected');
-  //     }
-  //   } catch (error) {
-  //     console.error('Failed to convert the file to base64:', error);
-  //   }
-  // }
+  async onIDproofSelected(event: any): Promise<void> {
+    const selectedFile = event.target.files[0]; // Get the first selected file
 
-  // streamAadharCard() {
-  //   // Here, you can open or display the Aadhar Card using an appropriate method.
-  //   // You can use a library or native functionality to achieve this.
-  //   // For example, if it's an image or PDF, you can open it in a new tab or viewer.
-  //
-  //   // Example for opening the Aadhar Card in a new tab:
-  //   if (this.employee && this.employee.aadhar_card) {
-  //     const aadharCardBlob = new Blob([this.employee.aadhar_card], { type: 'application/pdf' }); // Adjust the content type as needed
-  //     const objectURL = URL.createObjectURL(aadharCardBlob);
-  //
-  //     // Open the Aadhar Card in a new tab
-  //     window.open(objectURL, '_blank');
-  //   }
-  // }
+    try {
+      if (selectedFile) {
+        const fileType = selectedFile.type;
+        const fileSize = selectedFile.size;
+
+        // Check if the selected file is a PDF and the size is within limits
+        if (fileType === 'application/pdf' && fileSize <= 1048576) {
+          const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
+          if (this.employee) {
+            this.employee.id_proof = base64String;
+            this.changesMade = true;
+          } else {
+            console.log('this.employee is null.');
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 1mb or it is not a pdf',
+          });
+          console.log('File size exceeds 1mb or not a pdf');
+        }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'File is not present',
+          text: 'No file selected',
+        });
+        console.log('No file selected');
+      }
+    } catch (error) {
+      console.error('Failed to convert the file to base64:', error);
+    }
+  }
+
+  streamAadharCard() {
+    // Here, you can open or display the Aadhar Card using an appropriate method.
+    // You can use a library or native functionality to achieve this.
+    // For example, if it's an image or PDF, you can open it in a new tab or viewer.
+
+    // Example for opening the Aadhar Card in a new tab:
+    if (this.employee && this.employee.id_proof) {
+      const aadharCardBlob = new Blob([this.employee.id_proof], { type: 'application/pdf' }); // Adjust the content type as needed
+      const objectURL = URL.createObjectURL(aadharCardBlob);
+
+      // Open the Aadhar Card in a new tab
+      window.open(objectURL, '_blank');
+    }
+  }
 
 
   // Order File Posting

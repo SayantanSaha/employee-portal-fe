@@ -150,7 +150,7 @@
   <div class="container">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link text-bold text-white" href="#">
+        <a class="nav-link text-bold text-white" [routerLink]="'/profile/edit'">
           <img *ngIf="user.profile_photo" [src]="user.profile_photo ? user.profile_photo : '' " alt="mdo"
                                                                width="32" height="32" class="rounded-circle">
          Welcome, &nbsp;{{user.name}}</a>

@@ -3,6 +3,7 @@ import {EmployeeService} from "../employee.service";
 import {Alert} from "../model/alert";
 import {Router} from "@angular/router";
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import {Organization} from "../model/Organization";
 
 @Component({
   selector: 'app-registration',
@@ -26,22 +27,32 @@ export class RegistrationComponent {
 
   firstName: string ='';
   lastName: string ='';
-  email: string ='';
+  // email: string ='';
   mobile: string ='';
   password: string ='';
   cpassword: string ='';
+  organization:string='';
+  orglist:Organization[] = [];
   alerts:Alert[] = [];
+
+  ngOnInit() {
+    this.employeeService.getOrganizations().subscribe(
+      data => this.orglist = data,
+      error => console.log(error)
+    );
+  }
+
 
   doRegistration(){
     if(this.validateInput()){
-      this.employeeService.postRegistration(this.email,this.password,this.firstName,this.lastName,this.mobile)
+      this.employeeService.postRegistration(this.organization,this.password,this.firstName,this.lastName,this.mobile)
         .subscribe((data) => {
           console.log(data);
           if(data.status=='success'){
             sessionStorage.setItem('user', JSON.stringify(data.user));
             sessionStorage.setItem('authorisation', JSON.stringify(data.authorisation));
             sessionStorage.setItem('isLoggedIn', 'true');
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/profile/edit']);
           }
         },
           error => {

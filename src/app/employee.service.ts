@@ -22,6 +22,7 @@ import {Servants} from "./model/Servants";
 import {ServantRel} from "./model/ServantRel";
 import {Vehicles} from "./model/Vehicles";
 import {Search} from "./model/Search";
+import {Organization} from "./model/Organization";
 
 
 @Injectable({
@@ -47,8 +48,8 @@ export class EmployeeService {
     return this.http.post<Login>(this.apiUrl+"login",{username: username, password: password});
   }
 
-  postRegistration(email:string, password:string, firstName: string, lastName: string, mobile: string):Observable<Login>{
-    return this.http.post<Login>(this.apiUrl+"register",{username: mobile, password: password, name:firstName+' '+lastName, email:email});
+  postRegistration(organization:string, password:string, firstName: string, lastName: string, mobile: string):Observable<Login>{
+    return this.http.post<Login>(this.apiUrl+"register",{username: mobile, password: password, name:firstName+' '+lastName, organization:organization});
   }
 
   getMyProfile():Observable<Employee>{
@@ -57,6 +58,10 @@ export class EmployeeService {
 
   getMyebaProfile():Observable<Employee>{
     return this.http.get<Employee>(this.apiUrl+"eba_profile",{headers:this.createHeader()});
+  }
+
+  getMyIDProfile():Observable<Employee>{
+    return this.http.get<Employee>(this.apiUrl+"id_profile",{headers:this.createHeader()});
   }
 
   updateEmployee(employee:Employee):Observable<Employee>{
@@ -69,6 +74,10 @@ export class EmployeeService {
 
   postRefreshLogin():Observable<Login>{
     return this.http.post<Login>(this.apiUrl+"refresh",{},{headers:this.createHeader()});
+  }
+
+  getOrganizations():Observable<Organization[]>{
+    return this.http.get<Organization[]>(this.apiUrl+"organizations",{headers:this.createHeader()});
   }
 
   getStates():Observable<State[]>{

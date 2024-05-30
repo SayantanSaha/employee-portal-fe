@@ -41,9 +41,13 @@
                 </div>
                 <div class="row">
                   <div class="col-md">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" [(ngModel)]="email">
-                    <div id="emailHelp" class="form-text"></div>
+                    <label for="department" class="form-label">Organization</label>
+                    <select class="form-control" id="department" [(ngModel)]="organization">
+<!--                      <option [ngValue]=null>Select Your Organization</option>-->
+                      <option [ngValue]="org.id" *ngFor="let org of orglist">
+                        {{org!.org_desc}}</option>
+                    </select>
+
                   </div>
                   <div class="col-md">
                     <label for="mobile" class="form-label">Mobile No.</label>
@@ -62,10 +66,9 @@
                 </div>
                 <!--<div class="row">
                   <div class="col-md">
-                    <label for="department" class="form-label">Dapartment</label>
-                    <select class="form-control" id="department">
-                      <option>Select Department</option>
-                    </select>
+                  <label for="email" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" [(ngModel)]="email">
+                  <div id="emailHelp" class="form-text"></div>
                   </div>
                   <div class="col-md">
                     <label for="section" class="form-label">Section</label>
@@ -99,19 +102,20 @@
 
 
             </div>
-            <div class="slide">
 
-            </div>
-            <div class="slide">
+<!--            <div class="slide">-->
 
-            </div>
+<!--            </div>-->
+<!--            <div class="slide">-->
+
+<!--            </div>-->
           </div>
 
-          <div class="navigation-buttons">
-            <button class="btn btn-primary" (click)="goToPreviousPage()" [disabled]="currentPageIndex === 0">Previous</button>
-            <button class="btn btn-primary" (click)="goToNextPage()" *ngIf="currentPageIndex !== totalPages - 1" [disabled]="currentPageIndex === totalPages - 1">Next</button>
-            <button *ngIf="currentPageIndex === totalPages - 1" type="submit" class="btn btn-primary" (click)="doRegistration()">Submit</button>
-          </div>
+<!--          <div class="navigation-buttons">-->
+<!--            <button class="btn btn-primary" (click)="goToPreviousPage()" [disabled]="currentPageIndex === 0">Previous</button>-->
+<!--            <button class="btn btn-primary" (click)="goToNextPage()" *ngIf="currentPageIndex !== totalPages - 1" [disabled]="currentPageIndex === totalPages - 1">Next</button>-->
+            <button type="submit" class="btn btn-primary" style="margin-left: 44.5%" (click)="doRegistration()">Submit</button>
+<!--          </div>-->
         </div>
       </div>
     </div>

@@ -233,9 +233,9 @@
                         {{ basicDetails.old_table_data.email_id}}
                       </div>
                       <div class="col-md-6" float="right;">
-                        <b><label>Vehicle No</label></b>
+                        <b><label> blood group</label></b>
                         <br />
-                        {{ basicDetails.old_table_data.vehicle_no}}
+                        {{ basicDetails.old_table_data.blood_group}}
                       </div>
 
                     </div>
@@ -251,6 +251,21 @@
                         <b><label>Date of Joining in RB</label></b>
                         <br />
                         {{ basicDetails.old_table_data.doj_rb}}
+                      </div>
+
+                    </div>
+
+                    <div class="row mb-12">
+
+                      <div class="col-md-6" float="right;">
+                        <b><label>Identification mark (on Body)</label></b>
+                        <br />
+                        {{ basicDetails.old_table_data.body_mark}}
+                      </div>
+                      <div class="col-md-6" float="right;">
+                        <b><label> Police Verification No</label></b>
+                        <br />
+                        {{ basicDetails.old_table_data.police_verification_no}}
                       </div>
 
                     </div>
@@ -456,15 +471,16 @@
                           'N/A' }}
 
                       </div>
+
                       <div class="col-md-6" float="right;"
-                           [style.color]="basicDetails.changed_data.vehicle_no ? 'red' : 'inherit'">
-                        <b><label>Vehicle No</label></b>
+                           [style.color]="basicDetails.changed_data.blood_group ? 'red' : 'inherit'">
+                        <b><label>Blood Group</label></b>
                         <br />
-                        {{ basicDetails.changed_data?.vehicle_no ?
-                        basicDetails.changed_data.vehicle_no :
-                        basicDetails.old_table_data?.vehicle_no ?
-                          basicDetails.old_table_data.vehicle_no :
-                          'N/A' }}
+                        {{ basicDetails.changed_data?.blood_group ?
+                              basicDetails.changed_data.blood_group :
+                              basicDetails.old_table_data?.blood_group ?
+                                      basicDetails.old_table_data.blood_group :
+                                      'N/A' }}
 
                       </div>
                     </div>
@@ -489,6 +505,31 @@
                         basicDetails.old_table_data?.doj_rb ?
                           basicDetails.old_table_data.doj_rb :
                           'N/A' }}
+                      </div>
+                    </div>
+
+                    <div class="row mb-12">
+                      <div class="col-md-6" float="right;"
+                           [style.color]="basicDetails.changed_data.body_mark ? 'red' : 'inherit'">
+                        <b><label>Identification mark (on Body)</label></b>
+                        <br />
+                        {{ basicDetails.changed_data?.body_mark ?
+                              basicDetails.changed_data.body_mark :
+                              basicDetails.old_table_data?.body_mark ?
+                                      basicDetails.old_table_data.body_mark :
+                                      'N/A' }}
+
+                      </div>
+
+                      <div class="col-md-6" float="right;"
+                           [style.color]="basicDetails.changed_data.police_verification_no ? 'red' : 'inherit'">
+                        <b><label>Police Verification No</label></b>
+                        <br />
+                        {{ basicDetails.changed_data?.police_verification_no ?
+                              basicDetails.changed_data.police_verification_no :
+                              basicDetails.old_table_data?.police_verification_no ?
+                                      basicDetails.old_table_data.police_verification_no :
+                                      'N/A' }}
 
                       </div>
                     </div>
