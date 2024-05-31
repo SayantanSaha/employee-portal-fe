@@ -350,8 +350,8 @@
                           <br /><br />
                           <div *ngIf="employee">
                             <span style="font-size: 1.2em">{{employee.emp_name!}}</span><br />
-                            <span style="font-size: 1.2em">{{ employee?.id_cards?.[0]?.card_no }}</span><br />
-                            <span style="font-size: 0.8em">{{ employee?.designations?.[0]?.desg_desc }}</span><br />
+                            <span style="font-size: 1.2em">{{ employee!.id_cards?.[0]?.card_no }}</span><br />
+                            <span style="font-size: 0.8em">{{ employee!.designations?.[0]?.desg_desc }}</span><br />
                             <span style="font-size: 0.8em">{{employee!.organization?.org_desc}}</span><br />
                             <span style="font-size: 0.8em">{{employee!.email_id!}}</span><br />
                             <span style="font-size: 1em">{{employee!.mobile!}}</span><br />
