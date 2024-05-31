@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 import { environment } from '../../environments/environment';
 import { Employee } from '../model/Employee';
 import { User } from '../model/User';
+import {Idcards} from "../model/Idcards";
+import {fileToBase64} from "../profile/fileToBase64";
 
 @Component({
   selector: 'app-id-form',
