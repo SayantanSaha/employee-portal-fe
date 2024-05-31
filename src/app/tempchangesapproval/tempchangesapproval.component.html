@@ -45,13 +45,13 @@
 
                       <div class="col-md-4">
                         <ng-container
-                          *ngIf="basicDetails && basicDetails.changed_data.aadhar_card; ">
+                          *ngIf="basicDetails && basicDetails.changed_data.id_proof; ">
                           <b><label>Aadhar Card</label></b>
                           <br />
 
 
                           <a class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
-                             href="{{ apiUrl }}getFile/{{ basicDetails.changed_data.aadhar_card }}"
+                             href="{{ apiUrl }}getFile/{{ basicDetails.changed_data.id_proof }}"
                              alt="Aadhar Card" target="_blank">
                             <i class="bi bi-eye"></i>
                           </a>
@@ -73,30 +73,27 @@
 
                   <div class="col-md-4">
                     <div style="width: 100%;text-align: center;padding-top: 10px;">
-                                            <span *ngIf="basicDetails && basicDetails.changed_data.profile_photo">
-                                                <img [src]="basicDetails.changed_data.profile_photo" alt="Profile Photo"
-                                                     style="width: 128px; height: 128px" class="rounded-circle"
-                                                     title="Employee Image" />
-                                            </span>
+                      <span *ngIf="basicDetails && basicDetails.changed_data.profile_photo">
+                          <img [src]="basicDetails.changed_data.profile_photo" alt="Profile Photo"
+                               style="width: 128px; height: 128px" class="rounded-circle"
+                               title="Employee Image" />
+                      </span>
 
                       <span *ngIf="!basicDetails?.changed_data?.profile_photo">
                                                 <img style="width: 128px; height: 128px" class="rounded-circle" />
                                             </span>
-
-
                     </div>
 
                     <div style="width: 100%;text-align: center;padding-top: 10px;">
-                                            <span *ngIf="basicDetails && basicDetails.changed_data.sign_path">
-                                                <img [src]="basicDetails.changed_data.sign_path" alt="Signature" style="width: 100px; height: 30px"
-                                                     class="rounded-square" title="Employee Signature" />
-                                            </span>
+                      <span *ngIf="basicDetails && basicDetails.changed_data.sign_path">
+                          <img [src]="basicDetails.changed_data.sign_path" alt="Signature" style="width: 100px; height: 30px"
+                               class="rounded-square" title="Employee Signature" />
+                      </span>
 
                       <span *ngIf="!basicDetails?.changed_data?.sign_path">
-                                                <img style="width: 128px; height: 128px" class="rounded-circle" />
-                                            </span>
+                          <img style="width: 128px; height: 128px" class="rounded-circle" />
+                      </span>
                       <br/>
-
                     </div>
 
                     <!-- <div style="width: 100%;text-align: center;padding-top: 10px;">
@@ -142,24 +139,22 @@
                     <h5 class="card-title">Profile Photo</h5>
                   </div>
                   <div style="width: 100%;text-align: center;padding-top: 10px;">
-                                        <span *ngIf="basicDetails && basicDetails.changed_data.profile_photo">
-                                            <img [src]="basicDetails.changed_data.profile_photo" alt="Profile Photo"
-                                                 style="width: 128px; height: 128px" class="rounded-circle"
-                                                 title="Employee Image" />
-                                        </span>
+                    <span *ngIf="basicDetails && basicDetails.changed_data.profile_photo">
+                        <img [src]="basicDetails.changed_data.profile_photo" alt="Profile Photo"
+                             style="width: 128px; height: 128px" class="rounded-circle"
+                             title="Employee Image" />
+                    </span>
 
                     <span *ngIf="!basicDetails?.changed_data?.profile_photo">
                                             <img style="width: 128px; height: 128px" class="rounded-circle" />
                                         </span>
-
-
                   </div>
 
                   <div style="width: 100%;text-align: center;padding-top: 10px;">
-                                        <span *ngIf="basicDetails && basicDetails.changed_data.sign_path">
-                                            <img [src]="basicDetails.changed_data.sign_path" alt="Signature" style="width: 100px; height: 30px"
-                                                 class="rounded-square" title="Employee Signature" />
-                                        </span>
+                    <span *ngIf="basicDetails && basicDetails.changed_data.sign_path">
+                        <img [src]="basicDetails.changed_data.sign_path" alt="Signature" style="width: 100px; height: 30px"
+                             class="rounded-square" title="Employee Signature" />
+                    </span>
 
                     <span *ngIf="!basicDetails?.changed_data?.sign_path">
                                             <img style="width: 128px; height: 128px" class="rounded-circle" />
@@ -310,8 +305,6 @@
                             {{ basicDetails.old_table_data.curr_pin }}
                           </div>
                         </div>
-
-
                       </div>
 
                       <div class="col-md-6">

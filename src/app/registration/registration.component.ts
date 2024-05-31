@@ -4,6 +4,7 @@ import {Alert} from "../model/alert";
 import {Router} from "@angular/router";
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import {Organization} from "../model/Organization";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-registration',
@@ -43,34 +44,41 @@ export class RegistrationComponent {
   }
 
 
-  doRegistration(){
-    if(this.validateInput()){
-      this.employeeService.postRegistration(this.organization,this.password,this.firstName,this.lastName,this.mobile)
-        .subscribe((data) => {
-          console.log(data);
-          if(data.status=='success'){
-            sessionStorage.setItem('user', JSON.stringify(data.user));
-            sessionStorage.setItem('authorisation', JSON.stringify(data.authorisation));
-            sessionStorage.setItem('isLoggedIn', 'true');
-            this.router.navigate(['/profile/edit']);
-          }
-        },
-          error => {
-            this.alerts.push(new Alert('danger',JSON.stringify(error)));
-          }
-
-      )
+  doRegistration() {
+    if (this.password !== this.cpassword) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Validation Error',
+        text: 'Password and Confirm Password do not match',
+      });
+      return; // Stop execution if validation fails
     }
+    this.employeeService.postRegistration(this.organization, this.password, this.firstName, this.lastName, this.mobile).subscribe(
+      (data) => {
+        console.log(data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Registered Successfully',
+        }).then(() => {
+          this.router.navigate(['login']);
+        });
+      },
+      (error) => {
+        let errorMessage = 'An error occurred. Please try again.';
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message;
+        }
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: errorMessage,
+        });
+      }
+    );
   }
 
-  validateInput(){
-    let valid:boolean = true;
-    if(this.password!=this.cpassword){
-      this.alerts.push(new Alert('danger','Password and Confirm Password no not match'));
-      valid=false;
-    }
-    return valid;
-  }
+
 
   currentPageIndex = 0;
   totalPages = 3; // Update this if you add or remove pages

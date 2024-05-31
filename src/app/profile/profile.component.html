@@ -350,9 +350,9 @@
                           <br /><br />
                           <div *ngIf="employee">
                             <span style="font-size: 1.2em">{{employee.emp_name!}}</span><br />
-                            <span style="font-size: 1.2em">{{employee.id_cards![0]!.card_no}}</span><br />
-                            <span style="font-size: 0.8em">{{employee!.designations![0]!.desg_desc!}}</span><br />
-                            <span style="font-size: 0.8em">{{employee!.organization!.org_desc}}</span><br />
+                            <span style="font-size: 1.2em">{{ employee?.id_cards?.[0]?.card_no }}</span><br />
+                            <span style="font-size: 0.8em">{{ employee?.designations?.[0]?.desg_desc }}</span><br />
+                            <span style="font-size: 0.8em">{{employee!.organization?.org_desc}}</span><br />
                             <span style="font-size: 0.8em">{{employee!.email_id!}}</span><br />
                             <span style="font-size: 1em">{{employee!.mobile!}}</span><br />
                           </div>
@@ -752,7 +752,7 @@
                             <th>Joining Date</th>
                             <th>Order No.</th>
                             <th>Order Date</th>
-<!--                            <th>Order File</th>-->
+                            <th>Order File</th>
                           </tr>
                           </thead>
                           <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
@@ -762,7 +762,13 @@
                               <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.join_date)}}</td>
                               <td *ngIf="change.model === 'promotion'">{{ change.changed_data.order_no }}</td>
                               <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.order_date)}}</td>
-<!--                              <td *ngIf="change.model === 'promotion'">{{ change.changed_data.order_path }}</td>-->
+                              <td *ngIf="change.model === 'promotion'">
+                                <span *ngIf="change.changed_data && change.changed_data.order_path">
+                                     <a href="{{apiUrl}}getFile/{{change.changed_data.order_path}}" class="btn btn-outline-primary" title="id proof" target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                      </a>
+                                  </span>
+                              </td>
                             </tr>
                           </ng-container>
                           </tbody>
@@ -907,7 +913,7 @@
                             <th>To Date</th>
                             <th>Order No.</th>
                             <th>Order Date</th>
-<!--                            <th>Order File</th>-->
+                            <th>Order File</th>
                           </tr>
                           </thead>
                           <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
@@ -918,7 +924,13 @@
                               <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.to_date) }}</td>
                               <td *ngIf="change.model === 'posting'">{{ change.changed_data.order_no }}</td>
                               <td *ngIf="change.model === 'posting'">{{ formatDate(change.changed_data.order_date) }}</td>
-<!--                              <td *ngIf="change.model === 'posting'">{{ change.changed_data.order_path }}</td>-->
+                              <td *ngIf="change.model === 'posting'">
+                                <span *ngIf="change.changed_data && change.changed_data.order_path">
+                                   <a href="{{apiUrl}}getFile/{{change.changed_data.order_path}}" class="btn btn-outline-primary" title="id proof" target="_blank">
+                                      <i class="bi bi-eye"></i>
+                                    </a>
+                                </span>
+                              </td>
                             </tr>
                           </ng-container>
                           </tbody>
