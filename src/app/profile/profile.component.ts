@@ -258,11 +258,14 @@ export class ProfileComponent implements OnInit{
         //     window.location.reload();
         //   }
         });
-        const newChange = {
-          model: 'Employee',
-          changed_data: this.employee
-        };
-        this.employee!.temp_changes.push(newChange);
+        this.employeeService.getMyProfile().subscribe(
+          datas=>{
+            this.employee = datas;
+
+            this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+            this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+          }
+        );
       },
       (error) => {
         console.log(error);
@@ -344,11 +347,14 @@ export class ProfileComponent implements OnInit{
           title: 'Success',
           text: 'Request for approval of Designation have been saved successfully and pending for approval',
           });
-          const newChange = {
-            model: 'promotion',
-            changed_data: promotion
-          };
-          this.employee!.temp_changes.push(newChange);
+          this.employeeService.getMyProfile().subscribe(
+            datas=>{
+              this.employee = datas;
+
+              this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+              this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+            }
+          );
         },
         e => {
           console.log(e);
@@ -388,12 +394,14 @@ export class ProfileComponent implements OnInit{
               icon: 'success',
               title: 'Success',
               text: 'Request for approval of designation have been updated successfully and pending for approval',
-            });
-            const newChange = {
-              model: 'promotion',
-              changed_data: promotion
-            };
-            this.employee!.temp_changes.push(newChange);
+            });this.employeeService.getMyProfile().subscribe(
+              datas=>{
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+                this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+              }
+            );
           },
           e => {
             console.log(e);
@@ -503,11 +511,14 @@ export class ProfileComponent implements OnInit{
             //     window.location.reload();
             //   }
             });
-            const newChange = {
-              model: 'posting',
-              changed_data: postingDtls
-            };
-            this.employee!.temp_changes.push(newChange);
+            this.employeeService.getMyProfile().subscribe(
+              datas=>{
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+                this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+              }
+            );
           },
           e => {
             console.log(e);
@@ -553,12 +564,14 @@ export class ProfileComponent implements OnInit{
               //     // Redirect to the desired page
               //     window.location.reload();
               //   }
-              });
-              const newChange = {
-                model: 'posting',
-                changed_data: postingDtls
-              };
-              this.employee!.temp_changes.push(newChange);
+              });this.employeeService.getMyProfile().subscribe(
+                datas=>{
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+                }
+              );
             },
             e => {
               console.log(e);
@@ -642,12 +655,14 @@ export class ProfileComponent implements OnInit{
             //     // Redirect to the desired page
             //     window.location.reload();
             //   }
-            });
-            const newChange = {
-              model: 'employee_rel',
-              changed_data: membersDtls,
-            };
-            this.employee!.temp_changes.push(newChange);
+            });this.employeeService.getMyProfile().subscribe(
+              datas=>{
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+                this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+              }
+            );
           },
           e => {
             console.log(e);
@@ -694,11 +709,14 @@ export class ProfileComponent implements OnInit{
               //     window.location.reload();
               //   }
               });
-              const newChange = {
-                model: 'employee_rel',
-                changed_data: membersDtls,
-              };
-              this.employee!.temp_changes.push(newChange);
+              this.employeeService.getMyProfile().subscribe(
+                datas=>{
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+                }
+              );
             },
             e => {
               console.log(e);
@@ -1143,7 +1161,14 @@ export class ProfileComponent implements OnInit{
                 model: 'servant',
                 changed_data: this.employee!.servants[i]
               };
-              this.employee!.temp_changes.push(newChange);
+              this.employeeService.getMyProfile().subscribe(
+                datas=>{
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+                }
+              );
             }
           },
           (e) => {
@@ -1175,11 +1200,14 @@ export class ProfileComponent implements OnInit{
                 title: 'Success',
                 text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
               });
-              const newChange = {
-                model: 'servant',
-                changed_data: this.employee!.servants[i]
-              };
-              this.employee!.temp_changes.push(newChange);
+              this.employeeService.getMyProfile().subscribe(
+                datas=>{
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+                }
+              );
             }
           },
           (e) => {
@@ -1249,11 +1277,14 @@ export class ProfileComponent implements OnInit{
               title: 'Success',
               text: 'Request for approval of Domestic Help has been saved successfully and is pending approval',
             });
-          //   const newChange = {
-          //     model: 'servant_rel',
-          //     changed_data: servantsRelDtls
-          //   };
-          //   this.employee!.temp_changes.push(newChange);
+            this.employeeService.getMyProfile().subscribe(
+              datas=>{
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+                this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+              }
+            );
           }
         },
         (e) => {
@@ -1290,11 +1321,14 @@ export class ProfileComponent implements OnInit{
               title: 'Success',
               text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
             });
-            // const newChange = {
-              //     model: 'servant_rel',
-              //     changed_data: servantsRelDtls
-              //   };
-              //   this.employee!.temp_changes.push(newChange);
+            this.employeeService.getMyProfile().subscribe(
+              datas=>{
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
+                this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+              }
+            );
 
           }
         },
