@@ -13,25 +13,25 @@
                 <div class="row">
                   <div class="col-md">
                     <label for="firstName" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="employee?.emp_name">
+                    <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="employee!.emp_name">
                   </div>
 
                   <div class="col-md">
                     <label for="lastName" class="form-label">Father's Name</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="employee?.relations?.[0]?.pivot?.rel_name">
+                    <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="employee!.relations?.[0]?.pivot!.rel_name">
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" [(ngModel)]="employee?.email_id">
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" [(ngModel)]="employee!.email_id">
                     <div id="emailHelp" class="form-text"></div>
                   </div>
 
                   <div class="col-md">
                     <label for="mobile" class="form-label">Mobile No.</label>
-                    <input type="number" class="form-control" id="mobile" name="mobile" [(ngModel)]="employee?.mobile">
+                    <input type="number" class="form-control" id="mobile" name="mobile" [(ngModel)]="employee!.mobile">
                   </div>
                 </div>
 
@@ -46,9 +46,9 @@
                       [(ngModel)]="password"
                       (input)="validatePasswords()"
                       [ngClass]="{
-        'is-valid': passwordsMatch && passwordValid,
-        'is-invalid': passwordTouched && (!passwordValid || !passwordsMatch)
-      }"
+                  'is-valid': passwordsMatch && passwordValid,
+                  'is-invalid': passwordTouched && (!passwordValid || !passwordsMatch)
+                }"
                       (blur)="passwordTouched = true"
                     />
                     <div *ngIf="passwordTouched && !passwordValid" class="invalid-feedback">
@@ -80,8 +80,6 @@
                 <div class="row">
                   <div class="col-md-6">
                     <label class="form-label"><u>Present Address</u></label>
-
-
                     <div class="row">&nbsp;</div>
                     <div class="row">
                       <div class="col-md-12">
@@ -92,9 +90,7 @@
 
                     <div class="row">
                       <div class="col-md-12">
-                        <select class="form-control" [(ngModel)]="employee!.curr_state"
-
-                        >
+                        <select class="form-control" [(ngModel)]="employee!.curr_state" (ngModelChange)="onStateChange($event,'curr')">
                           <option value="null">Select State</option>
                           <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
                         </select>
@@ -103,8 +99,7 @@
 
                     <div class="row">
                       <div class="col-md-12">
-                        <select class="form-control" [(ngModel)]="employee!.curr_district"
-                        >
+                        <select class="form-control" [(ngModel)]="employee!.curr_district">
                           <option value="null">Select District</option>
                           <option [ngValue]="dist" *ngFor="let dist of currDistricts">{{dist.district_name}}
                           </option>
@@ -115,8 +110,7 @@
                     <div class="row">
                       <div class="col-md-12">
                         <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
-                               aria-label="pin" [(ngModel)]="employee!.curr_pin"
-                        >
+                               aria-label="pin" [(ngModel)]="employee!.curr_pin">
                       </div>
                     </div>
 
@@ -124,8 +118,6 @@
 
                   <div class="col-md-6">
                     <label class="form-label"><u>Permanent Address</u></label>
-
-
                     <div class="row">
                       <div class="col-md-12">
                         <input type="checkbox" id="cpaddress" [(ngModel)]="isCpAddressChecked"
@@ -136,16 +128,13 @@
                     <div class="row">
                       <div class="col-md-12">
                         <input type="text" class="form-control" placeholder="Address" aria-label="address"
-                               [(ngModel)]="employee!.perm_add" [readonly]="isCpAddressChecked"
-                        >
+                               [(ngModel)]="employee!.perm_add" [readonly]="isCpAddressChecked">
                       </div>
                     </div>
 
                     <div class="row">
                       <div class="col-md-12">
-                        <select class="form-control" [(ngModel)]="employee!.perm_state"
-
-                                [disabled]="isCpAddressChecked" >
+                        <select class="form-control" [(ngModel)]="employee!.perm_state" (ngModelChange)="onStateChange($event,'perm')" [disabled]="isCpAddressChecked" >
                           <option value="null">Select State</option>
                           <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
                         </select>
@@ -154,9 +143,7 @@
 
                     <div class="row">
                       <div class="col-md-12">
-                        <select class="form-control" [(ngModel)]="employee!.perm_district"
-                                [disabled]="isCpAddressChecked"
-                        >
+                        <select class="form-control" [(ngModel)]="employee!.perm_district" [disabled]="isCpAddressChecked">
                           <option value="null">Select District</option>
                           <option [ngValue]="dist" *ngFor="let dist of permDistricts">{{dist.district_name}}
                           </option>
@@ -172,7 +159,6 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
 
@@ -183,7 +169,7 @@
                   <div class="col-md">
                     <label for="department" class="form-label">Organization</label>
                     <select class="form-control" id="department" [(ngModel)]="organization">
-                      <!--                      <option [ngValue]=null>Select Your Organization</option>-->
+                      <option [ngValue]=null>Select Your Organization</option>
                       <option [ngValue]="org.id" *ngFor="let org of orglist">
                         {{org!.org_desc}}</option>
                     </select>
@@ -193,6 +179,8 @@
                     <label for="section" class="form-label">Section</label>
                     <select class="form-control" id="section">
                       <option>Select Section</option>
+                      <option [ngValue]="org.id" *ngFor="let org of orglist">
+                        {{org!.org_desc}}</option>
                     </select>
                   </div>
                 </div>
@@ -201,19 +189,48 @@
                     <label for="designation" class="form-label">Designation</label>
                     <select class="form-control" id="designation">
                       <option>Select Designation</option>
+                      <option [ngValue]="org.id" *ngFor="let org of orglist">
+                        {{org!.org_desc}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md">
+                    <label for="pay" class="form-label">Body Mark</label>
+                    <input type="text" class="form-control" placeholder="body mark" aria-label="body mark"
+                                     [(ngModel)]="employee!.body_mark"
+                                     >
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md">
+                    <label for="designation" class="form-label">Police verification no</label>
+                    <input type="text" class="form-control" placeholder="verification no" aria-label="verification no"
+                    [(ngModel)]="employee!.police_verification_no">
+                  </div>
+                  <div class="col-md">
+                    <label for="pay" class="form-label">Gender</label>
+                    <div class="input-group mb-3">
+                      <select  class="form-control" [(ngModel)]="employee!.gender">
+                        <option value="null">--Select Gender--</option>
+                        <option [ngValue]="'M'">Male</option>
+                        <option [ngValue]="'F'">Female</option>
+                        <option [ngValue]="'O'">OTHERS</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md">
+                    <label for="designation" class="form-label">Designation</label>
+                    <select class="form-control" id="designation">
+                      <option>Select Designation</option>
+                      <option [ngValue]="org.id" *ngFor="let org of orglist">
+                        {{org!.org_desc}}</option>
                     </select>
                   </div>
                   <div class="col-md">
                     <label for="pay" class="form-label">Pay Level</label>
-                    <select class="form-control" id="pay">
-                      <option>Select Pay Level</option>
-                    </select>
+                    <input type="text" class="form-control" placeholder="body mark" aria-label="body mark" [(ngModel)]="employee!.body_mark">
                   </div>
-                </div>
-
-                <div class="mb-3 form-check">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                  <label class="form-check-label" for="exampleCheck1">Check me out</label>
                 </div>
               </div>
 
