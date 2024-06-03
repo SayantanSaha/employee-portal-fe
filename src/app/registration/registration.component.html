@@ -7,69 +7,188 @@
       <div class="card-body">
         <div class="sliding-container">
           <div class="slides" [@slideAnimation]="currentPageIndex">
-            <div class="slide">
-
-
-<!--              <div *ngIf="alerts.length>0">-->
-<!--                <ng-template ngFor let-alert [ngForOf]="alerts" let-i="index">-->
-<!--                  <div  class="row">-->
-<!--                    <div class="col">-->
-<!--                      <div class="alert alert-{{alert.type}} alert-dismissible fade show" role="alert">-->
-<!--                        {{alert.msg}}-->
-<!--                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </ng-template>-->
-<!--              </div>-->
-              <div>
+            <div class="slide" *ngFor="let slide of slides; let i = index">
+              <!-- Your content here -->
+              <div *ngIf="i === 0">
                 <div class="row">
                   <div class="col-md">
-                    <label for="firstName" class="form-label">First Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="firstName"
-                      name="firstName"
-                      [(ngModel)]="firstName"
-                    >
+                    <label for="firstName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="employee?.emp_name">
                   </div>
+
                   <div class="col-md">
-                    <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="lastName">
+                    <label for="lastName" class="form-label">Father's Name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="employee?.relations?.[0]?.pivot?.rel_name">
                   </div>
                 </div>
+
+                <div class="row">
+                  <div class="col-md">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" [(ngModel)]="employee?.email_id">
+                    <div id="emailHelp" class="form-text"></div>
+                  </div>
+
+                  <div class="col-md">
+                    <label for="mobile" class="form-label">Mobile No.</label>
+                    <input type="number" class="form-control" id="mobile" name="mobile" [(ngModel)]="employee?.mobile">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md">
+                    <label for="password" class="form-label">Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      name="password"
+                      [(ngModel)]="password"
+                      (input)="validatePasswords()"
+                      [ngClass]="{
+        'is-valid': passwordsMatch && passwordValid,
+        'is-invalid': passwordTouched && (!passwordValid || !passwordsMatch)
+      }"
+                      (blur)="passwordTouched = true"
+                    />
+                    <div *ngIf="passwordTouched && !passwordValid" class="invalid-feedback">
+                      Password must be at least 6 characters long
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <label for="cpassword" class="form-label">Confirm Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="cpassword"
+                      name="cpassword"
+                      [(ngModel)]="cpassword"
+                      (input)="validatePasswords()"
+                      [ngClass]="{
+        'is-valid': passwordsMatch && passwordValid,
+        'is-invalid': cpasswordTouched && (!passwordsMatch || !passwordValid)
+      }"
+                      (blur)="cpasswordTouched = true"
+                    />
+                    <div *ngIf="cpasswordTouched && !passwordsMatch" class="invalid-feedback">
+                      Password and Confirm Password do not match
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="i === 1">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="form-label"><u>Present Address</u></label>
+
+
+                    <div class="row">&nbsp;</div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input type="text" class="form-control" placeholder="Address" aria-label="address"
+                               [(ngModel)]="employee!.curr_add">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <select class="form-control" [(ngModel)]="employee!.curr_state"
+
+                        >
+                          <option value="null">Select State</option>
+                          <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <select class="form-control" [(ngModel)]="employee!.curr_district"
+                        >
+                          <option value="null">Select District</option>
+                          <option [ngValue]="dist" *ngFor="let dist of currDistricts">{{dist.district_name}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
+                               aria-label="pin" [(ngModel)]="employee!.curr_pin"
+                        >
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label"><u>Permanent Address</u></label>
+
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input type="checkbox" id="cpaddress" [(ngModel)]="isCpAddressChecked"
+                               (change)="cPAddress()"> &nbsp; <b class="text-danger">Same as Present Address</b>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input type="text" class="form-control" placeholder="Address" aria-label="address"
+                               [(ngModel)]="employee!.perm_add" [readonly]="isCpAddressChecked"
+                        >
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <select class="form-control" [(ngModel)]="employee!.perm_state"
+
+                                [disabled]="isCpAddressChecked" >
+                          <option value="null">Select State</option>
+                          <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <select class="form-control" [(ngModel)]="employee!.perm_district"
+                                [disabled]="isCpAddressChecked"
+                        >
+                          <option value="null">Select District</option>
+                          <option [ngValue]="dist" *ngFor="let dist of permDistricts">{{dist.district_name}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
+                               aria-label="pin" [(ngModel)]="employee!.perm_pin"
+                               [readonly]="isCpAddressChecked" >
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+
+              <div *ngIf="i === 2">
                 <div class="row">
                   <div class="col-md">
                     <label for="department" class="form-label">Organization</label>
                     <select class="form-control" id="department" [(ngModel)]="organization">
-<!--                      <option [ngValue]=null>Select Your Organization</option>-->
+                      <!--                      <option [ngValue]=null>Select Your Organization</option>-->
                       <option [ngValue]="org.id" *ngFor="let org of orglist">
                         {{org!.org_desc}}</option>
                     </select>
+                  </div>
 
-                  </div>
-                  <div class="col-md">
-                    <label for="mobile" class="form-label">Mobile No.</label>
-                    <input type="number" class="form-control" id="mobile" name="mobile" [(ngModel)]="mobile">
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password">
-                  </div>
-                  <div class="col-md">
-                    <label for="cpassword" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="cpassword" name="cpassword" [(ngModel)]="cpassword">
-                  </div>
-                </div>
-                <!--<div class="row">
-                  <div class="col-md">
-                  <label for="email" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" [(ngModel)]="email">
-                  <div id="emailHelp" class="form-text"></div>
-                  </div>
                   <div class="col-md">
                     <label for="section" class="form-label">Section</label>
                     <select class="form-control" id="section">
@@ -95,27 +214,32 @@
                 <div class="mb-3 form-check">
                   <input type="checkbox" class="form-check-input" id="exampleCheck1">
                   <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div>-->
+                </div>
+              </div>
+
+              <div *ngIf="i === 3">
+
+              </div>
+              <div *ngIf="i === 4">
+
+              </div>
+              <div *ngIf="i === 5">
+
+              </div>
+              <div *ngIf="i === 6">
 
               </div>
 
 
 
             </div>
-
-<!--            <div class="slide">-->
-
-<!--            </div>-->
-<!--            <div class="slide">-->
-
-<!--            </div>-->
           </div>
 
-<!--          <div class="navigation-buttons">-->
-<!--            <button class="btn btn-primary" (click)="goToPreviousPage()" [disabled]="currentPageIndex === 0">Previous</button>-->
-<!--            <button class="btn btn-primary" (click)="goToNextPage()" *ngIf="currentPageIndex !== totalPages - 1" [disabled]="currentPageIndex === totalPages - 1">Next</button>-->
-            <button type="submit" class="btn btn-primary" style="margin-left: 44.5%" (click)="doRegistration()">Submit</button>
-<!--          </div>-->
+          <div class="navigation-buttons">
+            <button class="btn btn-primary" (click)="goToPreviousPage()" [disabled]="currentPageIndex === 0">Previous</button>
+            <button class="btn btn-primary" (click)="goToNextPage()" *ngIf="currentPageIndex !== totalPages - 1" [disabled]="currentPageIndex === totalPages - 1">Next</button>
+            <button type="submit" class="btn btn-primary" style="margin-left: 44.5%" (click)="doRegistration()" *ngIf="currentPageIndex === totalPages - 1">Submit</button>
+          </div>
         </div>
       </div>
     </div>
