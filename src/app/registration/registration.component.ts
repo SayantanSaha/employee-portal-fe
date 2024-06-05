@@ -7,6 +7,9 @@ import Swal from "sweetalert2";
 import { Employee } from "../model/Employee";
 import { State } from "../model/State";
 import { District } from "../model/District";
+import {fileToBase64} from "../profile/fileToBase64";
+import {environment} from "../../environments/environment";
+import {Designation} from "../model/Designation";
 
 @Component({
   selector: 'app-registration',
@@ -18,9 +21,6 @@ import { District } from "../model/District";
       state('1', style({ transform: 'translateX(-100%)' })),
       state('2', style({ transform: 'translateX(-200%)' })),
       state('3', style({ transform: 'translateX(-300%)' })),
-      state('4', style({ transform: 'translateX(-400%)' })),
-      state('5', style({ transform: 'translateX(-500%)' })),
-      state('6', style({ transform: 'translateX(-600%)' })),
       transition('* => *', animate('300ms ease'))
     ])
   ]
@@ -34,15 +34,19 @@ export class RegistrationComponent implements OnInit {
   states: State[] = [];
   currDistricts: District[] = [];
   permDistricts: District[] = [];
+  divisiontypelist: any[] = [];
+  designations:Designation[]=[];
   isCpAddressChecked: boolean = false;
 
   passwordsMatch: boolean = false;
   passwordValid: boolean = false;
   passwordTouched: boolean = false;
   cpasswordTouched: boolean = false;
+  maxDate: string = "";
+  apiUrl = environment.apiUrl;
 
   currentPageIndex = 0;
-  totalPages = 7;
+  totalPages = 4;
   slides = new Array(this.totalPages);
 
   constructor(
@@ -51,6 +55,13 @@ export class RegistrationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Zero-padded month
+    const day = today.getDate().toString().padStart(2, '0'); // Zero-padded day
+
+    this.maxDate = `${year}-${month}-${day}`;
+
     this.employeeService.getOrganizations().subscribe(
       data => this.orglist = data,
       error => console.error(error)
@@ -60,6 +71,17 @@ export class RegistrationComponent implements OnInit {
       data => this.states = data,
       error => console.error(error)
     );
+
+    this.employeeService.getDesignations(1).subscribe(
+      data=>this.designations=data,
+      error => console.log(error)
+    );
+
+    this.employeeService.getDivisionMasterList().subscribe(
+      data=>this.divisiontypelist=data,
+      error => console.log(error)
+    );
+
   }
 
   doRegistration() {
@@ -81,34 +103,31 @@ export class RegistrationComponent implements OnInit {
       return;
     }
 
-    // this.employeeService.postRegistration(
-    //   this.organization,
-    //   this.password,
-    //   this.employee.emp_name,
-    //   this.employee.relations?.[0]?.pivot?.rel_name!,
-    //   this.employee.mobile
-    // ).subscribe(
-    //   data => {
-    //     Swal.fire({
-    //       icon: 'success',
-    //       title: 'Success',
-    //       text: 'Registered Successfully'
-    //     }).then(() => {
-    //       this.router.navigate(['login']);
-    //     });
-    //   },
-    //   error => {
-    //     let errorMessage = 'An error occurred. Please try again.';
-    //     if (error.error && error.error.message) {
-    //       errorMessage = error.error.message;
-    //     }
-    //     Swal.fire({
-    //       icon: 'error',
-    //       title: 'Error',
-    //       text: errorMessage
-    //     });
-    //   }
-    // );
+    this.employeeService.RegistrationApply(
+      this.password,
+      this.employee
+    ).subscribe(
+      data => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Registered Successfully'
+        }).then(() => {
+          this.router.navigate(['login']);
+        });
+      },
+      error => {
+        let errorMessage = 'An error occurred. Please try again.';
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message;
+        }
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: errorMessage
+        });
+      }
+    );
   }
 
   cPAddress() {
@@ -170,5 +189,93 @@ export class RegistrationComponent implements OnInit {
       districts = await this.employeeService.getDistrictsByState(state.id!);
     }
     return districts;
+  }
+
+  async onIDproofSelected(event: any): Promise<void> {
+    const selectedFile = event.target.files[0]; // Get the first selected file
+
+    try {
+      if (selectedFile) {
+        const fileType = selectedFile.type;
+        const fileSize = selectedFile.size;
+
+        // Check if the selected file is a PDF and the size is within limits
+        if (fileType === 'application/pdf' && fileSize <= 1048576) {
+          const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
+          if (this.employee) {
+            this.employee.id_proof = base64String;
+          } else {
+            console.log('this.employee is null.');
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 1mb or it is not a pdf',
+          });
+          console.log('File size exceeds 1mb or not a pdf');
+        }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'File is not present',
+          text: 'No file selected',
+        });
+        console.log('No file selected');
+      }
+    } catch (error) {
+      console.error('Failed to convert the file to base64:', error);
+    }
+  }
+
+  openPdfInNewTab(pdfData: string): void {
+    const pdfWindow = window.open();
+    // @ts-ignore
+    pdfWindow.document.write(`<iframe width='100%' height='100%' src='${pdfData}'></iframe>`);
+  }
+  async onProfilePhotoSelected(event: Event, param: string): Promise<void> {
+    const inputElement = event.target as HTMLInputElement;
+
+    if (inputElement?.files?.length) {
+      const file: File = inputElement.files[0];
+
+      // Check if the file type is JPEG or JPG
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+
+        // Check if the file size is less than or equal to 200KB
+        if (file.size <= 200 * 1024) { // 200KB in bytes
+          try {
+            const base64String: string = await fileToBase64(file); // Convert the file to base64
+            if (this.employee) {
+              if (param === 'Profile Photo') {
+                this.employee.profile_photo = base64String;
+              } else if (param === 'Employee Sign') {
+                this.employee.sign_path = base64String;
+              }
+            } else {
+              console.log('this.employee is null.');
+            }
+          } catch (error) {
+            console.error('Failed to convert the file to base64:', error);
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 200KB.',
+          });
+          console.log('File size exceeds 200KB.');
+        }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid File',
+          text: 'Invalid file type. Only JPEG or JPG files are allowed.',
+        });
+        console.log('Invalid file type. Only JPEG or JPG files are allowed.');
+      }
+    } else {
+      console.log('No file selected.');
+    }
   }
 }

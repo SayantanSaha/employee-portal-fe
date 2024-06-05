@@ -52,6 +52,14 @@ export class EmployeeService {
     return this.http.post<Login>(this.apiUrl+"register",{username: mobile, password: password, name:firstName+' '+lastName, organization:organization});
   }
 
+  RegistrationApply(password: string, employee: Employee): Observable<any> {
+    const payload = {
+      password: password,
+      employee: employee
+    };
+    return this.http.post<any>(this.apiUrl + "Registration", payload);
+  }
+
   getMyProfile():Observable<Employee>{
     return this.http.get<Employee>(this.apiUrl+"my_profile",{headers:this.createHeader()});
   }
