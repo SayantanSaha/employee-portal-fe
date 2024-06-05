@@ -18,7 +18,7 @@
 
                   <div class="col-md">
                     <label for="FatherName" class="form-label">Father's Name</label>
-                    <input type="text" class="form-control" id="FatherName" name="FatherName" [(ngModel)]="employee!.relations?.[0]?.pivot!.rel_name" placeholder="Enter your father's name">
+                    <input type="text" class="form-control" id="FatherName" name="FatherName" [(ngModel)]="employee!.father_name" placeholder="Enter your father's name">
                   </div>
                 </div>
 
@@ -234,7 +234,7 @@
                   </div>
 
                   <div class="col-md">
-                    <label for="id_proof" class="form-label">Upload Supporting Document with ID Proof(pdf)</label>
+                    <label for="id_proof" class="form-label">Upload Supporting Document with ID Proof(pdf)</label><br>
                     <label for="id_proof" class="upload-icon-label" title="Upload Supporting Document with ID Proof">
                       <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>
                     </label>

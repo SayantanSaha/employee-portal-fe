@@ -309,6 +309,9 @@ export class EmployeeService {
   getEbaDashboardData(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl+"ebadashboard",{headers:this.createHeader()});
   }
+  getRegDashboardData(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl+"registrationDashboard",{headers:this.createHeader()});
+  }
   getEbaPrintData():Observable<any[]> {
   return this.http.get<any[]>(this.apiUrl+"ebaprint",{headers:this.createHeader()});
   }
@@ -324,6 +327,11 @@ export class EmployeeService {
   getEbaProfile(id: number):Observable<any>{
     return this.http.get<any>(this.apiUrl+`Eba/${id}`,{headers:this.createHeader()});
   }
+
+  getRegProfile(id: number):Observable<any>{
+    return this.http.get<any>(this.apiUrl+`Registration/${id}`,{headers:this.createHeader()});
+  }
+
 
   applyeba(ebaPasses : Employee): Observable<any> {
     // const dataToSubmit = { relation: ebaPasses };

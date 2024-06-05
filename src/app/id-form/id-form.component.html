@@ -1,173 +1,184 @@
-<!--<div class="dontprint" style="text-align: center;">-->
-<!--  <a href="javascript:void(0)" (click)="printPage()"><b>Print</b></a><br />-->
-<!--</div>-->
+<div [class.container]="editable && !urlId">
+  <div class="row">
+    <div [class.col-md-10]="!editable && urlId">
+      <div class="card shadow">
+        <div class="card-body">
+          <div style="text-decoration: underline; text-align: center;">
+            <h4><strong>RB Card Form</strong></h4>
+          </div>
 
-<div class="container">
-  <div class="card shadow">
-    <div class="card-body" >
+          <div id="div_grid" style="text-align: center;">
+            <div style="margin: 5%;" class="row">
+              <table width="100%" border="0" cellpadding="3" cellspacing="2" style="border-collapse: collapse; border-color: #efdccd; background-color: #ffffff;">
+                <tr>
+                  <td align="left" height="30" width="220px">Name:</td>
+                  <td align="left" style="width: 300px">{{ employee?.emp_title }}{{ employee?.emp_name }}</td>
+                  <td valign="middle" align="right" rowspan="6">
+                    <img [src]="employee?.profile_photo || '/assets/blank_photo.jpg'" width="120px" height="140px" alt="Applicant Photo" />
+                    <br /><br />
+                  </td>
+                </tr>
+                <tr style="height: 30px">
+                  <td align="left">Father’s Name:</td>
+                  <td align="left">{{ employee?.father_name }}</td>
+                </tr>
+                <tr style="height: 30px">
+                  <td align="left">Designation/Nature of Work:</td>
+                  <td align="left">{{ employee?.designation }}</td>
+                </tr>
+                <tr style="height: 30px">
+                  <td align="left">Mobile Number:</td>
+                  <td align="left">{{ employee?.mobile }}</td>
+                </tr>
+                <tr style="height: 60px">
+                  <td align="left">Permanent Address:</td>
+                  <td align="left" *ngIf="!urlId && editable">
+                    {{ employee?.perm_add }}<ng-container *ngIf="employee?.perm_district">, </ng-container>
+                    {{ employee?.perm_district }}<ng-container *ngIf="employee?.perm_state">, </ng-container>
+                    {{ employee?.perm_state }}<ng-container *ngIf="employee?.perm_pin">, </ng-container>
+                    {{ employee?.perm_pin }}
+                  </td>
+                  <td align="left" *ngIf="urlId && !editable">
+                    {{ employee?.perm_add }}<ng-container *ngIf="employee?.perm_district">, </ng-container>
+                    {{ employee?.perm_district?.district_name }}<ng-container *ngIf="employee?.perm_state">, </ng-container>
+                    {{ employee?.perm_state?.state_name }}<ng-container *ngIf="employee?.perm_pin">, </ng-container>
+                    {{ employee?.perm_pin }}
+                  </td>
+                </tr>
+                <tr style="height: 60px">
+                  <td align="left">Present Address:</td>
+                  <td align="left" *ngIf="!urlId && editable">
+                    {{ employee?.curr_add }}<ng-container *ngIf="employee?.curr_district">, </ng-container>
+                    {{ employee?.curr_district }}<ng-container *ngIf="employee?.curr_state">, </ng-container>
+                    {{ employee?.curr_state }}<ng-container *ngIf="employee?.curr_pin">, </ng-container>
+                    {{ employee?.curr_pin }}
+                  </td>
+                  <td align="left" *ngIf="urlId && !editable">
+                    {{ employee?.curr_add }}<ng-container *ngIf="employee?.curr_district">, </ng-container>
+                    {{ employee?.curr_district?.district_name }}<ng-container *ngIf="employee?.curr_state">, </ng-container>
+                    {{ employee?.curr_state?.state_name }}<ng-container *ngIf="employee?.curr_pin">, </ng-container>
+                    {{ employee?.curr_pin }}
+                  </td>
+                </tr>
+                <tr style="height: 30px">
+                  <td align="left">Department and Area of work:</td>
+                  <td align="left">{{ employee?.division }}</td>
+                </tr>
+                <tr style="height: 30px">
+                  <td align="left">Police Verification No:</td>
+                  <td colspan="2" align="left">{{ employee?.police_verification_no }}</td>
+                </tr>
+                <tr style="height: 30px">
+                  <td align="left">Date of Birth:</td>
+                  <td colspan="2" align="left">{{ employee?.dob | date:'dd-MM-yyyy' }}</td>
+                </tr>
+                <tr style="height: 30px">
+                  <td align="left">Gender:</td>
+                  <td colspan="2" align="left">
+                    {{ employee?.gender === 'M' ? 'Male' : employee?.gender === 'F' ? 'Female' : employee?.gender === 'O' ? 'Others' : 'N/A' }}
+                  </td>
+                </tr>
+                <tr style="height: 30px">
+                  <td align="left">Identification Mark:</td>
+                  <td colspan="2" align="left">{{ employee?.body_mark }}</td>
+                </tr>
+                <tr style="height: 50px">
+                  <td colspan="3" align="left">
+                    <span>Note :- (1) Furnishing wrong information is an offence:</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right" colspan="2"></td>
+                  <td align="right">
+                    <img [src]="employee?.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px" alt="Upload Signature" />
+                  </td>
+                </tr>
+                <tr style="height: 30px">
+                  <td align="right" colspan="3">
+                    <span style="font-weight: 700; font-size: 15px">SIGNATURE OF APPLICANT/PASS HOLDER</span>
+                  </td>
+                </tr>
 
-      <div style="text-decoration: underline; text-align: center;">
-        <h4> <strong>RB Card Form</strong></h4>
-      </div>
+                <tr style="height: 40px">
+                  <td colspan="3" align="left">
+                    <span>Recommended vide No _____________ Dated ______________.</span>
+                  </td>
+                </tr>
 
-      <div id="div_grid"  style="text-align: center;" >
-        <div style="margin: 5%;" class="row">
-          <table width="100%" border="0" cellpadding="3" cellspacing="2" style="border-collapse: collapse; border-color: #efdccd; background-color: #ffffff;">
-            <tr>
-              <td align="left" height="30" width="220px">Name:</td>
-              <td align="left" style="width: 300px"> {{ employee?.emp_title }}{{ employee?.emp_name }}</td>
-              <td valign="middle" align="center" rowspan="6">
-                <img [src]="employee?.profile_photo || '/assets/blank_photo.jpg'" width="120px" height="140px" alt="Applicant Photo" />
-                <br /><br />
-              </td>
-            </tr>
-            <tr style="height: 30px">
-              <td align="left">Father’s Name:</td>
-              <td align="left">{{ employee?.father_name }}</td>
-            </tr>
-            <tr style="height: 30px">
-              <td align="left">Designation/Nature of Work:</td>
-              <td align="left">{{ employee?.designation }}</td>
-            </tr>
-            <tr style="height: 30px">
-              <td align="left">Mobile Number:</td>
-              <td align="left">{{ employee?.mobile }}</td>
-            </tr>
-            <tr style="height: 60px">
-              <td align="left">Permanent Address:</td>
-              <td align="left">
-                {{ employee?.perm_add }}<ng-container *ngIf="employee?.perm_district">, </ng-container>
-                {{ employee?.perm_district }}<ng-container *ngIf="employee?.perm_state ">, </ng-container>
-                {{ employee?.perm_state }}<ng-container *ngIf="employee?.perm_pin ">, </ng-container>
-                {{ employee?.perm_pin }}
-              </td>
-
-            </tr>
-            <tr style="height: 60px">
-              <td align="left">Present Address:</td>
-              <td align="left">
-                {{ employee?.curr_add }}<ng-container *ngIf="employee?.curr_district">, </ng-container>
-                {{ employee?.curr_district }}<ng-container *ngIf="employee?.curr_state">, </ng-container>
-                {{ employee?.curr_state }}<ng-container *ngIf="employee?.curr_pin">, </ng-container>
-                {{ employee?.curr_pin }}
-              </td>
-
-            </tr>
-            <tr style="height: 30px">
-              <td align="left">Department and Area of work:</td>
-              <td align="left">{{ employee?.division }}</td>
-            </tr>
-<!--            <tr style="height: 30px">-->
-<!--              <td align="left">Contractual company name</td>-->
-<!--              <td align="left">{{ entryPass.contractualCompanyName }}</td>-->
-<!--            </tr>-->
-<!--            <tr style="height: 30px">-->
-<!--              <td align="left">Period of Work</td>-->
-<!--              <td align="left">{{ entryPass.periodOfWork }}</td>-->
-<!--            </tr>-->
-            <tr style="height: 30px">
-              <td align="left">Police Verification No:</td>
-              <td colspan="2" align="left">{{ employee?.police_verification_no }}</td>
-            </tr>
-<!--            <tr style="height: 30px">-->
-<!--              <td align="left">Recommending letter No.</td>-->
-<!--              <td colspan="2" align="left">{{ entryPass.recommendingLetterNo }}</td>-->
-<!--            </tr>-->
-            <tr style="height: 30px">
-              <td align="left">Date of Birth:</td>
-              <td colspan="2" align="left">{{ employee?.dob | date:'dd-MM-yyyy'}}</td>
-            </tr>
-            <tr style="height: 30px">
-              <td align="left">Gender:</td>
-              <td colspan="2" align="left">{{
-                employee?.gender === 'M' ? 'Male' :
-                  employee!.gender === 'F' ? 'Female' :
-                    employee!.gender === 'O' ? 'Others' :
-                      'N/A'
-                }}</td>
-            </tr>
-            <tr style="height: 30px">
-              <td align="left">Identification Mark:</td>
-              <td colspan="2" align="left">{{ employee?.body_mark }}</td>
-            </tr>
-            <tr style="height: 50px">
-              <td colspan="3" align="left">
-                <span>Note :- (1) Furnishing wrong information is an offence:</span>
-              </td>
-            </tr>
-            <tr>
-              <td align="right" colspan="2"></td>
-              <td align="center">
-                <img [src]="employee?.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px" alt="Upload Signature" />
-              </td>
-            </tr>
-            <tr style="height: 30px">
-              <td align="right" colspan="3">
-                <span style="font-weight: 700; font-size: 15px">SIGNATURE OF APPLICANT/PASS HOLDER</span>
-              </td>
-            </tr>
-            <br>.
-
-            <tr style="height: 40px" >
-              <td colspan="3" align="left">
-                <span>Recommended vide No _____________ Dated ______________.</span>
-              </td>
-            </tr>
-            <br>
-
-            <tr style="height: 70px">
-              <td colspan="3" align="left">
-                <span >
-                  Certified that to the best of my knowledge and belief the particulars furnished by him/her are correct and the
-                  undersigned is aware of the instruction issued by President’s Secretariat vide letter No._________________________ dt. _________________________ for issue of pass to worker/labour will be compiled with.
-                </span>
-              </td>
-            </tr>
-            <tr style="height: 50px; vertical-align: bottom">
-              <td align="right" colspan="3">
-                <table style="text-align:center">
-                  <tr>
-                    <td></td>
-                    <td>
-                      <img [src]="entryPass.gazettedOfficerSignature || ''" width="180px" height="40px" alt="Signature of Gazetted Officer" />
-                      <br />
-                      <span style="font-weight: 700; font-size: 15px">Signature of Gazetted Officer</span><br />
-                      <span style="font-weight: 700; font-size: 15px">{{ entryPass.gazettedOfficerName }}</span><br />
-                      <span style="font-weight: 700; font-size: 15px">{{ entryPass.gazettedOfficerDesignation }}</span>
-                      <br />
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            <tr style="height: 40px; vertical-align: bottom">
-              <td align="left" colspan="3">
-                <span style="font-weight: 700; font-size: 15px; text-decoration: underline;">Recommending Authority.</span>
-              </td>
-            </tr>
-            <tr style="height: 40px; vertical-align: bottom">
-              <td align="left" colspan="3">
-                <span style="font-weight: 700; font-size: 15px">CPH, EE/PED, EE/PEED, OSD/Horticulture, Under Secys. & SOs.</span>
-              </td>
-            </tr>
-            <tr style="height: 80px;">
-              <td align="left"  colspan="3">
-                <span style="font-size: 16px">Granted Permission for Temporary Entry Vide No._________________________ w.e.f. _________________________ through _________________________.</span>
-              </td>
-            </tr>
-            <tr style="height: 80px; vertical-align: bottom">
-              <td align="right" colspan="3">
-                <span style="font-size: 16px; font-weight: 700;">DCP/RB</span>
-              </td>
-            </tr>
-          </table>
+                <tr style="height: 70px">
+                  <td colspan="3" align="left">
+                    <span>
+                      Certified that to the best of my knowledge and belief the particulars furnished by him/her are correct and the
+                      undersigned is aware of the instruction issued by President’s Secretariat vide letter No._________________________ dt. _________________________ for issue of pass to worker/labour will be compiled with.
+                    </span>
+                  </td>
+                </tr>
+                <tr style="height: 50px; vertical-align: bottom">
+                  <td align="right" colspan="3">
+                    <table style="text-align:center">
+                      <tr>
+                        <td></td>
+                        <td>
+                          <img [src]="entryPass.gazettedOfficerSignature || ''" width="180px" height="40px" alt="Signature of Gazetted Officer" />
+                          <br />
+                          <span style="font-weight: 700; font-size: 15px">Signature of Gazetted Officer</span><br />
+                          <span style="font-weight: 700; font-size: 15px">{{ entryPass.gazettedOfficerName }}</span><br />
+                          <span style="font-weight: 700; font-size: 15px">{{ entryPass.gazettedOfficerDesignation }}</span>
+                          <br />
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr style="height: 40px; vertical-align: bottom">
+                  <td align="left" colspan="3">
+                    <span style="font-weight: 700; font-size: 15px; text-decoration: underline;">Recommending Authority.</span>
+                  </td>
+                </tr>
+                <tr style="height: 40px; vertical-align: bottom">
+                  <td align="left" colspan="3">
+                    <span style="font-weight: 700; font-size: 15px">CPH, EE/PED, EE/PEED, OSD/Horticulture, Under Secys. & SOs.</span>
+                  </td>
+                </tr>
+                <tr style="height: 80px;">
+                  <td align="left" colspan="3">
+                    <span style="font-size: 16px">Granted Permission for Temporary Entry Vide No._________________________ w.e.f. _________________________ through _________________________.</span>
+                  </td>
+                </tr>
+                <tr style="height: 80px; vertical-align: bottom">
+                  <td align="right" colspan="3">
+                    <span style="font-size: 16px; font-weight: 700;">DCP/RB</span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-
-  <div class="dontprint" style="width: 100%; height: 100%;">
-    <iframe id="myframe" width="100%" height="1000px"></iframe>
+    <ng-container *ngIf="urlId">
+      <div class="col-md-2" *ngIf="urlId && !editable">
+        <br><br>
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="spacing" style="margin-top: 3%;"></div>
+            <strong><label style="font-size: 130%" for="remarks">Note:</label></strong>
+            <div class="spacing" style="margin-top: 2%;"></div>
+            <div class="row" style="margin-left: 0%; margin-right: 1.5%;">
+              <textarea class="form-control" id="remarks" name="remarks" style="height: 200px;" placeholder="abc...."></textarea>
+            </div>
+            <div class="row">
+              <div class="col-6" style="text-align: right">
+                <button type="submit" class="btn btn-primary enlarge-on-hover" name="submit" value="Approve">Forward</button>
+              </div>
+              <div class="col-6" style="text-align: left">
+                <button type="submit" class="btn btn-danger enlarge-on-hover" name="submit" value="Return">Return</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>

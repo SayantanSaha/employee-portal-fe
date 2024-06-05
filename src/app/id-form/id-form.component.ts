@@ -68,25 +68,25 @@ export class IdFormComponent implements OnInit {
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
 
-    if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13))) {
+    // if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13))) {
       this.id = this.route.snapshot.paramMap.get('id');
       if (this.mode !== 'return') {
         this.letverify(!isNaN(+this.id!));
       }
-    }
+    // }
 
     if (this.id) {
       // 'id' is present, try to convert it to a number
       const idNumber = +this.id;
       if (!isNaN(idNumber)) {
-        if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13))) {
+        // if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13))) {
           // 'id' is a valid number, call getEbaProfile
-          this.employeeService.getEbaProfile(idNumber).subscribe(
+          this.employeeService.getRegProfile(idNumber).subscribe(
             (data: any) => {
               this.employee = data;
             }
           );
-        }
+        // }
       } else {
         // 'id' is not a valid number, call getMyebaProfile
         this.employeeService.getMyIDProfile().subscribe(

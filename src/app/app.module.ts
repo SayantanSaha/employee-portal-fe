@@ -14,6 +14,7 @@ import { DesignationComponent } from './designation/designation.component';
 import { StateComponent } from './state/state.component';
 import { DistrictComponent } from './district/district.component';
 import {FormsModule} from "@angular/forms";
+import { CommonModule } from '@angular/common';
 
 //Added By Ravikant Kumar
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -41,6 +42,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RegistrationComponent} from "./registration/registration.component";
+import {RegistrationPanelComponent} from "./registration-panel/registration-panel.component";
 
 @NgModule({
   declarations: [
@@ -69,6 +71,8 @@ import {RegistrationComponent} from "./registration/registration.component";
     EbaformviewComponent,
     EbaFormListComponent,
     EbaprintComponent,
+    RegistrationPanelComponent,
+
 
   ],
     imports: [
@@ -82,7 +86,8 @@ import {RegistrationComponent} from "./registration/registration.component";
       NgxBarcode6Module,
       NgxPrintModule,
       MatProgressSpinnerModule,
-      BrowserAnimationsModule
+      BrowserAnimationsModule,
+      CommonModule,
     ],
   providers: [
     { provide: 'BASE_URL', useFactory: ()=>document.getElementsByTagName('base')[0].href },

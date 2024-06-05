@@ -1,0 +1,79 @@
+<script src="../app.module.ts" xmlns="http://www.w3.org/1999/html"></script>
+<div class="container">
+  <!-- <ng-container *ngIf="user && user.role" >
+    <ng-container *ngFor="let role of user.role"> -->
+      <!-- <ng-container *ngIf="role === 4 || role === 5 || role === 6|| role === 9|| role === 10" > -->
+        <div class="row">
+          <div class="container">
+            <div class="card shadow">
+              <div class="card-header">
+                <div class="card-title">
+                  <div class="row">
+                    <div class="col-6" >
+                      <b>DCP</b>
+                    </div>
+                    <div class="col-6" style="text-align: right">
+                      <!-- <button class="btn btn-success enlarge-hover " (click)=" hoverClick($event)"> <i class="bi bi-search"></i> </button> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-body" style="background: linear-gradient(to bottom right, rgba(1, 255, 255, 0.36), transparent);">
+
+                <br>
+
+                <div class="row" >
+                  <div class="col-md-12">
+                    <div class="card shadow">
+                      <div class="card-header">
+                        <div class="card-title">
+                          <b>Registered Application({{ebadashboardData.totalApplications}})</b>
+                        </div>
+                      </div>
+                      <div class="card-body" style="overflow: auto;">
+                        <div style="padding: 1%">
+                          <div class="row mb-12">
+                            <table class="table table-stripped">
+                              <thead>
+                              <tr>
+                                <th>Sl No.</th>
+                                <th>Reg no.</th>
+                                <th>Employee Name</th>
+                                <!-- <th>Email ID</th> -->
+                                <th>Mobile No.</th>
+                                <th>Last Updated Date</th>
+                                <th>Action</th>
+                              </tr>
+                              </thead>
+                              <tbody *ngIf="ebadashboardData && ebadashboardData.application">
+                                <tr *ngFor="let ebaapplication of ebadashboardData.application; let i = index">
+                                  <ng-container *ngIf="ebadashboardData.applicationDetails[i]">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ ebadashboardData.applicationDetails[i].reg_no }}</td>
+                                    <td>{{ ebaapplication.emp_name }}</td>
+                                    <td>{{ ebaapplication.mobile }}</td>
+                                    <td>{{ formatDate(ebadashboardData.applicationDetails[i].created_at) }}</td>
+                                    <td>
+                                      <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/id-form/check/' + ebadashboardData.applicationDetails[i].id">Details</a>
+                                    </td>
+                                  </ng-container>
+                                </tr>
+                              </tbody>
+
+
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- </ng-container> -->
+    <!-- </ng-container>
+  </ng-container> -->
+</div>
