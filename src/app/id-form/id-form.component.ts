@@ -8,6 +8,7 @@ import { Employee } from '../model/Employee';
 import { User } from '../model/User';
 import {Idcards} from "../model/Idcards";
 import {fileToBase64} from "../profile/fileToBase64";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-id-form',
@@ -37,8 +38,9 @@ export class IdFormComponent implements OnInit {
   file_path: string | null = null;
   file_path_64: string | null = null;
   isLoading: boolean = false;
-
-  entryPass = {
+  vide_no: any | null = null;
+  vide_date: any | null = null;
+  entryPass:any = {
     name: '',
     fathersName: '',
     designation: '',
@@ -57,7 +59,7 @@ export class IdFormComponent implements OnInit {
     gazettedOfficerSignature: '',
     gazettedOfficerName: '',
     gazettedOfficerDesignation: '',
-    imageUrl: ''
+    imageUrl: '',
   };
 
   ngOnInit() {
@@ -145,7 +147,8 @@ export class IdFormComponent implements OnInit {
     IdFormComponent // Include your component declaration here
   ],
   imports: [
-    CommonModule // Import CommonModule here
+    CommonModule ,
+    FormsModule// Import CommonModule here
     // Other modules imports
   ]
 })

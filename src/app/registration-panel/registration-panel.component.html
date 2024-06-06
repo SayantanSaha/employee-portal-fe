@@ -50,12 +50,30 @@
                                 <tr *ngFor="let ebaapplication of ebadashboardData.application; let i = index">
                                   <ng-container *ngIf="ebadashboardData.applicationDetails[i]">
                                     <td>{{ i + 1 }}</td>
-                                    <td>{{ ebadashboardData.applicationDetails[i].reg_no }}</td>
-                                    <td>{{ ebaapplication.emp_name }}</td>
-                                    <td>{{ ebaapplication.mobile }}</td>
-                                    <td>{{ formatDate(ebadashboardData.applicationDetails[i].created_at) }}</td>
-                                    <td>
+                                    <td >
+                                      <ng-container *ngIf="ebadashboardData.applicationDetails[i].reg_no">
+                                      {{ ebadashboardData.applicationDetails[i].reg_no }}
+                                    </ng-container>
+                                    </td>
+                                    <td >
+                                      <ng-container *ngIf="ebaapplication?.emp_name">
+                                      {{ ebaapplication?.emp_name }}
+                                    </ng-container>
+                                    </td>
+                                    <td >
+                                      <ng-container *ngIf="ebaapplication?.mobile">
+                                      {{ ebaapplication.mobile }}
+                                    </ng-container>
+                                    </td>
+                                    <td >
+                                      <ng-container *ngIf="ebadashboardData.applicationDetails[i].created_at">
+                                      {{ formatDate(ebadashboardData.applicationDetails[i].created_at) }}
+                                    </ng-container>
+                                    </td>
+                                    <td >
+                                      <ng-container *ngIf="ebadashboardData.applicationDetails[i].id">
                                       <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/id-form/check/' + ebadashboardData.applicationDetails[i].id">Details</a>
+                                    </ng-container>
                                     </td>
                                   </ng-container>
                                 </tr>

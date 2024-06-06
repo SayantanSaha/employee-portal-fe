@@ -75,4 +75,5 @@ export class Employee{
   visual: boolean = false;
   reg_no:string|null = null;
   status:string|null = null;
+  desg_print:string|null = null;
 }

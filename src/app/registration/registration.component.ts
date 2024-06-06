@@ -7,9 +7,9 @@ import Swal from "sweetalert2";
 import { Employee } from "../model/Employee";
 import { State } from "../model/State";
 import { District } from "../model/District";
-import {fileToBase64} from "../profile/fileToBase64";
-import {environment} from "../../environments/environment";
-import {Designation} from "../model/Designation";
+import { fileToBase64 } from "../profile/fileToBase64";
+import { environment } from "../../environments/environment";
+import { Designation } from "../model/Designation";
 
 @Component({
   selector: 'app-registration',
@@ -35,7 +35,7 @@ export class RegistrationComponent implements OnInit {
   currDistricts: District[] = [];
   permDistricts: District[] = [];
   divisiontypelist: any[] = [];
-  designations:Designation[]=[];
+  designations: Designation[] = [];
   isCpAddressChecked: boolean = false;
 
   passwordsMatch: boolean = false;
@@ -53,6 +53,8 @@ export class RegistrationComponent implements OnInit {
     private employeeService: EmployeeService,
     private router: Router
   ) {}
+
+
 
   ngOnInit() {
     const today = new Date();
@@ -112,7 +114,8 @@ export class RegistrationComponent implements OnInit {
           icon: 'success',
           title: 'Success',
           text: 'Registered Successfully'
-        }).then(() => {
+        })
+        .then(() => {
           this.router.navigate(['login']);
         });
       },
@@ -278,4 +281,29 @@ export class RegistrationComponent implements OnInit {
       console.log('No file selected.');
     }
   }
+
+  disableTabKey(event: KeyboardEvent) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+    }
+  }
+
+  onInput(event: any , property:string) {
+    const input = event.target.value;
+    // Remove non-numeric characters using regular expression
+    const numericInput = input.replace(/\D/g, '');
+    // Update the input value with the filtered numeric input
+    event.target.value = numericInput;
+    // Update the ngModel binding
+    if(property=='curr_pin')
+    this.employee!.curr_pin = numericInput;
+    if(property=='perm_pin')
+      this.employee!.perm_pin = numericInput;
+    if(property=='mobile')
+      this.employee!.mobile = numericInput;
+
+  }
+
+
+
 }

@@ -7,3 +7,28 @@
     display: none;
   }
 }
+.match-placeholder {
+  width: auto; /* Resetting the width to auto */
+}
+
+.match-placeholder::placeholder {
+  visibility: hidden;
+}
+
+.match-placeholder:after {
+  content: attr(placeholder); /* Use the placeholder text as content */
+  visibility: hidden;
+  position: absolute;
+  white-space: nowrap; /* Prevent line breaks */
+}
+
+/* Adjusting the width of the input based on the width of the placeholder text */
+.match-placeholder[type="text"] {
+  width: calc(15%); /* Adjust as needed */
+  margin-top: -1%;
+}
+
+.match-placeholder[type="date"] {
+  width: calc(10%); /* Adjust as needed */
+  margin-top: -1%;
+}

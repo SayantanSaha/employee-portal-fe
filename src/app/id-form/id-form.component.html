@@ -27,42 +27,50 @@
                   <td align="left">{{ employee?.designation }}</td>
                 </tr>
                 <tr style="height: 30px">
+                  <td align="left">Designation to be printed:</td>
+                  <td align="left">{{ employee?.desg_print }}</td>
+                </tr>
+                <tr style="height: 30px">
+                  <td align="left">Organization:</td>
+                  <td align="left">{{ employee?.organization }}</td>
+                </tr>
+                <tr style="height: 30px">
+                  <td align="left">Department and Area of work:</td>
+                  <td align="left">{{ employee?.division }}</td>
+                </tr>
+                <tr style="height: 30px">
                   <td align="left">Mobile Number:</td>
                   <td align="left">{{ employee?.mobile }}</td>
                 </tr>
                 <tr style="height: 60px">
                   <td align="left">Permanent Address:</td>
-                  <td align="left" *ngIf="!urlId && editable">
+                  <td align="left" >
                     {{ employee?.perm_add }}<ng-container *ngIf="employee?.perm_district">, </ng-container>
                     {{ employee?.perm_district }}<ng-container *ngIf="employee?.perm_state">, </ng-container>
                     {{ employee?.perm_state }}<ng-container *ngIf="employee?.perm_pin">, </ng-container>
                     {{ employee?.perm_pin }}
                   </td>
-                  <td align="left" *ngIf="urlId && !editable">
+                  <!-- <td align="left" *ngIf="urlId && !editable">
                     {{ employee?.perm_add }}<ng-container *ngIf="employee?.perm_district">, </ng-container>
                     {{ employee?.perm_district?.district_name }}<ng-container *ngIf="employee?.perm_state">, </ng-container>
                     {{ employee?.perm_state?.state_name }}<ng-container *ngIf="employee?.perm_pin">, </ng-container>
                     {{ employee?.perm_pin }}
-                  </td>
+                  </td> -->
                 </tr>
                 <tr style="height: 60px">
                   <td align="left">Present Address:</td>
-                  <td align="left" *ngIf="!urlId && editable">
+                  <td align="left" >
                     {{ employee?.curr_add }}<ng-container *ngIf="employee?.curr_district">, </ng-container>
                     {{ employee?.curr_district }}<ng-container *ngIf="employee?.curr_state">, </ng-container>
                     {{ employee?.curr_state }}<ng-container *ngIf="employee?.curr_pin">, </ng-container>
                     {{ employee?.curr_pin }}
                   </td>
-                  <td align="left" *ngIf="urlId && !editable">
+                  <!-- <td align="left" *ngIf="urlId && !editable">
                     {{ employee?.curr_add }}<ng-container *ngIf="employee?.curr_district">, </ng-container>
                     {{ employee?.curr_district?.district_name }}<ng-container *ngIf="employee?.curr_state">, </ng-container>
                     {{ employee?.curr_state?.state_name }}<ng-container *ngIf="employee?.curr_pin">, </ng-container>
                     {{ employee?.curr_pin }}
-                  </td>
-                </tr>
-                <tr style="height: 30px">
-                  <td align="left">Department and Area of work:</td>
-                  <td align="left">{{ employee?.division }}</td>
+                  </td> -->
                 </tr>
                 <tr style="height: 30px">
                   <td align="left">Police Verification No:</td>
@@ -101,7 +109,16 @@
 
                 <tr style="height: 40px">
                   <td colspan="3" align="left">
-                    <span>Recommended vide No _____________ Dated ______________.</span>
+                    <span *ngIf="editable && !urlId">Recommended vide No {{vide_no}} Dated {{vide_date}}.</span>
+                    <span *ngIf="!editable && urlId">
+                      <div class="row">
+                        Recommended vide No
+                          <input type="text" class="form-control match-placeholder" placeholder="vide_no" aria-label="vide_no"[(ngModel)]="vide_no">
+                        Dated
+                          <input type="date" class="form-control match-placeholder" id="vide_date" aria-label="Vide_date" [(ngModel)]="vide_date">
+                        .
+                      </div>
+                    </span>
                   </td>
                 </tr>
 

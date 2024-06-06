@@ -7,13 +7,13 @@
       <div class="card-body">
         <div class="sliding-container">
           <div class="slides" [@slideAnimation]="currentPageIndex">
-            <div class="slide" *ngFor="let slide of slides; let i = index">
+            <div class="slide" *ngFor="let slide of slides; let i = index" [attr.tabindex]="i === currentPageIndex ? 0 : -1">
               <!-- Your content here -->
               <div *ngIf="i === 0">
                 <div class="row">
                   <div class="col-md">
                     <label for="Name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="Name" name="Name" [(ngModel)]="employee!.emp_name" placeholder="Enter your name" required>
+                    <input type="text" class="form-control" id="Name" name="Name" [(ngModel)]="employee!.emp_name" placeholder="Enter your name" (keydown)="disableTabKey($event)">
                   </div>
 
                   <div class="col-md">
@@ -31,45 +31,25 @@
 
                   <div class="col-md">
                     <label for="mobile" class="form-label">Mobile No.</label>
-                    <input type="number" class="form-control" id="mobile" name="mobile" [(ngModel)]="employee!.mobile" placeholder="Enter your mobile number">
+                    <input type="text" maxlength="10" minlength="10" class="form-control" id="mobile" name="mobile" [(ngModel)]="employee!.mobile" placeholder="Enter your mobile number" (input)="onInput($event,'mobile')">
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md">
                     <label for="password" class="form-label">Password</label>
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="password"
-                      name="password"
-                      [(ngModel)]="password"
-                      (input)="validatePasswords()"
-                      [ngClass]="{
-                        'is-valid': passwordsMatch && passwordValid,
-                        'is-invalid': passwordTouched && (!passwordValid || !passwordsMatch)
-                      }"
-                      (blur)="passwordTouched = true"
-                      placeholder="Enter your password"/>
+                    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" (input)="validatePasswords()" [ngClass]="{ 'is-valid': passwordsMatch && passwordValid, 'is-invalid': passwordTouched && (!passwordValid || !passwordsMatch) }" (blur)="passwordTouched = true" placeholder="Enter your password" />
                     <div *ngIf="passwordTouched && !passwordValid" class="invalid-feedback">
                       Password must be at least 6 characters long
                     </div>
                   </div>
                   <div class="col-md">
                     <label for="cpassword" class="form-label">Confirm Password</label>
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="cpassword"
-                      name="cpassword"
-                      [(ngModel)]="cpassword"
-                      (input)="validatePasswords()"
-                      [ngClass]="{
-                        'is-valid': passwordsMatch && passwordValid,
-                        'is-invalid': cpasswordTouched && (!passwordsMatch || !passwordValid)
-                      }"
-                      (blur)="cpasswordTouched = true"
-                      placeholder="Confirm your password"/>
+                    <input type="password" class="form-control" id="cpassword" name="cpassword"
+                    [(ngModel)]="cpassword" (input)="validatePasswords()"
+                    [ngClass]="{ 'is-valid': passwordsMatch && passwordValid, 'is-invalid': cpasswordTouched && (!passwordsMatch || !passwordValid) }"
+                    (blur)="cpasswordTouched = true" placeholder="Confirm your password"
+                    (keydown)="disableTabKey($event)" />
                     <div *ngIf="cpasswordTouched && !passwordsMatch" class="invalid-feedback">
                       Password and Confirm Password do not match
                     </div>
@@ -86,7 +66,7 @@
                     <div class="row">
                       <div class="col-md-12">
                         <input type="text" class="form-control" placeholder="Address" aria-label="address"
-                               [(ngModel)]="employee!.curr_add">
+                               [(ngModel)]="employee!.curr_add" (keydown)="disableTabKey($event)">
                       </div>
                     </div>
 
@@ -112,7 +92,7 @@
                     <div class="row">
                       <div class="col-md-12">
                         <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
-                               aria-label="pin" [(ngModel)]="employee!.curr_pin">
+                               aria-label="pin" [(ngModel)]="employee!.curr_pin" pattern="[0-9]*" (input)="onInput($event,'curr_pin')">
                       </div>
                     </div>
                   </div>
@@ -156,7 +136,7 @@
                       <div class="col-md-12">
                         <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
                                aria-label="pin" [(ngModel)]="employee!.perm_pin"
-                               [readonly]="isCpAddressChecked" >
+                               [readonly]="isCpAddressChecked"(keydown)="disableTabKey($event)" (input)="onInput($event,'perm_pin')">
                       </div>
                     </div>
                   </div>
@@ -169,7 +149,7 @@
                 <div class="row">
                   <div class="col-md">
                     <label for="organization" class="form-label">Organization</label>
-                    <select class="form-control" id="organization" [(ngModel)]="employee.organization">
+                    <select class="form-control" id="organization" [(ngModel)]="employee.organization" (keydown)="disableTabKey($event)">
                       <option [ngValue]="null">Select Your Organization</option>
                       <option [ngValue]="org.id" *ngFor="let org of orglist">
                         {{org.org_desc}}
@@ -194,10 +174,14 @@
                     </select>
                   </div>
 
-
                   <div class="col-md">
-                    <label for="body_mark" class="form-label">Body Mark</label>
-                    <input type="text" class="form-control" id="body_mark" placeholder="Body Mark" aria-label="Body Mark" [(ngModel)]="employee.body_mark">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-control" id="gender" [(ngModel)]="employee.gender" >
+<!--                      <option [ngValue]="null">&#45;&#45;Select Gender&#45;&#45;</option>-->
+                      <option [ngValue]="'M'">Male</option>
+                      <option [ngValue]="'F'">Female</option>
+                      <option [ngValue]="'O'">Others</option>
+                    </select>
                   </div>
                 </div>
 
@@ -213,13 +197,8 @@
                   </div>
 
                   <div class="col-md">
-                    <label for="gender" class="form-label">Gender</label>
-                    <select class="form-control" id="gender" [(ngModel)]="employee.gender">
-<!--                      <option [ngValue]="null">&#45;&#45;Select Gender&#45;&#45;</option>-->
-                      <option [ngValue]="'M'">Male</option>
-                      <option [ngValue]="'F'">Female</option>
-                      <option [ngValue]="'O'">Others</option>
-                    </select>
+                    <label for="body_mark" class="form-label">Designation to be Printed</label>
+                    <input type="text" class="form-control" id="body_mark" placeholder="Desg. Print" aria-label="Body Mark" [(ngModel)]="employee.desg_print" (keydown)="disableTabKey($event)">
                   </div>
                 </div>
               </div>
@@ -234,14 +213,8 @@
                   </div>
 
                   <div class="col-md">
-                    <label for="id_proof" class="form-label">Upload Supporting Document with ID Proof(pdf)</label><br>
-                    <label for="id_proof" class="upload-icon-label" title="Upload Supporting Document with ID Proof">
-                      <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>
-                    </label>
-                    <input type="file" class="custom-file-input" (change)="onIDproofSelected($event)" id="id_proof" title="Upload ID Proof" style="display: none">
-                    <ng-container *ngIf="employee.id_proof">
-                      <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.id_proof)"></i>
-                    </ng-container>
+                    <label for="body_mark" class="form-label">Body Mark</label>
+                    <input type="text" class="form-control" id="body_mark" placeholder="Body Mark" aria-label="Body Mark" [(ngModel)]="employee.body_mark">
                   </div>
                 </div>
 
@@ -270,6 +243,18 @@
                       <label for="sign_path" class="upload-icon-label" title="Upload Signature">
                         <i class="bi bi-cloud-arrow-up btn btn-outline-danger enlarge-on-hover"></i>
                       </label>
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <label for="id_proof" class="form-label">Upload Supporting Document with ID Proof(pdf)</label><br><br>
+                    <div class="text-center">
+                    <label for="id_proof" class="upload-icon-label" title="Upload Supporting Document with ID Proof">
+                      <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>
+                    </label>
+                    <input type="file" class="custom-file-input" (change)="onIDproofSelected($event)" id="id_proof" title="Upload ID Proof" style="display: none">
+                    <ng-container *ngIf="employee.id_proof">
+                      <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.id_proof)"></i>
+                    </ng-container>
                     </div>
                   </div>
                 </div>
