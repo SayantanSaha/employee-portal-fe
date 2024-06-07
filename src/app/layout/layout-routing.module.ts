@@ -49,7 +49,7 @@ const routes: Routes = [
       { path: 'eba-pending',loadChildren: () => import('../ebapending/ebapending.module').then(d => d.ebaPendingModule), canActivate: [AuthGuard]},
       { path: 'eba-print',loadChildren: () => import('../ebaprint/ebaprint.module').then(d => d.EbaprintModule), canActivate: [AuthGuard]},
       { path: 'ebapanel',loadChildren: () => import('../ebapanel/ebapanel.module').then(d => d.EbapanelModule), canActivate: [AuthGuard]},
-      { path: 'ebaformlist',loadChildren: () => import('../eba-form-list/eba-form-list.module').then(d => d.EbaFormListModule), canActivate: [AuthGuard]},
+      { path: 'appliedFormList',loadChildren: () => import('../eba-form-list/eba-form-list.module').then(d => d.EbaFormListModule), canActivate: [AuthGuard]},
       { path: 'adminpanel',loadChildren: () => import('../adminpanel/adminpanel.module').then(d => d.AdminpanelModule), canActivate: [AuthGuard]},
       { path: 'id-form/:mode/:id',loadChildren: () => import('../id-form/id-form.module').then(d => d.IdFormModule), canActivate: [AuthGuard]},
       { path: 'regpanel',loadChildren: () => import('../registration-panel/registration-panel.module').then(d => d.RegistrationPanelModule), canActivate: [AuthGuard]},
