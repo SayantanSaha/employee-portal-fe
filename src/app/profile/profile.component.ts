@@ -1643,6 +1643,35 @@ export class ProfileComponent implements OnInit{
 
   /********** Desgination / Promotion && Division / Posting Validation Check Function Start *************/
 
+
+  validateDesgPrint(param : String, index: number) {
+
+    if(
+      param === 'Promotion'  &&
+      this.employee &&
+      this.employee!.designations &&
+      this.employee!.designations[index].pivot &&
+      (
+        this.employee!.designations[index].pivot.desg_print === null ||
+        this.employee!.designations[index].pivot.desg_print?.toString() === ''
+      )
+    ) {
+      this.validationErrors.push('Please Enter desg to print.');
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please Enter desg to print.',
+      });
+    }else {
+      // Clear the validation error message for Pin Code if it's valid
+      const index = this.validationErrors.indexOf('Please Enter desg to print.');
+      if (index !== -1) {
+        this.validationErrors.splice(index, 1);
+      }
+    }
+
+  }
   // Validate Order No
   validateOrderNo(param : String, index: number) {
 

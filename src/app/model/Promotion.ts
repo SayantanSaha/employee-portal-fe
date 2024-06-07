@@ -10,4 +10,5 @@ export class Promotion {
   deleted_at: Date | null = null;
   last_updated_from: string = '';
   last_updated_by: string = '';
+  desg_print:string = '';
 }
