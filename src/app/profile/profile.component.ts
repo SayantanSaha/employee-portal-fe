@@ -28,7 +28,7 @@ import {Vehicles} from "../model/Vehicles";
 
 export class ProfileComponent implements OnInit{
 
-
+  user: User = new User();
   divisiontypelist: any[] = [];  // Initialize as an empty array or with appropriate data type
   relationstypelist: any[] = [];
   serviceTypelist: any[] = [];// Initialize as an empty array or with appropriate data type
@@ -96,12 +96,15 @@ export class ProfileComponent implements OnInit{
     this.setEditable(this.mode=='edit');
     this.setEditable(this.mode=='create');
 
+    let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
+    this.user = JSON.parse(userString!);
+
     this.route.params.subscribe(params => {
       const id = +params['id']; // Extract id from route parameters
         // Check if 'id' parameter exists in the URL
         if (params.hasOwnProperty('id')) {
         const id = params['id'];
-
+        if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1 ))) {
           this.employeeService.getEmpProfile(id).subscribe(
             data=>{
               this.employee = data;
@@ -110,7 +113,17 @@ export class ProfileComponent implements OnInit{
               this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
             }
           );
-        } else {
+        }else{
+          Swal.fire({
+            title: 'Not Allowed',
+            text: 'You are not allowed to access this resource.',
+            icon: 'error',
+          }).then(() => {
+            this.router.navigate(['/dashboard']);
+          });
+        }
+
+      }else {
           this.employeeService.getMyProfile().subscribe(
             data=>{
               this.employee = data;

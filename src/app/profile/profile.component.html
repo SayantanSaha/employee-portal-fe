@@ -790,7 +790,7 @@
                           <thead>
                           <tr>
                             <th>Sl No.</th>
-                            <th>Designation</th>
+                            <th>Designation<span class="text-danger">*</span></th>
                             <th>Desg. to print</th>
                             <th>Joining Date</th>
                             <th>Order No.<span class="text-danger">*</span></th>
@@ -959,11 +959,11 @@
                           <thead>
                           <tr>
                             <th>Sl No.</th>
-                            <th>Division</th>
-                            <th>From Date<span class="text-danger">*</span></th>
+                            <th>Division<span class="text-danger">*</span></th>
+                            <th>From Date</th>
                             <th>To Date</th>
-                            <th>Order No.<span class="text-danger">*</span></th>
-                            <th>Order Date<span class="text-danger">*</span></th>
+                            <th>Order No.</th>
+                            <th>Order Date</th>
                             <th colspan="2">Order File</th>
                             <th *ngIf="editable" colspan="3">Action</th>
                           </tr>
@@ -1098,6 +1098,7 @@
                             <th>Relation</th>
                             <th>Mobile No.</th>
                             <th>Date Of Birth</th>
+                            <th>Service</th>
                           </tr>
                           </thead>
                           <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
@@ -1110,6 +1111,11 @@
                               <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data.rel_desc }}</td>
                               <td *ngIf="change.model === 'employee_rel'">{{ change.changed_data.rel_mobile_no }}</td>
                               <td *ngIf="change.model === 'employee_rel'">{{ formatDate(change.changed_data.rel_dob) }}</td>
+                              <td *ngIf="change.model === 'employee_rel'">
+                                <span *ngIf="change.changed_data.service_id === 1"> Not Working</span>
+                              <span *ngIf="change.changed_data.service_id === 2"> Government Job</span>
+                              <span *ngIf="change.changed_data.service_id === 3"> Private Job</span>
+                              </td>
                             </tr>
                           </ng-container>
                           </tbody>
@@ -1130,12 +1136,12 @@
                           <tr>
                             <th>Sl No.</th>
                             <th>Eba Card</th>
-                            <th>Name</th>
-                            <th>Gender</th>
-                            <th>Relation</th>
-                            <th>Mobile No.</th>
-                            <th>Date Of Birth</th>
-                            <th>Service</th>
+                            <th>Name<span class="text-danger">*</span></th>
+                            <th>Gender<span class="text-danger">*</span></th>
+                            <th>Relation<span class="text-danger">*</span></th>
+                            <th>Mobile No.<span class="text-danger">*</span></th>
+                            <th>Date Of Birth<span class="text-danger">*</span></th>
+                            <th>Service<span class="text-danger">*</span></th>
                             <th *ngIf="editable" colspan="3">Action</th>
                           </tr>
                           </thead>
@@ -1717,11 +1723,11 @@
                             <tr>
                               <th>Sl No.</th>
                               <th>Eba Card</th>
-                              <th>Name</th>
-                              <th>Gender</th>
-                              <th>Mobile No.</th>
-                              <th>Date Of Birth</th>
-                              <th>Out House No</th>
+                              <th>Name<span class="text-danger">*</span></th>
+                              <th>Gender<span class="text-danger">*</span></th>
+                              <th>Mobile No.<span class="text-danger">*</span></th>
+                              <th>Date Of Birth<span class="text-danger">*</span></th>
+                              <th>Out House No<span class="text-danger">*</span></th>
                               <th *ngIf="editable" colspan="3">Action</th>
                             </tr>
                             </thead>
@@ -1830,11 +1836,11 @@
                                     <tr>
                                       <th>Sl No.</th>
                                       <th>Eba Card</th>
-                                      <th>Name</th>
-                                      <th>Gender</th>
-                                      <th>Relation</th>
+                                      <th>Name<span class="text-danger">*</span></th>
+                                      <th>Gender<span class="text-danger">*</span></th>
+                                      <th>Relation<span class="text-danger">*</span></th>
                                       <th>Mobile No.</th>
-                                      <th>Date Of Birth</th>
+                                      <th>Date Of Birth<span class="text-danger">*</span></th>
                                       <th *ngIf="editable" colspan="3">Action</th>
                                     </tr>
                                     </thead>

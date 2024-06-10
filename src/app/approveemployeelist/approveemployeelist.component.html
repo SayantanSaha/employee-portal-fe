@@ -33,7 +33,7 @@
           <tbody *ngIf="dashboardData && dashboardData.ApprovedList">
           <tr *ngFor="let templist of dashboardData.ApprovedList; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ templist.id_cards[0].card_no }}</td>
+            <td>{{ templist?.id_cards?.[0]?.card_no }}</td>
             <td>{{ templist.employee.emp_name }}</td>
             <!-- <td>{{ templist.email_id }}</td> -->
             <td>{{ templist.employee.mobile }}</td>

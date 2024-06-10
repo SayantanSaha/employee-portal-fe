@@ -3,7 +3,7 @@ import {Servants} from "./Servants";
 
 export class Relation{
   id: number=0;
-  emp_rel_id: number=0;
+  emp_rel_id: number| null = null;;
   rel_desc: string | null = null;
   allSelected: boolean = false;
   Selected_dh: boolean = false;

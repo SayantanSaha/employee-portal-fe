@@ -9,7 +9,7 @@ export class ServantRel {
 
     pivot: {
         id: number;
-        employee_id: number;
+        employee_id: number|null;
         relation_id: number | null;
         servant_id: number | null;
         gender: string | null;
@@ -23,7 +23,7 @@ export class ServantRel {
         sign_path: string|null ;
     } = {
         id: -1,
-        employee_id:0,
+        employee_id:null,
         relation_id: null,
         servant_id: null,
         gender: null,

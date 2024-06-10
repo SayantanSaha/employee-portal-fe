@@ -51,11 +51,15 @@ export class RegistrationComponent implements OnInit {
   currentPageIndex = 0;
   totalPages = 5;
   slides = new Array(this.totalPages);
+  currentDate: string= "";
 
   constructor(
     private employeeService: EmployeeService,
     private router: Router
-  ) {}
+  ) {
+    const today = new Date();
+    this.currentDate = today.toISOString().split('T')[0];
+  }
 
 
 
@@ -120,7 +124,6 @@ export class RegistrationComponent implements OnInit {
       });
       return;
     }
-
     this.employeeService.RegistrationApply(
       this.password,
       this.employee

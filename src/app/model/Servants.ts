@@ -4,7 +4,7 @@ import {Ebapass} from "./Ebapass";
 
 export class Servants{
   id?: number = -1 ;
-  employee_id: number=0;
+  employee_id: number| null = null;;
   // servant_id: number=0;
   gender: string | null = null;
   servant_name: string | null = null;

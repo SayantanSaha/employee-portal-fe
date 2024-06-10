@@ -158,7 +158,7 @@
                     <label for="organization" class="form-label">Organization</label>
                     <select class="form-control" id="organization" [(ngModel)]="employee.organization" (keydown)="disableTabKey($event)">
                       <option [ngValue]="null">Select Your Organization</option>
-                      <option [ngValue]="org.id" *ngFor="let org of orglist">
+                      <option [ngValue]="org" *ngFor="let org of orglist">
                         {{org.org_desc}}
                       </option>
                     </select>
@@ -175,7 +175,7 @@
                     <label for="section" class="form-label">Section</label>
                     <select class="form-control" id="section" [(ngModel)]="employee.division">
                       <option [ngValue]="null">Select Section</option>
-                      <option [ngValue]="div.id" *ngFor="let div of divisiontypelist">
+                      <option [ngValue]="div" *ngFor="let div of divisiontypelist">
                         {{div.div_desc}}
                       </option>
                     </select>
@@ -192,7 +192,7 @@
                     <label for="designation" class="form-label">Designation</label>
                     <select class="form-control" id="designation" [(ngModel)]="employee.designation">
                       <option [ngValue]="null">Select Designation</option>
-                      <option [ngValue]="desg.id" *ngFor="let desg of designations">
+                      <option [ngValue]="desg" *ngFor="let desg of designations">
                         {{desg.desg_desc}}
                       </option>
                     </select>
@@ -244,7 +244,7 @@
                     <div  class="input-group mb-3">
                       <select  class="form-control" [(ngModel)]="employee.payLevel" (keydown)="disableTabKey($event)">
                         <option value="null">--Select payLevel--</option>
-                        <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel.id">{{ payLevel.pay_desc }}</option>
+                        <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel">{{ payLevel.pay_desc }}</option>
                       </select>
                     </div>
                   </div>
@@ -336,73 +336,73 @@
                             <table width="100%" border="0" cellpadding="3" cellspacing="2" style="border-collapse: collapse; border-color: #efdccd; background-color: #ffffff;">
                               <tr>
                                 <td align="left" height="30" width="220px">Name:</td>
-                                <td align="left" style="width: 300px">{{ employee?.emp_name }}</td>
+                                <td align="left" style="width: 300px">{{ employee.emp_name }}</td>
                                 <td valign="middle" align="right" rowspan="6">
-                                  <img [src]="employee?.profile_photo || '/assets/blank_photo.jpg'" width="120px" height="140px" alt="Applicant Photo" />
+                                  <img [src]="employee.profile_photo || '/assets/blank_photo.jpg'" width="120px" height="140px" alt="Applicant Photo" />
                                   <br /><br />
                                 </td>
                               </tr>
                               <tr style="height: 30px">
                                 <td align="left">Organization:</td>
-                                <td align="left">{{ employee?.organization }}</td>
+                                <td align="left">{{ employee.organization?.org_desc }}</td>
                               </tr>
                               <tr style="height: 30px">
                                 <td align="left">Department and Area of work:</td>
-                                <td align="left">{{ employee?.division }}</td>
+                                <td align="left">{{ employee.division?.div_desc }}</td>
                               </tr>
                               <tr style="height: 30px">
                                 <td align="left">Designation/Nature of Work:</td>
-                                <td align="left">{{ employee?.designation }}</td>
+                                <td align="left">{{ employee.designation?.desg_desc }}</td>
                               </tr>
                               <tr style="height: 30px">
                                 <td align="left">Designation to be printed:</td>
-                                <td align="left">{{ employee?.desg_print }}</td>
+                                <td align="left">{{ employee.desg_print }}</td>
                               </tr>
 
                               <tr style="height: 30px">
                                 <td align="left">Mobile Number:</td>
-                                <td align="left">{{ employee?.mobile }}</td>
+                                <td align="left">{{ employee.mobile }}</td>
                               </tr>
                               <tr style="height: 60px">
                                 <td align="left">Permanent Address:</td>
                                 <td align="left" >
-                                  {{ employee?.perm_add }}<ng-container *ngIf="employee?.perm_district">, </ng-container>
-                                  {{ employee?.perm_district }}<ng-container *ngIf="employee?.perm_state">, </ng-container>
-                                  {{ employee?.perm_state }}<ng-container *ngIf="employee?.perm_pin">, </ng-container>
-                                  {{ employee?.perm_pin }}
+                                  {{ employee.perm_add }}<ng-container *ngIf="employee?.perm_district">, </ng-container>
+                                  {{ employee.perm_district?.district_name }}<ng-container *ngIf="employee?.perm_state">, </ng-container>
+                                  {{ employee.perm_state?.state_name }}<ng-container *ngIf="employee?.perm_pin">, </ng-container>
+                                  {{ employee.perm_pin }}
                                 </td>
                               </tr>
                               <tr style="height: 60px">
                                 <td align="left">Present Address:</td>
                                 <td align="left" >
-                                  {{ employee?.curr_add }}<ng-container *ngIf="employee?.curr_district">, </ng-container>
-                                  {{ employee?.curr_district }}<ng-container *ngIf="employee?.curr_state">, </ng-container>
-                                  {{ employee?.curr_state }}<ng-container *ngIf="employee?.curr_pin">, </ng-container>
-                                  {{ employee?.curr_pin }}
+                                  {{ employee.curr_add }}<ng-container *ngIf="employee?.curr_district">, </ng-container>
+                                  {{ employee.curr_district?.district_name }}<ng-container *ngIf="employee?.curr_state">, </ng-container>
+                                  {{ employee.curr_state?.state_name }}<ng-container *ngIf="employee?.curr_pin">, </ng-container>
+                                  {{ employee.curr_pin }}
                                 </td>
                               </tr>
                               <tr style="height: 30px">
                                 <td align="left">Pay Level:</td>
-                                <td colspan="2" align="left">{{ employee?.payLevel }}</td>
+                                <td colspan="2" align="left">{{ employee.payLevel?.pay_desc }}</td>
                               </tr>
                               <tr style="height: 30px">
                                 <td align="left">Date of Birth:</td>
-                                <td colspan="2" align="left">{{ employee?.dob | date:'dd-MM-yyyy' }}</td>
+                                <td colspan="2" align="left">{{ employee.dob | date:'dd-MM-yyyy' }}</td>
                               </tr>
                               <tr style="height: 30px">
                                 <td align="left">Date of Retirement:</td>
-                                <td colspan="2" align="left">{{ employee?.dor | date:'dd-MM-yyyy' }}</td>
+                                <td colspan="2" align="left">{{ employee.dor | date:'dd-MM-yyyy' }}</td>
                               </tr>
                               <tr style="height: 30px">
                                 <td align="left">Gender:</td>
                                 <td colspan="2" align="left">
-                                  {{ employee?.gender === 'M' ? 'Male' : employee?.gender === 'F' ? 'Female' : employee?.gender === 'O' ? 'Others' : 'N/A' }}
+                                  {{ employee.gender === 'M' ? 'Male' : employee.gender === 'F' ? 'Female' : employee.gender === 'O' ? 'Others' : 'N/A' }}
                                 </td>
                               </tr>
                               <tr style="height: 30px">
                                 <td align="left">Blood Group:</td>
                                 <td colspan="2" align="left">
-                                  {{employee?.blood_group}}
+                                  {{employee.blood_group}}
                                 </td>
                               </tr>
                               <tr style="height: 30px">
@@ -423,16 +423,16 @@
                               </tr>
                               <tr style="height: 30px">
                                 <td align="left">Identification Mark:</td>
-                                <td colspan="2" align="left">{{ employee?.body_mark }}</td>
+                                <td colspan="2" align="left">{{ employee.body_mark }}</td>
                               </tr>
 
                               <br><br><br>
 
                               <tr style="height: 30px">
                                 <td align="right" colspan="3">
-                                  <img [src]="employee?.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px" alt="Upload Signature" /><br>
+                                  <img [src]="employee.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px" alt="Upload Signature" /><br>
                                   <span style="font-weight: 700; font-size: 15px">SIGNATURE OF APPLICANT</span><br>
-                                  <span style="font-size: 15px">Dt-</span>
+                                  <span style="font-size: 15px">Dt-{{ currentDate | date:'dd-MM-yyyy'}}</span>
                                 </td>
                               </tr>
                             </table>

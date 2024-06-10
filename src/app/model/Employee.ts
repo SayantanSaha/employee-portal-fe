@@ -60,9 +60,9 @@ export class Employee{
   divisions: Division[]|null = null;
   organization: Organization|null = null;
   designations: Designation[]|null = null;
-  division: string | null = null;
-  org: string | null = null;
-  designation: string | null = null;
+  division: any | null = null;
+  org: any | null = null;
+  designation: any | null = null;
   id_proof: string|null = null;
   sign_path: string|null = null;
   id_cards: Idcards[]|null = null;
@@ -79,5 +79,5 @@ export class Employee{
   status:string|null = null;
   desg_print:string|null = null;
   passColor:string|null = null;
-  payLevel:string|null = null;
+  payLevel:any | null = null;
 }

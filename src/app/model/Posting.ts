@@ -1,7 +1,7 @@
 export class Posting{
   id: number = -1;
-  employee_id: number = 0;
-  division_id: number = 0;
+  employee_id: number | null = null;;
+  division_id: number | null = null;;
   active: boolean=false;
   from_date: Date | null = null;
   order_date: Date | null = null;

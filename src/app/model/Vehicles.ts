@@ -1,7 +1,7 @@
 export class Vehicles{
     id?: number = -1 ;
-    employee_id: number=0;
-    servant_id: number=0;
+    employee_id: number| null = null;;
+    servant_id: number| null = null;;
     vehicle_type:string | null = null;
     model_name: string | null = null;
     vehicle_no: string | null = null;

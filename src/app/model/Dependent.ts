@@ -4,9 +4,9 @@ import {Ebapass} from "./Ebapass";
 export class Dependent{
   id?: number = -1 ;
 
-  employee_id: number=0;
-  relation_id: number=0;
-  service_id: number=0;
+  employee_id: number| null = null;
+  relation_id: number| null = null;
+  service_id: number| null = null;
   gender: string | null = null;
   rel_name: string | null = null;
   rel_dob: Date | null = null;
