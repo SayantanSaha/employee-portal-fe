@@ -64,6 +64,14 @@ export class EmployeeService {
     return this.http.get<Employee>(this.apiUrl+"my_profile",{headers:this.createHeader()});
   }
 
+  getCardType():Observable<any>{
+    return this.http.get<any>(this.apiUrl+"card_types",{headers:this.createHeader()});
+  }
+
+  getPays():Observable<any>{
+    return this.http.get<any>(this.apiUrl+"pays",{headers:this.createHeader()});
+  }
+
   getMyebaProfile():Observable<Employee>{
     return this.http.get<Employee>(this.apiUrl+"eba_profile",{headers:this.createHeader()});
   }

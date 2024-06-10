@@ -40,27 +40,8 @@ export class IdFormComponent implements OnInit {
   isLoading: boolean = false;
   vide_no: any | null = null;
   vide_date: any | null = null;
-  entryPass:any = {
-    name: '',
-    fathersName: '',
-    designation: '',
-    mobileNumber: '',
-    permanentAddress: '',
-    presentAddress: '',
-    workArea: '',
-    contractualCompanyName: '',
-    periodOfWork: '',
-    policeVerificationNo: '',
-    recommendingLetterNo: '',
-    dateOfBirth: '',
-    gender: '',
-    identificationMark: '',
-    signatureOfApplicant: '',
-    gazettedOfficerSignature: '',
-    gazettedOfficerName: '',
-    gazettedOfficerDesignation: '',
-    imageUrl: '',
-  };
+  returnapp: boolean = false;
+
 
   ngOnInit() {
     this.isLoading = true;
@@ -70,25 +51,28 @@ export class IdFormComponent implements OnInit {
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
 
-    // if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13))) {
+     if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13))||(this.mode == 'return')) {
       this.id = this.route.snapshot.paramMap.get('id');
       if (this.mode !== 'return') {
         this.letverify(!isNaN(+this.id!));
       }
-    // }
+     }
 
     if (this.id) {
       // 'id' is present, try to convert it to a number
       const idNumber = +this.id;
       if (!isNaN(idNumber)) {
-        // if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13))) {
+        if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13))||(this.mode == 'return')) {
           // 'id' is a valid number, call getEbaProfile
           this.employeeService.getRegProfile(idNumber).subscribe(
             (data: any) => {
               this.employee = data;
+              if(this.mode == 'return') {
+                this.returnedapplication(this.mode == 'return');
+              }
             }
           );
-        // }
+        }
       } else {
         // 'id' is not a valid number, call getMyebaProfile
         this.employeeService.getMyIDProfile().subscribe(
@@ -135,10 +119,16 @@ export class IdFormComponent implements OnInit {
   letverify(status: boolean) {
     this.urlId = status;
   }
+  returnedapplication(status:boolean) {
+    this.returnapp = status;
+  }
 
   printPage() {
     window.print();
   }
+
+
+
 
 }
 

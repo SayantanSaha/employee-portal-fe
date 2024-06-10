@@ -381,7 +381,7 @@
                       </thead>
                       <tbody>
                       <tr *ngFor="let member of employee!.family; let i = index">
-                        <ng-container >
+                        <ng-container *ngIf="member!.id!==27">
                           <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
                             <ng-container *ngIf="editable && !urlid">
                               <td>
@@ -1070,7 +1070,7 @@
 
 
                             <tr *ngFor="let member of servant!.relations; let k = index">
-                              <ng-container *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0">
+                              <ng-container *ngIf="member.pivot.eba_passes && member.pivot.eba_passes.length > 0 && member!.id!==27">
                                 <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
 
                                   <ng-container *ngIf="editable && !urlid">

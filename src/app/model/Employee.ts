@@ -22,6 +22,7 @@ export class Employee{
   blood_group:string='';
   doj_rb: Date|null = null;
   doj_gs: Date|null = null;
+  applied_date: Date|null = null;
   gender: string = '';
   dob: Date|null = null;
   dor: any| null = null;
@@ -54,6 +55,7 @@ export class Employee{
   eba_applications: any;
   eba_passes:any;
   eba_applicationsstatus :any;
+  idApplicationStatus:any;
   vehicles: Vehicles[]|null = [];
   divisions: Division[]|null = null;
   organization: Organization|null = null;
@@ -76,4 +78,6 @@ export class Employee{
   reg_no:string|null = null;
   status:string|null = null;
   desg_print:string|null = null;
+  passColor:string|null = null;
+  payLevel:string|null = null;
 }

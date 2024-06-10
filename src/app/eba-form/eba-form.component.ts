@@ -41,7 +41,6 @@ export class EbaFormComponent {
     this.baseUrl = baseUrl;
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
-
   }
 
   employee: Employee | null = null;

@@ -21,6 +21,7 @@ import { Designation } from "../model/Designation";
       state('1', style({ transform: 'translateX(-100%)' })),
       state('2', style({ transform: 'translateX(-200%)' })),
       state('3', style({ transform: 'translateX(-300%)' })),
+      state('4', style({ transform: 'translateX(-400%)' })),
       transition('* => *', animate('300ms ease'))
     ])
   ]
@@ -37,16 +38,18 @@ export class RegistrationComponent implements OnInit {
   divisiontypelist: any[] = [];
   designations: Designation[] = [];
   isCpAddressChecked: boolean = false;
-
+  bloodGroups: string[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+  passColors: any[] = [];
+  payLevels: any[] = [];
   passwordsMatch: boolean = false;
   passwordValid: boolean = false;
   passwordTouched: boolean = false;
   cpasswordTouched: boolean = false;
   maxDate: string = "";
   apiUrl = environment.apiUrl;
-
+  display: any = 'none';
   currentPageIndex = 0;
-  totalPages = 4;
+  totalPages = 5;
   slides = new Array(this.totalPages);
 
   constructor(
@@ -71,6 +74,19 @@ export class RegistrationComponent implements OnInit {
 
     this.employeeService.getStates().subscribe(
       data => this.states = data,
+      error => console.error(error)
+    );
+
+    this.employeeService.getPays().subscribe(
+      data => this.payLevels = data,
+      error => console.error(error)
+    );
+
+    this.employeeService.getCardType().subscribe(
+      data => {
+        this.passColors = data;
+        this.passColors = this.passColors.filter(color => ['G', 'P', 'R'].includes(color.code));
+      },
       error => console.error(error)
     );
 
@@ -304,6 +320,24 @@ export class RegistrationComponent implements OnInit {
 
   }
 
+  hoverClick(event: MouseEvent) {
+    const button = event.currentTarget as HTMLElement;
+    if (button) {
+      button.classList.add('clicked');
+
+      // Remove the class after a short delay to allow the shadow to disappear
+      setTimeout(() => {
+        button.classList.remove('clicked');
+      }, 200); // Adjust the delay (in milliseconds) based on your transition duration
+    }
+  }
+
+  openPopup() {
+    this.display = "block";
+  }
+  closePopup() {
+    this.display = "none";
+  }
 
 
 }
