@@ -201,6 +201,7 @@ export class EbaformviewComponent implements OnInit {
 
 
           data => {
+            this.isLoading = false;
             console.log(data);
             Swal.fire({
               icon: 'success',
@@ -217,6 +218,7 @@ export class EbaformviewComponent implements OnInit {
             });
           },
           (error) => {
+            this.isLoading = false;
             console.log(error);
             console.log(error.status);
             console.log(error.error);
@@ -241,9 +243,7 @@ export class EbaformviewComponent implements OnInit {
                 text: 'An error occurred while updating.',
               });
             }
-          },() => {
-              this.isLoading = false; // Hide loading symbol
-            }
+          }
         );
       // }
     }
@@ -290,6 +290,7 @@ export class EbaformviewComponent implements OnInit {
       this.isLoading=true;
       this.employeeService.updateeba(this.employee, this.id).subscribe(
           data => {
+            this.isLoading = false;
             console.log(data);
             Swal.fire({
               icon: 'success',
@@ -306,6 +307,7 @@ export class EbaformviewComponent implements OnInit {
             });
           },
           (error) => {
+            this.isLoading = false;
             console.log(error);
             console.log(error.status);
             console.log(error.error);
@@ -330,8 +332,6 @@ export class EbaformviewComponent implements OnInit {
                 text: 'An error occurred while updating.',
               });
             }
-          },() => {
-            this.isLoading = false; // Hide loading symbol
           }
       );
 

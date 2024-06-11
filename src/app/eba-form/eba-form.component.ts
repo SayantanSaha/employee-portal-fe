@@ -1213,6 +1213,7 @@ export class EbaFormComponent {
               () => {
                 this.employeeService.updateebastatus(id, 'Approve', this.remark?? '', this.file_path_64 ?? '').subscribe(
                     () => {
+                      this.isLoading = false;
                       Swal.fire({
                         icon: 'success',
                         title: 'Success',
@@ -1223,6 +1224,7 @@ export class EbaFormComponent {
                       });
                     },
                     (error) => {
+                      this.isLoading = false;
                       console.log('Error in updateebastatus:', error);
                       if (error.status === 302) {
                         Swal.fire({
@@ -1238,12 +1240,11 @@ export class EbaFormComponent {
                           text: 'An error occurred while Approving application status.',
                         });
                       }
-                    },() => {
-                      this.isLoading = false; // Hide loading symbol
-                    }
+                    },
                 );
               },
               (error) => {
+                this.isLoading = false;
                 console.log('Error in updateeba:', error);
                 // Handle specific errors or use a generic error message
                 Swal.fire({
@@ -1278,6 +1279,7 @@ export class EbaFormComponent {
               });
             },
             (error) => {
+              this.isLoading = false;
               console.log(error);
               console.log(error.status);
               console.log(error.error);
@@ -1294,8 +1296,6 @@ export class EbaFormComponent {
                   text: 'An error occurred while Approving application status.',
                 });
               }
-            },() => {
-              this.isLoading = false; // Hide loading symbol
             }
         );
       } else{
@@ -1322,6 +1322,7 @@ export class EbaFormComponent {
       this.isLoading=true;
       this.employeeService.updateebastatus(id, 'Forward', this.remark?? '', this.file_path_64 ?? '').subscribe(
           () =>{
+            this.isLoading = false;
             Swal.fire({
               icon: 'success',
               title: 'Success',
@@ -1332,6 +1333,7 @@ export class EbaFormComponent {
             });
           },
           (error) => {
+            this.isLoading = false;
             console.log(error);
             console.log(error.status);
             console.log(error.error);
@@ -1348,8 +1350,6 @@ export class EbaFormComponent {
                 text: 'An error occurred while Approving application status.',
               });
             }
-          },() => {
-            this.isLoading = false; // Hide loading symbol
           }
       );
     } else{
@@ -1391,6 +1391,7 @@ export class EbaFormComponent {
             this.employeeService.updateebastatus(id, 'Return', this.remark ?? '', this.file_path_64 ?? '').subscribe(
 
                 () => {
+                  this.isLoading = false;
                   Swal.fire({
                     icon: 'success',
                     title: 'Success',
@@ -1401,6 +1402,7 @@ export class EbaFormComponent {
                   });
                 },
                 (error) => {
+                  this.isLoading = false;
                   console.log(error);
                   console.log(error.status);
                   console.log(error.error);
@@ -1420,8 +1422,6 @@ export class EbaFormComponent {
                       text: 'An error occurred while Approving application status.',
                     });
                   }
-                },() => {
-                  this.isLoading = false; // Hide loading symbol
                 }
             );
           } else {
@@ -1434,6 +1434,7 @@ export class EbaFormComponent {
             return;
           }
         },(error) => {
+            this.isLoading = false;
           console.log('Error in updateeba:', error);
           // Handle specific errors or use a generic error message
           Swal.fire({
@@ -1442,9 +1443,8 @@ export class EbaFormComponent {
             text: 'An error occurred while updating the application.',
           });
         }
-            ,() => {
-              this.isLoading = false; // Hide loading symbol
-            });
+
+            );
       }else {
         console.error('ID parameter is missing or invalid in the URL.');
         Swal.fire({
@@ -1459,6 +1459,7 @@ export class EbaFormComponent {
         this.isLoading=true;
         this.employeeService.updateebastatus(id, 'Return', this.remark ?? '', this.file_path_64 ?? '').subscribe(
             () => {
+              this.isLoading = false;
               Swal.fire({
                 icon: 'success',
                 title: 'Success',
@@ -1469,6 +1470,7 @@ export class EbaFormComponent {
               });
             },
             (error) => {
+              this.isLoading = false;
               console.log(error);
               console.log(error.status);
               console.log(error.error);
@@ -1488,8 +1490,6 @@ export class EbaFormComponent {
                   text: 'An error occurred while Approving application status.',
                 });
               }
-            },() => {
-              this.isLoading = false; // Hide loading symbol
             }
         );
       } else {

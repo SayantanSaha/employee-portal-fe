@@ -52,6 +52,7 @@ export class RegistrationComponent implements OnInit {
   totalPages = 5;
   slides = new Array(this.totalPages);
   currentDate: string= "";
+  isLoading: boolean = false;
 
   constructor(
     private employeeService: EmployeeService,
@@ -64,6 +65,7 @@ export class RegistrationComponent implements OnInit {
 
 
   ngOnInit() {
+    this.isLoading=true;
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Zero-padded month
@@ -103,7 +105,7 @@ export class RegistrationComponent implements OnInit {
       data=>this.divisiontypelist=data,
       error => console.log(error)
     );
-
+    this.isLoading=false;
   }
 
   doRegistration() {
@@ -124,21 +126,25 @@ export class RegistrationComponent implements OnInit {
       });
       return;
     }
+
+    this.isLoading = true;
+
     this.employeeService.RegistrationApply(
       this.password,
       this.employee
     ).subscribe(
       data => {
+        this.isLoading = false; // Hide loading symbol in case of success
         Swal.fire({
           icon: 'success',
           title: 'Success',
           text: 'Registered Successfully'
-        })
-        .then(() => {
+        }).then(() => {
           this.router.navigate(['login']);
         });
       },
       error => {
+        this.isLoading = false; // Hide loading symbol in case of error
         let errorMessage = 'An error occurred. Please try again.';
         if (error.error && error.error.message) {
           errorMessage = error.error.message;
@@ -151,6 +157,7 @@ export class RegistrationComponent implements OnInit {
       }
     );
   }
+
 
   cPAddress() {
     if (this.isCpAddressChecked) {
