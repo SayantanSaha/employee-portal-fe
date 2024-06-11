@@ -98,7 +98,7 @@ export class ProfileComponent implements OnInit {
 
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
-    if (this.user && this.user.employee == true) {
+    if (this.user && this.user.employee !== true) {
       Swal.fire({
         title: 'Not Allowed',
         text: 'You are not allowed to access this resource.',
