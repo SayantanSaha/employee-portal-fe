@@ -63,7 +63,7 @@ export class IdFormComponent implements OnInit {
       const idNumber = +this.id;
       if (!isNaN(idNumber)) {
         if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13))||(this.mode == 'return')) {
-          // 'id' is a valid number, call getEbaProfile
+          // 'id' is a valid number, call getrbProfile
           this.employeeService.getRegProfile(idNumber).subscribe(
             (data: any) => {
               this.employee = data;
@@ -74,7 +74,7 @@ export class IdFormComponent implements OnInit {
           );
         }
       } else {
-        // 'id' is not a valid number, call getMyebaProfile
+        // 'id' is not a valid number, call getMyrbProfile
         this.employeeService.getMyIDProfile().subscribe(
           (data: any) => {
             this.employee = data;
@@ -92,7 +92,7 @@ export class IdFormComponent implements OnInit {
         );
       }
     } else {
-      // 'id' is not present, call getMyebaProfile
+      // 'id' is not present, call getMyrbProfile
       this.employeeService.getMyIDProfile().subscribe(
         (data: any) => {
           this.employee = data;
@@ -127,6 +127,256 @@ export class IdFormComponent implements OnInit {
     window.print();
   }
 
+  approveapplication() {
+    const id = +this.route.snapshot.params['id'];
+    if (!isNaN(id)) {
+      if (this.user && this.user.role && this.user.role.some((role:  number) => role === 11)) {
+        if (this.employee) {
+          console.log(this)
+          const clonedEmployee = {...this.employee};
+
+          this.isLoading=true;
+          // this.employeeService.updaterb(this.employee, id).subscribe(
+          //     () => {
+                this.employeeService.updaterbstatus(id, 'Approve', this.remark?? '').subscribe(
+                    () => {
+                      this.isLoading = false;
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Forwarded successfully',
+                      }).then(() => {
+                        // Redirect to the dashboard route
+                        this.router.navigate(['regpanel']);
+                      });
+                    },
+                    (error) => {
+                      this.isLoading = false;
+                      console.log('Error in updaterbstatus:', error);
+                      if (error.status === 302) {
+                        Swal.fire({
+                          icon: 'warning',
+                          title: 'Warning',
+                          text: 'You are not authorised !!!',
+                        });
+                      } else {
+                        // Handle specific errors or use a generic error message
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Error',
+                          text: 'An error occurred while Approving application status.',
+                        });
+                      }
+                    },
+                );
+              // },
+              // (error) => {
+              //   this.isLoading = false;
+              //   console.log('Error in updaterb:', error);
+              //   // Handle specific errors or use a generic error message
+              //   Swal.fire({
+              //     icon: 'error',
+              //     title: 'Error',
+              //     text: 'An error occurred while updating the application.',
+              //   });
+              // }
+          // );
+        }else {
+          console.error('ID parameter is missing or invalid in the URL.');
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'data missing !!!',
+          });
+          return;
+        }
+      }
+
+      // else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 5 || role == 6|| role == 9|| role == 10))) {
+      //   this.isLoading=true;
+      //   this.employeeService.updaterbstatus(id, 'Approve', this.remark?? '', this.file_path_64 ?? '').subscribe(
+      //       () =>{
+      //         Swal.fire({
+      //           icon: 'success',
+      //           title: 'Success',
+      //           text: 'Approved successfully',
+      //         }).then(() => {
+      //           // Redirect to the dashboard route
+      //           this.router.navigate(['rbpanel']);
+      //         });
+      //       },
+      //       (error) => {
+      //         this.isLoading = false;
+      //         console.log(error);
+      //         console.log(error.status);
+      //         console.log(error.error);
+      //         if (error.status === 302) {
+      //           Swal.fire({
+      //             icon: 'warning',
+      //             title: 'Warning',
+      //             text: 'You are not authorised !!!',
+      //           });
+      //         } else {
+      //           Swal.fire({
+      //             icon: 'error',
+      //             title: 'Error',
+      //             text: 'An error occurred while Approving application status.',
+      //           });
+      //         }
+      //       }
+      //   );
+      // }
+      else{
+        Swal.fire({
+          icon: 'warning',
+          title: 'Warning',
+          text: 'You are not authorised !!!',
+        });
+      }
+    }else{
+      console.error('ID parameter is missing or invalid in the URL.');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'id missing !!!',
+      });
+      return;
+    }
+  }
+
+  returnapplication()
+  {
+    // Extract id from route parameters
+    const id = +this.route.snapshot.params['id'];
+    if (this.user && this.user.role && this.user.role.some((role:  number) => role === 11)) {
+      if(this.employee){
+        if(this.remark == null ){
+          Swal.fire({
+            icon: 'warning',
+            title: 'Enter note ',
+            text: 'enter note for ' +this.employee.emp_name,
+          });
+          return;
+        }
+        this.isLoading=true;
+        // this.employeeService.updaterb(this.employee, id).subscribe(() => {
+          if (!isNaN(id)) {
+            this.employeeService.updaterbstatus(id, 'Return', this.remark ?? '').subscribe(
+
+                () => {
+                  this.isLoading = false;
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Returned successfully',
+                  }).then(() => {
+                    // Redirect to the dashboard route
+                    this.router.navigate(['regpanel']);
+                  });
+                },
+                (error) => {
+                  this.isLoading = false;
+                  console.log(error);
+                  console.log(error.status);
+                  console.log(error.error);
+
+                  if (error.status === 302) {
+                    Swal.fire({
+                      icon: 'warning',
+                      title: 'Warning',
+                      text: 'You are not authorized !!!',
+                    });
+                  } else {
+                    // Handle other errors here
+                    console.error('An error occurred:', error);
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: 'An error occurred while Approving application status.',
+                    });
+                  }
+                }
+            );
+          } else {
+            console.error('ID parameter is missing or invalid in the URL.');
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'id missing !!!',
+            });
+            return;
+          }
+        // },(error) => {
+        //     this.isLoading = false;
+        //   console.log('Error in updaterb:', error);
+        //   // Handle specific errors or use a generic error message
+        //   Swal.fire({
+        //     icon: 'error',
+        //     title: 'Error',
+        //     text: 'An error occurred while updating the application.',
+        //   });
+        // }
+
+        //     );
+      }else {
+        console.error('ID parameter is missing or invalid in the URL.');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Warning',
+          text: 'data missing !!!',
+        });
+        return;
+      }
+    }
+    // else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 5 || role == 6|| role == 9|| role == 10))){
+    //   if (!isNaN(id)) {
+    //     this.isLoading=true;
+    //     this.employeeService.updaterbstatus(id, 'Return', this.remark ?? '').subscribe(
+    //         () => {
+    //           this.isLoading = false;
+    //           Swal.fire({
+    //             icon: 'success',
+    //             title: 'Success',
+    //             text: 'Returned successfully',
+    //           }).then(() => {
+    //             // Redirect to the dashboard route
+    //             this.router.navigate(['rbpanel']);
+    //           });
+    //         },
+    //         (error) => {
+    //           this.isLoading = false;
+    //           console.log(error);
+    //           console.log(error.status);
+    //           console.log(error.error);
+
+    //           if (error.status === 302) {
+    //             Swal.fire({
+    //               icon: 'warning',
+    //               title: 'Warning',
+    //               text: 'You are not authorized !!!',
+    //             });
+    //           } else {
+    //             // Handle other errors here
+    //             console.error('An error occurred:', error);
+    //             Swal.fire({
+    //               icon: 'error',
+    //               title: 'Error',
+    //               text: 'An error occurred while Approving application status.',
+    //             });
+    //           }
+    //         }
+    //     );
+    //   } else {
+    //     console.error('ID parameter is missing or invalid in the URL.');
+    //     Swal.fire({
+    //       icon: 'warning',
+    //       title: 'Warning',
+    //       text: 'id missing !!!',
+    //     });
+    //     return;
+    //   }
+    // }
+  }
 
 
 

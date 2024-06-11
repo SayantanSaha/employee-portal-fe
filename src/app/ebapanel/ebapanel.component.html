@@ -244,7 +244,7 @@
                               <tr *ngFor="let ebaapplication of ebadashboardData.todayList; let i = index">
                                 <td>{{ i + 1 }}</td>
                                 <td>{{ ebaapplication.reg_no }}</td>
-                                <td>{{ ebaapplication.id_cards[0].card_no}}</td>
+                                <td>{{ ebaapplication.id_cards?.[0]?.card_no}}</td>
                                 <td>{{ ebaapplication.employee.emp_name }}</td>
                                 <td>{{ ebaapplication.employee.mobile }}</td>
                                 <td>{{ formatDate(ebaapplication.created_at) }}</td>

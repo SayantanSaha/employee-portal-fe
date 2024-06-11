@@ -47,6 +47,7 @@ const routes: Routes = [
       { path: 'changes-approval-dtls/:id',loadChildren: () => import('../tempchangesapproval/tempchangesapproval.module').then(d => d.TempchangesapprovalModule), canActivate: [AuthGuard]},
       { path: 'eba-form-view',loadChildren: () => import('../ebaformview/ebaformview.module').then(d => d.EbaformviewModule), canActivate: [AuthGuard]},
       { path: 'eba-pending',loadChildren: () => import('../ebapending/ebapending.module').then(d => d.ebaPendingModule), canActivate: [AuthGuard]},
+      { path: 'rb-pending',loadChildren: () => import('../rbapppending/rbapppending-routing-module').then(d => d.rbAppPendingRoutingModule), canActivate: [AuthGuard]},
       { path: 'eba-print',loadChildren: () => import('../ebaprint/ebaprint.module').then(d => d.EbaprintModule), canActivate: [AuthGuard]},
       { path: 'ebapanel',loadChildren: () => import('../ebapanel/ebapanel.module').then(d => d.EbapanelModule), canActivate: [AuthGuard]},
       { path: 'appliedFormList',loadChildren: () => import('../eba-form-list/eba-form-list.module').then(d => d.EbaFormListModule), canActivate: [AuthGuard]},

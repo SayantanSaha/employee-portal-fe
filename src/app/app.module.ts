@@ -43,6 +43,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RegistrationComponent} from "./registration/registration.component";
 import {RegistrationPanelComponent} from "./registration-panel/registration-panel.component";
+import {RbapppendingComponent} from "./rbapppending/rbapppending.component";
 
 @NgModule({
   declarations: [
@@ -72,7 +73,7 @@ import {RegistrationPanelComponent} from "./registration-panel/registration-pane
     EbaFormListComponent,
     EbaprintComponent,
     RegistrationPanelComponent,
-
+    RbapppendingComponent
 
   ],
     imports: [

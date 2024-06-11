@@ -81,6 +81,14 @@ export class DashboardComponent implements OnInit{
     }
   }
 
+  hasValidRole(): boolean {
+    if (!this.user || !this.user.role) {
+      return false;
+    }
+    const roles = this.user.role;
+    return roles.length > 0 && roles.some((r: number) => r !== 3);
+  }
+
   applyEvahaan() {
     this.employeeService.applyEvahaan().subscribe(
         (data: any) => {

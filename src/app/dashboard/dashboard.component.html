@@ -8,7 +8,7 @@
 
 
 <div class="row">
-  <div class="card shadow" style="width: 240px;height: 140px;" (click)=" hoverClick($event)">
+  <div class="card shadow" style="width: 240px;height: 140px;" (click)=" hoverClick($event)" *ngIf="user && user.employee == true">
     <a [routerLink]="'/profile/view'" style="text-decoration: none; color: inherit;" >
       <div class="card-body">
         <i class="bi bi-person-circle"></i>
@@ -49,7 +49,7 @@
     </a>
   </div>
 
-  <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
+  <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)" *ngIf="user && user.employee == true">
     <a [routerLink]="'/id-form/edit/view'" style="text-decoration: none; color: inherit;">
       <div class="card-body">
         <img src="https://cdn-icons-png.flaticon.com/512/4093/4093884.png" alt="evahaan" style="height: 23%;width: 13%">
@@ -60,7 +60,7 @@
     </a>
   </div>
 
-  <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
+  <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)" *ngIf="user && user.employee == true">
     <a [routerLink]="'/eba-form/edit/relative/view'" style="text-decoration: none; color: inherit;">
       <div class="card-body">
         <img src="https://static.vecteezy.com/system/resources/previews/014/711/297/original/id-card-isolated-on-white-background-identification-card-icon-business-identity-id-card-icon-template-badge-identification-personal-contact-in-flat-style-vector.jpg" alt="evahaan" style="height: 23%;width: 17%">
@@ -80,7 +80,7 @@
 <!--    </a>-->
 <!--  </div>-->
 
-  <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2% ;cursor: pointer; " (click)=" hoverClick($event)">
+  <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2% ;cursor: pointer; " (click)=" hoverClick($event)" *ngIf="user && user.employee == true">
     <a    (click)="applyEvahaan()">
 <!--    <a  href="https://rb.nic.in/teste/login_authorised.aspx?token=+MHzZFyMEj9b4TjEiXAbtb5w8AO2q6Zm3Q2rTYSyCwDivyeRKjUXAsAbPl08ZqLOBF88Xt461l5ULmHl2SO4VShVN4MiluD1FyO/xy77MnC06jM6xX6HfhZ7oEOt7xMhzWgDfTqw8QWAaLZP8jA9bn37n/GHajhOo2UT9AN6JNvVN3uYi4VGFB4+Zi+SyfJS18D/NxFksgwHvqiC/yw0MeuF8ef+cmIPSOSPopxhzimWuAyJ4iT4JDQgFWab0PaftNJKxFXRiLm6qVVrXbROXogUjX7952uXW1Y5uAfpLYvYd0nMC4sbL+YcFMB6x4pP">-->
       <div class="card-body">
@@ -91,7 +91,7 @@
     </a>
   </div>
 
-  <div class="card shadow" style="width: 240px;height: 140px; margin-left: 2%;cursor: pointer;" (click)=" hoverClick($event)">
+  <div class="card shadow" style="width: 240px;height: 140px; margin-left: 2%;cursor: pointer;" (click)=" hoverClick($event)" *ngIf="user && user.employee == true">
     <a style="text-decoration: none; color: inherit;">
       <div class="card-body">
         <i class="bi bi-car-front"></i>
@@ -105,24 +105,26 @@
 <br><br>
 
 
+<ng-container *ngIf="user && user.employee_id !== null">
+  <ng-container *ngIf="hasValidRole()">
+    <div class="row" >
+      <div class="col-md-8" style="font-size: 20px;">
+        For Office
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
 
 <div class="row">
-  <div class="col-md-8" style="font-size: 20px;">
-    For Office
-  </div>
-</div>
 
-
-<div class="row">
-
-  <ng-container *ngIf="user && user.role" >
+  <ng-container *ngIf="user && user.role && user.employee == true" >
     <ng-container *ngFor="let role of user.role">
       <ng-container *ngIf="role === 1">
         <div class="card shadow" style="width: 240px;height: 140px" (click)=" hoverClick($event)">
           <a [routerLink]="'/adminpanel'" style="text-decoration: none; color: inherit;">
             <div class="card-body">
               <img class="card-img-top" src="https://purwosari.magetan.go.id/image/admin.png" alt="admin" style="height: 35%;width: 25%;margin-top: -8%">
-              <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Admin</h5>
+              <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Employee Info.</h5>
               <p class="card-text" >Click here to Verify Officer Details</p>
             </div>
           </a>

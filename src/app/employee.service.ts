@@ -327,7 +327,9 @@ export class EmployeeService {
     return this.http.post<any>(this.apiUrl+"searchEba",searchEba,{headers:this.createHeader()});
   }
 
-
+  searchrb(searchrb: Search): Observable<any> {
+    return this.http.post<any>(this.apiUrl+"searchrb",searchrb,{headers:this.createHeader()});
+  }
   applicationByApplicant(): Observable<any[]>{
     return this.http.get<any[]>(this.apiUrl+"Eba",{headers:this.createHeader()});
   }
@@ -378,6 +380,17 @@ export class EmployeeService {
     };
 
     return this.http.post<any>(this.apiUrl + "Ebastatus/"+id, requestBody, options);
+  }
+
+  updaterbstatus(id: number, action: string, remark: string): Observable<any> {
+    const options = { headers: this.createHeader() };
+    const requestBody = {
+      action: action,
+      remark: remark,
+        // file_path_64:file_path_64
+    };
+
+    return this.http.post<any>(this.apiUrl + "rbstatus/"+id, requestBody, options);
   }
 
   applyEvahaan(): Observable<any[]>{

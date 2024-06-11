@@ -18,7 +18,7 @@ import {Search} from "../model/Search";
 
 export class RegistrationPanelComponent implements OnInit{
   todayListCount: number = 0; // Provide an initializer here
-  ebadashboardData: any;
+  rbdashboardData: any;
   empTempDetails : any={};
   employee: Employee | null = null;
    search: Search = new Search();
@@ -41,7 +41,7 @@ ngOnInit() {
   this.employeeService.getRegDashboardData().subscribe(
       (data: any) => {
         console.log(data);
-        this.ebadashboardData = data;
+        this.rbdashboardData = data;
       },
       error => {
         console.error('Error fetching data:', error);
@@ -73,5 +73,66 @@ hoverClick(event: MouseEvent) {
 formatDate(date: string | Date): string {
     return this.datePipe.transform(date, 'dd/MM/YYYY') || 'N/A';
   }
+
+  searchRb(i: number) {
+    // @ts-ignore
+    this.search.role = i;
+    if (this.search) {
+      this.employeeService.searchrb(this.search).subscribe(
+        (data) => {
+          console.log('Search successful:', data);
+          this.router.navigate(['rb-pending'], { state: {  employeeData: data, roleId:this.search.role , from:'serachrb' } });
+        },
+        (error) => {
+          console.error('Search error:', error);
+        },
+        () => {
+          console.log('Search completed');
+        }
+      );
+    }
+  }
+
+  opensearch() {
+    this.searchbox = "block";
+  }
+  closesearch() {
+    this.searchbox = "none";
+  }
+
+
+  Search() {
+    // @ts-ignore
+    if (this.search) {
+      this.employeeService.searchrb(this.search).subscribe(
+        (data) => {
+          console.log('Search successful:', data);
+          this.router.navigate(['rb-pending'], { state: {  employeeData: data , from:'serach' } });
+        },
+        (error) => {
+          console.error('Search error:', error);
+        },
+        () => {
+          console.log('Search completed');
+        }
+      );
+    }
+  }
+
+  rbpasses(){
+    // this.employeeService.rbpasses().subscribe(
+    //   (data) => {
+    //     console.log('Search successful:', data);
+    //     this.router.navigate(['rb-print'], { state: {  employeeData: data, fromfunction:'totalpass'} });
+    //   },
+    //   (error) => {
+    //     console.error('Search error:', error);
+    //   },
+    //   () => {
+    //     console.log('Search completed');
+    //   }
+    // );
+  }
+
 
 }

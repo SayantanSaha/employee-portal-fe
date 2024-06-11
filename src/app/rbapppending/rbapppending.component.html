@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12" *ngIf="rbPendingList!=null">
+      <div class="col col-md-12" style="padding: 2%;" >
+        <div class="card shadow">
+          <div class="card-header" >
+            <div  class="float-start">
+              <b *ngIf="roleId==11">Pending with DH({{rbPendingList.length}})</b>
+              <b *ngIf="roleId==12">Pending with SO({{rbPendingList.length}})</b>
+              <!-- <b *ngIf="roleId==6">Pending with US({{rbPendingList.length}})</b> -->
+              <b *ngIf="roleId==15">Approved({{rbPendingList.length}})</b>
+              <b *ngIf="roleId==16">Returned({{rbPendingList.length}})</b>
+              <!-- <b *ngIf="roleId==9">Pending with Director({{rbPendingList.length}})</b>
+              <b *ngIf="roleId==10">Pending with ASP({{rbPendingList.length}})</b> -->
+              <b *ngIf="!roleId || roleId==null">Applications({{rbPendingList.length}})</b>
+            </div>
+          </div>
+          <div class="card-body" *ngIf="rbPendingList!=null ">
+            <div style="padding: 1%">
+              <div class="row mb-12">
+                <table class="table table-stripped">
+                  <thead>
+                  <tr>
+                    <th>Sl No.</th>
+                    <th>Reg No.</th>
+                    <!-- <th>Id Card No.</th> -->
+                    <th>Employee Name</th>
+                    <th>Mobile No.</th>
+                    <th>Last Updated Date</th>
+                    <th *ngIf="!roleId || roleId==null">status</th>
+                    <th>Action</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let rbPending of rbPendingList; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ rbPending.reg_no}}</td>
+                    <!-- <td>{{ rbPending.id_cards[0].card_no}}</td> -->
+                    <td>{{ rbPending.user?.name }}</td>
+                    <td>{{ rbPending.user?.username }}</td>
+                    <td>{{ formatDate(rbPending.created_at) }}</td>
+                    <ng-container *ngIf="from=='serach'">
+                      <td >{{  rbPending.roles[0].role_desc }}</td>
+                    </ng-container>
+                    <td>
+                      <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/id-form/check/' + rbPending.id">Details</a>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>

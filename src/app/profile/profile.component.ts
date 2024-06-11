@@ -1,22 +1,22 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {User} from "../model/User";
-import {Employee} from "../model/Employee";
-import {EmployeeService} from "../employee.service";
-import {ActivatedRoute} from "@angular/router";
-import {State} from "../model/State";
-import {District} from "../model/District";
-import {Designation} from "../model/Designation";
-import {Division} from "../model/Division";
+import { Component, Inject, OnInit } from '@angular/core';
+import { User } from "../model/User";
+import { Employee } from "../model/Employee";
+import { EmployeeService } from "../employee.service";
+import { ActivatedRoute } from "@angular/router";
+import { State } from "../model/State";
+import { District } from "../model/District";
+import { Designation } from "../model/Designation";
+import { Division } from "../model/Division";
 import Swal from 'sweetalert2';
 import { Router } from "@angular/router";
 import { DatePipe } from '@angular/common';
-import {Domestic_help, Relation} from "../model/Relation";
+import { Domestic_help, Relation } from "../model/Relation";
 import { fileToBase64 } from './fileToBase64';
 import { environment } from 'src/environments/environment';
 import { ParseChangedDataPipe } from '../parse-changed-data.pipe';
-import {Servants} from "../model/Servants"; // Update the path accordingly
-import {ServantRel} from "../model/ServantRel";
-import {Vehicles} from "../model/Vehicles";
+import { Servants } from "../model/Servants"; // Update the path accordingly
+import { ServantRel } from "../model/ServantRel";
+import { Vehicles } from "../model/Vehicles";
 
 
 @Component({
@@ -26,24 +26,24 @@ import {Vehicles} from "../model/Vehicles";
   providers: [DatePipe],
 })
 
-export class ProfileComponent implements OnInit{
+export class ProfileComponent implements OnInit {
 
   user: User = new User();
   divisiontypelist: any[] = [];  // Initialize as an empty array or with appropriate data type
   relationstypelist: any[] = [];
   serviceTypelist: any[] = [];// Initialize as an empty array or with appropriate data type
-  servantstypelist: any[] =[];
-  validationErrors:string[] = [];
+  servantstypelist: any[] = [];
+  validationErrors: string[] = [];
   blockstypelist: any[] = [];
-  locationtypelist: any[] =[];
+  locationtypelist: any[] = [];
   quarterstypelist: any[] = [];
   quarterList: any[] = [];
   EbaCardData: any[] = [];
   showquarterDetails: boolean = false;
   showEBACardDetails: boolean = false;
-  quarterDetails:any = null;
-  recivedotp:boolean = false;
-  recivedotpEBACard:boolean = false;
+  quarterDetails: any = null;
+  recivedotp: boolean = false;
+  recivedotpEBACard: boolean = false;
   changesMade: boolean = false;
   isCpAddressChecked: boolean = false;
   changesPostingMade: boolean[] = [];
@@ -51,10 +51,10 @@ export class ProfileComponent implements OnInit{
   changesPromotionMade: boolean[] = [];
   changesServantMade: boolean[] = [];
   changesVehicle: boolean[] = [];
-  changesServantRelation:boolean[]=[];
+  changesServantRelation: boolean[] = [];
   maxDate: string = "";
   baseUrl: string = '';
-  EbaCardNo: string|null = null;
+  EbaCardNo: string | null = null;
 
 
   constructor(
@@ -67,21 +67,21 @@ export class ProfileComponent implements OnInit{
     this.baseUrl = baseUrl;
   }
 
-  employee:Employee| null = null;
-  mode:string|null = null;
-  editable:boolean = false;
-  states:State[]=[];
-  currDistricts:District[]=[];
-  permDistricts:District[]=[];
-  designations:Designation[]=[];
-  divisions:Division[]=[];
-  relations:Relation[]=[];
+  employee: Employee | null = null;
+  mode: string | null = null;
+  editable: boolean = false;
+  states: State[] = [];
+  currDistricts: District[] = [];
+  permDistricts: District[] = [];
+  designations: Designation[] = [];
+  divisions: Division[] = [];
+  relations: Relation[] = [];
   // servant_relations:ServantRel[]=[];
   servants: Servants[] = [];
 
-  vehicles: Vehicles[]=[];
+  vehicles: Vehicles[] = [];
   apiUrl = environment.apiUrl;
-    bloodGroups: string[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+  bloodGroups: string[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
   ngOnInit() {
 
@@ -93,156 +93,165 @@ export class ProfileComponent implements OnInit{
     this.maxDate = `${year}-${month}-${day}`;
 
     this.mode = this.route.snapshot.paramMap.get('mode');
-    this.setEditable(this.mode=='edit');
-    this.setEditable(this.mode=='create');
+    this.setEditable(this.mode == 'edit');
+    this.setEditable(this.mode == 'create');
 
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
-
-    this.route.params.subscribe(params => {
-      const id = +params['id']; // Extract id from route parameters
+    if (this.user && this.user.employee == true) {
+      Swal.fire({
+        title: 'Not Allowed',
+        text: 'You are not allowed to access this resource.',
+        icon: 'error',
+      }).then(() => {
+        this.router.navigate(['/dashboard']);
+      });
+    } else {
+      this.route.params.subscribe(params => {
+        const id = +params['id']; // Extract id from route parameters
         // Check if 'id' parameter exists in the URL
         if (params.hasOwnProperty('id')) {
-        const id = params['id'];
-        if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1 ))) {
-          this.employeeService.getEmpProfile(id).subscribe(
-            data=>{
-              this.employee = data;
+          const id = params['id'];
+          if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+            this.employeeService.getEmpProfile(id).subscribe(
+              data => {
+                this.employee = data;
 
-              this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-              this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
-            }
-          );
-        }else{
-          Swal.fire({
-            title: 'Not Allowed',
-            text: 'You are not allowed to access this resource.',
-            icon: 'error',
-          }).then(() => {
-            this.router.navigate(['/dashboard']);
-          });
-        }
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
+            );
+          } else {
+            Swal.fire({
+              title: 'Not Allowed',
+              text: 'You are not allowed to access this resource.',
+              icon: 'error',
+            }).then(() => {
+              this.router.navigate(['/dashboard']);
+            });
+          }
 
-      }else {
+        } else {
           this.employeeService.getMyProfile().subscribe(
-            data=>{
+            data => {
               this.employee = data;
 
-              this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-              this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
             }
           );
         }
-    });
+      });
 
 
-    this.employeeService.getBlockType().subscribe(
-      data=>this.blockstypelist=data,
-      error => console.log(error)
-    );
+      this.employeeService.getBlockType().subscribe(
+        data => this.blockstypelist = data,
+        error => console.log(error)
+      );
 
-    this.employeeService.getLocationType().subscribe(
-      data=>this.locationtypelist=data,
-      error => console.log(error)
-    );
+      this.employeeService.getLocationType().subscribe(
+        data => this.locationtypelist = data,
+        error => console.log(error)
+      );
 
-    this.employeeService.getStates().subscribe(
-      data=>this.states=data,
-      error => console.log(error)
-    );
+      this.employeeService.getStates().subscribe(
+        data => this.states = data,
+        error => console.log(error)
+      );
 
-    this.employeeService.getDesignations(1).subscribe(
-      data=>this.designations=data,
-      error => console.log(error)
-    );
+      this.employeeService.getDesignations(1).subscribe(
+        data => this.designations = data,
+        error => console.log(error)
+      );
 
-    this.employeeService.getDivisionMasterList().subscribe(
-      data=>this.divisiontypelist=data,
-      error => console.log(error)
-    );
+      this.employeeService.getDivisionMasterList().subscribe(
+        data => this.divisiontypelist = data,
+        error => console.log(error)
+      );
 
-    this.employeeService.getRelationMasterList().subscribe(
-      data=>this.relationstypelist=data,
-      error => console.log(error)
-    );
+      this.employeeService.getRelationMasterList().subscribe(
+        data => this.relationstypelist = data,
+        error => console.log(error)
+      );
 
-    this.employeeService.getServiceMasterList().subscribe(
-      data=>this.serviceTypelist=data,
-      error => console.log(error)
-    );
+      this.employeeService.getServiceMasterList().subscribe(
+        data => this.serviceTypelist = data,
+        error => console.log(error)
+      );
 
-    this.employeeService.getDependents(1).subscribe(
-      data=>this.relations=data,
-      error => console.log(error)
-    );
+      this.employeeService.getDependents(1).subscribe(
+        data => this.relations = data,
+        error => console.log(error)
+      );
 
-    this.employeeService.getDivisions(1).subscribe(
-      data=>this.divisions=data,
-      error => console.log(error)
-    );
+      this.employeeService.getDivisions(1).subscribe(
+        data => this.divisions = data,
+        error => console.log(error)
+      );
 
-    // this.employeeService.getServants(1).subscribe(
-    //       data=>this.servants=data,
-    //   error => console.log(error)
-    // );
+      // this.employeeService.getServants(1).subscribe(
+      //       data=>this.servants=data,
+      //   error => console.log(error)
+      // );
 
-    // this.employeeService.getVehicle(1).subscribe(
-    //     data=>this.vehicles=data,
-    //     error => console.log(error)
-    // );
+      // this.employeeService.getVehicle(1).subscribe(
+      //     data=>this.vehicles=data,
+      //     error => console.log(error)
+      // );
 
-    // this.employeeService.getServantsRel(1).subscribe(
-    //   data=>this.servantRel=data,
-    //   error => console.log(error)
-    // );
+      // this.employeeService.getServantsRel(1).subscribe(
+      //   data=>this.servantRel=data,
+      //   error => console.log(error)
+      // );
+    }
   }
 
 
-  setEditable( status:boolean){
+  setEditable(status: boolean) {
     this.editable = status;
   }
 
-  setEdit(){
+  setEdit() {
     this.editable = true;
   }
 
-  compareState(oneState:State,othState:State): boolean{
-    if(oneState==null && othState==null)
+  compareState(oneState: State, othState: State): boolean {
+    if (oneState == null && othState == null)
       return true;
-    else if(oneState!=null && othState!=null)
-      return oneState.id===othState.id;
+    else if (oneState != null && othState != null)
+      return oneState.id === othState.id;
     else
       return false;
   }
 
-  compareDesignation(first:Designation,second:Designation): boolean{
-    return first !=null && second!=null && first==second ;//&& first.id===second.id
+  compareDesignation(first: Designation, second: Designation): boolean {
+    return first != null && second != null && first == second;//&& first.id===second.id
   }
 
-  compareDivisions(first:Division,second:Division): boolean{
-    return first !=null && second!=null && first==second ;// && first.id===second.id
+  compareDivisions(first: Division, second: Division): boolean {
+    return first != null && second != null && first == second;// && first.id===second.id
   }
 
-  compareDist(oneDist:District,othDist:District): boolean{
-    return oneDist.id===othDist.id;
+  compareDist(oneDist: District, othDist: District): boolean {
+    return oneDist.id === othDist.id;
   }
 
-  onStateChange(state:State,type:String){
-    if(type=='curr'){
-      this.getDistricts(state).then(districts=>this.currDistricts=districts);
+  onStateChange(state: State, type: String) {
+    if (type == 'curr') {
+      this.getDistricts(state).then(districts => this.currDistricts = districts);
     }
-    else if(type=='perm'){
-      this.getDistricts(state).then(districts=>this.permDistricts=districts);
+    else if (type == 'perm') {
+      this.getDistricts(state).then(districts => this.permDistricts = districts);
     }
   }
 
-  savePrimaryDetails(){
+  savePrimaryDetails() {
 
     // Validation check before API Call
     if (this.validationErrors.length > 0) {
       const errorMessage = this.validationErrors
-      .map((error, index) => `${index + 1}. ${error}`)
-      .join('\n');
+        .map((error, index) => `${index + 1}. ${error}`)
+        .join('\n');
 
       Swal.fire({
         icon: 'error',
@@ -262,21 +271,21 @@ export class ProfileComponent implements OnInit{
       data => {
         console.log(data);
         Swal.fire({
-        icon: 'success',
-        title: 'Success',
-        text: 'Request for approval of basic details have been updated successfully and pending for approval',
-        // }).then((result) => {
-        //   if (result.isConfirmed) {
-        //     // Redirect to the desired page
-        //     window.location.reload();
-        //   }
+          icon: 'success',
+          title: 'Success',
+          text: 'Request for approval of basic details have been updated successfully and pending for approval',
+          // }).then((result) => {
+          //   if (result.isConfirmed) {
+          //     // Redirect to the desired page
+          //     window.location.reload();
+          //   }
         });
         this.employeeService.getMyProfile().subscribe(
-          datas=>{
+          datas => {
             this.employee = datas;
 
-            this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-            this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+            this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+            this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
           }
         );
       },
@@ -284,13 +293,13 @@ export class ProfileComponent implements OnInit{
         console.log(error);
         console.log(error.status);
         console.log(error.error);
-        if(error.status === 302){
+        if (error.status === 302) {
           Swal.fire({
             icon: 'warning',
             title: 'Warning',
             text: 'Previous Record Not Approved !!!',
           });
-        }else{
+        } else {
           Swal.fire({
             icon: 'error',
             title: 'API Error',
@@ -300,10 +309,9 @@ export class ProfileComponent implements OnInit{
       });
   }
 
-  async getDistricts(state:State){
-    let districts:District[] = [];
-    if(state!=null)
-    {
+  async getDistricts(state: State) {
+    let districts: District[] = [];
+    if (state != null) {
       districts = await this.employeeService.getDistrictsByState(state.id!);
     }
     return districts;
@@ -327,14 +335,14 @@ export class ProfileComponent implements OnInit{
     this.employee?.designations?.push(d);
   }
 
-  savePromotion(index:number){
+  savePromotion(index: number) {
     this.validateOrderNo('Promotion', index);
     this.validateOrderDate('Promotion', index);
 
     if (this.validationErrors.length > 0) {
       const errorMessage = this.validationErrors
-      .map((error, index) => `${index + 1}. ${error}`)
-      .join('\n');
+        .map((error, index) => `${index + 1}. ${error}`)
+        .join('\n');
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -346,8 +354,8 @@ export class ProfileComponent implements OnInit{
 
     let promotion = this.employee?.designations![index].pivot;
     console.log(this.employee?.designations![index].pivot.order_path)
-    if(promotion?.id==-1){
-       this.employeeService.savePromotion(promotion).subscribe(
+    if (promotion?.id == -1) {
+      this.employeeService.savePromotion(promotion).subscribe(
         // p=>this.employee!.designations![index]=p,
         // e=>console.log(e)
         p => {
@@ -356,28 +364,28 @@ export class ProfileComponent implements OnInit{
           // Show SweetAlert success message
           console.log(p);
           Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: 'Request for approval of Designation have been saved successfully and pending for approval',
+            icon: 'success',
+            title: 'Success',
+            text: 'Request for approval of Designation have been saved successfully and pending for approval',
           });
           this.employeeService.getMyProfile().subscribe(
-            datas=>{
+            datas => {
               this.employee = datas;
 
-              this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-              this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
             }
           );
         },
         e => {
           console.log(e);
-          if(e.status === 302){
+          if (e.status === 302) {
             Swal.fire({
               icon: 'warning',
               title: 'Warning',
               text: 'Previous Record Not Approved !!!',
             });
-          }else{
+          } else {
             Swal.fire({
               icon: 'error',
               title: 'Error',
@@ -393,8 +401,8 @@ export class ProfileComponent implements OnInit{
           // });
         }
       );
-    }else{
-      if(promotion!=null){
+    } else {
+      if (promotion != null) {
         this.employeeService.updatePromotion(promotion).subscribe(
           // p=>this.employee!.designations![index]=p,
           // e=>console.log(e)
@@ -407,24 +415,24 @@ export class ProfileComponent implements OnInit{
               icon: 'success',
               title: 'Success',
               text: 'Request for approval of designation have been updated successfully and pending for approval',
-            });this.employeeService.getMyProfile().subscribe(
-              datas=>{
+            }); this.employeeService.getMyProfile().subscribe(
+              datas => {
                 this.employee = datas;
 
-                this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-                this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
               }
             );
           },
           e => {
             console.log(e);
-            if(e.status === 302){
+            if (e.status === 302) {
               Swal.fire({
                 icon: 'warning',
                 title: 'Warning',
                 text: 'Previous Record Not Approved !!!',
               });
-            }else{
+            } else {
               Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -444,16 +452,16 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  deleteRecord(index:number) {
+  deleteRecord(index: number) {
     let promotion = this.employee?.designations![index].pivot;
-    if(promotion?.id==-1){
-      this.employee?.designations!.splice(index,1);
-    }else{
-      if(promotion!=null){
-        promotion!.active=false;
+    if (promotion?.id == -1) {
+      this.employee?.designations!.splice(index, 1);
+    } else {
+      if (promotion != null) {
+        promotion!.active = false;
         this.employeeService.updatePromotion(promotion).subscribe(
-          p=>this.employee!.designations![index]=p,
-          e=>console.log(e)
+          p => this.employee!.designations![index] = p,
+          e => console.log(e)
         );
       }
     }
@@ -461,54 +469,108 @@ export class ProfileComponent implements OnInit{
 
   activateRecord(index: number) {
     let promotion = this.employee?.designations![index].pivot;
-    if(promotion!=null){
-      promotion!.active=true;
+    if (promotion != null) {
+      promotion!.active = true;
       this.employeeService.updatePromotion(promotion).subscribe(
-        p=>this.employee!.designations![index]=p,
-        e=>console.log(e)
+        p => this.employee!.designations![index] = p,
+        e => console.log(e)
       );
     }
   }
 
   /********** Add Division Function Start *********/
 
-    addDivision() {
-      if (this.employee && this.employee.divisions) {
-        let d = new Division();
-        // this.employee?.divisions?.push(new Division());
-        d.pivot.employee_id = this.employee?.id!;
-        this.employee?.divisions?.push(d);
-      }
+  addDivision() {
+    if (this.employee && this.employee.divisions) {
+      let d = new Division();
+      // this.employee?.divisions?.push(new Division());
+      d.pivot.employee_id = this.employee?.id!;
+      this.employee?.divisions?.push(d);
     }
+  }
 
-    deleteDivision(index:number){
-      this.employee?.divisions?.splice(index, 1);
-    }
+  deleteDivision(index: number) {
+    this.employee?.divisions?.splice(index, 1);
+  }
 
-    saveDivision(index:number){
-      this.validateOrderNo('Posting', index);
-      this.validateOrderDate('Posting', index);
-      this.validateFromDate('Posting', index);
+  saveDivision(index: number) {
+    this.validateOrderNo('Posting', index);
+    this.validateOrderDate('Posting', index);
+    this.validateFromDate('Posting', index);
 
-      if (this.validationErrors.length > 0) {
-        const errorMessage = this.validationErrors
+    if (this.validationErrors.length > 0) {
+      const errorMessage = this.validationErrors
         .map((error, index) => `${index + 1}. ${error}`)
         .join('\n');
 
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          html: errorMessage.replace(/\n/g, '<br/>'),
-          width: 'auto', // Adjust as needed
-        });
-        return; // Exit without calling the API
-      }
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        html: errorMessage.replace(/\n/g, '<br/>'),
+        width: 'auto', // Adjust as needed
+      });
+      return; // Exit without calling the API
+    }
 
-      let postingDtls = this.employee?.divisions![index].pivot;
-      if(postingDtls?.id==-1){
-        this.employeeService.savePosting(postingDtls).subscribe(
+    let postingDtls = this.employee?.divisions![index].pivot;
+    if (postingDtls?.id == -1) {
+      this.employeeService.savePosting(postingDtls).subscribe(
+        // p=>this.employee!.divisions![index]=p,
+        // e=>console.log(e)
+        p => {
+          this.employee!.divisions![index] = p;
+
+          // Show SweetAlert success message
+          console.log(p);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Request for approval of Posting have been saved successfully and pending for approval',
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     // Redirect to the desired page
+            //     window.location.reload();
+            //   }
+          });
+          this.employeeService.getMyProfile().subscribe(
+            datas => {
+              this.employee = datas;
+
+              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            }
+          );
+        },
+        e => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Posting details have not been saved successfully.',
+            });
+          }
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: 'error',
+          //   text: 'Posting details have not been saved successfully.',
+          //   showConfirmButton: false,
+          //   // timer: 1500 // Automatically close after 1.5 seconds
+          // });
+        }
+      );
+    } else {
+      if (postingDtls != null) {
+        this.employeeService.updatePosting(postingDtls).subscribe(
           // p=>this.employee!.divisions![index]=p,
           // e=>console.log(e)
+
           p => {
             this.employee!.divisions![index] = p;
 
@@ -517,143 +579,142 @@ export class ProfileComponent implements OnInit{
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Request for approval of Posting have been saved successfully and pending for approval',
-            // }).then((result) => {
-            //   if (result.isConfirmed) {
-            //     // Redirect to the desired page
-            //     window.location.reload();
-            //   }
-            });
-            this.employeeService.getMyProfile().subscribe(
-              datas=>{
-                this.employee = datas;
-
-                this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-                this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
-              }
-            );
-          },
-          e => {
-            console.log(e);
-            if(e.status === 302){
-              Swal.fire({
-                icon: 'warning',
-                title: 'Warning',
-                text: 'Previous Record Not Approved !!!',
-              });
-            }else{
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Posting details have not been saved successfully.',
-              });
-            }
-            // Swal.fire({
-            //   icon: 'error',
-            //   title: 'error',
-            //   text: 'Posting details have not been saved successfully.',
-            //   showConfirmButton: false,
-            //   // timer: 1500 // Automatically close after 1.5 seconds
-            // });
-          }
-        );
-      }else{
-        if(postingDtls!=null){
-          this.employeeService.updatePosting(postingDtls).subscribe(
-            // p=>this.employee!.divisions![index]=p,
-            // e=>console.log(e)
-
-            p => {
-              this.employee!.divisions![index] = p;
-
-              // Show SweetAlert success message
-              console.log(p);
-              Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Request for approval of Posting have been updated successfully and pending for approval',
+              text: 'Request for approval of Posting have been updated successfully and pending for approval',
               // }).then((result) => {
               //   if (result.isConfirmed) {
               //     // Redirect to the desired page
               //     window.location.reload();
               //   }
-              });this.employeeService.getMyProfile().subscribe(
-                datas=>{
-                  this.employee = datas;
+            }); this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
 
-                  this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
-                }
-              );
-            },
-            e => {
-              console.log(e);
-              if(e.status === 302){
-                Swal.fire({
-                  icon: 'warning',
-                  title: 'Warning',
-                  text: 'Previous Record Not Approved !!!',
-                });
-              }else{
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Error',
-                  text: 'Posting details have not been Updated successfully.',
-                });
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
               }
-              // Swal.fire({
-              //   icon: 'error',
-              //   title: 'error',
-              //   text: 'Posting details have not been updated successfully.',
-              //   showConfirmButton: false,
-              //   // timer: 1500 // Automatically close after 1.5 seconds
-              // });
+            );
+          },
+          e => {
+            console.log(e);
+            if (e.status === 302) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Posting details have not been Updated successfully.',
+              });
             }
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'error',
+            //   text: 'Posting details have not been updated successfully.',
+            //   showConfirmButton: false,
+            //   // timer: 1500 // Automatically close after 1.5 seconds
+            // });
+          }
 
-          );
-        }
+        );
       }
     }
+  }
   /*********** Add Division Function End **********/
 
   /***************** Add Family Members Function Start *********************/
 
-    compareGender(first:Relation,second:Relation): boolean{
-      return first !=null && second!=null && first==second ;//&& first.id===second.id
-    }
-
-    compareRelation(first:Relation,second:Relation): boolean{
-      return first !=null && second!=null && first==second ;//&& first.id===second.id
-    }
-
-  compareService(first:Relation,second:Relation): boolean{
-    return first !=null && second!=null && first==second ;//&& first.id===second.id
+  compareGender(first: Relation, second: Relation): boolean {
+    return first != null && second != null && first == second;//&& first.id===second.id
   }
 
-    //Add Member Column Function
-    addMember() {
-      if (this.employee && this.employee.relations) {
-        let d = new Relation();
-        d.pivot.employee_id = this.employee?.id!;
-        this.employee?.relations?.push(d);
-      }
-    }
+  compareRelation(first: Relation, second: Relation): boolean {
+    return first != null && second != null && first == second;//&& first.id===second.id
+  }
 
-    // Delete Member Column Function
-    deleteMember(index: number) {
-      if (this.employee && this.employee.relations) {
-        this.employee.relations!.splice(index, 1);
-      }
-    }
+  compareService(first: Relation, second: Relation): boolean {
+    return first != null && second != null && first == second;//&& first.id===second.id
+  }
 
-    // Save Family Details
-    saveRelationDetails(index: number){
-      let membersDtls = this.employee?.relations![index].pivot;
-      if(membersDtls?.id==-1){
+  //Add Member Column Function
+  addMember() {
+    if (this.employee && this.employee.relations) {
+      let d = new Relation();
+      d.pivot.employee_id = this.employee?.id!;
+      this.employee?.relations?.push(d);
+    }
+  }
+
+  // Delete Member Column Function
+  deleteMember(index: number) {
+    if (this.employee && this.employee.relations) {
+      this.employee.relations!.splice(index, 1);
+    }
+  }
+
+  // Save Family Details
+  saveRelationDetails(index: number) {
+    let membersDtls = this.employee?.relations![index].pivot;
+    if (membersDtls?.id == -1) {
+      this.employeeService.updateRelation(membersDtls).subscribe(
+        // p=>this.employee!.relations![index]=p,
+        // e=>console.log(e)
+
+        p => {
+          this.employee!.relations![index] = p;
+
+          // Show SweetAlert success message
+          console.log(p);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Request for approval of Relation have been saved successfully and pending for approval',
+            // }).then((result) => {
+            //   if (result.isConfirmed) {
+            //     // Redirect to the desired page
+            //     window.location.reload();
+            //   }
+          }); this.employeeService.getMyProfile().subscribe(
+            datas => {
+              this.employee = datas;
+
+              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            }
+          );
+        },
+        e => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Relation details have not been saved successfully.',
+            });
+          }
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: 'error',
+          //   text: 'Relation details have not been saved successfully.',
+          //   showConfirmButton: false,
+          //   // timer: 1500 // Automatically close after 1.5 seconds
+          // });
+        }
+
+      );
+    } else {
+      if (membersDtls != null) {
         this.employeeService.updateRelation(membersDtls).subscribe(
           // p=>this.employee!.relations![index]=p,
           // e=>console.log(e)
-
           p => {
             this.employee!.relations![index] = p;
 
@@ -662,123 +723,70 @@ export class ProfileComponent implements OnInit{
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Request for approval of Relation have been saved successfully and pending for approval',
-            // }).then((result) => {
-            //   if (result.isConfirmed) {
-            //     // Redirect to the desired page
-            //     window.location.reload();
-            //   }
-            });this.employeeService.getMyProfile().subscribe(
-              datas=>{
-                this.employee = datas;
-
-                this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-                this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
-              }
-            );
-          },
-          e => {
-            console.log(e);
-            if(e.status === 302){
-              Swal.fire({
-                icon: 'warning',
-                title: 'Warning',
-                text: 'Previous Record Not Approved !!!',
-              });
-            }else{
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Relation details have not been saved successfully.',
-              });
-            }
-            // Swal.fire({
-            //   icon: 'error',
-            //   title: 'error',
-            //   text: 'Relation details have not been saved successfully.',
-            //   showConfirmButton: false,
-            //   // timer: 1500 // Automatically close after 1.5 seconds
-            // });
-          }
-
-        );
-      }else{
-        if(membersDtls!=null){
-          this.employeeService.updateRelation(membersDtls).subscribe(
-            // p=>this.employee!.relations![index]=p,
-            // e=>console.log(e)
-            p => {
-              this.employee!.relations![index] = p;
-
-              // Show SweetAlert success message
-              console.log(p);
-              Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Request for approval of Relation have been updated successfully and pending for approval',
+              text: 'Request for approval of Relation have been updated successfully and pending for approval',
               // }).then((result) => {
               //   if (result.isConfirmed) {
               //     // Redirect to the desired page
               //     window.location.reload();
               //   }
-              });
-              this.employeeService.getMyProfile().subscribe(
-                datas=>{
-                  this.employee = datas;
+            });
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
 
-                  this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
-                }
-              );
-            },
-            e => {
-              console.log(e);
-              if(e.status === 302){
-                Swal.fire({
-                  icon: 'warning',
-                  title: 'Warning',
-                  text: 'Previous Record Not Approved !!!',
-                });
-              }else{
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Error',
-                  text: 'Relation details have not been Updated successfully.',
-                });
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
               }
-              // Swal.fire({
-              //   icon: 'error',
-              //   title: 'error',
-              //   text: 'Relation details have not been updated successfully.',
-              //   showConfirmButton: false,
-              //   // timer: 1500 // Automatically close after 1.5 seconds
-              // });
+            );
+          },
+          e => {
+            console.log(e);
+            if (e.status === 302) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Relation details have not been Updated successfully.',
+              });
             }
-          );
-        }
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'error',
+            //   text: 'Relation details have not been updated successfully.',
+            //   showConfirmButton: false,
+            //   // timer: 1500 // Automatically close after 1.5 seconds
+            // });
+          }
+        );
       }
     }
+  }
 
 
   qtrtype() {
     this.employeeService.getQuarterType(this.employee!.location_id!).subscribe(
-        data => this.quarterstypelist = data,
-        error => console.log(error)
+      data => this.quarterstypelist = data,
+      error => console.log(error)
     );
   }
 
 
 
   qtraddress() {
-    this.employeeService.getQuarterdetail(this.employee!.qtr_code!,this.employee!.location_id!).subscribe(
-      (data :any ) => {
-        this.quarterList =data;
+    this.employeeService.getQuarterdetail(this.employee!.qtr_code!, this.employee!.location_id!).subscribe(
+      (data: any) => {
+        this.quarterList = data;
       },
       (error) => {
         console.log(error);
         if (error.status === 404) {
-          this.quarterList =[];
-          this.employee!.qtr =null;
+          this.quarterList = [];
+          this.employee!.qtr = null;
           Swal.fire({
             icon: 'warning',
             title: 'Warning',
@@ -796,15 +804,15 @@ export class ProfileComponent implements OnInit{
     );
   }
 
-  EbaCardDetail(){
+  EbaCardDetail() {
     this.employeeService.getEbaCardDetail(this.EbaCardNo!).subscribe(
-      (data :any ) => {
+      (data: any) => {
         Swal.fire({
           icon: 'success',
           title: 'Success',
           text: 'Data Fetched Successfully',
         })
-        this.EbaCardData =data;
+        this.EbaCardData = data;
         this.showEBACardDetails = true;
         this.recivedotpEBACard = false;
         // if(this.EbaCardData[0]!.mob_no==null || this.EbaCardData[0]!.mob_no==''){
@@ -843,7 +851,7 @@ export class ProfileComponent implements OnInit{
       (error) => {
         console.log(error);
         if (error.status === 404) {
-          this.EbaCardData =[];
+          this.EbaCardData = [];
           this.EbaCardNo = null;
           Swal.fire({
             icon: 'warning',
@@ -883,40 +891,40 @@ export class ProfileComponent implements OnInit{
     }, 1000); // Update every second
   }
 
-  sendOtp(){
-      if(this.employee!.qtr !== '' && this.employee!.qtr!.MobileNumber  !== '') {
-        this.employeeService.getotp(this.employee!.qtr!.MobileNumber,'qtrotp').subscribe(
-            (data :any ) => {
-              this.recivedotp=true;
-              Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'OTP sent Successfully',
-              }),
-                this.isResendDisabled = true;
-              this.startCountdown(120);
-            },
-            (error) => {
-              // Error response
-              console.log(error); // Log the error if needed
-              if (error.status === 400) {
-                this.recivedotp=false;
-                Swal.fire({
-                  icon: 'error',
-                  title: 'error while sending sms',
-                  text: 'Wait then try again later else contact NIC .',
-                });
-              }
-            }
-        );
-      }else{
-        Swal.fire({
-          icon: 'warning',
-          title: 'Mobile number does not exist for this quarter',
-          text: 'Contact NIC.',
-        });
-      }
+  sendOtp() {
+    if (this.employee!.qtr !== '' && this.employee!.qtr!.MobileNumber !== '') {
+      this.employeeService.getotp(this.employee!.qtr!.MobileNumber, 'qtrotp').subscribe(
+        (data: any) => {
+          this.recivedotp = true;
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'OTP sent Successfully',
+          }),
+            this.isResendDisabled = true;
+          this.startCountdown(120);
+        },
+        (error) => {
+          // Error response
+          console.log(error); // Log the error if needed
+          if (error.status === 400) {
+            this.recivedotp = false;
+            Swal.fire({
+              icon: 'error',
+              title: 'error while sending sms',
+              text: 'Wait then try again later else contact NIC .',
+            });
+          }
+        }
+      );
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Mobile number does not exist for this quarter',
+        text: 'Contact NIC.',
+      });
     }
+  }
 
 
 
@@ -932,12 +940,12 @@ export class ProfileComponent implements OnInit{
     return maskedNumber;
   }
 
-  wrongQuarter(){
-    this.recivedotp=false;
+  wrongQuarter() {
+    this.recivedotp = false;
   }
 
-  wrongEbaCard(){
-    this.recivedotpEBACard=false;
+  wrongEbaCard() {
+    this.recivedotpEBACard = false;
   }
 
   title = 'otp-app';
@@ -952,88 +960,88 @@ export class ProfileComponent implements OnInit{
   }
   onOtpChange(event: any) {
     this.otp = event;
-    if(this.otp.length < this.configOptions.length) {
+    if (this.otp.length < this.configOptions.length) {
       this.inputDigitLeft = this.configOptions.length - this.otp.length + " digits Left";
       this.btnStatus = 'btn-light';
     }
 
-    if(this.otp.length == this.configOptions.length) {
+    if (this.otp.length == this.configOptions.length) {
       this.inputDigitLeft = "Let's go!";
       this.btnStatus = 'btn-primary';
     }
   }
 
-  Verifyotp(detail:string){
-    this.employeeService.otpverify(this.otp,detail).subscribe(
-        (data :any ) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Matched',
-            text: 'Success',
-          });
-          if(detail=='qtrotp') {
-            this.employeeService.showmemberbyeba(this.employee!.qtr!.allotment_id).subscribe(
-                (data: any) => {
-                  this.quarterDetails = data;
-                  this.showquarterDetails = true;
-                  this.recivedotp = false;
-                }, (error) => {
-                  if (error.status === 404) {
-                    Swal.fire({
-                      icon: 'warning',
-                      title: 'empty',
-                      text: 'empty data!!!!',
-                    });
-                  }
-                }
-            );
-          }
-          if(detail=='ebaCardOtp') {
-            // this.employeeService.showmemberbyeba(this.employee!.qtr!.allotment_id).subscribe(
-            //     (data: any) => {
-                  this.showEBACardDetails = true;
-                  this.recivedotpEBACard = false;
-            //     }, (error) => {
-            //       if (error.status === 404) {
-            //         Swal.fire({
-            //           icon: 'warning',
-            //           title: 'empty',
-            //           text: 'empty data!!!!',
-            //         });
-            //       }
-            //     }
-            // );
-          }
-        },
-        (error) => {
-          // Error response
-          console.log(error); // Log the error if needed
-          if (error.status === 401) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'OTP did not match',
-              text: 'Please try again!!!!',
-            });
-          }
+  Verifyotp(detail: string) {
+    this.employeeService.otpverify(this.otp, detail).subscribe(
+      (data: any) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Matched',
+          text: 'Success',
+        });
+        if (detail == 'qtrotp') {
+          this.employeeService.showmemberbyeba(this.employee!.qtr!.allotment_id).subscribe(
+            (data: any) => {
+              this.quarterDetails = data;
+              this.showquarterDetails = true;
+              this.recivedotp = false;
+            }, (error) => {
+              if (error.status === 404) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'empty',
+                  text: 'empty data!!!!',
+                });
+              }
+            }
+          );
         }
+        if (detail == 'ebaCardOtp') {
+          // this.employeeService.showmemberbyeba(this.employee!.qtr!.allotment_id).subscribe(
+          //     (data: any) => {
+          this.showEBACardDetails = true;
+          this.recivedotpEBACard = false;
+          //     }, (error) => {
+          //       if (error.status === 404) {
+          //         Swal.fire({
+          //           icon: 'warning',
+          //           title: 'empty',
+          //           text: 'empty data!!!!',
+          //         });
+          //       }
+          //     }
+          // );
+        }
+      },
+      (error) => {
+        // Error response
+        console.log(error); // Log the error if needed
+        if (error.status === 401) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'OTP did not match',
+            text: 'Please try again!!!!',
+          });
+        }
+      }
     );
   }
 
-  PullEba(){
-    this.employeeService.getmemberbyeba(this.employee!.id!,this.quarterDetails!,this.employee!.qtr!).subscribe(
-      (data :any ) => {
+  PullEba() {
+    this.employeeService.getmemberbyeba(this.employee!.id!, this.quarterDetails!, this.employee!.qtr!).subscribe(
+      (data: any) => {
         Swal.fire({
           icon: 'success',
           title: 'success',
           text: 'Pulled successfully',
         })
-       this.closeEbaPopup();
+        this.closeEbaPopup();
         this.employeeService.getMyProfile().subscribe(
-          datas=>{
+          datas => {
             this.employee = datas;
 
-            this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-            this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+            this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+            this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
           }
         );
       },
@@ -1058,49 +1066,49 @@ export class ProfileComponent implements OnInit{
     );
   }
 
-  PullEbaCard(){
-    this.employeeService.PullEbaCard(this.employee!.id!,this.EbaCardData[0]!, this.displayEbaCarddetail).subscribe(
-        (data :any ) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'success',
-            text: 'Pulled successfully',
-          })
-          this.closeEbaCardPopup();
-          this.employeeService.getMyProfile().subscribe(
-              datas=>{
-                this.employee = datas;
+  PullEbaCard() {
+    this.employeeService.PullEbaCard(this.employee!.id!, this.EbaCardData[0]!, this.displayEbaCarddetail).subscribe(
+      (data: any) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'success',
+          text: 'Pulled successfully',
+        })
+        this.closeEbaCardPopup();
+        this.employeeService.getMyProfile().subscribe(
+          datas => {
+            this.employee = datas;
 
-                this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-                this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
-              }
-          );
-        },
-        (error) => {
-          // Error response
-          console.log(error); // Log the error if needed
-          if (error.status === 404) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'warning',
-              text: 'empty details!!!!',
-            });
+            this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+            this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
           }
-          if (error.status === 401) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'warning',
-              text: 'Some thing went wrong!!!!',
-            });
-          }
-          if (error.status === 405) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'warning',
-              text: 'Not allowed!!!!',
-            });
-          }
+        );
+      },
+      (error) => {
+        // Error response
+        console.log(error); // Log the error if needed
+        if (error.status === 404) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'warning',
+            text: 'empty details!!!!',
+          });
         }
+        if (error.status === 401) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'warning',
+            text: 'Some thing went wrong!!!!',
+          });
+        }
+        if (error.status === 405) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'warning',
+            text: 'Not allowed!!!!',
+          });
+        }
+      }
     );
   }
 
@@ -1117,8 +1125,8 @@ export class ProfileComponent implements OnInit{
 
   addServant(): void {
     if (
-        this.employee &&
-        this.employee.servants
+      this.employee &&
+      this.employee.servants
     ) {
       // Check if servants is an array and initialize it if not
       if (!Array.isArray(this.employee.servants)) {
@@ -1136,8 +1144,8 @@ export class ProfileComponent implements OnInit{
 
   removeServant(servantIndex: number): void {
     if (
-        this.employee &&
-        this.employee.servants
+      this.employee &&
+      this.employee.servants
     ) {
       // Check if servants is an array
       if (Array.isArray(this.employee.servants)) {
@@ -1146,7 +1154,7 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  saveServant( i: number) {
+  saveServant(i: number) {
     let servantsDtls = this.employee?.servants?.[i];
     console.log(servantsDtls);
 
@@ -1161,89 +1169,89 @@ export class ProfileComponent implements OnInit{
 
     if (servantsDtls && servantsDtls.id == -1) {
       this.employeeService.updateServant(servantsDtls).subscribe(
-          (p) => {
-            if (this.employee &&  this.employee.servants) {
-              this.employee.servants[i] = p;
-              console.log(p);
-              Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Request for approval of Domestic Help has been saved successfully and is pending approval',
-              });
-              const newChange = {
-                model: 'servant',
-                changed_data: this.employee!.servants[i]
-              };
-              this.employeeService.getMyProfile().subscribe(
-                datas=>{
-                  this.employee = datas;
+        (p) => {
+          if (this.employee && this.employee.servants) {
+            this.employee.servants[i] = p;
+            console.log(p);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Request for approval of Domestic Help has been saved successfully and is pending approval',
+            });
+            const newChange = {
+              model: 'servant',
+              changed_data: this.employee!.servants[i]
+            };
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
 
-                  this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
-                }
-              );
-            }
-          },
-          (e) => {
-            console.log(e);
-            if (e.status === 302) {
-              Swal.fire({
-                icon: 'warning',
-                title: 'Warning',
-                text: 'Previous Record Not Approved !!!',
-              });
-            } else {
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Domestic Help details have not been saved successfully.',
-              });
-            }
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
+            );
           }
+        },
+        (e) => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Domestic Help details have not been saved successfully.',
+            });
+          }
+        }
       );
     } else if (servantsDtls) {
       this.employeeService.updateServant(servantsDtls).subscribe(
-          (p) => {
-            if (this.employee && this.employee.servants) {
-              this.employee.servants[i] = p;
+        (p) => {
+          if (this.employee && this.employee.servants) {
+            this.employee.servants[i] = p;
 
-              console.log(p);
-              Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
-              });
-              this.employeeService.getMyProfile().subscribe(
-                datas=>{
-                  this.employee = datas;
+            console.log(p);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
+            });
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
 
-                  this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
-                }
-              );
-            }
-          },
-          (e) => {
-            console.log(e);
-            if (e.status === 302) {
-              Swal.fire({
-                icon: 'warning',
-                title: 'Warning',
-                text: 'Previous Record Not Approved !!!',
-              });
-            } else {
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Domestic Help details have not been updated successfully.',
-              });
-            }
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
+            );
           }
+        },
+        (e) => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Domestic Help details have not been updated successfully.',
+            });
+          }
+        }
       );
     }
   }
 
-  addServantFamily(i:number): void {
+  addServantFamily(i: number): void {
     if (
       this.employee &&
       this.employee.servants &&
@@ -1261,7 +1269,7 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  removeServantRel(i:number,k:number):void {
+  removeServantRel(i: number, k: number): void {
     if (
       this.employee &&
       this.employee.servants &&
@@ -1272,7 +1280,7 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  saveServantRel( i: number, k:number) {
+  saveServantRel(i: number, k: number) {
     let servantsRelDtls = this.employee?.servants?.[i]?.relations?.[k]?.pivot;
 
     if (servantsRelDtls && servantsRelDtls.id == -1) {
@@ -1291,11 +1299,11 @@ export class ProfileComponent implements OnInit{
               text: 'Request for approval of Domestic Help has been saved successfully and is pending approval',
             });
             this.employeeService.getMyProfile().subscribe(
-              datas=>{
+              datas => {
                 this.employee = datas;
 
-                this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-                this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
               }
             );
           }
@@ -1321,7 +1329,7 @@ export class ProfileComponent implements OnInit{
       this.employeeService.updateServantRel(servantsRelDtls).subscribe(
         (p) => {
           const employee = this.employee;
-          if (employee &&  employee?.servants && employee.servants[i].relations) {
+          if (employee && employee?.servants && employee.servants[i].relations) {
             const relation = employee?.servants?.[i]?.relations?.[k];
             if (relation) {
               relation.pivot = p;
@@ -1335,11 +1343,11 @@ export class ProfileComponent implements OnInit{
               text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
             });
             this.employeeService.getMyProfile().subscribe(
-              datas=>{
+              datas => {
                 this.employee = datas;
 
-                this.getDistricts(this.employee.curr_state!).then(districts=>this.currDistricts=districts);
-                this.getDistricts(this.employee.perm_state!).then(districts=>this.permDistricts=districts);
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
               }
             );
 
@@ -1419,7 +1427,7 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  onrelMobileNoInput(event: any, i: number,k:number): void {
+  onrelMobileNoInput(event: any, i: number, k: number): void {
     if (this.employee?.servants?.[i]?.relations?.[k]?.pivot!.rel_mobile_no !== null) {
       // Get the input value
       const inputValue = event.target.value;
@@ -1456,9 +1464,9 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-  saveVehicle(index: number){
+  saveVehicle(index: number) {
     let vehicleDtls = this.employee?.vehicles![index];
-    if(vehicleDtls){
+    if (vehicleDtls) {
       this.employeeService.addVehicles(vehicleDtls).subscribe(
         // p=>this.employee!.relations![index]=p,
         // e=>console.log(e)
@@ -1494,71 +1502,71 @@ export class ProfileComponent implements OnInit{
 
 
   /************************* Validation Check Function Start *************************/
-    validateEngName() {
-      const namePattern = /^[a-zA-Z- ]{3,30}$/;
-      if (!namePattern.test(this.employee!.emp_name)) { // Note the negation (!) here
-        this.validationErrors.push('Invalid Employee Name');
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Invalid Employee Name',
-        });
-      }else {
-        // Clear the validation error message for Name in English if it's valid
-        const index = this.validationErrors.indexOf('Invalid Employee Name');
-        if (index !== -1) {
-          this.validationErrors.splice(index, 1);
-        }
+  validateEngName() {
+    const namePattern = /^[a-zA-Z- ]{3,30}$/;
+    if (!namePattern.test(this.employee!.emp_name)) { // Note the negation (!) here
+      this.validationErrors.push('Invalid Employee Name');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Invalid Employee Name',
+      });
+    } else {
+      // Clear the validation error message for Name in English if it's valid
+      const index = this.validationErrors.indexOf('Invalid Employee Name');
+      if (index !== -1) {
+        this.validationErrors.splice(index, 1);
+      }
+    }
+  }
+
+  validateHindiName() {
+    const hindiNamePattern = /^[\u0900-\u097F\s.\-'!()]*$/;
+
+    if (!hindiNamePattern.test(this.employee!.emp_name_hi)) {
+      this.validationErrors.push('कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें',
+      });
+    } else {
+      // Clear the validation error message for Name in Hindi if it's valid
+      const index = this.validationErrors.indexOf('कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें');
+      if (index !== -1) {
+        this.validationErrors.splice(index, 1);
+      }
+    }
+  }
+
+  validateEmail() {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(this.employee!.email_id)) {
+      this.validationErrors.push('Invalid Email Id');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Invalid Email Id',
+      });
+    } else {
+      // Clear the validation error message for Email if it's valid
+      const index = this.validationErrors.indexOf('Invalid Email Id');
+      if (index !== -1) {
+        this.validationErrors.splice(index, 1);
       }
     }
 
-    validateHindiName() {
-      const hindiNamePattern = /^[\u0900-\u097F\s.\-'!()]*$/;
-
-      if (!hindiNamePattern.test(this.employee!.emp_name_hi)) {
-        this.validationErrors.push('कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें');
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें',
-        });
-      }else {
-        // Clear the validation error message for Name in Hindi if it's valid
-        const index = this.validationErrors.indexOf('कर्मचारी का नाम अमान्य है !!! कृपया हिंदी में नाम दर्ज करें');
-        if (index !== -1) {
-          this.validationErrors.splice(index, 1);
-        }
-      }
-    }
-
-    validateEmail() {
-      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (!emailPattern.test(this.employee!.email_id)) {
-        this.validationErrors.push('Invalid Email Id');
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Invalid Email Id',
-        });
-      }else {
-        // Clear the validation error message for Email if it's valid
-        const index = this.validationErrors.indexOf('Invalid Email Id');
-        if (index !== -1) {
-          this.validationErrors.splice(index, 1);
-        }
-      }
-
-    }
+  }
   validateMobile() {
     const mobilePattern = /^\d{10}$/;
-    if(!mobilePattern.test(this.employee!.mobile)) {
+    if (!mobilePattern.test(this.employee!.mobile)) {
       this.validationErrors.push('Invalid Mobile Number');
       Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'Invalid Mobile Number',
       });
-    }else {
+    } else {
       // Clear the validation error message for mobile if it's valid
       const index = this.validationErrors.indexOf('Invalid Mobile Number');
       if (index !== -1) {
@@ -1578,7 +1586,7 @@ export class ProfileComponent implements OnInit{
           title: 'Error',
           text: 'Invalid Current PIN code.',
         });
-      }else {
+      } else {
         // Clear the validation error message for Pin Code if it's valid
         const index = this.validationErrors.indexOf('Invalid Current PIN code.');
         if (index !== -1) {
@@ -1603,7 +1611,7 @@ export class ProfileComponent implements OnInit{
           title: 'Error',
           text: 'Invalid Premanent Pin Code',
         });
-      }else {
+      } else {
         // Clear the validation error message for Pin Code if it's valid
         const index = this.validationErrors.indexOf('Invalid Premanent Pin Code');
         if (index !== -1) {
@@ -1613,42 +1621,42 @@ export class ProfileComponent implements OnInit{
     }
   }
 
-    // validateCurrPin(event: any): void {
-    //     if (this.employee?.curr_pin !== null) {
-    //         // Get the input value
-    //         const inputValue = event.target.value;
-    //
-    //         // Remove non-numeric characters using a regular expression
-    //         const numericValue = inputValue.replace(/[^0-9]/g, '');
-    //
-    //         // Update the input value
-    //         event.target.value = numericValue;
-    //
-    //         // Update the ngModel bound variable (if necessary)
-    //         if (this.employee?.curr_pin) {
-    //             this.employee.curr_pin = numericValue;
-    //         }
-    //     }
-    // }
-    //
-    //
-    // validatePermPin(event: any): void {
-    //     if (this.employee?.perm_pin !== null) {
-    //         // Get the input value
-    //         const inputValue = event.target.value;
-    //
-    //         // Remove non-numeric characters using a regular expression
-    //         const numericValue = inputValue.replace(/[^0-9]/g, '');
-    //
-    //         // Update the input value
-    //         event.target.value = numericValue;
-    //
-    //         // Update the ngModel bound variable (if necessary)
-    //         if (this.employee?.perm_pin) {
-    //             this.employee.perm_pin = numericValue;
-    //         }
-    //     }
-    // }
+  // validateCurrPin(event: any): void {
+  //     if (this.employee?.curr_pin !== null) {
+  //         // Get the input value
+  //         const inputValue = event.target.value;
+  //
+  //         // Remove non-numeric characters using a regular expression
+  //         const numericValue = inputValue.replace(/[^0-9]/g, '');
+  //
+  //         // Update the input value
+  //         event.target.value = numericValue;
+  //
+  //         // Update the ngModel bound variable (if necessary)
+  //         if (this.employee?.curr_pin) {
+  //             this.employee.curr_pin = numericValue;
+  //         }
+  //     }
+  // }
+  //
+  //
+  // validatePermPin(event: any): void {
+  //     if (this.employee?.perm_pin !== null) {
+  //         // Get the input value
+  //         const inputValue = event.target.value;
+  //
+  //         // Remove non-numeric characters using a regular expression
+  //         const numericValue = inputValue.replace(/[^0-9]/g, '');
+  //
+  //         // Update the input value
+  //         event.target.value = numericValue;
+  //
+  //         // Update the ngModel bound variable (if necessary)
+  //         if (this.employee?.perm_pin) {
+  //             this.employee.perm_pin = numericValue;
+  //         }
+  //     }
+  // }
 
   /************************* Validation Check Function End *************************/
 
@@ -1657,10 +1665,10 @@ export class ProfileComponent implements OnInit{
   /********** Desgination / Promotion && Division / Posting Validation Check Function Start *************/
 
 
-  validateDesgPrint(param : String, index: number) {
+  validateDesgPrint(param: String, index: number) {
 
-    if(
-      param === 'Promotion'  &&
+    if (
+      param === 'Promotion' &&
       this.employee &&
       this.employee!.designations &&
       this.employee!.designations[index].pivot &&
@@ -1676,7 +1684,7 @@ export class ProfileComponent implements OnInit{
         title: 'Error',
         text: 'Please Enter desg to print.',
       });
-    }else {
+    } else {
       // Clear the validation error message for Pin Code if it's valid
       const index = this.validationErrors.indexOf('Please Enter desg to print.');
       if (index !== -1) {
@@ -1686,17 +1694,17 @@ export class ProfileComponent implements OnInit{
 
   }
   // Validate Order No
-  validateOrderNo(param : String, index: number) {
+  validateOrderNo(param: String, index: number) {
 
-    if(
-        param === 'Promotion'  &&
-        this.employee &&
-        this.employee!.designations &&
-        this.employee!.designations[index].pivot &&
-        (
-          this.employee!.designations[index].pivot.order_no === null ||
-          this.employee!.designations[index].pivot.order_no?.toString() === ''
-        )
+    if (
+      param === 'Promotion' &&
+      this.employee &&
+      this.employee!.designations &&
+      this.employee!.designations[index].pivot &&
+      (
+        this.employee!.designations[index].pivot.order_no === null ||
+        this.employee!.designations[index].pivot.order_no?.toString() === ''
+      )
     ) {
       this.validationErrors.push('Please Enter Order No.');
 
@@ -1705,7 +1713,7 @@ export class ProfileComponent implements OnInit{
         title: 'Error',
         text: 'Please Enter Order No.',
       });
-    }else if(param === 'Posting'  &&
+    } else if (param === 'Posting' &&
       this.employee &&
       this.employee!.divisions &&
       this.employee!.divisions[index].pivot &&
@@ -1713,7 +1721,7 @@ export class ProfileComponent implements OnInit{
         this.employee!.divisions[index].pivot.order_no === null ||
         this.employee!.divisions[index].pivot.order_no?.toString() === ''
       )
-    ){
+    ) {
 
       this.validationErrors.push('Please Enter Order No.');
 
@@ -1723,7 +1731,7 @@ export class ProfileComponent implements OnInit{
         text: 'Please Enter Order No.',
       });
 
-    }else {
+    } else {
       // Clear the validation error message for Pin Code if it's valid
       const index = this.validationErrors.indexOf('Please Enter Order No.');
       if (index !== -1) {
@@ -1734,13 +1742,13 @@ export class ProfileComponent implements OnInit{
   }
 
   // Validate Order Date
-  validateOrderDate(param : String, index: number) {
+  validateOrderDate(param: String, index: number) {
 
     // if(this.employee && this.employee!.designations )
     // console.log(this.employee!.designations[index].pivot.order_date)
     //alert(this.employee!.designations[index].pivtot!.order_date)
-    if(
-      param === 'Promotion'  &&
+    if (
+      param === 'Promotion' &&
       this.employee &&
       this.employee!.designations &&
       this.employee!.designations[index].pivot &&
@@ -1748,7 +1756,7 @@ export class ProfileComponent implements OnInit{
         this.employee!.designations[index].pivot.order_date === null ||
         this.employee!.designations[index].pivot.order_date?.toString() === ''
       )
-    ){
+    ) {
       this.validationErrors.push('Please Enter Order Date');
 
       Swal.fire({
@@ -1756,8 +1764,8 @@ export class ProfileComponent implements OnInit{
         title: 'Error',
         text: 'Please Enter Order Date',
       });
-    }else if(
-      param === 'Posting'  &&
+    } else if (
+      param === 'Posting' &&
       this.employee &&
       this.employee!.divisions &&
       this.employee!.divisions[index].pivot &&
@@ -1765,7 +1773,7 @@ export class ProfileComponent implements OnInit{
         this.employee!.divisions[index].pivot.order_date === null ||
         this.employee!.divisions[index].pivot.order_date?.toString() === ''
       )
-    ){
+    ) {
       this.validationErrors.push('Please Enter Order Date');
 
       Swal.fire({
@@ -1773,7 +1781,7 @@ export class ProfileComponent implements OnInit{
         title: 'Error',
         text: 'Please Enter Order Date',
       });
-    }else {
+    } else {
       // Clear the validation error message for Pin Code if it's valid
       const index = this.validationErrors.indexOf('Please Enter Order Date');
       if (index !== -1) {
@@ -1784,9 +1792,9 @@ export class ProfileComponent implements OnInit{
   }
 
   // Validate From Date
-  validateFromDate(param : String, index: number){
-  if(
-      param === 'Posting'  &&
+  validateFromDate(param: String, index: number) {
+    if (
+      param === 'Posting' &&
       this.employee &&
       this.employee!.divisions &&
       this.employee!.divisions[index].pivot &&
@@ -1794,7 +1802,7 @@ export class ProfileComponent implements OnInit{
         this.employee!.divisions[index].pivot.from_date === null ||
         this.employee!.divisions[index].pivot.from_date?.toString() === ''
       )
-    ){
+    ) {
       this.validationErrors.push('Please Enter From Date');
 
       Swal.fire({
@@ -1802,7 +1810,7 @@ export class ProfileComponent implements OnInit{
         title: 'Error',
         text: 'Please Enter From Date',
       });
-    }else {
+    } else {
       // Clear the validation error message for Pin Code if it's valid
       const index = this.validationErrors.indexOf('Please Enter From Date');
       if (index !== -1) {
@@ -2033,7 +2041,7 @@ export class ProfileComponent implements OnInit{
   /**** Same As Current Address Function Start ****/
   cPAddress() {
     // Check if the checkbox is checked
-    if (this.isCpAddressChecked === true ) {
+    if (this.isCpAddressChecked === true) {
 
       // If checked, copy current address to permanent address
       if (this.employee!.curr_add && this.employee!.curr_pin && this.employee!.curr_state && this.employee!.curr_district) {
@@ -2043,7 +2051,7 @@ export class ProfileComponent implements OnInit{
 
         this.employee!.perm_district = this.employee!.curr_district;
 
-        this.getDistricts(this.employee!.perm_state!).then(districts=>this.permDistricts=districts);
+        this.getDistricts(this.employee!.perm_state!).then(districts => this.permDistricts = districts);
 
       } else {
 
@@ -2066,7 +2074,7 @@ export class ProfileComponent implements OnInit{
       this.employee!.perm_state = null;
       this.employee!.perm_district = null;
 
-      this.getDistricts(this.employee!.perm_state!).then(districts=>this.permDistricts=districts);
+      this.getDistricts(this.employee!.perm_state!).then(districts => this.permDistricts = districts);
     }
   }
 
@@ -2075,7 +2083,7 @@ export class ProfileComponent implements OnInit{
   /***** Date Check Validation Function Start *****/
 
   checkDateOfJoining() {
-    if(!this.employee!.dob) {
+    if (!this.employee!.dob) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -2109,7 +2117,7 @@ export class ProfileComponent implements OnInit{
     const dojGS = this.employee!.doj_gs ? new Date(this.employee!.doj_gs) : 'null';
     const dojRB = this.employee!.doj_rb ? new Date(this.employee!.doj_rb) : 'null';
 
-    if(dojGS < dob ){
+    if (dojGS < dob) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -2122,7 +2130,7 @@ export class ProfileComponent implements OnInit{
 
     }
 
-    if(dojGS!=null && (dojRB < dojGS) || (dojRB < dob)){
+    if (dojGS != null && (dojRB < dojGS) || (dojRB < dob)) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -2154,31 +2162,31 @@ export class ProfileComponent implements OnInit{
     this.changesMade = true;
   }
 
-  onInputChangeMap(param : String, index: number){
+  onInputChangeMap(param: String, index: number) {
 
-    if(param === 'Promotion'){
+    if (param === 'Promotion') {
       this.changesPromotionMade[index] = true;
-    }else if(param === 'Posting'){
+    } else if (param === 'Posting') {
       this.changesPostingMade[index] = true;
-    }else if(param === 'Relations'){
+    } else if (param === 'Relations') {
       this.changesRelationMade[index] = true;
-    }else if(param === 'Servants'){
+    } else if (param === 'Servants') {
       this.changesServantMade[index] = true;
-    }else if(param === 'Vehicle'){
+    } else if (param === 'Vehicle') {
       this.changesVehicle[index] = true;
-    } else if(param === 'ServantRelation'){
+    } else if (param === 'ServantRelation') {
       this.changesServantRelation[index] = true;
-    }else if(param === 'service') {
+    } else if (param === 'service') {
       this.changesRelationMade[index] = true;
     }
   }
 
-  onInputReverseChange(param : String, index: number){
-    if(param === 'Relations'){
+  onInputReverseChange(param: String, index: number) {
+    if (param === 'Relations') {
       this.changesRelationMade[index] = false;
-    }else if(param === 'Servants'){
+    } else if (param === 'Servants') {
       this.changesServantMade[index] = false;
-    } else if(param === 'ServantRelation'){
+    } else if (param === 'ServantRelation') {
       this.changesServantRelation[index] = false;
     }
   }
@@ -2193,16 +2201,16 @@ export class ProfileComponent implements OnInit{
   }
 
   displayEbaCard: any = 'none';
-  displayEbaCarddetail: any[]=[];
-  pullEbaCardPopup(property:string,i:any,j:any) {
-    this.displayEbaCarddetail=[];
+  displayEbaCarddetail: any[] = [];
+  pullEbaCardPopup(property: string, i: any, j: any) {
+    this.displayEbaCarddetail = [];
     this.displayEbaCarddetail = [property, i, j];
     this.displayEbaCard = "block";
   }
   closeEbaCardPopup() {
-    this.displayEbaCarddetail=[];
-    this.recivedotpEBACard=false;
-    this.showEBACardDetails=false;
+    this.displayEbaCarddetail = [];
+    this.recivedotpEBACard = false;
+    this.showEBACardDetails = false;
     this.displayEbaCard = "none";
   }
 
