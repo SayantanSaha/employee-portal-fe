@@ -82,8 +82,8 @@ export class EbaformviewComponent implements OnInit {
       if (this.employee.divisions === null || this.employee.divisions.length === 0) {
         Swal.fire({
           icon: 'warning',
-          title: 'Empty Department',
-          text: 'Department does not have a value.',
+          title: 'Empty Division',
+          text: 'Division does not have a value.',
         });
         return;
       }
@@ -264,8 +264,8 @@ export class EbaformviewComponent implements OnInit {
       if (this.employee.divisions === null || this.employee.divisions.length === 0) {
         Swal.fire({
           icon: 'warning',
-          title: 'Empty Department',
-          text: 'Department does not have a value.',
+          title: 'Empty Division',
+          text: 'Division does not have a value.',
         });
         return;
       }
