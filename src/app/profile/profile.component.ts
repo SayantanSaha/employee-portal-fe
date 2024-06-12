@@ -494,23 +494,23 @@ export class ProfileComponent implements OnInit {
   }
 
   saveDivision(index: number) {
-    this.validateOrderNo('Posting', index);
-    this.validateOrderDate('Posting', index);
-    this.validateFromDate('Posting', index);
+    // this.validateOrderNo('Posting', index);
+    // this.validateOrderDate('Posting', index);
+    // this.validateFromDate('Posting', index);
 
-    if (this.validationErrors.length > 0) {
-      const errorMessage = this.validationErrors
-        .map((error, index) => `${index + 1}. ${error}`)
-        .join('\n');
+    // if (this.validationErrors.length > 0) {
+    //   const errorMessage = this.validationErrors
+    //     .map((error, index) => `${index + 1}. ${error}`)
+    //     .join('\n');
 
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        html: errorMessage.replace(/\n/g, '<br/>'),
-        width: 'auto', // Adjust as needed
-      });
-      return; // Exit without calling the API
-    }
+    //   Swal.fire({
+    //     icon: 'error',
+    //     title: 'Error',
+    //     html: errorMessage.replace(/\n/g, '<br/>'),
+    //     width: 'auto', // Adjust as needed
+    //   });
+    //   return; // Exit without calling the API
+    // }
 
     let postingDtls = this.employee?.divisions![index].pivot;
     if (postingDtls?.id == -1) {
