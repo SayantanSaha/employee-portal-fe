@@ -19,6 +19,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 })
 export class IdFormComponent implements OnInit {
   baseUrl: string = '';
+  today: Date | undefined;
   constructor(
     @Inject('BASE_URL') baseUrl: string,
     private employeeService: EmployeeService,
@@ -26,6 +27,7 @@ export class IdFormComponent implements OnInit {
     private router: Router
   ) {
     this.baseUrl = baseUrl;
+    this.today = new Date();
   }
 
   employee: Employee | null = null;
