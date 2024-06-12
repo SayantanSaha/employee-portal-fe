@@ -11,6 +11,7 @@ import {Idcards} from "../model/Idcards";
 })
 export class EbaFormListComponent implements OnInit{
   applicationList: any[] = [];
+  idapplicationList: any[] = [];
 
   constructor(
     private employeeService: EmployeeService,
@@ -18,8 +19,12 @@ export class EbaFormListComponent implements OnInit{
   ) { }
 
   ngOnInit() {
-    this.employeeService.applicationByApplicant().subscribe(data => {
+    this.employeeService.ebaapplicationByApplicant().subscribe(data => {
       this.applicationList = data
+    });
+
+    this.employeeService.idapplicationByApplicant().subscribe(data => {
+      this.idapplicationList = data
     });
   }
 
@@ -43,6 +48,17 @@ export class EbaFormListComponent implements OnInit{
       console.error('Employee data is null or undefined.');
     }
   }
+
+  getidform(i:number){
+    const employeeDataString = this.idapplicationList[i].application;
+    const employeeData = JSON.parse(employeeDataString);
+    if (employeeData) {
+      this.router.navigate(['id-form/applicant/view'], { state: { employeeData:employeeData , fromUrl: 'eba-form-list' ,status:this.getActiveRole(this.idapplicationList[i].roles),reg_no:this.idapplicationList[i].reg_no} });
+    } else {
+      console.error('Employee data is null or undefined.');
+    }
+  }
+
   getActiveIdCard(IdCards: Idcards[]): string {
     const activeIdCard = IdCards
       .filter(idCard => idCard.active)

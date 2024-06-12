@@ -9,6 +9,7 @@ import { User } from '../model/User';
 import {Idcards} from "../model/Idcards";
 import {fileToBase64} from "../profile/fileToBase64";
 import { FormsModule } from '@angular/forms';
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-id-form',
@@ -41,12 +42,31 @@ export class IdFormComponent implements OnInit {
   vide_no: any | null = null;
   vide_date: any | null = null;
   returnapp: boolean = false;
+  fromUrl: string='';
+  submit: string='';
+  // id: any;
+  status:string='';
+  reg_no:string='';
+
 
 
   ngOnInit() {
     this.isLoading = true;
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.setEditable(this.mode == 'edit');
+
+    this.employee = history.state.employeeData;
+    console.log(this.employee);
+    this.fromUrl=history.state.fromUrl;
+    console.log(this.fromUrl);
+    this.submit=history.state.submit;
+    console.log(this.submit);
+    this.id=history.state.id;
+    console.log(this.id);
+    this.status=history.state.status;
+    console.log(this.status);
+    this.reg_no=history.state.reg_no;
+    console.log(this.reg_no);
 
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
@@ -387,8 +407,10 @@ export class IdFormComponent implements OnInit {
     IdFormComponent // Include your component declaration here
   ],
   imports: [
-    CommonModule ,
-    FormsModule// Import CommonModule here
+    CommonModule,
+    FormsModule,
+    MatProgressSpinner,
+// Import CommonModule here
     // Other modules imports
   ]
 })

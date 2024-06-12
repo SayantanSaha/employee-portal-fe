@@ -28,10 +28,10 @@
                   <th colspan="2">Action</th>
                 </tr>
                 </thead>
-                <tbody *ngIf="applicationList ">
-                <tr *ngFor="let application of applicationList; let i = index">
+                <tbody *ngIf="idapplicationList ">
+                <tr *ngFor="let application of idapplicationList; let i = index">
                   <td>{{ i + 1 }}</td>
-                  <td>EBA Application</td>
+                  <td>RB Card Application</td>
                   <td *ngIf="application?.reg_no ">{{ application.reg_no }}</td>
                   <td *ngIf="application?.created_at ">{{ application.created_at |  date:'dd-MM-yyyy' }}</td>
                   <td>
@@ -42,11 +42,11 @@
                     </div>
                   </td>
                   <td>
-                    <div  *ngIf="application?.roles?.[0].id==8" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/eba-form/' + 'edit/'+'return/'+application.id"  title="Edit Employee Details">
+                    <div  *ngIf="application?.roles?.[0].id==16" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/id-form/return/'+application.id"  title="Edit Employee Details">
                       <!--                <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/eba-form/' + 'view/'+'EBA/'+ebaPending.id">Details</a>-->
                       <i class="bi bi-pencil"></i>
                     </div>
-                    <div class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="getform(i)" title="View Employee Details">
+                    <div class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="getidform(i)" title="View Employee Details">
                       <i class="bi bi-eye"></i>
                     </div>
                   </td>

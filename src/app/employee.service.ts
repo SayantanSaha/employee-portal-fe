@@ -330,8 +330,12 @@ export class EmployeeService {
   searchrb(searchrb: Search): Observable<any> {
     return this.http.post<any>(this.apiUrl+"searchrb",searchrb,{headers:this.createHeader()});
   }
-  applicationByApplicant(): Observable<any[]>{
+  ebaapplicationByApplicant(): Observable<any[]>{
     return this.http.get<any[]>(this.apiUrl+"Eba",{headers:this.createHeader()});
+  }
+
+  idapplicationByApplicant(): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"Registration",{headers:this.createHeader()});
   }
 
   getEbaProfile(id: number):Observable<any>{

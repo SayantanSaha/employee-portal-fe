@@ -2,6 +2,21 @@
      [style.margin-top]="!editable && urlId ? '-3%' : null">
   <div class="row">
     <div  [class.col-md-10]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.us==true || employee!.director==true || employee!.asp==true)">
+
+      <div class="row">
+        <div class="col-md-10" >
+          <div style="font-size: 200%; color: deeppink">
+            RB Card Application
+            <ng-container *ngIf="employee!.reg_no || reg_no" >
+              / {{employee!.reg_no}}{{reg_no}}
+            </ng-container>
+            <ng-container *ngIf="employee!.status || status" >
+              / {{employee!.status}}{{status}}
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
       <div class="card shadow">
         <div class="card-body">
           <div style="text-decoration: underline; text-align: center;"><br>
@@ -395,3 +410,5 @@
     </ng-container>
   </div>
 </div>
+
+<mat-progress-spinner *ngIf="isLoading" mode="indeterminate" class="loading-spinner"></mat-progress-spinner>
