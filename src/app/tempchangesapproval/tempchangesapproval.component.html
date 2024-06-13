@@ -842,7 +842,7 @@
                             <thead>
                             <tr>
                               <th>Designation</th>
-                              <!-- <th>Desg to print</th> -->
+                              <th>Desg to print</th>
                               <th>Joining Date</th>
                               <th>Order No.</th>
                               <th>Order Date</th>
@@ -856,8 +856,8 @@
 
                               <td>{{basicDetails.old_table_data.desg_desc ?
                                 basicDetails.old_table_data.desg_desc : 'N/A'}}</td>
-                              <!-- <td>{{basicDetails.old_table_data.desg_print ?
-                                basicDetails.old_table_data.desg_print : 'N/A'}}</td> -->
+                              <td>{{basicDetails.old_table_data.desg_print ?
+                                basicDetails.old_table_data.desg_print : 'N/A'}}</td>
                               <td>{{basicDetails.old_table_data.pivot.join_date ?
                                 formatDate(basicDetails.old_table_data.pivot.join_date)
                                 : 'N/A'}}</td>
@@ -915,7 +915,7 @@
                             <thead>
                             <tr>
                               <th>Designation</th>
-                              <!-- <th>Desg to print</th> -->
+                              <th>Desg to print</th>
                               <th>Joining Date</th>
                               <th>Order No.</th>
                               <th>Order Date</th>
@@ -936,7 +936,7 @@
                                 }}
                               </td>
 
-                              <!-- <td
+                              <td
                                 [style.color]="changedDataDetails.desg_print ? 'red' : 'inherit'">
                                 {{
                                 changedDataDetails.desg_print ?
@@ -945,7 +945,7 @@
                                     basicDetails.old_table_data.pivot.desg_print :
                                     'N/A'
                                 }}
-                              </td> -->
+                              </td>
 
                               <td
                                 [style.color]="changedDataDetails.join_date ? 'red' : 'inherit'">

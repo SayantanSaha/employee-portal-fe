@@ -749,7 +749,7 @@
                           <tr>
                             <!-- <th>Sl No.</th> -->
                             <th>Designation</th>
-                            <!-- <th>Desg to print</th> -->
+                            <th>Desg to print</th>
                             <th>Joining Date</th>
                             <th>Order No.</th>
                             <th>Order Date</th>
@@ -760,7 +760,7 @@
                           <ng-container *ngFor="let change of employee!.temp_changes; let i = index">
                             <tr *ngIf="change.model === 'promotion' && change.changed_data">
                               <td *ngIf="change.model === 'promotion'">{{ change.changed_data.desg_desc }}</td>
-                              <!-- <td *ngIf="change.model === 'promotion'">{{ change.changed_data.desg_print }}</td> -->
+                              <td *ngIf="change.model === 'promotion'">{{ change.changed_data.desg_print }}</td>
                               <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.join_date)}}</td>
                               <td *ngIf="change.model === 'promotion'">{{ change.changed_data.order_no }}</td>
                               <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.order_date)}}</td>
@@ -812,12 +812,12 @@
                               </select>
                               <span *ngIf="!editable">{{desg!.desg_desc}}</span>
                             </td>
-                            <!-- <td>
+                            <td>
                               <input *ngIf="employee!.designations && editable" class="form-control" type="text"
                                      [(ngModel)]="employee!.designations[i].pivot!.desg_print"
                                      (ngModelChange)="onInputChangeMap('Promotion', i); validateDesgPrint('Promotion', i)">
                               <span *ngIf="!editable">{{desg!.pivot!.desg_print}}</span>
-                            </td> -->
+                            </td>
                             <td>
                               <input *ngIf="employee!.designations && editable" class="form-control" type="date"
                                      [(ngModel)]="employee!.designations[i].pivot!.join_date"
@@ -1068,9 +1068,13 @@
                   <div class="col" style="text-align: right">
                     <label class="upload-icon-label" style="margin-left: 3%;color: green;" *ngIf="!employee?.AllotmentId || employee?.AllotmentId === null"
                            title="RB quarter Exist?" (click)="pullEbaPopup()">
-                      If you've applied or reside in a quarter, click the question mark icon to retrieve Family and Out House details.
-                      <i class="bi bi-question-circle btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"></i>
+                      If you've applied or reside in a quarter, click Pull from EBA retrieve Family and Out House details.
+                      <!-- <i class="bi bi-question-circle btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"></i> -->
+                      <button type="button" class="btn btn-danger enlarge-on-hover" (click)="hoverClick($event)" >
+                        Pull family/domestic help dtls. from EBA
+                      </button>
                     </label>
+
                     <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addMember()">
                       +Add Relative
                     </button>
@@ -1660,7 +1664,10 @@
                     <label class="upload-icon-label" style="margin-left: 3%;color: green;" *ngIf="!employee?.AllotmentId || employee?.AllotmentId === null"
                            title="RB quarter Exist?" (click)="pullEbaPopup()">
                       If you've applied or reside in a quarter, click the question mark icon to retrieve Family and Out House details.
-                      <i class="bi bi-question-circle btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"></i>
+                      <!-- <i class="bi bi-question-circle btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"></i> -->
+                      <button type="button" class="btn btn-danger enlarge-on-hover" (click)="hoverClick($event)" >
+                        Pull family/domestic help dtls. from EBA
+                      </button>
                     </label>
                     <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="addServant()">
                       +Add Domestic Help
