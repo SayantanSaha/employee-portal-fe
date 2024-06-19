@@ -627,8 +627,8 @@
 
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{employee!.curr_add}},<br />
-                              {{employee!.curr_district!.district_name}}<br />
-                              {{employee!.curr_state!.state_name}} - {{employee!.curr_pin}}
+                              {{employee!.curr_district?.district_name}}<br />
+                              {{employee!.curr_state?.state_name}} - {{employee!.curr_pin}}
                             </div>
                           </div>
 
@@ -686,8 +686,8 @@
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{employee!.perm_add}},<br />
-                              {{employee!.perm_district!.district_name}}<br />
-                              {{employee!.perm_state!.state_name}} - {{employee!.perm_pin}}
+                              {{employee!.perm_district?.district_name}}<br />
+                              {{employee!.perm_state?.state_name}} - {{employee!.perm_pin}}
 
                             </div>
                           </div>
@@ -703,7 +703,7 @@
                       <div class="card-body">
                         <div *ngIf="editable" style="text-align: center;">
                           <button class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
-                            (click)="savePrimaryDetails()">
+                            (click)="savePrimaryDetails();onInputRevChange()">
                             Save Changes
                           </button>
                         </div>
@@ -878,7 +878,7 @@
                               <td *ngIf="editable && (changesPromotionMade[i]) ">
                                 <button *ngIf="desg!.pivot!.deleted_at==null" type="button"
                                   class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)"
-                                  (click)="savePromotion(i)">Save</button>
+                                  (click)="savePromotion(i);onInputReverseChange('Promotion', i)">Save</button>
                               </td>
                               <td *ngIf="editable">
                                 <button *ngIf="desg!.pivot!.id==-1" type="button"
@@ -1059,7 +1059,7 @@
                               <td *ngIf="editable && (changesPostingMade[i]) ">
                                 <button *ngIf="div!.pivot!.deleted_at==null" type="button"
                                   class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)"
-                                  (click)="saveDivision(i)" [disabled]="!changesPostingMade">Save</button>
+                                  (click)="saveDivision(i);onInputReverseChange('Posting', i)" [disabled]="!changesPostingMade" >Save</button>
                               </td>
                               <td *ngIf="editable">
                                 <button *ngIf="div!.pivot!.id==-1" type="button"
@@ -1705,7 +1705,7 @@
                               <td *ngIf="editable &&  (changesVehicle[i])">
                                 <button *ngIf="vehicle!.deleted_at==null" type="button"
                                   class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)"
-                                  (click)="saveVehicle(i)" [disabled]="!changesVehicle">Save</button>
+                                  (click)="saveVehicle(i);onInputReverseChange('Vehicle', i)" [disabled]="!changesVehicle">Save</button>
                               </td>
 
                               <td *ngIf="editable">
@@ -1786,8 +1786,7 @@
                                   'Male' : (change.changed_data.gender) === 'F' ? 'Female' :
                                   (change.changed_data.gender) === 'O' ? 'OTHERS' : '' }}</td>
                                 <td *ngIf="change.model === 'servant'">{{ change.changed_data.servant_mobile_no }}</td>
-                                <td *ngIf="change.model === 'servant'">{{ formatDate(change.changed_data.servant_dob)}}
-                                </td>
+                                <td *ngIf="change.model === 'servant'">{{ formatDate(change.changed_data.servant_dob)}}</td>
                                 <td *ngIf="change.model === 'servant'">{{ change.changed_data.out_house_address }}</td>
                               </tr>
                             </ng-container>
@@ -1911,6 +1910,47 @@
                             </tbody>
                           </table>
                           <div class="row" *ngIf="servant && servant!.id!=-1">
+                            <div class="row">
+                                <div class="col-md">
+                                  <div class="card shadow table-responsive">
+                                    <div class="card-body">
+                                      <div class="row" style="text-align: center;">
+                                        <div class="col-md">
+                                          <div class="form-group">
+                                            <label class="form-label">
+                                              <u class="text-danger">Pending changes of {{ servant.servant_name }}'s relative Data</u>
+                                            </label>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <table class="table table-stripped">
+                                        <thead>
+                                          <tr>
+                                            <th>Name</th>
+                                            <th>relation</th>
+                                            <th>Gender</th>
+                                            <th>Mobile No.</th>
+                                            <th>Date Of Birth</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
+                                          <ng-container *ngFor="let change of employee!.temp_changes; let i = index">
+                                            <tr *ngIf="change.model === 'servant_rel' && change.changed_data && change.for_servant==servant.id">
+                                              <td *ngIf="change.model === 'servant_rel'">{{ change.changed_data.rel_name }}</td>
+                                              <td *ngIf="change.model === 'servant_rel'">{{ change.changed_data.rel_desc }}</td>
+                                              <td *ngIf="change.model === 'servant_rel'"> {{ (change.changed_data.gender) === 'M' ?
+                                                'Male' : (change.changed_data.gender) === 'F' ? 'Female' :
+                                                (change.changed_data.gender) === 'O' ? 'OTHERS' : '' }}</td>
+                                              <td *ngIf="change.model === 'servant_rel'">{{ change.changed_data.rel_mobile_no }}</td>
+                                              <td *ngIf="change.model === 'servant_rel'">{{ formatDate(change.changed_data.rel_dob)}}</td>
+                                             </tr>
+                                          </ng-container>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             <div class="col-md">
                               <div class="card shadow">
                                 <div class="card-header">
@@ -1966,7 +2006,7 @@
                                         <td>
                                           <input *ngIf="editable" class="form-control" type="text"
                                             [(ngModel)]="employee.servants[i].relations[k].pivot!.rel_name"
-                                            placeholder="Name" (ngModelChange)="onInputChangeMap('ServantRelation',k)">
+                                            placeholder="Name" (ngModelChange)="onInputChangeServantRelMap('ServantRelation',i,k)">
 
                                           <span *ngIf="!editable">{{ servantRelative.pivot!.rel_name }}</span>
                                         </td>
@@ -1974,7 +2014,7 @@
                                         <td>
                                           <select *ngIf=" editable" class="form-control"
                                             [(ngModel)]="employee.servants[i].relations[k].pivot!.gender"
-                                            (ngModelChange)="onInputChangeMap('ServantRelation', k)">
+                                            (ngModelChange)="onInputChangeServantRelMap('ServantRelation',i, k)">
                                             <option value="null">--Select Gender--</option>
                                             <option [ngValue]="'M'">Male</option>
                                             <option [ngValue]="'F'">Female</option>
@@ -1996,7 +2036,7 @@
                                           <select *ngIf=" editable" class="form-control"
                                             [(ngModel)]="employee.servants[i].relations[k].pivot!.relation_id"
                                             [compareWith]="compareRelation"
-                                            (ngModelChange)="onInputChangeMap('ServantRelation', k)">
+                                            (ngModelChange)="onInputChangeServantRelMap('ServantRelation',i, k)">
                                             <option value="">--Select Relation--</option>
                                             <option [ngValue]="relationtype.id"
                                               *ngFor="let relationtype of relationstypelist">
@@ -2010,7 +2050,7 @@
                                           <input *ngIf="editable" class="form-control" type="text"
                                             [(ngModel)]="employee.servants[i].relations[k].pivot!.rel_mobile_no"
                                             placeholder="Mobile No." maxlength="10" minlength="10"
-                                            (ngModelChange)="onInputChangeMap('ServantRelation', k)"
+                                            (ngModelChange)="onInputChangeServantRelMap('ServantRelation',i, k)"
                                             (input)="onrelMobileNoInput($event, i,k)">
 
                                           <span *ngIf="!editable">{{servantRelative!.pivot!.rel_mobile_no}}</span>
@@ -2019,15 +2059,15 @@
                                         <td>
                                           <input *ngIf=" editable" class="form-control" type="date"
                                             [(ngModel)]="employee.servants[i].relations[k].pivot!.rel_dob"
-                                            (ngModelChange)="onInputChangeMap('ServantRelation', i)" [max]="maxDate">
+                                            (ngModelChange)="onInputChangeServantRelMap('ServantRelation', i,k)" [max]="maxDate">
 
                                           <span *ngIf="!editable">{{formatDate(servantRelative!.pivot!.rel_dob)}}</span>
                                         </td>
 
-                                        <td *ngIf="editable &&  (changesServantRelation[k])">
+                                        <td *ngIf="editable && (changesServantRelation[i][k])">
                                           <button *ngIf="servantRelative!.deleted_at==null" type="button"
                                             class="btn btn-outline-success enlarge-on-hover"
-                                            (click)="hoverClick($event)" (click)="saveServantRel(i,k)"
+                                            (click)="hoverClick($event)" (click)="saveServantRel(i,k);onInputRevChangeServantRelMap('ServantRelation',i,k)"
                                             [disabled]="!changesServantRelation">Save</button>
                                         </td>
 

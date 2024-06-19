@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
   changesPromotionMade: boolean[] = [];
   changesServantMade: boolean[] = [];
   changesVehicle: boolean[] = [];
-  changesServantRelation: boolean[] = [];
+  changesServantRelation: boolean[][] = [];
   maxDate: string = "";
   baseUrl: string = '';
   EbaCardNo: string | null = null;
@@ -116,7 +116,7 @@ export class ProfileComponent implements OnInit {
             this.employeeService.getEmpProfile(id).subscribe(
               data => {
                 this.employee = data;
-
+                this.initializeChangesServantRelation();
                 this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                 this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
               }
@@ -135,7 +135,7 @@ export class ProfileComponent implements OnInit {
           this.employeeService.getMyProfile().subscribe(
             data => {
               this.employee = data;
-
+              this.initializeChangesServantRelation();
               this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
               this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
             }
@@ -2162,6 +2162,11 @@ export class ProfileComponent implements OnInit {
     this.changesMade = true;
   }
 
+  onInputRevChange() {
+    this.changesMade = false;
+  }
+
+
   onInputChangeMap(param: String, index: number) {
 
     if (param === 'Promotion') {
@@ -2174,20 +2179,46 @@ export class ProfileComponent implements OnInit {
       this.changesServantMade[index] = true;
     } else if (param === 'Vehicle') {
       this.changesVehicle[index] = true;
-    } else if (param === 'ServantRelation') {
-      this.changesServantRelation[index] = true;
     } else if (param === 'service') {
       this.changesRelationMade[index] = true;
     }
   }
+  initializeChangesServantRelation() {
+    if (this.employee && this.employee.servants) {
+      this.employee.servants.forEach((servant: any, i: number) => {
+        this.changesServantRelation[i] = [];
+        servant.relations.forEach((relation: any, k: number) => {
+          this.changesServantRelation[i][k] = false;
+        });
+      });
+    }
+  }
+  onInputChangeServantRelMap(param: String, index: number,k: number,) {
+
+    if  (param === 'ServantRelation') {
+      this.changesServantRelation[index][k] = true;
+    }
+  }
+
+  onInputRevChangeServantRelMap(param: String, index: number,k: number,) {
+
+    if  (param === 'ServantRelation') {
+      this.changesServantRelation[index][k] = false;
+    }
+  }
+
 
   onInputReverseChange(param: String, index: number) {
     if (param === 'Relations') {
       this.changesRelationMade[index] = false;
     } else if (param === 'Servants') {
       this.changesServantMade[index] = false;
-    } else if (param === 'ServantRelation') {
-      this.changesServantRelation[index] = false;
+    } else if (param === 'Promotion') {
+      this.changesPromotionMade[index] = false;
+    } else if(param === 'Posting') {
+      this.changesPostingMade[index] = false;
+    }else if(param === 'Vehicle') {
+      this.changesVehicle[index] = false;
     }
   }
 
