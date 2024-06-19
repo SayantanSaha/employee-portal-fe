@@ -2193,16 +2193,16 @@ export class ProfileComponent implements OnInit {
       });
     }
   }
-  onInputChangeServantRelMap(param: String, index: number,k: number,) {
+  onInputChangeServantRelMap(param: String, index: number, k: number,) {
 
-    if  (param === 'ServantRelation') {
+    if (param === 'ServantRelation') {
       this.changesServantRelation[index][k] = true;
     }
   }
 
-  onInputRevChangeServantRelMap(param: String, index: number,k: number,) {
+  onInputRevChangeServantRelMap(param: String, index: number, k: number,) {
 
-    if  (param === 'ServantRelation') {
+    if (param === 'ServantRelation') {
       this.changesServantRelation[index][k] = false;
     }
   }
@@ -2215,9 +2215,9 @@ export class ProfileComponent implements OnInit {
       this.changesServantMade[index] = false;
     } else if (param === 'Promotion') {
       this.changesPromotionMade[index] = false;
-    } else if(param === 'Posting') {
+    } else if (param === 'Posting') {
       this.changesPostingMade[index] = false;
-    }else if(param === 'Vehicle') {
+    } else if (param === 'Vehicle') {
       this.changesVehicle[index] = false;
     }
   }
