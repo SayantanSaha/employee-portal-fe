@@ -1244,13 +1244,17 @@ export class EbaFormComponent {
                 );
               },
               (error) => {
+
                 this.isLoading = false;
                 console.log('Error in updateeba:', error);
-                // Handle specific errors or use a generic error message
+                let errorMessage = 'An error occurred while updating the application.';
+                if (error.error && error.error.error && error.error.error.length > 0) {
+                  errorMessage = error.error.error[0]; // Get the first error message
+                }
                 Swal.fire({
                   icon: 'error',
                   title: 'Error',
-                  text: 'An error occurred while updating the application.',
+                  text: errorMessage,
                 });
               }
           );
@@ -1415,11 +1419,14 @@ export class EbaFormComponent {
                     });
                   } else {
                     // Handle other errors here
-                    console.error('An error occurred:', error);
+                    let errorMessage = 'An error occurred while Returning application.';
+                      if (error.error && error.error.message) {
+                        errorMessage = error.error.message;
+                      }
                     Swal.fire({
                       icon: 'error',
                       title: 'Error',
-                      text: 'An error occurred while Approving application status.',
+                      text: errorMessage,
                     });
                   }
                 }
@@ -1484,10 +1491,14 @@ export class EbaFormComponent {
               } else {
                 // Handle other errors here
                 console.error('An error occurred:', error);
+                let errorMessage = 'An error occurred while Returning application.';
+                  if (error.error && error.error.message) {
+                    errorMessage = error.error.message;
+                  }
                 Swal.fire({
                   icon: 'error',
                   title: 'Error',
-                  text: 'An error occurred while Approving application status.',
+                  text: errorMessage,
                 });
               }
             }
