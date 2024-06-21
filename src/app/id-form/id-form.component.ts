@@ -224,7 +224,7 @@ export class IdFormComponent implements OnInit {
                   icon: 'success',
                   title: 'Success',
                   text: 'Approved successfully',
-                });
+                })
                 .then(() => {
                   // Redirect to the dashboard route
                   this.router.navigate(['regpanel']);
