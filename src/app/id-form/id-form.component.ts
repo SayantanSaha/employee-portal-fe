@@ -215,40 +215,42 @@ export class IdFormComponent implements OnInit {
         }
       }
 
-        // else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 5 || role == 6|| role == 9|| role == 10))) {
-        //   this.isLoading=true;
-        //   this.employeeService.updaterbstatus(id, 'Approve', this.remark?? '', this.file_path_64 ?? '').subscribe(
-        //       () =>{
-        //         Swal.fire({
-        //           icon: 'success',
-        //           title: 'Success',
-        //           text: 'Approved successfully',
-        //         }).then(() => {
-        //           // Redirect to the dashboard route
-        //           this.router.navigate(['rbpanel']);
-        //         });
-        //       },
-        //       (error) => {
-        //         this.isLoading = false;
-        //         console.log(error);
-        //         console.log(error.status);
-        //         console.log(error.error);
-        //         if (error.status === 302) {
-        //           Swal.fire({
-        //             icon: 'warning',
-        //             title: 'Warning',
-        //             text: 'You are not authorised !!!',
-        //           });
-        //         } else {
-        //           Swal.fire({
-        //             icon: 'error',
-        //             title: 'Error',
-        //             text: 'An error occurred while Approving application status.',
-        //           });
-        //         }
-        //       }
-        //   );
-      // }
+        else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 12))) {
+          this.isLoading=true;
+          this.employeeService.updaterbstatus(id, 'Approve', this.remark?? '').subscribe(
+              () =>{
+                this.isLoading = false;
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: 'Approved successfully',
+                });
+                // .then(() => {
+                //   // Redirect to the dashboard route
+                //   this.router.navigate(['regpanel']);
+                // });
+              },
+              (error) => {
+                this.isLoading = false;
+                console.log(error);
+                console.log(error.status);
+                console.log(error.error);
+                if (error.status === 302) {
+                  Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'You are not authorised !!!',
+                  });
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while Approving application status.',
+                  });
+                }
+              }
+          );
+      }
       else{
         Swal.fire({
           icon: 'warning',
@@ -311,12 +313,15 @@ export class IdFormComponent implements OnInit {
                 });
               } else {
                 // Handle other errors here
-                console.error('An error occurred:', error);
-                Swal.fire({
-                  icon: 'error',
-                  title: 'Error',
-                  text: 'An error occurred while Approving application status.',
-                });
+                let errorMessage = 'An error occurred while Returning application.';
+                if (error.error && error.error.message) {
+                  errorMessage = error.error.message;
+                }
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: errorMessage,
+              });
               }
             }
           );
@@ -351,54 +356,58 @@ export class IdFormComponent implements OnInit {
         return;
       }
     }
-    // else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 5 || role == 6|| role == 9|| role == 10))){
-    //   if (!isNaN(id)) {
-    //     this.isLoading=true;
-    //     this.employeeService.updaterbstatus(id, 'Return', this.remark ?? '').subscribe(
-    //         () => {
-    //           this.isLoading = false;
-    //           Swal.fire({
-    //             icon: 'success',
-    //             title: 'Success',
-    //             text: 'Returned successfully',
-    //           }).then(() => {
-    //             // Redirect to the dashboard route
-    //             this.router.navigate(['rbpanel']);
-    //           });
-    //         },
-    //         (error) => {
-    //           this.isLoading = false;
-    //           console.log(error);
-    //           console.log(error.status);
-    //           console.log(error.error);
+    else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 12 ))){
+      if (!isNaN(id)) {
 
-    //           if (error.status === 302) {
-    //             Swal.fire({
-    //               icon: 'warning',
-    //               title: 'Warning',
-    //               text: 'You are not authorized !!!',
-    //             });
-    //           } else {
-    //             // Handle other errors here
-    //             console.error('An error occurred:', error);
-    //             Swal.fire({
-    //               icon: 'error',
-    //               title: 'Error',
-    //               text: 'An error occurred while Approving application status.',
-    //             });
-    //           }
-    //         }
-    //     );
-    //   } else {
-    //     console.error('ID parameter is missing or invalid in the URL.');
-    //     Swal.fire({
-    //       icon: 'warning',
-    //       title: 'Warning',
-    //       text: 'id missing !!!',
-    //     });
-    //     return;
-    //   }
-    // }
+        this.isLoading=true;
+        this.employeeService.updaterbstatus(id, 'Return', this.remark ?? '').subscribe(
+            () => {
+              this.isLoading = false;
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Returned successfully',
+              }).then(() => {
+                // Redirect to the dashboard route
+                this.router.navigate(['regpanel']);
+              });
+            },
+            (error) => {
+              this.isLoading = false;
+              console.log(error);
+              console.log(error.status);
+              console.log(error.error);
+
+              if (error.status === 302) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'You are not authorized !!!',
+                });
+              } else {
+                // Handle other errors here
+                let errorMessage = 'An error occurred while Returning application.';
+                if (error.error && error.error.message) {
+                  errorMessage = error.error.message;
+                }
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: errorMessage,
+              });
+              }
+            }
+        );
+      } else {
+        console.error('ID parameter is missing or invalid in the URL.');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Warning',
+          text: 'id missing !!!',
+        });
+        return;
+      }
+    }
   }
 
 

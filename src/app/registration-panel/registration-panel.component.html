@@ -2,7 +2,7 @@
 <div class="container">
   <ng-container *ngIf="user && user.role" >
     <ng-container *ngFor="let role of user.role">
-       <ng-container *ngIf="role === 11" >
+       <ng-container *ngIf="role === 11 || role ===12" >
         <div class="row">
           <div class="container">
             <div class="card shadow">
