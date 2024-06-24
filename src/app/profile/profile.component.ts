@@ -273,7 +273,7 @@ export class ProfileComponent implements OnInit {
         Swal.fire({
           icon: 'success',
           title: 'Success',
-          text: 'Request for approval of basic details have been updated successfully and pending for approval',
+          text: 'Profile details have been updated successfully',
           // }).then((result) => {
           //   if (result.isConfirmed) {
           //     // Redirect to the desired page
@@ -366,7 +366,7 @@ export class ProfileComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: 'Request for approval of Designation have been saved successfully and pending for approval',
+            text: 'Designation has been saved successfully',
           });
           this.employeeService.getMyProfile().subscribe(
             datas => {
@@ -414,7 +414,7 @@ export class ProfileComponent implements OnInit {
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Request for approval of designation have been updated successfully and pending for approval',
+              text: 'Designation has been updated successfully',
             }); this.employeeService.getMyProfile().subscribe(
               datas => {
                 this.employee = datas;
@@ -525,7 +525,7 @@ export class ProfileComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: 'Request for approval of Posting have been saved successfully and pending for approval',
+            text: 'Division has been saved successfully',
             // }).then((result) => {
             //   if (result.isConfirmed) {
             //     // Redirect to the desired page
@@ -579,7 +579,7 @@ export class ProfileComponent implements OnInit {
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Request for approval of Posting have been updated successfully and pending for approval',
+              text: 'Division has been updated successfully',
               // }).then((result) => {
               //   if (result.isConfirmed) {
               //     // Redirect to the desired page
