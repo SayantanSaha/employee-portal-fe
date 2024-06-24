@@ -90,7 +90,8 @@
                               <th>Employee Name</th>
                               <!-- <th>Email ID</th> -->
                               <th>Mobile No.</th>
-                              <th>Last Updated Date</th>
+                              <th>Dtls.</th>
+                              <th>Applied Date</th>
                               <th>Action</th>
                             </tr>
                             </thead>
@@ -100,6 +101,7 @@
                               <td>{{ tempChange.id_cards[0].card_no}}</td>
                               <td>{{ tempChange.employee.emp_name }}</td>
                               <td>{{ tempChange.employee.mobile }}</td>
+                              <td>{{ tempChange.model}}</td>
                               <td>{{ formatDate(tempChange.changed_at) }}</td>
                               <td>
                                 <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/changes-approval-dtls/' + tempChange.id">Details</a>
