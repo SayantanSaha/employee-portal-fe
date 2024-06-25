@@ -1249,9 +1249,10 @@
                                 formatDate(basicDetails.old_table_data.servant_dob)
                                 : 'N/A'}}
                               </td>
-                              <td>{{basicDetails.old_table_data.out_house_address ?
-                                basicDetails.old_table_data.out_house_address
-                                : 'N/A'}}
+                              <td>{{
+                                basicDetails.old_table_data?.out_house_address ?
+                                  basicDetails.old_table_data.out_house_address :
+                                  'N/A'}}
                               </td>
                             </tr>
                             </tbody>
