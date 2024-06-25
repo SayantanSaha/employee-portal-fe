@@ -299,7 +299,14 @@ export class ProfileComponent implements OnInit {
             title: 'Warning',
             text: 'Previous Record Not Approved !!!',
           });
-        } else {
+        }if (error.status===404) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: error.error.msg,
+          });
+        }
+        else {
           Swal.fire({
             icon: 'error',
             title: 'API Error',
