@@ -36,6 +36,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EbaFormListComponent } from './eba-form-list/eba-form-list.component';
 import {NgOtpInputModule} from "ng-otp-input";
 import { EbaprintComponent } from './ebaprint/ebaprint.component';
+import { RbprintComponent } from './rbprint/rbprint.component';
 import { NgxBarcode6Module } from 'ngx-barcode6';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
   import { NgxPrintModule } from 'ngx-print';
@@ -73,7 +74,8 @@ import {RbapppendingComponent} from "./rbapppending/rbapppending.component";
     EbaFormListComponent,
     EbaprintComponent,
     RegistrationPanelComponent,
-    RbapppendingComponent
+    RbapppendingComponent,
+    RbprintComponent,
 
   ],
     imports: [

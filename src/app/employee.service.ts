@@ -330,6 +330,9 @@ export class EmployeeService {
   searchrb(searchrb: Search): Observable<any> {
     return this.http.post<any>(this.apiUrl+"searchrb",searchrb,{headers:this.createHeader()});
   }
+  getRbPrintData():Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl+"rbprint",{headers:this.createHeader()});
+    }
   ebaapplicationByApplicant(): Observable<any[]>{
     return this.http.get<any[]>(this.apiUrl+"Eba",{headers:this.createHeader()});
   }
@@ -365,6 +368,9 @@ export class EmployeeService {
 
   RFID(rfid : any,passno: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}rfid/${rfid}/${passno}`, { headers: this.createHeader() });
+  }
+  rbrfid(rfid : any,passno: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}rbrfid/${rfid}/${passno}`, { headers: this.createHeader() });
   }
 
   printstatus(id: number): Observable<any> {
