@@ -378,6 +378,10 @@ export class EmployeeService {
     return this.http.get<any>(`${this.apiUrl}printStatus/${id}`, { headers: this.createHeader() });
   }
 
+  rbprintstatus(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}rbprintStatus/${id}`, { headers: this.createHeader() });
+  }
+
   ebapasses(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}ebapasses`, { headers: this.createHeader() });
   }

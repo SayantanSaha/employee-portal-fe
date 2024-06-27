@@ -19,8 +19,8 @@
               <th>RB Card</th>
               <th>Issue Date</th>
               <th>Valid upto</th>
-              <th *ngIf="!fromfunction || fromfunction ==null">Rfid</th>
-              <th *ngIf="!fromfunction || fromfunction ==null">Action</th>
+              <th *ngIf="!fromfunction || fromfunction == null">Rfid</th>
+              <th *ngIf="!fromfunction || fromfunction == null">Action</th>
             </tr>
             </thead>
             <tbody >
@@ -47,12 +47,12 @@
                 </div>
               </td>
               <td *ngIf="!fromfunction || fromfunction ==null">
-                <div class="col" *ngIf="ebaprint.rfid ==null && (ebaprint.printStatus==false ||  ebaprint.printStatus==null)">
+                <div class="col" *ngIf="ebaprint.rfid ==null && (ebaprint.printed==false ||  ebaprint.printed==null)">
                   <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" (click)="printpage(i)">
                     Print
                   </button>
                 </div>
-                <div class="col" *ngIf="ebaprint.rfid ==null && ebaprint.printStatus==true ">
+                <div class="col" *ngIf="ebaprint.rfid ==null && ebaprint.printed==true ">
                   <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" (click)="printpage(i)">
                     Re-Print
                   </button>

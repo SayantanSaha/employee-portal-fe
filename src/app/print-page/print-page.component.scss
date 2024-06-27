@@ -12,3 +12,51 @@
     display: none; /* Hide the element when printing */
   }
 }
+
+
+body {
+  background-color: white;
+  font-family: Arial, sans-serif;
+}
+.layout-root {
+  width: 490px;
+  height: 410px;
+  margin: 10px;
+  position: relative;
+}
+.grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.front-pass {
+  width: 220px;
+  height: 340px;
+}
+.back-pass {
+  width: 220px;
+  height: 340px;
+  right: 0;
+}
+.image {
+  display: block;
+  margin: auto;
+}
+.label {
+  color: white;
+  font-weight: bold;
+  position: absolute;
+}
+.print-button, .reset-button {
+  position: absolute;
+  height: 41px;
+  width: 95px;
+}
+.print-button {
+  left: 50px;
+  top: 353px;
+}
+.reset-button {
+  left: 263px;
+  top: 354px;
+}

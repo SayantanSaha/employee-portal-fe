@@ -79,14 +79,14 @@ export class RbprintComponent {
 
 
   printpage(i:number){
-    if(this.ebaprintData[i].printStatus == true){
-      this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'rbprint' } });
+    if(this.ebaprintData[i].printed == true){
+       this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'rbprint' } });
     }
     else{
-    this.employeeService.printstatus( this.ebaprintData[i].id).subscribe(
+    this.employeeService.rbprintstatus( this.ebaprintData[i].id).subscribe(
         // On success
         () => {
-          this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'rbprint' } });
+           this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'rbprint' } });
         },
         // On error
         (error) => {

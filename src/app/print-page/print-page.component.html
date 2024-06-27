@@ -173,3 +173,218 @@
 
   </ng-container>
 </ng-container>
+
+<ng-container *ngIf="printData && printData!= null">
+  <ng-container *ngIf="fromUrl && fromUrl== 'rbprint'">
+
+    <div class="page-break">
+      <!--      <td>-->
+      <table>
+        <div class="print-border" style="width: 61mm; height: 97mm; background-color: white;  border: 1px solid #ccc;max-width: 61mm;max-height: 97mm">
+
+          <ng-container *ngIf="printData.card_type! &&printData.card_type==3">
+            <div style="height: 18mm; background-color: darkred; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
+              <strong style="font-size: 4.9mm; color: white; transform: scaleY(2); line-height: 13mm;">
+                PRESIDENT'S ESTATE RESIDENT PASS
+              </strong>
+              <div style=" color: white;line-height: 6mm;"><b>{{printData.eba_pass_no}}</b></div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="printData.card_type! && printData!.card_type!==3">
+            <div style="height: 18mm; background-color: darkgreen; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
+              <strong style="font-size: 4.9mm; color: white; transform: scaleY(2); line-height: 13mm;">
+                PRESIDENT'S ESTATE RESIDENT PASS
+              </strong>
+              <div style=" color: white;line-height: 6mm;"><b>{{printData.eba_pass_no}}</b></div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!printData.card_type">
+            <div style="height: 18mm; background-color: blue; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
+              <strong style="font-size: 4.9mm; color: white; transform: scaleY(2); line-height: 13mm;">
+                PRESIDENT'S ESTATE RESIDENT PASS
+              </strong>
+              <div style=" color: white;line-height: 6mm;"><b>{{printData.eba_pass_no}}</b></div>
+            </div>
+          </ng-container>
+
+          <table style="height: 34mm; display: flex; font-size: 3mm;text-align: center;justify-content: center;align-items: center;">
+            <tr >
+              <td style="min-width:31mm;max-width:31mm;"  >
+                <img [src]="printData.photo_path" style="width: 35mm; height: 35mm;padding: 2mm"  />
+              </td>
+
+              <td style="min-width:61mm;max-width:61mm;padding: 10mm;">
+                <table >
+                  <tr>
+                    <td >
+                      <b style="color: red">
+                        VALID UPTO:
+                      </b>
+                      <b style="border: 1px solid black;  display: inline-block;">
+                        {{ printData!.eba_pass_exp_date | date:'MMM':'en-US' | uppercase }}
+
+                      </b>
+                      <b style="border: 1px solid black;  display: inline-block;">
+                        {{ printData!.eba_pass_exp_date |  date:'yyyy' }}
+                      </b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td *ngIf="printData?.closefamily?.pivot?.rel_name"><b>{{printData.closefamily.pivot.rel_name}}</b></td>
+                    <td *ngIf="printData?.servantfamily?.pivot?.rel_name"><b>{{printData.servantfamily.pivot.rel_name}}</b></td>
+                    <td *ngIf="printData?.servant?.servant_name"><b>{{printData.servant.servant_name}}</b></td>
+                  </tr>
+                  <tr>
+                    <td><b>Relationship with Allottee</b></td>
+                  </tr>
+                  <tr>
+                    <td *ngIf="printData?.closefamily?.rel_desc"><b>{{printData.closefamily.rel_desc}}</b></td>
+                    <td *ngIf="printData?.servantfamily?.rel_desc"><b>Domestic Help {{printData.servantfamily.rel_desc}}</b></td>
+                    <td *ngIf="printData?.servant"><b>Domestic Help</b></td>
+                  </tr>
+                  <tr>
+                    <td *ngIf="printData?.closefamily?.pivot?.rel_dob"><b>Date Of Birth:
+                      {{ printData!.closefamily.pivot.rel_dob | date:'dd-MM-yyyy'}}
+                    </b></td>
+                    <td *ngIf="printData?.servantfamily?.pivot?.rel_dob"><b>Date Of Birth:
+                      {{ printData!.servantfamily.pivot.rel_dob | date:'dd-MM-yyyy'}}
+                    </b></td>
+                    <td *ngIf="printData?.servant?.rel_dob"><b>Date Of Birth:
+                      {{ printData!.servant.rel_dob | date:'dd-MM-yyyy'}}
+                    </b></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+
+          <div style="height: 4mm; display: flex; flex-direction: column;margin-top: -1mm;margin-left: 75mm  ">
+             <span *ngIf="printData.ussign">
+                <img [src]="printData.ussign" alt="Signature"
+                     style="width: 10mm; height: 4mm" class="rounded-square"
+                     title="Employee Signature" />
+              </span>
+          </div>
+          <ng-container *ngIf="printData.card_type! &&printData.card_type==3">
+            <div style="height: 4mm; background-color: darkred; display: flex; flex-direction: column; text-align: right;margin-top: 3mm; ">
+              <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;"><b>UNDER SECRETARY (EBA)</b></div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="printData.card_type! &&printData.card_type!==3">
+            <div style="height: 4mm; background-color: green; display: flex; flex-direction: column; text-align: right;margin-top: 3mm; ">
+              <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;"><b>UNDER SECRETARY (EBA)</b></div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!printData.card_type">
+            <div style="height: 4mm; background-color: blue; display: flex; flex-direction: column; text-align: right;margin-top: 3mm; ">
+              <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;"><b>UNDER SECRETARY (EBA)</b></div>
+            </div>
+          </ng-container>
+
+        </div>
+
+      </table>
+      <!--                  </td>-->
+
+    </div>
+
+    <div class="row print-hidden"></div>
+    <!--                  <td>-->
+    <div class="page-break">
+      <table>
+        <div style="width: 97mm; height: 61.7mm;  display: flex;flex-direction: column;border: 1px solid #ccc; font-size: 2.5mm;padding: 1mm;max-width: 97mm;max-height: 61.7mm">
+          <table >
+            <tr >
+              <td><b>Address:</b></td>
+              <td colspan="2">
+                {{printData!.address}}<br />
+              </td>
+
+            </tr>
+            <tr >
+              <td><b>Blood Group:</b></td>
+              <td >N/A</td>
+            </tr>
+            <tr>
+              <td style="width: 30%;"><b>Date of issue:</b></td>
+              <td>{{ printData!.created_at | date:'dd-MM-yyyy'}}</td>
+            </tr>
+            <tr>
+              <td><b>ID mark:</b></td>
+              <td>N/A</td>
+            </tr>
+            <br>
+            <tr>
+              <td colspan="3">
+                This Photo Entry Pass is the property of President's Secretariat. It must be returned by the holder when demanded by the issuing Authority.
+              </td>
+            </tr>
+            <br>
+
+            <tr>
+              <td colspan="2">
+                If found please return the pass to:-
+                <br><b>The Under Secretary (EBA)</b>
+                <br><b>Rashdivapati Bhavan</b>
+                <br><b>New Delhi-110004</b>
+                <br><b>Tel.No. 011-23015321</b>
+              </td>
+              <td >
+                <ngx-barcode6 [bc-format]="'CODE128'" [bc-value]="(printData!.eba_pass_no ) || ''" [bc-width]="1" [bc-height]="30"></ngx-barcode6>
+              </td>
+
+            </tr>
+          </table>
+        </div>
+
+      </table>
+      <!--      </td>-->
+    </div>
+    <div class="layout-root">
+      <div class="grid front-pass">
+          <img src="assets/images/img_5.png" alt="Photo" class="image" style="width: 120px; margin-top: 86px;">
+          <img src="" alt="Pass Clone" class="image" style="height: 333px; width: 211px;">
+          <img src="assets/Images/star.png" alt="Star" class="image" style="height: 24px; width: 20px; visibility: hidden; position: absolute; top: 104px; left: 24px;">
+          <label class="label" style="top: 63px; left: 23px;">VALID UPTO</label>
+          <label class="label" style="top: 66px; left: 110px;"></label>
+          <label class="label" style="top: 66px; left: 147px;"></label>
+          <label class="label" style="top: 66px; left: 116px;"></label>
+          <label class="label" style="top: 150px; right: 130px; transform: rotate(-89.836deg);"></label>
+          <label class="label" style="top: 154px; right: 148px; transform: rotate(-89.836deg);"></label>
+          <label class="label" style="top: 146px; right: -37px; transform: rotate(-89.836deg);"></label>
+          <label class="label" style="top: 164px; width: 220px; color: blue;"></label>
+          <label class="label" style="top: 136px; width: 211px; color: blue;"></label>
+          <label class="label" style="top: 235px; width: 220px;"></label>
+          <label class="label" style="top: 254px; width: 220px;"></label>
+          <label class="label" style="top: 273px; width: 220px;"></label>
+          <img src="assets/Images/blank_sig.jpg" alt="Signature" class="image" style="height: 27px; width: 68px; position: absolute; top: 287px; left: 135px;">
+          <img src="assets/Images/blank_sig.jpg" alt="Signature" class="image" style="height: 27px; width: 68px; position: absolute; top: 287px; left: 7px;">
+          <label class="label" style="top: 318px; left: 6px; font-size: 8px;">Signature of pass holder</label>
+          <label class="label" style="top: 318px; left: 105px; font-size: 8px;">DCP RP Bhavan (Security)</label>
+      </div>
+      <div class="grid back-pass">
+          <img src="assets/Images/RB_Sketch_Forecourt.jpg" alt="Forecourt" class="image" style="height: 94.986px; width: 220px;">
+          <img src="assets/Images/blank_sig.jpg" alt="Barcode" class="image" style="margin: 29px 0 0 45px; height: 60px; width: 150px;">
+          <label class="label" style="top: 82px; left: 20px; font-size: 14px; color: black;">Blood Group:</label>
+          <label class="label" style="top: 82px; left: 114px; font-size: 14px; color: black;"></label>
+          <label class="label" style="top: 102px; left: 20px; font-size: 14px; color: black;">Date of birth:</label>
+          <label class="label" style="top: 102px; left: 112px; font-size: 14px; color: black;"></label>
+          <label class="label" style="top: 120px; left: 20px; font-size: 14px; color: black;">ID Mark:</label>
+          <label class="label" style="top: 124px; left: 78px; font-size: 10px; color: black;"></label>
+          <div style="font-size: 10px; text-align: left; margin: 138px 0 0 6px; height: 86px;">
+              This Photo Pass is the property of the President's Secretariat. It must be returned by the holder on its expiry or when he/she ceases to be with the President's Secretariat or when demanded by the Issuing authority.
+          </div>
+          <label class="label" style="top: 229px; left: 8px; font-size: 8px; font-style: italic;">If found, please post it in unstamped envelope to:</label>
+          <div style="font-size: 8px; margin: 238px 0 0 8px;">
+              <b>Dy. Commisioner of Police</b>
+              Rashtrapati Bhavan (Security),<br>
+              New Delhi - 110004<br>
+              Tel. : 23010067,23017250
+          </div>
+      </div>
+      <!-- <button class="print-button" (click)="print()">Print</button> -->
+      <!-- <button class="reset-button" (click)="reset()">Reset</button> -->
+  </div>
+
+</ng-container>
+</ng-container>
