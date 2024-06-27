@@ -120,18 +120,18 @@ formatDate(date: string | Date): string {
   }
 
   rbpasses(){
-    // this.employeeService.rbpasses().subscribe(
-    //   (data) => {
-    //     console.log('Search successful:', data);
-    //     this.router.navigate(['rb-print'], { state: {  employeeData: data, fromfunction:'totalpass'} });
-    //   },
-    //   (error) => {
-    //     console.error('Search error:', error);
-    //   },
-    //   () => {
-    //     console.log('Search completed');
-    //   }
-    // );
+    this.employeeService.rbpasses().subscribe(
+      (data) => {
+        console.log('Search successful:', data);
+        this.router.navigate(['rb-print'], { state: {  employeeData: data, fromfunction:'totalpass'} });
+      },
+      (error) => {
+        console.error('Search error:', error);
+      },
+      () => {
+        console.log('Search completed');
+      }
+    );
   }
 
 

@@ -27,8 +27,8 @@
             <tr *ngFor="let ebaprint of ebaprintData; let i = index">
               <td>{{ i + 1 }}</td>
               <td>
-                <ng-container *ngIf="ebaprint?.applicationdetails?.application?.emp_name">{{ebaprint?.applicationdetails?.application?.emp_name }}</ng-container>
-
+                <!-- <ng-container *ngIf="ebaprint?.applicationdetails?.application?.emp_name">{{ebaprint?.applicationdetails?.application?.emp_name }}</ng-container> -->
+                <ng-container *ngIf="ebaprint?.emp_name">{{ebaprint?.emp_name }}</ng-container>
               </td>
 
 
@@ -66,12 +66,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
 
 <td *ngIf="printData && printData!= null">
   <div class="modal modal-above-header"
