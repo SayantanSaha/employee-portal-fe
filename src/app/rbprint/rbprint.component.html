@@ -21,6 +21,7 @@
               <th>Valid upto</th>
               <th *ngIf="!fromfunction || fromfunction == null">Rfid</th>
               <th *ngIf="!fromfunction || fromfunction == null">Action</th>
+              <!-- <th *ngIf="!fromfunction || fromfunction == null">Camera</th> -->
             </tr>
             </thead>
             <tbody >
@@ -58,6 +59,13 @@
                   </button>
                 </div>
               </td>
+              <!-- <td>
+                <i class="bi bi-camera2" style="font-size: 2rem; cursor: pointer;" (click)="startCamera()"></i>
+                <video #videoElement width="600" height="400" autoplay style="display: none;"></video>
+                <button (click)="takePhoto()" style="display: none;" #captureButton>Take Photo</button>
+                <canvas #canvasElement width="600" height="400" style="display: none;"></canvas>
+
+                </td> -->
             </tr>
             </tbody>
           </table>

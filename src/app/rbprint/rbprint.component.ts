@@ -1,4 +1,4 @@
-import {Component, Renderer2, ElementRef, AfterViewInit, Inject} from '@angular/core';
+import {Component,ViewChild, Renderer2, ElementRef, AfterViewInit, Inject,OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {EmployeeService} from "../employee.service";
@@ -12,7 +12,11 @@ import Swal from "sweetalert2";
   templateUrl: './rbprint.component.html',
   styleUrl: './rbprint.component.scss'
 })
-export class RbprintComponent {
+export class RbprintComponent implements OnInit{
+  @ViewChild('videoElement', { static: false }) videoElement!: ElementRef<HTMLVideoElement>;
+  @ViewChild('canvasElement', { static: false }) canvasElement!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('captureButton', { static: false }) captureButton!: ElementRef<HTMLButtonElement>;
+
   ebaprintData:  any[] = [];
   Rfid:  any;
   fromfunction: any;
@@ -53,7 +57,34 @@ export class RbprintComponent {
 
   }
 
+  startCamera() {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+        this.videoElement.nativeElement.srcObject = stream;
+        this.videoElement.nativeElement.play();
+        this.videoElement.nativeElement.style.display = 'block';
+        this.captureButton.nativeElement.style.display = 'block';
+      }).catch(error => {
+        console.error('Error accessing the camera', error);
+      });
+    } else {
+      alert('Camera not supported by your browser');
+    }
+  }
 
+  takePhoto() {
+    const context = this.canvasElement.nativeElement.getContext('2d');
+    if (context) {
+      context.drawImage(this.videoElement.nativeElement, 0, 0, this.canvasElement.nativeElement.width, this.canvasElement.nativeElement.height);
+      const imageData = this.canvasElement.nativeElement.toDataURL('image/png');
+      console.log(imageData); // This is the base64 encoded image data
+      this.videoElement.nativeElement.style.display = 'none';
+      this.captureButton.nativeElement.style.display = 'none';
+      // You can now use the image data (e.g., upload to a server, display in the UI, etc.)
+    } else {
+      console.error('Error: Could not get 2D context');
+    }
+  }
   hoverClick(event: MouseEvent) {
     const button = event.currentTarget as HTMLElement;
     if (button) {

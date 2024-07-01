@@ -201,15 +201,64 @@
 
           <table style="width: 100%; border-collapse: collapse;">
             <tr>
+              <ng-container *ngIf="printData.applicationdetails.application.payLevel >= 9 && printData.applicationdetails.application.payLevel <= 13">
+                <td>
+                <img src="assets/images/star.png"/>
+                </td>
+                <td>
+                  <img [src]="printData.applicationdetails.application.profile_photo" style="width: 50mm; height: 43mm;padding-top: 1mm;padding-bottom: 1mm;  padding-left: -2.2mm; padding-right: 15mm;" />
+                </td>
+
+                <td style="color: white; width: 50mm; height: 43mm;max-width: 50mm; max-height: 43mm; position: relative; padding-left: -10mm; padding-bottom: 20mm;">
+                  <div style="position: relative; transform: rotate(-90deg); transform-origin: left bottom; left: -10%; top: 103%; text-align: center; white-space: nowrap; ">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="printData.applicationdetails.application.payLevel >= 14 && printData.applicationdetails.application.payLevel <= 17">
+                <td>
+                <img src="assets/images/star.png"/><br>
+                <img src="assets/images/star.png"/>
+                </td>
+                <td>
+                  <img [src]="printData.applicationdetails.application.profile_photo" style="width: 50mm; height: 43mm;padding-top: 1mm;padding-bottom: 1mm;  padding-left: -2.2mm; padding-right: 15mm;" />
+                </td>
+
+                <td style="color: white; width: 50mm; height: 43mm;max-width: 50mm; max-height: 43mm; position: relative; padding-left: -10mm; padding-bottom: 20mm;">
+                  <div style="position: relative; transform: rotate(-90deg); transform-origin: left bottom; left: -10%; top: 103%; text-align: center; white-space: nowrap; ">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="printData.applicationdetails.application.payLevel >= 18 && printData.applicationdetails.application.payLevel <= 22">
+                <td>
+                <img src="assets/images/star.png"/><br>
+                <img src="assets/images/star.png"/><br>
+                <img src="assets/images/star.png"/>
+                </td>
+                <td>
+                  <img [src]="printData.applicationdetails.application.profile_photo" style="width: 50mm; height: 43mm;padding-top: 1mm;padding-bottom: 1mm;  padding-left: -2.2mm; padding-right: 15mm;" />
+                </td>
+
+                <td style="color: white; width: 50mm; height: 43mm;max-width: 50mm; max-height: 43mm; position: relative; padding-left: -10mm; padding-bottom: 20mm;">
+                  <div style="position: relative; transform: rotate(-90deg); transform-origin: left bottom; left: -10%; top: 103%; text-align: center; white-space: nowrap; ">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container *ngIf="printData.applicationdetails.application.payLevel < 9">
+
               <td>
                 <img [src]="printData.applicationdetails.application.profile_photo" style="width: 50mm; height: 43mm; padding: 1mm; padding-left: 13.2mm; padding-right: -1mm;" />
               </td>
 
-              <td style="color: white; width: 50mm; height: 43mm; position: relative; padding-left: 8mm; padding-bottom: 20mm;">
+              <td style="color: white; width: 50mm; height: 43mm;max-width: 50mm; max-height: 43mm; position: relative; padding-left: 8mm; padding-bottom: 20mm;">
                 <div style="position: relative; transform: rotate(-90deg); transform-origin: left bottom; left: 0; top: 100%; text-align: center; white-space: nowrap; ">
                   <b>{{printData.card_no}}</b>
                 </div>
               </td>
+              </ng-container>
             </tr>
           </table>
 
@@ -223,7 +272,7 @@
               {{ printData.print_desg_desc || printData.applicationdetails.application.designation }}
             </b>
           </div>
-          <div style="text-align: center; width: 100%;  ">
+          <div style="text-align: center; width: 100%;">
             <b style="color: white;">
               {{printData.applicationdetails.application.organization}}
             </b>
@@ -290,8 +339,8 @@
               </span><br>
 
             <br>
-            <span >
-                <ngx-barcode6 [bc-format]="'CODE128'" [bc-value]="(printData!.card_no ) || ''" [bc-width]="1" [bc-height]="30"></ngx-barcode6>
+            <span style="width: 61.7mm;max-width: 61.7mm;">
+                <ngx-barcode6 [bc-format]="'CODE128'" [bc-value]="(printData!.card_no ) || ''" [bc-width]="0.5" [bc-height]="30"></ngx-barcode6>
             </span>
 
 

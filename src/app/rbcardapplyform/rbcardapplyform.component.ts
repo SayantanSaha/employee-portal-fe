@@ -10,6 +10,18 @@ import { District } from "../model/District";
 import { fileToBase64 } from "../profile/fileToBase64";
 import { environment } from "../../environments/environment";
 import { Designation } from "../model/Designation";
+import {Inject} from '@angular/core';
+import {User} from "../model/User";
+
+import {ActivatedRoute} from "@angular/router";
+import {Division} from "../model/Division";
+import {Relation} from "../model/Relation";
+import {Servants} from "../model/Servants";
+
+import {ServantRel} from "../model/ServantRel";
+import {Idcards} from "../model/Idcards";
+import {Vehicles} from "../model/Vehicles";
+declare var jQuery: any;
 
 @Component({
   selector: 'app-rbcardapplyform',
@@ -105,8 +117,7 @@ export class RbcardapplyformComponent {
 
     this.isLoading = true;
 
-    this.employeeService.RegistrationApply(
-      this.password,
+    this.employeeService.rbformapply(
       this.employee
     ).subscribe(
       data => {
@@ -116,7 +127,7 @@ export class RbcardapplyformComponent {
           title: 'Success',
           text: 'Registered Successfully'
         }).then(() => {
-          this.router.navigate(['login']);
+          this.router.navigate(['regpanel']);
         });
       },
       error => {

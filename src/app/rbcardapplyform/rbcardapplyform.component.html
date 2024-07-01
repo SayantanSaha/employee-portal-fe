@@ -1,5 +1,6 @@
-<div class="row" >
-  <div class="container-fluid">
+
+<div class="container">
+  <div class="row" >
     <div class="form-holder card shadow">
       <div class="card-header">
         Registration
@@ -29,7 +30,7 @@
           <div class="col-md-3">
             <div class="form-group">
               <select class="form-control" [(ngModel)]="employee!.curr_state" (ngModelChange)="onStateChange($event,'curr')">
-                <option value="null">Select State</option>
+                <option value="null">Select State </option>
                 <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
               </select>
             </div>
@@ -38,7 +39,7 @@
           <div class="col-md-3">
             <div class="form-group">
               <select class="form-control" [(ngModel)]="employee!.curr_district">
-                <option value="null">Select District</option>
+                <option value="null">Select District </option>
                 <option [ngValue]="dist" *ngFor="let dist of currDistricts">{{dist.district_name}}
                 </option>
               </select>
@@ -71,7 +72,7 @@
           <div class="col-md-3">
             <div class="form-group">
               <select class="form-control" [(ngModel)]="employee!.perm_state" (ngModelChange)="onStateChange($event,'perm')" [disabled]="isCpAddressChecked" >
-                <option value="null">Select State</option>
+                <option value="null">Select State </option>
                 <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
               </select>
             </div>
@@ -80,7 +81,7 @@
           <div class="col-md-3">
             <div class="form-group">
               <select class="form-control" [(ngModel)]="employee!.perm_district" [disabled]="isCpAddressChecked">
-                <option value="null">Select District</option>
+                <option value="null">Select District </option>
                 <option [ngValue]="dist" *ngFor="let dist of permDistricts">{{dist.district_name}}
                 </option>
               </select>
@@ -100,13 +101,13 @@
 
         <div class="row">
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label">Mobile number:</label>
+            <label class="form-label">Mobile number: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col">
             <input type="text" maxlength="10" minlength="10" class="form-control" id="mobile" name="mobile" [(ngModel)]="employee!.mobile" placeholder="Enter your mobile number" (input)="onInput($event,'mobile')">
           </div>
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label"  >Gender:</label>
+            <label class="form-label"  >Gender: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
             <div class="form-group row">
@@ -121,7 +122,7 @@
           </div>
 
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >Email:</label>
+            <label class="form-label" >Email: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
             <div class="form-group ">
@@ -200,13 +201,13 @@
 
         <div class="row">
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label">Body Mark::</label>
+            <label class="form-label">Body Mark:: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col">
             <input type="text" class="form-control" id="body_mark" placeholder="Body Mark" aria-label="Body Mark" [(ngModel)]="employee.body_mark" >
           </div>
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label"  >DOB:</label>
+            <label class="form-label"  >DOB: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
             <div class="form-group row">
@@ -215,7 +216,7 @@
           </div>
 
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >Pass color:</label>
+            <label class="form-label" >Pass color: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
             <div class="form-group ">
@@ -226,7 +227,7 @@
             </div>
           </div>
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >DOR:</label>
+            <label class="form-label" >DOR: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
             <div class="form-group row">
@@ -244,7 +245,7 @@
 
                        <div class="row">
                   <div class="col-md">
-                    <label for="id_proof" class="form-label">Upload Photo</label><br>
+                    <label for="id_proof" class="form-label">Upload Photo <span style="color: red;" class="required">*</span></label><br>
                     <div class="text-center">
                       <span *ngIf="employee && employee.profile_photo">
                         <img [src]="employee.profile_photo" alt="Profile Photo" class="rounded-circle" title="Profile Photo" style="width: 150px; height: 128px" />
@@ -257,7 +258,7 @@
                     </div>
                   </div>
                   <div class="col-md">
-                    <label for="id_proof" class="form-label">Upload Signature</label><br>
+                    <label for="id_proof" class="form-label">Upload Signature <span style="color: red;" class="required">*</span></label><br>
                     <div class="text-center">
                       <span *ngIf="employee && employee.sign_path">
                         <img [src]="employee.sign_path" alt="Signature" class="rounded-square" title="Employee Signature" style="width: 150px; height: 30px" />
@@ -270,7 +271,7 @@
                     </div>
                   </div>
                   <div class="col-md">
-                    <label for="id_proof" class="form-label">Upload Supporting Document with ID Proof(pdf)</label><br><br>
+                    <label for="id_proof" class="form-label">Upload Supporting Document with ID Proof(pdf) <span style="color: red;" class="required">*</span></label><br><br>
                     <div class="text-center">
                       <label for="id_proof" class="upload-icon-label" title="Upload Supporting Document with ID Proof">
                         <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>

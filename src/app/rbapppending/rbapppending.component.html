@@ -36,8 +36,8 @@
                     <td>{{ i + 1 }}</td>
                     <td>{{ rbPending.reg_no}}</td>
                     <!-- <td>{{ rbPending.id_cards[0].card_no}}</td> -->
-                    <td>{{ rbPending.user?.name }}</td>
-                    <td>{{ rbPending.user?.username }}</td>
+                    <td>{{ rbPending.user?.name || rbPending.application.emp_name}}</td>
+                    <td>{{ rbPending.user?.username || rbPending.application.mobile}}</td>
                     <td>{{ formatDate(rbPending.created_at) }}</td>
                     <ng-container *ngIf="from=='serach'">
                       <td >{{  rbPending.roles[0].role_desc }}</td>

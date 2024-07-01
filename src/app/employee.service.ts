@@ -60,6 +60,13 @@ export class EmployeeService {
     return this.http.post<any>(this.apiUrl + "Registration", payload);
   }
 
+  rbformapply( employee: Employee): Observable<any> {
+    const payload = {
+      employee: employee
+    };
+    return this.http.post<any>(this.apiUrl + "rbformapply", payload);
+  }
+
   getMyProfile():Observable<Employee>{
     return this.http.get<Employee>(this.apiUrl+"my_profile",{headers:this.createHeader()});
   }
