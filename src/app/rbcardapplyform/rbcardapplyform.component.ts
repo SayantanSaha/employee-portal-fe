@@ -12,21 +12,13 @@ import { environment } from "../../environments/environment";
 import { Designation } from "../model/Designation";
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss'],
-  animations: [
-    trigger('slideAnimation', [
-      state('0', style({ transform: 'translateX(0)' })),
-      state('1', style({ transform: 'translateX(-100%)' })),
-      state('2', style({ transform: 'translateX(-200%)' })),
-      state('3', style({ transform: 'translateX(-300%)' })),
-      state('4', style({ transform: 'translateX(-400%)' })),
-      transition('* => *', animate('300ms ease'))
-    ])
-  ]
+  selector: 'app-rbcardapplyform',
+  // standalone: true,
+  // imports: [],
+  templateUrl: './rbcardapplyform.component.html',
+  styleUrl: './rbcardapplyform.component.scss'
 })
-export class RegistrationComponent implements OnInit {
+export class RbcardapplyformComponent {
   employee: Employee = new Employee();
   password: string = '';
   cpassword: string = '';
@@ -109,23 +101,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   doRegistration() {
-    if (!this.passwordValid) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Validation Error',
-        text: 'Password must be at least 6 characters long'
-      });
-      return;
-    }
 
-    if (!this.passwordsMatch) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Validation Error',
-        text: 'Password and Confirm Password do not match'
-      });
-      return;
-    }
 
     this.isLoading = true;
 
@@ -184,25 +160,8 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  validatePasswords() {
-    this.passwordTouched = true;
-    this.cpasswordTouched = true;
 
-    this.passwordValid = this.password.length >= 6;
-    this.passwordsMatch = this.passwordValid && this.password === this.cpassword;
-  }
 
-  goToNextPage() {
-    if (this.currentPageIndex < this.totalPages - 1) {
-      this.currentPageIndex++;
-    }
-  }
-
-  goToPreviousPage() {
-    if (this.currentPageIndex > 0) {
-      this.currentPageIndex--;
-    }
-  }
 
   onStateChange(state: State, type: string) {
     if (type === 'curr') {
@@ -319,11 +278,7 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  disableTabKey(event: KeyboardEvent) {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-    }
-  }
+
 
   onInput(event: any , property:string) {
     const input = event.target.value;
@@ -333,7 +288,7 @@ export class RegistrationComponent implements OnInit {
     event.target.value = numericInput;
     // Update the ngModel binding
     if(property=='curr_pin')
-    this.employee!.curr_pin = numericInput;
+      this.employee!.curr_pin = numericInput;
     if(property=='perm_pin')
       this.employee!.perm_pin = numericInput;
     if(property=='mobile')
@@ -362,3 +317,4 @@ export class RegistrationComponent implements OnInit {
 
 
 }
+

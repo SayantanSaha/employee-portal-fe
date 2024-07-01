@@ -72,12 +72,17 @@ export class Employee{
   us: boolean = false;
   director: boolean = false;
   asp: boolean = false;
+  dcp: boolean = false;
+  dh_dcp: boolean = false;
   approve: boolean = false;
   returnshow: boolean = false;
   visual: boolean = false;
+  visual_dcp: boolean = false;
   reg_no:string|null = null;
   status:string|null = null;
   desg_print:string|null = null;
   passColor:string|null = null;
+  passColor_issued:string|null = null;
   payLevel:any | null = null;
+  validupto: Date | null = null;
 }

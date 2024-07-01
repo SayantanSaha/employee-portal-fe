@@ -190,7 +190,7 @@
                 <div class="row">
                   <div class="col-md">
                     <label for="designation" class="form-label">Designation</label>
-                    <select class="form-control" id="designation" [(ngModel)]="employee.designation">
+                    <select class="form-control" id="designation" [(ngModel)]="employee.designation"(change)="updateDesgPrint($event)">
                       <option [ngValue]="null">Select Designation</option>
                       <option [ngValue]="desg" *ngFor="let desg of designations">
                         {{desg.desg_desc}}
@@ -425,7 +425,15 @@
                                 <td align="left">Identification Mark:</td>
                                 <td colspan="2" align="left">{{ employee.body_mark }}</td>
                               </tr>
+                              <tr style="height: 30px">
+                                <td align="left">File:</td>
+                                <td colspan="2" align="left">
+                                  <ng-container *ngIf="employee.id_proof">
+                                    <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.id_proof)"></i>
+                                  </ng-container>
 
+                                </td>
+                              </tr>
                               <br><br><br>
 
                               <tr style="height: 30px">

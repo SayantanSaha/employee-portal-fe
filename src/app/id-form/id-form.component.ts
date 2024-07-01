@@ -28,6 +28,8 @@ export class IdFormComponent implements OnInit {
   ) {
     this.baseUrl = baseUrl;
     this.today = new Date();
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
   }
 
   employee: Employee | null = null;
@@ -49,7 +51,9 @@ export class IdFormComponent implements OnInit {
   // id: any;
   status:string='';
   reg_no:string='';
-
+  passColors: any[] = [];
+  passColor_issued: any[] = [];
+  minDate : string;
 
 
   ngOnInit() {
@@ -74,7 +78,7 @@ export class IdFormComponent implements OnInit {
       let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
       this.user = JSON.parse(userString!);
 
-      if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13))||(this.mode == 'return')) {
+      if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13|| role == 14))||(this.mode == 'return')) {
         if (this.mode !== 'return') {
           this.letverify(!isNaN(+this.id!));
         }
@@ -84,7 +88,7 @@ export class IdFormComponent implements OnInit {
         // 'id' is present, try to convert it to a number
         const idNumber = +this.id;
         if (!isNaN(idNumber)) {
-          if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13))||(this.mode == 'return')) {
+          if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13|| role == 14))||(this.mode == 'return')) {
             // 'id' is a valid number, call getrbProfile
             this.employeeService.getRegProfile(idNumber).subscribe(
               (data: any) => {
@@ -132,6 +136,14 @@ export class IdFormComponent implements OnInit {
         );
       }
     }
+    this.employeeService.getCardType().subscribe(
+      data => {
+        this.passColors = data;
+        this.passColors = this.passColors.filter(color => ['G', 'P', 'R'].includes(color.code));
+        this.passColor_issued = this.passColors.filter(color => ['G', 'P', 'R'].includes(color.code));
+      },
+      error => console.error(error)
+    );
   }
 
   setEditable(status: boolean) {
@@ -153,14 +165,14 @@ export class IdFormComponent implements OnInit {
   approveapplication() {
     const id = +this.route.snapshot.params['id'];
     if (!isNaN(id)) {
-      if (this.user && this.user.role && this.user.role.some((role:  number) => role === 11)) {
+      if (this.user && this.user.role && this.user.role.some((role:  number) => role === 13)) {
         if (this.employee) {
           console.log(this)
           const clonedEmployee = {...this.employee};
 
           this.isLoading=true;
-          // this.employeeService.updaterb(this.employee, id).subscribe(
-          //     () => {
+          this.employeeService.updaterb(this.employee, id).subscribe(
+              () => {
           this.employeeService.updaterbstatus(id, 'Approve', this.remark?? '').subscribe(
             () => {
               this.isLoading = false;
@@ -192,18 +204,18 @@ export class IdFormComponent implements OnInit {
               }
             },
           );
-          // },
-          // (error) => {
-          //   this.isLoading = false;
-          //   console.log('Error in updaterb:', error);
-          //   // Handle specific errors or use a generic error message
-          //   Swal.fire({
-          //     icon: 'error',
-          //     title: 'Error',
-          //     text: 'An error occurred while updating the application.',
-          //   });
-          // }
-          // );
+          },
+          (error: any) => {
+            this.isLoading = false;
+            console.log('Error in updaterb:', error);
+            // Handle specific errors or use a generic error message
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'An error occurred while updating the application.',
+            });
+          }
+          );
         }else {
           console.error('ID parameter is missing or invalid in the URL.');
           Swal.fire({
@@ -215,7 +227,7 @@ export class IdFormComponent implements OnInit {
         }
       }
 
-        else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 12))) {
+        else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 12 || role ===11 || role===14))) {
           this.isLoading=true;
           this.employeeService.updaterbstatus(id, 'Approve', this.remark?? '').subscribe(
               () =>{

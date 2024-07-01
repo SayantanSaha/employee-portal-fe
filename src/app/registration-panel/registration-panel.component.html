@@ -2,7 +2,7 @@
 <div class="container">
   <ng-container *ngIf="user && user.role" >
     <ng-container *ngFor="let role of user.role">
-       <ng-container *ngIf="role === 11 || role ===12" >
+       <ng-container *ngIf="role === 11 || role ===12 || role ===13 || role ===14" >
         <div class="row">
           <div class="container">
             <div class="card shadow">
@@ -86,6 +86,45 @@
 
                 <div class="row">
                   <div class="col-md-4 col-lg-4 col-sm-4" >
+                    <!--                  <a routerLink="/rb-pending" style="text-decoration: none; color: inherit;">-->
+                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchRb(13)">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
+                            <!--                            <a routerLink="/rb-pending" >-->
+                            <i class="bi bi-people"></i>
+                            <!--                            </a>-->
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold"> Pending at Dh DCP</span>
+                            </p>
+                            {{rbdashboardData.pendingdhDcp}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-4">
+                    <!--                  <a routerLink="/rb-pending" style="text-decoration: none; color: inherit;">-->
+                    <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(14)">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
+                            <i class="bi bi-people"></i>
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Pending at DCP</span>
+                            </p>
+                            {{rbdashboardData.pendingdcp}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--                  </a>-->
+                  </div>
+                  <div class="col-md-4 col-lg-4 col-sm-4" >
                     <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchRb(15)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
@@ -104,6 +143,12 @@
                       </div>
                     </div>
                   </div>
+
+
+                </div>
+
+                <div class="row">
+
 
                   <div class="col-md-4 col-lg-4 col-sm-4" >
                     <a routerLink="/rb-print" style="text-decoration: none; color: inherit;">
@@ -145,6 +190,25 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-md-4 col-lg-4 col-sm-4" >
+                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event)">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
+                            <a routerLink="/RbApplyForm" >
+                              <i class="bi bi-pencil-square"></i>
+                            </a>
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Form</span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
                 <br>
 
@@ -213,6 +277,8 @@
             <option value="null">-Select-</option>
             <option [ngValue]=11>Dh</option>
             <option [ngValue]=12>SO</option>
+            <option [ngValue]=13>Dh DCP</option>
+            <option [ngValue]=14>DCP</option>
             <option [ngValue]=15>Approved</option>
             <option [ngValue]=16>Returned</option>
           </select>

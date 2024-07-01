@@ -1,7 +1,7 @@
-<div [class.container]="(editable && !urlId)|| employee!.visual" [class.container-fluid]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.us==true || employee!.director==true || employee!.asp==true)" [style.padding]="!editable && urlId ? '2%' : null"
+<div [class.container]="(editable && !urlId)|| employee!.visual || employee!.visual_dcp" [class.container-fluid]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true)" [style.padding]="!editable && urlId ? '2%' : null"
      [style.margin-top]="!editable && urlId ? '-3%' : null">
   <div class="row">
-    <div  [class.col-md-10]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.us==true || employee!.director==true || employee!.asp==true)">
+    <div  [class.col-md-10]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true)">
 
       <div class="row">
         <div class="col-md-10" >
@@ -34,10 +34,10 @@
                     <br /><br />
                   </td>
                 </tr>
-<!--                <tr style="height: 30px">-->
-<!--                  <td align="left">Father’s Name:</td>-->
-<!--                  <td align="left">{{ employee?.father_name }}</td>-->
-<!--                </tr>-->
+                <!--                <tr style="height: 30px">-->
+                <!--                  <td align="left">Father’s Name:</td>-->
+                <!--                  <td align="left">{{ employee?.father_name }}</td>-->
+                <!--                </tr>-->
                 <tr style="height: 30px">
                   <td align="left">Organization:</td>
                   <td align="left">{{ employee?.organization }}</td>
@@ -110,7 +110,7 @@
                 <tr style="height: 30px">
                   <td align="left">Blood Group:</td>
                   <td colspan="2" align="left">
-                   {{employee?.blood_group}}
+                    {{employee?.blood_group}}
                   </td>
                 </tr>
                 <tr style="height: 30px">
@@ -121,8 +121,10 @@
                       <span *ngIf="employee?.passColor == '2'" class="purple"><i class="bi bi-circle-fill"></i>Purple</span>
                       <span *ngIf="employee?.passColor == '3'" class="red"><i class="bi bi-circle-fill"></i>Red</span>
                     </ng-container>
+
                   </td>
                 </tr>
+
                 <tr style="height: 30px">
                   <td align="left">Present Card No:</td>
                   <td colspan="2" align="left">
@@ -140,16 +142,32 @@
                   <td align="left">Identification Mark:</td>
                   <td colspan="2" align="left">{{ employee?.body_mark }}</td>
                 </tr>
-<!--                <tr style="height: 50px">-->
-<!--                  <td colspan="3" align="left">-->
-<!--                    <span>Note :- (1) Furnishing wrong information is an offence:</span>-->
-<!--                  </td>-->
-<!--                </tr>-->
+                <tr style="height: 30px">
+                  <td align="left">File:</td>
+                  <td colspan="2" align="left">
+                    <ng-container
+                      *ngIf="employee?.id_proof && employee?.id_proof!=null ">
+                      <a class="btn btn-outline-primary enlarge-on-hover"
+                         href="{{apiUrl}}getFile/{{employee?.id_proof}}" title="Order File"
+                         target="_blank">
+                        <i class="bi bi-eye"></i>
+                      </a>
+                    </ng-container>
 
-                <br><br><br>
+                  </td>
+                </tr>
+                <!--                <tr style="height: 50px">-->
+                <!--                  <td colspan="3" align="left">-->
+                <!--                    <span>Note :- (1) Furnishing wrong information is an offence:</span>-->
+                <!--                  </td>-->
+                <!--                </tr>-->
+
+                <br>
+                <br>
+                <br>
                 <tr>
                   <td align="left" colspan="2">
-                    <img [src]="employee?.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px" alt="Upload Signature" />
+                    <!--                    <img [src]="employee?.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px" alt="Upload Signature" />-->
                   </td>
                   <td align="right">
                     <img [src]="employee?.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px" alt="Upload Signature" />
@@ -157,82 +175,158 @@
                 </tr>
                 <tr style="height: 30px">
                   <td align="left" colspan="2">
-                    <span style="font-weight: 700; font-size: 15px">SIGNATURE OF Controlling Authority</span><br>
+                    <!--                    <span style="font-weight: 700; font-size: 15px">SIGNATURE OF Controlling Authority</span><br>-->
                   </td>
                   <td align="right" colspan="3">
                     <span style="font-weight: 700; font-size: 15px">SIGNATURE OF APPLICANT</span><br>
-
-
                     <span style="font-size: 15px" >Dt-{{ employee?.applied_date ? (employee?.applied_date | date:'dd-MM-yyyy') : today | date:'dd-MM-yyyy' }}</span>
-
-
                   </td>
                 </tr>
 
 
-<!--                <tr style="height: 40px">-->
-<!--                  <td colspan="3" align="left">-->
-<!--                    <span *ngIf="editable && !urlId">Recommended vide No {{vide_no}} Dated {{vide_date}}.</span>-->
-<!--                    <span *ngIf="!editable && urlId">-->
-<!--                      <div class="row">-->
-<!--                        Recommended vide No-->
-<!--                          <input type="text" class="form-control match-placeholder" placeholder="vide_no" aria-label="vide_no"[(ngModel)]="vide_no">-->
-<!--                        Dated-->
-<!--                          <input type="date" class="form-control match-placeholder" id="vide_date" aria-label="Vide_date" [(ngModel)]="vide_date">-->
-<!--                        .-->
-<!--                      </div>-->
-<!--                    </span>-->
-<!--                  </td>-->
-<!--                </tr>-->
 
-<!--                <tr style="height: 70px">-->
-<!--                  <td colspan="3" align="left">-->
-<!--                    <span>-->
-<!--                      Certified that to the best of my knowledge and belief the particulars furnished by him/her are correct and the-->
-<!--                      undersigned is aware of the instruction issued by President’s Secretariat vide letter No._________________________ dt. _________________________ for issue of pass to worker/labour will be compiled with.-->
-<!--                    </span>-->
-<!--                  </td>-->
-<!--                </tr>-->
-<!--                <tr style="height: 50px; vertical-align: bottom">-->
-<!--                  <td align="right" colspan="3">-->
-<!--                    <table style="text-align:center">-->
-<!--                      <tr>-->
-<!--                        <td></td>-->
-<!--                        <td>-->
-<!--                          <img [src]="entryPass.gazettedOfficerSignature || ''" width="180px" height="40px" alt="Signature of Gazetted Officer" />-->
-<!--                          <br />-->
-<!--                          <span style="font-weight: 700; font-size: 15px">Signature of Gazetted Officer</span><br />-->
-<!--                          <span style="font-weight: 700; font-size: 15px">{{ entryPass.gazettedOfficerName }}</span><br />-->
-<!--                          <span style="font-weight: 700; font-size: 15px">{{ entryPass.gazettedOfficerDesignation }}</span>-->
-<!--                          <br />-->
-<!--                        </td>-->
-<!--                      </tr>-->
-<!--                    </table>-->
-<!--                  </td>-->
-<!--                </tr>-->
-<!--                <tr style="height: 40px; vertical-align: bottom">-->
-<!--                  <td align="left" colspan="3">-->
-<!--                    <span style="font-weight: 700; font-size: 15px; text-decoration: underline;">Recommending Authority.</span>-->
-<!--                  </td>-->
-<!--                </tr>-->
-<!--                <tr style="height: 40px; vertical-align: bottom">-->
-<!--                  <td align="left" colspan="3">-->
-<!--                    <span style="font-weight: 700; font-size: 15px">CPH, EE/PED, EE/PEED, OSD/Horticulture, Under Secys. & SOs.</span>-->
-<!--                  </td>-->
-<!--                </tr>-->
-<!--                <tr style="height: 80px;">-->
-<!--                  <td align="left" colspan="3">-->
-<!--                    <span style="font-size: 16px">Granted Permission for Temporary Entry Vide No._________________________ w.e.f. _________________________ through _________________________.</span>-->
-<!--                  </td>-->
-<!--                </tr>-->
-<!--                <tr style="height: 80px; vertical-align: bottom">-->
-<!--                  <td align="right" colspan="3">-->
-<!--                    <span style="font-size: 16px; font-weight: 700;">DCP/RB</span>-->
-<!--                  </td>-->
-<!--                </tr>-->
+                <!--                <tr style="height: 40px">-->
+                <!--                  <td colspan="3" align="left">-->
+                <!--                    <span *ngIf="editable && !urlId">Recommended vide No {{vide_no}} Dated {{vide_date}}.</span>-->
+                <!--                    <span *ngIf="!editable && urlId">-->
+                <!--                      <div class="row">-->
+                <!--                        Recommended vide No-->
+                <!--                          <input type="text" class="form-control match-placeholder" placeholder="vide_no" aria-label="vide_no"[(ngModel)]="vide_no">-->
+                <!--                        Dated-->
+                <!--                          <input type="date" class="form-control match-placeholder" id="vide_date" aria-label="Vide_date" [(ngModel)]="vide_date">-->
+                <!--                        .-->
+                <!--                      </div>-->
+                <!--                    </span>-->
+                <!--                  </td>-->
+                <!--                </tr>-->
+
+                <!--                <tr style="height: 70px">-->
+                <!--                  <td colspan="3" align="left">-->
+                <!--                    <span>-->
+                <!--                      Certified that to the best of my knowledge and belief the particulars furnished by him/her are correct and the-->
+                <!--                      undersigned is aware of the instruction issued by President’s Secretariat vide letter No._________________________ dt. _________________________ for issue of pass to worker/labour will be compiled with.-->
+                <!--                    </span>-->
+                <!--                  </td>-->
+                <!--                </tr>-->
+                <!--                <tr style="height: 50px; vertical-align: bottom">-->
+                <!--                  <td align="right" colspan="3">-->
+                <!--                    <table style="text-align:center">-->
+                <!--                      <tr>-->
+                <!--                        <td></td>-->
+                <!--                        <td>-->
+                <!--                          <img [src]="entryPass.gazettedOfficerSignature || ''" width="180px" height="40px" alt="Signature of Gazetted Officer" />-->
+                <!--                          <br />-->
+                <!--                          <span style="font-weight: 700; font-size: 15px">Signature of Gazetted Officer</span><br />-->
+                <!--                          <span style="font-weight: 700; font-size: 15px">{{ entryPass.gazettedOfficerName }}</span><br />-->
+                <!--                          <span style="font-weight: 700; font-size: 15px">{{ entryPass.gazettedOfficerDesignation }}</span>-->
+                <!--                          <br />-->
+                <!--                        </td>-->
+                <!--                      </tr>-->
+                <!--                    </table>-->
+                <!--                  </td>-->
+                <!--                </tr>-->
+                <!--                <tr style="height: 40px; vertical-align: bottom">-->
+                <!--                  <td align="left" colspan="3">-->
+                <!--                    <span style="font-weight: 700; font-size: 15px; text-decoration: underline;">Recommending Authority.</span>-->
+                <!--                  </td>-->
+                <!--                </tr>-->
+                <!--                <tr style="height: 40px; vertical-align: bottom">-->
+                <!--                  <td align="left" colspan="3">-->
+                <!--                    <span style="font-weight: 700; font-size: 15px">CPH, EE/PED, EE/PEED, OSD/Horticulture, Under Secys. & SOs.</span>-->
+                <!--                  </td>-->
+                <!--                </tr>-->
+                <!--                <tr style="height: 80px;">-->
+                <!--                  <td align="left" colspan="3">-->
+                <!--                    <span style="font-size: 16px">Granted Permission for Temporary Entry Vide No._________________________ w.e.f. _________________________ through _________________________.</span>-->
+                <!--                  </td>-->
+                <!--                </tr>-->
+                <!--                <tr style="height: 80px; vertical-align: bottom">-->
+                <!--                  <td align="right" colspan="3">-->
+                <!--                    <span style="font-size: 16px; font-weight: 700;">DCP/RB</span>-->
+                <!--                  </td>-->
+                <!--                </tr>-->
+
+
+                <ng-container *ngIf="employee!.dh_dcp || employee!.dcp || employee!.visual_dcp">
+                  <td style="text-decoration: underline; text-align: center;" colspan="4">
+                    <br><br>
+                    <h4><strong>For Office Use</strong></h4>
+                  </td>
+
+                  <ng-container *ngIf="employee!.dh_dcp">
+                    <tr>
+                      <td align="left">Police Verification No:</td>
+                      <td colspan="2" align="left">
+                        <div class="row">
+                          <div class="col-4">
+                              <input type="text" class="form-control" [(ngModel)]="employee!.police_verification_no">
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr *ngIf="employee?.passColor_issued">
+                      <td align="left">Pass Colour Issued:</td>
+                      <td colspan="2" align="left">
+                        <div class="row">
+                          <div class="col-4">
+                            <div class="input-group mb-3">
+                              <select class="form-control" [(ngModel)]="employee!.passColor_issued">
+                                <option value="null">--Select Pass Color--</option>
+                                <option *ngFor="let passColor_issued of passColors" [ngValue]="passColor_issued.id">
+                                  {{ passColor_issued.color }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left">Valid Upto:</td>
+                      <td colspan="2" align="left">
+                        <div class="row">
+                          <div class="col-4">
+                            <input type="date" class="form-control" [(ngModel)]="employee!.validupto" [min]="minDate">
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+
+                  <ng-container *ngIf="!employee!.dh_dcp">
+                    <tr>
+                      <td align="left">Police Verification No:</td>
+                      <td colspan="2" align="left">
+                        {{employee?.police_verification_no }}
+                      </td>
+                    </tr>
+                    <tr *ngIf="employee?.passColor_issued">
+                      <td align="left">Pass Colour Issued:</td>
+                      <td colspan="2" align="left">
+        <span *ngIf="employee?.passColor_issued == '1'" class="green">
+          <i class="bi bi-circle-fill"></i> Green
+        </span>
+                        <span *ngIf="employee?.passColor_issued == '2'" class="purple">
+          <i class="bi bi-circle-fill"></i> Purple
+        </span>
+                        <span *ngIf="employee?.passColor_issued == '3'" class="red">
+          <i class="bi bi-circle-fill"></i> Red
+        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left">Valid Upto:</td>
+                      <td colspan="2" align="left">
+                        {{employee?.validupto | date:'dd-MM-yyyy'}}
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-container>
+
               </table>
             </div>
           </div>
+
         </div>
       </div>
       <ng-container  *ngIf="  employee && employee.idApplicationStatus != null && employee.idApplicationStatus.length > 0">
@@ -256,19 +350,19 @@
                       </ng-container>
                     </strong>
                   </div>
-<!--                  <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">-->
+                  <!--                  <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">-->
 
-<!--                    &lt;!&ndash;            <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >&ndash;&gt;-->
-<!--                    &lt;!&ndash;              <i class="bi bi-eye"></i>&ndash;&gt;-->
-<!--                    &lt;!&ndash;            </a>&ndash;&gt;-->
+                  <!--                    &lt;!&ndash;            <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >&ndash;&gt;-->
+                  <!--                    &lt;!&ndash;              <i class="bi bi-eye"></i>&ndash;&gt;-->
+                  <!--                    &lt;!&ndash;            </a>&ndash;&gt;-->
 
-<!--                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"-->
-<!--                       href="{{apiUrl}}getFile/{{application.file_path}}"-->
-<!--                       title="Order File" target="_blank">-->
-<!--                      <i class="bi bi-eye "></i>-->
-<!--                    </a>-->
+                  <!--                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"-->
+                  <!--                       href="{{apiUrl}}getFile/{{application.file_path}}"-->
+                  <!--                       title="Order File" target="_blank">-->
+                  <!--                      <i class="bi bi-eye "></i>-->
+                  <!--                    </a>-->
 
-<!--                  </div>-->
+                  <!--                  </div>-->
                 </div>
                 <div class="row">
                   <div class="col" style="min-height: 1cm">
@@ -304,19 +398,19 @@
                       </ng-container>
                     </strong>
                   </div>
-<!--                  <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">-->
+                  <!--                  <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">-->
 
-<!--                    &lt;!&ndash;            <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >&ndash;&gt;-->
-<!--                    &lt;!&ndash;              <i class="bi bi-eye"></i>&ndash;&gt;-->
-<!--                    &lt;!&ndash;            </a>&ndash;&gt;-->
+                  <!--                    &lt;!&ndash;            <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >&ndash;&gt;-->
+                  <!--                    &lt;!&ndash;              <i class="bi bi-eye"></i>&ndash;&gt;-->
+                  <!--                    &lt;!&ndash;            </a>&ndash;&gt;-->
 
-<!--                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"-->
-<!--                       href="{{apiUrl}}getFile/{{application.file_path}}"-->
-<!--                       title="Order File" target="_blank">-->
-<!--                      <i class="bi bi-eye "></i>-->
-<!--                    </a>-->
+                  <!--                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"-->
+                  <!--                       href="{{apiUrl}}getFile/{{application.file_path}}"-->
+                  <!--                       title="Order File" target="_blank">-->
+                  <!--                      <i class="bi bi-eye "></i>-->
+                  <!--                    </a>-->
 
-<!--                  </div>-->
+                  <!--                  </div>-->
                 </div>
               </div>
               <div class="card-body">
@@ -347,19 +441,19 @@
                   <div class="col-md-6" style="text-align: left;font-style: italic">
                     <strong>Note</strong>
                   </div>
-<!--                  <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">-->
+                  <!--                  <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">-->
 
-<!--                    &lt;!&ndash;            <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >&ndash;&gt;-->
-<!--                    &lt;!&ndash;              <i class="bi bi-eye"></i>&ndash;&gt;-->
-<!--                    &lt;!&ndash;            </a>&ndash;&gt;-->
+                  <!--                    &lt;!&ndash;            <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >&ndash;&gt;-->
+                  <!--                    &lt;!&ndash;              <i class="bi bi-eye"></i>&ndash;&gt;-->
+                  <!--                    &lt;!&ndash;            </a>&ndash;&gt;-->
 
-<!--                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"-->
-<!--                       href="{{apiUrl}}getFile/{{application.file_path}}"-->
-<!--                       title="Order File" target="_blank">-->
-<!--                      <i class="bi bi-eye "></i>-->
-<!--                    </a>-->
+                  <!--                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"-->
+                  <!--                       href="{{apiUrl}}getFile/{{application.file_path}}"-->
+                  <!--                       title="Order File" target="_blank">-->
+                  <!--                      <i class="bi bi-eye "></i>-->
+                  <!--                    </a>-->
 
-<!--                  </div>-->
+                  <!--                  </div>-->
                 </div>
               </div>
               <div class="card-body">
@@ -388,29 +482,29 @@
     </div>
 
     <ng-container *ngIf="urlId">
-      <ng-container *ngIf="employee!.so==true || employee!.dh==true || employee!.us==true || employee!.director==true || employee!.asp==true">
-      <div class="col-md-2" *ngIf="urlId && !editable">
-        <br><br>
-        <div class="card shadow">
-          <div class="card-body">
-            <div class="spacing" style="margin-top: 3%;"></div>
-            <strong><label style="font-size: 130%" for="remarks">Note:</label></strong>
-            <div class="spacing" style="margin-top: 2%;"></div>
-            <div class="row" style="margin-left: 0%; margin-right: 1.5%;">
-              <textarea class="form-control" id="remarks" name="remarks" style="height: 200px;" placeholder="abc...." [(ngModel)]="remark"></textarea>
-            </div>
-            <div class="row">
-              <div class="col-6" style="text-align: right">
-                <button type="submit" class="btn btn-primary enlarge-on-hover" name="submit" value="Approve" (click)="approveapplication()" >Forward</button>
+      <ng-container *ngIf="employee!.so==true || employee!.dh==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true">
+        <div class="col-md-2" *ngIf="urlId && !editable">
+          <br><br>
+          <div class="card shadow">
+            <div class="card-body">
+              <div class="spacing" style="margin-top: 3%;"></div>
+              <strong><label style="font-size: 130%" for="remarks">Note:</label></strong>
+              <div class="spacing" style="margin-top: 2%;"></div>
+              <div class="row" style="margin-left: 0%; margin-right: 1.5%;">
+                <textarea class="form-control" id="remarks" name="remarks" style="height: 200px;" placeholder="abc...." [(ngModel)]="remark"></textarea>
               </div>
-              <div class="col-6" style="text-align: left">
-                <button type="submit" class="btn btn-danger enlarge-on-hover" name="submit" value="Return" (click)="returnapplication()">Return</button>
+              <div class="row">
+                <div class="col-6" style="text-align: right">
+                  <button type="submit" class="btn btn-primary enlarge-on-hover" name="submit" value="Approve" (click)="approveapplication()" >Forward</button>
+                </div>
+                <div class="col-6" style="text-align: left">
+                  <button type="submit" class="btn btn-danger enlarge-on-hover" name="submit" value="Return" (click)="returnapplication()">Return</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
     </ng-container>
   </div>
 </div>

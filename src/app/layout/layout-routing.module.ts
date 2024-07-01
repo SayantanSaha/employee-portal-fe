@@ -7,6 +7,7 @@ import {AuthGuard} from "../auth/auth.guard";
 import {ebaFormModule} from "../eba-form/eba-form.module";
 import {ebaPendingModule} from "../ebapending/ebapending.module";
 import {EbaFormListModule} from "../eba-form-list/eba-form-list.module";
+import {RbcardapplyformModule} from "../rbcardapplyform/rbcardapplyform.module";
 
 
 
@@ -55,6 +56,8 @@ const routes: Routes = [
       { path: 'id-form/:mode/:id',loadChildren: () => import('../id-form/id-form.module').then(d => d.IdFormModule), canActivate: [AuthGuard]},
       { path: 'regpanel',loadChildren: () => import('../registration-panel/registration-panel.module').then(d => d.RegistrationPanelModule), canActivate: [AuthGuard]},
       { path: 'rb-print',loadChildren: () => import('../rbprint/rbprint.module').then(d => d.RbprintModule), canActivate: [AuthGuard]},
+      { path: 'RbApplyForm',loadChildren: () => import('../rbcardapplyform/rbcardapplyform.module').then(d => d.RbcardapplyformModule), canActivate: [AuthGuard]},
+
     ]
   },
 

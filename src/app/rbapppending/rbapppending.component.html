@@ -7,11 +7,11 @@
             <div  class="float-start">
               <b *ngIf="roleId==11">Pending with DH({{rbPendingList.length}})</b>
               <b *ngIf="roleId==12">Pending with SO({{rbPendingList.length}})</b>
-              <!-- <b *ngIf="roleId==6">Pending with US({{rbPendingList.length}})</b> -->
+               <b *ngIf="roleId==13">Pending with DH DCP({{rbPendingList.length}})</b>
               <b *ngIf="roleId==15">Approved({{rbPendingList.length}})</b>
               <b *ngIf="roleId==16">Returned({{rbPendingList.length}})</b>
-              <!-- <b *ngIf="roleId==9">Pending with Director({{rbPendingList.length}})</b>
-              <b *ngIf="roleId==10">Pending with ASP({{rbPendingList.length}})</b> -->
+<!--              &lt;!&ndash; <b *ngIf="roleId==9">Pending with Director({{rbPendingList.length}})</b>-->
+              <b *ngIf="roleId==14">Pending with DCP({{rbPendingList.length}})</b>
               <b *ngIf="!roleId || roleId==null">Applications({{rbPendingList.length}})</b>
             </div>
           </div>

@@ -366,6 +366,12 @@ export class EmployeeService {
     return this.http.put<Employee>(this.apiUrl + "Eba/"+id,ebaPasses,{headers:this.createHeader()});
   }
 
+  updaterb(rbPasses : Employee,id: number): Observable<any> {
+    // const dataToSubmit = { relation: ebaPasses };
+    // const options = { headers: this.createHeader() };
+    return this.http.put<Employee>(this.apiUrl + "Registration/"+id,rbPasses,{headers:this.createHeader()});
+  }
+
   RFID(rfid : any,passno: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}rfid/${rfid}/${passno}`, { headers: this.createHeader() });
   }

@@ -45,6 +45,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RegistrationComponent} from "./registration/registration.component";
 import {RegistrationPanelComponent} from "./registration-panel/registration-panel.component";
 import {RbapppendingComponent} from "./rbapppending/rbapppending.component";
+import {RbcardapplyformComponent} from "./rbcardapplyform/rbcardapplyform.component";
 
 @NgModule({
   declarations: [
@@ -76,7 +77,7 @@ import {RbapppendingComponent} from "./rbapppending/rbapppending.component";
     RegistrationPanelComponent,
     RbapppendingComponent,
     RbprintComponent,
-
+    RbcardapplyformComponent,
   ],
     imports: [
       BrowserModule,
