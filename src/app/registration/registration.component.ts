@@ -21,7 +21,7 @@ import { Designation } from "../model/Designation";
       state('1', style({ transform: 'translateX(-100%)' })),
       state('2', style({ transform: 'translateX(-200%)' })),
       state('3', style({ transform: 'translateX(-300%)' })),
-      state('4', style({ transform: 'translateX(-400%)' })),
+      // state('4', style({ transform: 'translateX(-400%)' })),
       transition('* => *', animate('300ms ease'))
     ])
   ]
@@ -49,7 +49,7 @@ export class RegistrationComponent implements OnInit {
   apiUrl = environment.apiUrl;
   display: any = 'none';
   currentPageIndex = 0;
-  totalPages = 5;
+  totalPages = 4;
   slides = new Array(this.totalPages);
   currentDate: string= "";
   isLoading: boolean = false;
@@ -91,7 +91,7 @@ export class RegistrationComponent implements OnInit {
     this.employeeService.getCardType().subscribe(
       data => {
         this.passColors = data;
-        this.passColors = this.passColors.filter(color => ['G', 'P', 'R'].includes(color.code));
+        this.passColors = this.passColors.filter(color => ['G', 'R'].includes(color.code));
       },
       error => console.error(error)
     );

@@ -159,15 +159,8 @@
         </div>
         <div class="row">
           <div class="col-md-3"></div>
-          <div class="col-md-2">
-            <div class="form-group">
-              <select  class="form-control" [(ngModel)]="employee.payLevel" >
-                <option value="null">--Select payLevel--</option>
-                <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel">{{ payLevel.pay_desc }}</option>
-              </select>
-            </div>
-          </div>
-          <div class="col-md-2">
+
+          <div class="col-md-3">
             <div class="form-group">
               <select class="form-control" id="section" [(ngModel)]="employee.division">
                 <option [ngValue]="null">Select Section</option>
@@ -178,7 +171,7 @@
             </div>
           </div>
 
-          <div class="col-md-2">
+          <div class="col-md-3">
             <div class="form-group">
               <select class="form-control" id="designation" [(ngModel)]="employee.designation"(change)="updateDesgPrint($event)">
                 <option [ngValue]="null">Select Designation</option>
@@ -189,7 +182,7 @@
             </div>
           </div>
 
-          <div class="col-md-2">
+          <div class="col-md-3">
             <div class="form-group">
               <input type="text" class="form-control" id="desg_print" placeholder="Desg. Print" aria-label="desg_print" [(ngModel)]="employee.desg_print" >
             </div>
@@ -215,7 +208,7 @@
             </div>
           </div>
 
-          <div class="col-md-3" style="text-align: right">
+          <!-- <div class="col-md-3" style="text-align: right">
             <label class="form-label" >Pass color: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
@@ -225,9 +218,22 @@
                 <option *ngFor="let passColor of passColors" [ngValue]="passColor.id">{{ passColor.color }}</option>
               </select>
             </div>
-          </div>
+          </div> -->
+
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >DOR: <span style="color: red;" class="required">*</span></label>
+            <label class="form-label" >Pay Level: <span style="color: red;" class="required">*</span></label>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <select  class="form-control" [(ngModel)]="employee.payLevel" >
+                <option value="null">--Select payLevel--</option>
+                <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel">{{ payLevel.pay_desc }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-md-3" style="text-align: right">
+            <label class="form-label" >Date Of retirement: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
             <div class="form-group row">
@@ -382,7 +388,7 @@
                               {{employee.blood_group}}
                             </td>
                           </tr>
-                          <tr style="height: 30px">
+                          <!-- <tr style="height: 30px">
                             <td align="left">Pass Color:</td>
                             <td colspan="2" align="left">
                               <ng-container *ngIf="employee?.passColor">
@@ -391,7 +397,7 @@
                                 <span *ngIf="employee?.passColor == '3'" class="red"><i class="bi bi-circle-fill"></i>Red</span>
                               </ng-container>
                             </td>
-                          </tr>
+                          </tr> -->
                           <tr style="height: 30px">
                             <td align="left">Present Card No:</td>
                             <td colspan="2" align="left">

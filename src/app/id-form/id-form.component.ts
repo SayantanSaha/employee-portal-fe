@@ -285,7 +285,7 @@ export class IdFormComponent implements OnInit {
   {
     // Extract id from route parameters
     const id = +this.route.snapshot.params['id'];
-    if (this.user && this.user.role && this.user.role.some((role:  number) => role === 11)) {
+    if (this.user && this.user.role && this.user.role.some((role:  number) => (role === 12 || role ===11 || role===14 || role ===13))) {
       if(this.employee){
         if(this.remark == null ){
           Swal.fire({
@@ -368,58 +368,58 @@ export class IdFormComponent implements OnInit {
         return;
       }
     }
-    else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 12 ))){
-      if (!isNaN(id)) {
+    // else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 12 ))){
+    //   if (!isNaN(id)) {
 
-        this.isLoading=true;
-        this.employeeService.updaterbstatus(id, 'Return', this.remark ?? '').subscribe(
-            () => {
-              this.isLoading = false;
-              Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Returned successfully',
-              }).then(() => {
-                // Redirect to the dashboard route
-                this.router.navigate(['regpanel']);
-              });
-            },
-            (error) => {
-              this.isLoading = false;
-              console.log(error);
-              console.log(error.status);
-              console.log(error.error);
+    //     this.isLoading=true;
+    //     this.employeeService.updaterbstatus(id, 'Return', this.remark ?? '').subscribe(
+    //         () => {
+    //           this.isLoading = false;
+    //           Swal.fire({
+    //             icon: 'success',
+    //             title: 'Success',
+    //             text: 'Returned successfully',
+    //           }).then(() => {
+    //             // Redirect to the dashboard route
+    //             this.router.navigate(['regpanel']);
+    //           });
+    //         },
+    //         (error) => {
+    //           this.isLoading = false;
+    //           console.log(error);
+    //           console.log(error.status);
+    //           console.log(error.error);
 
-              if (error.status === 302) {
-                Swal.fire({
-                  icon: 'warning',
-                  title: 'Warning',
-                  text: 'You are not authorized !!!',
-                });
-              } else {
-                // Handle other errors here
-                let errorMessage = 'An error occurred while Returning application.';
-                if (error.error && error.error.message) {
-                  errorMessage = error.error.message;
-                }
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: errorMessage,
-              });
-              }
-            }
-        );
-      } else {
-        console.error('ID parameter is missing or invalid in the URL.');
-        Swal.fire({
-          icon: 'warning',
-          title: 'Warning',
-          text: 'id missing !!!',
-        });
-        return;
-      }
-    }
+    //           if (error.status === 302) {
+    //             Swal.fire({
+    //               icon: 'warning',
+    //               title: 'Warning',
+    //               text: 'You are not authorized !!!',
+    //             });
+    //           } else {
+    //             // Handle other errors here
+    //             let errorMessage = 'An error occurred while Returning application.';
+    //             if (error.error && error.error.message) {
+    //               errorMessage = error.error.message;
+    //             }
+    //           Swal.fire({
+    //             icon: 'error',
+    //             title: 'Error',
+    //             text: errorMessage,
+    //           });
+    //           }
+    //         }
+    //     );
+    //   } else {
+    //     console.error('ID parameter is missing or invalid in the URL.');
+    //     Swal.fire({
+    //       icon: 'warning',
+    //       title: 'Warning',
+    //       text: 'id missing !!!',
+    //     });
+    //     return;
+      // }
+    // }
   }
 
 

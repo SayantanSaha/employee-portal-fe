@@ -113,7 +113,7 @@
                     {{employee?.blood_group}}
                   </td>
                 </tr>
-                <tr style="height: 30px">
+                <!-- <tr style="height: 30px">
                   <td align="left">Pass Color:</td>
                   <td colspan="2" align="left">
                     <ng-container *ngIf="employee?.passColor">
@@ -123,7 +123,7 @@
                     </ng-container>
 
                   </td>
-                </tr>
+                </tr> -->
 
                 <tr style="height: 30px">
                   <td align="left">Present Card No:</td>
@@ -247,7 +247,7 @@
                 <!--                </tr>-->
 
 
-                <ng-container *ngIf="employee!.dh_dcp || employee!.dcp || employee!.visual_dcp">
+                <ng-container *ngIf="employee!.dh_dcp || employee!.dcp || employee!.visual_dcp || employee!.approve">
                   <td style="text-decoration: underline; text-align: center;" colspan="4">
                     <br><br>
                     <h4><strong>For Office Use</strong></h4>
@@ -264,7 +264,7 @@
                         </div>
                       </td>
                     </tr>
-                    <tr *ngIf="employee?.passColor_issued">
+                    <tr>
                       <td align="left">Pass Colour Issued:</td>
                       <td colspan="2" align="left">
                         <div class="row">
@@ -329,8 +329,8 @@
 
         </div>
       </div>
-      <ng-container  *ngIf="  employee && employee.idApplicationStatus != null && employee.idApplicationStatus.length > 0">
-        <ng-container  *ngFor="let application of employee!.idApplicationStatus; let j = index">
+      <ng-container  *ngIf="  employee && employee.newApplicationStatus != null && employee.newApplicationStatus.length > 0">
+        <ng-container  *ngFor="let application of employee!.newApplicationStatus; let j = index">
           <ng-container  *ngIf="urlId && !editable && !returnapp">
             <div class="card shadow" *ngIf="application.role_id!==16" style="background-color: #bde3f3; " >
               <div class="card-body">
@@ -341,10 +341,10 @@
                         Forwarded
                       </ng-container>
                       <ng-container *ngIf="j > 0">
-                        <ng-container *ngIf="application.role_id > employee?.idApplicationStatus[j - 1].role_id">
+                        <ng-container *ngIf="application.role_id > employee?.newApplicationStatus[j - 1].role_id">
                           Forwarded
                         </ng-container>
-                        <ng-container *ngIf="application.role_id < employee?.idApplicationStatus[j - 1].role_id">
+                        <ng-container *ngIf="application.role_id < employee?.newApplicationStatus[j - 1].role_id">
                           Returned
                         </ng-container>
                       </ng-container>
@@ -389,10 +389,10 @@
                         Forwarded
                       </ng-container>
                       <ng-container *ngIf="j > 0">
-                        <ng-container *ngIf="application.role_id > employee?.idApplicationStatus[j - 1].role_id">
+                        <ng-container *ngIf="application.role_id > employee?.newApplicationStatus[j - 1].role_id">
                           Forwarded
                         </ng-container>
-                        <ng-container *ngIf="application.role_id < employee?.idApplicationStatus[j - 1].role_id">
+                        <ng-container *ngIf="application.role_id < employee?.newApplicationStatus[j - 1].role_id">
                           Returned
                         </ng-container>
                       </ng-container>

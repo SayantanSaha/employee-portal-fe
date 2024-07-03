@@ -182,7 +182,7 @@
                   </div>
 
                   <div class="col-md">
-                    <label for="dor" class="form-label">DOR</label>
+                    <label for="dor" class="form-label">Date Of retirement</label>
                     <input type="date" class="form-control" id="dor" placeholder="Date Of retirement" aria-label="Date Of retirement" [(ngModel)]="employee.dor" >
                   </div>
                 </div>
@@ -225,20 +225,6 @@
                     <label for="body_mark" class="form-label">Body Mark</label>
                     <input type="text" class="form-control" id="body_mark" placeholder="Body Mark" aria-label="Body Mark" [(ngModel)]="employee.body_mark" (keydown)="disableTabKey($event)">
                   </div>
-
-                </div>
-
-                <div class="row">
-                  <div class="col-md">
-                    <label class="form-label">Pass color</label>
-                    <div  class="input-group mb-3">
-                      <select  class="form-control" [(ngModel)]="employee.passColor">
-                        <option value="null">--Select Pass Color--</option>
-                        <option *ngFor="let passColor of passColors" [ngValue]="passColor.id">{{ passColor.color }}</option>
-                      </select>
-                    </div>
-                  </div>
-
                   <div class="col-md">
                     <label class="form-label">Pay level</label>
                     <div  class="input-group mb-3">
@@ -250,6 +236,28 @@
                   </div>
                 </div>
 
+                <!-- <div class="row"> -->
+                  <!-- <div class="col-md">
+                    <label class="form-label">Pass color</label>
+                    <div  class="input-group mb-3">
+                      <select  class="form-control" [(ngModel)]="employee.passColor">
+                        <option value="null">--Select Pass Color--</option>
+                        <option *ngFor="let passColor of passColors" [ngValue]="passColor.id">{{ passColor.color }}</option>
+                      </select>
+                    </div>
+                  </div> -->
+
+                  <!-- <div class="col-md">
+                    <label class="form-label">Pay level</label>
+                    <div  class="input-group mb-3">
+                      <select  class="form-control" [(ngModel)]="employee.payLevel" (keydown)="disableTabKey($event)">
+                        <option value="null">--Select payLevel--</option>
+                        <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel">{{ payLevel.pay_desc }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div> -->
+
 <!--                <div class="row">-->
 <!--                  <div class="col-md">-->
 <!--                    -->
@@ -259,9 +267,9 @@
 <!--                  </div>-->
 <!--                </div>-->
 
-              </div>
+              <!-- </div>
 
-              <div *ngIf="i === 4">
+              <div *ngIf="i === 4"> -->
                 <div class="row">
                   <div class="col-md">
                     <label for="id_proof" class="form-label">Upload Photo</label><br>
@@ -405,7 +413,7 @@
                                   {{employee.blood_group}}
                                 </td>
                               </tr>
-                              <tr style="height: 30px">
+                              <!-- <tr style="height: 30px">
                                 <td align="left">Pass Color:</td>
                                 <td colspan="2" align="left">
                                   <ng-container *ngIf="employee?.passColor">
@@ -414,7 +422,7 @@
                                     <span *ngIf="employee?.passColor == '3'" class="red"><i class="bi bi-circle-fill"></i>Red</span>
                                   </ng-container>
                                 </td>
-                              </tr>
+                              </tr> -->
                               <tr style="height: 30px">
                                 <td align="left">Present Card No:</td>
                                 <td colspan="2" align="left">

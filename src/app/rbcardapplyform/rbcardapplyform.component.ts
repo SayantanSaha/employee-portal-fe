@@ -95,7 +95,7 @@ export class RbcardapplyformComponent {
     this.employeeService.getCardType().subscribe(
       data => {
         this.passColors = data;
-        this.passColors = this.passColors.filter(color => ['G', 'P', 'R'].includes(color.code));
+        this.passColors = this.passColors.filter(color => ['G', 'R'].includes(color.code));
       },
       error => console.error(error)
     );

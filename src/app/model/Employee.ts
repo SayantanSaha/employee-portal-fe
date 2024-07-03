@@ -55,7 +55,7 @@ export class Employee{
   eba_applications: any;
   eba_passes:any;
   eba_applicationsstatus :any;
-  idApplicationStatus:any;
+  newApplicationStatus:any;
   vehicles: Vehicles[]|null = [];
   divisions: Division[]|null = null;
   organization: Organization|null = null;
