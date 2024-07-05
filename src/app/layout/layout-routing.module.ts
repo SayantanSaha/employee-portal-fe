@@ -57,7 +57,7 @@ const routes: Routes = [
       { path: 'regpanel',loadChildren: () => import('../registration-panel/registration-panel.module').then(d => d.RegistrationPanelModule), canActivate: [AuthGuard]},
       { path: 'rb-print',loadChildren: () => import('../rbprint/rbprint.module').then(d => d.RbprintModule), canActivate: [AuthGuard]},
       { path: 'RbApplyForm',loadChildren: () => import('../rbcardapplyform/rbcardapplyform.module').then(d => d.RbcardapplyformModule), canActivate: [AuthGuard]},
-
+      { path: 'EbaApplyForm',loadChildren: () => import('../ebaapplyform/ebaapplyform.module').then(d => d.EbaapplyformModule), canActivate: [AuthGuard]},
     ]
   },
 
