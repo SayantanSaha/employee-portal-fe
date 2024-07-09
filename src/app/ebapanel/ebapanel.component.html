@@ -217,14 +217,14 @@
 
                 <div class="row">
                   <div class="col-md-4 col-lg-4 col-sm-4" >
-                    <a routerLink="/EbaApplyForm" ></a>
-                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event)">
+                    <!-- <a routerLink="/EbaApplyForm" ></a> -->
+                    <div class="card shadow enlarge-hover" (click)="hoverClick($event);pullEbaPopup()">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
-                            <a routerLink="/EbaApplyForm" >
+                            <!-- <a routerLink="/EbaApplyForm" > -->
                               <i class="bi bi-pencil-square"></i>
-                            </a>
+                            <!-- </a> -->
                           </div>
                           <div class="ps-5">
                             <p>
@@ -297,6 +297,182 @@
     </ng-container>
   </ng-container>
 </div>
+
+<td>
+  <ng-container>
+    <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false"
+      [ngStyle]="{'display': displayEba }"
+      style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto;">
+      <div class="modal-dialog modal-dialog-centered modal-m" *ngIf="!showquarterDetails">
+        <div class="modal-content" >
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <b> Pull Quarter Details </b>
+            </h5>
+          </div>
+
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-4" style="margin-left: 1%;">
+                <label class="form-label">Location:</label>
+              </div>
+              <div class="col-md-8" style="margin-left: -7%">
+                <select class="form-control" [(ngModel)]="employee!.location_id" (change)="qtrtype()">
+                  <option value="">--Select--</option>
+                  <option [ngValue]="locationtype.location_code"
+                    *ngFor="let locationtype of locationtypelist">
+                    {{locationtype!.location_name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4" style="margin-left: 1%">
+                <label class="form-label">Quarter Type:</label>
+              </div>
+              <div class="col-md-8" style="margin-left: -7%">
+                <select class="form-control" [(ngModel)]="employee!.qtr_code" (change)="qtraddress($event)">
+                   <option value="">--Select--</option>
+                  <option [ngValue]="quartertype.type_code" *ngFor="let quartertype of quarterstypelist">
+                    {{quartertype!.type_name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row" *ngIf="blockstypelist !== null && blockstypelist.length > 0" (change)="qtrBlckaddress()">
+              <div class="col-md-4" style="margin-left: 1%">
+                <label class="form-label">Block:</label>
+              </div>
+              <div class="col-md-8" style="margin-left: -7%">
+                <select class="form-control" [(ngModel)]="employee!.blck">
+                  <option [ngValue]="blck.code" *ngFor="let blck of blockstypelist">
+                    {{blck!.type_name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row" *ngIf="quarterList !== null && quarterList.length > 0">
+              <div class="col-md-4" style="margin-left: 1%">
+                <label class="form-label">Quarter address:</label>
+              </div>
+              <div class="col-md-8" style="margin-left: -7%">
+                <select class="form-control" [(ngModel)]="employee!.qtr">
+                  <option value="">--Select--</option>
+                  <option [ngValue]="qtr" *ngFor="let qtr of quarterList">
+                    {{qtr!.qtr_no}}</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary enlarge-on-hover"
+              (click)="hoverClick($event)" (click)="closeEbaPopup()">
+              Close
+            </button>
+
+            <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
+              (click)="fetch()" *ngIf="employee!.qtr">
+              Fetch
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-dialog modal-dialog-centered modal-xl" *ngIf="showquarterDetails">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <b>EBA details</b>
+            </h5>
+          </div>
+
+          <div class="modal-body">
+            <div class="row">
+              <div class="row">
+                <div class="col-md-2"><b>Name:</b></div>
+                <div class="col-md-10" style="font-size: 120%;margin-left: -6%;">
+                  {{quarterDetails?.m_Item1?.[0]?.Name}}
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-2"><b>Designation:</b></div>
+                <div class="col-md-10" style="margin-left: -6%;">
+                  {{quarterDetails?.m_Item1?.[0]?.Designation}}
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-2"><b>Section:</b></div>
+                <div class="col-md-10" style="margin-left: -6%;">
+                  {{quarterDetails?.m_Item1?.[0]?.Section}}
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-2"><b>Address:</b></div>
+                <div class="col-md-10" style="margin-left: -6%;">
+                  {{quarterDetails?.m_Item1?.[0]?.Address}}
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row" style="overflow-x: auto;overflow-y: hidden; white-space: nowrap;">
+              <tr>
+                <ng-container *ngIf="quarterDetails?.m_Item1?.[0]?.Members">
+                  <ng-container *ngFor="let member of quarterDetails?.m_Item1?.[0]?.Members; let i = index">
+                    <td>
+                      <div class="d-flex flex-column align-items-center"
+                        style="width:100%; text-align: center; padding-top: 10px;">
+                        <span *ngIf="member?.PhotoUrl">
+                          <img [src]="member.PhotoUrl" alt="Profile Photo"
+                            style="width: 150px; height: 128px" class="rounded-circle"
+                            title="Profile Photo" />
+                        </span>
+                        <span *ngIf="member" style="font-size: 1.2em">{{ member.MemberName }}</span>
+                        <span *ngIf="member?.PassNo">{{ member.PassNo }}</span>
+                      </div>
+                    </td>
+                  </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="quarterDetails?.m_Item2?.length>0">
+                  <ng-container *ngFor="let item of quarterDetails?.m_Item2; let j = index">
+                    <ng-container *ngFor="let itemMember of item?.Members; let k = index">
+                      <td *ngIf="itemMember?.Relation == 12">
+                        <div class="d-flex flex-column align-items-center"
+                          style="width:100%; text-align: center; padding-top: 10px;">
+                          <span *ngIf="itemMember?.PhotoUrl">
+                            <img [src]="itemMember.PhotoUrl" alt="Profile Photo"
+                              style="width: 150px; height: 128px" class="rounded-circle"
+                              title="Profile Photo" />
+                          </span>
+                          <span *ngIf="itemMember" style="font-size: 1.2em">{{ itemMember.Name }}</span>
+                          <span *ngIf="itemMember?.PassNo">{{ itemMember.PassNo }}</span>
+                        </div>
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+              </tr>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary enlarge-on-hover"
+              (click)="hoverClick($event)" (click)="closeEbaPopup()">
+              Close
+            </button>
+            <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
+              (click)="PullEba()">
+              Show Form
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</td>
+
+
 <div class="modal modal-above-header"
      tabindex="-1" data-bs-backdrop="false"
      [ngStyle]="{'display': searchbox }" style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto; ">

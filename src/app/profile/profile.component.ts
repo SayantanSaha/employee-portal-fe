@@ -144,10 +144,7 @@ export class ProfileComponent implements OnInit {
       });
 
 
-      this.employeeService.getBlockType().subscribe(
-        data => this.blockstypelist = data,
-        error => console.log(error)
-      );
+
 
       this.employeeService.getLocationType().subscribe(
         data => this.locationtypelist = data,
@@ -776,6 +773,9 @@ export class ProfileComponent implements OnInit {
 
 
   qtrtype() {
+    this.blockstypelist=[];
+    this.quarterList = [];
+    this.employee!.qtr=null;
     this.employeeService.getQuarterType(this.employee!.location_id!).subscribe(
       data => this.quarterstypelist = data,
       error => console.log(error)
@@ -784,8 +784,65 @@ export class ProfileComponent implements OnInit {
 
 
 
-  qtraddress() {
-    this.employeeService.getQuarterdetail(this.employee!.qtr_code!, this.employee!.location_id!).subscribe(
+  qtraddress(event: Event) {
+    this.blockstypelist=[];
+    this.quarterList = [];
+    this.employee!.qtr=null;
+    const selectElement = event.target as HTMLSelectElement;
+    const typeName = selectElement.options[selectElement.selectedIndex]?.text?.trim();
+
+    if (typeName == "Type - I" || typeName == "Servant Qtr") {
+      this.employeeService.getBlockType().subscribe(
+        data => {
+          this.employee!.blck='T';
+          this.blockstypelist = data.filter(block => block.choice === 1);
+        },
+        error => console.log(error)
+      );
+    }
+
+    else if (this.employee!.qtr_code! == '14' || this.employee!.qtr_code! == '11') {
+      this.employeeService.getBlockType().subscribe(
+        data => {
+          this.employee!.blck='T';
+          this.blockstypelist = data.filter(block => block.choice === 2);
+        },
+        error => console.log(error)
+      );
+    }
+
+    else{
+      this.blockstypelist=[];
+      this.employee!.blck='T';
+    this.employeeService.getQuarterdetail(this.employee!.qtr_code!, this.employee!.location_id!,this.employee!.blck).subscribe(
+      (data: any) => {
+        this.quarterList = data;
+      },
+      (error) => {
+        console.log(error);
+        if (error.status === 404) {
+          this.quarterList = [];
+          this.employee!.qtr = null;
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'empty quarter details .',
+          });
+        }
+        if (error.status === 400) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Something went wrong.',
+          });
+        }
+      }
+    );
+  }
+  }
+  qtrBlckaddress() {
+    this.employee!.qtr=null;
+    this.employeeService.getQuarterdetail(this.employee!.qtr_code!, this.employee!.location_id!,this.employee!.blck!).subscribe(
       (data: any) => {
         this.quarterList = data;
       },
@@ -1067,6 +1124,13 @@ export class ProfileComponent implements OnInit {
             icon: 'warning',
             title: 'warning',
             text: 'empty quarter info!!!!',
+          });
+        }
+        if (error.status === 405) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'warning',
+            text: 'allotment_id Exists!!!!',
           });
         }
       }

@@ -98,6 +98,7 @@ export class EbaFormComponent {
       const idNumber = +this.id;
       if (!isNaN(idNumber)) {
         if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4 || role == 9|| role == 10))||(this.modetwo == 'return')) {
+          if(this.mode !== 'edit' && this.modetwo !== 'relative'){
           // 'id' is a valid number, call getEbaProfile
           this.employeeService.getEbaProfile(idNumber).subscribe(
               (data: any) => {
@@ -107,7 +108,15 @@ export class EbaFormComponent {
                   this.returnedapplication(this.modetwo == 'return');
                 }
               }
+          );}else if(this.mode == 'edit' && this.modetwo == 'relative' && this.user && this.user.role && this.user.role.some((role: number) => (role == 4))){
+            this.employeeService.showEbaformProfile(idNumber).subscribe(
+              (data: any) => {
+                this.employee = data;
+                this.urlid= false;
+                  this.setexpdate();
+              }
           );
+          }
         }
       } else {
         // 'id' is not a valid number, call getMyebaProfile

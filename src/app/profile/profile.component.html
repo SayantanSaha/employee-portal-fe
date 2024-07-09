@@ -1452,10 +1452,21 @@
                             <label class="form-label">Quarter Type:</label>
                           </div>
                           <div class="col-md-8" style="margin-left: -7%">
-                            <select class="form-control" [(ngModel)]="employee!.qtr_code" (change)="qtraddress()">
-                              <option value="">--Select--</option>
+                            <select class="form-control" [(ngModel)]="employee!.qtr_code" (change)="qtraddress($event)">
+                               <option value="">--Select--</option>
                               <option [ngValue]="quartertype.type_code" *ngFor="let quartertype of quarterstypelist">
                                 {{quartertype!.type_name}}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row" *ngIf="blockstypelist !== null && blockstypelist.length > 0" (change)="qtrBlckaddress()">
+                          <div class="col-md-4" style="margin-left: 1%">
+                            <label class="form-label">Block:</label>
+                          </div>
+                          <div class="col-md-8" style="margin-left: -7%">
+                            <select class="form-control" [(ngModel)]="employee!.blck">
+                              <option [ngValue]="blck.code" *ngFor="let blck of blockstypelist">
+                                {{blck!.type_name}}</option>
                             </select>
                           </div>
                         </div>
@@ -1471,6 +1482,7 @@
                             </select>
                           </div>
                         </div>
+
                       </div>
 
                       <div class="modal-footer">

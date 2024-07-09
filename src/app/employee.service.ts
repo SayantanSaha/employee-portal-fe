@@ -229,8 +229,8 @@ export class EmployeeService {
     return this.http.get<any[]>(this.apiUrl+"verifyotp/"+number+'/'+detail,{headers:this.createHeader()});
   }
 
-  getQuarterdetail(qtrtype:string ,location:string): Observable<any[]>{
-    return this.http.get<any[]>(this.apiUrl+"qtrmaster/"+qtrtype+'/'+location,{headers:this.createHeader()});
+  getQuarterdetail(qtrtype:string ,location:string,block:string): Observable<any[]>{
+    return this.http.get<any[]>(this.apiUrl+"qtrmaster/"+qtrtype+'/'+location+'/'+block,{headers:this.createHeader()});
   }
 
   getEbaCardDetail(CardNo:string ): Observable<any[]>{
@@ -243,6 +243,9 @@ export class EmployeeService {
 
   getmemberbyeba(empid:number,qtrdtls:any,qtr:any ): Observable<any>{
     return this.http.post<any>(this.apiUrl+"getmember/"+empid,{ qtrdtls, qtr },{headers:this.createHeader()});
+  }
+  getEbaForm(qtrdtls:any,qtr:any ): Observable<any>{
+    return this.http.post<any>(this.apiUrl+"getEbaForm/",{ qtrdtls, qtr },{headers:this.createHeader()});
   }
 
   PullEbaCard(empid:number,ebacard:any,ebacarddetail:any[] ): Observable<any>{
@@ -354,6 +357,10 @@ export class EmployeeService {
 
   getEbaProfile(id: number):Observable<any>{
     return this.http.get<any>(this.apiUrl+`Eba/${id}`,{headers:this.createHeader()});
+  }
+
+  showEbaformProfile(id: number):Observable<any>{
+    return this.http.get<any>(this.apiUrl+`showEbaformProfile/${id}`,{headers:this.createHeader()});
   }
 
   getRegProfile(id: number):Observable<any>{

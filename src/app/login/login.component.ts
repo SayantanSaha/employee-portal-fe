@@ -52,7 +52,7 @@ export class LoginComponent {
         (error) =>{
           Swal.fire({
             icon: 'error',
-            title: 'API Error',
+            title: 'Error',
             text: error.error.message,
           });
         }

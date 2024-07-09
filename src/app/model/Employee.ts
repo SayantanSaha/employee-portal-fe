@@ -39,6 +39,7 @@ export class Employee{
   curr_state: State | null = null;
   curr_district: District | null = null;
   qtr_code: string | null = null;
+  blck: string | null = null;
   blck_code:string | null = null;
   location_id:string | null = null;
   qtr:any |null =null;

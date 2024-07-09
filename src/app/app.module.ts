@@ -29,8 +29,8 @@ import { UppercaseDirective } from './uppercase.directive';
 import { EbapendingComponent } from './ebapending/ebapending.component';
 import { AdminpanelComponent } from './adminpanel/adminpanel.component';
 import { EbapanelComponent } from './ebapanel/ebapanel.component';
-import { NextDirective } from './next.directive';
-import { PrevDirective } from './prev.directive';
+// import { NextDirective } from './next.directive';
+// import { PrevDirective } from './prev.directive';
 import { EbaformviewComponent } from './ebaformview/ebaformview.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EbaFormListComponent } from './eba-form-list/eba-form-list.component';
@@ -46,6 +46,7 @@ import {RegistrationComponent} from "./registration/registration.component";
 import {RegistrationPanelComponent} from "./registration-panel/registration-panel.component";
 import {RbapppendingComponent} from "./rbapppending/rbapppending.component";
 import {RbcardapplyformComponent} from "./rbcardapplyform/rbcardapplyform.component";
+import {EbaapplyformComponent} from "./ebaapplyform/ebaapplyform.component";
 
 @NgModule({
   declarations: [
@@ -69,8 +70,8 @@ import {RbcardapplyformComponent} from "./rbcardapplyform/rbcardapplyform.compon
     EbapendingComponent,
     AdminpanelComponent,
     EbapanelComponent,
-    NextDirective,
-    PrevDirective,
+    // NextDirective,
+    // PrevDirective,
     EbaformviewComponent,
     EbaFormListComponent,
     EbaprintComponent,
@@ -78,6 +79,7 @@ import {RbcardapplyformComponent} from "./rbcardapplyform/rbcardapplyform.compon
     RbapppendingComponent,
     RbprintComponent,
     RbcardapplyformComponent,
+    EbaapplyformComponent,
   ],
     imports: [
       BrowserModule,
