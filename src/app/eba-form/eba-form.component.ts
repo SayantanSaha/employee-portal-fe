@@ -17,6 +17,7 @@ import {Idcards} from "../model/Idcards";
 import {Vehicles} from "../model/Vehicles";
 import {fileToBase64} from "../profile/fileToBase64";
 import { Router } from '@angular/router';
+import {Organization} from "../model/Organization";
 declare var jQuery: any;
 
 @Component({
@@ -67,14 +68,24 @@ export class EbaFormComponent {
   mode: string | null = null;
   modetwo: string | null = null;
   urlid: boolean = false;
+  urlformid: boolean = false;
   returnapp: boolean = false;
   id: string | null = null;
   remark: string | null = null;
   file_path: string | null = null;
   file_path_64:string|null=null;
   isLoading: boolean = false;
+  maxDate: string = "";
+  orglist: Organization[] = [];
 
   ngOnInit() {
+    const today = new Date();
+    const Myear = today.getFullYear();
+    const Mmonth = (today.getMonth() + 1).toString().padStart(2, '0'); // Zero-padded month
+    const Mday = today.getDate().toString().padStart(2, '0'); // Zero-padded day
+
+    this.maxDate = `${Myear}-${Mmonth}-${Mday}`;
+
     this.isLoading=true;
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.setEditable(this.mode == 'edit');
@@ -113,6 +124,7 @@ export class EbaFormComponent {
               (data: any) => {
                 this.employee = data;
                 this.urlid= false;
+                this.urlformid=true;
                   this.setexpdate();
               }
           );
@@ -171,20 +183,25 @@ export class EbaFormComponent {
     //   error => console.log(error)
     // );
     //
-    // this.employeeService.getDesignations(1).subscribe(
-    //   data=>this.designations=data,
-    //   error => console.log(error)
-    // );
-    //
+    this.employeeService.getDesignations(1).subscribe(
+      data=>this.designations=data,
+      error => console.log(error)
+    );
+
     // this.employeeService.getDivisions(1).subscribe(
     //   data=>this.divisions=data,
     //   error => console.log(error)
     // );
+
+    this.employeeService.getOrganizations().subscribe(
+        data => this.orglist = data,
+        error => console.error(error)
+    );
     //
-    // this.employeeService.getDivisionMasterList().subscribe(
-    //   data=>this.divisiontypelist=data,
-    //   error => console.log(error)
-    // );
+    this.employeeService.getDivisionMasterList().subscribe(
+      data=>this.divisiontypelist=data,
+      error => console.log(error)
+    );
 
     // this.employeeService.getDependents(1).subscribe(
     //   data=>this.relations=data,

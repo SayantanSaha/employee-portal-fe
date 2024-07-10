@@ -70,6 +70,8 @@ export class ProfileComponent implements OnInit {
   employee: Employee | null = null;
   mode: string | null = null;
   editable: boolean = false;
+  urlId: boolean = false;
+  id: any = null;
   states: State[] = [];
   currDistricts: District[] = [];
   permDistricts: District[] = [];
@@ -113,7 +115,9 @@ export class ProfileComponent implements OnInit {
         if (params.hasOwnProperty('id')) {
           const id = params['id'];
           if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
-            this.employeeService.getEmpProfile(id).subscribe(
+            this.urlId=true;
+            this.id=params['id'];
+            this.employeeService.getEmpProfile(this.id).subscribe(
               data => {
                 this.employee = data;
                 this.initializeChangesServantRelation();
@@ -277,6 +281,18 @@ export class ProfileComponent implements OnInit {
           //     window.location.reload();
           //   }
         });
+        if (this.urlId==true) {
+          if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+            this.employeeService.getEmpProfile(this.id).subscribe(
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
+            );
+          }
+        }else{
         this.employeeService.getMyProfile().subscribe(
           datas => {
             this.employee = datas;
@@ -285,7 +301,9 @@ export class ProfileComponent implements OnInit {
             this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
           }
         );
-      },
+      }
+        // this.employee!.id_proof_64=false;
+        },
       (error) => {
         console.log(error);
         console.log(error.status);
@@ -372,14 +390,27 @@ export class ProfileComponent implements OnInit {
             title: 'Success',
             text: 'Designation has been saved successfully',
           });
-          this.employeeService.getMyProfile().subscribe(
-            datas => {
-              this.employee = datas;
-
-              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+          if (this.urlId==true) {
+            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+              this.employeeService.getEmpProfile(this.id).subscribe(
+                  data => {
+                    this.employee = data;
+                    this.initializeChangesServantRelation();
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
             }
-          );
+          }else{
+            this.employeeService.getMyProfile().subscribe(
+                datas => {
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
+            );
+          }
         },
         e => {
           console.log(e);
@@ -419,14 +450,27 @@ export class ProfileComponent implements OnInit {
               icon: 'success',
               title: 'Success',
               text: 'Designation has been updated successfully',
-            }); this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
-
-                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            });if (this.urlId==true) {
+              if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+                this.employeeService.getEmpProfile(this.id).subscribe(
+                    data => {
+                      this.employee = data;
+                      this.initializeChangesServantRelation();
+                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    }
+                );
               }
-            );
+            }else{
+              this.employeeService.getMyProfile().subscribe(
+                  datas => {
+                    this.employee = datas;
+
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
+            }
           },
           e => {
             console.log(e);
@@ -536,15 +580,27 @@ export class ProfileComponent implements OnInit {
             //     window.location.reload();
             //   }
           });
-          this.employeeService.getMyProfile().subscribe(
-            datas => {
-              this.employee = datas;
-
-              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+          if (this.urlId==true) {
+            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+              this.employeeService.getEmpProfile(this.id).subscribe(
+                  data => {
+                    this.employee = data;
+                    this.initializeChangesServantRelation();
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
             }
-          );
-        },
+          }else{
+            this.employeeService.getMyProfile().subscribe(
+                datas => {
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
+            );
+          }},
         e => {
           console.log(e);
           if (e.status === 302) {
@@ -589,15 +645,27 @@ export class ProfileComponent implements OnInit {
               //     // Redirect to the desired page
               //     window.location.reload();
               //   }
-            }); this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
-
-                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            }); if (this.urlId==true) {
+              if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+                this.employeeService.getEmpProfile(this.id).subscribe(
+                    data => {
+                      this.employee = data;
+                      this.initializeChangesServantRelation();
+                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    }
+                );
               }
-            );
-          },
+            }else{
+              this.employeeService.getMyProfile().subscribe(
+                  datas => {
+                    this.employee = datas;
+
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
+            }},
           e => {
             console.log(e);
             if (e.status === 302) {
@@ -680,15 +748,27 @@ export class ProfileComponent implements OnInit {
             //     // Redirect to the desired page
             //     window.location.reload();
             //   }
-          }); this.employeeService.getMyProfile().subscribe(
-            datas => {
-              this.employee = datas;
-
-              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+          }); if (this.urlId==true) {
+            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+              this.employeeService.getEmpProfile(this.id).subscribe(
+                  data => {
+                    this.employee = data;
+                    this.initializeChangesServantRelation();
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
             }
-          );
-        },
+          }else{
+            this.employeeService.getMyProfile().subscribe(
+                datas => {
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
+            );
+          }},
         e => {
           console.log(e);
           if (e.status === 302) {
@@ -734,15 +814,27 @@ export class ProfileComponent implements OnInit {
               //     window.location.reload();
               //   }
             });
-            this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
-
-                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            if (this.urlId==true) {
+              if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+                this.employeeService.getEmpProfile(this.id).subscribe(
+                    data => {
+                      this.employee = data;
+                      this.initializeChangesServantRelation();
+                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    }
+                );
               }
-            );
-          },
+            }else{
+              this.employeeService.getMyProfile().subscribe(
+                  datas => {
+                    this.employee = datas;
+
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
+            }},
           e => {
             console.log(e);
             if (e.status === 302) {
@@ -1100,15 +1192,27 @@ export class ProfileComponent implements OnInit {
           text: 'Pulled successfully',
         })
         this.closeEbaPopup();
-        this.employeeService.getMyProfile().subscribe(
-          datas => {
-            this.employee = datas;
-
-            this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-            this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+        if (this.urlId==true) {
+          if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+            this.employeeService.getEmpProfile(this.id).subscribe(
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
+            );
           }
-        );
-      },
+        }else{
+          this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
+          );
+        }},
       (error) => {
         // Error response
         console.log(error); // Log the error if needed
@@ -1146,15 +1250,27 @@ export class ProfileComponent implements OnInit {
           text: 'Pulled successfully',
         })
         this.closeEbaCardPopup();
-        this.employeeService.getMyProfile().subscribe(
-          datas => {
-            this.employee = datas;
-
-            this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-            this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+        if (this.urlId==true) {
+          if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+            this.employeeService.getEmpProfile(this.id).subscribe(
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
+            );
           }
-        );
-      },
+        }else{
+          this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
+          );
+        }},
       (error) => {
         // Error response
         console.log(error); // Log the error if needed
@@ -1253,14 +1369,27 @@ export class ProfileComponent implements OnInit {
               model: 'servant',
               changed_data: this.employee!.servants[i]
             };
-            this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
-
-                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            if (this.urlId==true) {
+              if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+                this.employeeService.getEmpProfile(this.id).subscribe(
+                    data => {
+                      this.employee = data;
+                      this.initializeChangesServantRelation();
+                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    }
+                );
               }
-            );
+            }else{
+              this.employeeService.getMyProfile().subscribe(
+                  datas => {
+                    this.employee = datas;
+
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
+            }
           }
         },
         (e) => {
@@ -1367,16 +1496,29 @@ export class ProfileComponent implements OnInit {
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Request for approval of Domestic Help has been saved successfully and is pending approval',
+              text: 'Request for approval of Domestic Help relative has been saved successfully and is pending approval',
             });
-            this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
-
-                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            if (this.urlId==true) {
+              if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+                this.employeeService.getEmpProfile(this.id).subscribe(
+                    data => {
+                      this.employee = data;
+                      this.initializeChangesServantRelation();
+                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    }
+                );
               }
-            );
+            }else{
+              this.employeeService.getMyProfile().subscribe(
+                  datas => {
+                    this.employee = datas;
+
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
+            }
           }
         },
         (e) => {
@@ -1413,15 +1555,27 @@ export class ProfileComponent implements OnInit {
               title: 'Success',
               text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
             });
-            this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
-
-                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            if (this.urlId==true) {
+              if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+                this.employeeService.getEmpProfile(this.id).subscribe(
+                    data => {
+                      this.employee = data;
+                      this.initializeChangesServantRelation();
+                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    }
+                );
               }
-            );
+            }else{
+              this.employeeService.getMyProfile().subscribe(
+                  datas => {
+                    this.employee = datas;
 
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
+            }
           }
         },
         (e) => {
@@ -1557,6 +1711,27 @@ export class ProfileComponent implements OnInit {
             //     window.location.reload();
             //   }
           });
+          if (this.urlId==true) {
+            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+              this.employeeService.getEmpProfile(this.id).subscribe(
+                  data => {
+                    this.employee = data;
+                    this.initializeChangesServantRelation();
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
+            }
+          }else{
+            this.employeeService.getMyProfile().subscribe(
+                datas => {
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
+            );
+          }
         },
         e => {
           Swal.fire({
@@ -1924,6 +2099,11 @@ export class ProfileComponent implements OnInit {
   //   }
   // }
 
+  openPdfInNewTab(pdfData: string): void {
+    const pdfWindow = window.open();
+    // @ts-ignore
+    pdfWindow.document.write(`<iframe width='100%' height='100%' src='${pdfData}'></iframe>`);
+  }
 
   async onProfilePhotoSelected(event: Event, param: string): Promise<void> {
     const inputElement = event.target as HTMLInputElement;
@@ -1989,6 +2169,7 @@ export class ProfileComponent implements OnInit {
           const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
           if (this.employee && this.employee.designations && this.employee.designations[i]?.pivot) {
             this.employee.designations[i].pivot.order_path = base64String;
+            this.employee.designations[i].pivot.order_path_64 = true;
             console.log(this.employee.designations[i].pivot.order_path);
           }
         } else {
@@ -2027,6 +2208,7 @@ export class ProfileComponent implements OnInit {
           const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
           if (this.employee) {
             this.employee.id_proof = base64String;
+            this.employee.id_proof_64=true;
             this.changesMade = true;
           } else {
             console.log('this.employee is null.');
@@ -2082,6 +2264,7 @@ export class ProfileComponent implements OnInit {
           const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
           if (this.employee && this.employee.divisions && this.employee.divisions[i]?.pivot) {
             this.employee.divisions[i].pivot.order_path = base64String;
+            this.employee.divisions[i].pivot.order_path_64 = true;
             console.log(this.employee.divisions[i].pivot.order_path);
           }
         } else {

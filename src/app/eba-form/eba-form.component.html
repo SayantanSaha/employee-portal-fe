@@ -52,7 +52,7 @@
       <!--            </div>-->
       <!--          </div>-->
 
-      <div class="card shadow" style="margin-top: 2%">
+      <div class="card shadow" style="margin-top: 2%" *ngIf="!urlformid">
         <div class="card-body" style="font-size: 15px;">
           <div class="row">
             <div class="col col-md-6">
@@ -92,7 +92,7 @@
                 <div class="card-body" style="max-height: 7cm;min-height: 6cm">
                   <h5 class="card-title mat-body-strong" style=" color: #1d00ff">Gov Details</h5>
                   <hr class="row-divider">
-                  <table>
+                  <table >
                     <tr>
                       <td><b>Designation:</b></td>
                       <td style="font-size: 120%" *ngIf="employee && employee.designations">
@@ -118,6 +118,100 @@
                     <tr>
                       <td><b>Id Card NO:</b></td>
                       <td *ngIf="employee && employee.id_cards">{{ employee.id_cards }}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card shadow" style="margin-top: 2%" *ngIf="urlformid">
+        <div class="card-body" style="font-size: 15px;">
+          <div class="row">
+            <div class="col col-md-6">
+              <div class="card">
+                <div class="card-body" style="max-height: 7cm;min-height: 6cm;">
+                  <h5 class="card-title mat-body-strong" style=" color: #1d00ff"> Officer Details</h5>
+                  <hr class="row-divider">
+                  <table>
+                    <tr style="margin: 0.1cm;">
+                      <td><b>Name:</b></td>
+                      <td style="font-size: 120%">{{employee!.emp_title}} {{employee!.emp_name}}</td>
+                    </tr>
+                    <tr>
+                      <td class="mat-body-strong" style="width: 30%;"><strong>Date of Birth:</strong></td>
+                      <td><input type="date" class="form-control" placeholder="Date Of Birth"
+                                 aria-label="Date Of Birth" [(ngModel)]="employee!.dob"
+                                 [max]="maxDate"></td>
+                    </tr>
+                    <tr>
+                      <td><b> Mobile no:</b></td>
+                      <td>{{employee!.mobile}}</td>
+                    </tr>
+                    <tr>
+                      <td><b> Email:</b></td>
+                      <td> <input type="email" class="form-control" placeholder="Email" aria-label="Email"
+                                  [(ngModel)]="employee!.email_id" ></td>
+                    </tr>
+                    <tr>
+                      <td><b>Address:</b></td>
+                      <td>{{employee!.curr_add}},<br />
+                        {{employee!.curr_district}}
+                        {{employee!.curr_state}} - {{employee!.curr_pin}}</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col col-md-6">
+              <div class="card">
+                <div class="card-body" style="max-height: 7cm;min-height: 6cm">
+                  <h5 class="card-title mat-body-strong" style=" color: #1d00ff">Gov Details</h5>
+                  <hr class="row-divider">
+                  <table >
+                    <tr>
+                      <td><b>Designation:</b></td>
+                      <td style="font-size: 120%">
+                        <select *ngIf="employee!.designations" class="form-control"
+                                [(ngModel)]="employee!.designations">
+                          <option value="-1">Select Designation</option>
+                          <option [ngValue]="designation.desg_desc" *ngFor="let designation of designations">
+                            {{designation!.desg_desc}}</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width: 58%;"><b>Divison:</b></td>
+                      <td> <select *ngIf="employee!.divisions && editable" class="form-control" [(ngModel)]="employee!.divisions">
+                        <option value="-1">Select Division</option>
+                        <option [ngValue]="division.div_desc" *ngFor="let division of divisiontypelist">
+                          {{division!.div_desc}}
+                        </option>
+                      </select></td>
+                    </tr>
+                    <tr>
+                      <td><b>Posting place:</b></td>
+                      <td><select class="form-control" id="organization" [(ngModel)]="employee!.organization">
+                        <option [ngValue]="null">Select Your Organization</option>
+                        <option [ngValue]="org.org_desc" *ngFor="let org of orglist">
+                          {{org.org_desc}}
+                        </option>
+                      </select></td>
+                    </tr>
+                    <tr>
+                      <td><b>posting date:</b></td>
+                      <td> <input type="date" class="form-control" placeholder="Date Of Joining"
+                                  aria-label="Date Of Joining" [(ngModel)]="employee!.doj_rb"
+                                  [max]="maxDate"></td>
+                    </tr>
+                    <tr>
+                      <td><b>Retirement dt:</b></td>
+                      <td> <input type="date" class="form-control" id="dor" placeholder="Date Of retirement" aria-label="Date Of retirement" [(ngModel)]="employee!.dor" ></td>
+                    </tr>
+                    <tr>
+<!--                      <td><b>Id Card NO:</b></td>-->
+<!--                      <td *ngIf="employee && employee.id_cards">{{ employee.id_cards }}</td>-->
                     </tr>
                   </table>
                 </div>

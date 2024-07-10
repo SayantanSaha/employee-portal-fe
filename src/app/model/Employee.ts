@@ -65,6 +65,7 @@ export class Employee{
   org: any | null = null;
   designation: any | null = null;
   id_proof: string|null = null;
+  id_proof_64: boolean = false;
   sign_path: string|null = null;
   id_cards: Idcards[]|null = null;
   temp_changes: any;
