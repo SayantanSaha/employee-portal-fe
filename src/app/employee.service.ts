@@ -245,11 +245,15 @@ export class EmployeeService {
     return this.http.post<any>(this.apiUrl+"getmember/"+empid,{ qtrdtls, qtr },{headers:this.createHeader()});
   }
   getEbaForm(qtrdtls:any,qtr:any ): Observable<any>{
-    return this.http.post<any>(this.apiUrl+"getEbaForm/",{ qtrdtls, qtr },{headers:this.createHeader()});
+    return this.http.post<any>(this.apiUrl+"getEbaForm",{ qtrdtls, qtr },{headers:this.createHeader()});
   }
 
   PullEbaCard(empid:number,ebacard:any,ebacarddetail:any[] ): Observable<any>{
     return this.http.post<any>(this.apiUrl+"pullebacard/"+empid, {ebacard,ebacarddetail}, {headers:this.createHeader()});
+  }
+
+  submitIdfrom(value:any ): Observable<any>{
+    return this.http.post<any>(this.apiUrl+"submitIdfrom", {value}, {headers:this.createHeader()});
   }
 
   // Update Relation Of Employee API

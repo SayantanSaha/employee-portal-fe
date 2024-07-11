@@ -162,6 +162,42 @@ export class IdFormComponent implements OnInit {
     window.print();
   }
 
+  submitIdfrom(value:string){
+    this.employeeService.submitIdfrom(value).subscribe(
+      () => {
+        this.isLoading = false;
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'applied successfully',
+        }).then(() => {
+          // Redirect to the dashboard route
+          this.router.navigate(['dashboard']);
+        });
+      },
+      (error) => {
+        if (error.status === 404) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'insert Reason !!!',
+          });
+        }else{
+        this.isLoading = false;
+        console.log('Error in updaterbstatus:', error);
+          // Handle specific errors or use a generic error message
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while Approving application status.',
+          });
+        }
+      },
+    );
+
+
+  }
+
   approveapplication() {
     const id = +this.route.snapshot.params['id'];
     if (!isNaN(id)) {

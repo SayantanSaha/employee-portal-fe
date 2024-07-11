@@ -842,6 +842,7 @@
                             <thead>
                             <tr>
                               <th>Designation</th>
+                              <th>Pay Level</th>
                               <th>Desg to print</th>
                               <th>Joining Date</th>
                               <th>Order No.</th>
@@ -856,6 +857,8 @@
 
                               <td>{{basicDetails.old_table_data.desg_desc ?
                                 basicDetails.old_table_data.desg_desc : 'N/A'}}</td>
+                                 <td>{{basicDetails.old_table_data.pivot.pay_desc ?
+                                basicDetails.old_table_data.pivot.pay_desc : 'N/A'}}</td>
                               <td>{{basicDetails.old_table_data.desg_print ?
                                 basicDetails.old_table_data.desg_print : 'N/A'}}</td>
                               <td>{{basicDetails.old_table_data.pivot.join_date ?
@@ -915,6 +918,7 @@
                             <thead>
                             <tr>
                               <th>Designation</th>
+                              <th>Pay Level</th>
                               <th>Desg to print</th>
                               <th>Joining Date</th>
                               <th>Order No.</th>
@@ -932,6 +936,17 @@
                                   changedDataDetails.desg_desc :
                                   basicDetails.old_table_data?.desg_desc ?
                                     basicDetails.old_table_data.desg_desc :
+                                    'N/A'
+                                }}
+                              </td>
+
+                              <td
+                                [style.color]="changedDataDetails.pay_desc ? 'red' : 'inherit'">
+                                {{
+                                changedDataDetails.pay_desc ?
+                                  changedDataDetails.pay_desc :
+                                  basicDetails.old_table_data?.pay_desc ?
+                                    basicDetails.old_table_data.pay_desc :
                                     'N/A'
                                 }}
                               </td>

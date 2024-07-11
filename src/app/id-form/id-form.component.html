@@ -1,16 +1,18 @@
-<div [class.container]="(editable && !urlId)|| employee!.visual || employee!.visual_dcp" [class.container-fluid]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true)" [style.padding]="!editable && urlId ? '2%' : null"
-     [style.margin-top]="!editable && urlId ? '-3%' : null">
+<div [class.container]="(editable && !urlId)|| employee!.visual || employee!.visual_dcp"
+  [class.container-fluid]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true)"
+  [style.padding]="!editable && urlId ? '2%' : null" [style.margin-top]="!editable && urlId ? '-3%' : null">
   <div class="row">
-    <div  [class.col-md-10]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true)">
+    <div
+      [class.col-md-10]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true)">
 
       <div class="row">
-        <div class="col-md-10" >
+        <div class="col-md-10">
           <div style="font-size: 200%; color: deeppink">
             RB Card Application
-            <ng-container *ngIf="employee!.reg_no || reg_no" >
+            <ng-container *ngIf="employee!.reg_no || reg_no">
               / {{employee!.reg_no}}{{reg_no}}
             </ng-container>
-            <ng-container *ngIf="employee!.status || status" >
+            <ng-container *ngIf="employee!.status || status">
               / {{employee!.status}}{{status}}
             </ng-container>
           </div>
@@ -25,12 +27,16 @@
 
           <div id="div_grid" style="text-align: center;">
             <div style="margin: 5%;" class="row">
-              <table width="100%" border="0" cellpadding="3" cellspacing="2" style="border-collapse: collapse; border-color: #efdccd; background-color: #ffffff;">
+              <table width="100%" border="0" cellpadding="3" cellspacing="2"
+                style="border-collapse: collapse; border-color: #efdccd; background-color: #ffffff;">
+
+
                 <tr>
                   <td align="left" height="30" width="220px">Name:</td>
                   <td align="left" style="width: 300px">{{ employee?.emp_title }}{{ employee?.emp_name }}</td>
                   <td valign="middle" align="right" rowspan="6">
-                    <img [src]="employee?.profile_photo || '/assets/blank_photo.jpg'" width="120px" height="140px" alt="Applicant Photo" />
+                    <img [src]="employee?.profile_photo || '/assets/blank_photo.jpg'" width="120px" height="140px"
+                      alt="Applicant Photo" />
                     <br /><br />
                   </td>
                 </tr>
@@ -61,7 +67,7 @@
                 </tr>
                 <tr style="height: 60px">
                   <td align="left">Permanent Address:</td>
-                  <td align="left" >
+                  <td align="left">
                     {{ employee?.perm_add }}<ng-container *ngIf="employee?.perm_district">, </ng-container>
                     {{ employee?.perm_district }}<ng-container *ngIf="employee?.perm_state">, </ng-container>
                     {{ employee?.perm_state }}<ng-container *ngIf="employee?.perm_pin">, </ng-container>
@@ -76,7 +82,7 @@
                 </tr>
                 <tr style="height: 60px">
                   <td align="left">Present Address:</td>
-                  <td align="left" >
+                  <td align="left">
                     {{ employee?.curr_add }}<ng-container *ngIf="employee?.curr_district">, </ng-container>
                     {{ employee?.curr_district }}<ng-container *ngIf="employee?.curr_state">, </ng-container>
                     {{ employee?.curr_state }}<ng-container *ngIf="employee?.curr_pin">, </ng-container>
@@ -104,7 +110,8 @@
                 <tr style="height: 30px">
                   <td align="left">Gender:</td>
                   <td colspan="2" align="left">
-                    {{ employee?.gender === 'M' ? 'Male' : employee?.gender === 'F' ? 'Female' : employee?.gender === 'O' ? 'Others' : 'N/A' }}
+                    {{ employee?.gender === 'M' ? 'Male' : employee?.gender === 'F' ? 'Female' : employee?.gender ===
+                    'O' ? 'Others' : 'N/A' }}
                   </td>
                 </tr>
                 <tr style="height: 30px">
@@ -145,15 +152,36 @@
                 <tr style="height: 30px">
                   <td align="left">File:</td>
                   <td colspan="2" align="left">
-                    <ng-container
-                      *ngIf="employee?.id_proof && employee?.id_proof!=null ">
+                    <ng-container *ngIf="employee?.id_proof && employee?.id_proof!=null ">
                       <a class="btn btn-outline-primary enlarge-on-hover"
-                         href="{{apiUrl}}getFile/{{employee?.id_proof}}" title="Order File"
-                         target="_blank">
+                        href="{{apiUrl}}getFile/{{employee?.id_proof}}" title="Order File" target="_blank">
                         <i class="bi bi-eye"></i>
                       </a>
                     </ng-container>
 
+                  </td>
+                </tr>
+                <tr style="height: 30px" *ngIf="editable && !urlId">
+                  <td align="left">Applying reason:</td>
+                  <td colspan="2" align="left">
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="input-group mb-3">
+                          <select class="form-control" [(ngModel)]="employee!.apply_reason">
+                            <option value="">--Select Pass Color--</option>
+                            <option value="Designation Changed">Designation Changed</option>
+                            <option value="Lost/theaft">Lost/theaft</option>
+                            <option value="Renewal">Renewal</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr style="height: 30px" *ngIf="!editable && urlId && employee!.apply_reason">
+                  <td align="left">Applying reason:</td>
+                  <td colspan="2" align="left">
+                    {{employee!.apply_reason}}
                   </td>
                 </tr>
                 <!--                <tr style="height: 50px">-->
@@ -170,7 +198,8 @@
                     <!--                    <img [src]="employee?.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px" alt="Upload Signature" />-->
                   </td>
                   <td align="right">
-                    <img [src]="employee?.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px" alt="Upload Signature" />
+                    <img [src]="employee?.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px"
+                      alt="Upload Signature" />
                   </td>
                 </tr>
                 <tr style="height: 30px">
@@ -179,7 +208,8 @@
                   </td>
                   <td align="right" colspan="3">
                     <span style="font-weight: 700; font-size: 15px">SIGNATURE OF APPLICANT</span><br>
-                    <span style="font-size: 15px" >Dt-{{ employee?.applied_date ? (employee?.applied_date | date:'dd-MM-yyyy') : today | date:'dd-MM-yyyy' }}</span>
+                    <span style="font-size: 15px">Dt-{{ employee?.applied_date ? (employee?.applied_date |
+                      date:'dd-MM-yyyy') : today | date:'dd-MM-yyyy' }}</span>
                   </td>
                 </tr>
 
@@ -259,7 +289,7 @@
                       <td colspan="2" align="left">
                         <div class="row">
                           <div class="col-4">
-                              <input type="text" class="form-control" [(ngModel)]="employee!.police_verification_no">
+                            <input type="text" class="form-control" [(ngModel)]="employee!.police_verification_no">
                           </div>
                         </div>
                       </td>
@@ -303,15 +333,15 @@
                     <tr *ngIf="employee?.passColor_issued">
                       <td align="left">Pass Colour Issued:</td>
                       <td colspan="2" align="left">
-        <span *ngIf="employee?.passColor_issued == '1'" class="green">
-          <i class="bi bi-circle-fill"></i> Green
-        </span>
+                        <span *ngIf="employee?.passColor_issued == '1'" class="green">
+                          <i class="bi bi-circle-fill"></i> Green
+                        </span>
                         <span *ngIf="employee?.passColor_issued == '2'" class="purple">
-          <i class="bi bi-circle-fill"></i> Purple
-        </span>
+                          <i class="bi bi-circle-fill"></i> Purple
+                        </span>
                         <span *ngIf="employee?.passColor_issued == '3'" class="red">
-          <i class="bi bi-circle-fill"></i> Red
-        </span>
+                          <i class="bi bi-circle-fill"></i> Red
+                        </span>
                       </td>
                     </tr>
                     <tr>
@@ -324,18 +354,21 @@
                 </ng-container>
 
               </table>
-              <div class="navigation-buttons" *ngIf="editable && !urlId">
-                <button type="submit" class="btn btn-primary "  >Submit</button>
+              <div class="navigation-buttons" *ngIf="editable && !urlId && employee!.apply_reason! && employee!.apply_reason!= null" >
+                <button type="submit" class="btn btn-primary " (click)="submitIdfrom(employee!.apply_reason!)">Submit</button>
               </div>
             </div>
           </div>
 
         </div>
       </div>
-      <ng-container  *ngIf="  employee && employee.newApplicationStatus != null && employee.newApplicationStatus.length > 0">
-        <ng-container  *ngFor="let application of employee!.newApplicationStatus; let j = index">
-          <ng-container  *ngIf="urlId && !editable && !returnapp">
-            <div class="card shadow" *ngIf="application.role_id!==16" style="background-color: #bde3f3; " >
+
+      <br>
+      <ng-container
+        *ngIf="  employee && employee.newApplicationStatus != null && employee.newApplicationStatus.length > 0">
+        <ng-container *ngFor="let application of employee!.newApplicationStatus; let j = index">
+          <ng-container *ngIf="urlId && !editable && !returnapp">
+            <div class="card shadow" *ngIf="application.role_id!==16" style="background-color: #bde3f3; ">
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6" style="text-align: left;font-style: italic">
@@ -383,7 +416,7 @@
                 </div>
               </div>
             </div>
-            <div class="card shadow" *ngIf="application.role_id==16" style="background-color: green; " >
+            <div class="card shadow" *ngIf="application.role_id==16" style="background-color: green; ">
               <div class="card-header">
                 <div class="row">
                   <div class="col-md-6" style="text-align: left;font-style: italic">
@@ -437,8 +470,8 @@
             </div>
             <br>
           </ng-container>
-          <ng-container  *ngIf="application.role_id==16 && !urlId && editable && returnapp">
-            <div class="card shadow" style="background-color: green; " >
+          <ng-container *ngIf="application.role_id==16 && !urlId && editable && returnapp">
+            <div class="card shadow" style="background-color: green; ">
               <div class="card-header">
                 <div class="row">
                   <div class="col-md-6" style="text-align: left;font-style: italic">
@@ -485,7 +518,8 @@
     </div>
 
     <ng-container *ngIf="urlId">
-      <ng-container *ngIf="employee!.so==true || employee!.dh==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true">
+      <ng-container
+        *ngIf="employee!.so==true || employee!.dh==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true">
         <div class="col-md-2" *ngIf="urlId && !editable">
           <br><br>
           <div class="card shadow">
@@ -494,14 +528,17 @@
               <strong><label style="font-size: 130%" for="remarks">Note:</label></strong>
               <div class="spacing" style="margin-top: 2%;"></div>
               <div class="row" style="margin-left: 0%; margin-right: 1.5%;">
-                <textarea class="form-control" id="remarks" name="remarks" style="height: 200px;" placeholder="abc...." [(ngModel)]="remark"></textarea>
+                <textarea class="form-control" id="remarks" name="remarks" style="height: 200px;" placeholder="abc...."
+                  [(ngModel)]="remark"></textarea>
               </div>
               <div class="row">
                 <div class="col-6" style="text-align: right">
-                  <button type="submit" class="btn btn-primary enlarge-on-hover" name="submit" value="Approve" (click)="approveapplication()" >Forward</button>
+                  <button type="submit" class="btn btn-primary enlarge-on-hover" name="submit" value="Approve"
+                    (click)="approveapplication()">Forward</button>
                 </div>
                 <div class="col-6" style="text-align: left">
-                  <button type="submit" class="btn btn-danger enlarge-on-hover" name="submit" value="Return" (click)="returnapplication()">Return</button>
+                  <button type="submit" class="btn btn-danger enlarge-on-hover" name="submit" value="Return"
+                    (click)="returnapplication()">Return</button>
                 </div>
               </div>
             </div>

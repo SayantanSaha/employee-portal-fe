@@ -55,6 +55,7 @@ export class ProfileComponent implements OnInit {
   maxDate: string = "";
   baseUrl: string = '';
   EbaCardNo: string | null = null;
+  payLevels: any[] = [];
 
 
   constructor(
@@ -148,7 +149,10 @@ export class ProfileComponent implements OnInit {
       });
 
 
-
+      this.employeeService.getPays().subscribe(
+        data => this.payLevels = data,
+        error => console.error(error)
+      );
 
       this.employeeService.getLocationType().subscribe(
         data => this.locationtypelist = data,

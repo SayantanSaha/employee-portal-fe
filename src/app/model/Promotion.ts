@@ -2,6 +2,8 @@ export class Promotion {
   id?: number = -1;
   employee_id: number| null = null;
   designation_id: number | null = null;
+  pay_id: number | null = null;
+  paydesc: string = '';
   active: boolean = false;
   join_date: Date | null = null;
   order_date: Date | null = null;

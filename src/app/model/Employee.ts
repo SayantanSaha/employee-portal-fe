@@ -87,4 +87,5 @@ export class Employee{
   passColor_issued:string|null = null;
   payLevel:any | null = null;
   validupto: Date | null = null;
+  apply_reason:string|null = null;
 }
