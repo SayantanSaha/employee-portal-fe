@@ -460,6 +460,23 @@
                               {{employee.blood_group}}
                             </td>
                           </tr>
+                          <tr style="height: 30px" >
+                            <td align="left">Employee Type:</td>
+                            <td colspan="2" align="left">
+                              {{employee!.emp_type}}
+                            </td>
+                          </tr>
+                          <tr style="height: 30px">
+                            <td align="left">Present Card No:</td>
+                            <td colspan="2" align="left">
+                              <ng-container *ngIf="employee?.id_cards; else newCard">
+                                {{ employee!.id_cards}}
+                              </ng-container>
+                              <ng-template #newCard>
+                                <span style="color: blue">New</span>
+                              </ng-template>
+                            </td>
+                          </tr>
                           <!-- <tr style="height: 30px">
                             <td align="left">Pass Color:</td>
                             <td colspan="2" align="left">
@@ -493,10 +510,19 @@
                             </td>
                           </tr>
                           <tr style="height: 30px">
-                            <td align="left">File:</td>
+                            <td align="left">Id proof:</td>
                             <td colspan="2" align="left">
                               <ng-container *ngIf="employee.id_proof">
                                 <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.id_proof)"></i>
+                              </ng-container>
+
+                            </td>
+                          </tr>
+                          <tr style="height: 30px">
+                            <td align="left">Posting Order:</td>
+                            <td colspan="2" align="left">
+                              <ng-container *ngIf="employee.postingOrder">
+                                <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.postingOrder)"></i>
                               </ng-container>
 
                             </td>
