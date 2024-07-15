@@ -41,6 +41,8 @@ export class RegistrationComponent implements OnInit {
   bloodGroups: string[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
   passColors: any[] = [];
   payLevels: any[] = [];
+  mobile_data: any[] = [];
+  email_data: any[] = [];
   passwordsMatch: boolean = false;
   passwordValid: boolean = false;
   passwordTouched: boolean = false;
@@ -67,6 +69,8 @@ export class RegistrationComponent implements OnInit {
   ngOnInit() {
     this.isLoading=true;
     const today = new Date();
+    today.setFullYear(today.getFullYear() - 18); // Subtract 18 years from today
+
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Zero-padded month
     const day = today.getDate().toString().padStart(2, '0'); // Zero-padded day
@@ -77,6 +81,17 @@ export class RegistrationComponent implements OnInit {
       data => this.orglist = data,
       error => console.error(error)
     );
+
+    this.employeeService.getUserMobile().subscribe(
+      data => this.mobile_data = data,
+      error => console.error(error)
+    );
+
+    this.employeeService.getEmpEmail().subscribe(
+      data => this.email_data = data,
+      error => console.error(error)
+    );
+
 
     this.employeeService.getStates().subscribe(
       data => this.states = data,
@@ -360,5 +375,42 @@ export class RegistrationComponent implements OnInit {
     this.display = "none";
   }
 
+  check(event: Event, type: string): void {
+    const input = (event.target as HTMLInputElement).value;
+
+    if (type === 'email' && this.email_data.some(item => item.email_id === input)) {
+      Swal.fire({
+        title: 'Warning',
+        text: 'This email already exists.',
+        icon: 'error',
+      });
+      this.employee.email_id = ''; // Clear the input
+    } else if (type === 'mobile' && this.mobile_data.some(item => item.mobile === input)) {
+      Swal.fire({
+        title: 'Warning',
+        text: 'This mobile number already exists.',
+        icon: 'error',
+      });
+      this.employee.mobile = ''; // Clear the input
+    }
+  }
+
+  calculateDor(): void {
+    if (this.employee.dob) {
+      const dob = new Date(this.employee.dob);
+      let date = new Date(dob);
+
+      // Add 60 years to the Date of Birth
+      date.setFullYear(date.getFullYear() + 60);
+
+      // Adjust Dor if the day is '01'
+      if (date.getDate() === 1) {
+        date.setDate(date.getDate() - 1);
+      }
+
+      // Format Dor as 'YYYY-MM-DD' for the input
+      this.employee.dor = date.toISOString().slice(0, 10);
+    }
+  }
 
 }

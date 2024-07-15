@@ -65,6 +65,7 @@ export class EbaFormComponent {
   editable: boolean = false;
   applyingforRelative: boolean = false;
   applyingforclosefamily: boolean = false;
+  isFamilySelected :boolean= false;
   mode: string | null = null;
   modetwo: string | null = null;
   urlid: boolean = false;
@@ -136,6 +137,8 @@ export class EbaFormComponent {
             (data: any) => {
               this.employee = data;
               this.setexpdate();
+              this.isFamilySelected=true;
+              this.onSelectcloseFamily();
               // @ts-ignore
               // this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
               // // @ts-ignore
@@ -149,6 +152,14 @@ export class EbaFormComponent {
               }).then(() => {
                 this.router.navigate(['/dashboard']);
               });
+            }if (error.status === 404) {
+              Swal.fire({
+                title: 'Data required',
+                text: error.error.msg,
+                icon: 'warning',
+              }).then(() => {
+                this.router.navigate(['/dashboard']);
+              });
             }
           }
         );
@@ -159,6 +170,8 @@ export class EbaFormComponent {
           (data: any) => {
             this.employee = data;
             this.setexpdate();
+            this.isFamilySelected=true;
+            this.onSelectcloseFamily();
             // @ts-ignore
             // this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
             // // @ts-ignore
@@ -169,6 +182,14 @@ export class EbaFormComponent {
               title: 'Not Allowed',
               text: 'You are not allowed to access this resource.',
               icon: 'error',
+            }).then(() => {
+              this.router.navigate(['/dashboard']);
+            });
+          }if (error.status === 405) {
+            Swal.fire({
+              title: 'Data required',
+              text: error.error.msg,
+              icon: 'warning',
             }).then(() => {
               this.router.navigate(['/dashboard']);
             });
@@ -1632,6 +1653,51 @@ export class EbaFormComponent {
         button.classList.remove('clicked');
       }, 200); // Adjust the delay (in milliseconds) based on your transition duration
     }
+  }
+
+  confirmReturn(): void {
+    Swal.fire({
+      title: 'Do you want to return the application?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, return it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.returnapplication();
+
+      }
+    });
+  }
+
+  confirmApprove(): void {
+    Swal.fire({
+      title: 'Do you want to approve the application?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, approve it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.approveapplication();
+
+      }
+    });
+  }
+
+  confirmForward(): void {
+    Swal.fire({
+      title: 'Do you want to forward the application?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, forward it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.Forwardapplication();
+
+      }
+    });
   }
 
 }

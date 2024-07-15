@@ -19,7 +19,7 @@
           </div>
           <div *ngIf="editable && !urlid && !returnapp" style="margin-top: 2%">
             <label>
-              <input type="radio" name="relationType" (click)="onSelectcloseFamily()">
+              <input type="radio" name="relationType" (click)="onSelectcloseFamily()" [checked]="isFamilySelected">
               Family
             </label>
 
@@ -2293,57 +2293,60 @@
               </div>
 
 
-              <div class="row" *ngIf="employee!.so==true || employee!.dh==true ">
+              <div class="row" *ngIf="employee!.so==true || employee!.dh==true">
                 <div class="col-6" style="text-align: right">
-                  <button type="submit" class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)"
-                    name="submit" value="Approve" (click)="approveapplication()">Forward</button>
+                  <button type="button" class="btn btn-primary enlarge-on-hover" (click)="confirmForward()"
+                          name="submit" value="Approve">Forward</button>
                 </div>
                 <div class="col-6" style="text-align: left">
-                  <button type="submit" class="btn btn-danger enlarge-on-hover" (click)="hoverClick($event)"
-                    name="submit" value="Return" (click)="returnapplication()">Return</button>
+                  <button type="button" class="btn btn-danger enlarge-on-hover" (click)="confirmReturn()"
+                          name="submit" value="Return">Return</button>
                 </div>
               </div>
 
               <div class="row" *ngIf="employee!.us==true">
                 <div class="col-4" style="text-align: center">
-                  <button type="submit" class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
-                    name="submit" value="Approve" (click)="approveapplication()">Approve</button>
+                  <button type="button" class="btn btn-success enlarge-on-hover" (click)="confirmApprove()"
+                          name="submit" value="Approve">Approve</button>
                 </div>
                 <div class="col-4" style="text-align: center">
-                  <button type="submit" class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)"
-                    name="submit" value="Forward" (click)="Forwardapplication()">Forward</button>
+                  <button type="button" class="btn btn-primary enlarge-on-hover" (click)="confirmForward()"
+                          name="submit" value="Forward">Forward</button>
                 </div>
                 <div class="col-4" style="text-align: center">
-                  <button type="submit" class="btn btn-danger enlarge-on-hover" (click)="hoverClick($event)"
-                    name="submit" value="Return" (click)="returnapplication()">Return</button>
+                  <button type="button" class="btn btn-danger enlarge-on-hover" (click)="confirmReturn()"
+                          name="submit" value="Return">Return</button>
                 </div>
               </div>
 
               <div class="row" *ngIf="employee!.director==true">
                 <div class="col-4" style="text-align: center">
-                  <button type="submit" class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
-                    name="submit" value="Approve" (click)="approveapplication()">Approve</button>
+                  <button type="button" class="btn btn-success enlarge-on-hover" (click)="confirmApprove()"
+                          name="submit" value="Approve">Approve</button>
                 </div>
                 <div class="col-4" style="text-align: center">
-                  <button type="submit" class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)"
-                    name="submit" value="Forward" (click)="Forwardapplication()">Forward</button>
+                  <button type="button" class="btn btn-primary enlarge-on-hover" (click)="confirmForward()"
+                          name="submit" value="Forward">Forward</button>
                 </div>
                 <div class="col-4" style="text-align: center">
-                  <button type="submit" class="btn btn-danger enlarge-on-hover" (click)="hoverClick($event)"
-                    name="submit" value="Return" (click)="returnapplication()">Return</button>
+                  <button type="button" class="btn btn-danger enlarge-on-hover" (click)="confirmReturn()"
+                          name="submit" value="Return">Return</button>
                 </div>
               </div>
 
               <div class="row" *ngIf="employee!.asp==true">
                 <div class="col-6" style="text-align: right">
-                  <button type="submit" class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
-                    name="submit" value="Approve" (click)="approveapplication()">Approve</button>
+                  <button type="button" class="btn btn-success enlarge-on-hover" (click)="confirmApprove()"
+                          name="submit" value="Approve">Approve</button>
                 </div>
                 <div class="col-6" style="text-align: left">
-                  <button type="submit" class="btn btn-danger enlarge-on-hover" (click)="hoverClick($event)"
-                    name="submit" value="Return" (click)="returnapplication()">Return</button>
+                  <button type="button" class="btn btn-danger enlarge-on-hover" (click)="confirmReturn()"
+                          name="submit" value="Return">Return</button>
                 </div>
               </div>
+
+
+
 
             </div>
           </div>

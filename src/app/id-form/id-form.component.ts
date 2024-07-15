@@ -101,6 +101,7 @@ export class IdFormComponent implements OnInit {
           }
         } else {
           // 'id' is not a valid number, call getMyrbProfile
+          // @ts-ignore
           this.employeeService.getMyIDProfile().subscribe(
             (data: any) => {
               this.employee = data;
@@ -110,6 +111,15 @@ export class IdFormComponent implements OnInit {
                   title: 'Not Allowed',
                   text: 'You are not allowed to access this resource.',
                   icon: 'error',
+                }).then(() => {
+                  this.router.navigate(['/dashboard']);
+                });
+              }
+              if (error.status === 404) {
+                Swal.fire({
+                  title: 'Data required',
+                  text: error.error.msg,
+                  icon: 'warning',
                 }).then(() => {
                   this.router.navigate(['/dashboard']);
                 });
@@ -128,6 +138,14 @@ export class IdFormComponent implements OnInit {
                 title: 'Not Allowed',
                 text: 'You are not allowed to access this resource.',
                 icon: 'error',
+              }).then(() => {
+                this.router.navigate(['/dashboard']);
+              });
+            }if (error.status === 404) {
+              Swal.fire({
+                title: 'Data required',
+                text: error.error.msg,
+                icon: 'warning',
               }).then(() => {
                 this.router.navigate(['/dashboard']);
               });
@@ -161,6 +179,49 @@ export class IdFormComponent implements OnInit {
   printPage() {
     window.print();
   }
+
+  confirmSubmit(applyReason: string): void {
+    Swal.fire({
+      title: 'Do you want to submit?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, submit it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.submitIdfrom(applyReason);
+      }
+    });
+  }
+
+  confirmApprove(): void {
+    Swal.fire({
+      title: 'Do you want to forward the application?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, forward it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.approveapplication();
+      }
+    });
+  }
+
+  confirmReturn(): void {
+    Swal.fire({
+      title: 'Do you want to return the application?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, return it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.returnapplication();
+      }
+    });
+  }
+
 
   submitIdfrom(value:string){
     this.employeeService.submitIdfrom(value).subscribe(

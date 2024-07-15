@@ -107,6 +107,14 @@ export class EmployeeService {
     return this.http.get<Organization[]>(this.apiUrl+"organizations",{headers:this.createHeader()});
   }
 
+  getUserMobile():Observable<any>{
+    return this.http.get<Organization[]>(this.apiUrl+"mobile_data",{headers:this.createHeader()});
+  }
+
+  getEmpEmail():Observable<any>{
+    return this.http.get<Organization[]>(this.apiUrl+"email_data",{headers:this.createHeader()});
+  }
+
   getStates():Observable<State[]>{
     return this.http.get<State[]>(this.apiUrl+"states",{headers:this.createHeader()});
   }

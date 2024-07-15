@@ -32,13 +32,13 @@
                 <div class="row">
                   <div class="col-md">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" [(ngModel)]="employee!.email_id" placeholder="Enter your email">
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" [(ngModel)]="employee!.email_id" placeholder="Enter your email" (blur)="check($event, 'email')">
                     <div id="emailHelp" class="form-text"></div>
                   </div>
 
                   <div class="col-md">
                     <label for="mobile" class="form-label">Mobile No.</label>
-                    <input type="text" maxlength="10" minlength="10" class="form-control" id="mobile" name="mobile" [(ngModel)]="employee!.mobile" placeholder="Enter your mobile number" (input)="onInput($event,'mobile')">
+                    <input type="text" maxlength="10" minlength="10" class="form-control" id="mobile" name="mobile" [(ngModel)]="employee!.mobile" placeholder="Enter your mobile number" (input)="onInput($event,'mobile');" (blur)="check($event, 'mobile')">
                   </div>
                 </div>
 
@@ -166,7 +166,7 @@
 
                   <div class="col-md">
                     <label for="dob" class="form-label">DOB</label>
-                    <input type="date" class="form-control" id="dob" placeholder="Date Of Birth" aria-label="Date Of Birth" [(ngModel)]="employee.dob" [max]="maxDate">
+                    <input type="date" class="form-control" id="dob" placeholder="Date Of Birth" aria-label="Date Of Birth" [(ngModel)]="employee.dob" [max]="maxDate" (change)="calculateDor()">
                   </div>
                 </div>
 
