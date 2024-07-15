@@ -156,11 +156,23 @@
                   <td colspan="2" align="left">{{ employee?.body_mark }}</td>
                 </tr>
                 <tr style="height: 30px">
-                  <td align="left">File:</td>
+                  <td align="left">ID proof:</td>
                   <td colspan="2" align="left">
                     <ng-container *ngIf="employee?.id_proof && employee?.id_proof!=null ">
                       <a class="btn btn-outline-primary enlarge-on-hover"
                         href="{{apiUrl}}getFile/{{employee?.id_proof}}" title="Order File" target="_blank">
+                        <i class="bi bi-eye"></i>
+                      </a>
+                    </ng-container>
+
+                  </td>
+                </tr>
+                <tr style="height: 30px">
+                  <td align="left">Posting Order:</td>
+                  <td colspan="2" align="left">
+                    <ng-container *ngIf="employee?.postingOrder && employee?.postingOrder!=null ">
+                      <a class="btn btn-outline-primary enlarge-on-hover"
+                        href="{{apiUrl}}getFile/{{employee?.postingOrder}}" title="Order File" target="_blank">
                         <i class="bi bi-eye"></i>
                       </a>
                     </ng-container>
