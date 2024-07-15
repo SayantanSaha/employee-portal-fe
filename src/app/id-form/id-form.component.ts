@@ -95,6 +95,22 @@ export class IdFormComponent implements OnInit {
               (data: any) => {
                 this.employee = data;
                 this.maxDate = this.employee!.dor;
+                this.employeeService.getCardType().subscribe(
+                  data => {
+                    this.passColors = data;
+
+                    if(this.employee!.emp_type == 'Temporary'){
+                      this.passColors = this.passColors.filter(color => ['Y'].includes(color.code));
+                      this.passColor_issued = this.passColors.filter(color => ['Y'].includes(color.code));
+                    }
+                    if(this.employee!.emp_type == 'Permanent'){
+                      this.passColors = this.passColors.filter(color => ['G', 'P', 'R'].includes(color.code));
+                      this.passColor_issued = this.passColors.filter(color => ['G', 'P', 'R'].includes(color.code));
+                    }
+
+                  },
+                  error => console.error(error)
+                );
 
                 if(this.mode == 'return') {
                   this.returnedapplication(this.mode == 'return');
@@ -157,22 +173,7 @@ export class IdFormComponent implements OnInit {
         );
       }
     }
-    this.employeeService.getCardType().subscribe(
-      data => {
-        this.passColors = data;
 
-        if(this.employee!.emp_type == 'Temporary'){
-          this.passColors = this.passColors.filter(color => ['Y'].includes(color.code));
-          this.passColor_issued = this.passColors.filter(color => ['Y'].includes(color.code));
-        }
-        if(this.employee!.emp_type == 'Permanent'){
-          this.passColors = this.passColors.filter(color => ['G', 'P', 'R'].includes(color.code));
-          this.passColor_issued = this.passColors.filter(color => ['G', 'P', 'R'].includes(color.code));
-        }
-
-      },
-      error => console.error(error)
-    );
   }
 
   setEditable(status: boolean) {
