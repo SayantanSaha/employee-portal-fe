@@ -225,12 +225,24 @@
                     <label for="body_mark" class="form-label">Body Mark</label>
                     <input type="text" class="form-control" id="body_mark" placeholder="Body Mark" aria-label="Body Mark" [(ngModel)]="employee.body_mark" (keydown)="disableTabKey($event)">
                   </div>
+
                   <div class="col-md">
                     <label class="form-label">Pay level</label>
                     <div  class="input-group mb-3">
                       <select  class="form-control" [(ngModel)]="employee.payLevel" (keydown)="disableTabKey($event)">
                         <option value="null">--Select payLevel--</option>
                         <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel">{{ payLevel.pay_desc }}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md">
+                    <label class="form-label">Employee Type:</label>
+                    <div  class="input-group mb-3">
+                      <select  class="form-control" [(ngModel)]="employee.emp_type" (keydown)="disableTabKey($event)">
+                        <option value="">--Select type--</option>
+                        <option [ngValue]="'Permanent'">Permanent</option>
+                        <option [ngValue]="'Temporary'">Temporary</option>
                       </select>
                     </div>
                   </div>
@@ -423,6 +435,12 @@
                                 <td align="left">Blood Group:</td>
                                 <td colspan="2" align="left">
                                   {{employee.blood_group}}
+                                </td>
+                              </tr>
+                              <tr style="height: 30px">
+                                <td align="left">Employee Type:</td>
+                                <td colspan="2" align="left">
+                                  {{employee.emp_type}}
                                 </td>
                               </tr>
                               <!-- <tr style="height: 30px">

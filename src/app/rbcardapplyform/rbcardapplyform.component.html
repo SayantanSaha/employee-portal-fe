@@ -241,19 +241,7 @@
             </div>
           </div>
 
-          <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >Applying reason:</label>
-          </div>
-          <div class="col-md-3">
-            <div class="input-group mb-3">
-              <select class="form-control" [(ngModel)]="employee!.apply_reason" (change)="onApplyReasonChange()">
-                <option value="">--Select Reason--</option>
-                <option value="Designation Changed">Designation Changed</option>
-                <option value="Lost/theaft">Lost/theaft</option>
-                <option value="Renewal">Renewal</option>
-              </select>
-            </div>
-          </div>
+
 
           <div class="col-md-3" style="text-align: right">
             <label class="form-label" >ID card No: </label>
@@ -264,11 +252,39 @@
             </div>
           </div>
 
+          <div class="col-md-3" style="text-align: right">
+            <label class="form-label" >Applying reason:</label>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group mb-3 ">
+              <select class="form-control row" [(ngModel)]="employee!.apply_reason" (change)="onApplyReasonChange()">
+                <option value="">--Select Reason--</option>
+                <option value="Designation Changed">Designation Changed</option>
+                <option value="Lost/theaft">Lost/theaft</option>
+                <option value="Renewal">Renewal</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="col-md-3" style="text-align: right">
+            <label class="form-label" >Employee type: </label>
+          </div>
+          <div class="col-md-3">
+            <div  class="input-group mb-3">
+              <select  class="form-control" [(ngModel)]="employee.emp_type" >
+                <option value="">--Select type--</option>
+                <option [ngValue]="'Permanent'">Permanent</option>
+                <option [ngValue]="'Temporary'">Temporary</option>
+              </select>
+            </div>
+          </div>
+
           <div class="col-md-3" style="text-align: right" *ngIf="employee!.apply_reason == 'Lost/theaft'">
             <label class="form-label" >Fir No/Fine recipt No:</label>
           </div>
           <div class="col-md-3" *ngIf="employee!.apply_reason == 'Lost/theaft'">
-            <div class="form-group">
+            <div class="form-group row">
               <input type="text" class="form-control" id="fir_no" placeholder="FIR no" aria-label="Fir no" [(ngModel)]="employee.FIR_no" >
             </div>
           </div>

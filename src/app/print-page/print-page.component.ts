@@ -37,7 +37,8 @@ export class PrintPageComponent {
   passTypes:any= [
     { id: 1, imagePath: 'assets/images/pass_frontG.png' },
     { id: 2, imagePath: 'assets/images/pass_frontPc.png' },
-    { id: 3, imagePath: 'assets/images/pass_frontR.png' }];
+    { id: 3, imagePath: 'assets/images/pass_frontR.png' },
+    { id: 4, imagePath: 'assets/images/pass_frontY.png' }];
     // Add more pass types as needed
 
   printbutton: boolean = true;

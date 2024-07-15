@@ -120,6 +120,12 @@
                     {{employee?.blood_group}}
                   </td>
                 </tr>
+                <tr style="height: 30px" >
+                  <td align="left">Employee Type:</td>
+                  <td colspan="2" align="left">
+                    {{employee!.emp_type}}
+                  </td>
+                </tr>
                 <!-- <tr style="height: 30px">
                   <td align="left">Pass Color:</td>
                   <td colspan="2" align="left">
@@ -358,6 +364,9 @@
                         </span>
                         <span *ngIf="employee?.passColor_issued == '3'" class="red">
                           <i class="bi bi-circle-fill"></i> Red
+                        </span>
+                        <span *ngIf="employee?.passColor_issued == '4'" class="yellow">
+                          <i class="bi bi-circle-fill"></i> yellow
                         </span>
                       </td>
                     </tr>
