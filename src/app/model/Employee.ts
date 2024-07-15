@@ -66,6 +66,7 @@ export class Employee{
   designation: any | null = null;
   id_proof: string|null = null;
   id_proof_64: boolean = false;
+  postingOrder:string|null = null;
   sign_path: string|null = null;
   id_cards: Idcards[]|null = null;
   temp_changes: any;
@@ -88,4 +89,5 @@ export class Employee{
   payLevel:any | null = null;
   validupto: Date | null = null;
   apply_reason:string|null = null;
+  FIR_no:string|null = null;
 }

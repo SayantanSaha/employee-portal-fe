@@ -260,8 +260,8 @@ export class EmployeeService {
     return this.http.post<any>(this.apiUrl+"pullebacard/"+empid, {ebacard,ebacarddetail}, {headers:this.createHeader()});
   }
 
-  submitIdfrom(value:any ): Observable<any>{
-    return this.http.post<any>(this.apiUrl+"submitIdfrom", {value}, {headers:this.createHeader()});
+  submitIdfrom(value:any,FIR_no:any ): Observable<any>{
+    return this.http.post<any>(this.apiUrl+"submitIdfrom", {value,FIR_no}, {headers:this.createHeader()});
   }
 
   // Update Relation Of Employee API

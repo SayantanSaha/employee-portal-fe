@@ -756,12 +756,12 @@
 
   <div class="row" *ngIf="fromUrl == 'eba-form' " style=" margin-left: 48%;width: 2cm">
 
-    <button *ngIf="!submit" class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="applyEba()">
+    <button *ngIf="!submit" class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="confirmSubmit()">
       Submit
     </button>
 
-    <button *ngIf="submit == 'update' " class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)"
-      (click)="updateEba()">
+    <button *ngIf="submit == 'update' " class="btn btn-primary enlarge-on-hover" (click)="confirmUpdate()" (click)="hoverClick($event)"
+      >
       Update
     </button>
 

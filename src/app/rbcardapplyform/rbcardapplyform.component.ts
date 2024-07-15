@@ -71,11 +71,15 @@ export class RbcardapplyformComponent {
   ngOnInit() {
     this.isLoading=true;
     const today = new Date();
+    today.setFullYear(today.getFullYear() - 18); // Subtract 18 years from today
+
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Zero-padded month
     const day = today.getDate().toString().padStart(2, '0'); // Zero-padded day
 
     this.maxDate = `${year}-${month}-${day}`;
+
+
 
     this.employeeService.getOrganizations().subscribe(
       data => this.orglist = data,
@@ -171,8 +175,66 @@ export class RbcardapplyformComponent {
     }
   }
 
+  async onPostingOrderSelected(event: any): Promise<void> {
+    const selectedFile = event.target.files[0]; // Get the first selected file
 
+    try {
+      if (selectedFile) {
+        const fileType = selectedFile.type;
+        const fileSize = selectedFile.size;
 
+        // Check if the selected file is a PDF and the size is within limits
+        if (fileType === 'application/pdf' && fileSize <= 1048576) {
+          const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
+          if (this.employee) {
+            this.employee.postingOrder = base64String;
+          } else {
+            console.log('this.employee is null.');
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 1mb or it is not a pdf',
+          });
+          console.log('File size exceeds 1mb or not a pdf');
+        }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'File is not present',
+          text: 'No file selected',
+        });
+        console.log('No file selected');
+      }
+    } catch (error) {
+      console.error('Failed to convert the file to base64:', error);
+    }
+  }
+
+  calculateDor(): void {
+    if (this.employee.dob) {
+      const dob = new Date(this.employee.dob);
+      let date = new Date(dob);
+
+      // Add 60 years to the Date of Birth
+      date.setFullYear(date.getFullYear() + 60);
+
+      // Adjust Dor if the day is '01'
+      if (date.getDate() === 1) {
+        date.setDate(date.getDate() - 1);
+      }
+
+      // Format Dor as 'YYYY-MM-DD' for the input
+      this.employee.dor = date.toISOString().slice(0, 10);
+    }
+  }
+
+  onApplyReasonChange(): void {
+    if (this.employee!.apply_reason !== 'Lost/theaft') {
+      this.employee!.FIR_no = null;
+    }
+  }
 
   onStateChange(state: State, type: string) {
     if (type === 'curr') {

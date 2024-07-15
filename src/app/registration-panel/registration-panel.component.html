@@ -2,7 +2,7 @@
 <div class="container">
   <ng-container *ngIf="user && user.role" >
     <ng-container *ngFor="let role of user.role">
-       <ng-container *ngIf="role === 11 || role ===12 || role ===13 || role ===14" >
+       <ng-container *ngIf="role === 11 || role ===12 || role ===13 || role ===14 || role ===17" >
         <div class="row">
           <div class="container">
             <div class="card shadow">
@@ -87,7 +87,7 @@
                 <div class="row">
                   <div class="col-md-4 col-lg-4 col-sm-4">
                     <!--                  <a routerLink="/rb-pending" style="text-decoration: none; color: inherit;">-->
-                    <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(12)">
+                    <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(17)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
@@ -97,7 +97,7 @@
                             <p>
                               <span class="text-muted small pt-2 ps-1 fw-bold">Pending at US</span>
                             </p>
-                            {{rbdashboardData.pendingso}}
+                            {{rbdashboardData.pendingus}}
                           </div>
                         </div>
                       </div>

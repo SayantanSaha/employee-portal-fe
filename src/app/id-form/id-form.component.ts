@@ -54,6 +54,7 @@ export class IdFormComponent implements OnInit {
   passColors: any[] = [];
   passColor_issued: any[] = [];
   minDate : string;
+  maxDate : string= '';
 
 
   ngOnInit() {
@@ -78,7 +79,7 @@ export class IdFormComponent implements OnInit {
       let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
       this.user = JSON.parse(userString!);
 
-      if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13|| role == 14))||(this.mode == 'return')) {
+      if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13|| role == 14 || role == 17))||(this.mode == 'return')) {
         if (this.mode !== 'return') {
           this.letverify(!isNaN(+this.id!));
         }
@@ -88,11 +89,13 @@ export class IdFormComponent implements OnInit {
         // 'id' is present, try to convert it to a number
         const idNumber = +this.id;
         if (!isNaN(idNumber)) {
-          if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13|| role == 14))||(this.mode == 'return')) {
+          if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13|| role == 14 || role == 17))||(this.mode == 'return')) {
             // 'id' is a valid number, call getrbProfile
             this.employeeService.getRegProfile(idNumber).subscribe(
               (data: any) => {
                 this.employee = data;
+                this.maxDate = this.employee!.dor;
+
                 if(this.mode == 'return') {
                   this.returnedapplication(this.mode == 'return');
                 }
@@ -180,7 +183,13 @@ export class IdFormComponent implements OnInit {
     window.print();
   }
 
-  confirmSubmit(applyReason: string): void {
+  onApplyReasonChange(): void {
+    if (this.employee!.apply_reason !== 'Lost/theaft') {
+      this.employee!.FIR_no = null;
+    }
+  }
+
+  confirmSubmit(applyReason: string,FIR_no: string|null): void {
     Swal.fire({
       title: 'Do you want to submit?',
       icon: 'warning',
@@ -189,7 +198,7 @@ export class IdFormComponent implements OnInit {
       cancelButtonText: 'No, cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.submitIdfrom(applyReason);
+        this.submitIdfrom(applyReason,FIR_no);
       }
     });
   }
@@ -223,8 +232,11 @@ export class IdFormComponent implements OnInit {
   }
 
 
-  submitIdfrom(value:string){
-    this.employeeService.submitIdfrom(value).subscribe(
+
+
+
+  submitIdfrom(value:string,FIR_no:string|null){
+    this.employeeService.submitIdfrom(value,FIR_no).subscribe(
       () => {
         this.isLoading = false;
         Swal.fire({
@@ -250,7 +262,7 @@ export class IdFormComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'An error occurred while Approving application status.',
+            text: error.error.message,
           });
         }
       },
@@ -258,6 +270,17 @@ export class IdFormComponent implements OnInit {
 
 
   }
+
+  // errorMessage: string = '';
+  // validateDates() {
+  //   const validupto = new Date(this.employee!.validupto);
+  //   const dor = new Date(this.employee!.dor);
+  //   if (validupto > dor) {
+  //     this.errorMessage = 'Valid upto date should not be greater than Date of Retirement.';
+  //   } else {
+  //     this.errorMessage = '';
+  //   }
+  // }
 
   approveapplication() {
     const id = +this.route.snapshot.params['id'];
@@ -324,7 +347,7 @@ export class IdFormComponent implements OnInit {
         }
       }
 
-        else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 12 || role ===11 || role===14))) {
+        else if (this.user && this.user.role && this.user.role.some((role:  number ) => (role === 12 || role ===11 || role===14 || role ===17))) {
           this.isLoading=true;
           this.employeeService.updaterbstatus(id, 'Approve', this.remark?? '').subscribe(
               () =>{
@@ -382,7 +405,7 @@ export class IdFormComponent implements OnInit {
   {
     // Extract id from route parameters
     const id = +this.route.snapshot.params['id'];
-    if (this.user && this.user.role && this.user.role.some((role:  number) => (role === 12 || role ===11 || role===14 || role ===13))) {
+    if (this.user && this.user.role && this.user.role.some((role:  number) => (role === 12 || role ===11 || role ===17 || role===14 || role ===13))) {
       if(this.employee){
         if(this.remark == null ){
           Swal.fire({

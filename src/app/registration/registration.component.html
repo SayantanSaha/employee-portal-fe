@@ -298,7 +298,7 @@
                     </div>
                   </div>
                   <div class="col-md">
-                    <label for="id_proof" class="form-label">Upload Supporting Document with ID Proof(pdf)</label><br><br>
+                    <label for="id_proof" class="form-label">ID Proof(pdf)</label><br><br>
                     <div class="text-center">
                       <label for="id_proof" class="upload-icon-label" title="Upload Supporting Document with ID Proof">
                         <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>
@@ -306,6 +306,18 @@
                       <input type="file" class="custom-file-input" (change)="onIDproofSelected($event)" id="id_proof" title="Upload ID Proof" style="display: none">
                       <ng-container *ngIf="employee.id_proof">
                         <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.id_proof)"></i>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <label for="postingOrder" class="form-label">posting Order(pdf)</label><br><br>
+                    <div class="text-center">
+                      <label for="postingOrder" class="upload-icon-label" title="Upload Supporting Document with ID Proof">
+                        <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>
+                      </label>
+                      <input type="file" class="custom-file-input" (change)="onPostingOrderSelected($event)" id="postingOrder" title="Upload ID Proof" style="display: none">
+                      <ng-container *ngIf="employee.postingOrder">
+                        <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.postingOrder)"></i>
                       </ng-container>
                     </div>
                   </div>
@@ -434,10 +446,18 @@
                                 <td colspan="2" align="left">{{ employee.body_mark }}</td>
                               </tr>
                               <tr style="height: 30px">
-                                <td align="left">File:</td>
+                                <td align="left">Id proof:</td>
                                 <td colspan="2" align="left">
                                   <ng-container *ngIf="employee.id_proof">
                                     <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.id_proof)"></i>
+                                  </ng-container>
+                                </td>
+                              </tr>
+                              <tr style="height: 30px">
+                                <td align="left">Posting Order:</td>
+                                <td colspan="2" align="left">
+                                  <ng-container *ngIf="employee.postingOrder">
+                                    <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.postingOrder)"></i>
                                   </ng-container>
 
                                 </td>

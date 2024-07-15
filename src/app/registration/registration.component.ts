@@ -272,6 +272,43 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
+  async onPostingOrderSelected(event: any): Promise<void> {
+    const selectedFile = event.target.files[0]; // Get the first selected file
+
+    try {
+      if (selectedFile) {
+        const fileType = selectedFile.type;
+        const fileSize = selectedFile.size;
+
+        // Check if the selected file is a PDF and the size is within limits
+        if (fileType === 'application/pdf' && fileSize <= 1048576) {
+          const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
+          if (this.employee) {
+            this.employee.postingOrder = base64String;
+          } else {
+            console.log('this.employee is null.');
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 1mb or it is not a pdf',
+          });
+          console.log('File size exceeds 1mb or not a pdf');
+        }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'File is not present',
+          text: 'No file selected',
+        });
+        console.log('No file selected');
+      }
+    } catch (error) {
+      console.error('Failed to convert the file to base64:', error);
+    }
+  }
+
   updateDesgPrint(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedOption = selectElement.options[selectElement.selectedIndex];

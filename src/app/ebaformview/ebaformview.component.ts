@@ -337,4 +337,32 @@ export class EbaformviewComponent implements OnInit {
 
     }
   }
+  confirmUpdate(): void {
+    Swal.fire({
+      title: 'Do you want to Update the application?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Update it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.updateEba();
+
+      }
+    });
+  }
+  confirmSubmit(): void {
+    Swal.fire({
+      title: 'Do you want to Submit the application?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Submit it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.applyEba();
+
+      }
+    });
+  }
 }

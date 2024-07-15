@@ -1,9 +1,9 @@
 <div [class.container]="(editable && !urlId)|| employee!.visual || employee!.visual_dcp"
-  [class.container-fluid]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true)"
+  [class.container-fluid]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.us==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true)"
   [style.padding]="!editable && urlId ? '2%' : null" [style.margin-top]="!editable && urlId ? '-3%' : null">
   <div class="row">
     <div
-      [class.col-md-10]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true)">
+      [class.col-md-10]="!editable && urlId && (employee!.so==true || employee!.dh==true || employee!.us==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true)">
 
       <div class="row">
         <div class="col-md-10">
@@ -167,8 +167,8 @@
                     <div class="row">
                       <div class="col-4">
                         <div class="input-group mb-3">
-                          <select class="form-control" [(ngModel)]="employee!.apply_reason">
-                            <option value="">--Select Pass Color--</option>
+                          <select class="form-control" [(ngModel)]="employee!.apply_reason" (change)="onApplyReasonChange()">
+                            <option value="">--Select reason--</option>
                             <option value="Designation Changed">Designation Changed</option>
                             <option value="Lost/theaft">Lost/theaft</option>
                             <option value="Renewal">Renewal</option>
@@ -184,6 +184,23 @@
                     {{employee!.apply_reason}}
                   </td>
                 </tr>
+                <tr style="height: 30px" *ngIf="editable && !urlId && employee!.apply_reason == 'Lost/theaft'">
+                  <td align="left">Fir No/Fine recipt No:</td>
+                  <td colspan="2" align="left">
+                    <div class="row">
+                      <div class="col-4">
+                        <input type="text" class="form-control" [(ngModel)]="employee!.FIR_no" placeholder="FIR no">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr style="height: 30px" *ngIf="!editable && urlId && employee!.apply_reason == 'Lost/theaft'">
+                  <td align="left">Fir No/Fine recipt No:</td>
+                  <td colspan="2" align="left">
+                    {{employee!.FIR_no}}
+                  </td>
+                </tr>
+
                 <!--                <tr style="height: 50px">-->
                 <!--                  <td colspan="3" align="left">-->
                 <!--                    <span>Note :- (1) Furnishing wrong information is an offence:</span>-->
@@ -316,7 +333,7 @@
                       <td colspan="2" align="left">
                         <div class="row">
                           <div class="col-4">
-                            <input type="date" class="form-control" [(ngModel)]="employee!.validupto" [min]="minDate">
+                             <input type="date" class="form-control" [(ngModel)]="employee!.validupto" [min]="minDate" [max]="maxDate">
                           </div>
                         </div>
                       </td>
@@ -354,8 +371,8 @@
                 </ng-container>
 
               </table>
-              <div class="navigation-buttons" *ngIf="editable && !urlId && employee!.apply_reason! && employee!.apply_reason!= null" >
-                <button type="submit" class="btn btn-primary " (click)="confirmSubmit(employee!.apply_reason!)">Submit</button>
+              <div class="navigation-buttons" *ngIf="editable && !urlId && employee!.apply_reason && (employee!.apply_reason !== 'Lost/theaft' || (employee!.apply_reason === 'Lost/theaft' && employee!.FIR_no))">
+                <button type="submit" class="btn btn-primary" (click)="confirmSubmit(employee!.apply_reason!, employee!.FIR_no)">Submit</button>
               </div>
             </div>
           </div>
@@ -519,7 +536,7 @@
 
     <ng-container *ngIf="urlId">
       <ng-container
-        *ngIf="employee!.so==true || employee!.dh==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true">
+        *ngIf="employee!.so==true || employee!.dh==true || employee!.us==true || employee!.dh_dcp==true || employee!.dcp==true || employee!.asp==true">
         <div class="col-md-2" *ngIf="urlId && !editable">
           <br><br>
           <div class="card shadow">
