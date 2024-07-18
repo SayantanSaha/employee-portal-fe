@@ -1680,7 +1680,6 @@ export class EbaFormComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         this.approveapplication();
-
       }
     });
   }
@@ -1694,8 +1693,12 @@ export class EbaFormComponent {
       cancelButtonText: 'No, cancel',
     }).then((result) => {
       if (result.isConfirmed) {
+        if  (this.user && this.user.role && this.user.role.some((role:  number ) => (role == 4 || role == 5))) {
+          this.approveapplication();
+        }
+        if (this.user && this.user.role && this.user.role.some((role:  number ) => (role == 6 || role == 9))) {
         this.Forwardapplication();
-
+        }
       }
     });
   }
