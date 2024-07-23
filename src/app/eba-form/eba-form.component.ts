@@ -289,10 +289,10 @@ export class EbaFormComponent {
       })
       this.employee!.closefamily?.forEach(member => {
         member.pivot.eba_passes?.forEach(ebapass=>{
-          if( formattedDate<=this.employee!.dor ){
+          if(!ebapass.eba_pass_exp_date_edited && formattedDate<=this.employee!.dor && this.employee?.dh){
             ebapass.eba_pass_exp_date_edit=formattedDate;
           }
-          if(formattedDate>this.employee!.dor ){
+          if(formattedDate>this.employee!.dor && this.employee?.dh && !ebapass.eba_pass_exp_date_edited){
             ebapass.eba_pass_exp_date_edit=this.employee!.dor;
           }
         })
