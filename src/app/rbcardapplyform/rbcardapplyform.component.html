@@ -1,6 +1,5 @@
-
 <div class="container">
-  <div class="row" >
+  <div class="row">
     <div class="form-holder card shadow">
       <div class="card-header">
         Registration
@@ -9,19 +8,21 @@
 
         <div class="row">
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >Name:<span style="color: red;" class="required">*</span></label>
+            <label class="form-label">Name:<span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col">
-            <input type="text" class="form-control" id="Name" name="Name" [(ngModel)]="employee!.emp_name" placeholder="Enter your name" >
+            <input type="text" class="form-control" id="Name" name="Name" [(ngModel)]="employee!.emp_name"
+              placeholder="Enter your name">
           </div>
         </div>
 
 
         <div class="row">
-          <div class="col-md-3" style="text-align: right"><label class="form-label">Present Address:<span style="color: red;" class="required">*</span></label></div>
+          <div class="col-md-3" style="text-align: right"><label class="form-label">Present Address:<span
+                style="color: red;" class="required">*</span></label></div>
           <div class="col">
-            <textarea  class="form-control" placeholder="Address" aria-label="address"
-                      [(ngModel)]="employee!.curr_add" ></textarea>
+            <textarea class="form-control" placeholder="Address" aria-label="address"
+              [(ngModel)]="employee!.curr_add"></textarea>
           </div>
         </div>
 
@@ -29,7 +30,8 @@
           <div class="col-md-3"></div>
           <div class="col-md-3">
             <div class="form-group">
-              <select class="form-control" [(ngModel)]="employee!.curr_state" (ngModelChange)="onStateChange($event,'curr')">
+              <select class="form-control" [(ngModel)]="employee!.curr_state"
+                (ngModelChange)="onStateChange($event,'curr')">
                 <option value="null">Select State </option>
                 <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
               </select>
@@ -48,8 +50,8 @@
 
           <div class="col-md-3">
             <div class="form-group">
-              <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
-                     aria-label="pin" [(ngModel)]="employee!.curr_pin" pattern="[0-9]*" (input)="onInput($event,'curr_pin')">
+              <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN" aria-label="pin"
+                [(ngModel)]="employee!.curr_pin" pattern="[0-9]*" (input)="onInput($event,'curr_pin')">
             </div>
           </div>
         </div>
@@ -58,12 +60,12 @@
         <div class="row">
           <div class="col-md-3" style="text-align: right">
             <label class="form-label">Permanent Address:<span style="color: red;" class="required">*</span></label>
-            <br><input type="checkbox" id="cpaddress" [(ngModel)]="isCpAddressChecked"
-                       (change)="cPAddress()"> &nbsp; <b class="text-danger">Same as Present Address</b>
+            <br><input type="checkbox" id="cpaddress" [(ngModel)]="isCpAddressChecked" (change)="cPAddress()"> &nbsp; <b
+              class="text-danger">Same as Present Address</b>
           </div>
           <div class="col">
-            <textarea  class="form-control" placeholder="Address" aria-label="address"
-                       [(ngModel)]="employee!.perm_add" [readonly]="isCpAddressChecked"></textarea>
+            <textarea class="form-control" placeholder="Address" aria-label="address" [(ngModel)]="employee!.perm_add"
+              [readonly]="isCpAddressChecked"></textarea>
           </div>
         </div>
 
@@ -71,7 +73,8 @@
           <div class="col-md-3"></div>
           <div class="col-md-3">
             <div class="form-group">
-              <select class="form-control" [(ngModel)]="employee!.perm_state" (ngModelChange)="onStateChange($event,'perm')" [disabled]="isCpAddressChecked" >
+              <select class="form-control" [(ngModel)]="employee!.perm_state"
+                (ngModelChange)="onStateChange($event,'perm')" [disabled]="isCpAddressChecked">
                 <option value="null">Select State </option>
                 <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
               </select>
@@ -90,9 +93,8 @@
 
           <div class="col-md-3">
             <div class="form-group">
-              <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
-                     aria-label="pin" [(ngModel)]="employee!.perm_pin"
-                     [readonly]="isCpAddressChecked" (input)="onInput($event,'perm_pin')">
+              <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN" aria-label="pin"
+                [(ngModel)]="employee!.perm_pin" [readonly]="isCpAddressChecked" (input)="onInput($event,'perm_pin')">
             </div>
           </div>
         </div>
@@ -104,14 +106,15 @@
             <label class="form-label">Mobile number: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col">
-            <input type="text" maxlength="10" minlength="10" class="form-control" id="mobile" name="mobile" [(ngModel)]="employee!.mobile" placeholder="Enter your mobile number" (input)="onInput($event,'mobile')">
+            <input type="text" maxlength="10" minlength="10" class="form-control" id="mobile" name="mobile"
+              [(ngModel)]="employee!.mobile" placeholder="Enter your mobile number" (input)="onInput($event,'mobile')">
           </div>
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label"  >Gender: <span style="color: red;" class="required">*</span></label>
+            <label class="form-label">Gender: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
             <div class="form-group row">
-              <select class="form-control" id="gender" [(ngModel)]="employee.gender" >
+              <select class="form-control" id="gender" [(ngModel)]="employee.gender">
                 <option value="null">--Select Gender--</option>
                 <option [ngValue]="'M'">Male</option>
                 <option [ngValue]="'F'">Female</option>
@@ -122,19 +125,20 @@
           </div>
 
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >Email: <span style="color: red;" class="required">*</span></label>
+            <label class="form-label">Email: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
             <div class="form-group ">
-              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" [(ngModel)]="employee!.email_id" placeholder="Enter your email">
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email"
+                [(ngModel)]="employee!.email_id" placeholder="Enter your email">
             </div>
           </div>
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >Blood Group:</label>
+            <label class="form-label">Blood Group:</label>
           </div>
           <div class="col-md-3">
             <div class="form-group row">
-              <select  class="form-control" [(ngModel)]="employee.blood_group" >
+              <select class="form-control" [(ngModel)]="employee.blood_group">
                 <option value="null">--Select Blood Group--</option>
                 <option *ngFor="let bloodGroup of bloodGroups" [ngValue]="bloodGroup">{{ bloodGroup }}</option>
               </select>
@@ -146,10 +150,10 @@
 
         <div class="row">
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >Organization:<span style="color: red;" class="required">*</span></label>
+            <label class="form-label">Organization:<span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col">
-            <select class="form-control" id="organization" [(ngModel)]="employee.organization" >
+            <select class="form-control" id="organization" [(ngModel)]="employee.organization">
               <option [ngValue]="null">Select Your Organization</option>
               <option [ngValue]="org" *ngFor="let org of orglist">
                 {{org.org_desc}}
@@ -173,7 +177,8 @@
 
           <div class="col-md-3">
             <div class="form-group">
-              <select class="form-control" id="designation" [(ngModel)]="employee.designation"(change)="updateDesgPrint($event)">
+              <select class="form-control" id="designation" [(ngModel)]="employee.designation"
+                (change)="updateDesgPrint($event)">
                 <option [ngValue]="null">Select Designation</option>
                 <option [ngValue]="desg" *ngFor="let desg of designations">
                   {{desg.desg_desc}}
@@ -184,7 +189,8 @@
 
           <div class="col-md-3">
             <div class="form-group">
-              <input type="text" class="form-control" id="desg_print" placeholder="Desg. Print" aria-label="desg_print" [(ngModel)]="employee.desg_print" >
+              <input type="text" class="form-control" id="desg_print" placeholder="Desg. Print" aria-label="desg_print"
+                [(ngModel)]="employee.desg_print">
             </div>
           </div>
 
@@ -197,14 +203,16 @@
             <label class="form-label">Body Mark:: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col">
-            <input type="text" class="form-control" id="body_mark" placeholder="Body Mark" aria-label="Body Mark" [(ngModel)]="employee.body_mark" >
+            <input type="text" class="form-control" id="body_mark" placeholder="Body Mark" aria-label="Body Mark"
+              [(ngModel)]="employee.body_mark">
           </div>
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label"  >DOB: <span style="color: red;" class="required">*</span></label>
+            <label class="form-label">DOB: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
             <div class="form-group row">
-              <input type="date" class="form-control" id="dob" placeholder="Date Of Birth" aria-label="Date Of Birth" [(ngModel)]="employee.dob" [max]="maxDate" (change)="calculateDor()">
+              <input type="date" class="form-control" id="dob" placeholder="Date Of Birth" aria-label="Date Of Birth"
+                [(ngModel)]="employee.dob" [max]="maxDate" (change)="calculateDor()">
             </div>
           </div>
 
@@ -221,11 +229,11 @@
           </div> -->
 
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >Pay Level: <span style="color: red;" class="required">*</span></label>
+            <label class="form-label">Pay Level: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
             <div class="form-group">
-              <select  class="form-control" [(ngModel)]="employee.payLevel" >
+              <select class="form-control" [(ngModel)]="employee.payLevel">
                 <option value="null">--Select payLevel--</option>
                 <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel">{{ payLevel.pay_desc }}</option>
               </select>
@@ -233,26 +241,27 @@
           </div>
 
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >Date Of retirement: <span style="color: red;" class="required">*</span></label>
+            <label class="form-label">Date Of retirement: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
             <div class="form-group row">
-              <input type="date" class="form-control" id="dor" placeholder="Date Of retirement" aria-label="Date Of retirement" [(ngModel)]="employee.dor" >
+              <input type="date" class="form-control" id="dor" placeholder="Date Of retirement"
+                aria-label="Date Of retirement" [(ngModel)]="employee.dor">
             </div>
           </div>
 
 
 
-          <div class="col-md-3" style="text-align: right">
+          <!-- <div class="col-md-3" style="text-align: right">
             <label class="form-label" >ID card No: </label>
           </div>
           <div class="col-md-3">
             <div class="form-group">
               <input type="text" class="form-control" id="Rb card no" placeholder="Rb card no" aria-label="Rb card no" [(ngModel)]="employee.id_cards" >
             </div>
-          </div>
+          </div> -->
 
-          <div class="col-md-3" style="text-align: right">
+          <!-- <div class="col-md-3" style="text-align: right">
             <label class="form-label" >Applying reason:</label>
           </div>
           <div class="col-md-3">
@@ -264,15 +273,15 @@
                 <option value="Renewal">Renewal</option>
               </select>
             </div>
-          </div>
+          </div> -->
 
 
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >Employee type: </label>
+            <label class="form-label">Employee type: </label>
           </div>
           <div class="col-md-3">
-            <div  class="input-group mb-3">
-              <select  class="form-control" [(ngModel)]="employee.emp_type" >
+            <div class="input-group mb-3">
+              <select class="form-control" [(ngModel)]="employee.emp_type">
                 <option value="">--Select type--</option>
                 <option [ngValue]="'Permanent'">Permanent</option>
                 <option [ngValue]="'Temporary'">Temporary</option>
@@ -280,98 +289,103 @@
             </div>
           </div>
 
-          <div class="col-md-3" style="text-align: right" *ngIf="employee!.apply_reason == 'Lost/theaft'">
+          <!-- <div class="col-md-3" style="text-align: right" *ngIf="employee!.apply_reason == 'Lost/theaft'">
             <label class="form-label" >Fir No/Fine recipt No:</label>
           </div>
           <div class="col-md-3" *ngIf="employee!.apply_reason == 'Lost/theaft'">
             <div class="form-group row">
               <input type="text" class="form-control" id="fir_no" placeholder="FIR no" aria-label="Fir no" [(ngModel)]="employee.FIR_no" >
             </div>
+          </div> -->
+
+
+
+
+          <div class="col-md-3" style="text-align: right">
+
           </div>
+          <div class="col-md-3">
 
-
-
-
-        <div class="col-md-3" style="text-align: right">
-
+          </div>
         </div>
-        <div class="col-md-3">
-
-        </div>
-        </div>
-
 
         <hr class="row-divider">
 
-
-
-
-
-
-
-                       <div class="row">
-                  <div class="col-md">
-                    <label for="id_proof" class="form-label">Upload Photo <span style="color: red;" class="required">*</span></label><br>
-                    <div class="text-center">
-                      <span *ngIf="employee && employee.profile_photo">
-                        <img [src]="employee.profile_photo" alt="Profile Photo" class="rounded-circle" title="Profile Photo" style="width: 150px; height: 128px" />
-                      </span>
-                      <input type="file" class="custom-file-input" id="profile_photo" (change)="onProfilePhotoSelected($event, 'Profile Photo')" style="display: none">
-                      <br /><br />
-                      <label for="profile_photo" class="upload-icon-label" title="Upload Profile Photo">
-                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"></i>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-md">
-                    <label for="id_proof" class="form-label">Upload Signature <span style="color: red;" class="required">*</span></label><br>
-                    <div class="text-center">
-                      <span *ngIf="employee && employee.sign_path">
-                        <img [src]="employee.sign_path" alt="Signature" class="rounded-square" title="Employee Signature" style="width: 150px; height: 30px" />
-                      </span>
-                      <input type="file" class="custom-file-input" id="sign_path" (change)="onProfilePhotoSelected($event, 'Employee Sign')" style="display: none">
-                      <br /><br />
-                      <label for="sign_path" class="upload-icon-label" title="Upload Signature">
-                        <i class="bi bi-cloud-arrow-up btn btn-outline-danger enlarge-on-hover"></i>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-md">
-                    <label for="id_proof" class="form-label">Upload Supporting Document with ID Proof(pdf) <span style="color: red;" class="required">*</span></label><br><br>
-                    <div class="text-center">
-                      <label for="id_proof" class="upload-icon-label" title="Upload Supporting Document with ID Proof">
-                        <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>
-                      </label>
-                      <input type="file" class="custom-file-input" (change)="onIDproofSelected($event)" id="id_proof" title="Upload ID Proof" style="display: none">
-                      <ng-container *ngIf="employee.id_proof">
-                        <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.id_proof)"></i>
-                      </ng-container>
-                    </div>
-                  </div>
-                  <div class="col-md">
-                    <label for="postingOrder" class="form-label">posting Order(pdf)</label><br><br>
-                    <div class="text-center">
-                      <label for="postingOrder" class="upload-icon-label" title="Upload Supporting Document with ID Proof">
-                        <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>
-                      </label>
-                      <input type="file" class="custom-file-input" (change)="onPostingOrderSelected($event)" id="postingOrder" title="Upload ID Proof" style="display: none">
-                      <ng-container *ngIf="employee.postingOrder">
-                        <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.postingOrder)"></i>
-                      </ng-container>
-                    </div>
-                  </div>
-                </div>
+        <div class="row">
+          <div class="col-md">
+            <label for="id_proof" class="form-label">Upload Photo <span style="color: red;"
+                class="required">*</span></label><br>
+            <div class="text-center">
+              <span *ngIf="employee && employee.profile_photo">
+                <img [src]="employee.profile_photo" alt="Profile Photo" class="rounded-circle" title="Profile Photo"
+                  style="width: 150px; height: 128px" />
+              </span>
+              <input type="file" class="custom-file-input" id="profile_photo"
+                (change)="onProfilePhotoSelected($event, 'Profile Photo')" style="display: none">
+              <br /><br />
+              <label for="profile_photo" class="upload-icon-label" title="Upload Profile Photo">
+                <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"></i>
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <label for="id_proof" class="form-label">Upload Signature <span style="color: red;"
+                class="required">*</span></label><br>
+            <div class="text-center">
+              <span *ngIf="employee && employee.sign_path">
+                <img [src]="employee.sign_path" alt="Signature" class="rounded-square" title="Employee Signature"
+                  style="width: 150px; height: 30px" />
+              </span>
+              <input type="file" class="custom-file-input" id="sign_path"
+                (change)="onProfilePhotoSelected($event, 'Employee Sign')" style="display: none">
+              <br /><br />
+              <label for="sign_path" class="upload-icon-label" title="Upload Signature">
+                <i class="bi bi-cloud-arrow-up btn btn-outline-danger enlarge-on-hover"></i>
+              </label>
+            </div>
+          </div>
+          <div class="col-md">
+            <label for="id_proof" class="form-label">Upload Supporting Document with ID Proof(pdf) <span
+                style="color: red;" class="required">*</span></label><br><br>
+            <div class="text-center">
+              <label for="id_proof" class="upload-icon-label" title="Upload Supporting Document with ID Proof">
+                <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>
+              </label>
+              <input type="file" class="custom-file-input" (change)="onIDproofSelected($event)" id="id_proof"
+                title="Upload ID Proof" style="display: none">
+              <ng-container *ngIf="employee.id_proof">
+                <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                  (click)="openPdfInNewTab(employee.id_proof)"></i>
+              </ng-container>
+            </div>
+          </div>
+          <div class="col-md">
+            <label for="postingOrder" class="form-label">posting Order(pdf)</label><br><br>
+            <div class="text-center">
+              <label for="postingOrder" class="upload-icon-label" title="Upload Supporting Document with ID Proof">
+                <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>
+              </label>
+              <input type="file" class="custom-file-input" (change)="onPostingOrderSelected($event)" id="postingOrder"
+                title="Upload ID Proof" style="display: none">
+              <ng-container *ngIf="employee.postingOrder">
+                <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                  (click)="openPdfInNewTab(employee.postingOrder)"></i>
+              </ng-container>
+            </div>
+          </div>
+        </div>
 
         <hr class="row-divider">
-          <div class="navigation-buttons">
-           <button type="submit" class="btn btn-primary " style="margin-left: 44.5%"  (click)="hoverClick($event)" (click)="openPopup()">Preview</button>
-          </div>
+        <div class="navigation-buttons">
+          <button type="submit" class="btn btn-primary " style="margin-left: 44.5%" (click)="hoverClick($event)"
+            (click)="openPopup()">Preview</button>
+        </div>
 
         <td>
           <ng-container>
-            <div class="modal modal-above-header"
-                 tabindex="-1" data-bs-backdrop="false"
-                 [ngStyle]="{'display': display }" style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7);  ">
+            <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false"
+              [ngStyle]="{'display': display }"
+              style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7);  ">
               <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                   <!--            <div class="modal-header">-->
@@ -379,7 +393,7 @@
                   <!--                <b>Enter photo signature and id proof </b>-->
                   <!--              </h5>-->
                   <!--            </div>-->
-                  <div class="modal-body" >
+                  <div class="modal-body">
                     <!--                    <div class="card shadow">-->
                     <!--                      <div class="card-body">-->
                     <div style="text-decoration: underline; text-align: center;"><br>
@@ -388,12 +402,14 @@
 
                     <div id="div_grid" style="text-align: center;">
                       <div style="margin: 5%;" class="row">
-                        <table width="100%" border="0" cellpadding="3" cellspacing="2" style="border-collapse: collapse; border-color: #efdccd; background-color: #ffffff;">
+                        <table width="100%" border="0" cellpadding="3" cellspacing="2"
+                          style="border-collapse: collapse; border-color: #efdccd; background-color: #ffffff;">
                           <tr>
                             <td align="left" height="30" width="220px">Name:</td>
                             <td align="left" style="width: 300px">{{ employee.emp_name }}</td>
                             <td valign="middle" align="right" rowspan="6">
-                              <img [src]="employee.profile_photo || '/assets/blank_photo.jpg'" width="120px" height="140px" alt="Applicant Photo" />
+                              <img [src]="employee.profile_photo || '/assets/blank_photo.jpg'" width="120px"
+                                height="140px" alt="Applicant Photo" />
                               <br /><br />
                             </td>
                           </tr>
@@ -420,19 +436,23 @@
                           </tr>
                           <tr style="height: 60px">
                             <td align="left">Permanent Address:</td>
-                            <td align="left" >
+                            <td align="left">
                               {{ employee.perm_add }}<ng-container *ngIf="employee?.perm_district">, </ng-container>
-                              {{ employee.perm_district?.district_name }}<ng-container *ngIf="employee?.perm_state">, </ng-container>
-                              {{ employee.perm_state?.state_name }}<ng-container *ngIf="employee?.perm_pin">, </ng-container>
+                              {{ employee.perm_district?.district_name }}<ng-container *ngIf="employee?.perm_state">,
+                              </ng-container>
+                              {{ employee.perm_state?.state_name }}<ng-container *ngIf="employee?.perm_pin">,
+                              </ng-container>
                               {{ employee.perm_pin }}
                             </td>
                           </tr>
                           <tr style="height: 60px">
                             <td align="left">Present Address:</td>
-                            <td align="left" >
+                            <td align="left">
                               {{ employee.curr_add }}<ng-container *ngIf="employee?.curr_district">, </ng-container>
-                              {{ employee.curr_district?.district_name }}<ng-container *ngIf="employee?.curr_state">, </ng-container>
-                              {{ employee.curr_state?.state_name }}<ng-container *ngIf="employee?.curr_pin">, </ng-container>
+                              {{ employee.curr_district?.district_name }}<ng-container *ngIf="employee?.curr_state">,
+                              </ng-container>
+                              {{ employee.curr_state?.state_name }}<ng-container *ngIf="employee?.curr_pin">,
+                              </ng-container>
                               {{ employee.curr_pin }}
                             </td>
                           </tr>
@@ -451,7 +471,8 @@
                           <tr style="height: 30px">
                             <td align="left">Gender:</td>
                             <td colspan="2" align="left">
-                              {{ employee.gender === 'M' ? 'Male' : employee.gender === 'F' ? 'Female' : employee.gender === 'O' ? 'Others' : 'N/A' }}
+                              {{ employee.gender === 'M' ? 'Male' : employee.gender === 'F' ? 'Female' : employee.gender
+                              === 'O' ? 'Others' : 'N/A' }}
                             </td>
                           </tr>
                           <tr style="height: 30px">
@@ -460,7 +481,7 @@
                               {{employee.blood_group}}
                             </td>
                           </tr>
-                          <tr style="height: 30px" >
+                          <tr style="height: 30px">
                             <td align="left">Employee Type:</td>
                             <td colspan="2" align="left">
                               {{employee!.emp_type}}
@@ -513,7 +534,8 @@
                             <td align="left">Id proof:</td>
                             <td colspan="2" align="left">
                               <ng-container *ngIf="employee.id_proof">
-                                <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.id_proof)"></i>
+                                <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                  (click)="openPdfInNewTab(employee.id_proof)"></i>
                               </ng-container>
 
                             </td>
@@ -522,7 +544,8 @@
                             <td align="left">Posting Order:</td>
                             <td colspan="2" align="left">
                               <ng-container *ngIf="employee.postingOrder">
-                                <i class="bi bi-eye btn btn-outline-success enlarge-on-hover" (click)="openPdfInNewTab(employee.postingOrder)"></i>
+                                <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                  (click)="openPdfInNewTab(employee.postingOrder)"></i>
                               </ng-container>
 
                             </td>
@@ -531,7 +554,8 @@
 
                           <tr style="height: 30px">
                             <td align="right" colspan="3">
-                              <img [src]="employee.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px" alt="Upload Signature" /><br>
+                              <img [src]="employee.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px"
+                                alt="Upload Signature" /><br>
                               <span style="font-weight: 700; font-size: 15px">SIGNATURE OF APPLICANT</span><br>
                               <span style="font-size: 15px">Dt-{{ currentDate | date:'dd-MM-yyyy'}}</span>
                             </td>
@@ -544,10 +568,12 @@
 
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)" (click)="closePopup()">
+                    <button type="button" class="btn btn-outline-secondary enlarge-on-hover"
+                      (click)="hoverClick($event)" (click)="closePopup()">
                       Close
                     </button>
-                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="doRegistration()">
+                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
+                      (click)="doRegistration()">
                       Submit
                     </button>
                   </div>
