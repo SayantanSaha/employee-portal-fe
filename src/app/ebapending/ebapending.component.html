@@ -34,13 +34,13 @@
                 <tbody>
                 <tr *ngFor="let ebaPending of ebaPendingList; let i = index">
                   <td>{{ i + 1 }}</td>
-                  <td>{{ ebaPending.reg_no}}</td>
-                  <td>{{ ebaPending.id_cards[0].card_no}}</td>
-                  <td>{{ ebaPending.employee.emp_name }}</td>
-                  <td>{{ ebaPending.employee.mobile }}</td>
-                  <td>{{ formatDate(ebaPending.created_at) }}</td>
+                  <td>{{ ebaPending?.reg_no}}</td>
+                  <td>{{ ebaPending?.id_cards?.[0]?.card_no}}</td>
+                  <td>{{ ebaPending?.employee?.emp_name }}</td>
+                  <td>{{ ebaPending?.employee?.mobile }}</td>
+                  <td>{{ formatDate(ebaPending?.created_at) }}</td>
                   <ng-container *ngIf="from=='serach'">
-                    <td >{{  ebaPending.roles[0].role_desc }}</td>
+                    <td >{{  ebaPending?.roles?.[0]?.role_desc }}</td>
                   </ng-container>
                   <td>
                     <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/eba-form/' + 'view/'+'EBA/'+ebaPending.id">Details</a>
