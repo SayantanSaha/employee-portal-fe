@@ -7,10 +7,12 @@
     <div class="page-break">
       <!--      <td>-->
       <table>
-        <div class="print-border" style="width: 97mm; height: 61mm; background-color: white;  border: 1px solid #ccc;max-width: 97mm;max-height: 61mm">
+        <div class="print-border"
+          style="width: 97mm; height: 61mm; background-color: white;  border: 1px solid #ccc;max-width: 97mm;max-height: 61mm">
 
           <ng-container *ngIf="printData.card_type! &&printData.card_type==3">
-            <div style="height: 18mm; background-color: darkred; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
+            <div
+              style="height: 18mm; background-color: darkred; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
               <strong style="font-size: 4.9mm; color: white; transform: scaleY(2); line-height: 13mm;">
                 PRESIDENT'S ESTATE RESIDENT PASS
               </strong>
@@ -18,7 +20,8 @@
             </div>
           </ng-container>
           <ng-container *ngIf="printData.card_type! && printData!.card_type!==3">
-            <div style="height: 18mm; background-color: darkgreen; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
+            <div
+              style="height: 18mm; background-color: darkgreen; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
               <strong style="font-size: 4.9mm; color: white; transform: scaleY(2); line-height: 13mm;">
                 PRESIDENT'S ESTATE RESIDENT PASS
               </strong>
@@ -26,7 +29,8 @@
             </div>
           </ng-container>
           <ng-container *ngIf="!printData.card_type">
-            <div style="height: 18mm; background-color: blue; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
+            <div
+              style="height: 18mm; background-color: blue; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
               <strong style="font-size: 4.9mm; color: white; transform: scaleY(2); line-height: 13mm;">
                 PRESIDENT'S ESTATE RESIDENT PASS
               </strong>
@@ -34,16 +38,17 @@
             </div>
           </ng-container>
 
-          <table style="height: 34mm; display: flex; font-size: 3mm;text-align: center;justify-content: center;align-items: center;">
-            <tr >
-              <td style="min-width:31mm;max-width:31mm;"  >
-                <img [src]="printData.photo_path" style="width: 35mm; height: 35mm;padding: 2mm"  />
+          <table
+            style="height: 34mm; display: flex; font-size: 3mm;text-align: center;justify-content: center;align-items: center;">
+            <tr>
+              <td style="min-width:31mm;max-width:31mm;">
+                <img [src]="printData.photo_path" style="width: 35mm; height: 35mm;padding: 2mm" />
               </td>
 
               <td style="min-width:61mm;max-width:61mm;padding: 10mm;">
-                <table >
+                <table>
                   <tr>
-                    <td >
+                    <td>
                       <b style="color: red">
                         VALID UPTO:
                       </b>
@@ -52,13 +57,16 @@
 
                       </b>
                       <b style="border: 1px solid black;  display: inline-block;">
-                        {{ printData!.eba_pass_exp_date |  date:'yyyy' }}
+                        {{ printData!.eba_pass_exp_date | date:'yyyy' }}
                       </b>
                     </td>
                   </tr>
                   <tr>
-                    <td *ngIf="printData?.closefamily?.pivot?.rel_name"><b>{{printData.closefamily.pivot.rel_name}}</b></td>
-                    <td *ngIf="printData?.servantfamily?.pivot?.rel_name"><b>{{printData.servantfamily.pivot.rel_name}}</b></td>
+                    <td *ngIf="printData?.closefamily?.pivot?.rel_name"><b>{{printData.closefamily.pivot.rel_name}}</b>
+                    </td>
+                    <td *ngIf="printData?.servantfamily?.pivot?.rel_name">
+                      <b>{{printData.servantfamily.pivot.rel_name}}</b>
+                    </td>
                     <td *ngIf="printData?.servant?.servant_name"><b>{{printData.servant.servant_name}}</b></td>
                   </tr>
                   <tr>
@@ -66,19 +74,20 @@
                   </tr>
                   <tr>
                     <td *ngIf="printData?.closefamily?.rel_desc"><b>{{printData.closefamily.rel_desc}}</b></td>
-                    <td *ngIf="printData?.servantfamily?.rel_desc"><b>Domestic Help {{printData.servantfamily.rel_desc}}</b></td>
+                    <td *ngIf="printData?.servantfamily?.rel_desc"><b>Domestic Help
+                        {{printData.servantfamily.rel_desc}}</b></td>
                     <td *ngIf="printData?.servant"><b>Domestic Help</b></td>
                   </tr>
                   <tr>
                     <td *ngIf="printData?.closefamily?.pivot?.rel_dob"><b>Date Of Birth:
-                      {{ printData!.closefamily.pivot.rel_dob | date:'dd-MM-yyyy'}}
-                    </b></td>
+                        {{ printData!.closefamily.pivot.rel_dob | date:'dd-MM-yyyy'}}
+                      </b></td>
                     <td *ngIf="printData?.servantfamily?.pivot?.rel_dob"><b>Date Of Birth:
-                      {{ printData!.servantfamily.pivot.rel_dob | date:'dd-MM-yyyy'}}
-                    </b></td>
+                        {{ printData!.servantfamily.pivot.rel_dob | date:'dd-MM-yyyy'}}
+                      </b></td>
                     <td *ngIf="printData?.servant?.rel_dob"><b>Date Of Birth:
-                      {{ printData!.servant.rel_dob | date:'dd-MM-yyyy'}}
-                    </b></td>
+                        {{ printData!.servant.rel_dob | date:'dd-MM-yyyy'}}
+                      </b></td>
                   </tr>
                 </table>
               </td>
@@ -86,25 +95,33 @@
           </table>
 
           <div style="height: 4mm; display: flex; flex-direction: column;margin-top: -1mm;margin-left: 75mm  ">
-             <span *ngIf="printData.ussign">
-                <img [src]="printData.ussign" alt="Signature"
-                     style="width: 10mm; height: 4mm" class="rounded-square"
-                     title="Employee Signature" />
-              </span>
+            <span *ngIf="printData.ussign">
+              <img [src]="printData.ussign" alt="Signature" style="width: 10mm; height: 4mm" class="rounded-square"
+                title="Employee Signature" />
+            </span>
           </div>
           <ng-container *ngIf="printData.card_type! &&printData.card_type==3">
-            <div style="height: 4mm; background-color: darkred; display: flex; flex-direction: column; text-align: right;margin-top: 3mm; ">
-              <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;"><b>UNDER SECRETARY (EBA)</b></div>
+            <div
+              style="height: 4mm; background-color: darkred; display: flex; flex-direction: column; text-align: right;margin-top: 3mm; ">
+              <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;">
+                <b>UNDER SECRETARY (EBA)</b>
+              </div>
             </div>
           </ng-container>
           <ng-container *ngIf="printData.card_type! &&printData.card_type!==3">
-            <div style="height: 4mm; background-color: green; display: flex; flex-direction: column; text-align: right;margin-top: 3mm; ">
-              <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;"><b>UNDER SECRETARY (EBA)</b></div>
+            <div
+              style="height: 4mm; background-color: green; display: flex; flex-direction: column; text-align: right;margin-top: 3mm; ">
+              <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;">
+                <b>UNDER SECRETARY (EBA)</b>
+              </div>
             </div>
           </ng-container>
           <ng-container *ngIf="!printData.card_type">
-            <div style="height: 4mm; background-color: blue; display: flex; flex-direction: column; text-align: right;margin-top: 3mm; ">
-              <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;"><b>UNDER SECRETARY (EBA)</b></div>
+            <div
+              style="height: 4mm; background-color: blue; display: flex; flex-direction: column; text-align: right;margin-top: 3mm; ">
+              <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;">
+                <b>UNDER SECRETARY (EBA)</b>
+              </div>
             </div>
           </ng-container>
 
@@ -119,18 +136,19 @@
     <!--                  <td>-->
     <div class="page-break">
       <table>
-        <div style="width: 97mm; height: 61.7mm;  display: flex;flex-direction: column;border: 1px solid #ccc; font-size: 2.5mm;padding: 1mm;max-width: 97mm;max-height: 61.7mm">
-          <table >
-            <tr >
+        <div
+          style="width: 97mm; height: 61.7mm;  display: flex;flex-direction: column;border: 1px solid #ccc; font-size: 2.5mm;padding: 1mm;max-width: 97mm;max-height: 61.7mm">
+          <table>
+            <tr>
               <td><b>Address:</b></td>
               <td colspan="2">
                 {{printData!.address}}<br />
               </td>
 
             </tr>
-            <tr >
+            <tr>
               <td><b>Blood Group:</b></td>
-              <td >N/A</td>
+              <td>N/A</td>
             </tr>
             <tr>
               <td style="width: 30%;"><b>Date of issue:</b></td>
@@ -143,7 +161,8 @@
             <br>
             <tr>
               <td colspan="3">
-                This Photo Entry Pass is the property of President's Secretariat. It must be returned by the holder when demanded by the issuing Authority.
+                This Photo Entry Pass is the property of President's Secretariat. It must be returned by the holder when
+                demanded by the issuing Authority.
               </td>
             </tr>
             <br>
@@ -156,8 +175,9 @@
                 <br><b>New Delhi-110004</b>
                 <br><b>Tel.No. 011-23015321</b>
               </td>
-              <td >
-                <ngx-barcode6 [bc-format]="'CODE128'" [bc-value]="(printData!.eba_pass_no ) || ''" [bc-width]="1" [bc-height]="30"></ngx-barcode6>
+              <td>
+                <ngx-barcode6 [bc-format]="'CODE128'" [bc-value]="(printData!.eba_pass_no ) || ''" [bc-width]="1"
+                  [bc-height]="30"></ngx-barcode6>
               </td>
 
             </tr>
@@ -181,88 +201,113 @@
 
       <!--      <td>-->
       <table>
-        <div *ngIf="shouldRenderPassType()"
-             class="print-border"
-             [ngStyle]="{
+        <!-- <div *ngIf="shouldRenderPassType()" class="print-border" [ngStyle]="{
        'background-image': 'url(' + getPassTypeImage() + ')',
-       'width': '61mm',
-       'height': '97mm',
-       'max-width': '61mm',
-       'max-height': '97mm',
+       'width': '80.5mm',
+       'height': '128mm',
+       'max-width': '81mm',
+       'max-height': '128mm',
        'background-size': '100%',
        'background-position': 'center',
        'background-repeat': 'no-repeat',
        'position': 'relative'
-     }">
+     }"> -->
 
-          <b style="color: white; display: inline-block; margin-top: 1.8cm; text-align: center;width: 100%;">
-           VALID UPTO {{printData.valid_to| date:'dd-MMM-yyyy' | uppercase}}
+        <div *ngIf="printData.card_type_id==1" class="print-border" [ngStyle]="{
+      'background-image': 'url(\'assets/images/pass_frontG.png\')',
+      'width': '80.5mm',
+      'height': '128mm',
+      'max-width': '81mm',
+      'max-height': '128mm',
+      'background-size': '100%',
+      'background-position': 'center',
+      'background-repeat': 'no-repeat',
+      'position': 'relative'
+    }">
+
+          <b style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
+            VALID UPTO {{printData.valid_to| date:'dd-MMM-yyyy' | uppercase}}
           </b>
 
           <table style="width: 100%; border-collapse: collapse;">
             <tr>
-              <ng-container *ngIf="printData.applicationdetails.application.payLevel >= 9 && printData.applicationdetails.application.payLevel <= 13">
+              <ng-container
+                *ngIf="printData.applicationdetails.application.payLevel >= 9 && printData.applicationdetails.application.payLevel <= 13">
                 <td>
-                <img src="assets/images/star.png"/>
+                  <img src="assets/images/star.png" />
                 </td>
-                <td>
-                  <img [src]="printData.applicationdetails.application.profile_photo" style="width: 50mm; height: 43mm;padding-top: 1mm;padding-bottom: 1mm;  padding-left: -2.2mm; padding-right: 15mm;" />
-                </td>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 53.5mm; height: 58mm; padding: 2mm;  padding-right: 6mm;" />
+                </div>
 
-                <td style="color: white; width: 50mm; height: 43mm;max-width: 50mm; max-height: 43mm; position: relative; padding-left: -10mm; padding-bottom: 20mm;">
-                  <div style="position: relative; transform: rotate(-90deg); transform-origin: left bottom; left: -10%; top: 103%; text-align: center; white-space: nowrap; ">
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
                     <b>{{printData.card_no}}</b>
                   </div>
-                </td>
+                </div>
               </ng-container>
-              <ng-container *ngIf="printData.applicationdetails.application.payLevel >= 14 && printData.applicationdetails.application.payLevel <= 17">
+              <ng-container
+                *ngIf="printData.applicationdetails.application.payLevel >= 14 && printData.applicationdetails.application.payLevel <= 17">
                 <td>
-                <img src="assets/images/star.png"/><br>
-                <img src="assets/images/star.png"/>
+                  <img src="assets/images/star.png" /><br>
+                  <img src="assets/images/star.png" />
                 </td>
-                <td>
-                  <img [src]="printData.applicationdetails.application.profile_photo" style="width: 50mm; height: 43mm;padding-top: 1mm;padding-bottom: 1mm;  padding-left: -2.2mm; padding-right: 15mm;" />
-                </td>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 53.5mm; height: 58mm; padding: 2mm;  padding-right: 6mm;" />
+                </div>
 
-                <td style="color: white; width: 50mm; height: 43mm;max-width: 50mm; max-height: 43mm; position: relative; padding-left: -10mm; padding-bottom: 20mm;">
-                  <div style="position: relative; transform: rotate(-90deg); transform-origin: left bottom; left: -10%; top: 103%; text-align: center; white-space: nowrap; ">
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
                     <b>{{printData.card_no}}</b>
                   </div>
-                </td>
+                </div>
               </ng-container>
-              <ng-container *ngIf="printData.applicationdetails.application.payLevel >= 18 && printData.applicationdetails.application.payLevel <= 22">
+              <ng-container
+                *ngIf="printData.applicationdetails.application.payLevel >= 18 && printData.applicationdetails.application.payLevel <= 22">
                 <td>
-                <img src="assets/images/star.png"/><br>
-                <img src="assets/images/star.png"/><br>
-                <img src="assets/images/star.png"/>
+                  <img src="assets/images/star.png" /><br>
+                  <img src="assets/images/star.png" /><br>
+                  <img src="assets/images/star.png" />
                 </td>
-                <td>
-                  <img [src]="printData.applicationdetails.application.profile_photo" style="width: 50mm; height: 43mm;padding-top: 1mm;padding-bottom: 1mm;  padding-left: -2.2mm; padding-right: 15mm;" />
-                </td>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 53.5mm; height: 58mm; padding: 2mm;  padding-right: 6mm;" />
+                </div>
 
-                <td style="color: white; width: 50mm; height: 43mm;max-width: 50mm; max-height: 43mm; position: relative; padding-left: -10mm; padding-bottom: 20mm;">
-                  <div style="position: relative; transform: rotate(-90deg); transform-origin: left bottom; left: -10%; top: 103%; text-align: center; white-space: nowrap; ">
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
                     <b>{{printData.card_no}}</b>
                   </div>
-                </td>
+                </div>
               </ng-container>
 
               <ng-container *ngIf="printData.applicationdetails.application.payLevel < 9">
 
-              <td>
-                <img [src]="printData.applicationdetails.application.profile_photo" style="width: 50mm; height: 43mm; padding: 1mm; padding-left: 13.2mm; padding-right: -1mm;" />
-              </td>
-
-              <td style="color: white; width: 50mm; height: 43mm;max-width: 50mm; max-height: 43mm; position: relative; padding-left: 8mm; padding-bottom: 20mm;">
-                <div style="position: relative; transform: rotate(-90deg); transform-origin: left bottom; left: 0; top: 100%; text-align: center; white-space: nowrap; ">
-                  <b>{{printData.card_no}}</b>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 66.5mm; height: 58mm; padding: 2mm; padding-left: 18.2mm; padding-right: -1mm;" />
                 </div>
-              </td>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
               </ng-container>
             </tr>
           </table>
 
-          <div style="text-align: center; width: 100%;   ">
+          <div style="text-align: center; width: 100%; padding-top: 2mm;  ">
             <b style="color: white;">
               {{printData.applicationdetails.application.emp_name}}
             </b>
@@ -280,19 +325,423 @@
 
 
           <tr>
-            <td style="text-align: center;">
+            <td style="text-align: center;padding-top: 3mm;">
               <ng-container *ngIf="printData.applicationdetails.application.sign_path">
-                <img [src]="printData.applicationdetails.application.sign_path" alt="Signature" style="width: 10mm; height: 4mm;" class="rounded-square" title="Employee Signature" />
+                <img [src]="printData.applicationdetails.application.sign_path" alt="Signature"
+                  style="width: 20mm; height: 8mm;" class="rounded-square" title="Employee Signature" />
               </ng-container>
-              <div style="font-size: 2.5mm; text-align: center;">
+              <div style="font-size: 3.4mm; text-align: center;">
                 Signature of pass holder
               </div>
             </td>
-            <td style="text-align: center;">
+            <td style="text-align: center;padding-top: 3mm">
               <ng-container *ngIf="printData.ussign">
-                <img [src]="printData.ussign" alt="Signature" style="width: 10mm; height: 4mm;" class="rounded-square" title="Dcp Signature" />
+                <img [src]="printData.ussign" alt="Signature" style="width: 20mm; height: 8mm;" class="rounded-square"
+                  title="Dcp Signature" />
               </ng-container>
-              <div style="font-size: 2.5mm; text-align: right; padding-left: 3mm;">
+              <div style="font-size: 3.4mm; text-align: right; padding-left: 3mm;">
+                DCP RB Bhavan (Security)
+              </div>
+            </td>
+          </tr>
+
+        </div>
+
+        <div *ngIf="printData.card_type_id==2" class="print-border" [ngStyle]="{
+          'background-image': 'url(\'assets/images/pass_frontPc.png\')',
+          'width': '80.5mm',
+          'height': '128mm',
+          'max-width': '81mm',
+          'max-height': '128mm',
+          'background-size': '100%',
+          'background-position': 'center',
+          'background-repeat': 'no-repeat',
+          'position': 'relative'
+        }">
+
+          <b style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
+            VALID UPTO {{printData.valid_to| date:'dd-MMM-yyyy' | uppercase}}
+          </b>
+
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <ng-container
+                *ngIf="printData.applicationdetails.application.payLevel >= 9 && printData.applicationdetails.application.payLevel <= 13">
+                <td>
+                  <img src="assets/images/star.png" />
+                </td>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 53.5mm; height: 58mm; padding: 2mm;  padding-right: 6mm;" />
+                </div>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container
+                *ngIf="printData.applicationdetails.application.payLevel >= 14 && printData.applicationdetails.application.payLevel <= 17">
+                <td>
+                  <img src="assets/images/star.png" /><br>
+                  <img src="assets/images/star.png" />
+                </td>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 53.5mm; height: 58mm; padding: 2mm;  padding-right: 6mm;" />
+                </div>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container
+                *ngIf="printData.applicationdetails.application.payLevel >= 18 && printData.applicationdetails.application.payLevel <= 22">
+                <td>
+                  <img src="assets/images/star.png" /><br>
+                  <img src="assets/images/star.png" /><br>
+                  <img src="assets/images/star.png" />
+                </td>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 53.5mm; height: 58mm; padding: 2mm;  padding-right: 6mm;" />
+                </div>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="printData.applicationdetails.application.payLevel < 9">
+
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 66.5mm; height: 58mm; padding: 2mm; padding-left: 18.2mm; padding-right: -1mm;" />
+                </div>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
+              </ng-container>
+            </tr>
+          </table>
+
+          <div style="text-align: center; width: 100%; padding-top: 2mm;  ">
+            <b style="color: white;">
+              {{printData.applicationdetails.application.emp_name}}
+            </b>
+          </div>
+          <div style="text-align: center; width: 100%;  ">
+            <b style="color: white;">
+              {{ printData.print_desg_desc || printData.applicationdetails.application.designation }}
+            </b>
+          </div>
+          <div style="text-align: center; width: 100%;">
+            <b style="color: white;">
+              {{printData.applicationdetails.application.organization}}
+            </b>
+          </div>
+
+
+          <tr>
+            <td style="text-align: center;padding-top: 3mm;">
+              <ng-container *ngIf="printData.applicationdetails.application.sign_path">
+                <img [src]="printData.applicationdetails.application.sign_path" alt="Signature"
+                  style="width: 20mm; height: 8mm;" class="rounded-square" title="Employee Signature" />
+              </ng-container>
+              <div style="font-size: 3.4mm; text-align: center;">
+                Signature of pass holder
+              </div>
+            </td>
+            <td style="text-align: center;padding-top: 3mm">
+              <ng-container *ngIf="printData.ussign">
+                <img [src]="printData.ussign" alt="Signature" style="width: 20mm; height: 8mm;" class="rounded-square"
+                  title="Dcp Signature" />
+              </ng-container>
+              <div style="font-size: 3.4mm; text-align: right; padding-left: 3mm;">
+                DCP RB Bhavan (Security)
+              </div>
+            </td>
+          </tr>
+
+        </div>
+
+        <div *ngIf="printData.card_type_id==3" class="print-border" [ngStyle]="{
+              'background-image': 'url(\'assets/images/pass_frontR.png\')',
+              'width': '80.5mm',
+              'height': '128mm',
+              'max-width': '81mm',
+              'max-height': '128mm',
+              'background-size': '100%',
+              'background-position': 'center',
+              'background-repeat': 'no-repeat',
+              'position': 'relative'
+            }">
+
+          <b style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
+            VALID UPTO {{printData.valid_to| date:'dd-MMM-yyyy' | uppercase}}
+          </b>
+
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <ng-container
+                *ngIf="printData.applicationdetails.application.payLevel >= 9 && printData.applicationdetails.application.payLevel <= 13">
+                <td>
+                  <img src="assets/images/star.png" />
+                </td>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 53.5mm; height: 58mm; padding: 2mm;  padding-right: 6mm;" />
+                </div>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container
+                *ngIf="printData.applicationdetails.application.payLevel >= 14 && printData.applicationdetails.application.payLevel <= 17">
+                <td>
+                  <img src="assets/images/star.png" /><br>
+                  <img src="assets/images/star.png" />
+                </td>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 53.5mm; height: 58mm; padding: 2mm;  padding-right: 6mm;" />
+                </div>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container
+                *ngIf="printData.applicationdetails.application.payLevel >= 18 && printData.applicationdetails.application.payLevel <= 22">
+                <td>
+                  <img src="assets/images/star.png" /><br>
+                  <img src="assets/images/star.png" /><br>
+                  <img src="assets/images/star.png" />
+                </td>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 53.5mm; height: 58mm; padding: 2mm;  padding-right: 6mm;" />
+                </div>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="printData.applicationdetails.application.payLevel < 9">
+
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 66.5mm; height: 58mm; padding: 2mm; padding-left: 18.2mm; padding-right: -1mm;" />
+                </div>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
+              </ng-container>
+            </tr>
+          </table>
+
+          <div style="text-align: center; width: 100%; padding-top: 2mm;  ">
+            <b style="color: white;">
+              {{printData.applicationdetails.application.emp_name}}
+            </b>
+          </div>
+          <div style="text-align: center; width: 100%;  ">
+            <b style="color: white;">
+              {{ printData.print_desg_desc || printData.applicationdetails.application.designation }}
+            </b>
+          </div>
+          <div style="text-align: center; width: 100%;">
+            <b style="color: white;">
+              {{printData.applicationdetails.application.organization}}
+            </b>
+          </div>
+
+
+          <tr>
+            <td style="text-align: center;padding-top: 3mm;">
+              <ng-container *ngIf="printData.applicationdetails.application.sign_path">
+                <img [src]="printData.applicationdetails.application.sign_path" alt="Signature"
+                  style="width: 20mm; height: 8mm;" class="rounded-square" title="Employee Signature" />
+              </ng-container>
+              <div style="font-size: 3.4mm; text-align: center;">
+                Signature of pass holder
+              </div>
+            </td>
+            <td style="text-align: center;padding-top: 3mm">
+              <ng-container *ngIf="printData.ussign">
+                <img [src]="printData.ussign" alt="Signature" style="width: 20mm; height: 8mm;" class="rounded-square"
+                  title="Dcp Signature" />
+              </ng-container>
+              <div style="font-size: 3.4mm; text-align: right; padding-left: 3mm;">
+                DCP RB Bhavan (Security)
+              </div>
+            </td>
+          </tr>
+
+        </div>
+
+        <div *ngIf="printData.card_type_id==4" class="print-border" [ngStyle]="{
+                  'background-image': 'url(\'assets/images/pass_frontY.png\')',
+                  'width': '80.5mm',
+                  'height': '128mm',
+                  'max-width': '81mm',
+                  'max-height': '128mm',
+                  'background-size': '100%',
+                  'background-position': 'center',
+                  'background-repeat': 'no-repeat',
+                  'position': 'relative'
+                }">
+
+          <b style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
+            VALID UPTO {{printData.valid_to| date:'dd-MMM-yyyy' | uppercase}}
+          </b>
+
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <ng-container
+                *ngIf="printData.applicationdetails.application.payLevel >= 9 && printData.applicationdetails.application.payLevel <= 13">
+                <td>
+                  <img src="assets/images/star.png" />
+                </td>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 53.5mm; height: 58mm; padding: 2mm;  padding-right: 6mm;" />
+                </div>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container
+                *ngIf="printData.applicationdetails.application.payLevel >= 14 && printData.applicationdetails.application.payLevel <= 17">
+                <td>
+                  <img src="assets/images/star.png" /><br>
+                  <img src="assets/images/star.png" />
+                </td>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 53.5mm; height: 58mm; padding: 2mm;  padding-right: 6mm;" />
+                </div>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container
+                *ngIf="printData.applicationdetails.application.payLevel >= 18 && printData.applicationdetails.application.payLevel <= 22">
+                <td>
+                  <img src="assets/images/star.png" /><br>
+                  <img src="assets/images/star.png" /><br>
+                  <img src="assets/images/star.png" />
+                </td>
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 53.5mm; height: 58mm; padding: 2mm;  padding-right: 6mm;" />
+                </div>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="printData.applicationdetails.application.payLevel < 9">
+
+                <div>
+                  <img [src]="printData.applicationdetails.application.profile_photo"
+                    style="width: 66.5mm; height: 58mm; padding: 2mm; padding-left: 18.2mm; padding-right: -1mm;" />
+                </div>
+
+                <div
+                  style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 5mm; padding-top: 65.2mm;">
+                    <b>{{printData.card_no}}</b>
+                  </div>
+                </div>
+              </ng-container>
+            </tr>
+          </table>
+
+          <div style="text-align: center; width: 100%; padding-top: 2mm;  ">
+            <b style="color: white;">
+              {{printData.applicationdetails.application.emp_name}}
+            </b>
+          </div>
+          <div style="text-align: center; width: 100%;  ">
+            <b style="color: white;">
+              {{ printData.print_desg_desc || printData.applicationdetails.application.designation }}
+            </b>
+          </div>
+          <div style="text-align: center; width: 100%;">
+            <b style="color: white;">
+              {{printData.applicationdetails.application.organization}}
+            </b>
+          </div>
+
+
+          <tr>
+            <td style="text-align: center;padding-top: 3mm;">
+              <ng-container *ngIf="printData.applicationdetails.application.sign_path">
+                <img [src]="printData.applicationdetails.application.sign_path" alt="Signature"
+                  style="width: 20mm; height: 8mm;" class="rounded-square" title="Employee Signature" />
+              </ng-container>
+              <div style="font-size: 3.4mm; text-align: center;">
+                Signature of pass holder
+              </div>
+            </td>
+            <td style="text-align: center;padding-top: 3mm">
+              <ng-container *ngIf="printData.ussign">
+                <img [src]="printData.ussign" alt="Signature" style="width: 20mm; height: 8mm;" class="rounded-square"
+                  title="Dcp Signature" />
+              </ng-container>
+              <div style="font-size: 3.4mm; text-align: right; padding-left: 3mm;">
                 DCP RB Bhavan (Security)
               </div>
             </td>
@@ -308,39 +757,45 @@
     <!--                  <td>-->
     <div class="page-break">
       <table>
-        <div style="width: 61.7mm; height: 97mm;  display: flex;flex-direction: column;border: 1px solid #ccc; font-size: 2.5mm;padding: 1mm;max-width: 61.7mm;max-height: 97mm">
-          <img src="assets/images/RB_Sketch_Forecourt.jpg" alt="Photo" style="width: 61.7mm;height:15mm;margin-left:-1mm;position: relative">
-          <table >
+        <div
+          style="width: 80.7 mm; height: 128mm;  display: flex;flex-direction: column;border: 1px solid #ccc; font-size: 2.5mm;padding: 1mm;max-width: 80.7mm;max-height: 128mm">
+          <img src="assets/images/RB_Sketch_Forecourt.jpg" alt="Photo"
+            style="width: 81.7mm;height:25mm;margin-left:-1mm;position: relative">
+          <table>
 
-            <b style="font-size: 4mm">Blood Group: {{ printData.applicationdetails.application.blood_group}}</b><br>
-            <b style="font-size: 4mm">Date of Birth: {{ printData.applicationdetails.application.dob | date:'dd-MM-yyyy'}}</b><br>
-            <b style="font-size: 4mm">ID mark: {{ printData.applicationdetails.application.body_mark}}</b>
+            <b style="font-size: 4.5mm">Blood Group: {{ printData.applicationdetails.application.blood_group}}</b><br>
+            <b style="font-size: 4.5mm">Date of Birth: {{ printData.applicationdetails.application.dob |
+              date:'dd-MM-yyyy'}}</b><br>
+            <b style="font-size: 4.5mm">ID mark: {{ printData.applicationdetails.application.body_mark}}</b>
             <br>
-            <span style="font-size: 3mm">
-                This Photo Pass is the property of the President's Secretariat. It must be returned by the holder on its expiry or when he/she ceases to be with the President's Secretariat or when demanded by the issuing authority.
-              </span><br>
-            <b style="font-size: 2.5mm; font-style: italic;">
+            <span style="font-size: 3.5mm">
+              This Photo Pass is the property of the President's Secretariat. It must be returned by the holder on its
+              expiry or when he/she ceases to be with the President's Secretariat or when demanded by the issuing
+              authority.
+            </span><br>
+            <b style="font-size: 4mm; font-style: italic;">
               If found, please post it in unstamped envelope to:
             </b><br>
-            <b style="font-size: 3.5mm; ">
+            <b style="font-size: 4mm; ">
               Dy. Commisioner of police
             </b>
             <br>
-            <span style="font-size: 3mm">
-             Rashtrapati Bhavan (Security),
-              </span>
+            <span style="font-size: 3.5mm">
+              Rashtrapati Bhavan (Security),
+            </span>
             <br>
-            <span style="font-size: 3mm">
-               New Delhi - 110004
-              </span>
+            <span style="font-size: 3.5mm">
+              New Delhi - 110004
+            </span>
             <br>
-            <span style="font-size: 3mm">
-               Tel : 23010067,23017250
-              </span><br>
+            <span style="font-size: 3.5mm">
+              Tel : 23010067,23017250
+            </span><br>
 
             <br>
-            <span style="width: 61.7mm;max-width: 61.7mm;">
-                <ngx-barcode6 [bc-format]="'CODE128'" [bc-value]="(printData!.card_no ) || ''" [bc-width]="0.5" [bc-height]="30"></ngx-barcode6>
+            <span style="width: 81.7mm;max-width: 81.7mm;text-align: center;">
+              <ngx-barcode6 [bc-format]="'CODE128'" [bc-value]="(printData!.card_no ) || ''" [bc-width]="1"
+                [bc-height]="30"></ngx-barcode6>
             </span>
 
 
