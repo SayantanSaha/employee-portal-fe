@@ -216,10 +216,10 @@
         <div *ngIf="printData.card_type_id==1" class="print-border" [ngStyle]="{
       'background-image': 'url(\'assets/images/pass_frontG.png\')',
       'width': '82mm',
-      'height': '128.3mm',
+      'height': '128mm',
       'max-width': '82mm',
-      'max-height': '128.3mm',
-      'background-size': '100%',
+      'max-height': '128mm',
+      'background-size': '99%',
       'background-position': 'center',
       'background-repeat': 'no-repeat',
       'position': 'relative'
@@ -325,7 +325,7 @@
 
 
           <tr>
-            <td style="text-align: center;padding-top: 3mm;">
+            <td style="text-align: center;padding-top: 3mm; padding-left: 1.5mm;">
               <ng-container *ngIf="printData.applicationdetails.application.sign_path">
                 <img [src]="printData.applicationdetails.application.sign_path" alt="Signature"
                   style="width: 20mm; height: 8mm;" class="rounded-square" title="Employee Signature" />
@@ -350,10 +350,10 @@
         <div *ngIf="printData.card_type_id==2" class="print-border" [ngStyle]="{
           'background-image': 'url(\'assets/images/pass_frontPc.png\')',
           'width': '82mm',
-          'height': '128.3mm',
+          'height': '128mm',
           'max-width': '82mm',
-          'max-height': '128.3mm',
-          'background-size': '100%',
+          'max-height': '128mm',
+          'background-size': '99%',
           'background-position': 'center',
           'background-repeat': 'no-repeat',
           'position': 'relative'
@@ -459,7 +459,7 @@
 
 
           <tr>
-            <td style="text-align: center;padding-top: 3mm;">
+            <td style="text-align: center;padding-top: 3mm;padding-left: 1.5mm;">
               <ng-container *ngIf="printData.applicationdetails.application.sign_path">
                 <img [src]="printData.applicationdetails.application.sign_path" alt="Signature"
                   style="width: 20mm; height: 8mm;" class="rounded-square" title="Employee Signature" />
@@ -484,10 +484,10 @@
         <div *ngIf="printData.card_type_id==3" class="print-border" [ngStyle]="{
               'background-image': 'url(\'assets/images/pass_frontR.png\')',
               'width': '82mm',
-          'height': '128.3mm',
+          'height': '128mm',
           'max-width': '82mm',
-          'max-height': '128.3mm',
-              'background-size': '100%',
+          'max-height': '128mm',
+              'background-size': '99%',
               'background-position': 'center',
               'background-repeat': 'no-repeat',
               'position': 'relative'
@@ -593,7 +593,7 @@
 
 
           <tr>
-            <td style="text-align: center;padding-top: 3mm;">
+            <td style="text-align: center;padding-top: 3mm;padding-left: 1.5mm;">
               <ng-container *ngIf="printData.applicationdetails.application.sign_path">
                 <img [src]="printData.applicationdetails.application.sign_path" alt="Signature"
                   style="width: 20mm; height: 8mm;" class="rounded-square" title="Employee Signature" />
@@ -618,10 +618,10 @@
         <div *ngIf="printData.card_type_id==4" class="print-border" [ngStyle]="{
                   'background-image': 'url(\'assets/images/pass_frontY.png\')',
                   'width': '82mm',
-          'height': '128.3mm',
+          'height': '128mm',
           'max-width': '82mm',
-          'max-height': '128.3mm',
-                  'background-size': '100%',
+          'max-height': '128mm',
+                  'background-size': '99%',
                   'background-position': 'center',
                   'background-repeat': 'no-repeat',
                   'position': 'relative'
@@ -727,7 +727,7 @@
 
 
           <tr>
-            <td style="text-align: center;padding-top: 3mm;">
+            <td style="text-align: center;padding-top: 3mm;padding-left: 1.5mm;">
               <ng-container *ngIf="printData.applicationdetails.application.sign_path">
                 <img [src]="printData.applicationdetails.application.sign_path" alt="Signature"
                   style="width: 20mm; height: 8mm;" class="rounded-square" title="Employee Signature" />
@@ -761,7 +761,7 @@
           style="width: 82 mm; height: 128.3mm;  display: flex;flex-direction: column;border: 1px solid #ccc; font-size: 2.5mm;padding: 1mm;max-width: 82mm;max-height: 128.3mm">
           <img src="assets/images/RB_Sketch_Forecourt.jpg" alt="Photo"
             style="width: 81.7mm;height:25mm;margin-left:-1mm;position: relative">
-          <table>
+          <table style="margin: 3mm;">
 
             <b style="font-size: 4.5mm">Blood Group: {{ printData.applicationdetails.application.blood_group}}</b><br>
             <b style="font-size: 4.5mm">Date of Birth: {{ printData.applicationdetails.application.dob |
