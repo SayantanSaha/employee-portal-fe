@@ -215,14 +215,15 @@
 
         <div *ngIf="printData.card_type_id==1" class="print-border" [ngStyle]="{
       'background-image': 'url(\'assets/images/pass_frontG.png\')',
-      'width': '82mm',
-      'height': '128mm',
-      'max-width': '82mm',
-      'max-height': '128mm',
-      'background-size': '99%',
-      'background-position': 'center',
+      'width': '102%',
+      'height': '100.3%',
+      'background-size': '99.1%',
+      'background-position': 'center center',
       'background-repeat': 'no-repeat',
-      'position': 'relative'
+      'position': 'relative',
+      'top': '0',
+      'left': '0',
+
     }">
 
           <b style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
@@ -325,7 +326,7 @@
 
 
           <tr>
-            <td style="text-align: center;padding-top: 3mm; padding-left: 1.5mm;">
+            <td style="text-align: center;padding-top: 3mm; padding-left: 0.5mm;">
               <ng-container *ngIf="printData.applicationdetails.application.sign_path">
                 <img [src]="printData.applicationdetails.application.sign_path" alt="Signature"
                   style="width: 20mm; height: 8mm;" class="rounded-square" title="Employee Signature" />
@@ -350,10 +351,10 @@
         <div *ngIf="printData.card_type_id==2" class="print-border" [ngStyle]="{
           'background-image': 'url(\'assets/images/pass_frontPc.png\')',
           'width': '82mm',
-          'height': '128mm',
+          'height': '127mm',
           'max-width': '82mm',
           'max-height': '128mm',
-          'background-size': '99%',
+          'background-size': '100%',
           'background-position': 'center',
           'background-repeat': 'no-repeat',
           'position': 'relative'
@@ -459,7 +460,7 @@
 
 
           <tr>
-            <td style="text-align: center;padding-top: 3mm;padding-left: 1.5mm;">
+            <td style="text-align: center;padding-top: 3mm;padding-left: 0.5mm;">
               <ng-container *ngIf="printData.applicationdetails.application.sign_path">
                 <img [src]="printData.applicationdetails.application.sign_path" alt="Signature"
                   style="width: 20mm; height: 8mm;" class="rounded-square" title="Employee Signature" />
@@ -484,10 +485,10 @@
         <div *ngIf="printData.card_type_id==3" class="print-border" [ngStyle]="{
               'background-image': 'url(\'assets/images/pass_frontR.png\')',
               'width': '82mm',
-          'height': '128mm',
+          'height': '127mm',
           'max-width': '82mm',
           'max-height': '128mm',
-              'background-size': '99%',
+              'background-size': '100%',
               'background-position': 'center',
               'background-repeat': 'no-repeat',
               'position': 'relative'
@@ -593,7 +594,7 @@
 
 
           <tr>
-            <td style="text-align: center;padding-top: 3mm;padding-left: 1.5mm;">
+            <td style="text-align: center;padding-top: 3mm;padding-left: 0.5mm;">
               <ng-container *ngIf="printData.applicationdetails.application.sign_path">
                 <img [src]="printData.applicationdetails.application.sign_path" alt="Signature"
                   style="width: 20mm; height: 8mm;" class="rounded-square" title="Employee Signature" />
@@ -618,10 +619,10 @@
         <div *ngIf="printData.card_type_id==4" class="print-border" [ngStyle]="{
                   'background-image': 'url(\'assets/images/pass_frontY.png\')',
                   'width': '82mm',
-          'height': '128mm',
+          'height': '127mm',
           'max-width': '82mm',
           'max-height': '128mm',
-                  'background-size': '99%',
+                  'background-size': '100%',
                   'background-position': 'center',
                   'background-repeat': 'no-repeat',
                   'position': 'relative'
@@ -727,7 +728,7 @@
 
 
           <tr>
-            <td style="text-align: center;padding-top: 3mm;padding-left: 1.5mm;">
+            <td style="text-align: center;padding-top: 3mm;padding-left: 0.5mm;">
               <ng-container *ngIf="printData.applicationdetails.application.sign_path">
                 <img [src]="printData.applicationdetails.application.sign_path" alt="Signature"
                   style="width: 20mm; height: 8mm;" class="rounded-square" title="Employee Signature" />
