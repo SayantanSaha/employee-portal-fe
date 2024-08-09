@@ -433,20 +433,24 @@ export class RegistrationComponent implements OnInit {
   }
 
   calculateDor(): void {
-    if (this.employee.dob) {
-      const dob = new Date(this.employee.dob);
+    if (this.employee!.dob) {
+      const dob = new Date(this.employee!.dob);
       let date = new Date(dob);
 
       // Add 60 years to the Date of Birth
       date.setFullYear(date.getFullYear() + 60);
 
-      // Adjust Dor if the day is '01'
       if (date.getDate() === 1) {
-        date.setDate(date.getDate() - 1);
+        // If DoB is the 1st, set DoR to the last day of the previous month
+        date.setDate(0); // Set to the last day of the previous month
+      } else {
+        // Otherwise, set DoR to the last day of the same month
+        date.setMonth(date.getMonth() + 1); // Move to the next month
+        date.setDate(0); // Set to the last day of the current month
       }
 
-      // Format Dor as 'YYYY-MM-DD' for the input
-      this.employee.dor = date.toISOString().slice(0, 10);
+      // Format DoR as 'YYYY-MM-DD' for the input
+      this.employee!.dor = date.toISOString().slice(0, 10);
     }
   }
 

@@ -2400,6 +2400,90 @@ export class ProfileComponent implements OnInit {
 
 
   }
+
+  // checkDateOfRetirement() {
+  //   if (!this.employee!.dob) {
+  //     Swal.fire({
+  //       icon: 'error',
+  //       title: 'Error',
+  //       text: 'Please Fill Date of Birth',
+  //     });
+
+  //     // Set the values to null since they are invalid
+  //     this.employee!.doj_gs = null;
+  //     this.employee!.doj_rb = null;
+
+
+  //     return; // Exit the function early if any date field is null
+  //   }
+
+  //   // if(!this.employee!.doj_gs){
+  //   //   Swal.fire({
+  //   //     icon: 'error',
+  //   //     title: 'Error',
+  //   //     text: 'Please Fill Date of Joining in Government Services',
+  //   //   });
+
+  //   //   // Set the values to null since they are invalid
+  //   //   this.employee!.doj_rb = null;
+
+  //   //   return; // Exit the function early if any date field is null
+
+
+  //   // }
+
+  //   const dob = new Date(this.employee!.dob);
+  //   const dojGS = this.employee!.doj_gs ? new Date(this.employee!.doj_gs) : 'null';
+  //   const dojRB = this.employee!.doj_rb ? new Date(this.employee!.doj_rb) : 'null';
+
+  //   if (dojGS < dob) {
+  //     Swal.fire({
+  //       icon: 'error',
+  //       title: 'Error',
+  //       text: 'Date of joining is not valid. Please check the dates.',
+  //     });
+
+  //     // Set the values to null since they are invalid
+  //     this.employee!.doj_gs = null;
+  //     this.employee!.doj_rb = null;
+
+  //   }
+
+  //   if (dojGS != null && (dojRB < dojGS) || (dojRB < dob)) {
+  //     Swal.fire({
+  //       icon: 'error',
+  //       title: 'Error',
+  //       text: 'Date of joining is not valid in RB. Please check the dates.',
+  //     });
+
+  //     this.employee!.doj_rb = null;
+  //   }
+
+
+  // }
+
+  calculateDor(): void {
+    if (this.employee!.dob) {
+      const dob = new Date(this.employee!.dob);
+      let date = new Date(dob);
+
+      // Add 60 years to the Date of Birth
+      date.setFullYear(date.getFullYear() + 60);
+
+      if (date.getDate() === 1) {
+        // If DoB is the 1st, set DoR to the last day of the previous month
+        date.setDate(0); // Set to the last day of the previous month
+      } else {
+        // Otherwise, set DoR to the last day of the same month
+        date.setMonth(date.getMonth() + 1); // Move to the next month
+        date.setDate(0); // Set to the last day of the current month
+      }
+
+      // Format DoR as 'YYYY-MM-DD' for the input
+      this.employee!.dor = date.toISOString().slice(0, 10);
+    }
+  }
+
   /***** Date Check Validation Function Start *****/
 
 

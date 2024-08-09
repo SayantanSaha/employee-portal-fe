@@ -475,7 +475,7 @@
                             <label class="form-label">Date Of Birth</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Birth"
-                                     aria-label="Date Of Birth" [(ngModel)]="employee!.dob" (ngModelChange)="onInputChange()"
+                                     aria-label="Date Of Birth" [(ngModel)]="employee!.dob" (ngModelChange)="onInputChange()" (change)="calculateDor()"
                                      [max]="maxDate">
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
@@ -536,9 +536,15 @@
                         <div class="row">
                           <div class="col-md-6">
                             <label class="form-label">Date of retirement</label>
-                            <div class="input-group mb-3">
+                            <div *ngIf="editable" class="input-group mb-3">
+                              <input type="date" class="form-control" placeholder="Date Of retirement"
+                                     aria-label="Date Of retirement" [(ngModel)]="employee!.dor"
+                                      (ngModelChange)="onInputChange()" >
+                            </div>
+                            <div *ngIf="!editable" class="input-group mb-3">
                               {{formatDate(employee!.dor)}}
                             </div>
+
                           </div>
 
                           <div class="col-md-6">
@@ -1028,7 +1034,7 @@
                             <td>
                               <input *ngIf="employee!.divisions && editable" class="form-control" type="date"
                                      [(ngModel)]="employee!.divisions[i].pivot!.to_date"
-                                     (ngModelChange)="onInputChangeMap('Posting', i)" [max]="maxDate">
+                                     (ngModelChange)="onInputChangeMap('Posting', i)" >
                               <span *ngIf="!editable">{{formatDate(div!.pivot!.to_date)}}</span>
                             </td>
                             <td>
