@@ -439,12 +439,6 @@ export class EbaFormComponent {
     })
   }
 
-
-
-
-
-
-
   getActiveDesignations(designations: Designation[]): string {
     const activeDesignations = designations
         .filter(designation => designation.pivot.active)
@@ -466,9 +460,6 @@ export class EbaFormComponent {
 
     return activeIdCard.join(', ');
   }
-
-
-
 
   isWithinTwoWeeks(expDate: Date | null): boolean {
     if (expDate === null) {
@@ -529,7 +520,6 @@ export class EbaFormComponent {
       }
     }
   }
-
 
   onMobileNoInput(event: any, i: number, J: number): void {
     if (
@@ -608,8 +598,6 @@ export class EbaFormComponent {
       }
     }
   }
-
-
 
   displayUpload: any = 'none';
 
