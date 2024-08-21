@@ -199,10 +199,10 @@ export class EbaFormComponent {
     }
 
 
-    // this.employeeService.getStates().subscribe(
-    //   data=>this.states=data,
-    //   error => console.log(error)
-    // );
+    this.employeeService.getStates().subscribe(
+      data=>this.states=data,
+      error => console.log(error)
+    );
     //
     this.employeeService.getDesignations(1).subscribe(
       data=>this.designations=data,
@@ -372,6 +372,18 @@ export class EbaFormComponent {
           this.employee.servants[i].relations[j].pivot.eba_passes[k].eba_pass_exp_date_edited = true;
       }
     }
+  }
+
+  async getDistricts(state: State) {
+    let districts: District[] = [];
+    if (state != null) {
+      districts = await this.employeeService.getDistrictsByState(state.id!);
+    }
+    return districts;
+  }
+
+  onStateChange(state: State, type: String) {
+    this.getDistricts(state).then(districts => this.currDistricts = districts);
   }
 
   setEditable(status:boolean){

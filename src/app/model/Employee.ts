@@ -91,4 +91,5 @@ export class Employee{
   validupto: Date | null = null;
   apply_reason:string|null = null;
   FIR_no:string|null = null;
+  ebapurpleCard: boolean = false;
 }
