@@ -125,7 +125,8 @@
                         <span>{{ member!.pivot!.rel_name }}</span>
                       </td>
                       <td>
-                        <span>{{ member!.rel_desc }}</span>
+                        <span *ngIf=" member!.pivot!.relation_id !== 28">{{ member!.rel_desc }}</span>
+                        <span *ngIf=" member!.pivot!.relation_id == 28">{{ member!.pivot!.rel_text }}</span>
                       </td>
                       <td>
                         <span>{{ member!.pivot!.rel_mobile_no }}</span>

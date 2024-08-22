@@ -249,7 +249,7 @@
         Issue Purple card?
       </label> -->
 
-      <div class="card shadow"
+      <!-- <div class="card shadow"
           *ngIf="(urlid && !editable) || urlformid">
           <div class="card-body">
             <h5 class="card-title mat-body-strong" style=" color: purple"> Officer's Purple Card Details</h5>
@@ -263,14 +263,14 @@
                         <tr>
                           <th>Select</th>
                           <th>Name</th>
-                          <th>Relation</th>
+                          <th>Relation</th>employee!.ebapurpleCard
                           <th>Mob No.</th>
                           <th>DOB</th>
                           <th>EMP NO</th>
                           <th>Valid upto</th>
-                          <th>Photo</th>
+                          <th>Photo</th> -->
                           <!--                        <th >Sign.</th>-->
-                          <th>Id Proof</th>
+                          <!-- <th>Id Proof</th>
                           <th *ngIf="urlid && !editable">Recommend</th>
                           <th *ngIf="urlid && !editable">Valid upto</th>
                           <th *ngIf="urlid && !editable">Remark</th>
@@ -281,11 +281,11 @@
                           <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
 
                             <ng-container *ngIf="editable && !urlid">
-                              <td>
+                              <td> -->
                                 <!--                                <ng-container *ngIf="(eba_pass.eba_pass_no === null || isWithinTwoWeeks(eba_pass.eba_pass_exp_date))">-->
-                                <input type="checkbox" class="selectItem" [(ngModel)]="member.allSelected">
+                                <!-- <input type="checkbox" class="selectItem" [(ngModel)]="member.allSelected"> -->
                                 <!--                                </ng-container>-->
-                              </td>
+                              <!-- </td>
                             </ng-container>
                             <td>
                               <span>{{ member!.pivot!.rel_name }}</span>
@@ -329,7 +329,7 @@
                                   <img [src]="eba_pass.photo_path_edit_64" style="width: 150px; height: 128px"
                                     class="rounded-square" />
                                 </ng-container>
-                              </td>
+                              </td> -->
                               <!--                              <td  >-->
                               <!--                                <div   *ngIf="eba_pass.sign_path && eba_pass.sign_path!==null">-->
                               <!--                                <ng-container *ngIf="eba_pass.sign_path.startsWith('http')">-->
@@ -351,7 +351,7 @@
                               <!--&lt;!&ndash;                                  </a>&ndash;&gt;-->
                               <!--&lt;!&ndash;                                </div>&ndash;&gt;-->
                               <!--                              </td>-->
-                              <td>
+                              <!-- <td>
                                 <ng-container
                                   *ngIf="eba_pass.id_proof_path && eba_pass.id_proof_path!=null && (!eba_pass.id_proof_path_edit || eba_pass.id_proof_path_edit===null) && (!eba_pass.id_proof_path_edit_64 || eba_pass.id_proof_path_edit_64===null)">
                                   <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
@@ -371,12 +371,12 @@
                                 </ng-container>
 
                                 <ng-container
-                                  *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!=null">
+                                  *ngIf="eba_pass.id_proof_path_edit_64 && eba_pass.id_proof_path_edit_64!=null"> -->
                                   <!--                                <button (click)="openPdfInNewTab($event,i,j,'k','family_id_proof_path')">Open PDF</button>-->
-                                  <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                  <!-- <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
                                     (click)="openPdfInNewTab(eba_pass.id_proof_path_edit_64);hoverClick($event)"></i>
                                 </ng-container>
-                              </td>
+                              </td> -->
                               <!--                            <ng-container *ngIf="urlid && !editable">-->
                               <!--                              <td>-->
 
@@ -419,7 +419,7 @@
                               <!--&lt;!&ndash;                                      </td>&ndash;&gt;-->
                               <!--                                    </ng-container >-->
 
-                              <ng-container *ngIf="urlid && !editable">
+                              <!-- <ng-container *ngIf="urlid && !editable">
                                 <td>
                                   <ng-container *ngIf="employee!.dh==true && member.allSelected">
                                     <div class="form-check form-switch">
@@ -486,7 +486,7 @@
             </div>
           </div>
           <br>
-        </div>
+        </div> -->
 
       <div *ngIf="applyingforRelative || urlid ">
         <div class="card shadow"
@@ -773,7 +773,8 @@
                                 <span>{{ member!.pivot!.rel_name }}</span>
                               </td>
                               <td>
-                                <span>{{ member!.rel_desc }}</span>
+                                <span *ngIf=" member!.pivot!.relation_id !== 28">{{ member!.rel_desc }}</span>
+                                <span *ngIf=" member!.pivot!.relation_id == 28">{{ member!.pivot!.rel_text }}</span>
                               </td>
                               <td>
                                 <span>{{ member!.pivot!.rel_mobile_no }}</span>

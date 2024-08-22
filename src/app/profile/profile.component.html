@@ -1262,7 +1262,11 @@
                                   {{relationtype!.rel_desc}}</option>
                               </select>
 
-                              <span *ngIf="!editable">{{member!.rel_desc}}</span>
+                              <input *ngIf="employee!.relations && editable && employee!.relations[i].pivot.relation_id == 28" class="form-control" type="text"
+                                     [(ngModel)]="employee!.relations[i].pivot!.rel_text" placeholder="Relation">
+
+                                     <span *ngIf="!editable && member!.rel_desc!='Other'">{{member!.rel_desc}}</span>
+                                     <span *ngIf="!editable && member!.rel_desc=='Other'">{{member!.pivot!.rel_text}}</span>
                             </td>
                             <td>
                               <input *ngIf="employee!.relations && editable" class="form-control" type="text"

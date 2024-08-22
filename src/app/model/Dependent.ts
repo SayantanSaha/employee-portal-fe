@@ -13,5 +13,6 @@ export class Dependent{
   rel_mobile_no: string | null = null;
   deleted_at: Date | null = null;
   eba_passes:  Ebapass[] = [];
+  rel_text: string | null = null;
 }
 
