@@ -10,7 +10,7 @@
           <ng-container *ngIf="printData.card_type! && printData.card_type==3">
             <div
               style="height: 18mm; background-color: darkred; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
-              <strong style="font-size: 5mm; color: white; transform: scaleY(2.1)scaleX(1.1); line-height: 13mm;margin-left: 4mm;">
+              <strong style="font-size: 4.9mm; color: white; transform: scaleY(2); line-height: 13mm;letter-spacing: 0.22mm;">
                 PRESIDENT'S ESTATE RESIDENT PASS
               </strong>
               <div style=" color: white;line-height: 6mm;"><b>{{printData.eba_pass_no}}</b></div>
@@ -19,7 +19,7 @@
           <ng-container *ngIf="printData.card_type! && printData!.card_type!==3">
             <div
               style="height: 18mm; background-color: darkgreen; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
-              <strong style="font-size: 5mm; color: white; transform: scaleY(2.1)scaleX(1.1); line-height: 13mm;margin-left: 4mm;">
+              <strong style="font-size: 4.9mm; color: white; transform: scaleY(2); line-height: 13mm;letter-spacing: 0.22mm;">
                 PRESIDENT'S ESTATE RESIDENT PASS
               </strong>
               <div style=" color: white;line-height: 6mm;"><b>{{printData.eba_pass_no}}</b></div>
@@ -28,7 +28,8 @@
           <ng-container *ngIf="!printData.card_type">
             <div
               style="height: 18mm; background-color: blue; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
-              <strong style="font-size: 5mm; color: white; transform: scaleY(2.1)scaleX(1.1); line-height: 13mm;margin-left: 4mm;">
+              <!-- <strong style="font-size: 5mm; color: white; transform: scaleY(2.1)scaleX(1.1); line-height: 13mm;margin-left: 4mm;"> -->
+                <strong style="font-size: 5mm; color: white; transform: scaleY(2); line-height: 13mm;letter-spacing: 0.22mm;">
                 PRESIDENT'S ESTATE RESIDENT PASS
               </strong>
               <div style=" color: white;line-height: 6mm;"><b>{{printData.eba_pass_no}}</b></div>
@@ -51,7 +52,14 @@
                 <img [src]="printData.photo_path" style="width: 35mm; height: 39mm;padding-top: 5mm;" />
               </td>
 
-              <td style="min-width:61mm;max-width:61mm;padding-left: 14mm;transform: scaleX(1.3);">
+              <!-- <td style="min-width:61mm;max-width:61mm;padding-left: 14mm;transform: scaleX(1.3);"> -->
+
+              <!-- <td style="min-width:31mm;max-width:31mm;">
+                <img [src]="printData.photo_path" style="width: 35mm; height: 35mm;padding: 2mm" />
+              </td> -->
+
+              <td style="min-width:61mm;max-width:61mm;padding: 10mm;padding-left: 15mm;">
+                
                 <table>
                   <tr>
                     <td>
@@ -79,7 +87,7 @@
                   </tr>
                   <tr>
                     <td *ngIf="printData?.closefamily?.rel_desc && printData.closefamily.rel_desc!='Other'"><b>{{printData.closefamily.rel_desc}}</b></td>
-                    <td *ngIf="printData?.closefamily?.rel_desc && printData.closefamily.rel_desc=='Other'&&printData?.closefamily?.rel_text"><b>{{printData.closefamily.rel_text}}</b></td>
+                    <td *ngIf="printData?.closefamily?.rel_desc && printData.closefamily.rel_desc=='Other'&&printData?.closefamily?.pivot?.rel_text"><b>{{printData.closefamily.pivot.rel_text}}</b></td>
                     <td *ngIf="printData?.servantfamily?.rel_desc"><b>Domestic Help
                         {{printData.servantfamily.rel_desc}}</b></td>
                     <td *ngIf="printData?.servant"><b>Domestic Help</b></td>
