@@ -34,7 +34,9 @@ export class IdFormComponent implements OnInit {
 
   employee: Employee | null = null;
   user: User = new User();
-  apiUrl = environment.apiUrl;
+  // apiUrl = environment.apiUrl;
+  apiUrl = environment.apiUrl.replace('10.197.148.102', window.location.hostname);
+
   editable: boolean = false;
   mode: string | null = null;
   urlId: boolean = false;
