@@ -800,10 +800,10 @@
             style="width: 81.7mm;height:25mm;margin-left:-1mm;position: relative">
           <table style="margin: 3mm;">
 
-            <b style="font-size: 4.5mm">Blood Group: {{ printData.applicationdetails.application.blood_group}}</b><br>
-            <b style="font-size: 4.5mm">Date of Birth: {{ printData.applicationdetails.application.dob |
+            <b style="font-size: 4mm">Blood Group: {{ printData.applicationdetails.application.blood_group}}</b><br>
+            <b style="font-size: 4mm">Date of Birth: {{ printData.applicationdetails.application.dob |
               date:'dd-MM-yyyy'}}</b><br>
-            <b style="font-size: 4.5mm">ID mark: {{ printData.applicationdetails.application.body_mark}}</b>
+            <b style="font-size: 4mm">ID mark: {{ printData.applicationdetails.application.body_mark}}</b>
             <br>
             <span style="font-size: 3.5mm">
               This Photo Pass is the property of the President's Secretariat. It must be returned by the holder on its
@@ -827,8 +827,7 @@
             <br>
             <span style="font-size: 3.5mm">
               Tel : 23010067,23017250
-            </span><br>
-
+            </span>
             <br>
             <span style="width: 81.7mm;max-width: 81.7mm;text-align: center;">
               <ngx-barcode6 [bc-format]="'CODE128'" [bc-value]="(printData!.card_no ) || ''" [bc-width]="1"
