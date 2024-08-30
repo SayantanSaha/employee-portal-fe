@@ -237,14 +237,15 @@
 
         <div *ngIf="printData.card_type_id==1" class="print-border" [ngStyle]="{
       'background-image': 'url(\'assets/images/pass_frontG.png\')',
-      'width': '102%',
-      'height': '100.3%',
-      'background-size': '99.1%',
-      'background-position': 'center center',
+      'width': '81.64mm',
+      'height': '128.3mm',
+      'background-size': '100%',
       'background-repeat': 'no-repeat',
       'position': 'relative',
-      'top': '0',
-      'left': '0',
+      'max-width': '82mm',
+      'max-height': '130mm',
+      'background-position': 'center',
+
 
     }">
 
@@ -372,14 +373,15 @@
 
         <div *ngIf="printData.card_type_id==2" class="print-border" [ngStyle]="{
           'background-image': 'url(\'assets/images/pass_frontPc.png\')',
-          'width': '82mm',
-          'height': '127mm',
-          'max-width': '82mm',
-          'max-height': '128mm',
-          'background-size': '100%',
-          'background-position': 'center',
-          'background-repeat': 'no-repeat',
-          'position': 'relative'
+          'width': '81.64mm',
+      'height': '128.3mm',
+      'background-size': '100%',
+      'background-repeat': 'no-repeat',
+      'position': 'relative',
+      'max-width': '82mm',
+      'max-height': '130mm',
+      'background-position': 'center',
+
         }">
 
           <b style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
@@ -506,14 +508,15 @@
 
         <div *ngIf="printData.card_type_id==3" class="print-border" [ngStyle]="{
               'background-image': 'url(\'assets/images/pass_frontR.png\')',
-              'width': '82mm',
-          'height': '127mm',
-          'max-width': '82mm',
-          'max-height': '128mm',
-              'background-size': '100%',
-              'background-position': 'center',
-              'background-repeat': 'no-repeat',
-              'position': 'relative'
+              'width': '81.64mm',
+      'height': '128.3mm',
+      'background-size': '100%',
+      'background-repeat': 'no-repeat',
+      'position': 'relative',
+      'max-width': '82mm',
+      'max-height': '130mm',
+      'background-position': 'center',
+
             }">
 
           <b style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
@@ -640,14 +643,15 @@
 
         <div *ngIf="printData.card_type_id==4" class="print-border" [ngStyle]="{
                   'background-image': 'url(\'assets/images/pass_frontY.png\')',
-                  'width': '82mm',
-          'height': '127mm',
-          'max-width': '82mm',
-          'max-height': '128mm',
+                  'width': '81.64mm',
+                  'height': '128.3mm',
                   'background-size': '100%',
-                  'background-position': 'center',
                   'background-repeat': 'no-repeat',
-                  'position': 'relative'
+                  'position': 'relative',
+                  'max-width': '82mm',
+                  'max-height': '130mm',
+                  'background-position': 'center',
+
                 }">
 
           <b style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
@@ -715,6 +719,14 @@
               </ng-container>
 
               <ng-container *ngIf="printData.applicationdetails.application.payLevel < 9">
+                <div
+                  style="color: white;position: absolute; top: 0; left: -32mm; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                  <div
+                    style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: -50mm;">
+                    <b>CASUAL EMPLOYEE</b><br>
+                    <b>TEMPORARY PASS</b>
+                  </div>
+                </div>
 
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
