@@ -237,9 +237,9 @@
 
         <div *ngIf="printData.card_type_id==1" class="print-border" [ngStyle]="{
       'background-image': 'url(\'assets/images/pass_frontG.png\')',
-      'width': '81mm',
+      'width': '82mm',
       'height': '128.325mm',
-      'background-size': '100%',
+      'background-size': '97%',
       'background-repeat': 'no-repeat',
       'position': 'relative',
       'max-width': '82mm',
@@ -260,9 +260,8 @@
                 </td>
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 55.5mm; height: 59mm; padding: 2.3mm;  padding-right: 7mm;" />
+                    style="width: 55.5mm; height: 59mm; padding: 3mm;  padding-right: 7mm;" />
                 </div>
-
                 <div
                   style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
                   <div
@@ -279,7 +278,7 @@
                 </td>
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 55.5mm; height: 59mm; padding: 2.3mm;  padding-right: 7mm;" />
+                    style="width: 55.5mm; height: 59mm; padding: 3mm;  padding-right: 7mm;" />
                 </div>
 
                 <div
@@ -297,11 +296,10 @@
                   <img src="assets/images/star.png" /><br>
                   <img src="assets/images/star.png" />
                 </td>
-                <!-- <div>
+                <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 55.5mm; height: 59mm; padding: 2mm;  padding-right: 6mm;" />
-                </div> -->
-
+                    style="width: 55.5mm; height: 59mm; padding: 3mm;  padding-right: 7mm;" />
+                </div>
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
                     style="width: 55.5mm; height: 59mm; padding: 2.3mm;  padding-right: 7mm;" />
@@ -318,16 +316,10 @@
 
               <ng-container *ngIf="printData.applicationdetails.application.payLevel < 9">
 
-                <!-- <div>
-                  <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 67.9mm; height: 59mm; padding: 2mm; padding-left: 18.2mm; padding-right: -1mm;" />
-                </div> -->
-
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 67.9mm; height: 59mm; padding: 2mm; padding-left: 17.8mm; padding-right: 2.6mm;" />
+                    style="width: 67.9mm; height: 59.5mm; padding: 3mm; padding-left: 19mm; padding-right: 2.7mm;" />
                 </div>
-
 
                 <div
                   style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
@@ -382,15 +374,14 @@
 
         <div *ngIf="printData.card_type_id==2" class="print-border" [ngStyle]="{
           'background-image': 'url(\'assets/images/pass_frontPc.png\')',
-          'width': '81mm',
-          'height': '128.325mm',
-          'background-size': '100%',
-          'background-repeat': 'no-repeat',
-          'position': 'relative',
-          'max-width': '82mm',
-          'max-height': '130mm',
-          'background-position': 'center',
-
+          'width': '82mm',
+      'height': '128.325mm',
+      'background-size': '97%',
+      'background-repeat': 'no-repeat',
+      'position': 'relative',
+      'max-width': '82mm',
+      'max-height': '130mm',
+      'background-position': 'center',
         }">
 
           <b style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
@@ -406,7 +397,7 @@
                 </td>
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 66.5mm; height: 59.1mm;padding-left: 0.1mm;  padding-right: 13.9mm;padding-top: 3.4mm;padding-bottom: 3.5mm; " />
+                    style="width: 66.5mm; height: 59.1mm;padding-left: 1mm;  padding-right: 13.9mm;padding-top: 4mm;padding-bottom: 4mm; " />
                 </div>
 
 
@@ -426,7 +417,7 @@
                 </td>
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 66.5mm; height: 59.1mm;padding-left: 0.1mm;  padding-right: 13.9mm;padding-top: 3.4mm;padding-bottom: 3.5mm; " />
+                    style="width: 66.5mm; height: 59.1mm;padding-left: 1mm;  padding-right: 13.9mm;padding-top: 4mm;padding-bottom: 4mm; " />
                 </div>
 
                 <div
@@ -444,16 +435,10 @@
                   <img src="assets/images/star.png" /><br>
                   <img src="assets/images/star.png" />
                 </td>
-                <!-- <div>
-                  <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 66.5mm; height: 59.1mm;  padding-right: 13.3mm;padding-top: 3.1mm;padding-bottom: 3.2mm; " />
-                </div> -->
-
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 66.5mm; height: 59.1mm;padding-left: 0.1mm;  padding-right: 13.9mm;padding-top: 3.4mm;padding-bottom: 3.5mm; " />
+                    style="width: 66.5mm; height: 59.1mm;padding-left: 1mm;  padding-right: 13.9mm;padding-top: 4mm;padding-bottom: 4mm; " />
                 </div>
-
 
                 <div
                   style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
@@ -466,14 +451,11 @@
 
               <ng-container *ngIf="printData.applicationdetails.application.payLevel < 9">
 
-                <!-- <div>
-                  <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 67.3mm; height: 58.6mm;  padding-right: 1mm;padding-top: 3.5mm;padding-bottom: 3.2mm;padding-left: 15mm; " />
-                </div> -->
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 67.3mm; height: 58.6mm;  padding-right: 1.6mm;padding-top: 4.1mm;padding-bottom: 3.6mm;padding-left: 15mm; " />
+                    style="width: 67.3mm; height: 58.6mm;  padding-right: 1.5mm;padding-top: 5mm;padding-bottom: 4mm;padding-left: 16mm; " />
                 </div>
+
                 <div
                   style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
                   <div
@@ -528,13 +510,13 @@
         <div *ngIf="printData.card_type_id==3" class="print-border" [ngStyle]="{
               'background-image': 'url(\'assets/images/pass_frontR.png\')',
               'width': '82mm',
-              'height': '128.325mm',
-              'background-size': '97%',
-              'background-repeat': 'no-repeat',
-              'position': 'relative',
-              'max-width': '82mm',
-              'max-height': '130mm',
-              'background-position': 'center',
+      'height': '128.325mm',
+      'background-size': '97%',
+      'background-repeat': 'no-repeat',
+      'position': 'relative',
+      'max-width': '82mm',
+      'max-height': '130mm',
+      'background-position': 'center',
 
             }">
 
@@ -552,7 +534,7 @@
                 </td>
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 55.5mm; height: 59mm; padding: 2.3mm;  padding-right: 7mm;" />
+                    style="width: 55.5mm; height: 59mm; padding: 3mm;  padding-right: 7mm;" />
                 </div>
 
                 <div
@@ -571,7 +553,7 @@
                 </td>
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 55.5mm; height: 59mm; padding: 2.3mm;  padding-right: 7mm;" />
+                    style="width: 55.5mm; height: 59mm; padding: 3mm;  padding-right: 7mm;" />
                 </div>
 
                 <div
@@ -591,7 +573,7 @@
                 </td>
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 55.5mm; height: 59mm; padding: 2.3mm;  padding-right: 7mm;" />
+                    style="width: 55.5mm; height: 59mm; padding: 3mm;  padding-right: 7mm;" />
                 </div>
 
                 <div
@@ -607,7 +589,7 @@
 
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 67.9mm; height: 59mm; padding: 2mm; padding-left: 17.8mm; padding-right: 2.6mm;" />
+                    style="width: 67.9mm; height: 59.5mm; padding: 3mm; padding-left: 19mm; padding-right: 2.7mm;" />
                 </div>
 
 
@@ -664,15 +646,14 @@
 
         <div *ngIf="printData.card_type_id==4" class="print-border" [ngStyle]="{
                   'background-image': 'url(\'assets/images/pass_frontY.png\')',
-                  'width': '81mm',
+                  'width': '82mm',
                   'height': '128.325mm',
-                  'background-size': '100%',
+                  'background-size': '97%',
                   'background-repeat': 'no-repeat',
                   'position': 'relative',
                   'max-width': '82mm',
                   'max-height': '130mm',
                   'background-position': 'center',
-
                 }">
 
           <b style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
@@ -688,7 +669,7 @@
                 </td>
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 54.5mm; height: 58mm; padding: 2mm;  padding-right: 6.7mm;padding-top: 3mm;padding-bottom: 2.5mm;padding-left: 2.5mm;" />
+                    style="width: 54.5mm; height: 58mm; padding: 2mm;  padding-right: 7.3mm;padding-top: 4mm;padding-bottom: 2.5mm;padding-left: 3.5mm;" />
                 </div>
 
                 <div
@@ -707,7 +688,7 @@
                 </td>
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 54.5mm; height: 58mm; padding: 2mm;  padding-right: 6.7mm;padding-top: 3mm;padding-bottom: 2.5mm;padding-left: 2.5mm;" />
+                    style="width: 54.5mm; height: 58mm; padding: 2mm;  padding-right: 7.3mm;padding-top: 4mm;padding-bottom: 2.5mm;padding-left: 3.5mm;" />
                 </div>
 
 
@@ -726,16 +707,10 @@
                   <img src="assets/images/star.png" /><br>
                   <img src="assets/images/star.png" />
                 </td>
-                <!-- <div>
-                  <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 54.5mm; height: 58mm; padding: 2mm;  padding-right: 6.4mm;padding-top: 3mm;padding-bottom: 2.5mm;padding-left: 3mm;" />
-                </div> -->
-
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width: 54.5mm; height: 58mm; padding: 2mm;  padding-right: 6.7mm;padding-top: 3mm;padding-bottom: 2.5mm;padding-left: 2.5mm;" />
+                    style="width: 54.5mm; height: 58mm; padding: 2mm;  padding-right: 7.3mm;padding-top: 4mm;padding-bottom: 2.5mm;padding-left: 3.5mm;" />
                 </div>
-
 
                 <div
                   style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
@@ -758,16 +733,8 @@
 
                 <div>
                   <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width:66.7mm; height: 58mm; padding: 2mm;  padding-top: 3mm;padding-bottom: 2.5mm;padding-left: 19mm; padding-right: 3mm;" />
+                    style="width:66.7mm; height: 58mm; padding: 2mm;  padding-top: 4mm;padding-bottom: 3mm;padding-left: 20mm; padding-right: 3mm;" />
                 </div>
-
-
-
-                <!-- <div>
-                  <img [src]="printData.applicationdetails.application.profile_photo"
-                    style="width:66.7mm; height: 58mm; padding: 2mm;  padding-top: 3mm;padding-bottom: 2.5mm;padding-left: 19.5mm;" />
-                </div> -->
-
                 <div
                   style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
                   <div
