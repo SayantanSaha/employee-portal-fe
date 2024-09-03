@@ -613,9 +613,169 @@ export class EbaFormComponent {
 
   displayUpload: any = 'none';
 
-  openUploadPopup() {
-    this.displayUpload = "block";
+  validateEmployeeData() {
+
+    let shouldContinue = true;
+
+    if (this.employee) {
+      if (this.employee.designations === null || this.employee.designations.length === 0) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Empty Designation',
+          text: 'Designation does not have a value.',
+        });
+        return false;
+      }
+
+      if (this.employee.divisions === null || this.employee.divisions.length === 0) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Empty Division',
+          text: 'Division does not have a value.',
+        });
+        return false;
+      }
+
+      if (this.employee.organization === null) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Empty Organization',
+          text: 'Organization does not have a value.',
+        });
+        return false;
+      }
+
+      // Deep clone employee to avoid mutating the original data
+      const clonedEmployee = JSON.parse(JSON.stringify(this.employee));
+
+      if (!clonedEmployee.reg_no || clonedEmployee.reg_no === null) {
+        if (this.applyingforRelative) {
+          if (clonedEmployee.closefamily) {
+            // @ts-ignore
+            clonedEmployee.closefamily = clonedEmployee.closefamily.filter(member => member.allSelected);
+            clonedEmployee.servants = [];
+          }
+
+          if (clonedEmployee.family) {
+            // @ts-ignore
+            clonedEmployee.family = clonedEmployee.family.filter(member => member.allSelected);
+            clonedEmployee.servants = [];
+          }
+        } else {
+          clonedEmployee.closefamily = [];
+          clonedEmployee.family = [];
+          clonedEmployee.vehicles = [];
+
+          if (clonedEmployee.servants) {
+            // @ts-ignore
+            clonedEmployee.servants = clonedEmployee.servants.filter(servant => {
+              if (servant.relations) {
+                // @ts-ignore
+                servant.relations = servant.relations.filter(relation => relation.allSelected);
+              }
+
+              if (servant.vehicles) {
+                // @ts-ignore
+                servant.vehicles = servant.vehicles.filter(vehicle => {
+                  return !(
+                    vehicle['vehicle_owner'] === null &&
+                    vehicle['vehicle_no'] === null &&
+                    vehicle['vehicle_type'] === null &&
+                    vehicle['model_name'] === null
+                  );
+                });
+              }
+
+              if (servant.showVehiclePart) {
+                // @ts-ignore
+                const hasAtLeastOneNegativeId = servant.vehicles.some(vehicle => vehicle.id === -1);
+
+                if (!hasAtLeastOneNegativeId) {
+                  shouldContinue = false;
+                  Swal.fire({
+                    title: 'Add Vehicle for ' + servant.servant_name,
+                    text: 'You need to add at least one vehicle before continuing.',
+                    icon: 'info',
+                  });
+                  return false;
+                }
+              }
+
+              if (servant.allSelected) {
+                const missingFields = [];
+
+                if (servant.eba_passes[0].living_at_president_sect == null) missingFields.push('Living at President Sect');
+                if (servant.eba_passes[0].perm_address == null) missingFields.push('Permanent Address');
+                if (servant.eba_passes[0].last_5yr_address == null) missingFields.push('Last 5 Years Address');
+                if (servant.eba_passes[0].reference_1_name == null) missingFields.push('Reference 1 Name');
+                if (servant.eba_passes[0].reference_1_phone_no == null) missingFields.push('Reference 1 Phone No');
+                if (servant.eba_passes[0].reference_1_address == null) missingFields.push('Reference 1 Address');
+                if (servant.eba_passes[0].reference_2_name == null) missingFields.push('Reference 2 Name');
+                if (servant.eba_passes[0].reference_2_phone_no == null) missingFields.push('Reference 2 Phone No');
+                if (servant.eba_passes[0].reference_2_address == null) missingFields.push('Reference 2 Address');
+
+                if (missingFields.length > 0) {
+                  shouldContinue = false;
+                  const missingFieldsText = missingFields.join(', ');
+                  Swal.fire({
+                    icon: 'warning',
+                    title: 'Missing Information',
+                    text: `The following fields are missing for ${servant.servant_name}: ${missingFieldsText}. Please fill out all required fields.`,
+                  });
+                  return false;
+                }
+              }
+
+              return servant.relations.length > 0 || servant.allSelected;
+            });
+          }
+        }
+
+        if (shouldContinue) {
+          if (this.applyingforRelative) {
+            if (this.applyingforclosefamily) {
+              if (clonedEmployee.closefamily === null || clonedEmployee.closefamily.length === 0) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Empty Relative',
+                  text: 'At least add one family',
+                });
+                return false;
+              }
+            } else {
+              if (clonedEmployee.family === null || clonedEmployee.family.length === 0) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Empty Relative',
+                  text: 'At least add one Relative',
+                });
+                return false;
+              }
+            }
+          } else {
+            if (clonedEmployee.servants === null || clonedEmployee.servants.length === 0) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Empty Domestic Help',
+                text: 'At least add one Domestic help',
+              });
+              return false;
+            }
+          }
+        }
+      }
+      return shouldContinue;
+    }
+    return false;
   }
+
+  openUploadPopup() {
+    if (this.validateEmployeeData()) {
+      this.displayUpload = "block";
+    }
+  }
+
+
   closeUploadPopup() {
     this.displayUpload = "none";
   }
