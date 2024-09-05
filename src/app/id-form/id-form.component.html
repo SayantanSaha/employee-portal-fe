@@ -33,7 +33,7 @@
 
                 <tr>
                   <td align="left" height="30" width="220px">Name:</td>
-                  <td align="left" style="width: 300px">{{ employee?.emp_title }}{{ employee?.emp_name }}</td>
+                  <td align="left" style="width: 300px">{{ employee?.emp_title }} {{ employee?.emp_name }}</td>
                   <td valign="middle" align="right" rowspan="6">
                     <img [src]="employee?.profile_photo || '/assets/blank_photo.jpg'" width="120px" height="140px"
                       alt="Applicant Photo" />
@@ -56,11 +56,24 @@
                   <td align="left">Designation/Nature of Work:</td>
                   <td align="left">{{ employee?.designation }}</td>
                 </tr>
-                <tr style="height: 30px">
-                  <td align="left">Designation to be printed:</td>
-                  <td align="left">{{ employee?.desg_print }}</td>
-                </tr>
-
+                <ng-container *ngIf="employee!.dh_dcp">
+                  <tr style="height: 30px">
+                    <td align="left">Designation to be printed:</td>
+                    <td colspan="2" align="left">
+                      <div class="row">
+                        <div class="col-4">
+                          <input type="text" class="form-control" [(ngModel)]="employee!.desg_print">
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+                <ng-container *ngIf="!employee!.dh_dcp">
+                  <tr style="height: 30px">
+                    <td align="left">Designation to be printed:</td>
+                    <td align="left">{{ employee?.desg_print }}</td>
+                  </tr>
+                </ng-container>
                 <tr style="height: 30px">
                   <td align="left">Mobile Number:</td>
                   <td align="left">{{ employee?.mobile }}</td>
@@ -120,12 +133,6 @@
                     {{employee?.blood_group}}
                   </td>
                 </tr>
-                <tr style="height: 30px" >
-                  <td align="left">Employee Type:</td>
-                  <td colspan="2" align="left">
-                    {{employee!.emp_type}}
-                  </td>
-                </tr>
                 <!-- <tr style="height: 30px">
                   <td align="left">Pass Color:</td>
                   <td colspan="2" align="left">
@@ -180,6 +187,23 @@
                   </td>
                 </tr>
                 <tr style="height: 30px" *ngIf="editable && !urlId">
+                  <td align="left">Employee Type:</td>
+                  <td colspan="2" align="left">
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="input-group mb-3">
+                          <select class="form-control" [(ngModel)]="employee!.emp_type">
+                            <option value="">--Select typr--</option>
+                            <option value="Permanent">Permanent</option>
+                            <option value="Temporary">Temporary</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr style="height: 30px" *ngIf="editable && !urlId">
                   <td align="left">Applying reason:</td>
                   <td colspan="2" align="left">
                     <div class="row">
@@ -196,7 +220,13 @@
                     </div>
                   </td>
                 </tr>
-                <tr style="height: 30px" *ngIf="!editable && urlId && employee!.apply_reason">
+                <tr style="height: 30px" *ngIf="!editable  && employee!.emp_type">
+                  <td align="left">Employee Type:</td>
+                  <td colspan="2" align="left">
+                    {{employee!.emp_type}}
+                  </td>
+                </tr>
+                <tr style="height: 30px" *ngIf="!editable  && employee!.apply_reason">
                   <td align="left">Applying reason:</td>
                   <td colspan="2" align="left">
                     {{employee!.apply_reason}}
@@ -392,8 +422,8 @@
                 </ng-container>
 
               </table>
-              <div class="navigation-buttons" *ngIf="editable && !urlId && employee!.apply_reason && (employee!.apply_reason !== 'Lost/theaft' || (employee!.apply_reason === 'Lost/theaft' && employee!.FIR_no))">
-                <button type="submit" class="btn btn-primary" (click)="confirmSubmit(employee!.apply_reason!, employee!.FIR_no)">Submit</button>
+              <div class="navigation-buttons" *ngIf="editable && !urlId && employee!.apply_reason && employee!.emp_type && (employee!.apply_reason !== 'Lost/theaft' || (employee!.apply_reason === 'Lost/theaft' && employee!.FIR_no))">
+                <button type="submit" class="btn btn-primary" (click)="confirmSubmit(employee!.apply_reason!, employee!.FIR_no, employee!.emp_type!)">Submit</button>
               </div>
             </div>
           </div>

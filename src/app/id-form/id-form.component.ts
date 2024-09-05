@@ -56,7 +56,7 @@ export class IdFormComponent implements OnInit {
   passColors: any[] = [];
   passColor_issued: any[] = [];
   minDate : string;
-  maxDate : string= '';
+  maxDate: string='';;
 
 
   ngOnInit() {
@@ -96,18 +96,26 @@ export class IdFormComponent implements OnInit {
             this.employeeService.getRegProfile(idNumber).subscribe(
               (data: any) => {
                 this.employee = data;
-                this.maxDate = this.employee!.dor;
+                const maxAllowedDate = new Date('2027-07-31');
+                const dorDate = new Date(this.employee?.dor);
+                  this.maxDate = this.employee?.dor;
+
+                  if (dorDate && dorDate > maxAllowedDate) {
+                    this.maxDate = maxAllowedDate.toISOString().split('T')[0];
+                  } else {
+                    this.maxDate = dorDate ? dorDate.toISOString().split('T')[0] : '';
+                  }
                 this.employeeService.getCardType().subscribe(
                   data => {
                     this.passColors = data;
 
                     if(this.employee!.emp_type == 'Temporary'){
-                      this.passColors = this.passColors.filter(color => ['Y'].includes(color.code));
-                      this.passColor_issued = this.passColors.filter(color => ['Y'].includes(color.code));
+                      this.passColors = this.passColors.filter(color => ['Y','G', 'P', 'R'].includes(color.code));
+                      this.passColor_issued = this.passColors.filter(color => ['Y','G', 'P', 'R'].includes(color.code));
                     }
                     if(this.employee!.emp_type == 'Permanent'){
-                      this.passColors = this.passColors.filter(color => ['G', 'P', 'R'].includes(color.code));
-                      this.passColor_issued = this.passColors.filter(color => ['G', 'P', 'R'].includes(color.code));
+                      this.passColors = this.passColors.filter(color => ['G', 'P', 'R','Y'].includes(color.code));
+                      this.passColor_issued = this.passColors.filter(color => ['G', 'P', 'R','Y'].includes(color.code));
                     }
 
                   },
@@ -200,7 +208,7 @@ export class IdFormComponent implements OnInit {
     }
   }
 
-  confirmSubmit(applyReason: string,FIR_no: string|null): void {
+  confirmSubmit(applyReason: string,FIR_no: string|null,emp_type: string): void {
     Swal.fire({
       title: 'Do you want to submit?',
       icon: 'warning',
@@ -209,7 +217,7 @@ export class IdFormComponent implements OnInit {
       cancelButtonText: 'No, cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.submitIdfrom(applyReason,FIR_no);
+        this.submitIdfrom(applyReason,FIR_no,emp_type);
       }
     });
   }
@@ -243,11 +251,8 @@ export class IdFormComponent implements OnInit {
   }
 
 
-
-
-
-  submitIdfrom(value:string,FIR_no:string|null){
-    this.employeeService.submitIdfrom(value,FIR_no).subscribe(
+  submitIdfrom(value:string,FIR_no:string|null,emp_type:string){
+    this.employeeService.submitIdfrom(value,FIR_no,emp_type).subscribe(
       () => {
         this.isLoading = false;
         Swal.fire({

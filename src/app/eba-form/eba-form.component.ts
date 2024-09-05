@@ -1022,6 +1022,254 @@ export class EbaFormComponent {
     pdfWindow.document.write(`<iframe width='100%' height='100%' src='${pdfData}'></iframe>`);
   }
 
+  // applyEba() {
+  //   let shouldContinue = true;
+  //   if (this.employee) {
+  //     if (this.employee.designations === null || this.employee.designations.length === 0) {
+  //       Swal.fire({
+  //         icon: 'warning',
+  //         title: 'Empty Designation',
+  //         text: 'Designation does not have a value.',
+  //       });
+  //       return;
+  //     }
+
+  //     if (this.employee.divisions === null || this.employee.divisions.length === 0) {
+  //       Swal.fire({
+  //         icon: 'warning',
+  //         title: 'Empty Division',
+  //         text: 'Division does not have a value.',
+  //       });
+  //       return;
+  //     }
+
+  //     if (this.employee.organization === null) {
+  //       Swal.fire({
+  //         icon: 'warning',
+  //         title: 'Empty organization',
+  //         text: 'Organization does not have a value.',
+  //       });
+  //       return;
+  //     }
+
+  //     // if (this.employee.qtr_code === null) {
+  //     //   Swal.fire({
+  //     //     icon: 'warning',
+  //     //     title: 'Empty Quarter',
+  //     //     text: 'Quarter does not have a value. First pull your data from profile',
+  //     //   });
+  //     //   return;
+  //     // }
+
+  //     const clonedEmployee = { ...this.employee };
+
+  //     if(!clonedEmployee!.reg_no ||  clonedEmployee!.reg_no==null){
+  //     if(this.applyingforRelative) {
+  //       if (clonedEmployee.closefamily) {
+  //         clonedEmployee.closefamily = clonedEmployee.closefamily.filter(member => member.allSelected);
+  //         clonedEmployee.servants = [];
+  //       }
+
+  //       if (clonedEmployee.family) {
+  //         clonedEmployee.family = clonedEmployee.family.filter(member => member.allSelected);
+  //         clonedEmployee.servants = [];
+  //       }
+  //     }else {
+  //       clonedEmployee.closefamily = [];
+  //       clonedEmployee.family = [];
+  //       clonedEmployee.vehicles = [];
+  //       // if (clonedEmployee.servants) {
+  //       //   clonedEmployee.servants = clonedEmployee.servants.filter(servant => {
+  //       //     return servant.allSelected || servant.reference;
+  //       //   });
+  //       //   //   if( clonedEmployee.vehicles)
+  //       //   //   clonedEmployee.vehicles = clonedEmployee.vehicles?.filter(vehicle => vehicle.allSelected);
+  //       //   // }
+  //       // }
+
+  //       if (clonedEmployee.servants) {
+  //         // Filter out servants with empty relations array and allSelected is false
+  //         clonedEmployee.servants = clonedEmployee.servants.filter(servant => {
+  //           if (servant.relations) {
+  //             servant.relations = servant.relations.filter(relation => relation.allSelected);
+  //           }
+
+  //           // Filter out vehicles where all specified keys are null
+  //           if (servant.vehicles) {
+  //             servant.vehicles = servant.vehicles.filter(vehicle => {
+  //               return !(
+  //                   vehicle['vehicle_owner'] === null &&
+  //                   vehicle['vehicle_no'] === null &&
+  //                   vehicle['vehicle_type'] === null &&
+  //                   vehicle['model_name'] === null
+  //               );
+  //             });
+  //           }
+
+  //           if (servant.showVehiclePart) {
+  //             // Check if there's at least one vehicle with ID -1
+  //             // @ts-ignore
+  //             const hasAtLeastOneNegativeId = servant.vehicles.some(vehicle => vehicle.id === -1);
+
+  //             // If there's no vehicle with ID -1, add one
+  //             if (!hasAtLeastOneNegativeId) {
+  //               shouldContinue = false;
+  //               Swal.fire({
+  //                 title: 'Add Vehicle for ' + servant.servant_name,
+  //                 text: 'You need to add at least one vehicle before continuing.',
+  //                 icon: 'info',
+  //               });
+  //               return;
+  //             }
+  //           }
+
+  //           if(servant.allSelected){
+
+  //             const missingFields: string[] = [];
+
+  //             // Check if any of the specified fields is null
+  //             if (servant.eba_passes[0].living_at_president_sect == null) missingFields.push('Living at President Sect');
+  //             if (servant.eba_passes[0].perm_address == null) missingFields.push('Permanent Address');
+  //             if (servant.eba_passes[0].last_5yr_address == null) missingFields.push('Last 5 Years Address');
+  //             if (servant.eba_passes[0].reference_1_name == null) missingFields.push('Reference 1 Name');
+  //             if (servant.eba_passes[0].reference_1_phone_no == null) missingFields.push('Reference 1 Phone No');
+  //             if (servant.eba_passes[0].reference_1_address == null) missingFields.push('Reference 1 Address');
+  //             if (servant.eba_passes[0].reference_2_name == null) missingFields.push('Reference 2 Name');
+  //             if (servant.eba_passes[0].reference_2_phone_no == null) missingFields.push('Reference 2 Phone No');
+  //             if (servant.eba_passes[0].reference_2_address == null) missingFields.push('Reference 2 Address');
+
+  //             if (missingFields.length > 0) {
+  //               shouldContinue = false;
+  //               const missingFieldsText = missingFields.join(', ');
+  //               Swal.fire({
+  //                 icon: 'warning',
+  //                 title: 'Missing Information',
+  //                 text: `The following fields are missing for ${servant.servant_name}: ${missingFieldsText}. Please fill out all required fields.`,
+  //               });
+  //               return; // Stop further execution
+  //             }
+  //           }
+
+  //           // Include servants only if relations array is not empty or allSelected is true
+  //           return servant.relations.length > 0 || servant.allSelected;
+  //         });
+  //       }}
+  //     }
+  //     if (shouldContinue) {
+  //     if(this.applyingforRelative){
+  //       if(this.applyingforclosefamily){
+  //         if (clonedEmployee.closefamily === null || clonedEmployee.closefamily.length === 0) {
+  //           Swal.fire({
+  //             icon: 'warning',
+  //             title: 'Empty Relative',
+  //             text: 'Atleast add one family',
+  //           });
+  //           return;
+  //         }
+  //       }
+  //       else{
+  //         if (clonedEmployee.family === null || clonedEmployee.family.length === 0) {
+  //           Swal.fire({
+  //             icon: 'warning',
+  //             title: 'Empty Relative',
+  //             text: 'Atleast add one Relative',
+  //           });
+  //           return;
+  //         }
+  //       }
+  //     }else{
+  //       if (clonedEmployee.servants === null || clonedEmployee.servants.length === 0) {
+  //         Swal.fire({
+  //           icon: 'warning',
+  //           title: 'Empty Domestic help',
+  //           text: 'Atleast add one Domestic help',
+  //         });
+  //         return;
+  //       }
+  //     }
+
+  //       if (this.modetwo == 'return') {
+  //         const id = +this.route.snapshot.params['id'];
+  //         this.router.navigate(['eba-form-view'], {
+  //           state: {
+  //             employeeData: clonedEmployee,
+  //             fromUrl: 'eba-form',
+  //             submit: 'update',
+  //             id: id
+  //           }
+  //         });
+  //       } else {
+  //         this.router.navigate(['eba-form-view'], {state: {employeeData: clonedEmployee, fromUrl: 'eba-form'}});
+  //       }
+  //     }
+  //     // Send the modified employee object to the server
+  //     // this.employeeService.applyeba(clonedEmployee).subscribe(
+  //     //
+  //     //     // this.employeeService.applyeba(Employee).subscribe(
+  //     //     // if (this.validationErrors.length > 0) {
+  //     //     //
+  //     //     //   const errorMessage = this.validationErrors
+  //     //     //       .map((error, index) => `${index + 1}. ${error}`)
+  //     //     //       .join('\n');
+  //     //     //
+  //     //     //   Swal.fire({
+  //     //     //     icon: 'error',
+  //     //     //     title: 'Error',
+  //     //     //     html: errorMessage.replace(/\n/g, '<br/>'),
+  //     //     //     width: 'auto', // Adjust as needed
+  //     //     //   });
+  //     //     //   return; // Exit without calling the API
+  //     //     // }
+  //     //
+  //     //     // Validation true then Api call otherwise please check
+  //     //     // data=>console.log(data),
+  //     //     // error=>console.log(error)
+  //     //
+  //     //
+  //     //     data => {
+  //     //       console.log(data);
+  //     //       Swal.fire({
+  //     //         icon: 'success',
+  //     //         title: 'Success',
+  //     //         text: 'Eba application applied successfully and pending for approval',
+  //     //         // }).then((result) => {
+  //     //         //   if (result.isConfirmed) {
+  //     //         //     // Redirect to the desired page
+  //     //         //     window.location.reload();
+  //     //         //   }
+  //     //       }).then(() => {
+  //     //         // this.router.navigate(['eba-form-view'], { state: { employeeData: clonedEmployee } });
+  //     //       });
+  //     //     },
+  //     //     (error) => {
+  //     //       console.log(error);
+  //     //       console.log(error.status);
+  //     //       console.log(error.error);
+  //     //       if(error){
+  //     //         // if(error.status === 302){
+  //     //         //   Swal.fire({
+  //     //         //     icon: 'warning',
+  //     //         //     title: 'Warning',
+  //     //         //     text: 'Previous Record is still pending !!!',
+  //     //         //   });
+  //     //         // }else if(error.status === 303){
+  //     //         //   Swal.fire({
+  //     //         //     icon: 'warning',
+  //     //         //     title: 'Warning',
+  //     //         //     text: 'you already have a approved application',
+  //     //         //   });
+  //     //         // }
+  //     //         // else{
+  //     //         Swal.fire({
+  //     //           icon: 'error',
+  //     //           title: 'API Error',
+  //     //           text: 'An error occurred while updating.',
+  //     //         });
+  //     //       }
+  //     //     }
+  //     // );
+  //   }
+  // }
 
   applyEba() {
     let shouldContinue = true;
@@ -1180,6 +1428,8 @@ export class EbaFormComponent {
       }
     }
   }
+
+
 // @ts-ignore
   validateServantDocuments(servants) {
     for (const servant of servants) {
