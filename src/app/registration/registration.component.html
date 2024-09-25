@@ -246,6 +246,17 @@
                       </select>
                     </div>
                   </div>
+
+                  <div class="col-md">
+                    <label class="form-label">Recruitment Mode:</label>
+                    <div  class="input-group mb-3">
+                      <select  class="form-control" [(ngModel)]="employee.Recruitment" (keydown)="disableTabKey($event)">
+                        <option value="">--Select type--</option>
+                        <option [ngValue]="'Administration'">Administration</option>
+                        <option [ngValue]="'Establishment'">Establishment</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
 
                 <!-- <div class="row"> -->
@@ -441,6 +452,12 @@
                                 <td align="left">Employee Type:</td>
                                 <td colspan="2" align="left">
                                   {{employee.emp_type}}
+                                </td>
+                              </tr>
+                              <tr style="height: 30px">
+                                <td align="left">Recruitment mode:</td>
+                                <td colspan="2" align="left">
+                                  {{employee.Recruitment}}
                                 </td>
                               </tr>
                               <!-- <tr style="height: 30px">

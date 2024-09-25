@@ -68,6 +68,7 @@ export class Employee{
   id_proof_64: boolean = false;
   postingOrder:string|null = null;
   emp_type:string|null = null;
+  Recruitment:string|null = null;
   sign_path: string|null = null;
   id_cards: Idcards[]|null = null;
   temp_changes: any;
