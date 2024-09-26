@@ -209,7 +209,8 @@
                     <div class="row">
                       <div class="col-4">
                         <div class="input-group mb-3">
-                          <select class="form-control" [(ngModel)]="employee!.apply_reason" (change)="onApplyReasonChange()">
+                          <select class="form-control" [(ngModel)]="employee!.apply_reason"
+                            (change)="onApplyReasonChange()">
                             <option value="">--Select reason--</option>
                             <option value="Designation Changed">Designation Changed</option>
                             <option value="Lost/theaft">Lost/theaft</option>
@@ -249,6 +250,21 @@
                     {{employee!.FIR_no}}
                   </td>
                 </tr>
+                <tr style="height: 30px"
+                  *ngIf="editable && !urlId && employee?.organization === 'President\'s Secretariat'">
+                  <td align="left">Recruitment Mode:</td>
+                  <td colspan="2" align="left">
+                    <div class="row">
+                      <div class="col-4">
+                        <select class="form-control" [(ngModel)]="employee!.Recruitment">
+                          <option value="">--Select type--</option>
+                          <option [ngValue]="58">Administration</option>
+                          <option [ngValue]="59">Establishment</option>
+                        </select>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
 
                 <!--                <tr style="height: 50px">-->
                 <!--                  <td colspan="3" align="left">-->
@@ -278,8 +294,6 @@
                       date:'dd-MM-yyyy') : today | date:'dd-MM-yyyy' }}</span>
                   </td>
                 </tr>
-
-
 
                 <!--                <tr style="height: 40px">-->
                 <!--                  <td colspan="3" align="left">-->
@@ -382,7 +396,8 @@
                       <td colspan="2" align="left">
                         <div class="row">
                           <div class="col-4">
-                             <input type="date" class="form-control" [(ngModel)]="employee!.validupto" [min]="minDate" [max]="maxDate">
+                            <input type="date" class="form-control" [(ngModel)]="employee!.validupto" [min]="minDate"
+                              [max]="maxDate">
                           </div>
                         </div>
                       </td>
@@ -423,8 +438,10 @@
                 </ng-container>
 
               </table>
-              <div class="navigation-buttons" *ngIf="editable && !urlId && employee!.apply_reason && employee!.emp_type && (employee!.apply_reason !== 'Lost/theaft' || (employee!.apply_reason === 'Lost/theaft' && employee!.FIR_no))">
-                <button type="submit" class="btn btn-primary" (click)="confirmSubmit(employee!.apply_reason!, employee!.FIR_no, employee!.emp_type!)">Submit</button>
+              <div class="navigation-buttons"
+                *ngIf="editable && !urlId && employee!.apply_reason && employee!.emp_type && (employee!.apply_reason !== 'Lost/theaft' || (employee!.apply_reason === 'Lost/theaft' && employee!.FIR_no))">
+                <button type="submit" class="btn btn-primary"
+                  (click)="confirmSubmit(employee!.apply_reason!, employee!.FIR_no, employee!.emp_type!)">Submit</button>
               </div>
             </div>
           </div>
@@ -514,7 +531,6 @@
                   <!--                       title="Order File" target="_blank">-->
                   <!--                      <i class="bi bi-eye "></i>-->
                   <!--                    </a>-->
-
                   <!--                  </div>-->
                 </div>
               </div>
@@ -557,7 +573,6 @@
                   <!--                       title="Order File" target="_blank">-->
                   <!--                      <i class="bi bi-eye "></i>-->
                   <!--                    </a>-->
-
                   <!--                  </div>-->
                 </div>
               </div>
@@ -603,11 +618,11 @@
               <div class="row">
                 <div class="col-6" style="text-align: right">
                   <button type="submit" class="btn btn-primary enlarge-on-hover" name="submit" value="Approve"
-                          (click)="confirmApprove()">Forward</button>
+                    (click)="confirmApprove()">Forward</button>
                 </div>
                 <div class="col-6" style="text-align: left">
                   <button type="submit" class="btn btn-danger enlarge-on-hover" name="submit" value="Return"
-                          (click)="confirmReturn()">Return</button>
+                    (click)="confirmReturn()">Return</button>
                 </div>
               </div>
             </div>

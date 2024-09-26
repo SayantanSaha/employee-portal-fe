@@ -56,13 +56,16 @@ export class IdFormComponent implements OnInit {
   passColors: any[] = [];
   passColor_issued: any[] = [];
   minDate : string;
-  maxDate: string='';;
-
+  maxDate: string='';
+  divisions:any[] = [];
 
   ngOnInit() {
     this.mode = this.route.snapshot.paramMap.get('mode');
     this.id = this.route.snapshot.paramMap.get('id');
-
+    this.employeeService.getDivisions(1).subscribe(
+      data => this.divisions = data,
+      error => console.log(error)
+    );
     if(this.mode == 'applicant' && this.id == 'view') {
       this.employee = history.state.employeeData;
       console.log(this.employee);

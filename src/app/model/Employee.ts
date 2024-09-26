@@ -59,7 +59,7 @@ export class Employee{
   newApplicationStatus:any;
   vehicles: Vehicles[]|null = [];
   divisions: Division[]|null = null;
-  organization: Organization|null = null;
+  organization: any|null = null;
   designations: Designation[]|null = null;
   division: any | null = null;
   org: any | null = null;
