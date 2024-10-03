@@ -46,7 +46,7 @@ export class EmployeeService {
   // private domainUrl: string = window.location.hostname;
    // const domainUrl = window.location.hostname; console.log("A-ha! The domain URL is:", domainUrl);
     // const fullUrl = window.location.href;console.log("A-ha! The full URL is:", fullUrl);
-  private apiUrl = environment.apiUrl.replace('10.197.148.102', window.location.hostname);
+  private apiUrl = environment.apiUrl.replace('http://10.197.148.102', window.location.protocol+'//'+window.location.hostname);
 
   postLogin(username:string, password:string):Observable<Login>{
     return this.http.post<Login>(this.apiUrl+"login",{username: username, password: password});
