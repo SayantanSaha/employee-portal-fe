@@ -99,6 +99,7 @@ export class IdFormComponent implements OnInit {
             this.employeeService.getRegProfile(idNumber).subscribe(
               (data: any) => {
                 this.employee = data;
+                if(this.employee?.dor) {
                 const maxAllowedDate = new Date('2027-07-31');
                 const dorDate = new Date(this.employee?.dor);
                   this.maxDate = this.employee?.dor;
@@ -108,6 +109,7 @@ export class IdFormComponent implements OnInit {
                   } else {
                     this.maxDate = dorDate ? dorDate.toISOString().split('T')[0] : '';
                   }
+                }
                 this.employeeService.getCardType().subscribe(
                   data => {
                     this.passColors = data;
