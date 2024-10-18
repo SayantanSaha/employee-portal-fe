@@ -222,6 +222,7 @@
                   <thead>
                     <tr>
                       <!--                  <th>Sl No.</th>-->
+                      <th>Select</th>
                       <th>Relative Name</th>
                       <th>Relation</th>
                       <th>Mobile No.</th>
@@ -237,6 +238,12 @@
                   <tbody>
                     <tr *ngFor="let member of employee!.closefamily; let i = index">
                       <!--                  <td>{{ i + 1 }}</td>-->
+                      <td style=" color: green" *ngIf="member.allSelected">
+                        Selected
+                      </td>
+                      <td style=" color: red" *ngIf="!member.allSelected">
+                        Not Selected
+                      </td>
                       <td>
                         <span>{{ member!.pivot!.rel_name }}</span>
                       </td>
