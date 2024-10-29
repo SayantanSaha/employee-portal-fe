@@ -137,6 +137,44 @@ input::placeholder
   color: #5a5449;
   cursor: pointer;
 }
+.newbutton:hover
+{
+  color: #5a5449;
+  cursor: pointer;
+}
+.new2button:hover
+{
+  color: #5a5449;
+  cursor: pointer;
+}
+.newbutton
+{
+  text-indent: 0px;
+  height: 40px;
+  width: 300px;
+  margin-top: 10px;
+  background-color: #071f0766;
+  transition: 2s;
+  border: none;
+  color: white;
+  font-weight: bolder;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .2);
+  outline: none;
+}
+.new2button
+{
+  text-indent: 0px;
+  height: 40px;
+  width: 300px;
+  margin-top: 10px;
+  background-color: #071f0766;
+  transition: 2s;
+  border: none;
+  color: white;
+  font-weight: bolder;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .2);
+  outline: none;
+}
 
 .foot
 {

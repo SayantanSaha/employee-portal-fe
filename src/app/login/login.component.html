@@ -21,14 +21,14 @@
             <br />
             <input type="submit" name="" class="sbutton enlarge-on-hover" (click)="hoverClick($event)" value="LOG IN"
               (click)="doLogin()" /><br>
-            <br />
+
             <div class="row">
               <span style="text-align: center">not have an account?<a [routerLink]="'/registration'"> Create One
                 </a></span>
             </div>
-            <div class="row">
-              <span style="text-align: center"><button (click)="forgotPassword()"> Forgot Password</button></span>
-            </div>
+
+              <input type="button" name=""  class="newbutton enlarge-on-hover" (click)="forgotPassword()"value="Forgot Password" />
+
           </div>
         </div>
         <div [ngClass]="{ 'd-none': !showForm2 }">
@@ -44,13 +44,16 @@
             <div class="row">
               <br />
               <input type="submit" name="" class="sbutton enlarge-on-hover" (click)="hoverClick($event)"
-                value="Send OTP" (click)="sendOtp()" /><br>
+                value="Send OTP" (click)="sendOtp()" />
+                <br>
               <br />
 
             </div>
             <div class="row">
               <br />
-              <span class=""><button (click)="backToLogin()">Back to login</button></span>
+              <input type="button" name="" class="new2button enlarge-on-hover" (click)="backToLogin()"
+                value="Back To Login" />
+              <!-- <span class=""><button (click)="backToLogin()">Back to login</button></span> -->
               <br />
 
             </div>
@@ -94,7 +97,8 @@
             </div>
             <div class="row">
               <br />
-              <span class=""><button (click)="backToLogin()">Back to login</button></span>
+              <input type="button" name="" class="new2button enlarge-on-hover" (click)="backToLogin()"
+                value="Back To Login" />
               <br />
 
             </div>
