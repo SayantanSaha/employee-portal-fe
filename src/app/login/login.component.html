@@ -1,26 +1,112 @@
-<div class="maincontainer ">
-  <div class="row">
-    <div class=" sideimage shadow" style="background-image: url('assets/images/rb.jpg');background-size: cover; background-position: center;background-repeat: no-repeat;width: 650px ;">
-    </div>
-    <div class=" monkeylogin" style="background: linear-gradient(lavender,white)">
-      <div class="animcon" id="animcon" style="background-image: url('assets/images/rbnight.jpg');">
+<div>
+  <div class="maincontainer ">
+    <div class="row">
+      <div class=" sideimage shadow"
+        style="background-image: url('assets/images/rb.jpg');background-size: cover; background-position: center;background-repeat: no-repeat;width: 650px ;">
       </div>
-      <br>
-      <div class="formcon">
-        <!--        <input type="email" id="mail" name="" (click)="openEye()" class="tb" placeholder="Email" autocomplete="off" [(ngModel)]="username"/>-->
-        <input type="text" id="text" name=""  class="tb" placeholder="RB Card/Mobile Number" autocomplete="off" [(ngModel)]="username"/>
-        <br/>
-        <br/>
-        <!--        <input type="password" id="pwdbar" (click)="closeEye()" name="pwd" class="tb" placeholder="Password" [(ngModel)]="password"/>-->
-        <input type="password" id="pwdbar"  name="pwd" class="tb" placeholder="Password" [(ngModel)]="password"/>
-        <br/>
-        <br/>
-        <input type="submit" name="" class="sbutton enlarge-on-hover" (click)="hoverClick($event)" value="LOG IN" (click)="doLogin()"/><br>
-        <br/>
-        <div class="row" >
-          <span style="text-align: center">not have an account?<a [routerLink]="'/registration'"> Create One </a></span>
+      <div class=" monkeylogin" style="background: linear-gradient(lavender,white)">
+        <div class="animcon" id="animcon" style="background-image: url('assets/images/rbnight.jpg');">
+        </div>
+        <br>
+        <div [ngClass]="{ 'd-none': !showForm1 }">
+          <div class="formcon">
+            <!--        <input type="email" id="mail" name="" (click)="openEye()" class="tb" placeholder="Email" autocomplete="off" [(ngModel)]="username"/>-->
+            <input type="text" id="text" name="" class="tb" placeholder="RB Card/Mobile Number" autocomplete="off"
+              [(ngModel)]="username" />
+            <br />
+            <br />
+            <!--        <input type="password" id="pwdbar" (click)="closeEye()" name="pwd" class="tb" placeholder="Password" [(ngModel)]="password"/>-->
+            <input type="password" id="pwdbar" name="pwd" class="tb" placeholder="Password" [(ngModel)]="password" />
+            <br />
+            <br />
+            <input type="submit" name="" class="sbutton enlarge-on-hover" (click)="hoverClick($event)" value="LOG IN"
+              (click)="doLogin()" /><br>
+            <br />
+            <div class="row">
+              <span style="text-align: center">not have an account?<a [routerLink]="'/registration'"> Create One
+                </a></span>
+            </div>
+            <div class="row">
+              <span style="text-align: center"><button (click)="forgotPassword()"> Forgot Password</button></span>
+            </div>
+          </div>
+        </div>
+        <div [ngClass]="{ 'd-none': !showForm2 }">
+          <div class="formcon">
+            <div class="row">
+              <span style="text-align: center">Forgot Password</span>
+            </div>
+            <div class="row">
+              <input type="text" id="text" name="" class="tb" placeholder="Enter Registered Mobile Number"
+                autocomplete="off" [(ngModel)]="username" />
+              <br />
+            </div>
+            <div class="row">
+              <br />
+              <input type="submit" name="" class="sbutton enlarge-on-hover" (click)="hoverClick($event)"
+                value="Send OTP" (click)="sendOtp()" /><br>
+              <br />
+
+            </div>
+            <div class="row">
+              <br />
+              <span class=""><button (click)="backToLogin()">Back to login</button></span>
+              <br />
+
+            </div>
+
+
+
+
+
+          </div>
+        </div>
+        <div [ngClass]="{ 'd-none': !showForm3 }">
+          <div class="formcon">
+            <div class="row">
+              <span style="text-align: center">Enter Otp</span>
+            </div>
+            <div class="row">
+              <input type="text" id="otp" #otpInput name="otp" class="tb" placeholder="Enter Otp" required
+                autocomplete="off" />
+              <br />
+            </div>
+            <div class="row">
+              <span style="text-align: center">Enter New Password</span>
+            </div>
+
+            <div class="row">
+              <input type="password" id="password1" #password1Input name="password1" class="tb" placeholder="Enter New Password"required
+                autocomplete="off" />
+              <br />
+            </div>
+            <div class="row">
+              <input type="password" id="password2" #password2Input name="password2" class="tb" placeholder="Re-Enter New Password"required
+                autocomplete="off" />
+              <br />
+            </div>
+            <div class="row">
+              <br />
+              <input type="submit" name="" class="sbutton enlarge-on-hover" (click)="hoverClick($event)"
+                value="Change Password" (click)="changePassword(otpInput.value, password1Input.value, password2Input.value)" /><br>
+              <br />
+
+            </div>
+            <div class="row">
+              <br />
+              <span class=""><button (click)="backToLogin()">Back to login</button></span>
+              <br />
+
+            </div>
+
+
+
+
+
+          </div>
         </div>
       </div>
     </div>
   </div>
+
 </div>
