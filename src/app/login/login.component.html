@@ -37,14 +37,19 @@
               <span style="text-align: center">Forgot Password</span>
             </div>
             <div class="row">
-              <input type="text" id="text" name="" class="tb" placeholder="Enter Registered Mobile Number"
-                autocomplete="off" [(ngModel)]="username" />
+              <input type="text" id="text" #mobileNumber  name="" class="tb" placeholder="Enter Registered Mobile Number"
+                autocomplete="off" />
               <br />
+            </div>
+            <div class="row">
+              <div *ngIf="mobileNumberError" style="color: red; font-size: 0.9em;">
+                {{ mobileNumberError }}
+              </div>
             </div>
             <div class="row">
               <br />
               <input type="submit" name="" class="sbutton enlarge-on-hover" (click)="hoverClick($event)"
-                value="Send OTP" (click)="sendOtp()" />
+                value="Send OTP" (click)="sendOtp(mobileNumber.value)" />
                 <br>
               <br />
 
@@ -80,13 +85,26 @@
 
             <div class="row">
               <input type="password" id="password1" #password1Input name="password1" class="tb" placeholder="Enter New Password"required
-                autocomplete="off" />
+                autocomplete="off" (input)="validatePassword(password1Input.value)" />
+
+
               <br />
             </div>
             <div class="row">
+              <div *ngIf="passwordError" style="color: red; font-size: 0.9em;">
+                {{ passwordError }}
+              </div>
+            </div>
+            <div class="row">
               <input type="password" id="password2" #password2Input name="password2" class="tb" placeholder="Re-Enter New Password"required
-                autocomplete="off" />
+                autocomplete="off"  (input)="checkPasswordMatch(password1Input.value, password2Input.value)"/>
+
               <br />
+            </div>
+            <div class="row">
+              <div *ngIf="passwordMismatchError" style="color: red; font-size: 0.9em;">
+                {{ passwordMismatchError }}
+              </div>
             </div>
             <div class="row">
               <br />

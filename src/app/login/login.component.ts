@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
 import { User } from "../model/User";
 import Swal from 'sweetalert2';
 import { registerLocaleData } from "@angular/common";
-import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
@@ -16,7 +16,7 @@ import { FormBuilder, FormGroup, Validators ,ReactiveFormsModule} from '@angular
 })
 export class LoginComponent {
 
-  resetForm:FormGroup;
+  resetForm: FormGroup;
 
   constructor(
     private employeeService: EmployeeService,
@@ -24,8 +24,8 @@ export class LoginComponent {
     private renderer: Renderer2,
     private formBuilder: FormBuilder
   ) {
-    this.resetForm=this.formBuilder.group({
-      otp:['',Validators.required],password1:['',Validators.required],password2:['',Validators.required]
+    this.resetForm = this.formBuilder.group({
+      otp: ['', Validators.required], password1: ['', Validators.required], password2: ['', Validators.required]
     })
   }
 
@@ -107,51 +107,59 @@ export class LoginComponent {
   showForm2: boolean = false;
   showForm3: boolean = false;
   forgotPassword() {
-    console.log("Button clicked");
+   // console.log("Button clicked");
     this.showForm1 = false;
     this.showForm2 = true;
     this.showForm3 = false;
   }
   backToLogin() {
-    console.log("Back to Login clicked");
+    //console.log("Back to Login clicked");
     this.showForm1 = true;
     this.showForm2 = false;
     this.showForm3 = false;
   }
-  sendOtp() {
-    console.log(this.username);
-    this.employeeService.postSendOtp(this.username,"passwordReset").subscribe(
-      (response) => {
-        console.log(response.msg);
-        this.showForm1 = false;
-        this.showForm2 = false;
-        this.showForm3 = true;
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: response.msg,
-        });
-      },
-      (error) => {
-        console.error(error.msg);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: error.msg,
-        });
-      }
-    );
-    return true;
-   // return true;
-  }
-  otp: string='';
-  password1: string='';
-  password2: string='';
-  changePassword(otp: string,pass1: string,pass2: string) {
+  mobileNumberError: string = '';
+  sendOtp(mobileNumber: string) {
+    //console.log(this.username);
+    const minLength = 10;
+    if (mobileNumber.length < minLength) {
+      this.mobileNumberError = `Mobile Number must be at least ${minLength} characters long.`;
+    } else {
+      this.mobileNumberError = '';
+      this.employeeService.postSendOtp(mobileNumber, "passwordReset").subscribe(
+        (response) => {
+          //console.log(response.msg);
+          this.showForm1 = false;
+          this.showForm2 = false;
+          this.showForm3 = true;
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.msg,
+          });
+        },
+        (error) => {
+         // console.error(error.msg);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.msg,
+          });
+        }
+      );
+      //return true;
+    }
 
-    console.log(otp,pass1,pass2)
+    // return true;
+  }
+  otp: string = '';
+  password1: string = '';
+  password2: string = '';
+  changePassword(otp: string, pass1: string, pass2: string) {
+
+    //console.log(otp, pass1, pass2)
     //return false;
-    if(pass1!=pass2){
+    if (pass1 != pass2) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -159,11 +167,11 @@ export class LoginComponent {
       });
       return false;
     }
-    else{
-      this.employeeService.postVerifyOtp(otp,"passwordReset",pass2,this.username).subscribe(
+    else {
+      this.employeeService.postVerifyOtp(otp, "passwordReset", pass2, this.username).subscribe(
         (response) => {
-          if(response.status){
-            console.log(response.status);
+          if (response.status) {
+           // console.log(response.status);
             this.showForm1 = true;
             this.showForm2 = false;
             this.showForm3 = false;
@@ -172,7 +180,7 @@ export class LoginComponent {
               title: 'Success',
               text: response.msg,
             });
-          }else{
+          } else {
             Swal.fire({
               icon: 'error',
               title: 'Error',
@@ -194,6 +202,32 @@ export class LoginComponent {
     }
 
     return true;
+  }
+  passwordError: string = '';
+  passwordMismatchError: string = '';
+  validatePassword(password: string) {
+    const minLength = 8;
+    // const hasUppercase = /[A-Z]/.test(password);
+    // const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#\$%\^&\*]/.test(password);
+
+    if (password.length < minLength) {
+      this.passwordError = `Password must be at least ${minLength} characters long.`;
+      // } else if (!hasUppercase) {
+      //   this.passwordError = 'Password must contain at least one uppercase letter.';
+      // } else if (!hasLowercase) {
+      //   this.passwordError = 'Password must contain at least one lowercase letter.';
+    } else if (!hasNumber) {
+      this.passwordError = 'Password must contain at least one number.';
+    } else if (!hasSpecialChar) {
+      this.passwordError = 'Password must contain at least one special character.';
+    } else {
+      this.passwordError = '';
+    }
+  }
+  checkPasswordMatch(password1: string, password2: string) {
+    this.passwordMismatchError = password1 !== password2 ? "Passwords do not match." : "";
   }
 
 
