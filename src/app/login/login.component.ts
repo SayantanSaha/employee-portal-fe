@@ -125,7 +125,7 @@ export class LoginComponent {
     // const minLength = 10;
     // const isNumeric = /^[0-9]+$/.test(mobileNumberOrRBCardNo);
 
-
+    if(mobileNumberOrRBCardNo){
       this.mobileNumberOrRBCardNoValidated=mobileNumberOrRBCardNo;
       this.employeeService.postSendOtp(mobileNumberOrRBCardNo, "passwordReset").subscribe(
 
@@ -149,6 +149,11 @@ export class LoginComponent {
           });
         }
       );
+    }
+    else{
+      this.mobileNumberOrRBCardNoError="Invalid Entry.";
+    }
+
       //return true;
 
 
