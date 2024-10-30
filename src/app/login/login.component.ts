@@ -123,10 +123,13 @@ export class LoginComponent {
   sendOtp(mobileNumber: string) {
     //console.log(this.username);
     const minLength = 10;
-    if (mobileNumber.length != minLength ) {
+    const isNumeric = /^[0-9]+$/.test(mobileNumber);
+
+    if (mobileNumber.length !== minLength) {
       this.mobileNumberError = `Mobile Number must be ${minLength} characters long.`;
-    }
-    else {
+    } else if (!isNumeric) {
+      this.mobileNumberError = 'Mobile Number must contain only numerical values.';
+    } else {
       this.mobileNumberError = '';
       this.mobileNumberValidated=mobileNumber;
       this.employeeService.postSendOtp(mobileNumber, "passwordReset").subscribe(
