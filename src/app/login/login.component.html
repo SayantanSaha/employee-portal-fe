@@ -18,14 +18,13 @@
             <!--        <input type="password" id="pwdbar" (click)="closeEye()" name="pwd" class="tb" placeholder="Password" [(ngModel)]="password"/>-->
             <input type="password" id="pwdbar" name="pwd" class="tb" placeholder="Password" [(ngModel)]="password" />
             <br />
-            <br />
+
             <input type="submit" name="" class="sbutton enlarge-on-hover" (click)="hoverClick($event)" value="LOG IN"
               (click)="doLogin()" /><br>
 
-            <div class="row">
-              <span style="text-align: center">not have an account?<a [routerLink]="'/registration'"> Create One
-                </a></span>
-            </div>
+
+              <input type="button" class="sbutton enlarge-on-hover"  [routerLink]="'/registration'" value="Register" /><br>
+
 
               <input type="button" name=""  class="newbutton enlarge-on-hover" (click)="forgotPassword()"value="Forgot Password" />
 
