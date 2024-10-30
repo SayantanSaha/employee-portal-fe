@@ -137,6 +137,26 @@ input::placeholder
   color: #5a5449;
   cursor: pointer;
 }
+.sbuttonReg
+{
+  text-indent: 0px;
+  height: 40px;
+  width: 300px;
+  margin-top: 10px;
+  background-color: #afc204;
+  transition: 2s;
+  border: none;
+  color: white;
+  font-weight: bolder;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .2);
+  outline: none;
+}
+
+.sbuttonReg:hover
+{
+  color: #5a5449;
+  cursor: pointer;
+}
 .newbutton:hover
 {
   color: #5a5449;
