@@ -119,6 +119,7 @@ export class LoginComponent {
     this.showForm3 = false;
   }
   mobileNumberError: string = '';
+  mobileNumberValidated:string=''
   sendOtp(mobileNumber: string) {
     //console.log(this.username);
     const minLength = 10;
@@ -127,6 +128,7 @@ export class LoginComponent {
     }
     else {
       this.mobileNumberError = '';
+      this.mobileNumberValidated=mobileNumber;
       this.employeeService.postSendOtp(mobileNumber, "passwordReset").subscribe(
         (response) => {
           //console.log(response.msg);
@@ -169,7 +171,7 @@ export class LoginComponent {
       return false;
     }
     else {
-      this.employeeService.postVerifyOtp(otp, "passwordReset", pass2, this.username).subscribe(
+      this.employeeService.postVerifyOtp(otp, "passwordReset", pass2, this.mobileNumberValidated).subscribe(
         (response) => {
           if (response.status) {
            // console.log(response.status);
