@@ -122,9 +122,10 @@ export class LoginComponent {
   sendOtp(mobileNumber: string) {
     //console.log(this.username);
     const minLength = 10;
-    if (mobileNumber.length < minLength) {
-      this.mobileNumberError = `Mobile Number must be at least ${minLength} characters long.`;
-    } else {
+    if (mobileNumber.length != minLength ) {
+      this.mobileNumberError = `Mobile Number must be ${minLength} characters long.`;
+    }
+    else {
       this.mobileNumberError = '';
       this.employeeService.postSendOtp(mobileNumber, "passwordReset").subscribe(
         (response) => {
