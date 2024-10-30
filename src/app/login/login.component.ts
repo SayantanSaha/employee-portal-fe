@@ -118,21 +118,16 @@ export class LoginComponent {
     this.showForm2 = false;
     this.showForm3 = false;
   }
-  mobileNumberError: string = '';
-  mobileNumberValidated:string=''
-  sendOtp(mobileNumber: string) {
+  mobileNumberOrRBCardNoError: string = '';
+  mobileNumberOrRBCardNoValidated:string=''
+  sendOtp(mobileNumberOrRBCardNo: string) {
     //console.log(this.username);
-    const minLength = 10;
-    const isNumeric = /^[0-9]+$/.test(mobileNumber);
+    // const minLength = 10;
+    // const isNumeric = /^[0-9]+$/.test(mobileNumberOrRBCardNo);
 
-    if (mobileNumber.length !== minLength) {
-      this.mobileNumberError = `Mobile Number must be ${minLength} characters long.`;
-    } else if (!isNumeric) {
-      this.mobileNumberError = 'Mobile Number must contain only numerical values.';
-    } else {
-      this.mobileNumberError = '';
-      this.mobileNumberValidated=mobileNumber;
-      this.employeeService.postSendOtp(mobileNumber, "passwordReset").subscribe(
+
+      this.mobileNumberOrRBCardNoValidated=mobileNumberOrRBCardNo;
+      this.employeeService.postSendOtp(mobileNumberOrRBCardNo, "passwordReset").subscribe(
 
         (response) => {
           //console.log(response.msg);
@@ -155,7 +150,7 @@ export class LoginComponent {
         }
       );
       //return true;
-    }
+
 
     // return true;
   }
@@ -175,7 +170,7 @@ export class LoginComponent {
       return false;
     }
     else {
-      this.employeeService.postVerifyOtp(otp, "passwordReset", pass2, this.mobileNumberValidated).subscribe(
+      this.employeeService.postVerifyOtp(otp, "passwordReset", pass2, this.mobileNumberOrRBCardNoValidated).subscribe(
         (response) => {
           if (response.status) {
            // console.log(response.status);

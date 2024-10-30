@@ -188,6 +188,14 @@ input::placeholder
     display: none;
   }
 }
+.row {
+  .tb {
+    &::placeholder {
+      font-size: 0.9em; // Adjust this value to reduce the placeholder size
+      color: #999; // Optional: Change color if needed
+    }
+  }
+}
 
 
 

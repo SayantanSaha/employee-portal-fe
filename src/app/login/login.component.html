@@ -37,19 +37,19 @@
               <span style="text-align: center">Forgot Password</span>
             </div>
             <div class="row">
-              <input type="text" id="text" #mobileNumber  name="" class="tb" placeholder="Enter Registered Mobile Number"
+              <input type="text" id="text" #mobileNumberOrRBCardNo  name="" class="tb" placeholder="Enter Registered Mobile Number Or Card No."
                 autocomplete="off" />
               <br />
             </div>
             <div class="row">
-              <div *ngIf="mobileNumberError" style="color: red; font-size: 0.9em;">
-                {{ mobileNumberError }}
+              <div *ngIf="mobileNumberOrRBCardNoError" style="color: red; font-size: 0.9em;">
+                {{ mobileNumberOrRBCardNoError }}
               </div>
             </div>
             <div class="row">
               <br />
               <input type="submit" name="" class="sbutton enlarge-on-hover" (click)="hoverClick($event)"
-                value="Send OTP" (click)="sendOtp(mobileNumber.value)" />
+                value="Send OTP" (click)="sendOtp(mobileNumberOrRBCardNo.value)" />
                 <br>
               <br />
 
