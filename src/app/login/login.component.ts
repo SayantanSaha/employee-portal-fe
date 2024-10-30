@@ -133,6 +133,7 @@ export class LoginComponent {
       this.mobileNumberError = '';
       this.mobileNumberValidated=mobileNumber;
       this.employeeService.postSendOtp(mobileNumber, "passwordReset").subscribe(
+
         (response) => {
           //console.log(response.msg);
           this.showForm1 = false;
@@ -145,11 +146,11 @@ export class LoginComponent {
           });
         },
         (error) => {
-         // console.error(error.msg);
+         // console.error(error.error.msg);
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: error.msg,
+            text: error.error.msg,
           });
         }
       );
