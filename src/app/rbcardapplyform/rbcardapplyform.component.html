@@ -8,6 +8,72 @@
 
         <div class="row">
           <div class="col-md-3" style="text-align: right">
+            <label class="form-label">ID card No: </label>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <input type="text" class="form-control" id="Rb card no" placeholder="Rb card no" aria-label="Rb card no"
+                [(ngModel)]="employee.id_cards">
+            </div>
+          </div>
+
+          <div class="col-md-3" style="text-align: right">
+            <label class="form-label">Employee type: </label>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group mb-3">
+              <select class="form-control" [(ngModel)]="employee.emp_type" >
+                <!-- <option value="">--Select type--</option> -->
+                <option [ngValue]="'Permanent'">Permanent</option>
+                <option [ngValue]="'Temporary'" selected>Temporary</option>
+              </select>
+            </div>
+          </div>
+
+
+
+
+          <div class="col-md-3" style="text-align: right">
+            <label class="form-label">Applying reason:</label>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group mb-3 ">
+              <select class="form-control row" [(ngModel)]="employee!.apply_reason" (change)="onApplyReasonChange()">
+                <option value="">--Select Reason--</option>
+                <option value="Designation Changed">Designation Changed</option>
+                <option value="Lost/theaft">Lost/theaft</option>
+                <option value="Renewal">Renewal</option>
+              </select>
+            </div>
+          </div>
+
+
+
+          <!--
+          <div class="col-md-3" style="text-align: right" *ngIf="employee!.apply_reason == 'Lost/theaft'">
+            <label class="form-label" >Fir No/Fine recipt No:</label>
+          </div>
+          <div class="col-md-3" *ngIf="employee!.apply_reason == 'Lost/theaft'">
+            <div class="form-group row">
+              <input type="text" class="form-control" id="fir_no" placeholder="FIR no" aria-label="Fir no" [(ngModel)]="employee.FIR_no" >
+            </div>
+          </div> -->
+
+
+
+
+          <!-- <div class="col-md-3" style="text-align: right">
+
+          </div>
+          <div class="col-md-3">
+
+          </div> -->
+        </div>
+
+        <hr class="row-divider">
+
+        <div class="row">
+          <div class="col-md-3" style="text-align: right">
             <label class="form-label">Name:<span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col">
@@ -15,6 +81,65 @@
               placeholder="Enter your name">
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-md-3" style="text-align: right">
+            <label class="form-label">DOB: <span style="color: red;" class="required">*</span></label>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group row">
+              <input type="date" class="form-control" id="dob" placeholder="Date Of Birth" aria-label="Date Of Birth"
+                [(ngModel)]="employee.dob" [max]="maxDate" (change)="calculateDor()">
+            </div>
+          </div>
+
+          <!-- <div class="col-md-3" style="text-align: right">
+            <label class="form-label" >Pass color: <span style="color: red;" class="required">*</span></label>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group ">
+              <select  class="form-control" [(ngModel)]="employee.passColor">
+                <option value="null">--Select Pass Color--</option>
+                <option *ngFor="let passColor of passColors" [ngValue]="passColor.id">{{ passColor.color }}</option>
+              </select>
+            </div>
+          </div> -->
+
+          <ng-container *ngIf="employee.emp_type!='Temporary'">
+            <div class="col-md-3" style="text-align: right">
+              <label class="form-label">Pay Level: <span style="color: red;" class="required">*</span></label>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <select class="form-control" [(ngModel)]="employee.payLevel">
+                  <option value="">--Select payLevel--</option>
+                  <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel">{{ payLevel.pay_desc }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3" style="text-align: right">
+              <label class="form-label">Date Of retirement/Contract exp: <span style="color: red;" class="required">*</span></label>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <input type="date" class="form-control" id="dor" placeholder="Date Of retirement"
+                  aria-label="Date Of retirement" [(ngModel)]="employee.dor">
+              </div>
+            </div>
+          </ng-container>
+
+          <div class="col-md-3" style="text-align: right">
+            <label class="form-label">Body Mark:: <span style="color: red;" class="required">*</span></label>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" id="body_mark" placeholder="Body Mark" aria-label="Body Mark"
+              [(ngModel)]="employee.body_mark">
+          </div>
+
+        </div>
+
+        <hr class="row-divider">
 
 
         <div class="row">
@@ -198,118 +323,7 @@
 
         <hr class="row-divider">
 
-        <div class="row">
-          <div class="col-md-3" style="text-align: right">
-            <label class="form-label">Body Mark:: <span style="color: red;" class="required">*</span></label>
-          </div>
-          <div class="col">
-            <input type="text" class="form-control" id="body_mark" placeholder="Body Mark" aria-label="Body Mark"
-              [(ngModel)]="employee.body_mark">
-          </div>
-          <div class="col-md-3" style="text-align: right">
-            <label class="form-label">DOB: <span style="color: red;" class="required">*</span></label>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group row">
-              <input type="date" class="form-control" id="dob" placeholder="Date Of Birth" aria-label="Date Of Birth"
-                [(ngModel)]="employee.dob" [max]="maxDate" (change)="calculateDor()">
-            </div>
-          </div>
 
-          <!-- <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >Pass color: <span style="color: red;" class="required">*</span></label>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group ">
-              <select  class="form-control" [(ngModel)]="employee.passColor">
-                <option value="null">--Select Pass Color--</option>
-                <option *ngFor="let passColor of passColors" [ngValue]="passColor.id">{{ passColor.color }}</option>
-              </select>
-            </div>
-          </div> -->
-
-          <div class="col-md-3" style="text-align: right">
-            <label class="form-label">Pay Level: <span style="color: red;" class="required">*</span></label>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <select class="form-control" [(ngModel)]="employee.payLevel">
-                <option value="null">--Select payLevel--</option>
-                <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel">{{ payLevel.pay_desc }}</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="col-md-3" style="text-align: right">
-            <label class="form-label">Date Of retirement: <span style="color: red;" class="required">*</span></label>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group row">
-              <input type="date" class="form-control" id="dor" placeholder="Date Of retirement"
-                aria-label="Date Of retirement" [(ngModel)]="employee.dor">
-            </div>
-          </div>
-
-
-
-          <!-- <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >ID card No: </label>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <input type="text" class="form-control" id="Rb card no" placeholder="Rb card no" aria-label="Rb card no" [(ngModel)]="employee.id_cards" >
-            </div>
-          </div> -->
-
-          <!-- <div class="col-md-3" style="text-align: right">
-            <label class="form-label" >Applying reason:</label>
-          </div>
-          <div class="col-md-3">
-            <div class="input-group mb-3 ">
-              <select class="form-control row" [(ngModel)]="employee!.apply_reason" (change)="onApplyReasonChange()">
-                <option value="">--Select Reason--</option>
-                <option value="Designation Changed">Designation Changed</option>
-                <option value="Lost/theaft">Lost/theaft</option>
-                <option value="Renewal">Renewal</option>
-              </select>
-            </div>
-          </div> -->
-
-
-          <div class="col-md-3" style="text-align: right">
-            <label class="form-label">Employee type: </label>
-          </div>
-          <div class="col-md-3">
-            <div class="input-group mb-3">
-              <select class="form-control" [(ngModel)]="employee.emp_type">
-                <option value="">--Select type--</option>
-                <option [ngValue]="'Permanent'">Permanent</option>
-                <option [ngValue]="'Temporary'">Temporary</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- <div class="col-md-3" style="text-align: right" *ngIf="employee!.apply_reason == 'Lost/theaft'">
-            <label class="form-label" >Fir No/Fine recipt No:</label>
-          </div>
-          <div class="col-md-3" *ngIf="employee!.apply_reason == 'Lost/theaft'">
-            <div class="form-group row">
-              <input type="text" class="form-control" id="fir_no" placeholder="FIR no" aria-label="Fir no" [(ngModel)]="employee.FIR_no" >
-            </div>
-          </div> -->
-
-
-
-
-          <div class="col-md-3" style="text-align: right">
-
-          </div>
-          <div class="col-md-3">
-
-          </div>
-        </div>
-
-        <hr class="row-divider">
 
         <div class="row">
           <div class="col-md">
@@ -507,12 +521,12 @@
                               </ng-container>
                             </td>
                           </tr> -->
-<!--                          <tr style="height: 30px">-->
-<!--                            <td align="left">Present Card No:</td>-->
-<!--                            <td colspan="2" align="left">-->
-<!--                              <span style="color: blue">New</span>-->
-<!--                            </td>-->
-<!--                          </tr>-->
+                          <!--                          <tr style="height: 30px">-->
+                          <!--                            <td align="left">Present Card No:</td>-->
+                          <!--                            <td colspan="2" align="left">-->
+                          <!--                              <span style="color: blue">New</span>-->
+                          <!--                            </td>-->
+                          <!--                          </tr>-->
                           <tr style="height: 30px">
                             <td align="left">Identification Mark:</td>
                             <td colspan="2" align="left">{{ employee.body_mark }}</td>
