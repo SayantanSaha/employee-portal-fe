@@ -31,13 +31,13 @@ export class Employee{
   AllotmentId: string ='';
   perm_add: string |null = null;
   perm_pin: string |null = null;
-  perm_state: State | null = null;
-  perm_district: District | null = null;
+  perm_state: any | null = null;
+  perm_district: any | null = null;
   vehicle_no:string | null = null;
   curr_add: string | null = null;
   curr_pin: string | null = null;
-  curr_state: State | null = null;
-  curr_district: District | null = null;
+  curr_state: any | null = null;
+  curr_district: any | null = null;
   qtr_code: string | null = null;
   blck: string | null = null;
   blck_code:string | null = null;

@@ -23,6 +23,7 @@ import { ServantRel } from "./model/ServantRel";
 import { Vehicles } from "./model/Vehicles";
 import { Search } from "./model/Search";
 import { Organization } from "./model/Organization";
+import { Idcards } from './model/Idcards';
 
 
 @Injectable({
@@ -124,6 +125,7 @@ export class EmployeeService {
   getMyIDProfile(): Observable<Employee> {
     return this.http.get<Employee>(this.apiUrl + "id_profile", { headers: this.createHeader() });
   }
+
 
   updateEmployee(employee: Employee): Observable<Employee> {
     return this.http.put<Employee>(this.apiUrl + "employees/" + employee.id, employee, { headers: this.createHeader() });
@@ -297,6 +299,11 @@ export class EmployeeService {
   submitIdfrom(value: any, FIR_no: any, emp_type: any): Observable<any> {
     return this.http.post<any>(this.apiUrl + "submitIdfrom", { value, FIR_no, emp_type }, { headers: this.createHeader() });
   }
+
+  getidCardDetails(id_cards: any): Observable<any> {
+    return this.http.get<any>(this.apiUrl + "idCardDetails/"+ id_cards, { headers: this.createHeader() });
+  }
+
 
   // Update Relation Of Employee API
   // updateRelation(dependent: Dependent[]): Observable<Relation[]>{

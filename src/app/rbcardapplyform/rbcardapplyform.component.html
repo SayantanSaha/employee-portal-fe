@@ -7,22 +7,28 @@
       <div class="card-body">
 
         <div class="row">
+
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label">ID card No: </label>
+            <label class="form-label">Applying reason:<span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
-            <div class="form-group">
-              <input type="text" class="form-control" id="Rb card no" placeholder="Rb card no" aria-label="Rb card no"
-                [(ngModel)]="employee.id_cards">
+            <div class="input-group mb-3 ">
+              <select class="form-control " [(ngModel)]="employee!.apply_reason" (change)="onApplyReasonChange()">
+                <option value="">--Select Reason--</option>
+                <option value="Designation Changed">Designation Changed</option>
+                <option value="Lost/theaft">Lost/theaft</option>
+                <option value="Renewal">Renewal</option>
+                <option value="New">New</option>
+              </select>
             </div>
           </div>
 
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label">Employee type: </label>
+            <label class="form-label">Employee type: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col-md-3">
             <div class="input-group mb-3">
-              <select class="form-control" [(ngModel)]="employee.emp_type" >
+              <select class="form-control" [(ngModel)]="employee.emp_type" (change)="empTypeCondition()">
                 <!-- <option value="">--Select type--</option> -->
                 <option [ngValue]="'Permanent'">Permanent</option>
                 <option [ngValue]="'Temporary'" selected>Temporary</option>
@@ -31,43 +37,29 @@
           </div>
 
 
-
-
-          <div class="col-md-3" style="text-align: right">
-            <label class="form-label">Applying reason:</label>
-          </div>
-          <div class="col-md-3">
-            <div class="input-group mb-3 ">
-              <select class="form-control row" [(ngModel)]="employee!.apply_reason" (change)="onApplyReasonChange()">
-                <option value="">--Select Reason--</option>
-                <option value="Designation Changed">Designation Changed</option>
-                <option value="Lost/theaft">Lost/theaft</option>
-                <option value="Renewal">Renewal</option>
-              </select>
+          <ng-container *ngIf="employee.apply_reason!='New'">
+            <div class="col-md-3" style="text-align: right">
+              <label class="form-label">ID card No:<span style="color: red;" class="required">*</span> </label>
             </div>
-          </div>
-
-
-
-          <!--
-          <div class="col-md-3" style="text-align: right" *ngIf="employee!.apply_reason == 'Lost/theaft'">
-            <label class="form-label" >Fir No/Fine recipt No:</label>
-          </div>
-          <div class="col-md-3" *ngIf="employee!.apply_reason == 'Lost/theaft'">
-            <div class="form-group row">
-              <input type="text" class="form-control" id="fir_no" placeholder="FIR no" aria-label="Fir no" [(ngModel)]="employee.FIR_no" >
+            <div class="col-md-3">
+              <div class="form-group">
+                <input type="text" class="form-control" id="Rb card no" placeholder="Rb card no" aria-label="Rb card no"
+                  [(ngModel)]="employee.id_cards" (blur)="idCardDetails()">
+              </div>
             </div>
-          </div> -->
+          </ng-container>
 
-
-
-
-          <!-- <div class="col-md-3" style="text-align: right">
-
-          </div>
-          <div class="col-md-3">
-
-          </div> -->
+          <ng-container *ngIf="employee!.apply_reason == 'Lost/theaft'">
+            <div class="col-md-3" style="text-align: right">
+              <label class="form-label">Fir No/Fine recipt No:</label>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group ">
+                <input type="text" class="form-control" id="fir_no" placeholder="FIR no" aria-label="Fir no"
+                  [(ngModel)]="employee.FIR_no">
+              </div>
+            </div>
+          </ng-container>
         </div>
 
         <hr class="row-divider">
@@ -113,13 +105,16 @@
               <div class="form-group">
                 <select class="form-control" [(ngModel)]="employee.payLevel">
                   <option value="">--Select payLevel--</option>
-                  <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel">{{ payLevel.pay_desc }}</option>
+                  <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel.id">{{ payLevel.pay_desc }}</option>
                 </select>
               </div>
             </div>
 
+
+
             <div class="col-md-3" style="text-align: right">
-              <label class="form-label">Date Of retirement/Contract exp: <span style="color: red;" class="required">*</span></label>
+              <label class="form-label">Date Of retirement/Contract exp: <span style="color: red;"
+                  class="required">*</span></label>
             </div>
             <div class="col-md-3">
               <div class="form-group row">
@@ -130,7 +125,7 @@
           </ng-container>
 
           <div class="col-md-3" style="text-align: right">
-            <label class="form-label">Body Mark:: <span style="color: red;" class="required">*</span></label>
+            <label class="form-label">Body Mark: <span style="color: red;" class="required">*</span></label>
           </div>
           <div class="col">
             <input type="text" class="form-control" id="body_mark" placeholder="Body Mark" aria-label="Body Mark"
@@ -156,9 +151,9 @@
           <div class="col-md-3">
             <div class="form-group">
               <select class="form-control" [(ngModel)]="employee!.curr_state"
-                (ngModelChange)="onStateChange($event,'curr')">
+                (change)="onStateChange(employee!.curr_state,'curr')">
                 <option value="null">Select State </option>
-                <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
+                <option [ngValue]="state.id" *ngFor="let state of states">{{state.state_name}}</option>
               </select>
             </div>
           </div>
@@ -167,7 +162,7 @@
             <div class="form-group">
               <select class="form-control" [(ngModel)]="employee!.curr_district">
                 <option value="null">Select District </option>
-                <option [ngValue]="dist" *ngFor="let dist of currDistricts">{{dist.district_name}}
+                <option [ngValue]="dist.id" *ngFor="let dist of currDistricts">{{dist.district_name}}
                 </option>
               </select>
             </div>
@@ -199,9 +194,9 @@
           <div class="col-md-3">
             <div class="form-group">
               <select class="form-control" [(ngModel)]="employee!.perm_state"
-                (ngModelChange)="onStateChange($event,'perm')" [disabled]="isCpAddressChecked">
+                (change)="onStateChange(employee!.perm_state,'perm')" [disabled]="isCpAddressChecked">
                 <option value="null">Select State </option>
-                <option [ngValue]="state" *ngFor="let state of states">{{state.state_name}}</option>
+                <option [ngValue]="state.id" *ngFor="let state of states">{{state.state_name}}</option>
               </select>
             </div>
           </div>
@@ -210,7 +205,7 @@
             <div class="form-group">
               <select class="form-control" [(ngModel)]="employee!.perm_district" [disabled]="isCpAddressChecked">
                 <option value="null">Select District </option>
-                <option [ngValue]="dist" *ngFor="let dist of permDistricts">{{dist.district_name}}
+                <option [ngValue]="dist.id" *ngFor="let dist of permDistricts">{{dist.district_name}}
                 </option>
               </select>
             </div>
@@ -280,7 +275,7 @@
           <div class="col">
             <select class="form-control" id="organization" [(ngModel)]="employee.organization">
               <option [ngValue]="null">Select Your Organization</option>
-              <option [ngValue]="org" *ngFor="let org of orglist">
+              <option [ngValue]="org.id" *ngFor="let org of orglist">
                 {{org.org_desc}}
               </option>
             </select>
@@ -293,7 +288,7 @@
             <div class="form-group">
               <select class="form-control" id="section" [(ngModel)]="employee.division">
                 <option [ngValue]="null">Select Section</option>
-                <option [ngValue]="div" *ngFor="let div of divisiontypelist">
+                <option [ngValue]="div.id" *ngFor="let div of divisiontypelist">
                   {{div.div_desc}}
                 </option>
               </select>
@@ -305,7 +300,7 @@
               <select class="form-control" id="designation" [(ngModel)]="employee.designation"
                 (change)="updateDesgPrint($event)">
                 <option [ngValue]="null">Select Designation</option>
-                <option [ngValue]="desg" *ngFor="let desg of designations">
+                <option [ngValue]="desg.id" *ngFor="let desg of designations">
                   {{desg.desg_desc}}
                 </option>
               </select>

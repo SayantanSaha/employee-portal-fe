@@ -213,7 +213,7 @@ export class RbcardapplyformComponent {
   }
 
   calculateDor(): void {
-    if (this.employee.dob) {
+    if (this.employee.dob && this.employee.emp_type!='Temporary') {
       const dob = new Date(this.employee.dob);
       let date = new Date(dob);
 
@@ -234,6 +234,22 @@ export class RbcardapplyformComponent {
     }
   }
 
+  idCardDetails(): void {
+    this.employeeService.getidCardDetails(this.employee.id_cards).subscribe(
+      data=>this.employee=data,
+      error => console.log(error)
+    );
+
+
+  }
+
+  empTypeCondition(): void {
+    if ( this.employee.emp_type=='Temporary') {
+      delete this.employee.dor;
+      delete this.employee.payLevel;
+    }
+  }
+
 
   onApplyReasonChange(): void {
     if (this.employee!.apply_reason !== 'Lost/theaft') {
@@ -241,7 +257,7 @@ export class RbcardapplyformComponent {
     }
   }
 
-  onStateChange(state: State, type: string) {
+  onStateChange(state: number, type: string) {
     if (type === 'curr') {
       this.getDistricts(state).then(districts => this.currDistricts = districts);
     } else if (type === 'perm') {
@@ -249,10 +265,10 @@ export class RbcardapplyformComponent {
     }
   }
 
-  async getDistricts(state: State) {
+  async getDistricts(state: number) {
     let districts: District[] = [];
     if (state != null) {
-      districts = await this.employeeService.getDistrictsByState(state.id!);
+      districts = await this.employeeService.getDistrictsByState(state);
     }
     return districts;
   }
@@ -297,7 +313,7 @@ export class RbcardapplyformComponent {
   updateDesgPrint(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedOption = selectElement.options[selectElement.selectedIndex];
-    const selectedDesg = this.designations.find(desg => desg.id == this.employee.designation?.id);
+    const selectedDesg = this.designations.find(desg => desg.id === this.employee.designation);
     if (selectedDesg) {
       this.employee.desg_print = selectedDesg.desg_desc;
     } else {
@@ -388,9 +404,60 @@ export class RbcardapplyformComponent {
 
   openPopup() {
     this.display = "block";
+    if (this.employee.designation) {
+      this.employee.designation = this.designations.find(desg => desg.id === this.employee.designation);
+    }
+    if (this.employee.curr_state) {
+      this.employee.curr_state= this.states.find(state => state.id === this.employee.curr_state);
+    }
+    if (this.employee.curr_district) {
+      this.employee.curr_district = this.currDistricts.find(dist => dist.id === this.employee.curr_district);
+    }
+    if (this.employee.perm_state) {
+      this.employee.perm_state = this.states.find(state => state.id === this.employee.perm_state);
+    }
+    if (this.employee.perm_district) {
+      this.employee.perm_district = this.permDistricts.find(dist => dist.id === this.employee.perm_district);
+    }
+    if (this.employee.division) {
+      this.employee.division = this.divisiontypelist.find(div => div.id === this.employee.division);
+    }
+    if (this.employee.organization) {
+      this.employee.organization = this.orglist.find(org => org.id === this.employee.organization);
+    }
+    if (this.employee.payLevel) {
+      this.employee.payLevel = this.payLevels.find(pay => pay.id === this.employee.payLevel);
+    }
+
+
   }
   closePopup() {
     this.display = "none";
+    if (this.employee.designation) {
+      this.employee.designation = this.employee.designation.id;
+    }
+    if (this.employee.curr_state) {
+      this.employee.curr_state = this.employee.curr_state.id;
+    }
+    if (this.employee.curr_district) {
+      this.employee.curr_district = this.employee.curr_district.id;
+    }
+    if (this.employee.perm_state) {
+      this.employee.perm_state = this.employee.perm_state.id;
+    }
+    if (this.employee.perm_district) {
+      this.employee.perm_district = this.employee.perm_district.id;
+    }
+    if (this.employee.division) {
+      this.employee.division = this.employee.division.id;
+    }
+    if (this.employee.organization) {
+      this.employee.organization = this.employee.organization.id;
+    }
+    if (this.employee.payLevel) {
+      this.employee.payLevel = this.employee.payLevel.id;
+    }
+
   }
 
 
