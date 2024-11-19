@@ -300,8 +300,8 @@ export class EmployeeService {
     return this.http.post<any>(this.apiUrl + "submitIdfrom", { value, FIR_no, emp_type }, { headers: this.createHeader() });
   }
 
-  getidCardDetails(id_cards: any): Observable<any> {
-    return this.http.get<any>(this.apiUrl + "idCardDetails/"+ id_cards, { headers: this.createHeader() });
+  getidCardDetails(employee: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + "idCardDetails", employee, { headers: this.createHeader() });
   }
 
 

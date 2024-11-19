@@ -235,12 +235,12 @@ export class RbcardapplyformComponent {
   }
 
   idCardDetails(): void {
-    this.employeeService.getidCardDetails(this.employee.id_cards).subscribe(
+    if(this.employee.id_cards != null){
+    this.employeeService.getidCardDetails(this.employee).subscribe(
       data=>this.employee=data,
       error => console.log(error)
-    );
-
-
+    )
+  }
   }
 
   empTypeCondition(): void {
