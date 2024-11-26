@@ -123,7 +123,9 @@ formatDate(date: string | Date): string {
     this.employeeService.rbpasses().subscribe(
       (data) => {
         console.log('Search successful:', data);
+        if(data){
         this.router.navigate(['rb-print'], { state: {  employeeData: data, fromfunction:'totalpass'} });
+        }
       },
       (error) => {
         console.error('Search error:', error);

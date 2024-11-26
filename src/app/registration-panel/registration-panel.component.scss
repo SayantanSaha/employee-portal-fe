@@ -1,0 +1,15 @@
+.enlarge-hover:hover {
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.7);
+  transform: scale(1.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-image:  url('../../assets/images/Untitled10_20240103115745.png'), linear-gradient(to top left, #e3e2e2,white);
+  background-size:  70vh,auto;
+  background-position:  left top,center;
+  background-repeat: no-repeat;
+  color: green;
+}
+.enlarge-hover.clicked {
+  box-shadow: none;
+  transform: scale(0.9);
+}
+
