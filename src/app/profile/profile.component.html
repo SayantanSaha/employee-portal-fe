@@ -1170,6 +1170,7 @@
                                 <span *ngIf="change.changed_data.service_id === 1"> Not Working</span>
                                 <span *ngIf="change.changed_data.service_id === 2"> Government Job</span>
                                 <span *ngIf="change.changed_data.service_id === 3"> Private Job</span>
+                                <span *ngIf="change.changed_data.service_id === 4"> Student</span>
                               </td>
                             </tr>
                           </ng-container>
@@ -1298,6 +1299,7 @@
                                   Job</span>
                               <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_id === 3"> Private
                                   Job</span>
+                              <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_id === 4">Student</span>
 
                             </td>
                             <td *ngIf="editable &&  (changesRelationMade[i])">
