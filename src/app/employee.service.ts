@@ -100,7 +100,7 @@ export class EmployeeService {
   }
 
   rbformapply(employee: Employee): Observable<any> {
-    return this.http.post<any>(this.apiUrl + "rbformapply/",employee, { headers: this.createHeader() });
+    return this.http.post<any>(this.apiUrl + "rbformapply",employee, { headers: this.createHeader() });
   }
 
   getMyProfile(): Observable<Employee> {
