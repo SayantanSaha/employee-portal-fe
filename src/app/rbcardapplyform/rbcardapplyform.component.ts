@@ -23,6 +23,10 @@ import {Idcards} from "../model/Idcards";
 import {Vehicles} from "../model/Vehicles";
 declare var jQuery: any;
 
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+
 @Component({
   selector: 'app-rbcardapplyform',
   // standalone: true,
@@ -57,10 +61,13 @@ export class RbcardapplyformComponent {
   slides = new Array(this.totalPages);
   currentDate: string= "";
   isLoading: boolean = false;
+  user:User = new User();
+  id:any;
 
   constructor(
     private employeeService: EmployeeService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient,
   ) {
     const today = new Date();
     this.currentDate = today.toISOString().split('T')[0];
@@ -69,6 +76,11 @@ export class RbcardapplyformComponent {
 
 
   ngOnInit() {
+    const userString: string | null = sessionStorage.getItem('user');
+    this.user = userString ? JSON.parse(userString) : [];
+    this.id=this.user.id;
+
+
     this.isLoading=true;
     const today = new Date();
     today.setFullYear(today.getFullYear() - 18); // Subtract 18 years from today
@@ -116,13 +128,17 @@ export class RbcardapplyformComponent {
     this.isLoading=false;
   }
 
-  doRegistration() {
 
+  doRegistration() {
+    // const userString: string | null = sessionStorage.getItem('user');
+    // this.user = userString ? JSON.parse(userString) : [];
+    // this.id = this.user.id;  // Assign the id from the user object
 
     this.isLoading = true;
 
     this.employeeService.rbformapply(
-      this.employee
+      this.employee, // Pass the employee object
+
     ).subscribe(
       data => {
         this.isLoading = false; // Hide loading symbol in case of success
@@ -148,6 +164,7 @@ export class RbcardapplyformComponent {
       }
     );
   }
+
 
 
   cPAddress() {

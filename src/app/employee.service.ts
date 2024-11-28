@@ -96,14 +96,11 @@ export class EmployeeService {
       password: password,
       employee: employee
     };
-    return this.http.post<any>(this.apiUrl + "Registration", payload);
+    return this.http.post<any>(this.apiUrl + "Registration", payload, { headers: this.createHeader() });
   }
 
   rbformapply(employee: Employee): Observable<any> {
-    const payload = {
-      employee: employee
-    };
-    return this.http.post<any>(this.apiUrl + "rbformapply", payload);
+    return this.http.post<any>(this.apiUrl + "rbformapply/",employee, { headers: this.createHeader() });
   }
 
   getMyProfile(): Observable<Employee> {
