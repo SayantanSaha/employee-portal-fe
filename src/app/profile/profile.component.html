@@ -21,6 +21,13 @@
       </div>
 
       <div class="card-body" style="background: linear-gradient(to bottom right, #7bdc1647,transparent);">
+        <div class="row">
+          <div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 10px;">
+            <span style="color: red; font-weight: bold; text-align: center;">
+              Fill out the required fields marked with (*).
+            </span>
+          </div>
+          </div>
         <div class="accordion shadow" id="accordionExample">
 
           <!-- Basic Deatils Field -->
@@ -315,6 +322,9 @@
               </ng-container>
 
               <div class="accordion-body">
+
+
+
                 <div class="row">
                   <div class="col-md-3">
                     <div class="card shadow" style="overflow: auto;">
@@ -393,7 +403,7 @@
                       <div class="card-body">
                         <div class="row">
                           <div class="col-md">
-                            <label class="form-label">Name</label>
+                            <label class="form-label">Name<span class="text-danger">*</span></label>
                             <div *ngIf="editable" class="input-group mb-1">
                               <div class="col-md-2">
                                 <select class="form-control" [(ngModel)]="employee!.emp_title"
@@ -457,7 +467,7 @@
                           </div>
 
                           <div class="col-md">
-                            <label class="form-label">Mobile</label>
+                            <label class="form-label">Mobile<span class="text-danger">*</span></label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="text" maxlength="10" minlength="10" class="form-control" placeholder="Mobile"
                                      aria-label="Mobile" [(ngModel)]="employee!.mobile" (change)="validateMobile()"
@@ -472,7 +482,7 @@
 
                         <div class="row">
                           <div class="col-md">
-                            <label class="form-label">Date Of Birth</label>
+                            <label class="form-label">Date Of Birth<span class="text-danger">*</span></label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Birth"
                                      aria-label="Date Of Birth" [(ngModel)]="employee!.dob" (ngModelChange)="onInputChange()" (change)="calculateDor()"
@@ -508,7 +518,7 @@
 
                         <div class="row">
                           <div class="col-md-6">
-                            <label class="form-label">Date of Joining in Government Service</label>
+                            <label class="form-label">Date of Joining in Government Service<span class="text-danger">*</span></label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Joining"
                                      aria-label="Date Of Joining" [(ngModel)]="employee!.doj_gs"
@@ -520,7 +530,7 @@
                           </div>
 
                           <div class="col-md-6">
-                            <label class="form-label">Date of Joining in Rashtrapati Bhavan</label>
+                            <label class="form-label">Date of Joining in Rashtrapati Bhavan<span class="text-danger">*</span></label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Joining"
                                      aria-label="Date Of Joining" [(ngModel)]="employee!.doj_rb"
@@ -592,7 +602,7 @@
 
                         <div class="row">
                           <div class="col-md-6">
-                            <label class="form-label"><u>Present Address</u></label>
+                            <label class="form-label"><u>Present Address<span class="text-danger">*</span></u></label>
                             <div *ngIf="editable">
 
                               <div class="row">&nbsp;</div>
@@ -1109,6 +1119,16 @@
               </button>
             </h2>
             <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body" *ngIf="!editable">
+                <div class="row">
+                  <div class="col text-end">
+                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="setEdit()">
+                      EDIT
+                    </a>
+                  </div>
+                </div>
+              </div>
+
               <div class="accordion-body" *ngIf="editable">
                 <div class="row">
                   <!--                  <div class="col-md-9"></div>-->
@@ -1128,6 +1148,7 @@
                             (click)="addMember();pullEbaCardPopup('relative','i','j')">
                       +Add Relative
                     </button>
+
                   </div>
                 </div>
 
@@ -1170,7 +1191,8 @@
                                 <span *ngIf="change.changed_data.service_id === 1"> Not Working</span>
                                 <span *ngIf="change.changed_data.service_id === 2"> Government Job</span>
                                 <span *ngIf="change.changed_data.service_id === 3"> Private Job</span>
-                                <span *ngIf="change.changed_data.service_id === 4"> Student</span>
+                                <span *ngIf="change.changed_data.service_id === 4"> Student at KV</span>
+                                <span *ngIf="change.changed_data.service_id === 5"> Student at Other</span>
                               </td>
                             </tr>
                           </ng-container>
@@ -1299,7 +1321,8 @@
                                   Job</span>
                               <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_id === 3"> Private
                                   Job</span>
-                              <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_id === 4">Student</span>
+                              <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_id === 4">Student at KV</span>
+                              <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_id === 5">Student at Other</span>
 
                             </td>
                             <td *ngIf="editable &&  (changesRelationMade[i])">
@@ -1348,6 +1371,10 @@
                       </div>
 
                       <div class="modal-footer">
+                        <span style="color: red; font-weight: bold;">
+                          If EBA card details are unavailable, close this box and enter them manually.
+                        </span>
+
                         <button type="button" class="btn btn-outline-secondary enlarge-on-hover"
                                 (click)="hoverClick($event)" (click)="closeEbaCardPopup()">
                           Close
