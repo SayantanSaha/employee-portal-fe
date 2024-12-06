@@ -362,8 +362,8 @@ export class ProfileComponent implements OnInit {
   }
 
   savePromotion(index: number) {
-    this.validateOrderNo('Promotion', index);
-    this.validateOrderDate('Promotion', index);
+    // this.validateOrderNo('Promotion', index);
+    // this.validateOrderDate('Promotion', index);
 
     if (this.validationErrors.length > 0) {
       const errorMessage = this.validationErrors
