@@ -147,93 +147,116 @@
 
                 <div class="row">
 
-                  <div class="col-md-4 col-lg-4 col-sm-4" >
-                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchRb(15)">
+                  <!-- Approved card -->
+                  <div class="col-md-4 col-lg-4 col-sm-4">
+                    <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(15)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="enlarge-hover card-icon rounded-circle btn btn-outline-primary">
-                            <!--                          <a routerLink="/rb-print" >-->
                             <i class="bi bi-people"></i>
-                            <!--                          </a>-->
                           </div>
                           <div class="ps-5">
                             <p>
                               <span class="text-muted small pt-2 ps-1 fw-bold">Approved</span>
                             </p>
-                            {{rbdashboardData.approvedCount}}
+                            {{ rbdashboardData.approvedCount }}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="col-md-4 col-lg-4 col-sm-4" >
-                    <a routerLink="/rb-print" style="text-decoration: none; color: inherit;">
-                      <div class="card shadow enlarge-hover" (click)=" hoverClick($event)" >
+                  <!-- Conditionally show Print and Total RB Card if roles satisfy conditions -->
+                  <ng-container *ngIf="role === 13 || role === 14">
+                    <!-- Print and Total RB Card in the same row if both are visible -->
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                      <a routerLink="/rb-print" style="text-decoration: none; color: inherit;">
+                        <div class="card shadow enlarge-hover" (click)="hoverClick($event)">
+                          <div class="card-body" style="overflow: auto;">
+                            <div class="d-flex align-items-center">
+                              <div class="enlarge-hover card-icon rounded-circle btn btn-outline-info">
+                                <i class="bi bi-people"></i>
+                              </div>
+                              <div class="ps-5">
+                                <p>
+                                  <span class="text-muted small pt-2 ps-1 fw-bold">Print</span>
+                                </p>
+                                {{ rbdashboardData.rbprint }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                      <a routerLink="/rb-print" style="text-decoration: none;">
+                        <div class="card shadow enlarge-hover" (click)="hoverClick($event); rbpasses()">
+                          <div class="card-body" style="overflow: auto;">
+                            <div class="d-flex align-items-center">
+                              <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
+                                <i class="bi bi-people"></i>
+                              </div>
+                              <div class="ps-5">
+                                <p>
+                                  <span class="text-muted small pt-2 ps-1 fw-bold">Total RB card</span>
+                                </p>
+                                {{ rbdashboardData.active }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+
+                  </ng-container>
+
+                  <ng-container *ngIf="!(role === 13 || role === 14)">
+                      <div class="col-md-4 col-lg-4 col-sm-4">
+                        <div class="card shadow enlarge-hover" (click)="hoverClick($event)">
+                          <a routerLink="/RbApplyForm" style="text-decoration: none;">
+                          <div class="card-body" style="overflow: auto;">
+                            <div class="d-flex align-items-center">
+                              <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
+                                  <i class="bi bi-pencil-square"></i>
+                              </div>
+                              <div class="ps-5">
+                                <p>
+                                  <span class="text-muted small pt-2 ps-1 fw-bold">Form</span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                        </div>
+                      </div>
+                  </ng-container>
+                </div>
+
+                <!-- Form will go into a new row if Print and Total RB card exist -->
+                <ng-container *ngIf="(role === 13 || role === 14)">
+                  <div class="row">
+                    <div class="col-md-4 col-lg-4 col-sm-4">
+                      <a routerLink="/RbApplyForm" style="text-decoration: none;">
+                      <div class="card shadow enlarge-hover" (click)="hoverClick($event)">
                         <div class="card-body" style="overflow: auto;">
                           <div class="d-flex align-items-center">
-                            <div class="enlarge-hover card-icon rounded-circle btn btn-outline-info">
-                              <!--                          <a routerLink="/rb-print" >-->
-                              <i class="bi bi-people"></i>
-                              <!--                          </a>-->
+                            <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
+                                <i class="bi bi-pencil-square"></i>
                             </div>
                             <div class="ps-5">
                               <p>
-                                <span class="text-muted small pt-2 ps-1 fw-bold">Print</span>
+                                <span class="text-muted small pt-2 ps-1 fw-bold">Form</span>
                               </p>
-                              {{rbdashboardData.rbprint}}
                             </div>
                           </div>
                         </div>
                       </div>
                     </a>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-4" >
-                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event);rbpasses()">
-                      <div class="card-body" style="overflow: auto;">
-                        <div class="d-flex align-items-center">
-                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
-                            <a routerLink="/rb-print" >
-                              <i class="bi bi-people"></i>
-                            </a>
-                          </div>
-                          <div class="ps-5">
-                            <p>
-                              <span class="text-muted small pt-2 ps-1 fw-bold">Total Rb card</span>
-                            </p>
-                            {{rbdashboardData.active}}
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
-                </div>
+                </ng-container>
 
-                <div class="row">
-
-
-                  <ng-container *ngIf="role ===13 || role ===17 || role ===12 " >
-                  <div class="col-md-4 col-lg-4 col-sm-4" >
-                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event)">
-                      <div class="card-body" style="overflow: auto;">
-                        <div class="d-flex align-items-center">
-                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
-                            <a routerLink="/RbApplyForm" >
-                              <i class="bi bi-pencil-square"></i>
-                            </a>
-                          </div>
-                          <div class="ps-5">
-                            <p>
-                              <span class="text-muted small pt-2 ps-1 fw-bold">Form</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  </ng-container>
-
-                </div>
                 <br>
 
                 <div class="row" >

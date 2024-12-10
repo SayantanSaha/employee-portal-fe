@@ -563,9 +563,108 @@ export class IdFormComponent implements OnInit {
     // }
   }
 
+  async onFileSelected(event: Event, property: string): Promise<void> {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement?.files?.length) {
+      const file: File = inputElement.files[0];
+      // Check if the file type is JPEG or JPG
+      if (file.type === 'application/pdf') {
+        // Check if the file size is less than or equal to 200KB
+        if (file.size <= 1048576) { // 200KB in bytes
+          try {
+            const base64String: string = await fileToBase64(file); // Convert the file to base64
+
+            if (property === 'id_proof') {
+                // @ts-ignore
+                this.employee!.id_proof_64 = true;
+                this.employee!.id_proof = base64String;
+            }
+
+            if (property === 'postingOrder') {
+                // @ts-ignore
+                this.employee!.postingOrder_64 = true;
+                this.employee!.postingOrder = base64String;
+            }
+            if (this.file_path_64) {
+              if (property === 'file_path') {
+                this.file_path_64 = base64String;
+              }
+            }
+          }
+          catch (error) {
+            console.error('Failed to convert the file to base64:', error);
+          }
+        } else {
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 200KB.',
+          });
+          console.log('File size exceeds 1mb.');
+        }
+      } else {
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid File',
+          text: 'Invalid file type. Only pdf files are allowed.',
+        });
+        console.log('Invalid file type. Only pdf files are allowed.');
+      }
+
+    } else {
+      console.log('No file selected.');
+    }
+  }
+
+  async onProfilePhotoSelected(event: Event, property: string): Promise<void> {
+    const inputElement = event.target as HTMLInputElement;
+    if (inputElement?.files?.length) {
+      const file: File = inputElement.files[0];
+      // Check if the file type is JPEG or JPG
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+        // Check if the file size is less than or equal to 200KB
+        if (file.size <= 200 * 1024) { // 200KB in bytes
+          try {
+            const base64String: string = await fileToBase64(file); // Convert the file to base64
+            if (property === 'profile_photo' || 'sign_path') {
+
+                if (property === 'sign_path') {
+                  // @ts-ignore
+                  this.employee!.sign_path_64 = true;
+                  this.employee!.sign_path = base64String;
+                } else if (property === 'profile_photo') {
+                  // @ts-ignore
+                  this.employee!.profile_photo_64 = true;
+                  this.employee!.profile_photo = base64String;
+                }
+            }
+          }
+          catch (error) {
+            console.error('Failed to convert the file to base64:', error);
+          }
+        }
+      }
+
+    } else {
+      console.log('No file selected.');
+    }
+  }
+
+
+
+  openPdfInNewTab(pdfData: string): void {
+    const pdfWindow = window.open();
+    // @ts-ignore
+    pdfWindow.document.write(`<iframe width='100%' height='100%' src='${pdfData}'></iframe>`);
+  }
 
 
 }
+
+
+
 
 @NgModule({
   declarations: [

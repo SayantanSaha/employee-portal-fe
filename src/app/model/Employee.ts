@@ -46,6 +46,7 @@ export class Employee{
   created_at: Date | null = null;
   updated_at: Date | null = null;
   profile_photo: string|null = null;
+  profile_photo_64: boolean = false;
   relations: Relation[]|null = [];
   closefamily: Relation[]|null = [];
   father_name:string|null=null;
@@ -67,9 +68,11 @@ export class Employee{
   id_proof: string|null = null;
   id_proof_64: boolean = false;
   postingOrder:string|null = null;
+  postingOrder_64: boolean = false;
   emp_type:string|null = null;
   Recruitment:string|null = null;
   sign_path: string|null = null;
+  sign_path_64: boolean = false;
   id_cards: Idcards[]|null = null;
   temp_changes: any;
   dh: boolean = false;

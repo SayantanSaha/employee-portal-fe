@@ -38,6 +38,15 @@
                     <img [src]="employee?.profile_photo || '/assets/blank_photo.jpg'" width="120px" height="140px"
                       alt="Applicant Photo" />
                     <br /><br />
+                    <input type="file" class="custom-file-input" [id]="'profile_photo'" style="display: none"
+                    (change)="onProfilePhotoSelected($event,'profile_photo')"
+                    [(ngModel)]="employee!.profile_photo" >
+
+                    <label [for]="'profile_photo'" class="upload-icon-label" *ngIf="employee!.dh_dcp"
+                    title="Upload photo">
+
+                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"></i>
+                  </label>
                   </td>
                 </tr>
                 <!--                <tr style="height: 30px">-->
@@ -86,12 +95,6 @@
                     {{ employee?.perm_state }}<ng-container *ngIf="employee?.perm_pin">, </ng-container>
                     {{ employee?.perm_pin }}
                   </td>
-                  <!-- <td align="left" *ngIf="urlId && !editable">
-                    {{ employee?.perm_add }}<ng-container *ngIf="employee?.perm_district">, </ng-container>
-                    {{ employee?.perm_district?.district_name }}<ng-container *ngIf="employee?.perm_state">, </ng-container>
-                    {{ employee?.perm_state?.state_name }}<ng-container *ngIf="employee?.perm_pin">, </ng-container>
-                    {{ employee?.perm_pin }}
-                  </td> -->
                 </tr>
                 <tr style="height: 60px">
                   <td align="left">Present Address:</td>
@@ -101,12 +104,6 @@
                     {{ employee?.curr_state }}<ng-container *ngIf="employee?.curr_pin">, </ng-container>
                     {{ employee?.curr_pin }}
                   </td>
-                  <!-- <td align="left" *ngIf="urlId && !editable">
-                    {{ employee?.curr_add }}<ng-container *ngIf="employee?.curr_district">, </ng-container>
-                    {{ employee?.curr_district?.district_name }}<ng-container *ngIf="employee?.curr_state">, </ng-container>
-                    {{ employee?.curr_state?.state_name }}<ng-container *ngIf="employee?.curr_pin">, </ng-container>
-                    {{ employee?.curr_pin }}
-                  </td> -->
                 </tr>
                 <tr style="height: 30px">
                   <td align="left">Pay Level:</td>
@@ -141,59 +138,115 @@
                       <span *ngIf="employee?.passColor == '2'" class="purple"><i class="bi bi-circle-fill"></i>Purple</span>
                       <span *ngIf="employee?.passColor == '3'" class="red"><i class="bi bi-circle-fill"></i>Red</span>
                     </ng-container>
-
                   </td>
                 </tr> -->
 
-                <tr style="height: 30px">
-                  <td align="left">Present Card No:</td>
-                  <td colspan="2" align="left">
-                    <ng-container *ngIf="employee?.id_cards; else newCard">
-                      {{ employee?.id_cards}}
-                    </ng-container>
-                    <ng-template #newCard>
-                      <span style="color: blue">New</span>
-                    </ng-template>
-                  </td>
-                </tr>
+                <ng-container *ngIf="employee!.dh_dcp">
+                  <tr style="height: 30px">
+                    <td align="left">Present Card No:</td>
+                    <td colspan="2" align="left">
+                      <div class="row">
+                        <div class="col-4">
+                          <input type="text" class="form-control" [(ngModel)]="employee!.id_cards"
+                            [ngModel]="employee!.id_cards || 'New'">
 
-
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+                <ng-container *ngIf="!employee!.dh_dcp">
+                  <tr style="height: 30px">
+                    <td align="left">Present Card No:</td>
+                    <td colspan="2" align="left">
+                      <ng-container *ngIf="employee?.id_cards; else newCard">
+                        {{ employee?.id_cards}}
+                      </ng-container>
+                      <ng-template #newCard>
+                        <span style="color: blue">New</span>
+                      </ng-template>
+                    </td>
+                  </tr>
+                </ng-container>
                 <tr style="height: 30px">
                   <td align="left">Identification Mark:</td>
                   <td colspan="2" align="left">{{ employee?.body_mark }}</td>
                 </tr>
+
+
                 <tr style="height: 30px">
                   <td align="left">ID proof:</td>
                   <td colspan="2" align="left">
-                    <ng-container *ngIf="employee?.id_proof && employee?.id_proof!=null ">
+                    <ng-container *ngIf="employee?.id_proof && employee?.id_proof!=null && !employee!.dh_dcp">
                       <a class="btn btn-outline-primary enlarge-on-hover"
                         href="{{apiUrl}}getFile/{{employee?.id_proof}}" title="Order File" target="_blank">
                         <i class="bi bi-eye"></i>
                       </a>
                     </ng-container>
 
+                    <ng-container *ngIf="employee!.dh_dcp">
+                      <input type="file" class="custom-file-input" [id]="'id_proof'" style="display: none"
+                        (change)="onFileSelected($event,'id_proof')"
+                        [(ngModel)]="employee!.id_proof">
+                      <ng-container *ngIf="employee!.id_proof_64">
+                        <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                          (click)="openPdfInNewTab(employee!.id_proof!);"></i>
+                      </ng-container>
+                      <ng-container *ngIf="employee?.id_proof && employee?.id_proof!=null && !employee?.id_proof_64">
+                        <a class="btn btn-outline-primary enlarge-on-hover"
+                          href="{{apiUrl}}getFile/{{employee?.id_proof}}" title="Order File" target="_blank">
+                          <i class="bi bi-eye"></i>
+                        </a>
+                      </ng-container>
+                      <label [for]="'id_proof'" class="upload-icon-label" title="idProof">
+                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"></i>
+                      </label>
+                    </ng-container>
                   </td>
                 </tr>
+
+
                 <tr style="height: 30px">
                   <td align="left">Posting Order:</td>
                   <td colspan="2" align="left">
-                    <ng-container *ngIf="employee?.postingOrder && employee?.postingOrder!=null ">
+                    <ng-container *ngIf="employee?.postingOrder && employee?.postingOrder!=null && !employee!.dh_dcp">
                       <a class="btn btn-outline-primary enlarge-on-hover"
                         href="{{apiUrl}}getFile/{{employee?.postingOrder}}" title="Order File" target="_blank">
                         <i class="bi bi-eye"></i>
                       </a>
                     </ng-container>
 
+                    <ng-container *ngIf="employee!.dh_dcp">
+                      <input type="file" class="custom-file-input" [id]="'postingOrder'" style="display: none"
+                        (change)="onFileSelected($event,'postingOrder')"
+                        [(ngModel)]="employee!.postingOrder">
+                      <ng-container *ngIf="employee!.postingOrder_64">
+                        <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                          (click)="openPdfInNewTab(employee!.postingOrder!);"></i>
+                      </ng-container>
+                      <ng-container *ngIf="employee?.postingOrder && employee?.postingOrder!=null && !employee?.postingOrder_64">
+                        <a class="btn btn-outline-primary enlarge-on-hover"
+                          href="{{apiUrl}}getFile/{{employee?.postingOrder}}" title="Order File" target="_blank">
+                          <i class="bi bi-eye"></i>
+                        </a>
+                      </ng-container>
+                      <label [for]="'postingOrder'" class="upload-icon-label" title="posting Order">
+                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"></i>
+                      </label>
+                    </ng-container>
                   </td>
                 </tr>
-                <tr style="height: 30px" *ngIf="editable && !urlId">
+
+
+
+                <tr style="height: 30px" *ngIf="((editable && !urlId) || employee!.dh_dcp)">
                   <td align="left">Employee Type:</td>
                   <td colspan="2" align="left">
                     <div class="row">
                       <div class="col-4">
                         <div class="input-group mb-3">
                           <select class="form-control" [(ngModel)]="employee!.emp_type">
-                            <option value="">--Select typr--</option>
+                            <option value="">--Select type--</option>
                             <option value="Permanent">Permanent</option>
                             <option value="Temporary">Temporary</option>
                           </select>
@@ -203,7 +256,15 @@
                   </td>
                 </tr>
 
-                <tr style="height: 30px" *ngIf="editable && !urlId">
+                <tr *ngIf="!employee!.dh_dcp && !editable && urlId">
+                  <td align="left">Employee Type:</td>
+                  <td colspan="2" align="left">
+                    {{employee!.emp_type}}
+                  </td>
+                </tr>
+
+
+                <tr style="height: 30px" *ngIf="((editable && !urlId) || employee!.dh_dcp)">
                   <td align="left">Applying reason:</td>
                   <td colspan="2" align="left">
                     <div class="row">
@@ -226,19 +287,19 @@
                     </div>
                   </td>
                 </tr>
-                <tr style="height: 30px" *ngIf="!editable  && employee!.emp_type">
-                  <td align="left">Employee Type:</td>
-                  <td colspan="2" align="left">
-                    {{employee!.emp_type}}
-                  </td>
-                </tr>
-                <tr style="height: 30px" *ngIf="!editable  && employee!.apply_reason">
+
+
+                <tr *ngIf="!employee!.dh_dcp&& !editable && urlId">
                   <td align="left">Applying reason:</td>
                   <td colspan="2" align="left">
                     {{employee!.apply_reason}}
                   </td>
                 </tr>
-                <tr style="height: 30px" *ngIf="editable && !urlId && employee!.apply_reason == 'Lost/theaft'">
+
+
+
+                <tr style="height: 30px"
+                  *ngIf="((editable && !urlId) || employee!.dh_dcp) && employee!.apply_reason == 'Lost/theaft'">
                   <td align="left">Fir No/Fine recipt No:</td>
                   <td colspan="2" align="left">
                     <div class="row">
@@ -248,15 +309,16 @@
                     </div>
                   </td>
                 </tr>
-                <tr style="height: 30px" *ngIf="!editable && urlId && employee!.apply_reason == 'Lost/theaft'">
+                <tr style="height: 30px"
+                  *ngIf="!editable && urlId && !employee!.dh_dcp && employee!.apply_reason == 'Lost/theaft'">
                   <td align="left">Fir No/Fine recipt No:</td>
                   <td colspan="2" align="left">
                     {{employee!.FIR_no}}
                   </td>
                 </tr>
-                <tr style="height: 30px"
-                  *ngIf="editable && !urlId && employee?.organization === 'President\'s Secretariat'">
-                  <td align="left">Recruitment Mode:</td>
+
+                <tr style="height: 30px" *ngIf="editable && !urlId">
+                  <td align="left">Approval Authority:</td>
                   <td colspan="2" align="left">
                     <div class="row">
                       <div class="col-4">
@@ -264,10 +326,13 @@
                           <option value="">--Select type--</option>
                           <option [ngValue]="58">Administration</option>
                           <option [ngValue]="59">Establishment</option>
+                          <option [ngValue]="115">ACP</option>
+                          <!-- <option [ngValue]="64">NIC</option> -->
+                          <option [ngValue]="101">PEED</option>
+                          <option [ngValue]="100">PED</option>
                           <option [ngValue]="92">House Hold</option>
-<!--                          <option [ngValue]="'Administration'">Administration</option>-->
-<!--                          <option [ngValue]="'Establishment'">Establishment</option>-->
-<!--                          <option [ngValue]="'House Hold'">House Hold</option>-->
+                          <!-- <option [ngValue]="9">DMSP</option> -->
+                          <option [ngValue]="118">DMSP</option>
                         </select>
                       </div>
                     </div>
@@ -290,6 +355,17 @@
                   <td align="right">
                     <img [src]="employee?.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px"
                       alt="Upload Signature" />
+
+                      <input type="file" class="custom-file-input" [id]="'sign_path'" style="display: none"
+                                (change)="onProfilePhotoSelected($event,'sign_path')"
+                                [(ngModel)]="employee!.sign_path" >
+
+                        <label [for]="'sign_path'" class="upload-icon-label" *ngIf="employee!.dh_dcp"
+                        title="Upload sign">
+
+                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"></i>
+                      </label>
+
                   </td>
                 </tr>
                 <tr style="height: 30px">
