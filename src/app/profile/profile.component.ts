@@ -746,7 +746,7 @@ export class ProfileComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: 'Request for approval of Relation have been saved successfully and pending for approval',
+            text: 'Relation have been saved successfully',
             // }).then((result) => {
             //   if (result.isConfirmed) {
             //     // Redirect to the desired page
@@ -811,7 +811,7 @@ export class ProfileComponent implements OnInit {
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Request for approval of Relation have been updated successfully and pending for approval',
+              text: 'Relation have been updated successfully',
               // }).then((result) => {
               //   if (result.isConfirmed) {
               //     // Redirect to the desired page
@@ -936,6 +936,7 @@ export class ProfileComponent implements OnInit {
     );
   }
   }
+
   qtrBlckaddress() {
     this.employee!.qtr=null;
     this.employeeService.getQuarterdetail(this.employee!.qtr_code!, this.employee!.location_id!,this.employee!.blck!).subscribe(
@@ -1085,8 +1086,6 @@ export class ProfileComponent implements OnInit {
       });
     }
   }
-
-
 
   getMaskedNumber(): string {
     const originalNumber = this.employee!.qtr!.MobileNumber
@@ -1367,7 +1366,7 @@ export class ProfileComponent implements OnInit {
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Request for approval of Domestic Help has been saved successfully and is pending approval',
+              text: 'Domestic Help has been saved successfully',
             });
             const newChange = {
               model: 'servant',
@@ -1423,7 +1422,7 @@ export class ProfileComponent implements OnInit {
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
+              text: 'Domestic Help has been updated successfully',
             });
             this.employeeService.getMyProfile().subscribe(
               datas => {
@@ -1470,8 +1469,12 @@ export class ProfileComponent implements OnInit {
       s.pivot.employee_id = this.employee.id!;
       s.pivot.servant_id = this.employee.servants[i].id!;
       this.employee.servants[i]!.relations!.push(s);
+
     }
   }
+
+
+
 
   removeServantRel(i: number, k: number): void {
     if (
@@ -1500,7 +1503,7 @@ export class ProfileComponent implements OnInit {
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Request for approval of Domestic Help relative has been saved successfully and is pending approval',
+              text: 'Domestic Help relative has been saved successfully',
             });
             if (this.urlId==true) {
               if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
@@ -1557,7 +1560,7 @@ export class ProfileComponent implements OnInit {
             Swal.fire({
               icon: 'success',
               title: 'Success',
-              text: 'Request for approval of Domestic Help has been updated successfully and is pending approval',
+              text: 'RDomestic Help details has been updated successfully',
             });
             if (this.urlId==true) {
               if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
@@ -1708,7 +1711,7 @@ export class ProfileComponent implements OnInit {
           Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: 'Request for approval of Relation have been saved successfully and pending for approval',
+            text: 'Vehicle details have been saved successfully ',
             // }).then((result) => {
             //   if (result.isConfirmed) {
             //     // Redirect to the desired page
@@ -1741,7 +1744,7 @@ export class ProfileComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Relation details have not been saved successfully.',
+            text: 'Vehicle details have not been saved successfully.',
           });
         }
       );
@@ -2525,6 +2528,7 @@ export class ProfileComponent implements OnInit {
       this.changesRelationMade[index] = true;
     }
   }
+
   initializeChangesServantRelation() {
     if (this.employee && this.employee.servants) {
       this.employee.servants.forEach((servant: any, i: number) => {
