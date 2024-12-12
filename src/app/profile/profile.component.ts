@@ -211,6 +211,130 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  initializeData() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Zero-padded month
+    const day = today.getDate().toString().padStart(2, '0'); // Zero-padded day
+
+    this.maxDate = `${year}-${month}-${day}`;
+
+    this.mode = this.route.snapshot.paramMap.get('mode');
+    this.setEditable(this.mode == 'edit');
+    this.setEditable(this.mode == 'create');
+
+    let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
+    this.user = JSON.parse(userString!);
+    if (this.user && this.user.employee !== true) {
+      Swal.fire({
+        title: 'Not Allowed',
+        text: 'You are not allowed to access this resource.',
+        icon: 'error',
+      }).then(() => {
+        this.router.navigate(['/dashboard']);
+      });
+    } else {
+      this.route.params.subscribe(params => {
+        const id = +params['id']; // Extract id from route parameters
+        // Check if 'id' parameter exists in the URL
+        if (params.hasOwnProperty('id')) {
+          const id = params['id'];
+          if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+            this.urlId=true;
+            this.id=params['id'];
+            this.employeeService.getEmpProfile(this.id).subscribe(
+              data => {
+                this.employee = data;
+                this.initializeChangesServantRelation();
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
+            );
+          } else {
+            Swal.fire({
+              title: 'Not Allowed',
+              text: 'You are not allowed to access this resource.',
+              icon: 'error',
+            }).then(() => {
+              this.router.navigate(['/dashboard']);
+            });
+          }
+
+        } else {
+          this.employeeService.getMyProfile().subscribe(
+            data => {
+              this.employee = data;
+              this.initializeChangesServantRelation();
+              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            }
+          );
+        }
+      });
+
+
+      this.employeeService.getPays().subscribe(
+        data => this.payLevels = data,
+        error => console.error(error)
+      );
+
+      this.employeeService.getLocationType().subscribe(
+        data => this.locationtypelist = data,
+        error => console.log(error)
+      );
+
+      this.employeeService.getStates().subscribe(
+        data => this.states = data,
+        error => console.log(error)
+      );
+
+      this.employeeService.getDesignations(1).subscribe(
+        data => this.designations = data,
+        error => console.log(error)
+      );
+
+      this.employeeService.getDivisionMasterList().subscribe(
+        data => this.divisiontypelist = data,
+        error => console.log(error)
+      );
+
+      this.employeeService.getRelationMasterList().subscribe(
+        data => this.relationstypelist = data,
+        error => console.log(error)
+      );
+
+      this.employeeService.getServiceMasterList().subscribe(
+        data => this.serviceTypelist = data,
+        error => console.log(error)
+      );
+
+      this.employeeService.getDependents(1).subscribe(
+        data => this.relations = data,
+        error => console.log(error)
+      );
+
+      this.employeeService.getDivisions(1).subscribe(
+        data => this.divisions = data,
+        error => console.log(error)
+      );
+
+      // this.employeeService.getServants(1).subscribe(
+      //       data=>this.servants=data,
+      //   error => console.log(error)
+      // );
+
+      // this.employeeService.getVehicle(1).subscribe(
+      //     data=>this.vehicles=data,
+      //     error => console.log(error)
+      // );
+
+      // this.employeeService.getServantsRel(1).subscribe(
+      //   data=>this.servantRel=data,
+      //   error => console.log(error)
+      // );
+    }
+  }
+
 
   setEditable(status: boolean) {
     this.editable = status;
@@ -1372,27 +1496,8 @@ export class ProfileComponent implements OnInit {
               model: 'servant',
               changed_data: this.employee!.servants[i]
             };
-            if (this.urlId==true) {
-              if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
-                this.employeeService.getEmpProfile(this.id).subscribe(
-                    data => {
-                      this.employee = data;
-                      this.initializeChangesServantRelation();
-                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                    }
-                );
-              }
-            }else{
-              this.employeeService.getMyProfile().subscribe(
-                  datas => {
-                    this.employee = datas;
-
-                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                  }
-              );
-            }
+            this.initializeData();
+            this.setEdit();
           }
         },
         (e) => {
