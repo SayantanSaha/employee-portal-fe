@@ -1529,14 +1529,8 @@ export class ProfileComponent implements OnInit {
               title: 'Success',
               text: 'Domestic Help has been updated successfully',
             });
-            this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
-
-                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-              }
-            );
+            this.initializeData();
+            this.setEdit();
           }
         },
         (e) => {
