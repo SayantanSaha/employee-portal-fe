@@ -362,10 +362,25 @@
 
                           <br /><br />
                           <div *ngIf="employee">
-                            <span style="font-size: 1.2em">{{employee.emp_name!}}</span><br />
-                            <span style="font-size: 1.2em">{{ employee!.id_cards?.[0]?.card_no }}</span><br />
+                            <span style="font-size: 1.2em">{{employee.emp_name!}}</span>
+                            <ng-container *ngFor="let id_card of employee!.id_cards; let i = index">
+                              <span style="font-size: 1.2em" *ngIf="id_card.active==1">
+                                {{ id_card.card_no }}
+                              </span><br />
+                            </ng-container>
+                            <ng-container *ngIf="editable && urlId; else displayDetails">
+                              <span style="font-size: 1.2em">
+                                <select class="form-control" [(ngModel)]="employee.organization_id"
+                                  (ngModelChange)="onInputChange()">
+                                  <option value="null">Select Organization</option>
+                                  <option [ngValue]="org.id" *ngFor="let org of org_list">{{org.org_desc}}</option>
+                                </select>
+                              </span>
+                            </ng-container>
+                            <ng-template #displayDetails>
+                              <span style="font-size:  0.8em">{{ employee!.organization?.org_desc }}</span>
+                            </ng-template>
                             <span style="font-size: 0.8em">{{ employee!.designations?.[0]?.desg_desc }}</span><br />
-                            <span style="font-size: 0.8em">{{employee!.organization?.org_desc}}</span><br />
                             <span style="font-size: 0.8em">{{employee!.email_id!}}</span><br />
                             <span style="font-size: 1em">{{employee!.mobile!}}</span><br />
                           </div>
@@ -731,6 +746,186 @@
                   </div>
                 </div>
 
+              </div>
+            </div>
+          </div>
+
+          <!-- ID card Deatils Field -->
+          <div class="accordion-item" *ngIf="urlId && NICadmin">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#collapseID" aria-expanded="false" aria-controls="collapseID">
+                ID card Details
+              </button>
+            </h2>
+
+            <div id="collapseID" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body" *ngIf="editable">
+                <div class="row">
+                  <div class="col-md-10"></div>
+                  <div class="col-md-2" style="text-align: right">
+                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
+                            (click)="addIdcards()">
+                      +Add IDCard
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-body">
+                <div class="row">
+                  <div class="col-md">
+                    <div class="card shadow table-responsive">
+                      <div class="card-body">
+                        <table class="table table-stripped">
+                          <thead>
+                          <tr>
+                            <th>Sl No.</th>
+                            <th>Card NO<span class="text-danger">*</span></th>
+                            <th>Color<span class="text-danger">*</span></th>
+                            <th>Valid TO<span class="text-danger">*</span></th>
+                            <th>Status<span class="text-danger">*</span></th>
+                            <th *ngIf="editable" colspan="2">Action</th>
+                          </tr>
+                          </thead>
+                          <tbody *ngIf="employee!=null && employee.id_cards!=null">
+                          <tr *ngFor="let id_card of employee!.id_cards; let i = index">
+                            <td>{{i+1}}</td>
+
+                            <td>
+                              <input *ngIf="employee!.id_cards && editable" type="text" class="form-control" placeholder="RB-XXX-X-X-XXXX"
+                              aria-label="card_no" [(ngModel)]="employee!.id_cards![i]!.card_no"
+                              (ngModelChange)="onInputChangeMap('id_card', i)">
+                              <span *ngIf="!editable">{{id_card!.card_no}}</span>
+                            </td>
+                            <td>
+                              <select  *ngIf="employee!.id_cards && editable" class="form-control" [(ngModel)]="employee!.id_cards![i]!.card_type_id"  (ngModelChange)="onInputChangeMap('id_card', i)">
+                                <option value="null">--Select Pass Color--</option>
+                                <option *ngFor="let passColor_issued of passColors" [ngValue]="passColor_issued.id">
+                                  {{ passColor_issued.color }}
+                                </option>
+                              </select>
+
+                              <ng-container *ngFor="let passColor_issued of passColors">
+                                <span *ngIf="!editable && id_card!.card_type_id === passColor_issued.id">
+                                  {{ passColor_issued.color }}
+                                </span>
+                              </ng-container>
+                            </td>
+                            <td>
+                              <input *ngIf="employee!.id_cards && editable" type="date" class="form-control" placeholder="exp_date"
+                              aria-label="exp_date" [(ngModel)]="employee!.id_cards![i]!.valid_to"
+                              (ngModelChange)="onInputChangeMap('id_card', i)">
+
+                              <span *ngIf="!editable">{{formatDate(employee!.id_cards![i]!.valid_to)}}</span>
+                            </td>
+                            <td>
+                              <ng-container *ngIf="employee!.id_cards && editable">
+                                <select class="form-control" [(ngModel)]="employee!.id_cards![i]!.active" (ngModelChange)="onInputChangeMap('id_card', i)"
+                                        >
+                                  <option [ngValue]="0">False</option>
+                                  <option [ngValue]="1">True</option>
+                                </select>
+                              </ng-container>
+
+                              <!-- Display 'true' or 'false' as text when not editable -->
+                              <ng-container *ngIf="!editable">
+                                <span>{{ employee!.id_cards![i]!.active === 1 ? 'True' : 'False' }}</span>
+                              </ng-container>
+                            </td>
+                            <td *ngIf="editable && (changesIDCardMade[i]) ">
+                              <button *ngIf="id_card.deleted_at==null" type="button"
+                                      class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)"
+                                      (click)="saveIdcards(i);onInputReverseChange('id_card', i)">Save</button>
+                            </td>
+                            <td *ngIf="editable">
+                              <button *ngIf="id_card!.id==-1" type="button"
+                                      class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
+                                      (click)="deleteIdcard(i)">Delete</button>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- User setting Field -->
+          <div class="accordion-item" *ngIf="urlId && NICadmin">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#collapseUSER" aria-expanded="false" aria-controls="collapseUSER">
+                USER Setting
+              </button>
+            </h2>
+
+            <div id="collapseUSER" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <div class="row">
+                  <div class="col-md">
+                    <div class="card shadow table-responsive">
+                      <div class="card-body">
+                        <table class="table table-stripped">
+                          <thead>
+                          <tr>
+                            <th>Username<span class="text-danger">*</span></th>
+                            <th>Name<span class="text-danger">*</span></th>
+                            <th>Password<span class="text-danger">*</span></th>
+                            <th>Status<span class="text-danger">*</span></th>
+                            <th *ngIf="editable" colspan="2">Action</th>
+                          </tr>
+                          </thead>
+                          <tbody *ngIf="employee!=null">
+                          <tr>
+                            <td>
+                              <input *ngIf="editable" type="text" class="form-control" placeholder="username"
+                              aria-label="username" [(ngModel)]="employee!.user!.username"
+                              (ngModelChange)="onInputChangeMap('user', 1)">
+                              <span *ngIf="!editable">{{employee!.user!.username}}</span>
+                            </td>
+                            <td>
+                              <input *ngIf="editable" type="text" class="form-control" placeholder="name"
+                              aria-label="name" [(ngModel)]="employee!.user!.name"
+                              (ngModelChange)="onInputChangeMap('user', 1)">
+                              <span *ngIf="!editable">{{employee!.user!.name}}</span>
+                            </td>
+                            <td>
+                              <input *ngIf="editable" type="text" class="form-control" placeholder="xxxxxx"
+                              aria-label="password" [(ngModel)]="employee!.user!.password"
+                              (ngModelChange)="onInputChangeMap('user', 1)">
+                            </td>
+
+                            <td>
+                              <ng-container *ngIf="employee!.id_cards && editable">
+                                <select class="form-control" [(ngModel)]="employee!.user!.active" (ngModelChange)="onInputChangeMap('user', 1)"
+                                        >
+                                  <option [ngValue]="0">False</option>
+                                  <option [ngValue]="1">True</option>
+                                </select>
+                              </ng-container>
+
+                              <!-- Display 'true' or 'false' as text when not editable -->
+                              <ng-container *ngIf="!editable">
+                                <span>{{ employee!.user!.active === 1 ? 'True' : 'False' }}</span>
+                              </ng-container>
+                            </td>
+                            <td *ngIf="editable && (changesuserMade) ">
+                              <button  type="button"
+                                      class="btn btn-outline-success enlarge-on-hover" (click)="hoverClick($event)"
+                                      (click)="saveUser();onInputReverseChange('user', 1)">Save</button>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -24,7 +24,7 @@ import { Vehicles } from "./model/Vehicles";
 import { Search } from "./model/Search";
 import { Organization } from "./model/Organization";
 import { Idcards } from './model/Idcards';
-
+import {User} from "./model/User";
 
 @Injectable({
   providedIn: 'root'
@@ -204,8 +204,20 @@ export class EmployeeService {
     return this.http.post<Designation>(this.apiUrl + "promotion", promotion, { headers: this.createHeader() });
   }
 
+  saveid_card(Id_card: Idcards): Observable<Idcards> {
+    delete Id_card['id'];
+    return this.http.post<Idcards>(this.apiUrl + "Idcards", Id_card, { headers: this.createHeader() });
+  }
+  saveUser(User: User): Observable<User> {
+    return this.http.post<User>(this.apiUrl + "User" , User, { headers: this.createHeader() });
+  }
+
   updatePromotion(promotion: Promotion): Observable<Designation> {
     return this.http.post<Designation>(this.apiUrl + "promotion", promotion, { headers: this.createHeader() });
+  }
+
+  updateId_card(Idcards: Idcards): Observable<Idcards> {
+    return this.http.post<Idcards>(this.apiUrl + "Idcards", Idcards, { headers: this.createHeader() });
   }
 
   savePosting(posting: Posting): Observable<Division> {

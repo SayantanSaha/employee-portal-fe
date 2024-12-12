@@ -17,6 +17,8 @@ import { ParseChangedDataPipe } from '../parse-changed-data.pipe';
 import { Servants } from "../model/Servants"; // Update the path accordingly
 import { ServantRel } from "../model/ServantRel";
 import { Vehicles } from "../model/Vehicles";
+import { Idcards } from "../model/Idcards";
+
 
 
 @Component({
@@ -49,6 +51,8 @@ export class ProfileComponent implements OnInit {
   changesPostingMade: boolean[] = [];
   changesRelationMade: boolean[] = [];
   changesPromotionMade: boolean[] = [];
+  changesIDCardMade: boolean[] = [];
+  changesuserMade:boolean = false;
   changesServantMade: boolean[] = [];
   changesVehicle: boolean[] = [];
   changesServantRelation: boolean[][] = [];
@@ -71,6 +75,7 @@ export class ProfileComponent implements OnInit {
   employee: Employee | null = null;
   mode: string | null = null;
   editable: boolean = false;
+  NICadmin: boolean = false;
   urlId: boolean = false;
   id: any = null;
   states: State[] = [];
@@ -79,9 +84,11 @@ export class ProfileComponent implements OnInit {
   designations: Designation[] = [];
   divisions: Division[] = [];
   relations: Relation[] = [];
+  org_list:any[] = [];
+  Idcards: Idcards[] = [];;
   // servant_relations:ServantRel[]=[];
   servants: Servants[] = [];
-
+  passColors: any[] = [];
   vehicles: Vehicles[] = [];
   apiUrl = environment.apiUrl;
   bloodGroups: string[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
@@ -147,7 +154,9 @@ export class ProfileComponent implements OnInit {
           );
         }
       });
-
+      if (this.user && this.user.role && this.user.role.some((role: number) => (role === 2))) {
+        this.NICadmin=true;
+      }
 
       this.employeeService.getPays().subscribe(
         data => this.payLevels = data,
@@ -194,6 +203,16 @@ export class ProfileComponent implements OnInit {
         error => console.log(error)
       );
 
+      this.employeeService.getOrganizations().subscribe(
+        data => this.org_list = data,
+        error => console.log(error)
+      );
+
+      this.employeeService.getCardType().subscribe(
+        data => {
+          this.passColors = data;
+        }
+      );
       // this.employeeService.getServants(1).subscribe(
       //       data=>this.servants=data,
       //   error => console.log(error)
@@ -483,6 +502,203 @@ export class ProfileComponent implements OnInit {
     let d = new Designation();
     d.pivot.employee_id = this.employee?.id!;
     this.employee?.designations?.push(d);
+  }
+
+  addIdcards() {
+    let I = new Idcards();
+    I.employee_id = this.employee?.id!;
+    this.employee?.id_cards?.push(I);
+  }
+
+
+  deleteIdcard(index: number) {
+    this.employee?.id_cards?.splice(index, 1);
+  }
+
+  saveIdcards(index: number) {
+    // this.validateOrderNo('Promotion', index);
+    // this.validateOrderDate('Promotion', index);
+
+
+
+    let id_card = this.employee?.id_cards![index];
+
+    if (id_card?.id == -1) {
+      this.employeeService.saveid_card(id_card).subscribe(
+        // p=>this.employee!.designations![index]=p,
+        // e=>console.log(e)
+        p => {
+          this.employee!.id_cards![index] = p;
+
+          // Show SweetAlert success message
+          console.log(p);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Id_card has been saved successfully',
+          });
+          if (this.urlId==true) {
+            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+              this.employeeService.getEmpProfile(this.id).subscribe(
+                  data => {
+                    this.employee = data;
+                    this.initializeChangesServantRelation();
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
+            }
+          }else{
+            this.employeeService.getMyProfile().subscribe(
+                datas => {
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
+            );
+          }
+        },
+        e => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Id_card details have not been saved successfully.',
+            });
+          }
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: 'error',
+          //   text: '.',
+          //   showConfirmButton: false,
+          //   timer: 1500 // Automatically close after 1.5 seconds
+          // });
+        }
+      );
+    } else {
+      if (id_card != null) {
+        this.employeeService.updateId_card(id_card).subscribe(
+          // p=>this.employee!.designations![index]=p,
+          // e=>console.log(e)
+          p => {
+            this.employee!.id_cards![index] = p;
+
+            // Show SweetAlert success message
+            console.log(p);
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Idcard has been updated successfully',
+            });if (this.urlId==true) {
+              if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+                this.employeeService.getEmpProfile(this.id).subscribe(
+                    data => {
+                      this.employee = data;
+                      this.initializeChangesServantRelation();
+                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    }
+                );
+              }
+            }else{
+              this.employeeService.getMyProfile().subscribe(
+                  datas => {
+                    this.employee = datas;
+
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
+            }
+          },
+          e => {
+            console.log(e);
+            if (e.status === 302) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Idcard details have not been Updated successfully.',
+              });
+            }
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'error',
+            //   text: 'Promotion details have not been Updated successfully.',
+            //   showConfirmButton: false,
+            //   timer: 1500 // Automatically close after 1.5 seconds
+            // });
+          }
+        );
+      }
+    }
+  }
+
+  saveUser(){
+    this.employeeService.saveUser(this.employee!.user!).subscribe(
+      // p=>this.employee!.designations![index]=p,
+      // e=>console.log(e)
+      p => {
+        // Show SweetAlert success message
+        console.log(p);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'User has been saved successfully',
+        });
+        if (this.urlId==true) {
+          if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+            this.employeeService.getEmpProfile(this.id).subscribe(
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
+            );
+          }
+        }else{
+          this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
+          );
+        }
+      },
+      e => {
+        console.log(e);
+        if (e.status === 302) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Previous Record Not Approved !!!',
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'user details have not been saved successfully.',
+          });
+        }
+
+      }
+    );
   }
 
   savePromotion(index: number) {
@@ -2626,6 +2842,12 @@ export class ProfileComponent implements OnInit {
     } else if (param === 'service') {
       this.changesRelationMade[index] = true;
     }
+    else if (param === 'id_card') {
+      this.changesIDCardMade[index] = true;
+    }
+    else if (param === 'user') {
+      this.changesuserMade = true;
+    }
   }
 
   initializeChangesServantRelation() {
@@ -2664,6 +2886,11 @@ export class ProfileComponent implements OnInit {
       this.changesPostingMade[index] = false;
     } else if (param === 'Vehicle') {
       this.changesVehicle[index] = false;
+    }else if (param === 'id_card') {
+      this.changesIDCardMade[index] = false;
+    }
+    else if (param === 'user') {
+      this.changesuserMade = false;
     }
   }
 

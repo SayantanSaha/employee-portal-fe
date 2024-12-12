@@ -5,5 +5,7 @@ export class User{
   role : any ;
   employee_id : number| null = null;
   employee : any;
-  id: any ;
+  password: string|null = '';
+  active: any;
+  id: number = -1 ;
 }

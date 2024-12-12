@@ -8,7 +8,7 @@ import {Idcards} from "./Idcards";
 import {Servants} from "./Servants";
 import {ServantRel} from "./ServantRel";
 import {Vehicles} from "./Vehicles";
-
+import {User} from "./User";
 
 
 export class Employee{
@@ -62,6 +62,7 @@ export class Employee{
   divisions: Division[]|null = null;
   organization: any|null = null;
   designations: Designation[]|null = null;
+  organization_id: any|null = null;
   division: any | null = null;
   org: any | null = null;
   designation: any | null = null;
@@ -96,4 +97,5 @@ export class Employee{
   apply_reason:string|null = null;
   FIR_no:string|null = null;
   ebapurpleCard: boolean = false;
+  user: User|null = null;
 }
