@@ -58,6 +58,7 @@ export class IdFormComponent implements OnInit {
   minDate : string;
   maxDate: string='';
   divisions:any[] = [];
+  previewData :any | null = null;
 
   ngOnInit() {
     this.mode = this.route.snapshot.paramMap.get('mode');
@@ -658,6 +659,16 @@ export class IdFormComponent implements OnInit {
     const pdfWindow = window.open();
     // @ts-ignore
     pdfWindow.document.write(`<iframe width='100%' height='100%' src='${pdfData}'></iframe>`);
+  }
+
+
+  displayCard: any = 'none';
+  preview() {
+    this.displayCard = "block";
+    
+  }
+  closepreview() {
+    this.displayCard = "none";
   }
 
 

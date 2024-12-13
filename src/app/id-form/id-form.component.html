@@ -39,14 +39,13 @@
                       alt="Applicant Photo" />
                     <br /><br />
                     <input type="file" class="custom-file-input" [id]="'profile_photo'" style="display: none"
-                    (change)="onProfilePhotoSelected($event,'profile_photo')"
-                    [(ngModel)]="employee!.profile_photo" >
+                      (change)="onProfilePhotoSelected($event,'profile_photo')" [(ngModel)]="employee!.profile_photo">
 
                     <label [for]="'profile_photo'" class="upload-icon-label" *ngIf="employee!.dh_dcp"
-                    title="Upload photo">
+                      title="Upload photo">
 
-                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"></i>
-                  </label>
+                      <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"></i>
+                    </label>
                   </td>
                 </tr>
                 <!--                <tr style="height: 30px">-->
@@ -186,8 +185,7 @@
 
                     <ng-container *ngIf="employee!.dh_dcp">
                       <input type="file" class="custom-file-input" [id]="'id_proof'" style="display: none"
-                        (change)="onFileSelected($event,'id_proof')"
-                        [(ngModel)]="employee!.id_proof">
+                        (change)="onFileSelected($event,'id_proof')" [(ngModel)]="employee!.id_proof">
                       <ng-container *ngIf="employee!.id_proof_64">
                         <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
                           (click)="openPdfInNewTab(employee!.id_proof!);"></i>
@@ -218,13 +216,13 @@
 
                     <ng-container *ngIf="employee!.dh_dcp">
                       <input type="file" class="custom-file-input" [id]="'postingOrder'" style="display: none"
-                        (change)="onFileSelected($event,'postingOrder')"
-                        [(ngModel)]="employee!.postingOrder">
+                        (change)="onFileSelected($event,'postingOrder')" [(ngModel)]="employee!.postingOrder">
                       <ng-container *ngIf="employee!.postingOrder_64">
                         <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
                           (click)="openPdfInNewTab(employee!.postingOrder!);"></i>
                       </ng-container>
-                      <ng-container *ngIf="employee?.postingOrder && employee?.postingOrder!=null && !employee?.postingOrder_64">
+                      <ng-container
+                        *ngIf="employee?.postingOrder && employee?.postingOrder!=null && !employee?.postingOrder_64">
                         <a class="btn btn-outline-primary enlarge-on-hover"
                           href="{{apiUrl}}getFile/{{employee?.postingOrder}}" title="Order File" target="_blank">
                           <i class="bi bi-eye"></i>
@@ -356,15 +354,13 @@
                     <img [src]="employee?.sign_path || '/assets/sig_ldr.gif'" width="150px" height="30px"
                       alt="Upload Signature" />
 
-                      <input type="file" class="custom-file-input" [id]="'sign_path'" style="display: none"
-                                (change)="onProfilePhotoSelected($event,'sign_path')"
-                                [(ngModel)]="employee!.sign_path" >
+                    <input type="file" class="custom-file-input" [id]="'sign_path'" style="display: none"
+                      (change)="onProfilePhotoSelected($event,'sign_path')" [(ngModel)]="employee!.sign_path">
 
-                        <label [for]="'sign_path'" class="upload-icon-label" *ngIf="employee!.dh_dcp"
-                        title="Upload sign">
+                    <label [for]="'sign_path'" class="upload-icon-label" *ngIf="employee!.dh_dcp" title="Upload sign">
 
-                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"></i>
-                      </label>
+                      <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"></i>
+                    </label>
 
                   </td>
                 </tr>
@@ -699,6 +695,809 @@
                 <textarea class="form-control" id="remarks" name="remarks" style="height: 200px;" placeholder="abc...."
                   [(ngModel)]="remark"></textarea>
               </div>
+              <ng-container *ngIf="employee!.dh_dcp==true">
+                <div class="row">
+                  <div class="d-flex justify-content-center" style="text-align: center">
+                    <button type="button" class="btn btn-outline-secondary enlarge-on-hover" name="preview"
+                      value="preview" (click)="preview()">Preview</button>
+                  </div>
+
+
+                  <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false"
+                    [ngStyle]="{'display': displayCard  }"
+                    style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto;">
+
+
+                    <div class="modal-dialog modal-dialog-centered modal-l">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">
+                            <b>RB-Card Preview</b>
+                          </h5>
+                        </div>
+
+                        <div class="modal-body">
+                          <div class="row" style="overflow-x: auto;overflow-y: hidden; white-space: nowrap;">
+                            <ng-container>
+                              <!-- <div class="d-flex flex-column align-items-center"
+                                style="width:100%; text-align: center; padding-top: 10px;">
+
+                              </div> -->
+
+
+                              <div class="page-break">
+
+                                <!--      <td>-->
+                                <table>
+                                  <!-- <div *ngIf="shouldRenderPassType()" class="print-border" [ngStyle]="{
+                                 'background-image': 'url(' + getPassTypeImage() + ')',
+                                 'width': '80.5mm',
+                                 'height': '128mm',
+                                 'max-width': '81mm',
+                                 'max-height': '128mm',
+                                 'background-size': '100%',
+                                 'background-position': 'center',
+                                 'background-repeat': 'no-repeat',
+                                 'position': 'relative'
+                               }"> -->
+
+                                  <div *ngIf="employee?.passColor_issued == '1'" class="print-border" [ngStyle]="{
+                                'background-image': 'url(\'assets/images/pass_frontG.png\')',
+                                'width': '82mm',
+                                'height': '128.325mm',
+                                'background-size': '97%',
+                                'background-repeat': 'no-repeat',
+                                'position': 'relative',
+                                'max-width': '82mm',
+                                'max-height': '130mm',
+                                'background-position': 'center',
+                              }">
+
+                                    <b
+                                      style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
+                                      VALID UPTO {{employee?.validupto| date:'dd-MMM-yyyy' | uppercase}}
+                                    </b>
+
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                      <tr>
+                                        <ng-container *ngIf="employee?.payLevel_id >= 9 && employee?.payLevel_id <= 13">
+                                          <td>
+                                            <img src="assets/images/star.png" />
+                                          </td>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 55.5mm; height: 59mm; padding: 3mm;  padding-right: 7mm;" />
+                                          </div>
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 67.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                        <ng-container
+                                          *ngIf="employee?.payLevel_id >= 14 && employee?.payLevel_id <= 17">
+                                          <td>
+                                            <img src="assets/images/star.png" /><br>
+                                            <img src="assets/images/star.png" />
+                                          </td>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 55.5mm; height: 59mm; padding: 3mm;  padding-right: 7mm;" />
+                                          </div>
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 67.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                        <ng-container
+                                          *ngIf="employee?.payLevel_id >= 18 && employee?.payLevel_id <= 22">
+                                          <td>
+                                            <img src="assets/images/star.png" /><br>
+                                            <img src="assets/images/star.png" /><br>
+                                            <img src="assets/images/star.png" />
+                                          </td>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 55.5mm; height: 59mm; padding: 3mm;  padding-right: 7mm;" />
+                                          </div>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 55.5mm; height: 59mm; padding: 2.3mm;  padding-right: 7mm;" />
+                                          </div>
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 67.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="employee?.payLevel_id < 9">
+
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 67.9mm; height: 59.5mm; padding: 3mm; padding-left: 19mm; padding-right: 2.7mm;" />
+                                          </div>
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 67.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                      </tr>
+                                    </table>
+
+                                    <div style="text-align: center; width: 100%; padding-top: 2mm;  ">
+                                      <b style="color: white;">
+                                        {{employee?.emp_name}}
+                                      </b>
+                                    </div>
+                                    <div style="text-align: center; width: 100%;  ">
+                                      <b style="color: white;">
+                                        {{ employee?.desg_print || employee?.designation }}
+                                      </b>
+                                    </div>
+                                    <div style="text-align: center; width: 100%;">
+                                      <b style="color: white;">
+                                        {{employee?.organization}}
+                                      </b>
+                                    </div>
+
+
+                                    <tr>
+                                      <td style="text-align: center; padding-left: 2mm;">
+                                        <ng-container *ngIf="employee?.sign_path">
+                                          <img [src]="employee?.sign_path" alt="Signature"
+                                            style="width: 20mm; height: 8mm;" class="rounded-square"
+                                            title="Employee Signature" />
+                                        </ng-container>
+                                        <div style="font-size: 3.3mm; text-align: center;">
+                                          Signature of pass holder
+                                        </div>
+                                      </td>
+                                      <td style="text-align: center;">
+                                        <ng-container *ngIf="employee?.ussign">
+                                          <img [src]="employee?.ussign" alt="Signature"
+                                            style="width: 20mm; height: 8mm;" class="rounded-square"
+                                            title="Dcp Signature" />
+                                        </ng-container>
+                                        <div style="font-size: 3.3mm; text-align: right; padding-left: 1.5mm;">
+                                          DCP RB Bhavan(Security)
+                                        </div>
+                                      </td>
+                                    </tr>
+
+                                  </div>
+
+                                  <div *ngIf="employee?.passColor_issued=='2'" class="print-border" [ngStyle]="{
+                                    'background-image': 'url(\'assets/images/pass_frontPc.png\')',
+                                    'width': '82mm',
+                                'height': '128.325mm',
+                                'background-size': '96.7%',
+                                'background-repeat': 'no-repeat',
+                                'position': 'relative',
+                                'max-width': '82mm',
+                                'max-height': '130mm',
+                                'background-position': 'center',
+                                  }">
+
+                                    <b
+                                      style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
+                                      VALID UPTO {{employee?.validupto| date:'dd-MMM-yyyy' | uppercase}}
+                                    </b>
+
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                      <tr>
+                                        <ng-container *ngIf="employee?.payLevel_id >= 9 && employee?.payLevel_id <= 13">
+                                          <td>
+                                            <img src="assets/images/star.png" />
+                                          </td>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 66.5mm; height: 59.1mm;padding-left: 1mm;  padding-right: 13.9mm;padding-top: 4mm;padding-bottom: 4mm; " />
+                                          </div>
+
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 67.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                        <ng-container
+                                          *ngIf="employee?.payLevel_id >= 14 && employee?.payLevel_id <= 17">
+                                          <td>
+                                            <img src="assets/images/star.png" /><br>
+                                            <img src="assets/images/star.png" />
+                                          </td>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 66.5mm; height: 59.1mm;padding-left: 1mm;  padding-right: 13.9mm;padding-top: 4mm;padding-bottom: 4mm; " />
+                                          </div>
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 67.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                        <ng-container
+                                          *ngIf="employee?.payLevel_id >= 18 && employee?.payLevel_id <= 22">
+                                          <td>
+                                            <img src="assets/images/star.png" /><br>
+                                            <img src="assets/images/star.png" /><br>
+                                            <img src="assets/images/star.png" />
+                                          </td>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 66.5mm; height: 59.1mm;padding-left: 1mm;  padding-right: 13.9mm;padding-top: 4mm;padding-bottom: 4mm; " />
+                                          </div>
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 67.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="employee?.payLevel_id < 9">
+
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 67.3mm; height: 58.6mm;  padding-right: 1.5mm;padding-top: 5mm;padding-bottom: 4mm;padding-left: 16mm; " />
+                                          </div>
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 67.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                      </tr>
+                                    </table>
+
+
+
+                                    <div style="text-align: center; width: 100%; margin-top: -2mm;  ">
+                                      <b style="color: white;">
+                                        {{employee?.emp_name}}
+                                      </b>
+                                    </div>
+                                    <div style="text-align: center; width: 100%;  ">
+                                      <b style="color: white;">
+                                        {{ employee?.desg_print || employee?.designation }}
+                                      </b>
+                                    </div>
+                                    <div style="text-align: center; width: 100%;">
+                                      <b style="color: white;">
+                                        {{employee?.organization}}
+                                      </b>
+                                    </div>
+
+
+                                    <tr>
+                                      <td style="text-align: center;padding-left: 2mm;">
+                                        <ng-container *ngIf="employee?.sign_path">
+                                          <img [src]="employee?.sign_path" alt="Signature"
+                                            style="width: 20mm; height: 8mm;" class="rounded-square"
+                                            title="Employee Signature" />
+                                        </ng-container>
+                                        <div style="font-size: 3.3mm; text-align: center;">
+                                          Signature of pass holder
+                                        </div>
+                                      </td>
+                                      <td style="text-align: center;">
+                                        <ng-container *ngIf="employee?.ussign">
+                                          <img [src]="employee?.ussign" alt="Signature"
+                                            style="width: 20mm; height: 8mm;" class="rounded-square"
+                                            title="Dcp Signature" />
+                                        </ng-container>
+                                        <div style="font-size: 3.3mm; text-align: right; padding-left: 1.5mm;">
+                                          DCP RB Bhavan(Security)
+                                        </div>
+                                      </td>
+                                    </tr>
+
+                                  </div>
+
+                                  <div *ngIf="employee?.passColor_issued=='3'" class="print-border" [ngStyle]="{
+                                        'background-image': 'url(\'assets/images/pass_frontR.png\')',
+                                        'width': '82mm',
+                                'height': '128.325mm',
+                                'background-size': '97%',
+                                'background-repeat': 'no-repeat',
+                                'position': 'relative',
+                                'max-width': '82mm',
+                                'max-height': '130mm',
+                                'background-position': 'center',
+
+                                      }">
+
+
+                                    <b
+                                      style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
+                                      VALID UPTO {{employee?.validupto| date:'dd-MMM-yyyy' | uppercase}}
+                                    </b>
+
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                      <tr>
+                                        <ng-container *ngIf="employee?.payLevel_id >= 9 && employee?.payLevel_id <= 13">
+                                          <td>
+                                            <img src="assets/images/star.png" />
+                                          </td>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 55.5mm; height: 59mm; padding: 3mm;  padding-right: 7mm;" />
+                                          </div>
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 67.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                        <ng-container
+                                          *ngIf="employee?.payLevel_id >= 14 && employee?.payLevel_id <= 17">
+                                          <td>
+                                            <img src="assets/images/star.png" /><br>
+                                            <img src="assets/images/star.png" />
+                                          </td>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 55.5mm; height: 59mm; padding: 3mm;  padding-right: 7mm;" />
+                                          </div>
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 67.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                        <ng-container
+                                          *ngIf="employee?.payLevel_id >= 18 && employee?.payLevel_id <= 22">
+                                          <td>
+                                            <img src="assets/images/star.png" /><br>
+                                            <img src="assets/images/star.png" /><br>
+                                            <img src="assets/images/star.png" />
+                                          </td>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 55.5mm; height: 59mm; padding: 3mm;  padding-right: 7mm;" />
+                                          </div>
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 67.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="employee?.payLevel_id < 9">
+
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 67.9mm; height: 59.5mm; padding: 3mm; padding-left: 19mm; padding-right: 2.7mm;" />
+                                          </div>
+
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 67.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                      </tr>
+                                    </table>
+
+                                    <div style="text-align: center; width: 100%; padding-top: 2mm;  ">
+                                      <b style="color: white;">
+                                        {{employee?.emp_name}}
+                                      </b>
+                                    </div>
+                                    <div style="text-align: center; width: 100%;  ">
+                                      <b style="color: white;">
+                                        {{ employee?.desg_print || employee?.designation }}
+                                      </b>
+                                    </div>
+                                    <div style="text-align: center; width: 100%;">
+                                      <b style="color: white;">
+                                        {{employee?.organization}}
+                                      </b>
+                                    </div>
+
+
+                                    <tr>
+                                      <td style="text-align: center;padding-left: 2mm;">
+                                        <ng-container *ngIf="employee?.sign_path">
+                                          <img [src]="employee?.sign_path" alt="Signature"
+                                            style="width: 20mm; height: 8mm;" class="rounded-square"
+                                            title="Employee Signature" />
+                                        </ng-container>
+                                        <div style="font-size: 3.3mm; text-align: center;">
+                                          Signature of pass holder
+                                        </div>
+                                      </td>
+                                      <td style="text-align: center;">
+                                        <ng-container *ngIf="employee?.ussign">
+                                          <img [src]="employee?.ussign" alt="Signature"
+                                            style="width: 20mm; height: 8mm;" class="rounded-square"
+                                            title="Dcp Signature" />
+                                        </ng-container>
+                                        <div style="font-size: 3.3mm; text-align: right; padding-left: 1.5mm;">
+                                          DCP RB Bhavan(Security)
+                                        </div>
+                                      </td>
+                                    </tr>
+
+                                  </div>
+
+                                  <div *ngIf="employee?.passColor_issued=='4'" class="print-border" [ngStyle]="{
+                                            'background-image': 'url(\'assets/images/pass_frontY.png\')',
+                                            'width': '82mm',
+                                            'height': '128.325mm',
+                                            'background-size': '97%',
+                                            'background-repeat': 'no-repeat',
+                                            'position': 'relative',
+                                            'max-width': '82mm',
+                                            'max-height': '130mm',
+                                            'background-position': 'center',
+                                          }">
+
+                                    <b
+                                      style="color: white; display: inline-block; margin-top: 2.5cm; text-align: center;width: 100%;">
+                                      VALID UPTO {{employee?.validupto| date:'dd-MMM-yyyy' | uppercase}}
+                                    </b>
+
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                      <tr>
+                                        <ng-container *ngIf="employee?.payLevel_id >= 9 && employee?.payLevel_id <= 13">
+                                          <td>
+                                            <img src="assets/images/star.png" />
+                                          </td>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 54.5mm; height: 58mm; padding: 2mm;  padding-right: 7.3mm;padding-top: 4mm;padding-bottom: 2.5mm;padding-left: 3.5mm;" />
+                                          </div>
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 66.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                        <ng-container
+                                          *ngIf="employee?.payLevel_id >= 14 && employee?.payLevel_id <= 17">
+                                          <td>
+                                            <img src="assets/images/star.png" /><br>
+                                            <img src="assets/images/star.png" />
+                                          </td>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 54.5mm; height: 58mm; padding: 2mm;  padding-right: 7.3mm;padding-top: 4mm;padding-bottom: 2.5mm;padding-left: 3.5mm;" />
+                                          </div>
+
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 66.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                        <ng-container
+                                          *ngIf="employee?.payLevel_id >= 18 && employee?.payLevel_id <= 22">
+                                          <td>
+                                            <img src="assets/images/star.png" /><br>
+                                            <img src="assets/images/star.png" /><br>
+                                            <img src="assets/images/star.png" />
+                                          </td>
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width: 54.5mm; height: 58mm; padding: 2mm;  padding-right: 7.3mm;padding-top: 4mm;padding-bottom: 2.5mm;padding-left: 3.5mm;" />
+                                          </div>
+
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 66.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="!employee?.payLevel_id || employee?.payLevel_id < 9">
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: -32mm; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: -50mm;">
+                                              <b>CASUAL EMPLOYEE</b><br>
+                                              <b>TEMPORARY PASS</b>
+                                            </div>
+                                          </div>
+
+                                          <div>
+                                            <img [src]="employee?.profile_photo"
+                                              style="width:66.7mm; height: 58mm; padding: 2mm;  padding-top: 4mm;padding-bottom: 3mm;padding-left: 20mm; padding-right: 3mm;" />
+                                          </div>
+                                          <div
+                                            style="color: white;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
+                                            <div
+                                              style="transform: rotate(-90deg); width: 100%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;padding-left: 6mm; padding-top: 66.2mm;">
+                                              <b> RB-{{employee?.org_short}}-
+                                                <ng-container [ngSwitch]="employee?.passColor_issued">
+                                                  <ng-container *ngSwitchCase="1">G</ng-container>
+                                                  <ng-container *ngSwitchCase="2">P</ng-container>
+                                                  <ng-container *ngSwitchCase="3">R</ng-container>
+                                                  <ng-container *ngSwitchCase="4">Y</ng-container>
+                                                </ng-container>
+                                                -{{employee?.emp_name?.charAt(0)}}-XXXX</b>
+                                            </div>
+                                          </div>
+                                        </ng-container>
+                                      </tr>
+                                    </table>
+
+                                    <div style="text-align: center; width: 100%; padding-top: 2mm;  ">
+                                      <b style="color: white;">
+                                        {{employee?.emp_name}}
+                                      </b>
+                                    </div>
+                                    <div style="text-align: center; width: 100%;  ">
+                                      <b style="color: white;">
+                                        {{ employee?.desg_print || employee?.designation }}
+                                      </b>
+                                    </div>
+                                    <div style="text-align: center; width: 100%;">
+                                      <b style="color: white;">
+                                        {{employee?.organization}}
+                                      </b>
+                                    </div>
+
+
+                                    <tr>
+                                      <td style="text-align: center;padding-left: 2mm;">
+                                        <ng-container *ngIf="employee?.sign_path">
+                                          <img [src]="employee?.sign_path" alt="Signature"
+                                            style="width: 20mm; height: 8mm;" class="rounded-square"
+                                            title="Employee Signature" />
+                                        </ng-container>
+                                        <div style="font-size: 3.3mm; text-align: center;">
+                                          Signature of pass holder
+                                        </div>
+                                      </td>
+                                      <td style="text-align: center;">
+                                        <ng-container *ngIf="employee?.ussign">
+                                          <img [src]="employee?.ussign" alt="Signature"
+                                            style="width: 20mm; height: 8mm;" class="rounded-square"
+                                            title="Dcp Signature" />
+                                        </ng-container>
+                                        <div style="font-size: 3.3mm; text-align: right; padding-left: 1.5mm;">
+                                          DCP RB Bhavan(Security)
+                                        </div>
+                                      </td>
+                                    </tr>
+
+                                  </div>
+                                </table>
+                              </div>
+
+
+
+                              <div class="page-break">
+                                <table>
+                                  <div
+                                    style="width: 82 mm; height: 128.3mm;  display: flex;flex-direction: column;border: 1px solid #ccc; font-size: 2.5mm;padding: 1mm;max-width: 82mm;max-height: 128.3mm">
+                                    <img src="assets/images/RB_Sketch_Forecourt.jpg" alt="Photo"
+                                      style="width: 81.7mm;height:25mm;margin-left:-1mm;position: relative">
+                                    <table style="margin: 3mm;">
+
+                                      <b style="font-size: 4mm">Blood Group: {{
+                                        employee?.blood_group}}</b><br>
+                                      <b style="font-size: 4mm">Date of Birth: {{
+                                        employee?.dob |
+                                        date:'dd-MM-yyyy'}}</b><br>
+                                      <b style="font-size: 4mm">ID mark: {{
+                                        employee?.body_mark}}</b>
+                                      <br>
+                                      <span style="font-size: 3.5mm; word-wrap: break-word; white-space: normal; display: inline-block; width: 75mm;">
+                                        This Photo Pass is the property of the President's Secretariat. It must be returned by the holder on its
+                                        expiry or when he/she ceases to be with the President's Secretariat or when demanded by the issuing
+                                        authority.
+                                      </span>
+                                      <br>
+                                      <b style="font-size: 4mm; font-style: italic;word-wrap: break-word; white-space: normal; display: inline-block; width: 75mm;">
+                                        If found, please post it in unstamped envelope to:
+                                      </b><br>
+                                      <b style="font-size: 4mm; ">
+                                        Dy. Commisioner of police
+                                      </b>
+                                      <br>
+                                      <span style="font-size: 3.5mm">
+                                        Rashtrapati Bhavan (Security),
+                                      </span>
+                                      <br>
+                                      <span style="font-size: 3.5mm">
+                                        New Delhi - 110004
+                                      </span>
+                                      <br>
+                                      <span style="font-size: 3.5mm">
+                                        Tel : 23010067,23017250
+                                      </span>
+                                      <br>
+                                      <!-- <span style="width: 81.7mm;max-width: 81.7mm;text-align: center;">
+                                        ||||||||||||||
+                                      </span> -->
+                                    </table>
+                                  </div>
+                                </table>
+                              </div>
+
+
+
+
+
+
+
+                            </ng-container>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-outline-secondary enlarge-on-hover"
+                            (click)="closepreview()">
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+              </ng-container>
               <div class="row">
                 <div class="col-6" style="text-align: right">
                   <button type="submit" class="btn btn-primary enlarge-on-hover" name="submit" value="Approve"

@@ -93,9 +93,12 @@ export class Employee{
   passColor:string|null = null;
   passColor_issued:string|null = null;
   payLevel:any | null = null;
+  payLevel_id:any | null = null;
   validupto: Date | null = null;
   apply_reason:string|null = null;
   FIR_no:string|null = null;
   ebapurpleCard: boolean = false;
   user: User|null = null;
+  ussign:any | null = null;
+  org_short:any | null = null;
 }
