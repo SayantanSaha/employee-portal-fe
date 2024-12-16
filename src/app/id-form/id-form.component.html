@@ -841,7 +841,7 @@
                                           </div>
                                         </ng-container>
 
-                                        <ng-container *ngIf="employee?.payLevel_id < 9">
+                                        <ng-container *ngIf="!employee?.payLevel_id || employee?.payLevel_id < 9">
 
                                           <div>
                                             <img [src]="employee?.profile_photo"
@@ -1006,7 +1006,7 @@
                                           </div>
                                         </ng-container>
 
-                                        <ng-container *ngIf="employee?.payLevel_id < 9">
+                                        <ng-container *ngIf="!employee?.payLevel_id || employee?.payLevel_id < 9">
 
                                           <div>
                                             <img [src]="employee?.profile_photo"
@@ -1174,7 +1174,7 @@
                                           </div>
                                         </ng-container>
 
-                                        <ng-container *ngIf="employee?.payLevel_id < 9">
+                                        <ng-container *ngIf="!employee?.payLevel_id || employee?.payLevel_id < 9">
 
                                           <div>
                                             <img [src]="employee?.profile_photo"
