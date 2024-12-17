@@ -475,8 +475,8 @@ export class EmployeeService {
     return this.http.get<any>(`${this.apiUrl}ebapasses`, { headers: this.createHeader() });
   }
 
-  rbpasses(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}rbpasses`, { headers: this.createHeader() });
+  rbpasses(report:any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + "rbpasses",report, { headers: this.createHeader() });
   }
 
   updateebastatus(id: number, action: string, remark: string, file_path_64: string): Observable<any> {

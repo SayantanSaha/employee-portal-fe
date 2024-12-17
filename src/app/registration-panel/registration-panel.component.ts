@@ -24,6 +24,22 @@ export class RegistrationPanelComponent implements OnInit{
    search: Search = new Search();
   user:User = new User();
    searchbox: any = 'none';
+   passbox: any = 'none';
+   report: any = {
+    card_type_id: '',
+    active: 1,
+    emp_name: '',
+    organization_id: '',
+    designation_id: '',
+    division_id: '',
+    card_no: '',
+    valid_from: '',
+    valid_to: ''
+  };
+
+   divisiontypelist: any[] = [];
+   designations: any[] = [];
+   org_list:any[] = [];
 
   constructor(
     private router: Router,
@@ -48,6 +64,20 @@ ngOnInit() {
       }
   );
 
+  this.employeeService.getDesignations(1).subscribe(
+    data => this.designations = data,
+    error => console.log(error)
+  );
+
+  this.employeeService.getDivisionMasterList().subscribe(
+    data => this.divisiontypelist = data,
+    error => console.log(error)
+  );
+
+  this.employeeService.getOrganizations().subscribe(
+    data => this.org_list = data,
+    error => console.log(error)
+  );
 
 
   this.employeeService.getMyProfile().subscribe(
@@ -119,12 +149,26 @@ formatDate(date: string | Date): string {
     }
   }
 
-  rbpasses(){
-    this.employeeService.rbpasses().subscribe(
+
+
+  openpass() {
+    this.passbox = "block";
+  }
+  closepass() {
+    this.passbox = "none";
+  }
+
+
+  rbpasses() {
+    console.log('Report Payload:', this.report); // Debugging payload
+    this.employeeService.rbpasses(this.report).subscribe(
       (data) => {
         console.log('Search successful:', data);
-        if(data){
-        this.router.navigate(['rb-print'], { state: {  employeeData: data, fromfunction:'totalpass'} });
+        if (data) {
+          // Navigate to the 'rb-print' route with employee data
+          this.router.navigate(['rb-print'], {
+            state: { employeeData: data, fromfunction: 'totalpass' }
+          });
         }
       },
       (error) => {
@@ -135,6 +179,7 @@ formatDate(date: string | Date): string {
       }
     );
   }
+
 
 
 }
