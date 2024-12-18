@@ -30,7 +30,9 @@
               </tr>
             </thead>
             <tbody>
+
               <tr *ngFor="let ebaprint of ebaprintData; let i = index">
+
                 <td>{{ i + 1 }}</td>
                 <td>
                   <!-- <ng-container *ngIf="ebaprint?.applicationdetails?.application?.emp_name">{{ebaprint?.applicationdetails?.application?.emp_name }}</ng-container> -->
@@ -46,8 +48,8 @@
                   <ng-container *ngIf="ebaprint!.active === 0">In-Active</ng-container>
                 </td>
 
-                <!-- For displaying the card_type_id as text (based on the value) -->
-                <td *ngIf="fromfunction">
+
+                 <td *ngIf="fromfunction">
                   <ng-container [ngSwitch]="ebaprint!.card_type_id">
                     <div *ngSwitchCase="1">Green</div>
                     <div *ngSwitchCase="2">Purple</div>
@@ -59,9 +61,9 @@
                   </ng-container>
                 </td>
 
-                <td ngIf="fromfunction">{{ebaprint.org_desc}}</td>
-                <td ngIf="fromfunction">{{ebaprint.desg_desc}}</td>
-                <td ngIf="fromfunction">{{ebaprint.div_desc}}</td>
+               <td *ngIf="fromfunction">{{ebaprint.org_desc}}</td>
+                <td *ngIf="fromfunction">{{ebaprint.desg_desc}}</td>
+                <td *ngIf="fromfunction">{{ebaprint.div_desc}}</td>
 
 
                 <td *ngIf="!fromfunction || fromfunction ==null">
