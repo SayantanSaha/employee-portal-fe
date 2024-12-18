@@ -179,14 +179,14 @@
                                 </div>
 
                                 <div class="row">
-                                  <div class="col-md-6" *ngIf="change.changed_data.police_verification_no; let emppvn">
+                                  <!-- <div class="col-md-6" *ngIf="change.changed_data.police_verification_no; let emppvn">
                                     <div class="form-group">
                                       <label class="form-label">{{ emppvn ?'Police Verification No':''}}</label>
                                     </div>
                                     <div class="input-group">
                                       {{ emppvn }}
                                     </div>
-                                  </div>
+                                  </div> -->
 
                                   <div class="col-md-6" *ngIf="change.changed_data.body_mark; let empBodyMark">
                                     <div class="form-group">
@@ -573,31 +573,6 @@
                           </div>
 
                           <div class="col-md-6">
-                            <label class="form-label">Police Verification No</label>
-                            <div *ngIf="editable" class="input-group mb-3">
-                              <input type="text" class="form-control" placeholder="verification no"
-                                     aria-label="verification no" [(ngModel)]="employee!.police_verification_no"
-                                     (ngModelChange)="onInputChange()">
-                            </div>
-                            <div *ngIf="!editable" class="input-group mb-3">
-                              {{employee!.police_verification_no}}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-md-6">
-                            <label class="form-label">Identification Mark(On Body):</label>
-                            <div *ngIf="editable" class="input-group mb-3">
-                              <input type="text" class="form-control" placeholder="body mark" aria-label="body mark"
-                                     [(ngModel)]="employee!.body_mark" (ngModelChange)="onInputChange()">
-                            </div>
-                            <div *ngIf="!editable" class="input-group mb-3">
-                              {{employee!.body_mark}}
-                            </div>
-                          </div>
-
-                          <div class="col-md-6">
                             <label class="form-label">Blood Group</label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <select *ngIf="employee && editable" class="form-control"
@@ -612,6 +587,33 @@
                             </div>
 
                           </div>
+
+                          <!-- <div class="col-md-6">
+                            <label class="form-label">Police Verification No</label>
+                            <div *ngIf="editable" class="input-group mb-3">
+                              <input type="text" class="form-control" placeholder="verification no"
+                                     aria-label="verification no" [(ngModel)]="employee!.police_verification_no"
+                                     (ngModelChange)="onInputChange()">
+                            </div>
+                            <div *ngIf="!editable" class="input-group mb-3">
+                              {{employee!.police_verification_no}}
+                            </div>
+                          </div> -->
+                        </div>
+
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label class="form-label">Identification Mark(On Body):</label>
+                            <div *ngIf="editable" class="input-group mb-3">
+                              <input type="text" class="form-control" placeholder="body mark" aria-label="body mark"
+                                     [(ngModel)]="employee!.body_mark" (ngModelChange)="onInputChange()">
+                            </div>
+                            <div *ngIf="!editable" class="input-group mb-3">
+                              {{employee!.body_mark}}
+                            </div>
+                          </div>
+
+
 
                         </div>
 

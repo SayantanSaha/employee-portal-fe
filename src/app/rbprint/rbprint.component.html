@@ -18,7 +18,8 @@
                 <!-- <th>Relation</th> -->
                 <th>RB Card</th>
                 <th>Issue Date</th>
-                <th>Valid upto</th>
+                <th>Exp Date</th>
+                <th *ngIf="fromfunction">Police verification No</th>
                 <th *ngIf="fromfunction">Status</th>
                 <th *ngIf="fromfunction">Card Type</th>
                 <th *ngIf="fromfunction && fromfunction == 'totalpass'">Organization</th>
@@ -43,6 +44,7 @@
                 <td>{{ebaprint.card_no}}</td>
                 <td>{{ ebaprint!.valid_from | date:'dd-MM-yyyy'}}</td>
                 <td>{{ ebaprint!.valid_to | date:'dd-MM-yyyy'}}</td>
+                <td>{{ ebaprint!.police_verification_no}}</td>
                 <td *ngIf="fromfunction">
                   <ng-container *ngIf="ebaprint!.active === 1">Active</ng-container>
                   <ng-container *ngIf="ebaprint!.active === 0">In-Active</ng-container>
@@ -149,7 +151,7 @@
   <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false" [ngStyle]="{'display': editcard }"
     style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto; ">
     <div class="modal-dialog modal-dialog-centered modal-xl">
-      <div class="modal-content" >
+      <div class="modal-content">
         <div class="modal-body">
           <table class="table table-stripped">
             <thead>
@@ -159,6 +161,7 @@
                 <!-- <th>Color<span class="text-danger">*</span></th> -->
                 <th>Issue date</th>
                 <th>Exp date</th>
+                <th>Police verification No</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -193,6 +196,10 @@
                     [(ngModel)]="printData.valid_to">
                 </td>
                 <td>
+                  <input type="text" class="form-control" placeholder="Pol-verifcation-no"
+                    aria-label="Pol-verifcation-no" [(ngModel)]="printData.police_verification_no">
+                </td>
+                <td>
                   <ng-container>
                     <select class="form-control" [(ngModel)]="printData.active">
                       <option [ngValue]="0">In-Active</option>
@@ -210,15 +217,15 @@
               Close
             </button>
 
-            <td>
-              <button type="button" class="btn btn-outline-success enlarge-on-hover"
-                (click)="hoverClick($event);saveIdcards(printData)">Update</button>
-            </td>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<td>
+  <button type="button" class="btn btn-outline-success enlarge-on-hover"
+    (click)="hoverClick($event);saveIdcards(printData)">Update</button>
+</td>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 
 
