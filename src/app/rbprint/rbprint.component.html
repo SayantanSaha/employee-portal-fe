@@ -44,7 +44,7 @@
                 <td>{{ebaprint.card_no}}</td>
                 <td>{{ ebaprint!.valid_from | date:'dd-MM-yyyy'}}</td>
                 <td>{{ ebaprint!.valid_to | date:'dd-MM-yyyy'}}</td>
-                <td>{{ ebaprint!.police_verification_no}}</td>
+                <td  *ngIf="fromfunction">{{ ebaprint!.police_verification_no}}</td>
                 <td *ngIf="fromfunction">
                   <ng-container *ngIf="ebaprint!.active === 1">Active</ng-container>
                   <ng-container *ngIf="ebaprint!.active === 0">In-Active</ng-container>
@@ -67,7 +67,7 @@
                 <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ebaprint.desg_desc}}</td>
                 <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ebaprint.div_desc}}</td>
 
-                <td *ngIf="!fromfunction || fromfunction =='edit'">
+                <td *ngIf="fromfunction && fromfunction =='edit'">
                   <button class="btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"
                     (click)="openeditcardPopup(i)">
                     edit
