@@ -28,7 +28,7 @@ export class RegistrationPanelComponent implements OnInit{
    passbox: any = 'none';
    report: any = {
     card_type_id: '',
-    active: 1,
+    active: '',
     emp_name: '',
     organization_id: '',
     designation_id: '',
