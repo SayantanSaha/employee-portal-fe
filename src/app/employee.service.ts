@@ -288,7 +288,6 @@ export class EmployeeService {
   }
 
 
-
   otpverify(number: string, detail: string): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + "verifyotp/" + number + '/' + detail, { headers: this.createHeader() });
   }
@@ -314,6 +313,10 @@ export class EmployeeService {
 
   PullEbaCard(empid: number, ebacard: any, ebacarddetail: any[]): Observable<any> {
     return this.http.post<any>(this.apiUrl + "pullebacard/" + empid, { ebacard, ebacarddetail }, { headers: this.createHeader() });
+  }
+
+  deleterelation(id: any,employee_id:any): Observable<any> {
+    return this.http.delete<any>(this.apiUrl + "relation/" + id+"/"+employee_id, { headers: this.createHeader() });
   }
 
   submitIdfrom(value: any, FIR_no: any, emp_type: any): Observable<any> {

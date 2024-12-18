@@ -1746,7 +1746,57 @@ export class ProfileComponent implements OnInit {
     );
   }
 
+  deleterelation(index: any) {
+    if (index !== -1) {
+      this.employeeService.deleterelation(index,this.employee!.id).subscribe(
+        p => {
+          console.log(p);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'relation has been removed successfully',
+          });
+          if (this.urlId==true) {
+            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+              this.employeeService.getEmpProfile(this.id).subscribe(
+                  data => {
+                    this.employee = data;
+                    this.initializeChangesServantRelation();
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+              );
+            }
+          }else{
+            this.employeeService.getMyProfile().subscribe(
+                datas => {
+                  this.employee = datas;
 
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
+            );
+          }
+        },
+        e => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'relation details have not been removed successfully.',
+            });
+          }
+        }
+      );
+    }
+  }
 
 
   /***************** Add Family Members Function End ***************8*******/
