@@ -201,9 +201,9 @@
                             </div>
                             <div class="ps-5">
                               <p>
-                                <span class="text-muted small pt-2 ps-1 fw-bold">Report</span>
+                                <span class="text-muted small pt-2 ps-1 fw-bold">Report/Edit</span>
                               </p>
-                              {{ rbdashboardData.active }}
+                              <!-- {{ rbdashboardData.active }} -->
                             </div>
                           </div>
                         </div>
@@ -455,7 +455,8 @@
       <!-- Footer Buttons -->
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" (click)="closepass()">Close</button>
-        <button type="button" class="btn btn-outline-info" (click)="rbpasses()">Report</button>
+        <button type="button" class="btn btn-outline-info" (click)="rbpasses('Report')">Report</button>
+        <button type="button" class="btn btn-outline-warning" (click)="rbpasses('edit')">EDIT</button>
       </div>
     </div>
   </div>

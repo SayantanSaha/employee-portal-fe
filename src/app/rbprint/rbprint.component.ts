@@ -108,6 +108,16 @@ export class RbprintComponent implements OnInit{
     this.ebacard = "none";
   }
 
+  editcard: any = 'none';
+  openeditcardPopup(i:number) {
+    this.editcard = "block";
+     this.printData=this.ebaprintData[i];
+  }
+  closeeditcardPopup() {
+    this.editcard = "none";
+  }
+
+
 
   printpage(i:number){
     if(this.ebaprintData[i].printed == true){
@@ -182,5 +192,45 @@ export class RbprintComponent implements OnInit{
       });
     }
   }
+
+
+  saveIdcards(printData: any) {
+      if (printData != null) {
+        this.employeeService.updateId_card(printData).subscribe(
+          p => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Idcard has been updated successfully',
+            });
+          },
+          e => {
+            console.log(e);
+            if (e.status === 302) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Previous Record Not Approved !!!',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Idcard details have not been Updated successfully.',
+              });
+            }
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'error',
+            //   text: 'Promotion details have not been Updated successfully.',
+            //   showConfirmButton: false,
+            //   timer: 1500 // Automatically close after 1.5 seconds
+            // });
+          }
+        );
+      }
+
+  }
+
 
 }

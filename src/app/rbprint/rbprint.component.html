@@ -1,5 +1,5 @@
-<div [class.container]="!fromfunction || fromfunction ==null"
-[class.container-fluid]="fromfunction">
+<div [class.container]="!fromfunction || fromfunction ==null || fromfunction == 'edit'"
+  [class.container-fluid]="fromfunction && fromfunction == 'totalpass'">
   <div class="card shadow">
     <div class="card-header">
       <div class="card-title">
@@ -21,11 +21,11 @@
                 <th>Valid upto</th>
                 <th *ngIf="fromfunction">Status</th>
                 <th *ngIf="fromfunction">Card Type</th>
-                <th *ngIf="fromfunction">Organization</th>
-                <th *ngIf="fromfunction">Designation</th>
-                <th *ngIf="fromfunction">Division</th>
+                <th *ngIf="fromfunction && fromfunction == 'totalpass'">Organization</th>
+                <th *ngIf="fromfunction && fromfunction == 'totalpass'">Designation</th>
+                <th *ngIf="fromfunction && fromfunction == 'totalpass'">Division</th>
                 <th *ngIf="!fromfunction || fromfunction == null">Rfid</th>
-                <th *ngIf="!fromfunction || fromfunction == null">Action</th>
+                <th *ngIf="!fromfunction || fromfunction == null || fromfunction == 'edit'">Action</th>
                 <!-- <th *ngIf="!fromfunction || fromfunction == null">Camera</th> -->
               </tr>
             </thead>
@@ -49,7 +49,7 @@
                 </td>
 
 
-                 <td *ngIf="fromfunction">
+                <td *ngIf="fromfunction">
                   <ng-container [ngSwitch]="ebaprint!.card_type_id">
                     <div *ngSwitchCase="1">Green</div>
                     <div *ngSwitchCase="2">Purple</div>
@@ -61,9 +61,16 @@
                   </ng-container>
                 </td>
 
-               <td *ngIf="fromfunction">{{ebaprint.org_desc}}</td>
-                <td *ngIf="fromfunction">{{ebaprint.desg_desc}}</td>
-                <td *ngIf="fromfunction">{{ebaprint.div_desc}}</td>
+                <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ebaprint.org_desc}}</td>
+                <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ebaprint.desg_desc}}</td>
+                <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ebaprint.div_desc}}</td>
+
+                <td *ngIf="!fromfunction || fromfunction =='edit'">
+                  <button class="btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"
+                    (click)="openeditcardPopup(i)">
+                    edit
+                  </button>
+                </td>
 
 
                 <td *ngIf="!fromfunction || fromfunction ==null">
@@ -78,6 +85,7 @@
                     {{ebaprint.rfid}}
                   </div>
                 </td>
+
                 <td *ngIf="!fromfunction || fromfunction ==null">
                   <div class="col" *ngIf="ebaprint.rfid ==null && (ebaprint.printed==false ||  ebaprint.printed==null)">
                     <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
@@ -137,6 +145,83 @@
       </div>
     </div>
   </div>
+
+  <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false" [ngStyle]="{'display': editcard }"
+    style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto; ">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content" >
+        <div class="modal-body">
+          <table class="table table-stripped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Card NO</th>
+                <!-- <th>Color<span class="text-danger">*</span></th> -->
+                <th>Issue date</th>
+                <th>Exp date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <!-- <input *ngIf="employee!.id_cards && editable" type="text" class="form-control" placeholder="RB-XXX-X-X-XXXX"
+              aria-label="card_no" [(ngModel)]="employee!.id_cards![i]!.card_no"
+              (ngModelChange)="onInputChangeMap('id_card', i)"> -->
+                  <span>{{printData.emp_name}}</span>
+                </td>
+                <td>
+                  <!-- <input *ngIf="employee!.id_cards && editable" type="text" class="form-control" placeholder="RB-XXX-X-X-XXXX"
+              aria-label="card_no" [(ngModel)]="employee!.id_cards![i]!.card_no"
+              (ngModelChange)="onInputChangeMap('id_card', i)"> -->
+                  <span>{{printData.card_no}}</span>
+                </td>
+                <!-- <td>
+              <select  *ngIf="employee!.id_cards && editable" class="form-control" [(ngModel)]="employee!.id_cards![i]!.card_type_id"  (ngModelChange)="onInputChangeMap('id_card', i)">
+                <option value="null">--Select Pass Color--</option>
+                <option *ngFor="let passColor_issued of passColors" [ngValue]="passColor_issued.id">
+                  {{ passColor_issued.color }}
+                </option>
+              </select>
+            </td> -->
+                <td>
+                  <input type="date" class="form-control" placeholder="exp_date" aria-label="exp_date"
+                    [(ngModel)]="printData.valid_from">
+                </td>
+                <td>
+                  <input type="date" class="form-control" placeholder="exp_date" aria-label="exp_date"
+                    [(ngModel)]="printData.valid_to">
+                </td>
+                <td>
+                  <ng-container>
+                    <select class="form-control" [(ngModel)]="printData.active">
+                      <option [ngValue]="0">In-Active</option>
+                      <option [ngValue]="1">Active</option>
+                    </select>
+                  </ng-container>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)"
+              (click)="closeeditcardPopup()">
+              Close
+            </button>
+
+            <td>
+              <button type="button" class="btn btn-outline-success enlarge-on-hover"
+                (click)="hoverClick($event);saveIdcards(printData)">Update</button>
+            </td>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 </td>
 
 <!-- <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" class="loading-spinner"></mat-progress-spinner> -->

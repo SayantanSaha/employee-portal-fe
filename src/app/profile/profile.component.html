@@ -783,7 +783,8 @@
                             <th>Sl No.</th>
                             <th>Card NO<span class="text-danger">*</span></th>
                             <th>Color<span class="text-danger">*</span></th>
-                            <th>Valid TO<span class="text-danger">*</span></th>
+                            <th>Issue date<span class="text-danger">*</span></th>
+                            <th>Exp date<span class="text-danger">*</span></th>
                             <th>Status<span class="text-danger">*</span></th>
                             <th *ngIf="editable" colspan="2">Action</th>
                           </tr>
@@ -811,6 +812,13 @@
                                   {{ passColor_issued.color }}
                                 </span>
                               </ng-container>
+                            </td>
+                            <td>
+                              <input *ngIf="employee!.id_cards && editable" type="date" class="form-control" placeholder="issue date"
+                              aria-label="exp_date" [(ngModel)]="employee!.id_cards![i]!.valid_from"
+                              (ngModelChange)="onInputChangeMap('id_card', i)">
+
+                              <span *ngIf="!editable">{{formatDate(employee!.id_cards![i]!.valid_from)}}</span>
                             </td>
                             <td>
                               <input *ngIf="employee!.id_cards && editable" type="date" class="form-control" placeholder="exp_date"
