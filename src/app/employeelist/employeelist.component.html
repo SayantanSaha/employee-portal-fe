@@ -32,7 +32,11 @@
           <tbody *ngIf="dashboardData && dashboardData.totalemployeeList">
           <tr *ngFor="let templist of dashboardData.totalemployeeList; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ templist?.id_cards?.[0]?.card_no }}</td>
+            <ng-container *ngFor="let id_card of templist?.id_cards; let i = index">
+              <span style="font-size: 1.2em" *ngIf="id_card.active==1">
+                {{ id_card.card_no }}
+              </span><br />
+            </ng-container>
             <td>{{ templist.emp_name }}</td>
             <!-- <td>{{ templist.email_id }}</td> -->
             <td>{{ templist.mobile }}</td>
