@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {User} from "../model/User";
 import {Search} from "../model/Search";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-registration-panel',
@@ -164,10 +165,18 @@ formatDate(date: string | Date): string {
     this.employeeService.rbpasses(this.report).subscribe(
       (data) => {
         console.log('Search successful:', data);
-        if (data) {
+        if (data && data.length > 0) {
           // Navigate to the 'rb-print' route with employee data
           this.router.navigate(['rb-print'], {
             state: { employeeData: data, fromfunction: 'totalpass' }
+          });
+        } else {
+          // Show SweetAlert2 notification for empty data
+          Swal.fire({
+            icon: 'warning',
+            title: 'No Data Found',
+            text: 'The search returned no results.',
+            confirmButtonText: 'OK'
           });
         }
       },

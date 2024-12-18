@@ -59,9 +59,9 @@
                   </ng-container>
                 </td>
 
-                <td>{{ebaprint.org_desc}}</td>
-                <td>{{ebaprint.desg_desc}}</td>
-                <td>{{ebaprint.div_desc}}</td>
+                <td ngIf="fromfunction">{{ebaprint.org_desc}}</td>
+                <td ngIf="fromfunction">{{ebaprint.desg_desc}}</td>
+                <td ngIf="fromfunction">{{ebaprint.div_desc}}</td>
 
 
                 <td *ngIf="!fromfunction || fromfunction ==null">
