@@ -1,153 +1,169 @@
 <div class="container">
-<!--#1d00ff-->
-<div class="row">
-  <div style="font-size: 20px">
-    Basic Data
-  </div>
-</div>
-
-
-<div class="row">
-  <div class="card shadow" style="width: 240px;height: 140px;" (click)=" hoverClick($event)" *ngIf="user && user.employee == true">
-    <a [routerLink]="'/profile/view'" style="text-decoration: none; color: inherit;" >
-      <div class="card-body">
-        <i class="bi bi-person-circle"></i>
-        <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Profile</h5>
-        <p class="card-text">Click here to View/Edit Your Profile</p>
-      </div>
-    </a>
-  </div>
-
-  <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
-    <a [routerLink]="'/change-password'" style="text-decoration: none; color: inherit;">
-      <div class="card-body">
-        <i class="bi bi-wrench-adjustable-circle"></i>
-        <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Password setting</h5>
-        <p class="card-text">Click here to Change Your Password</p>
-      </div>
-    </a>
-  </div>
-</div>
-
-<br><br>
-
-<div class="row">
-  <div class="col-md-8" style="font-size: 20px;">
-    Services
-  </div>
-</div>
-
-
-<div class="row">
-  <div class="card shadow" style="width: 240px;height: 140px; " (click)=" hoverClick($event)">
-    <a [routerLink]="'/appliedFormList'" style="text-decoration: none; color: inherit;">
-      <div class="card-body">
-        <i class="bi bi-file-earmark-medical"></i>
-        <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px" >Applied forms</h5>
-        <p class="card-text" style="font-size: 15px">Click here to view your applied forms</p>
-      </div>
-    </a>
-  </div>
-
-  <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)" *ngIf="user && user.employee == true">
-    <a [routerLink]="'/id-form/edit/view'" style="text-decoration: none; color: inherit;">
-      <div class="card-body">
-        <img src="https://cdn-icons-png.flaticon.com/512/4093/4093884.png" alt="evahaan" style="height: 23%;width: 13%">
-<!--        <i class="bi bi-person-badge-fill"></i>-->
-        <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Apply RB Card</h5>
-        <p class="card-text">Click here to apply for Rb Card</p>
-      </div>
-    </a>
-  </div>
-
-  <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)" *ngIf="user && user.employee == true">
-    <a [routerLink]="'/eba-form/edit/relative/view'" style="text-decoration: none; color: inherit;">
-      <div class="card-body">
-        <img src="https://static.vecteezy.com/system/resources/previews/014/711/297/original/id-card-isolated-on-white-background-identification-card-icon-business-identity-id-card-icon-template-badge-identification-personal-contact-in-flat-style-vector.jpg" alt="evahaan" style="height: 23%;width: 17%">
-<!--        <i class="bi bi-person-vcard-fill"></i>-->
-        <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Apply EBA </h5>
-        <p class="card-text">Click here to apply for Family/Domestic Help</p>
-      </div>
-    </a>
-  </div>
-
-
-  <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2% ;cursor: pointer; " (click)=" hoverClick($event)" *ngIf="user && user.employee == true">
-    <a    (click)="applyEvahaan()">
-<!--    <a  href="https://rb.nic.in/teste/login_authorised.aspx?token=+MHzZFyMEj9b4TjEiXAbtb5w8AO2q6Zm3Q2rTYSyCwDivyeRKjUXAsAbPl08ZqLOBF88Xt461l5ULmHl2SO4VShVN4MiluD1FyO/xy77MnC06jM6xX6HfhZ7oEOt7xMhzWgDfTqw8QWAaLZP8jA9bn37n/GHajhOo2UT9AN6JNvVN3uYi4VGFB4+Zi+SyfJS18D/NxFksgwHvqiC/yw0MeuF8ef+cmIPSOSPopxhzimWuAyJ4iT4JDQgFWab0PaftNJKxFXRiLm6qVVrXbROXogUjX7952uXW1Y5uAfpLYvYd0nMC4sbL+YcFMB6x4pP">-->
-      <div class="card-body">
-        <img src="https://rb.nic.in/assets/img/services/car.jpg" alt="evahaan" style="height: 23%;width: 17%">
-        <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">E Vaahan</h5>
-        <p class="card-text">Click here to apply for online Vehicle booking</p>
-      </div>
-    </a>
-  </div>
-
-  <div class="card shadow" style="width: 240px;height: 140px; margin-left: 2%;cursor: pointer; margin-top: 2%;" (click)=" hoverClick($event)" *ngIf="user && user.employee == true">
-    <a href="https://rb.nic.in/psrb" style="text-decoration: none; color: inherit;">
-      <div class="card-body">
-        <i class="bi bi-car-front"></i>
-        <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px" >Parking Sticker</h5>
-        <p class="card-text" style="font-size: 15px">Click here to apply for online Parking sticker</p>
-      </div>
-    </a>
-  </div>
-</div>
-
-<br><br>
-
-
-<ng-container *ngIf="user && user.employee_id !== null">
-  <ng-container *ngIf="hasValidRole()">
-    <div class="row" >
-      <div class="col-md-8" style="font-size: 20px;">
-        For Office
-      </div>
+  <!--#1d00ff-->
+  <div class="row">
+    <div style="font-size: 20px">
+      Basic Data
     </div>
-  </ng-container>
-</ng-container>
+  </div>
 
-<div class="row">
 
-  <ng-container *ngIf="user && user.role && user.employee == true" >
-    <ng-container *ngFor="let role of user.role">
-      <ng-container *ngIf="role === 1">
-        <div class="card shadow" style="width: 240px;height: 140px" (click)=" hoverClick($event)">
-          <a [routerLink]="'/adminpanel'" style="text-decoration: none; color: inherit;">
-            <div class="card-body">
-              <img class="card-img-top" src="https://purwosari.magetan.go.id/image/admin.png" alt="admin" style="height: 35%;width: 25%;margin-top: -8%">
-              <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Employee Info.</h5>
-              <p class="card-text" >Click here to Verify Officer Details</p>
-            </div>
-          </a>
+  <div class="row">
+    <div class="card shadow" style="width: 240px;height: 140px;" (click)=" hoverClick($event)"
+      *ngIf="user && user.employee == true">
+      <a [routerLink]="'/profile/view'" style="text-decoration: none; color: inherit;">
+        <div class="card-body">
+          <i class="bi bi-person-circle"></i>
+          <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Profile</h5>
+          <p class="card-text">Click here to View/Edit Your Profile</p>
         </div>
-     </ng-container>
-      <ng-container *ngIf="role === 4 || role === 5 || role === 6|| role === 9|| role === 10" >
-        <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
-          <a [routerLink]="'/ebapanel'" style="text-decoration: none; color: inherit;">
-            <div class="card-body">
-              <img class="card-img-top" src="https://rb.nic.in/assets/img/services/2.jpg" alt="eba" style="height: 23%;width: 17%">
-              <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">EBA</h5>
-              <p class="card-text">Click here to Verify applied EBA Applications</p>
-            </div>
-          </a>
+      </a>
+    </div>
+
+    <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
+      <a [routerLink]="'/change-password'" style="text-decoration: none; color: inherit;">
+        <div class="card-body">
+          <i class="bi bi-wrench-adjustable-circle"></i>
+          <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Password setting</h5>
+          <p class="card-text">Click here to Change Your Password</p>
         </div>
-      </ng-container>
-      <ng-container *ngIf="role === 11 || role ===12 || role ===13 || role ===14 || role===17" >
-        <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
-          <a [routerLink]="'/regpanel'" style="text-decoration: none; color: inherit;">
-            <div class="card-body">
-              <img class="card-img-top" src="https://cdn0.iconfinder.com/data/icons/flat-profession-icons-2/48/105-1024.png" alt="eba" style="height: 23%;width: 17%">
-              <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">RB Card</h5>
-              <p class="card-text">Click here to Verify applied Registered Applications</p>
-            </div>
-          </a>
+      </a>
+    </div>
+  </div>
+
+  <br><br>
+
+  <div class="row">
+    <div class="col-md-8" style="font-size: 20px;">
+      Services
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="card shadow" style="width: 240px;height: 140px; " (click)=" hoverClick($event)">
+      <a [routerLink]="'/appliedFormList'" style="text-decoration: none; color: inherit;">
+        <div class="card-body">
+          <i class="bi bi-file-earmark-medical"></i>
+          <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Applied forms</h5>
+          <p class="card-text" style="font-size: 15px">Click here to view your applied forms</p>
         </div>
-      </ng-container>
+      </a>
+    </div>
+
+    <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)"
+      *ngIf="user && user.employee == true">
+      <a [routerLink]="'/id-form/edit/view'" style="text-decoration: none; color: inherit;">
+        <div class="card-body">
+          <img src="https://cdn-icons-png.flaticon.com/512/4093/4093884.png" alt="evahaan"
+            style="height: 23%;width: 13%">
+          <!--        <i class="bi bi-person-badge-fill"></i>-->
+          <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Apply RB Card</h5>
+          <p class="card-text">Click here to apply for Rb Card</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- <ng-container
+      *ngIf="user && user.color && (user.color==1 || user.color==2 || user.color==3) && user.employee == true"> -->
+      <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)"
+        *ngIf="user && user.employee == true">
+        <a [routerLink]="'/eba-form/edit/relative/view'" style="text-decoration: none; color: inherit;">
+          <div class="card-body">
+            <img
+              src="https://static.vecteezy.com/system/resources/previews/014/711/297/original/id-card-isolated-on-white-background-identification-card-icon-business-identity-id-card-icon-template-badge-identification-personal-contact-in-flat-style-vector.jpg"
+              alt="evahaan" style="height: 23%;width: 17%">
+            <!--        <i class="bi bi-person-vcard-fill"></i>-->
+            <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Apply EBA </h5>
+            <p class="card-text">Click here to apply for Family/Domestic Help</p>
+          </div>
+        </a>
+      </div>
+    <!-- </ng-container> -->
+
+    <!-- <ng-container *ngIf="user && user.color &&  user.color==3 && user.employee == true"> -->
+      <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2% ;cursor: pointer; "
+        (click)=" hoverClick($event)" *ngIf="user && user.employee == true">
+        <a (click)="applyEvahaan()">
+          <!--    <a  href="https://rb.nic.in/teste/login_authorised.aspx?token=+MHzZFyMEj9b4TjEiXAbtb5w8AO2q6Zm3Q2rTYSyCwDivyeRKjUXAsAbPl08ZqLOBF88Xt461l5ULmHl2SO4VShVN4MiluD1FyO/xy77MnC06jM6xX6HfhZ7oEOt7xMhzWgDfTqw8QWAaLZP8jA9bn37n/GHajhOo2UT9AN6JNvVN3uYi4VGFB4+Zi+SyfJS18D/NxFksgwHvqiC/yw0MeuF8ef+cmIPSOSPopxhzimWuAyJ4iT4JDQgFWab0PaftNJKxFXRiLm6qVVrXbROXogUjX7952uXW1Y5uAfpLYvYd0nMC4sbL+YcFMB6x4pP">-->
+          <div class="card-body">
+            <img src="https://rb.nic.in/assets/img/services/car.jpg" alt="evahaan" style="height: 23%;width: 17%">
+            <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">E Vaahan</h5>
+            <p class="card-text">Click here to apply for online Vehicle booking</p>
+          </div>
+        </a>
+      </div>
+    <!-- </ng-container> -->
+
+    <div class="card shadow" style="width: 240px;height: 140px; margin-left: 2%;cursor: pointer; margin-top: 2%;"
+      (click)=" hoverClick($event)" *ngIf="user && user.employee == true">
+      <a href="https://rb.nic.in/psrb" style="text-decoration: none; color: inherit;">
+        <div class="card-body">
+          <i class="bi bi-car-front"></i>
+          <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Parking Sticker</h5>
+          <p class="card-text" style="font-size: 15px">Click here to apply for online Parking sticker</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <br><br>
+
+
+  <ng-container *ngIf="user && user.employee_id !== null">
+    <ng-container *ngIf="hasValidRole()">
+      <div class="row">
+        <div class="col-md-8" style="font-size: 20px;">
+          For Office
+        </div>
+      </div>
     </ng-container>
   </ng-container>
 
-  <!--<div class="card shadow" style="width: 20%;height: 20%; margin-left: 2%">
+  <div class="row">
+
+    <ng-container *ngIf="user && user.role && user.employee == true">
+      <ng-container *ngFor="let role of user.role">
+        <ng-container *ngIf="role === 1">
+          <div class="card shadow" style="width: 240px;height: 140px" (click)=" hoverClick($event)">
+            <a [routerLink]="'/adminpanel'" style="text-decoration: none; color: inherit;">
+              <div class="card-body">
+                <img class="card-img-top" src="https://purwosari.magetan.go.id/image/admin.png" alt="admin"
+                  style="height: 35%;width: 25%;margin-top: -8%">
+                <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Employee Info.</h5>
+                <p class="card-text">Click here to Verify Officer Details</p>
+              </div>
+            </a>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="role === 4 || role === 5 || role === 6|| role === 9|| role === 10">
+          <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
+            <a [routerLink]="'/ebapanel'" style="text-decoration: none; color: inherit;">
+              <div class="card-body">
+                <img class="card-img-top" src="https://rb.nic.in/assets/img/services/2.jpg" alt="eba"
+                  style="height: 23%;width: 17%">
+                <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">EBA</h5>
+                <p class="card-text">Click here to Verify applied EBA Applications</p>
+              </div>
+            </a>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="role === 11 || role ===12 || role ===13 || role ===14 || role===17">
+          <div class="card shadow" style="width: 240px;height: 140px;margin-left: 2%" (click)=" hoverClick($event)">
+            <a [routerLink]="'/regpanel'" style="text-decoration: none; color: inherit;">
+              <div class="card-body">
+                <img class="card-img-top"
+                  src="https://cdn0.iconfinder.com/data/icons/flat-profession-icons-2/48/105-1024.png" alt="eba"
+                  style="height: 23%;width: 17%">
+                <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">RB Card</h5>
+                <p class="card-text">Click here to Verify applied Registered Applications</p>
+              </div>
+            </a>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <!--<div class="card shadow" style="width: 20%;height: 20%; margin-left: 2%">
     <a [routerLink]="'/change-password'" style="text-decoration: none; color: inherit;">
       <div class="card-body">
         <img src="https://media.istockphoto.com/vectors/petition-concept-flat-design-vector-vector-id1162714444?k=6&m=1162714444&s=612x612&w=0&h=eAJzREovo6f2W-a8j7inHVBe01OTGq5fjReQwPXYD08=" alt="petition" style="width: 18%">
@@ -157,13 +173,14 @@
     </a>
   </div>-->
 
-<!--  <ng-container *ngIf="user && user.role" >-->
-<!--    <ng-container *ngFor="let role of user.role">-->
-<!--     -->
-<!--    </ng-container>-->
-<!--  </ng-container>-->
+    <!--  <ng-container *ngIf="user && user.role" >-->
+    <!--    <ng-container *ngFor="let role of user.role">-->
+    <!--     -->
+    <!--    </ng-container>-->
+    <!--  </ng-container>-->
 
-</div></div>
+  </div>
+</div>
 
 
 
@@ -338,11 +355,3 @@
 
 
 <!--</section>-->
-
-
-
-
-
-
-
-

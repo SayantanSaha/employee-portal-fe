@@ -1143,6 +1143,9 @@
                                 <button *ngIf="desg!.pivot!.id==-1" type="button"
                                   class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                   (click)="deleteRecord(i)">Delete</button>
+                                <button *ngIf="desg!.pivot!.id!==-1" type="button"
+                                  class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
+                                  (click)="deletePromotion(desg!.pivot!.id)">Delete</button>
                               </td>
                             </tr>
                           </tbody>
@@ -1327,6 +1330,10 @@
                                 <button *ngIf="div!.pivot!.id==-1" type="button"
                                   class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                   (click)="deleteDivision(i)">Delete</button>
+
+                                  <button *ngIf="div!.pivot!.id!==-1" type="button"
+                                  class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
+                                  (click)="deleteposting(div!.pivot!.id)">Delete</button>
                               </td>
                             </tr>
                           </tbody>

@@ -216,6 +216,14 @@ export class EmployeeService {
     return this.http.post<Designation>(this.apiUrl + "promotion", promotion, { headers: this.createHeader() });
   }
 
+  deletePromotion(id: any,employee_id:any): Observable<any> {
+    return this.http.delete<any>(this.apiUrl + "promotion/" + id+"/"+employee_id, { headers: this.createHeader() });
+  }
+
+  deletePosting(id: any,employee_id:any): Observable<any> {
+    return this.http.delete<any>(this.apiUrl + "posting/" + id+"/"+employee_id, { headers: this.createHeader() });
+  }
+
   updateId_card(Idcards: Idcards): Observable<Idcards> {
     return this.http.post<Idcards>(this.apiUrl + "Idcards", Idcards, { headers: this.createHeader() });
   }
