@@ -256,6 +256,8 @@ export class EbaFormComponent {
     // );
     this.isLoading = false;
   }
+
+
   setexpdate() {
     const today = new Date();
 
@@ -773,6 +775,43 @@ export class EbaFormComponent {
   openUploadPopup() {
     if (this.validateEmployeeData()) {
       this.displayUpload = "block";
+    }
+  }
+
+  deleteVehicle(index: any) {
+    if (index !== -1) {
+      this.employeeService.deleteVehicle(index, this.employee!.id).subscribe(
+        p => {
+          console.log(p);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Vehicle has been removed successfully',
+          });
+          this.employee?.servants?.forEach(servant => {
+            if (servant.vehicles) {
+                servant.vehicles = servant.vehicles.filter(vehicle => vehicle.id !== index);
+            }
+        });
+
+        },
+        e => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Vehicle details have not been removed successfully.',
+            });
+          }
+        }
+      );
     }
   }
 

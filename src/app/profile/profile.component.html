@@ -1589,6 +1589,8 @@
                 </div>
               </div>
             </div>
+
+
             <td>
               <ng-container>
                 <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false"
@@ -2026,6 +2028,10 @@
                                 <button *ngIf="vehicle!.id==-1" type="button"
                                   class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                   (click)="removeVehicle(i)">Delete</button>
+
+                                <button *ngIf="vehicle!.id!==-1" type="button"
+                                  class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
+                                  (click)="deleteVehicle(vehicle!.id)">Delete</button>
                               </td>
                             </tr>
                           </tbody>
@@ -2219,6 +2225,10 @@
                                   <button *ngIf="servant!.id==-1" type="button"
                                     class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                     (click)="removeServant(i)">Delete</button>
+
+                                  <button *ngIf="servant!.id!==-1" type="button"
+                                    class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
+                                    (click)="deleteServant(servant!.id)">Delete</button>
                                 </td>
 
                               </tr>
@@ -2399,6 +2409,10 @@
                                           <button *ngIf="servantRelative!.id==-1" type="button"
                                             class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                             (click)="removeServantRel(i,k)">Delete</button>
+
+                                          <button *ngIf="servantRelative!.id!==-1" type="button"
+                                            class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
+                                            (click)="deleteServantFamily(servantRelative!.pivot!.id,servant.id)">Delete</button>
                                         </td>
                                       </tr>
                                     </tbody>

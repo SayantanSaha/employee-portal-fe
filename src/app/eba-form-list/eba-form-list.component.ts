@@ -3,6 +3,7 @@ import {EmployeeService} from "../employee.service";
 import {DatePipe} from "@angular/common";
 import {Router} from "@angular/router";
 import {Idcards} from "../model/Idcards";
+import {User} from "../model/User";
 
 @Component({
   selector: 'app-eba-form-list',
@@ -12,6 +13,7 @@ import {Idcards} from "../model/Idcards";
 export class EbaFormListComponent implements OnInit{
   applicationList: any[] = [];
   idapplicationList: any[] = [];
+  user:User = new User();
 
   constructor(
     private employeeService: EmployeeService,
@@ -19,6 +21,9 @@ export class EbaFormListComponent implements OnInit{
   ) { }
 
   ngOnInit() {
+    let userString:string|null = sessionStorage.getItem('user')!=null?sessionStorage.getItem('user'):'[]';
+    this.user = JSON.parse(userString!);
+
     this.employeeService.ebaapplicationByApplicant().subscribe(data => {
       this.applicationList = data
     });

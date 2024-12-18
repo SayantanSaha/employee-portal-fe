@@ -249,7 +249,7 @@
         Issue Purple card?
       </label> -->
 
-      
+
 
       <div *ngIf="applyingforRelative || urlid ">
         <div class="card shadow"
@@ -1525,11 +1525,17 @@
                                     {{vehicle.vehicle_owner}}
                                   </div>
                                 </td>
-                                <td *ngIf="editable && !urlid && vehicle.id== -1">
-                                  <button type="button" class="btn btn-outline-danger enlarge-on-hover"
+                                <td>
+                                  <button *ngIf="editable && !urlid && vehicle.id== -1"
+                                  type="button" class="btn btn-outline-danger enlarge-on-hover"
                                     (click)="hoverClick($event)" (click)="removeVehicle(i,k)">
                                     Remove
                                   </button>
+
+                                  <button *ngIf="editable && !urlid && vehicle!.id!==-1" type="button"
+                                  class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
+                                  (click)="deleteVehicle(vehicle!.id)">Delete</button>
+
                                 </td>
                               </tr>
 

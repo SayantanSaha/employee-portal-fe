@@ -247,7 +247,9 @@ export class EmployeeService {
   getVehicle(employee_id: number): Observable<Vehicles[]> {
     return this.http.get<Vehicles[]>(this.apiUrl + "employees/" + employee_id + "/Vehicle", { headers: this.createHeader() });
   }
-
+  deleteVehicle(id: any,employee_id:any): Observable<any> {
+    return this.http.delete<any>(this.apiUrl + "Vehicle/" + id+"/"+employee_id, { headers: this.createHeader() });
+  }
 
   /************** Chnages done by Ravikant Kumar ************************************/
 
@@ -345,6 +347,14 @@ export class EmployeeService {
 
   updateServantRel(domestic_help_rel: any): Observable<any> {
     return this.http.post<any>(this.apiUrl + "domestic_help_relative", domestic_help_rel, { headers: this.createHeader() });
+  }
+
+  deleteServant(id: any,employee_id:any): Observable<any> {
+    return this.http.delete<any>(this.apiUrl + "domestic_help/" + id+"/"+employee_id, { headers: this.createHeader() });
+  }
+
+  deleteServantFamily(id: any,employee_id:any,servantId:any): Observable<any> {
+    return this.http.delete<any>(this.apiUrl + "domestic_help_rel/" + id+"/"+employee_id + "/"+servantId, { headers: this.createHeader() });
   }
 
   addVehicles(vehicles: Vehicles): Observable<Vehicles> {

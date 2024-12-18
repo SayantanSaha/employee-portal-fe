@@ -52,7 +52,7 @@ export class ProfileComponent implements OnInit {
   changesRelationMade: boolean[] = [];
   changesPromotionMade: boolean[] = [];
   changesIDCardMade: boolean[] = [];
-  changesuserMade:boolean = false;
+  changesuserMade: boolean = false;
   changesServantMade: boolean[] = [];
   changesVehicle: boolean[] = [];
   changesServantRelation: boolean[][] = [];
@@ -84,7 +84,7 @@ export class ProfileComponent implements OnInit {
   designations: Designation[] = [];
   divisions: Division[] = [];
   relations: Relation[] = [];
-  org_list:any[] = [];
+  org_list: any[] = [];
   Idcards: Idcards[] = [];;
   // servant_relations:ServantRel[]=[];
   servants: Servants[] = [];
@@ -123,8 +123,8 @@ export class ProfileComponent implements OnInit {
         if (params.hasOwnProperty('id')) {
           const id = params['id'];
           if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
-            this.urlId=true;
-            this.id=params['id'];
+            this.urlId = true;
+            this.id = params['id'];
             this.employeeService.getEmpProfile(this.id).subscribe(
               data => {
                 this.employee = data;
@@ -155,7 +155,7 @@ export class ProfileComponent implements OnInit {
         }
       });
       if (this.user && this.user.role && this.user.role.some((role: number) => (role === 2))) {
-        this.NICadmin=true;
+        this.NICadmin = true;
       }
 
       this.employeeService.getPays().subscribe(
@@ -259,8 +259,8 @@ export class ProfileComponent implements OnInit {
         if (params.hasOwnProperty('id')) {
           const id = params['id'];
           if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
-            this.urlId=true;
-            this.id=params['id'];
+            this.urlId = true;
+            this.id = params['id'];
             this.employeeService.getEmpProfile(this.id).subscribe(
               data => {
                 this.employee = data;
@@ -428,29 +428,29 @@ export class ProfileComponent implements OnInit {
           //     window.location.reload();
           //   }
         });
-        if (this.urlId==true) {
+        if (this.urlId == true) {
           if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
             this.employeeService.getEmpProfile(this.id).subscribe(
-                data => {
-                  this.employee = data;
-                  this.initializeChangesServantRelation();
-                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                }
+              data => {
+                this.employee = data;
+                this.initializeChangesServantRelation();
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
             );
           }
-        }else{
-        this.employeeService.getMyProfile().subscribe(
-          datas => {
-            this.employee = datas;
+        } else {
+          this.employeeService.getMyProfile().subscribe(
+            datas => {
+              this.employee = datas;
 
-            this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-            this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-          }
-        );
-      }
+              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            }
+          );
+        }
         // this.employee!.id_proof_64=false;
-        },
+      },
       (error) => {
         console.log(error);
         console.log(error.status);
@@ -461,7 +461,7 @@ export class ProfileComponent implements OnInit {
             title: 'Warning',
             text: 'Previous Record Not Approved !!!',
           });
-        }if (error.status===404) {
+        } if (error.status === 404) {
           Swal.fire({
             icon: 'warning',
             title: 'Warning',
@@ -537,25 +537,25 @@ export class ProfileComponent implements OnInit {
             title: 'Success',
             text: 'Id_card has been saved successfully',
           });
-          if (this.urlId==true) {
+          if (this.urlId == true) {
             if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
               this.employeeService.getEmpProfile(this.id).subscribe(
-                  data => {
-                    this.employee = data;
-                    this.initializeChangesServantRelation();
-                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                  }
-              );
-            }
-          }else{
-            this.employeeService.getMyProfile().subscribe(
-                datas => {
-                  this.employee = datas;
-
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
                   this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                   this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                 }
+              );
+            }
+          } else {
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
             );
           }
         },
@@ -597,25 +597,25 @@ export class ProfileComponent implements OnInit {
               icon: 'success',
               title: 'Success',
               text: 'Idcard has been updated successfully',
-            });if (this.urlId==true) {
+            }); if (this.urlId == true) {
               if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
                 this.employeeService.getEmpProfile(this.id).subscribe(
-                    data => {
-                      this.employee = data;
-                      this.initializeChangesServantRelation();
-                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                    }
-                );
-              }
-            }else{
-              this.employeeService.getMyProfile().subscribe(
-                  datas => {
-                    this.employee = datas;
-
+                  data => {
+                    this.employee = data;
+                    this.initializeChangesServantRelation();
                     this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                     this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                   }
+                );
+              }
+            } else {
+              this.employeeService.getMyProfile().subscribe(
+                datas => {
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
               );
             }
           },
@@ -647,7 +647,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  saveUser(){
+  saveUser() {
     this.employeeService.saveUser(this.employee!.user!).subscribe(
       // p=>this.employee!.designations![index]=p,
       // e=>console.log(e)
@@ -659,25 +659,25 @@ export class ProfileComponent implements OnInit {
           title: 'Success',
           text: 'User has been saved successfully',
         });
-        if (this.urlId==true) {
+        if (this.urlId == true) {
           if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
             this.employeeService.getEmpProfile(this.id).subscribe(
-                data => {
-                  this.employee = data;
-                  this.initializeChangesServantRelation();
-                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                }
-            );
-          }
-        }else{
-          this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
-
+              data => {
+                this.employee = data;
+                this.initializeChangesServantRelation();
                 this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                 this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
               }
+            );
+          }
+        } else {
+          this.employeeService.getMyProfile().subscribe(
+            datas => {
+              this.employee = datas;
+
+              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            }
           );
         }
       },
@@ -734,25 +734,25 @@ export class ProfileComponent implements OnInit {
             title: 'Success',
             text: 'Designation has been saved successfully',
           });
-          if (this.urlId==true) {
+          if (this.urlId == true) {
             if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
               this.employeeService.getEmpProfile(this.id).subscribe(
-                  data => {
-                    this.employee = data;
-                    this.initializeChangesServantRelation();
-                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                  }
-              );
-            }
-          }else{
-            this.employeeService.getMyProfile().subscribe(
-                datas => {
-                  this.employee = datas;
-
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
                   this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                   this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                 }
+              );
+            }
+          } else {
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
             );
           }
         },
@@ -794,25 +794,25 @@ export class ProfileComponent implements OnInit {
               icon: 'success',
               title: 'Success',
               text: 'Designation has been updated successfully',
-            });if (this.urlId==true) {
+            }); if (this.urlId == true) {
               if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
                 this.employeeService.getEmpProfile(this.id).subscribe(
-                    data => {
-                      this.employee = data;
-                      this.initializeChangesServantRelation();
-                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                    }
-                );
-              }
-            }else{
-              this.employeeService.getMyProfile().subscribe(
-                  datas => {
-                    this.employee = datas;
-
+                  data => {
+                    this.employee = data;
+                    this.initializeChangesServantRelation();
                     this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                     this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                   }
+                );
+              }
+            } else {
+              this.employeeService.getMyProfile().subscribe(
+                datas => {
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
               );
             }
           },
@@ -861,7 +861,7 @@ export class ProfileComponent implements OnInit {
 
   deletePromotion(index: any) {
     if (index !== -1) {
-      this.employeeService.deletePromotion(index,this.employee!.id).subscribe(
+      this.employeeService.deletePromotion(index, this.employee!.id).subscribe(
         p => {
           console.log(p);
           Swal.fire({
@@ -869,25 +869,25 @@ export class ProfileComponent implements OnInit {
             title: 'Success',
             text: 'Designation has been removed successfully',
           });
-          if (this.urlId==true) {
+          if (this.urlId == true) {
             if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
               this.employeeService.getEmpProfile(this.id).subscribe(
-                  data => {
-                    this.employee = data;
-                    this.initializeChangesServantRelation();
-                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                  }
-              );
-            }
-          }else{
-            this.employeeService.getMyProfile().subscribe(
-                datas => {
-                  this.employee = datas;
-
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
                   this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                   this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                 }
+              );
+            }
+          } else {
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
             );
           }
         },
@@ -976,27 +976,28 @@ export class ProfileComponent implements OnInit {
             //     window.location.reload();
             //   }
           });
-          if (this.urlId==true) {
+          if (this.urlId == true) {
             if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
               this.employeeService.getEmpProfile(this.id).subscribe(
-                  data => {
-                    this.employee = data;
-                    this.initializeChangesServantRelation();
-                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                  }
-              );
-            }
-          }else{
-            this.employeeService.getMyProfile().subscribe(
-                datas => {
-                  this.employee = datas;
-
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
                   this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                   this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                 }
+              );
+            }
+          } else {
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
             );
-          }},
+          }
+        },
         e => {
           console.log(e);
           if (e.status === 302) {
@@ -1041,27 +1042,28 @@ export class ProfileComponent implements OnInit {
               //     // Redirect to the desired page
               //     window.location.reload();
               //   }
-            }); if (this.urlId==true) {
+            }); if (this.urlId == true) {
               if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
                 this.employeeService.getEmpProfile(this.id).subscribe(
-                    data => {
-                      this.employee = data;
-                      this.initializeChangesServantRelation();
-                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                    }
-                );
-              }
-            }else{
-              this.employeeService.getMyProfile().subscribe(
-                  datas => {
-                    this.employee = datas;
-
+                  data => {
+                    this.employee = data;
+                    this.initializeChangesServantRelation();
                     this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                     this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                   }
+                );
+              }
+            } else {
+              this.employeeService.getMyProfile().subscribe(
+                datas => {
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
               );
-            }},
+            }
+          },
           e => {
             console.log(e);
             if (e.status === 302) {
@@ -1093,7 +1095,7 @@ export class ProfileComponent implements OnInit {
 
   deleteposting(index: any) {
     if (index !== -1) {
-      this.employeeService.deletePosting(index,this.employee!.id).subscribe(
+      this.employeeService.deletePosting(index, this.employee!.id).subscribe(
         p => {
           console.log(p);
           Swal.fire({
@@ -1101,25 +1103,25 @@ export class ProfileComponent implements OnInit {
             title: 'Success',
             text: 'posting has been removed successfully',
           });
-          if (this.urlId==true) {
+          if (this.urlId == true) {
             if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
               this.employeeService.getEmpProfile(this.id).subscribe(
-                  data => {
-                    this.employee = data;
-                    this.initializeChangesServantRelation();
-                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                  }
-              );
-            }
-          }else{
-            this.employeeService.getMyProfile().subscribe(
-                datas => {
-                  this.employee = datas;
-
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
                   this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                   this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                 }
+              );
+            }
+          } else {
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
             );
           }
         },
@@ -1196,27 +1198,28 @@ export class ProfileComponent implements OnInit {
             //     // Redirect to the desired page
             //     window.location.reload();
             //   }
-          }); if (this.urlId==true) {
+          }); if (this.urlId == true) {
             if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
               this.employeeService.getEmpProfile(this.id).subscribe(
-                  data => {
-                    this.employee = data;
-                    this.initializeChangesServantRelation();
-                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                  }
-              );
-            }
-          }else{
-            this.employeeService.getMyProfile().subscribe(
-                datas => {
-                  this.employee = datas;
-
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
                   this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                   this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                 }
+              );
+            }
+          } else {
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
             );
-          }},
+          }
+        },
         e => {
           console.log(e);
           if (e.status === 302) {
@@ -1262,27 +1265,28 @@ export class ProfileComponent implements OnInit {
               //     window.location.reload();
               //   }
             });
-            if (this.urlId==true) {
+            if (this.urlId == true) {
               if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
                 this.employeeService.getEmpProfile(this.id).subscribe(
-                    data => {
-                      this.employee = data;
-                      this.initializeChangesServantRelation();
-                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                    }
-                );
-              }
-            }else{
-              this.employeeService.getMyProfile().subscribe(
-                  datas => {
-                    this.employee = datas;
-
+                  data => {
+                    this.employee = data;
+                    this.initializeChangesServantRelation();
                     this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                     this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                   }
+                );
+              }
+            } else {
+              this.employeeService.getMyProfile().subscribe(
+                datas => {
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
               );
-            }},
+            }
+          },
           e => {
             console.log(e);
             if (e.status === 302) {
@@ -1313,9 +1317,9 @@ export class ProfileComponent implements OnInit {
 
 
   qtrtype() {
-    this.blockstypelist=[];
+    this.blockstypelist = [];
     this.quarterList = [];
-    this.employee!.qtr=null;
+    this.employee!.qtr = null;
     this.employeeService.getQuarterType(this.employee!.location_id!).subscribe(
       data => this.quarterstypelist = data,
       error => console.log(error)
@@ -1325,16 +1329,16 @@ export class ProfileComponent implements OnInit {
 
 
   qtraddress(event: Event) {
-    this.blockstypelist=[];
+    this.blockstypelist = [];
     this.quarterList = [];
-    this.employee!.qtr=null;
+    this.employee!.qtr = null;
     const selectElement = event.target as HTMLSelectElement;
     const typeName = selectElement.options[selectElement.selectedIndex]?.text?.trim();
 
     if (typeName == "Type - I" || typeName == "Servant Qtr") {
       this.employeeService.getBlockType().subscribe(
         data => {
-          this.employee!.blck='T';
+          this.employee!.blck = 'T';
           this.blockstypelist = data.filter(block => block.choice === 1);
         },
         error => console.log(error)
@@ -1344,46 +1348,46 @@ export class ProfileComponent implements OnInit {
     else if (this.employee!.qtr_code! == '14' || this.employee!.qtr_code! == '11') {
       this.employeeService.getBlockType().subscribe(
         data => {
-          this.employee!.blck='T';
+          this.employee!.blck = 'T';
           this.blockstypelist = data.filter(block => block.choice === 2);
         },
         error => console.log(error)
       );
     }
 
-    else{
-      this.blockstypelist=[];
-      this.employee!.blck='T';
-    this.employeeService.getQuarterdetail(this.employee!.qtr_code!, this.employee!.location_id!,this.employee!.blck).subscribe(
-      (data: any) => {
-        this.quarterList = data;
-      },
-      (error) => {
-        console.log(error);
-        if (error.status === 404) {
-          this.quarterList = [];
-          this.employee!.qtr = null;
-          Swal.fire({
-            icon: 'warning',
-            title: 'Warning',
-            text: 'empty quarter details .',
-          });
+    else {
+      this.blockstypelist = [];
+      this.employee!.blck = 'T';
+      this.employeeService.getQuarterdetail(this.employee!.qtr_code!, this.employee!.location_id!, this.employee!.blck).subscribe(
+        (data: any) => {
+          this.quarterList = data;
+        },
+        (error) => {
+          console.log(error);
+          if (error.status === 404) {
+            this.quarterList = [];
+            this.employee!.qtr = null;
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'empty quarter details .',
+            });
+          }
+          if (error.status === 400) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Something went wrong.',
+            });
+          }
         }
-        if (error.status === 400) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Warning',
-            text: 'Something went wrong.',
-          });
-        }
-      }
-    );
-  }
+      );
+    }
   }
 
   qtrBlckaddress() {
-    this.employee!.qtr=null;
-    this.employeeService.getQuarterdetail(this.employee!.qtr_code!, this.employee!.location_id!,this.employee!.blck!).subscribe(
+    this.employee!.qtr = null;
+    this.employeeService.getQuarterdetail(this.employee!.qtr_code!, this.employee!.location_id!, this.employee!.blck!).subscribe(
       (data: any) => {
         this.quarterList = data;
       },
@@ -1639,27 +1643,28 @@ export class ProfileComponent implements OnInit {
           text: 'Pulled successfully',
         })
         this.closeEbaPopup();
-        if (this.urlId==true) {
+        if (this.urlId == true) {
           if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
             this.employeeService.getEmpProfile(this.id).subscribe(
-                data => {
-                  this.employee = data;
-                  this.initializeChangesServantRelation();
-                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                }
-            );
-          }
-        }else{
-          this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
-
+              data => {
+                this.employee = data;
+                this.initializeChangesServantRelation();
                 this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                 this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
               }
+            );
+          }
+        } else {
+          this.employeeService.getMyProfile().subscribe(
+            datas => {
+              this.employee = datas;
+
+              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            }
           );
-        }},
+        }
+      },
       (error) => {
         // Error response
         console.log(error); // Log the error if needed
@@ -1697,27 +1702,28 @@ export class ProfileComponent implements OnInit {
           text: 'Pulled successfully',
         })
         this.closeEbaCardPopup();
-        if (this.urlId==true) {
+        if (this.urlId == true) {
           if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
             this.employeeService.getEmpProfile(this.id).subscribe(
-                data => {
-                  this.employee = data;
-                  this.initializeChangesServantRelation();
-                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                }
-            );
-          }
-        }else{
-          this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
-
+              data => {
+                this.employee = data;
+                this.initializeChangesServantRelation();
                 this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                 this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
               }
+            );
+          }
+        } else {
+          this.employeeService.getMyProfile().subscribe(
+            datas => {
+              this.employee = datas;
+
+              this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+              this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+            }
           );
-        }},
+        }
+      },
       (error) => {
         // Error response
         console.log(error); // Log the error if needed
@@ -1748,7 +1754,7 @@ export class ProfileComponent implements OnInit {
 
   deleterelation(index: any) {
     if (index !== -1) {
-      this.employeeService.deleterelation(index,this.employee!.id).subscribe(
+      this.employeeService.deleterelation(index, this.employee!.id).subscribe(
         p => {
           console.log(p);
           Swal.fire({
@@ -1756,25 +1762,25 @@ export class ProfileComponent implements OnInit {
             title: 'Success',
             text: 'relation has been removed successfully',
           });
-          if (this.urlId==true) {
+          if (this.urlId == true) {
             if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
               this.employeeService.getEmpProfile(this.id).subscribe(
-                  data => {
-                    this.employee = data;
-                    this.initializeChangesServantRelation();
-                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                  }
-              );
-            }
-          }else{
-            this.employeeService.getMyProfile().subscribe(
-                datas => {
-                  this.employee = datas;
-
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
                   this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                   this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                 }
+              );
+            }
+          } else {
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
             );
           }
         },
@@ -1942,9 +1948,6 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-
-
-
   removeServantRel(i: number, k: number): void {
     if (
       this.employee &&
@@ -1953,6 +1956,39 @@ export class ProfileComponent implements OnInit {
       this.employee.servants[i].relations
     ) {
       this.employee.servants[i].relations!.splice(k, 1);
+    }
+  }
+
+  deleteServantFamily(index: any,servantId:any) {
+    if (index !== -1) {
+      this.employeeService.deleteServantFamily(index, this.employee!.id,servantId).subscribe(
+        p => {
+          console.log(p);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'domestic_help family has been removed successfully',
+          });
+          this.initializeData();
+          this.setEdit();
+        },
+        e => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'domestic_help family details have not been removed successfully.',
+            });
+          }
+        }
+      );
     }
   }
 
@@ -1974,25 +2010,25 @@ export class ProfileComponent implements OnInit {
               title: 'Success',
               text: 'Domestic Help relative has been saved successfully',
             });
-            if (this.urlId==true) {
+            if (this.urlId == true) {
               if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
                 this.employeeService.getEmpProfile(this.id).subscribe(
-                    data => {
-                      this.employee = data;
-                      this.initializeChangesServantRelation();
-                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                    }
-                );
-              }
-            }else{
-              this.employeeService.getMyProfile().subscribe(
-                  datas => {
-                    this.employee = datas;
-
+                  data => {
+                    this.employee = data;
+                    this.initializeChangesServantRelation();
                     this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                     this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                   }
+                );
+              }
+            } else {
+              this.employeeService.getMyProfile().subscribe(
+                datas => {
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
               );
             }
           }
@@ -2031,25 +2067,25 @@ export class ProfileComponent implements OnInit {
               title: 'Success',
               text: 'RDomestic Help details has been updated successfully',
             });
-            if (this.urlId==true) {
+            if (this.urlId == true) {
               if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
                 this.employeeService.getEmpProfile(this.id).subscribe(
-                    data => {
-                      this.employee = data;
-                      this.initializeChangesServantRelation();
-                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                    }
-                );
-              }
-            }else{
-              this.employeeService.getMyProfile().subscribe(
-                  datas => {
-                    this.employee = datas;
-
+                  data => {
+                    this.employee = data;
+                    this.initializeChangesServantRelation();
                     this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                     this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                   }
+                );
+              }
+            } else {
+              this.employeeService.getMyProfile().subscribe(
+                datas => {
+                  this.employee = datas;
+
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
               );
             }
           }
@@ -2146,6 +2182,58 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  deleteServant(index: any) {
+    if (index !== -1) {
+      this.employeeService.deleteServant(index, this.employee!.id).subscribe(
+        p => {
+          console.log(p);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'domestic_help has been removed successfully',
+          });
+          if (this.urlId == true) {
+            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+              this.employeeService.getEmpProfile(this.id).subscribe(
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
+              );
+            }
+          } else {
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
+            );
+          }
+        },
+        e => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'domestic_help details have not been removed successfully.',
+            });
+          }
+        }
+      );
+    }
+  }
+
   /***************** Add Servant Members Function End ***************8*******/
 
 
@@ -2187,25 +2275,25 @@ export class ProfileComponent implements OnInit {
             //     window.location.reload();
             //   }
           });
-          if (this.urlId==true) {
+          if (this.urlId == true) {
             if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
               this.employeeService.getEmpProfile(this.id).subscribe(
-                  data => {
-                    this.employee = data;
-                    this.initializeChangesServantRelation();
-                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
-                  }
-              );
-            }
-          }else{
-            this.employeeService.getMyProfile().subscribe(
-                datas => {
-                  this.employee = datas;
-
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
                   this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
                   this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
                 }
+              );
+            }
+          } else {
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
             );
           }
         },
@@ -2215,6 +2303,58 @@ export class ProfileComponent implements OnInit {
             title: 'Error',
             text: 'Vehicle details have not been saved successfully.',
           });
+        }
+      );
+    }
+  }
+
+  deleteVehicle(index: any) {
+    if (index !== -1) {
+      this.employeeService.deleteVehicle(index, this.employee!.id).subscribe(
+        p => {
+          console.log(p);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Vehicle has been removed successfully',
+          });
+          if (this.urlId == true) {
+            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+              this.employeeService.getEmpProfile(this.id).subscribe(
+                data => {
+                  this.employee = data;
+                  this.initializeChangesServantRelation();
+                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                }
+              );
+            }
+          } else {
+            this.employeeService.getMyProfile().subscribe(
+              datas => {
+                this.employee = datas;
+
+                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+              }
+            );
+          }
+        },
+        e => {
+          console.log(e);
+          if (e.status === 302) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Vehicle details have not been removed successfully.',
+            });
+          }
         }
       );
     }
@@ -2279,6 +2419,7 @@ export class ProfileComponent implements OnInit {
     }
 
   }
+  
   validateMobile() {
     const mobilePattern = /^\d{10}$/;
     if (!mobilePattern.test(this.employee!.mobile)) {
@@ -2684,7 +2825,7 @@ export class ProfileComponent implements OnInit {
           const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
           if (this.employee) {
             this.employee.id_proof = base64String;
-            this.employee.id_proof_64=true;
+            this.employee.id_proof_64 = true;
             this.changesMade = true;
           } else {
             console.log('this.employee is null.');
@@ -3040,7 +3181,7 @@ export class ProfileComponent implements OnInit {
       this.changesPostingMade[index] = false;
     } else if (param === 'Vehicle') {
       this.changesVehicle[index] = false;
-    }else if (param === 'id_card') {
+    } else if (param === 'id_card') {
       this.changesIDCardMade[index] = false;
     }
     else if (param === 'user') {
