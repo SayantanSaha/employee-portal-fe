@@ -8,12 +8,13 @@
 
 .card:hover {
   box-shadow: 10px 10px 10px rgba(0,0,0,0.7);
-  transform:scale(1.12) ;
+  transform:scale(1.2) ;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   background-image:  linear-gradient(to bottom right, #f3ddba,transparent), url('../../assets/images/R (1).png');
   background-size: auto,64vh;
   background-position: center,left bottom ;
   background-repeat: no-repeat;
+  z-index: 9999;
 }
 
 .card img:hover {
@@ -38,9 +39,9 @@
   background-size: 0.7vh, 0.7vh, auto;
 
 
-  width: 240px; /* Set the width explicitly for better control */
-  height: 140px; /* Set the height explicitly for better control */
-  margin-left: 2%;
+   width: 255px; /* Set the width explicitly for better control */
+  height: 145px; /* Set the height explicitly for better control */
+  // margin-left: 2%;
   cursor: pointer;
 }
 
