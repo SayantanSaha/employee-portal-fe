@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
+import { AfterViewInit } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {LayoutModule} from "./layout/layout.module";
@@ -47,6 +47,10 @@ import {RegistrationPanelComponent} from "./registration-panel/registration-pane
 import {RbapppendingComponent} from "./rbapppending/rbapppending.component";
 import {RbcardapplyformComponent} from "./rbcardapplyform/rbcardapplyform.component";
 import {EbaapplyformComponent} from "./ebaapplyform/ebaapplyform.component";
+
+import { MatTableModule } from '@angular/material/table'; // Import MatTableModule
+import { MatPaginatorModule } from '@angular/material/paginator'; // Import MatPaginatorModule
+import { MatSortModule } from '@angular/material/sort'; // Import MatSortModule
 
 @NgModule({
   declarations: [
@@ -94,6 +98,9 @@ import {EbaapplyformComponent} from "./ebaapplyform/ebaapplyform.component";
       MatProgressSpinnerModule,
       BrowserAnimationsModule,
       CommonModule,
+      MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
     ],
   providers: [
     { provide: 'BASE_URL', useFactory: ()=>document.getElementsByTagName('base')[0].href },

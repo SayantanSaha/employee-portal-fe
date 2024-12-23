@@ -1,45 +1,66 @@
-import {Component,ViewChild, Renderer2, ElementRef, AfterViewInit, Inject,OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
-import {EmployeeService} from "../employee.service";
-import {DatePipe} from "@angular/common";
+import { Component, ViewChild, Renderer2, ElementRef, Inject, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
+import { EmployeeService } from "../employee.service";
+import { DatePipe } from "@angular/common";
 import Swal from "sweetalert2";
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { DataTablesModule } from 'angular-datatables';
+// import { MaterialModule } from 'angular-datatables';
+
+
+
 
 @Component({
   selector: 'app-rbprint',
   // standalone: true,
-  // imports: [],
+  //  imports: [DataTablesModule,Mat],
   templateUrl: './rbprint.component.html',
   styleUrl: './rbprint.component.scss'
 })
-export class RbprintComponent implements OnInit{
+export class RbprintComponent implements OnInit, AfterViewInit {
   @ViewChild('videoElement', { static: false }) videoElement!: ElementRef<HTMLVideoElement>;
   @ViewChild('canvasElement', { static: false }) canvasElement!: ElementRef<HTMLCanvasElement>;
   @ViewChild('captureButton', { static: false }) captureButton!: ElementRef<HTMLButtonElement>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;  // ViewChild for paginator
+  @ViewChild(MatSort) sort!: MatSort;
 
-  ebaprintData:  any[] = [];
-  Rfid:  any;
+  ebaprintData: any[] = [];
+  Rfid: any;
   fromfunction: any;
+  displayedColumns: string[] = ['emp_name', 'card_no', 'valid_from', 'valid_to'];
+  dataSource = new MatTableDataSource<any>([]);
   isLoading: boolean = false;
   constructor(
-    @Inject('BASE_URL') baseUrl: string,private employeeService: EmployeeService,
+    @Inject('BASE_URL') baseUrl: string, private employeeService: EmployeeService,
     private route: ActivatedRoute,
     private router: Router,
     // private renderer: Renderer2, private el: ElementRef,
 
 
-  ) {}
+  ) { }
   ngOnInit() {
-    this.ebaprintData = history.state.employeeData;
-    console.log(this.ebaprintData);
-    this.fromfunction = history.state.fromfunction;
-    console.log(this.fromfunction);
+    console.log('Component Initialized');
 
-    if(!this.ebaprintData || this.ebaprintData.length==0) {
+    // Check if data exists in history.state
+    this.ebaprintData = history.state.employeeData || [];
+    this.fromfunction = history.state.fromfunction;
+    console.log('Fetched data from history.state:', this.ebaprintData);
+    console.log('From function:', this.fromfunction);
+
+    if (this.ebaprintData.length === 0) {
+      console.log('Fetching data from API...');
       this.employeeService.getRbPrintData().subscribe(
         (data: any) => {
-          console.log(data);
-          this.ebaprintData = data;
+          console.log('API data received:', data);
+          if (data && data.length) {
+            this.ebaprintData = data;
+            this.dataSource.data = this.ebaprintData;
+          } else {
+            console.warn('No data available from the API');
+          }
         },
         error => {
           console.error('Error fetching data:', error);
@@ -52,9 +73,15 @@ export class RbprintComponent implements OnInit{
           }
         }
       );
+    } else {
+      this.dataSource.data = this.ebaprintData;
     }
+  }
 
-
+  ngAfterViewInit() {
+    console.log('After View Init');
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   startCamera() {
@@ -98,20 +125,20 @@ export class RbprintComponent implements OnInit{
   }
 
   ebacard: any = 'none';
-  printData: any ;
+  printData: any;
 
-  openebacardPopup(i:number) {
+  openebacardPopup(i: number) {
     this.ebacard = "block";
-     this.printData=this.ebaprintData[i];
+    this.printData = this.ebaprintData[i];
   }
   closeebacardPopup() {
     this.ebacard = "none";
   }
 
   editcard: any = 'none';
-  openeditcardPopup(i:number) {
+  openeditcardPopup(i: number) {
     this.editcard = "block";
-     this.printData=this.ebaprintData[i];
+    this.printData = this.ebaprintData[i];
   }
   closeeditcardPopup() {
     this.editcard = "none";
@@ -119,15 +146,15 @@ export class RbprintComponent implements OnInit{
 
 
 
-  printpage(i:number){
-    if(this.ebaprintData[i].printed == true){
-       this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'rbprint' } });
+  printpage(i: number) {
+    if (this.ebaprintData[i].printed == true) {
+      this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'rbprint' } });
     }
-    else{
-    this.employeeService.rbprintstatus( this.ebaprintData[i].id).subscribe(
+    else {
+      this.employeeService.rbprintstatus(this.ebaprintData[i].id).subscribe(
         // On success
         () => {
-           this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'rbprint' } });
+          this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'rbprint' } });
         },
         // On error
         (error) => {
@@ -142,7 +169,8 @@ export class RbprintComponent implements OnInit{
             text: 'An error occurred while opening print page.',
           });
         }
-    );}
+      );
+    }
   }
 
 
@@ -157,34 +185,34 @@ export class RbprintComponent implements OnInit{
     if (this.Rfid && this.Rfid !== null) {
       this.isLoading = true;
       // Call the employeeService to update EBA pass using RFID and ebapassno
-      this.employeeService.rbrfid (this.Rfid, ebapassno).subscribe(
-          // On success
-          () => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Updated successfully', // Corrected spelling here
-            }).then(() => {
-              location.reload();
-            });
-          },
-          // On error
-          (error) => {
-            console.log(error);
-            console.log(error.status);
-            console.log(error.error);
-            // Handle other errors here
-            console.error('An error occurred:', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'An error occurred while updating EBA.',
-            });
-          },() => {
-            this.isLoading = false; // Hide loading symbol
-          }
+      this.employeeService.rbrfid(this.Rfid, ebapassno).subscribe(
+        // On success
+        () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Updated successfully', // Corrected spelling here
+          }).then(() => {
+            location.reload();
+          });
+        },
+        // On error
+        (error) => {
+          console.log(error);
+          console.log(error.status);
+          console.log(error.error);
+          // Handle other errors here
+          console.error('An error occurred:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while updating EBA.',
+          });
+        }, () => {
+          this.isLoading = false; // Hide loading symbol
+        }
       );
-    }else{
+    } else {
       Swal.fire({
         icon: 'warning',
         title: 'warning',
@@ -195,40 +223,40 @@ export class RbprintComponent implements OnInit{
 
 
   saveIdcards(printData: any) {
-      if (printData != null) {
-        this.employeeService.updateId_card(printData).subscribe(
-          p => {
+    if (printData != null) {
+      this.employeeService.updateId_card(printData).subscribe(
+        p => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Idcard has been updated successfully',
+          });
+        },
+        e => {
+          console.log(e);
+          if (e.status === 302) {
             Swal.fire({
-              icon: 'success',
-              title: 'Success',
-              text: 'Idcard has been updated successfully',
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Previous Record Not Approved !!!',
             });
-          },
-          e => {
-            console.log(e);
-            if (e.status === 302) {
-              Swal.fire({
-                icon: 'warning',
-                title: 'Warning',
-                text: 'Previous Record Not Approved !!!',
-              });
-            } else {
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Idcard details have not been Updated successfully.',
-              });
-            }
-            // Swal.fire({
-            //   icon: 'error',
-            //   title: 'error',
-            //   text: 'Promotion details have not been Updated successfully.',
-            //   showConfirmButton: false,
-            //   timer: 1500 // Automatically close after 1.5 seconds
-            // });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Idcard details have not been Updated successfully.',
+            });
           }
-        );
-      }
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: 'error',
+          //   text: 'Promotion details have not been Updated successfully.',
+          //   showConfirmButton: false,
+          //   timer: 1500 // Automatically close after 1.5 seconds
+          // });
+        }
+      );
+    }
 
   }
 

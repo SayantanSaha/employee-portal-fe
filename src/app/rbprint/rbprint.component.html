@@ -9,109 +9,114 @@
     <div class="card-body">
       <div style="padding: 1%">
         <div class="row mb-12">
-          <table class="table table-stripped">
+
+
+          <table mat-table [dataSource]="dataSource" matSort class="table table-striped">
             <thead>
               <tr>
-                <th>Sl No.</th>
-                <th>Officer Name</th>
-                <!-- <th>Name</th> -->
-                <!-- <th>Relation</th> -->
-                <th>RB Card</th>
-                <th>Issue Date</th>
-                <th>Exp Date</th>
-                <th *ngIf="fromfunction">Police verification No</th>
-                <th *ngIf="fromfunction">Status</th>
-                <th *ngIf="fromfunction">Card Type</th>
-                <th *ngIf="fromfunction && fromfunction == 'totalpass'">Organization</th>
-                <th *ngIf="fromfunction && fromfunction == 'totalpass'">Designation</th>
-                <th *ngIf="fromfunction && fromfunction == 'totalpass'">Division</th>
-                <th *ngIf="!fromfunction || fromfunction == null">Rfid</th>
-                <th *ngIf="!fromfunction || fromfunction == null || fromfunction == 'edit'">Action</th>
-                <!-- <th *ngIf="!fromfunction || fromfunction == null">Camera</th> -->
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sl No.</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Officer Name</th>
+
+                <!-- Conditional Columns Based on fromfunction -->
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Dob</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Dor</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Mobile</th>
+                </ng-container>
+
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>RB Card</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Issue Date</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Exp Date</th>
+
+                <ng-container *ngIf="fromfunction">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Police Verification No</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Card Type</th>
+                </ng-container>
+
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Organization</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Designation</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Pay Level</th>
+                </ng-container>
+
+                <ng-container *ngIf="!fromfunction || fromfunction == 'totalpass'">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Rfid</th>
+                </ng-container>
+
+                <ng-container *ngIf="!fromfunction || fromfunction == null || fromfunction == 'edit'">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+                </ng-container>
               </tr>
             </thead>
+
             <tbody>
+              <tr *ngFor="let ebaprint of dataSource.data; let i = index">
+                <td mat-cell>{{ i + 1 }}</td>
+                <td mat-cell>{{ ebaprint?.emp_name }}</td>
 
-              <tr *ngFor="let ebaprint of ebaprintData; let i = index">
+                <!-- Conditional Columns Based on fromfunction -->
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <td mat-cell>{{ ebaprint?.dob | date: 'dd-MM-yyyy' }}</td>
+                  <td mat-cell>{{ ebaprint?.dor | date: 'dd-MM-yyyy' }}</td>
+                  <td mat-cell>{{ ebaprint?.mobile }}</td>
+                </ng-container>
 
-                <td>{{ i + 1 }}</td>
-                <td>
-                  <!-- <ng-container *ngIf="ebaprint?.applicationdetails?.application?.emp_name">{{ebaprint?.applicationdetails?.application?.emp_name }}</ng-container> -->
-                  <ng-container *ngIf="ebaprint?.emp_name">{{ebaprint?.emp_name }}</ng-container>
-                </td>
+                <td mat-cell>{{ ebaprint.card_no }}</td>
+                <td mat-cell>{{ ebaprint!.valid_from | date: 'dd-MM-yyyy' }}</td>
+                <td mat-cell>{{ ebaprint!.valid_to | date: 'dd-MM-yyyy' }}</td>
 
+                <ng-container *ngIf="fromfunction">
+                  <td mat-cell>{{ ebaprint!.police_verification_no }}</td>
+                  <td mat-cell>
+                    <ng-container *ngIf="ebaprint!.active === 1">Active</ng-container>
+                    <ng-container *ngIf="ebaprint!.active === 0">Cancelled/expired</ng-container>
+                  </td>
+                  <td mat-cell>
+                    <ng-container [ngSwitch]="ebaprint!.card_type_id">
+                      <div *ngSwitchCase="1">Green</div>
+                      <div *ngSwitchCase="2">Purple</div>
+                      <div *ngSwitchCase="3">Red</div>
+                      <div *ngSwitchCase="4">Yellow Card</div>
+                      <div *ngSwitchCase="5">Duty Pass</div>
+                      <div *ngSwitchCase="6">Yellow Paper</div>
+                      <div *ngSwitchDefault>Unknown</div>
+                    </ng-container>
+                  </td>
+                </ng-container>
 
-                <td>{{ebaprint.card_no}}</td>
-                <td>{{ ebaprint!.valid_from | date:'dd-MM-yyyy'}}</td>
-                <td>{{ ebaprint!.valid_to | date:'dd-MM-yyyy'}}</td>
-                <td  *ngIf="fromfunction">{{ ebaprint!.police_verification_no}}</td>
-                <td *ngIf="fromfunction">
-                  <ng-container *ngIf="ebaprint!.active === 1">Active</ng-container>
-                  <ng-container *ngIf="ebaprint!.active === 0">In-Active</ng-container>
-                </td>
+                <!-- Conditional Rendering -->
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <td mat-cell>{{ ebaprint.org_desc }}</td>
+                  <td mat-cell>{{ ebaprint.desg_desc }}</td>
+                  <td mat-cell>{{ ebaprint.pay_desc }}</td>
+                </ng-container>
 
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <td mat-cell>
+                    <ng-container *ngIf="ebaprint.rfid && ebaprint.rfid != null">Active</ng-container>
+                    <ng-container *ngIf="!ebaprint.rfid || ebaprint.rfid == null">In-Active</ng-container>
+                  </td>
+                </ng-container>
 
-                <td *ngIf="fromfunction">
-                  <ng-container [ngSwitch]="ebaprint!.card_type_id">
-                    <div *ngSwitchCase="1">Green</div>
-                    <div *ngSwitchCase="2">Purple</div>
-                    <div *ngSwitchCase="3">Red</div>
-                    <div *ngSwitchCase="4">Yellow Card</div>
-                    <div *ngSwitchCase="5">Duty Pass</div>
-                    <div *ngSwitchCase="6">Yellow Paper</div>
-                    <div *ngSwitchDefault>Unknown</div>
-                  </ng-container>
-                </td>
+                <ng-container *ngIf="fromfunction && fromfunction == 'edit'">
+                  <td mat-cell>
+                    <button class="btn btn-warning enlarge-on-hover" (click)="openeditcardPopup(i)">edit</button>
+                  </td>
+                </ng-container>
 
-                <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ebaprint.org_desc}}</td>
-                <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ebaprint.desg_desc}}</td>
-                <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ebaprint.div_desc}}</td>
-
-                <td *ngIf="fromfunction && fromfunction =='edit'">
-                  <button class="btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"
-                    (click)="openeditcardPopup(i)">
-                    edit
-                  </button>
-                </td>
-
-
-                <td *ngIf="!fromfunction || fromfunction ==null">
-                  <div class="col" *ngIf="ebaprint.rfid ==null ">
-                    <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)"
-                      (click)="openebacardPopup(i)">
-                      <!--                  <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="printpage(i)">-->
-                      Update
-                    </button>
-                  </div>
-                  <div class="col" *ngIf="ebaprint.rfid !==null ">
-                    {{ebaprint.rfid}}
-                  </div>
-                </td>
-
-                <td *ngIf="!fromfunction || fromfunction ==null">
-                  <div class="col" *ngIf="ebaprint.rfid ==null && (ebaprint.printed==false ||  ebaprint.printed==null)">
-                    <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
-                      (click)="printpage(i)">
-                      Print
-                    </button>
-                  </div>
-                  <div class="col" *ngIf="ebaprint.rfid ==null && ebaprint.printed==true ">
-                    <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
-                      (click)="printpage(i)">
-                      Re-Print
-                    </button>
-                  </div>
-                </td>
-                <!-- <td>
-                <i class="bi bi-camera2" style="font-size: 2rem; cursor: pointer;" (click)="startCamera()"></i>
-                <video #videoElement width="600" height="400" autoplay style="display: none;"></video>
-                <button (click)="takePhoto()" style="display: none;" #captureButton>Take Photo</button>
-                <canvas #canvasElement width="600" height="400" style="display: none;"></canvas>
-
-                </td> -->
+                <ng-container *ngIf="!fromfunction || fromfunction == null">
+                  <td mat-cell *ngIf="ebaprint.rfid == null">
+                    <button class="btn btn-primary enlarge-on-hover" (click)="openebacardPopup(i)">Update</button>
+                  </td>
+                  <td mat-cell *ngIf="ebaprint.rfid !== null">{{ ebaprint.rfid }}</td>
+                </ng-container>
               </tr>
             </tbody>
           </table>
+
+          <mat-paginator [length]="ebaprintData.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
         </div>
       </div>
     </div>
@@ -217,10 +222,10 @@
               Close
             </button>
 
-<td>
-  <button type="button" class="btn btn-outline-success enlarge-on-hover"
-    (click)="hoverClick($event);saveIdcards(printData)">Update</button>
-</td>
+            <td>
+              <button type="button" class="btn btn-outline-success enlarge-on-hover"
+                (click)="hoverClick($event);saveIdcards(printData)">Update</button>
+            </td>
 </div>
 </div>
 </div>
