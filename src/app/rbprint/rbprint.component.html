@@ -1,23 +1,90 @@
 <div [class.container]="!fromfunction || fromfunction ==null || fromfunction == 'edit'"
   [class.container-fluid]="fromfunction && fromfunction == 'totalpass'">
+
+
+  <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+    <div class="card shadow">
+      <div class="card-header">
+        <div class="card-title">
+          <b>Total List ({{ebaprintData.length}})</b>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div style="padding: 1%">
+          <div class="row mb-12">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Sl No.</th>
+                  <th>Organisation</th>
+                  <th>total employee</th>
+                  <th>permanent</th>
+                  <th>temporary</th>
+                  <th>green</th>
+                  <th>purple</th>
+                  <th>red</th>
+                  <th>yellow</th>
+                  <th>blue</th>
+                  <th>yellow paper</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let count of counts; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ count?.org_desc }}</td>
+                  <td>{{ count?.total_count }}</td>
+                  <td>{{ count?.perm }}</td>
+                  <td>{{ count?.temp }}</td>
+                  <td>{{ count?.g }}</td>
+                  <td>{{ count?.p }}</td>
+                  <td>{{ count?.r }}</td>
+                  <td>{{ count?.y }}</td>
+                  <td>{{ count?.b }}</td>
+                  <td>{{ count?.yp }}</td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="text-align:center"><strong>Total</strong></td>
+
+                  <!-- <td></td>  -->
+                  <td>{{ totalCounts.total_count }}</td>
+                  <td>{{ totalCounts.perm }}</td>
+                  <td>{{ totalCounts.temp }}</td>
+                  <td>{{ totalCounts.g }}</td>
+                  <td>{{ totalCounts.p }}</td>
+                  <td>{{ totalCounts.r }}</td>
+                  <td>{{ totalCounts.y }}</td>
+                  <td>{{ totalCounts.b }}</td>
+                  <td>{{ totalCounts.yp }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
   <div class="card shadow">
     <div class="card-header">
       <div class="card-title">
         <b>Total List ({{ebaprintData.length}})</b>
       </div>
     </div>
+
+
     <div class="card-body">
       <div style="padding: 1%">
         <div class="row mb-12">
 
 
-          <table mat-table [dataSource]="dataSource" matSort class="table table-striped">
+          <!-- <table mat-table [dataSource]="dataSource" matSort class="table table-striped">
             <thead>
               <tr>
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Sl No.</th>
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Officer Name</th>
 
-                <!-- Conditional Columns Based on fromfunction -->
                 <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Dob</th>
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>Dor</th>
@@ -55,7 +122,7 @@
                 <td mat-cell>{{ i + 1 }}</td>
                 <td mat-cell>{{ ebaprint?.emp_name }}</td>
 
-                <!-- Conditional Columns Based on fromfunction -->
+
                 <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
                   <td mat-cell>{{ ebaprint?.dob | date: 'dd-MM-yyyy' }}</td>
                   <td mat-cell>{{ ebaprint?.dor | date: 'dd-MM-yyyy' }}</td>
@@ -85,7 +152,7 @@
                   </td>
                 </ng-container>
 
-                <!-- Conditional Rendering -->
+
                 <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
                   <td mat-cell>{{ ebaprint.org_desc }}</td>
                   <td mat-cell>{{ ebaprint.desg_desc }}</td>
@@ -115,8 +182,126 @@
             </tbody>
           </table>
 
-          <mat-paginator [length]="ebaprintData.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+          <mat-paginator [length]="ebaprintData.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
 
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Sl No.</th>
+                <th>Officer Name</th>
+
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <th>Dob</th>
+                  <th>Dor</th>
+                  <th>Mobile</th>
+                </ng-container>
+
+                <th>RB Card</th>
+                <th>Issue Date</th>
+                <th>Exp Date</th>
+
+                <ng-container *ngIf="fromfunction">
+                  <th>Police Verification No</th>
+                  <th>Status</th>
+                  <th>Card Type</th>
+                </ng-container>
+
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <th>Organization</th>
+                  <th>Designation</th>
+                  <th>Pay Level</th>
+                </ng-container>
+
+                <ng-container *ngIf="!fromfunction || fromfunction == 'totalpass'">
+                  <th>Rfid</th>
+                </ng-container>
+
+                <ng-container *ngIf="!fromfunction || fromfunction == null || fromfunction == 'edit'">
+                  <th>Action</th>
+                </ng-container>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let ebaprint of ebaprintData; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ ebaprint?.emp_name }}</td>
+
+
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <td>{{ ebaprint?.dob | date: 'dd-MM-yyyy' }}</td>
+                  <td>{{ ebaprint?.dor | date: 'dd-MM-yyyy' }}</td>
+                  <td>{{ ebaprint?.mobile }}</td>
+                </ng-container>
+
+                <td>{{ ebaprint.card_no }}</td>
+                <td>{{ ebaprint!.valid_from | date: 'dd-MM-yyyy' }}</td>
+                <td>{{ ebaprint!.valid_to | date: 'dd-MM-yyyy' }}</td>
+
+                <ng-container *ngIf="fromfunction">
+                  <td>{{ ebaprint!.police_verification_no }}</td>
+                  <td>
+                    <ng-container *ngIf="ebaprint!.active === 1">Active</ng-container>
+                    <ng-container *ngIf="ebaprint!.active === 0">Cancelled/expired</ng-container>
+                  </td>
+                  <td>
+                    <ng-container [ngSwitch]="ebaprint!.card_type_id">
+                      <div *ngSwitchCase="1">Green</div>
+                      <div *ngSwitchCase="2">Purple</div>
+                      <div *ngSwitchCase="3">Red</div>
+                      <div *ngSwitchCase="4">Yellow Card</div>
+                      <div *ngSwitchCase="5">Duty Pass</div>
+                      <div *ngSwitchCase="6">Yellow Paper</div>
+                      <div *ngSwitchDefault>Unknown</div>
+                    </ng-container>
+                  </td>
+                </ng-container>
+
+
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <td>{{ ebaprint.org_desc }}</td>
+                  <td>{{ ebaprint.desg_desc }}</td>
+                  <td>{{ ebaprint.pay_desc }}</td>
+                </ng-container>
+
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <td>
+                    <ng-container *ngIf="ebaprint.rfid && ebaprint.rfid != null">Active</ng-container>
+                    <ng-container *ngIf="!ebaprint.rfid || ebaprint.rfid == null">In-Active</ng-container>
+                  </td>
+                </ng-container>
+
+                <ng-container *ngIf="fromfunction && fromfunction == 'edit'">
+                  <td>
+                    <button class="btn btn-warning enlarge-on-hover" (click)="openeditcardPopup(i)">edit</button>
+                  </td>
+                </ng-container>
+
+                <ng-container *ngIf="!fromfunction || fromfunction == null">
+                  <td *ngIf="ebaprint.rfid == null">
+                    <button class="btn btn-primary enlarge-on-hover" (click)="openebacardPopup(i)">Update</button>
+                  </td>
+                  <td *ngIf="ebaprint.rfid !== null">{{ ebaprint.rfid }}</td>
+                  <td>
+                    <div class="col"
+                      *ngIf="ebaprint.rfid ==null && (ebaprint.printed==false ||  ebaprint.printed==null)">
+                      <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
+                        (click)="printpage(i)">
+                        Print
+                      </button>
+                    </div>
+                    <div class="col" *ngIf="ebaprint.rfid ==null && ebaprint.printed==true ">
+                      <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
+                        (click)="printpage(i)">
+                        Re-Print
+                      </button>
+                    </div>
+                  </td>
+                </ng-container>
+
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -222,10 +407,10 @@
               Close
             </button>
 
-            <td>
-              <button type="button" class="btn btn-outline-success enlarge-on-hover"
-                (click)="hoverClick($event);saveIdcards(printData)">Update</button>
-            </td>
+<td>
+  <button type="button" class="btn btn-outline-success enlarge-on-hover"
+    (click)="hoverClick($event);saveIdcards(printData)">Update</button>
+</td>
 </div>
 </div>
 </div>

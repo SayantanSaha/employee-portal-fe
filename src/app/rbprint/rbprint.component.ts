@@ -4,10 +4,10 @@ import { HttpClient } from "@angular/common/http";
 import { EmployeeService } from "../employee.service";
 import { DatePipe } from "@angular/common";
 import Swal from "sweetalert2";
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { DataTablesModule } from 'angular-datatables';
+// import { MatTableDataSource } from '@angular/material/table';
+// import { MatPaginator } from '@angular/material/paginator';
+// import { MatSort } from '@angular/material/sort';
+// import { DataTablesModule } from 'angular-datatables';
 // import { MaterialModule } from 'angular-datatables';
 
 
@@ -20,18 +20,20 @@ import { DataTablesModule } from 'angular-datatables';
   templateUrl: './rbprint.component.html',
   styleUrl: './rbprint.component.scss'
 })
-export class RbprintComponent implements OnInit, AfterViewInit {
+export class RbprintComponent implements OnInit {
   @ViewChild('videoElement', { static: false }) videoElement!: ElementRef<HTMLVideoElement>;
   @ViewChild('canvasElement', { static: false }) canvasElement!: ElementRef<HTMLCanvasElement>;
   @ViewChild('captureButton', { static: false }) captureButton!: ElementRef<HTMLButtonElement>;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;  // ViewChild for paginator
-  @ViewChild(MatSort) sort!: MatSort;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;  // ViewChild for paginator
+  // @ViewChild(MatSort) sort!: MatSort;
 
   ebaprintData: any[] = [];
+  counts: any[] = [];
   Rfid: any;
+  totalCounts: any = {};
   fromfunction: any;
-  displayedColumns: string[] = ['emp_name', 'card_no', 'valid_from', 'valid_to'];
-  dataSource = new MatTableDataSource<any>([]);
+  // displayedColumns: string[] = ['emp_name', 'card_no', 'valid_from', 'valid_to'];
+  // dataSource = new MatTableDataSource<any>([]);
   isLoading: boolean = false;
   constructor(
     @Inject('BASE_URL') baseUrl: string, private employeeService: EmployeeService,
@@ -46,6 +48,11 @@ export class RbprintComponent implements OnInit, AfterViewInit {
 
     // Check if data exists in history.state
     this.ebaprintData = history.state.employeeData || [];
+    // console.log(this.ebaprintData);  // Corrected console log
+
+    this.counts = history.state.count || [];
+    // console.log(this.counts);  // Corrected console log
+
     this.fromfunction = history.state.fromfunction;
     console.log('Fetched data from history.state:', this.ebaprintData);
     console.log('From function:', this.fromfunction);
@@ -57,7 +64,7 @@ export class RbprintComponent implements OnInit, AfterViewInit {
           console.log('API data received:', data);
           if (data && data.length) {
             this.ebaprintData = data;
-            this.dataSource.data = this.ebaprintData;
+            // this.dataSource.data = this.ebaprintData;
           } else {
             console.warn('No data available from the API');
           }
@@ -73,16 +80,46 @@ export class RbprintComponent implements OnInit, AfterViewInit {
           }
         }
       );
-    } else {
-      this.dataSource.data = this.ebaprintData;
+    }
+     else {
+      // this.dataSource.data = this.ebaprintData;
+      this.calculateTotals();
     }
   }
 
-  ngAfterViewInit() {
-    console.log('After View Init');
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  calculateTotals(): void {
+    // Initialize totals with 0s
+    this.totalCounts = {
+      total_count: 0,
+      perm: 0,
+      temp: 0,
+      g: 0,
+      p: 0,
+      r: 0,
+      y: 0,
+      b: 0,
+      yp: 0
+    };
+
+    // Loop through the counts to calculate the total values
+    for (const count of this.counts) {
+      this.totalCounts.total_count += count?.total_count || 0;
+      this.totalCounts.perm += count?.perm || 0;
+      this.totalCounts.temp += count?.temp || 0;
+      this.totalCounts.g += count?.g || 0;
+      this.totalCounts.p += count?.p || 0;
+      this.totalCounts.r += count?.r || 0;
+      this.totalCounts.y += count?.y || 0;
+      this.totalCounts.b += count?.b || 0;
+      this.totalCounts.yp += count?.yp || 0;
+    }
   }
+
+  // ngAfterViewInit() {
+  //   console.log('After View Init');
+  //   this.dataSource.paginator = this.paginator;
+  //   this.dataSource.sort = this.sort;
+  // }
 
   startCamera() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {

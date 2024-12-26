@@ -165,15 +165,16 @@ export class RegistrationPanelComponent implements OnInit {
     this.employeeService.rbpasses(this.report).subscribe(
       (data) => {
         console.log('Search successful:', data);
-        if (data && data.length > 0) {
+        if (data.IDpasses && data.IDpasses.length > 0) {
           // Navigate to the 'rb-print' route with employee data
           if (value == 'Report') {
             this.router.navigate(['rb-print'], {
-              state: { employeeData: data, fromfunction: 'totalpass' }
+              state: { employeeData: data.IDpasses,count:data.count, fromfunction: 'totalpass' }
             });
+
           } if (value == 'edit') {
             this.router.navigate(['rb-print'], {
-              state: { employeeData: data, fromfunction: 'edit' }
+              state: { employeeData: data.IDpasses, fromfunction: 'edit' }
             });
           }
         } else {
