@@ -12,8 +12,11 @@
             <ng-container *ngIf="employee!.reg_no || reg_no">
               / {{employee!.reg_no}}{{reg_no}}
             </ng-container>
-            <ng-container *ngIf="employee!.status || status">
+            <ng-container *ngIf="(employee!.status || status) && user.username != '9999373896'">
               / {{employee!.status}}{{status}}
+            </ng-container>
+            <ng-container *ngIf="(employee!.status || status) && user.username == '9999373896'">
+              / A.C.P.H
             </ng-container>
           </div>
         </div>
