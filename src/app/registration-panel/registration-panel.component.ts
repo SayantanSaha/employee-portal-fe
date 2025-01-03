@@ -169,7 +169,7 @@ export class RegistrationPanelComponent implements OnInit {
           // Navigate to the 'rb-print' route with employee data
           if (value == 'Report') {
             this.router.navigate(['rb-print'], {
-              state: { employeeData: data.IDpasses,count:data.count, fromfunction: 'totalpass' }
+              state: { employeeData: data.IDpasses,count:data.count, fromfunction: 'totalpass',details:this.report}
             });
 
           } if (value == 'edit') {
