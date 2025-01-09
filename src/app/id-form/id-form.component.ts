@@ -36,6 +36,7 @@ export class IdFormComponent implements OnInit {
   user: User = new User();
   // apiUrl = environment.apiUrl;
   apiUrl = environment.apiUrl.replace('10.197.148.102', window.location.hostname);
+  roleFlow = [16,11, 12,  17,13, 14, 15];
 
   editable: boolean = false;
   mode: string | null = null;
@@ -68,6 +69,7 @@ export class IdFormComponent implements OnInit {
       error => console.log(error)
     );
     if(this.mode == 'applicant' && this.id == 'view') {
+
       this.employee = history.state.employeeData;
       console.log(this.employee);
       this.fromUrl = history.state.fromUrl;
@@ -81,6 +83,7 @@ export class IdFormComponent implements OnInit {
       this.reg_no = history.state.reg_no;
       console.log(this.reg_no);
     } else {
+
       this.setEditable(this.mode == 'edit');
       let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
       this.user = JSON.parse(userString!);
@@ -201,6 +204,7 @@ export class IdFormComponent implements OnInit {
   }
 
   returnedapplication(status:boolean) {
+    this.editable = status;
     this.returnapp = status;
   }
 
@@ -665,10 +669,33 @@ export class IdFormComponent implements OnInit {
   displayCard: any = 'none';
   preview() {
     this.displayCard = "block";
-    
+
   }
   closepreview() {
     this.displayCard = "none";
+  }
+
+
+  getTransitionType(currentRoleId: number, previousRoleId: number): string {
+    const currentIndex = this.roleFlow.indexOf(currentRoleId);
+    const previousIndex = this.roleFlow.indexOf(previousRoleId);
+
+    // Special case handling for transitions involving Role 17
+    if (currentRoleId === 17 && previousRoleId === 12) {
+      return 'Forwarded'; // 12 → 17 is Forwarded
+    }
+    if (currentRoleId === 17 && previousRoleId === 13) {
+      return 'Forwarded'; // 13 → 17 is Forwarded
+    }
+
+    // Normal Forwarded or Returned logic
+    if (currentIndex > previousIndex) {
+      return 'Forwarded'; // Current role comes after the previous role (Forwarded)
+    } else if (currentIndex < previousIndex) {
+      return 'Returned';  // Current role comes before the previous role (Returned)
+    } else {
+      return 'No Transition'; // Same role, no transition
+    }
   }
 
 

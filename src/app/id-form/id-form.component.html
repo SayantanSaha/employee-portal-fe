@@ -186,7 +186,7 @@
                       </a>
                     </ng-container>
 
-                    <ng-container *ngIf="employee!.dh_dcp">
+                    <ng-container *ngIf="employee!.dh_dcp ">
                       <input type="file" class="custom-file-input" [id]="'id_proof'" style="display: none"
                         (change)="onFileSelected($event,'id_proof')" [(ngModel)]="employee!.id_proof">
                       <ng-container *ngIf="employee!.id_proof_64">
@@ -523,10 +523,15 @@
 
               </table>
               <div class="navigation-buttons"
-                *ngIf="editable && !urlId && employee!.apply_reason && employee!.emp_type && (employee!.apply_reason !== 'Lost/theaft' || (employee!.apply_reason === 'Lost/theaft' && employee!.FIR_no))">
+                *ngIf="editable && !urlId && !returnapp && employee!.apply_reason && employee!.emp_type && (employee!.apply_reason !== 'Lost/theaft' || (employee!.apply_reason === 'Lost/theaft' && employee!.FIR_no))">
                 <button type="submit" class="btn btn-primary"
                   (click)="confirmSubmit(employee!.apply_reason!, employee!.FIR_no, employee!.emp_type!)">Submit</button>
               </div>
+              <!-- <div class="navigation-buttons"
+                *ngIf="editable && !urlId && returnapp && employee!.apply_reason && employee!.emp_type && (employee!.apply_reason !== 'Lost/theaft' || (employee!.apply_reason === 'Lost/theaft' && employee!.FIR_no))">
+                <button type="submit" class="btn btn-primary"
+                  (click)="confirmSubmit(employee!.apply_reason!, employee!.FIR_no, employee!.emp_type!)">update</button>
+              </div> -->
             </div>
           </div>
 
@@ -538,37 +543,23 @@
         *ngIf="  employee && employee.newApplicationStatus != null && employee.newApplicationStatus.length > 0">
         <ng-container *ngFor="let application of employee!.newApplicationStatus; let j = index">
           <ng-container *ngIf="urlId && !editable && !returnapp">
+
+
+
             <div class="card shadow" *ngIf="application.role_id!==16" style="background-color: #bde3f3; ">
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6" style="text-align: left;font-style: italic">
-                    <strong>Note #{{j+1}}
-                      <ng-container *ngIf="j == 0">
+                    <strong>Note #{{ j + 1 }}
+                      <!-- <ng-container *ngIf="j === 0">
                         Forwarded
-                      </ng-container>
-                      <ng-container *ngIf="j > 0">
-                        <ng-container *ngIf="application.role_id > employee?.newApplicationStatus[j - 1].role_id">
-                          Forwarded
-                        </ng-container>
-                        <ng-container *ngIf="application.role_id < employee?.newApplicationStatus[j - 1].role_id">
-                          Returned
-                        </ng-container>
-                      </ng-container>
-                    </strong>
+                      </ng-container> -->
+                      <!-- Display Forwarded or Returned based on role flow order -->
+                      <span *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'Forwarded'">Forwarded</span>
+                      <span *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'Returned'">Returned</span>
+                      <span *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'No Transition'">No Transition</span>
+                  </strong>
                   </div>
-                  <!--                  <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">-->
-
-                  <!--                    &lt;!&ndash;            <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >&ndash;&gt;-->
-                  <!--                    &lt;!&ndash;              <i class="bi bi-eye"></i>&ndash;&gt;-->
-                  <!--                    &lt;!&ndash;            </a>&ndash;&gt;-->
-
-                  <!--                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"-->
-                  <!--                       href="{{apiUrl}}getFile/{{application.file_path}}"-->
-                  <!--                       title="Order File" target="_blank">-->
-                  <!--                      <i class="bi bi-eye "></i>-->
-                  <!--                    </a>-->
-
-                  <!--                  </div>-->
                 </div>
                 <div class="row">
                   <div class="col" style="min-height: 1cm">
@@ -586,36 +577,23 @@
                 </div>
               </div>
             </div>
+
+
             <div class="card shadow" *ngIf="application.role_id==16" style="background-color: green; ">
               <div class="card-header">
                 <div class="row">
                   <div class="col-md-6" style="text-align: left;font-style: italic">
-                    <strong>Note #{{j+1}}
-                      <ng-container *ngIf="j == 0">
+                    <strong>Note #{{ j + 1 }}
+                      <!-- <ng-container *ngIf="j === 0">
                         Forwarded
-                      </ng-container>
-                      <ng-container *ngIf="j > 0">
-                        <ng-container *ngIf="application.role_id > employee?.newApplicationStatus[j - 1].role_id">
-                          Forwarded
-                        </ng-container>
-                        <ng-container *ngIf="application.role_id < employee?.newApplicationStatus[j - 1].role_id">
-                          Returned
-                        </ng-container>
-                      </ng-container>
-                    </strong>
+                      </ng-container> -->
+                      <!-- Display Forwarded or Returned based on role flow order -->
+                      <span *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'Forwarded'">Forwarded</span>
+                      <span *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'Returned'">Returned</span>
+                      <span *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'No Transition'">No Transition</span>
+                   </strong>
                   </div>
-                  <!--                  <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">-->
 
-                  <!--                    &lt;!&ndash;            <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >&ndash;&gt;-->
-                  <!--                    &lt;!&ndash;              <i class="bi bi-eye"></i>&ndash;&gt;-->
-                  <!--                    &lt;!&ndash;            </a>&ndash;&gt;-->
-
-                  <!--                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"-->
-                  <!--                       href="{{apiUrl}}getFile/{{application.file_path}}"-->
-                  <!--                       title="Order File" target="_blank">-->
-                  <!--                      <i class="bi bi-eye "></i>-->
-                  <!--                    </a>-->
-                  <!--                  </div>-->
                 </div>
               </div>
               <div class="card-body">
@@ -639,6 +617,10 @@
             </div>
             <br>
           </ng-container>
+
+
+
+
           <ng-container *ngIf="application.role_id==16 && !urlId && editable && returnapp">
             <div class="card shadow" style="background-color: green; ">
               <div class="card-header">
@@ -646,18 +628,7 @@
                   <div class="col-md-6" style="text-align: left;font-style: italic">
                     <strong>Note</strong>
                   </div>
-                  <!--                  <div class="col-md-6" style="text-align: right" *ngIf="application.file_path && application.file_path!==null">-->
 
-                  <!--                    &lt;!&ndash;            <a  class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" title="id proof" (click)="openFileInNewPage(j,0,'remarkfile')" >&ndash;&gt;-->
-                  <!--                    &lt;!&ndash;              <i class="bi bi-eye"></i>&ndash;&gt;-->
-                  <!--                    &lt;!&ndash;            </a>&ndash;&gt;-->
-
-                  <!--                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"-->
-                  <!--                       href="{{apiUrl}}getFile/{{application.file_path}}"-->
-                  <!--                       title="Order File" target="_blank">-->
-                  <!--                      <i class="bi bi-eye "></i>-->
-                  <!--                    </a>-->
-                  <!--                  </div>-->
                 </div>
               </div>
               <div class="card-body">
@@ -1438,13 +1409,17 @@
                                       <b style="font-size: 4mm">ID mark: {{
                                         employee?.body_mark}}</b>
                                       <br>
-                                      <span style="font-size: 3.5mm; word-wrap: break-word; white-space: normal; display: inline-block; width: 75mm;">
-                                        This Photo Pass is the property of the President's Secretariat. It must be returned by the holder on its
-                                        expiry or when he/she ceases to be with the President's Secretariat or when demanded by the issuing
+                                      <span
+                                        style="font-size: 3.5mm; word-wrap: break-word; white-space: normal; display: inline-block; width: 75mm;">
+                                        This Photo Pass is the property of the President's Secretariat. It must be
+                                        returned by the holder on its
+                                        expiry or when he/she ceases to be with the President's Secretariat or when
+                                        demanded by the issuing
                                         authority.
                                       </span>
                                       <br>
-                                      <b style="font-size: 4mm; font-style: italic;word-wrap: break-word; white-space: normal; display: inline-block; width: 75mm;">
+                                      <b
+                                        style="font-size: 4mm; font-style: italic;word-wrap: break-word; white-space: normal; display: inline-block; width: 75mm;">
                                         If found, please post it in unstamped envelope to:
                                       </b><br>
                                       <b style="font-size: 4mm; ">
