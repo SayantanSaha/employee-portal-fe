@@ -1526,15 +1526,15 @@
                                   </div>
                                 </td>
                                 <td>
-                                  <button *ngIf="editable && !urlid && vehicle.id== -1"
-                                  type="button" class="btn btn-outline-danger enlarge-on-hover"
-                                    (click)="hoverClick($event)" (click)="removeVehicle(i,k)">
+                                  <button *ngIf="editable && !urlid && vehicle.id== -1" type="button"
+                                    class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
+                                    (click)="removeVehicle(i,k)">
                                     Remove
                                   </button>
 
                                   <button *ngIf="editable && !urlid && vehicle!.id!==-1" type="button"
-                                  class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
-                                  (click)="deleteVehicle(vehicle!.id)">Delete</button>
+                                    class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
+                                    (click)="deleteVehicle(vehicle!.id)">Delete</button>
 
                                 </td>
                               </tr>
@@ -2329,14 +2329,237 @@
               </div>
 
 
-              <div class="row" *ngIf="employee!.so==true || employee!.dh==true">
-                <div class="col-6" style="text-align: right">
-                  <button type="button" class="btn btn-primary enlarge-on-hover" (click)="confirmForward()"
-                    name="submit" value="Approve">Forward</button>
+              <div class="row" *ngIf="employee!.so==true || employee!.dh==true" style="margin-left: 5%;">
+                <div class="row">
+                  <div class="d-flex justify-content-center" style="text-align: center">
+                    <button type="button" class="btn btn-outline-secondary enlarge-on-hover" name="preview"
+                      value="preview" (click)="preview()">Current Passes</button>
+                  </div>
+
+                  <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false"
+                    [ngStyle]="{'display': displayCard  }"
+                    style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto;">
+
+
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">
+                            <b>Eba-Pass details</b>
+                          </h5>
+                        </div>
+                        <div class="modal-body">
+                          <table class="table table-stripped">
+                            <thead>
+                              <tr>
+                                <th>Sl No.</th>
+                                <th>Eba Card</th>
+                                <th>Name</th>
+                                <th>Gender</th>
+                                <th>Relation</th>
+                                <th>Mobile No.</th>
+                                <th>Date Of Birth</th>
+                                <th>Service</th>
+
+                              </tr>
+                            </thead>
+                            <tbody *ngIf="employee!=null && employee.relations!=null">
+                              <tr *ngFor="let member of employee!.relations; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>
+                                  <ng-container *ngIf="member.pivot.eba_passes">
+                                    <ng-container *ngFor="let eba_pass of member.pivot.eba_passes; let j = index">
+                                      <div *ngIf="eba_pass?.eba_pass_no && eba_pass?.eba_pass_no !== null ">
+                                        {{ eba_pass.eba_pass_no }}
+                                      </div>
+                                      <div style="color: blue;"
+                                        *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">
+                                        new
+                                      </div>
+                                    </ng-container>
+                                  </ng-container>
+                                </td>
+                                <td>
+                                  <span>{{member!.pivot!.rel_name}}</span>
+                                </td>
+                                <td>
+                                  <span>
+                                    {{
+                                    member!.pivot!.gender === 'M' ? 'Male' :
+                                    member!.pivot!.gender === 'F' ? 'Female' :
+                                    member!.pivot!.gender === 'O' ? 'Others' :
+                                    'N/A'
+                                    }}
+                                  </span>
+                                </td>
+                                <td>
+                                  <span *ngIf="member!.rel_desc!='Other'">{{member!.rel_desc}}</span>
+                                  <span *ngIf="member!.rel_desc=='Other'">{{member!.pivot!.rel_text}}</span>
+                                </td>
+                                <td>
+                                  <span>{{member!.pivot!.rel_mobile_no}}</span>
+                                </td>
+                                <td>
+                                  <span>{{member!.pivot!.rel_dob}}</span>
+                                </td>
+                                <td>
+                                  <span *ngIf="employee!.relations?.[i]?.pivot?.service_id === 1"> Not
+                                    Working</span>
+                                  <span *ngIf="employee!.relations?.[i]?.pivot?.service_id === 2">
+                                    Government
+                                    Job</span>
+                                  <span *ngIf="employee!.relations?.[i]?.pivot?.service_id === 3"> Private
+                                    Job</span>
+                                  <span *ngIf="employee!.relations?.[i]?.pivot?.service_id === 4">Student
+                                    at
+                                    KV</span>
+                                  <span *ngIf="employee!.relations?.[i]?.pivot?.service_id === 5">Student
+                                    at
+                                    Other</span>
+                                </td>
+
+                              </tr>
+                            </tbody>
+                          </table>
+
+
+                          <div class="row" *ngFor="let servant of employee!.servants; let i = index">
+                            <table class="table table-stripped">
+                              <thead>
+                                <tr>
+                                  <th>Sl No.</th>
+                                  <th>Eba Card</th>
+                                  <th>Name</th>
+                                  <th>Gender</th>
+                                  <th>Mobile No.</th>
+                                  <th>Date Of Birth</th>
+                                  <th>Out House No</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>{{ i + 1 }}</td>
+                                  <td>
+                                    <ng-container *ngIf="servant.eba_passes">
+                                      <ng-container *ngFor="let servant_detail of servant.eba_passes; let J = index">
+                                        <div
+                                          *ngIf="servant_detail?.eba_pass_no && servant_detail?.eba_pass_no !== null ">
+                                          {{ servant_detail.eba_pass_no }}
+                                        </div>
+                                        <div style="color: blue;"
+                                          *ngIf="!servant_detail?.eba_pass_no || servant_detail?.eba_pass_no === null ">
+                                          new
+                                        </div>
+                                      </ng-container>
+                                    </ng-container>
+                                  </td>
+                                  <td>
+                                    <span>{{ servant.servant_name }}</span>
+                                  </td>
+                                  <td>
+                                    <span>
+                                      {{
+                                      servant!.gender === 'M' ? 'Male' :
+                                      servant!.gender === 'F' ? 'Female' :
+                                      servant!.gender === 'O' ? 'Others' :
+                                      'N/A'
+                                      }}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span>{{servant!.servant_mobile_no}}</span>
+                                  </td>
+                                  <td>
+                                    <span>{{servant!.servant_dob}}</span>
+                                  </td>
+                                  <td>
+                                    <span>{{servant!.out_house_address}}</span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+
+                            <div class="row">
+                              <div class="card shadow">
+                                <div class="card-header">
+                                  <div class="float-start">
+                                    <b>{{ servant?.servant_name || "Domestic help" }}'s Relatives</b>
+                                  </div>
+                                </div>
+                                <div class="card-body">
+                                  <table class="table table-stripped">
+                                    <thead>
+                                      <tr>
+                                        <th>Sl No.</th>
+                                        <th>Eba Card</th>
+                                        <th>Name</th>
+                                        <th>Gender</th>
+                                        <th>Relation</th>
+                                        <th>Mobile No.</th>
+                                        <th>Date Of Birth</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody *ngIf="employee?.servants?.[i]?.relations != null">
+                                      <tr *ngFor="let servantRelative of servant!.relations; let k = index">
+                                        <td>{{ k + 1 }}</td>
+                                        <td>
+                                          <ng-container *ngIf="servantRelative.pivot.eba_passes">
+                                            <ng-container
+                                              *ngFor="let eba_pass of servantRelative.pivot.eba_passes; let j = index">
+                                              <div *ngIf="eba_pass?.eba_pass_no && eba_pass?.eba_pass_no !== null ">
+                                                {{ eba_pass.eba_pass_no }}
+                                              </div>
+                                              <div style="color: blue;"
+                                                *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">
+                                                new
+                                              </div>
+                                            </ng-container>
+                                          </ng-container>
+                                        </td>
+                                        <td>
+                                          <span>{{ servantRelative.pivot!.rel_name }}</span>
+                                        </td>
+                                        <td>
+                                          <span>
+                                            {{
+                                            servantRelative!.pivot!.gender === 'M' ? 'Male' :
+                                            servantRelative!.pivot!.gender === 'F' ? 'Female' :
+                                            servantRelative!.pivot!.gender === 'O' ? 'Others' :
+                                            'N/A'
+                                            }}
+                                          </span>
+                                        </td>
+                                        <td>
+                                          <span>{{ servantRelative!.rel_desc }}</span>
+                                        </td>
+                                        <td>
+                                          <span>{{servantRelative!.pivot!.rel_mobile_no}}</span>
+                                        </td>
+                                        <td>
+                                          <span>{{servantRelative!.pivot!.rel_dob}}</span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-6" style="text-align: left">
-                  <button type="button" class="btn btn-danger enlarge-on-hover" (click)="confirmReturn()" name="submit"
-                    value="Return">Return</button>
+                <br>
+                <div class="row">
+                  <div class="col-6" style="text-align: right">
+                    <button type="button" class="btn btn-primary enlarge-on-hover" (click)="confirmForward()"
+                      name="submit" value="Approve">Forward</button>
+                  </div>
+                  <div class="col-6" style="text-align: left">
+                    <button type="button" class="btn btn-danger enlarge-on-hover" (click)="confirmReturn()"
+                      name="submit" value="Return">Return</button>
+                  </div>
                 </div>
               </div>
 
@@ -2380,10 +2603,6 @@
                     value="Return">Return</button>
                 </div>
               </div>
-
-
-
-
             </div>
           </div>
         </div>

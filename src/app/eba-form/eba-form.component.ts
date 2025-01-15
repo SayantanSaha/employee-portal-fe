@@ -2170,4 +2170,13 @@ export class EbaFormComponent {
     });
   }
 
+  displayCard: any = 'none';
+  preview() {
+    this.displayCard = "block";
+
+  }
+  closepreview() {
+    this.displayCard = "none";
+  }
+
 }
