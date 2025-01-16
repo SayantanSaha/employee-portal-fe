@@ -2171,9 +2171,12 @@ export class EbaFormComponent {
   }
 
   displayCard: any = 'none';
+  Ebadetails: any;
   preview() {
+    this.employeeService.Ebadetails(this.employee!.id!).subscribe(
+      data => this.Ebadetails = data
+    );
     this.displayCard = "block";
-
   }
   closepreview() {
     this.displayCard = "none";

@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="row">
+    <div class="card shadow">
+      <div class="card-header">
+        <h2>Reports</h2>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <table class="table table-stripped">
+            <thead>
+              <tr>
+                <th>Sl No.</th>
+                <th>organization name
+                <th>total employees</th>
+                <th>relatives_updated</th>
+                <th>total_relatives</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="reports != null">
+              <tr *ngFor="let report of reports; let k = index">
+                <td>{{ k + 1 }}</td>
+
+                <td>
+                  <span>{{ report.org_desc }}</span>
+                </td>
+                <td>
+                  <span>
+                    {{
+                    report.total_employees
+                    }}
+                  </span>
+                </td>
+                <td>
+                  <span>{{ report!.relatives_updated }}</span>
+                </td>
+                <td>
+                  <span>{{report!.total_relatives}}</span>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align: center;"><strong>Total</strong></td>
+                <td><strong>{{ totalEmployees }}</strong></td>
+                <td><strong>{{ totalRelativesUpdated }}</strong></td>
+                <td><strong>{{ totalRelatives }}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

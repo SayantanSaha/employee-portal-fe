@@ -240,6 +240,10 @@ export class EmployeeService {
     return this.http.get<Relation[]>(this.apiUrl + "employees/" + employee_id + "/dependents", { headers: this.createHeader() });
   }
 
+  Ebadetails(employee_id: number): Observable<any> {
+    return this.http.get<any>(this.apiUrl + "Ebadetails/" + employee_id, { headers: this.createHeader() });
+  }
+
   getServants(employee_id: number): Observable<Servants[]> {
     return this.http.get<Servants[]>(this.apiUrl + "employees/" + employee_id + "/domestic_help", { headers: this.createHeader() });
   }
@@ -250,6 +254,7 @@ export class EmployeeService {
   deleteVehicle(id: any,employee_id:any): Observable<any> {
     return this.http.delete<any>(this.apiUrl + "Vehicle/" + id+"/"+employee_id, { headers: this.createHeader() });
   }
+
 
   /************** Chnages done by Ravikant Kumar ************************************/
 
@@ -304,6 +309,10 @@ export class EmployeeService {
 
   showmemberbyeba(qtrdtls: any): Observable<any> {
     return this.http.get<any>(this.apiUrl + "showmember/" + qtrdtls, { headers: this.createHeader() });
+  }
+
+  reportOfrelatives(): Observable<any> {
+    return this.http.get<any>(this.apiUrl + "reportOfrelatives", { headers: this.createHeader() });
   }
 
   getmemberbyeba(empid: number, qtrdtls: any, qtr: any): Observable<any> {
