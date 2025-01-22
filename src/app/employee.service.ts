@@ -326,6 +326,10 @@ export class EmployeeService {
     return this.http.post<any>(this.apiUrl + "pullebacard/" + empid, { ebacard, ebacarddetail }, { headers: this.createHeader() });
   }
 
+  PullEmpCard( empcard: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + "pullEmpCard" , empcard, { headers: this.createHeader() });
+  }
+
   deleterelation(id: any,employee_id:any): Observable<any> {
     return this.http.delete<any>(this.apiUrl + "relation/" + id+"/"+employee_id, { headers: this.createHeader() });
   }

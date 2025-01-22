@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 import {User} from "../model/User";
 import {Search} from "../model/Search";
 import Swal from 'sweetalert2';
-
+import { State } from "../model/State";
+import { District } from "../model/District";
 
 @Component({
   selector: 'app-ebapanel',
@@ -30,7 +31,8 @@ export class EbapanelComponent implements OnInit{
   quarterstypelist: any[] = [];
   showquarterDetails: boolean = false;
   quarterDetails: any = null;
-
+  states: State[] = [];
+  permDistricts: District[] = [];
   constructor(
       private router: Router,
       private http: HttpClient,
@@ -58,7 +60,10 @@ export class EbapanelComponent implements OnInit{
         }
     );
 
-
+    this.employeeService.getStates().subscribe(
+      data => this.states = data,
+      error => console.error(error)
+    );
 
     this.employeeService.getMyProfile().subscribe(
         (data: Employee) => {
@@ -300,4 +305,120 @@ export class EbapanelComponent implements OnInit{
       }
     );
   }
+
+  displayEmpCard: any = 'none';
+  showEmpCardDetails: boolean = false;
+  EmpCardNo: string | null = null;
+  EmpCardData: any;
+
+  // pullEmpPopup(property: string, i: any, j: any) {
+    pullEmpPopup() {
+    this.displayEmpCard = "block";
+  }
+  closeEmpPopup() {
+    this.showEmpCardDetails=false;
+    this.EmpCardData = null;
+    this.displayEmpCard = "none";
+  }
+
+
+  onStateChange(state: number, type: string) {
+     if (type === 'perm') {
+      this.getDistricts(state).then(districts => this.permDistricts = districts);
+    }
+  }
+  async getDistricts(state: number) {
+    let districts: District[] = [];
+    if (state != null) {
+      districts = await this.employeeService.getDistrictsByState(state);
+    }
+    return districts;
+  }
+  EmpCardDetail() {
+      this.employeeService.getEbaCardDetail(this.EmpCardNo!).subscribe(
+        (data: any) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Data Fetched Successfully',
+          })
+          this.EmpCardData = data[0];
+          let dob = this.EmpCardData.dob.split('/');
+          this.EmpCardData.dob = `${dob[2]}-${dob[1]}-${dob[0]}`;
+          this.EmpCardData.doi = this.EmpCardData.doi.trim();
+
+  let doiParts = this.EmpCardData.doi.split('/');
+  this.EmpCardData.doi = `${doiParts[2]}-${doiParts[1]}-${doiParts[0]}`;
+          this.EmpCardData.CardValidUpTo = this.EmpCardData.CardValidUpTo.split('T')[0];
+          this.showEmpCardDetails = true;
+        },
+        (error) => {
+          this.showEmpCardDetails=false;
+          this.EmpCardData = [];
+          this.EmpCardNo = null;
+          console.log(error);
+          if (error.status === 404) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'empty EBA Card details .',
+            });
+          }
+          if (error.status === 400) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Something went wrong.',
+            });
+          }
+          if (error.status === 405) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'EBA Card already exist.',
+            });
+          }
+        }
+      );
+    }
+
+
+    PullEbaCard() {
+        this.employeeService.PullEmpCard(this.EmpCardData).subscribe(
+          (data: any) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'success',
+              text: 'Pulled successfully',
+            })
+            // this.closeEmpCardPopup();
+
+          },
+          (error) => {
+            // Error response
+            console.log(error); // Log the error if needed
+            if (error.status === 404) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'warning',
+                text: 'empty details!!!!',
+              });
+            }
+            if (error.status === 401) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'warning',
+                text: 'Some thing went wrong!!!!',
+              });
+            }
+            if (error.status === 405) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'warning',
+                text: 'Not allowed!!!!',
+              });
+            }
+          }
+        );
+      }
 }
