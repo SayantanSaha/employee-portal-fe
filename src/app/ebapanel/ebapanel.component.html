@@ -371,117 +371,124 @@
                   style="border-collapse: collapse; border-color: #efdccd; background-color: #ffffff;">
                   <tr>
                     <td style="width: 70%; vertical-align: top;">
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <label for="name_print" style="width: 150px;">Name:</label>
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="name_print" style="width: 150px;text-align: right;font-weight: bold;">Name:&nbsp;&nbsp;&nbsp;</label>
                         <input type="text" id="name_print" class="form-control" [(ngModel)]="EmpCardData.name_print"
                           name="name_print" style="flex-grow: 1;" />
                       </div>
                       <br>
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <label for="dob" style="width: 150px;">Date of Birth:</label>
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="dob" style="width: 150px; text-align: right;font-weight: bold; text-align: right;font-weight: bold;">Date of Birth:&nbsp;&nbsp;&nbsp;</label>
                         <input type="date" id="dob" class="form-control" [(ngModel)]="EmpCardData.dob" name="dob"
                           style="flex-grow: 1;" />
                       </div>
                       <br>
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <label for="mob_no" style="width: 150px;">Mobile No:</label>
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="mob_no" style="width: 150px; text-align: right;font-weight: bold;text-align: right;">Mobile No:&nbsp;&nbsp;&nbsp;</label>
                         <input type="text" id="mob_no" class="form-control" [(ngModel)]="EmpCardData.mob_no"
                           name="mob_no" style="flex-grow: 1;" />
                       </div>
                       <br>
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <label for="email" style="width: 150px;">Email:</label>
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="mob_no" style="width: 150px; text-align: right;font-weight: bold;text-align: right;">office:&nbsp;&nbsp;&nbsp;</label>
+                        <select class="form-control" [(ngModel)]="EmpCardData.office_code" (click)="findDesg()">
+                          <option value="null">Select office</option>
+                          <option [ngValue]="office.office_code" *ngFor="let office of offices">{{office.org_desc}}</option>
+                        </select>
+                      </div>
+                      <br>
+
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="mob_no" style="width: 150px; text-align: right;font-weight: bold;text-align: right;">designation:&nbsp;&nbsp;&nbsp;</label>
+                        <select class="form-control" [(ngModel)]="EmpCardData.designation_code">
+                          <option value="null">Select designation </option>
+                          <option [ngValue]="designation.designation_code" *ngFor="let designation of designations">{{designation.desg_desc}}</option>
+                        </select>
+                      </div>
+                      <br>
+
+
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="email" style="width: 150px; text-align: right;font-weight: bold;">Email:&nbsp;&nbsp;&nbsp;</label>
                         <input type="email" id="email" class="form-control" [(ngModel)]="EmpCardData.email" name="email"
                           style="flex-grow: 1;" />
                       </div>
                       <br>
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <label for="qtr" style="width: 150px;">Quarter:</label>
-                        <input type="text" id="qtr" class="form-control" [(ngModel)]="EmpCardData.qtr" name="qtr"
-                          style="flex-grow: 1;" />
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="qtr" style="width: 150px; text-align: right;font-weight: bold;">Permanent Address:<span style="color: red;"
+                          class="required">*</span>&nbsp;&nbsp;&nbsp;</label>
+                        <div>{{EmpCardData.qtr}}</div>
                       </div>
                       <br>
 
-                      <div class="row">
-                        <div class="col-md-3" style="text-align: right">
-                          <label class="form-label">Permanent Address:<span style="color: red;" class="required">*</span></label>
-                        </div>
-                        <div class="col">
-                          <textarea class="form-control" placeholder="Address" aria-label="address" [(ngModel)]="EmpCardData.perm_add"
-                            ></textarea>
-                        </div>
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="qtr" style="width: 150px; text-align: right;font-weight: bold;">Permanent Address:&nbsp;&nbsp;&nbsp;</label>
+                        <textarea class="form-control" placeholder="Address" aria-label="address"
+                          [(ngModel)]="EmpCardData.perm_add"></textarea>
                       </div>
+                      <br>
 
-                      <div class="row">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-3">
-                          <div class="form-group">
-                            <select class="form-control" [(ngModel)]="EmpCardData.perm_state"
-                              (change)="onStateChange(employee!.perm_state,'perm')" >
-                              <option value="null">Select State </option>
-                              <option [ngValue]="state.id" *ngFor="let state of states">{{state.state_name}}</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="form-group">
-                            <select class="form-control" [(ngModel)]="EmpCardData.perm_district" >
-                              <option value="null">Select District </option>
-                              <option [ngValue]="dist.id" *ngFor="let dist of permDistricts">{{dist.district_name}}
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div class="col-md-3">
-                          <div class="form-group">
-                            <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN" aria-label="pin"
-                              [(ngModel)]="EmpCardData.perm_pin"  >
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <label for="blood_typ_name" style="width: 150px;">Blood Type:</label>
-                        <input type="text" id="blood_typ_name" class="form-control"
-                          [(ngModel)]="EmpCardData.blood_typ_name" name="blood_typ_name" style="flex-grow: 1;" />
+                      <div class="form-group" style="display: flex; ">
+                        <label for="qtr" style="width: 150px; text-align: right;font-weight: bold;">&nbsp;</label>
+                        <select class="form-control" [(ngModel)]="EmpCardData.perm_state"
+                          (change)="onStateChange(EmpCardData.perm_state,'perm')">
+                          <option value="null">Select State </option>
+                          <option [ngValue]="state.id" *ngFor="let state of states">{{state.state_name}}</option>
+                        </select>
+                        <select class="form-control" [(ngModel)]="EmpCardData.perm_district">
+                          <option value="null">Select District </option>
+                          <option [ngValue]="dist.id" *ngFor="let dist of permDistricts">{{dist.district_name}}
+                          </option>
+                        </select>
+                        <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
+                          aria-label="pin" [(ngModel)]="EmpCardData.perm_pin">
                       </div>
                       <br>
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <label for="blood_typ_name" style="width: 150px;">Blood group:</label>
-                        <input type="text" id="blood_typ_name" class="form-control"
-                          [(ngModel)]="EmpCardData.blood_group" name="blood_typ_name" style="flex-grow: 1;" />
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="blood_typ_name" style="width: 150px; text-align: right;font-weight: bold;">Blood Type:&nbsp;&nbsp;&nbsp;</label>
+                        <div>{{EmpCardData.blood_typ_name}}</div>
                       </div>
                       <br>
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <label for="doi" style="width: 150px;">Date of Issue:</label>
-                        <input type="date" id="doi" class="form-control" [(ngModel)]="EmpCardData.doi" name="doi"
-                          style="flex-grow: 1;" />
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="blood_group" style="width: 150px; text-align: right;font-weight: bold;">Blood group:&nbsp;&nbsp;&nbsp;</label>
+                        <select  class="form-control"
+                        [(ngModel)]="EmpCardData.blood_group">
+                        <option value="null">--Select Blood Group--</option>
+                        <option *ngFor="let bloodGroup of bloodGroups" [ngValue]="bloodGroup">{{ bloodGroup }}
+                        </option>
+                      </select>
                       </div>
                       <br>
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <label for="CardValidUpTo" style="width: 150px;">Card Valid Up To:</label>
-                        <input type="date" id="CardValidUpTo" class="form-control"
-                          [(ngModel)]="EmpCardData.CardValidUpTo" name="CardValidUpTo" style="flex-grow: 1;" />
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="doi" style="width: 150px; text-align: right;font-weight: bold;">Date of Issue:&nbsp;&nbsp;&nbsp;</label>
+                        <div>{{EmpCardData.doi | date:'dd-MMM-yyyy'}}</div>
+                        <!-- <input type="date" id="doi" class="form-control" [(ngModel)]="EmpCardData.doi" name="doi"
+                          style="flex-grow: 1;" /> -->
                       </div>
                       <br>
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <label for="emp_exp_date" style="width: 150px;">New  Card Valid Up To:</label>
-                        <input type="date" id="emp_exp_date" class="form-control"
-                          [(ngModel)]="EmpCardData.emp_exp_date" name="emp_exp_date" style="flex-grow: 1;" />
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="CardValidUpTo" style="width: 150px; text-align: right;font-weight: bold;">Valid UpTo:&nbsp;&nbsp;&nbsp;</label>
+                        <div>{{EmpCardData.CardValidUpTo | date:'dd-MMM-yyyy'}}</div>
+                        <!-- <input type="date" id="CardValidUpTo" class="form-control"
+                          [(ngModel)]="EmpCardData.CardValidUpTo" name="CardValidUpTo" style="flex-grow: 1;" /> -->
                       </div>
                       <br>
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <label for="id_mark" style="width: 150px;">ID Mark:</label>
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="emp_exp_date" style="width: 150px; text-align: right;font-weight: bold;">New Valid UpTo:&nbsp;&nbsp;&nbsp;</label>
+                        <input type="date" id="emp_exp_date" class="form-control " [(ngModel)]="EmpCardData.emp_exp_date"
+                          name="emp_exp_date" style="flex-grow: 1;" />
+                      </div>
+                      <br>
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="id_mark" style="width: 150px; text-align: right;font-weight: bold;">ID Mark:&nbsp;&nbsp;&nbsp;</label>
                         <input type="text" id="id_mark" class="form-control" [(ngModel)]="EmpCardData.id_mark"
                           name="id_mark" style="flex-grow: 1;" />
                       </div>
                       <br>
-                      <div class="form-group" style="display: flex; align-items: center;">
-                        <label for="id_mark" style="width: 150px;">Remark:</label>
-                        <input type="text" id="id_mark" class="form-control" [(ngModel)]="EmpCardData.remark"
-                          name="id_mark" style="flex-grow: 1;" />
+                      <div class="form-group" style="display: flex; ">
+                        <label  for="id_mark" style="width: 150px; text-align: right;font-weight: bold;">Remark:&nbsp;&nbsp;&nbsp;</label>
+                        <textarea class="form-control" placeholder="remark" aria-label="remark"
+                        [(ngModel)]="EmpCardData.remark"></textarea>
                       </div>
                     </td>
 
@@ -495,185 +502,6 @@
                   </tr>
                 </table>
               </div>
-            </div>
-
-
-            <div class="modal-body">
-              <div id="div_grid" style="text-align: center;">
-                <div style="margin: 5%;" class="row">
-                  <table width="100%" border="0" cellpadding="3" cellspacing="2"
-                    style="border-collapse: collapse; border-color: #efdccd; background-color: #ffffff;">
-                    <tr>
-                      <td style="width: 70%; vertical-align: top;">
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">Name:</label>
-                          </div>
-                          <div class="col">
-                            <input type="text" class="form-control" [(ngModel)]="EmpCardData.name_print" name="name_print" />
-                          </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">Date of Birth:</label>
-                          </div>
-                          <div class="col">
-                            <input type="date" class="form-control" [(ngModel)]="EmpCardData.dob" name="dob" />
-                          </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">Mobile No:</label>
-                          </div>
-                          <div class="col">
-                            <input type="text" class="form-control" [(ngModel)]="EmpCardData.mob_no" name="mob_no" />
-                          </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">Email:</label>
-                          </div>
-                          <div class="col">
-                            <input type="email" class="form-control" [(ngModel)]="EmpCardData.email" name="email" />
-                          </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">Quarter:</label>
-                          </div>
-                          <div class="col">
-                            <input type="text" class="form-control" [(ngModel)]="EmpCardData.qtr" name="qtr" />
-                          </div>
-                        </div>
-                        <br>
-
-
-
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">Permanent Address:<span style="color: red;" class="required">*</span></label>
-                          </div>
-                          <div class="col">
-                            <textarea class="form-control" placeholder="Address" aria-label="address" [(ngModel)]="EmpCardData.perm_add"
-                              ></textarea>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-md-3"></div>
-                          <div class="col-md-3">
-                            <div class="form-group">
-                              <select class="form-control" [(ngModel)]="EmpCardData.perm_state"
-                                (change)="onStateChange(employee!.perm_state,'perm')" >
-                                <option value="null">Select State </option>
-                                <option [ngValue]="state.id" *ngFor="let state of states">{{state.state_name}}</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="col-md-3">
-                            <div class="form-group">
-                              <select class="form-control" [(ngModel)]="EmpCardData.perm_district" >
-                                <option value="null">Select District </option>
-                                <option [ngValue]="dist.id" *ngFor="let dist of permDistricts">{{dist.district_name}}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="col-md-3">
-                            <div class="form-group">
-                              <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN" aria-label="pin"
-                                [(ngModel)]="EmpCardData.perm_pin"  >
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">Blood Type:</label>
-                          </div>
-                          <!-- <div class="col">
-                            <input type="text" class="form-control" [ <div id="div_grid" style="text-align: center;">
-                              <div style="margin: 5%;" class="row"> -->
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">Blood Group:</label>
-                          </div>
-                          <div class="col">
-                            <input type="text" class="form-control" [(ngModel)]="EmpCardData.blood_group" name="blood_group" />
-                          </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">Date of Issue:</label>
-                          </div>
-                          <div class="col">
-                            <input type="date" class="form-control" [(ngModel)]="EmpCardData.doi" name="doi" />
-                          </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">Card Valid Up To:</label>
-                          </div>
-                          <div class="col">
-                            <input type="date" class="form-control" [(ngModel)]="EmpCardData.CardValidUpTo" name="CardValidUpTo" />
-                          </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">New Card Valid Up To:</label>
-                          </div>
-                          <div class="col">
-                            <input type="date" class="form-control" [(ngModel)]="EmpCardData.emp_exp_date" name="emp_exp_date" />
-                          </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">ID Mark:</label>
-                          </div>
-                          <div class="col">
-                            <input type="text" class="form-control" [(ngModel)]="EmpCardData.id_mark" name="id_mark" />
-                          </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                          <div class="col-md-3" style="text-align: right">
-                            <label class="form-label">Remark:</label>
-                          </div>
-                          <div class="col">
-                            <input type="text" class="form-control" [(ngModel)]="EmpCardData.remark" name="remark" />
-                          </div>
-                        </div>
-                        <br>
-                      </td>
-
-                      <td style="width: 30%; vertical-align: top; text-align: center;">
-                        <img [src]="EmpCardData.photo || '/assets/blank_photo.jpg'" width="120px" height="140px"
-                          alt="Applicant Photo" />
-                        <br />
-                        <img [src]="EmpCardData?.sig || '/assets/sig_ldr.gif'" width="150px" height="30px"
-                          alt="Upload Signature" />
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-
-
-
-
-
-
-
             </div>
 
           </div>
