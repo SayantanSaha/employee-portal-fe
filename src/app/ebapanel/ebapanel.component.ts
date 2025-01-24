@@ -9,6 +9,7 @@ import { Search } from "../model/Search";
 import Swal from 'sweetalert2';
 import { State } from "../model/State";
 import { District } from "../model/District";
+import { fileToBase64 } from "../profile/fileToBase64";
 
 @Component({
   selector: 'app-ebapanel',
@@ -34,8 +35,28 @@ export class EbapanelComponent implements OnInit {
   states: State[] = [];
   offices: any[] = [];
   designations: any[] = [];
-  permDistricts: District[] = [];
+  currDistricts: District[] = [];
   bloodGroups: string[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+  displayEmpCard: any = 'none';
+  showEmpCardDetails: boolean = false;
+  EmpCardNo: string | null = null;
+  maxDate: string = "";
+  EmpCardData: any = {
+    name_print: null,
+    dob: null,
+    mob_no: null,
+    email: null,
+    office_code: null,
+    designation_code: null,
+    curr_add: null,
+    curr_state: null,
+    curr_district: null,
+    curr_pin: null,
+    blood_group: null,
+    id_mark: null,
+    photo: null,
+    sig: null,
+  };
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -45,6 +66,15 @@ export class EbapanelComponent implements OnInit {
 
 
   ngOnInit() {
+    const today = new Date();
+    today.setFullYear(today.getFullYear() - 18); // Subtract 18 years from today
+
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Zero-padded month
+    const day = today.getDate().toString().padStart(2, '0'); // Zero-padded day
+
+    this.maxDate = `${year}-${month}-${day}`;
+
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
 
@@ -77,7 +107,27 @@ export class EbapanelComponent implements OnInit {
       }
     );
 
+    this.employeeService.getOrganizations().subscribe(
+      data => {
+        this.offices = data.filter(org => org.org_type === 'Emp');
+        this.findDesg(); // Call findDesg() after offices are populated
+      },
+      error => console.log(error)
+    );
 
+  }
+
+  onInput(event: any, property: string) {
+    const input = event.target.value;
+    // Remove non-numeric characters using regular expression
+    const numericInput = input.replace(/\D/g, '');
+    // Update the input value with the filtered numeric input
+    event.target.value = numericInput;
+    // Update the ngModel binding
+    if (property == 'curr_pin')
+      this.employee!.curr_pin = numericInput;
+    if (property == 'mobile')
+      this.employee!.mobile = numericInput;
 
   }
 
@@ -312,10 +362,7 @@ export class EbapanelComponent implements OnInit {
     );
   }
 
-  displayEmpCard: any = 'none';
-  showEmpCardDetails: boolean = false;
-  EmpCardNo: string | null = null;
-  EmpCardData: any;
+
 
   // pullEmpPopup(property: string, i: any, j: any) {
   pullEmpPopup() {
@@ -323,16 +370,16 @@ export class EbapanelComponent implements OnInit {
   }
   closeEmpPopup() {
     this.showEmpCardDetails = false;
-    this.EmpCardData = null;
+     this.EmpCardData = this.resetEmpCardData();
     this.displayEmpCard = "none";
+    this.NewEmpCardForm = false;
   }
 
 
-  onStateChange(state: number, type: string) {
-    if (type === 'perm') {
-      this.getDistricts(state).then(districts => this.permDistricts = districts);
-    }
+  onStateChange(state: number) {
+    this.getDistricts(state).then(districts => this.currDistricts = districts);
   }
+
   async getDistricts(state: number) {
     let districts: District[] = [];
     if (state != null) {
@@ -340,7 +387,13 @@ export class EbapanelComponent implements OnInit {
     }
     return districts;
   }
+
+  SubmitForm() {
+
+  }
+
   EmpCardDetail() {
+    this.NewEmpCardForm = false;
     this.employeeService.getEbaCardDetail(this.EmpCardNo!).subscribe(
       (data: any) => {
         Swal.fire({
@@ -360,18 +413,11 @@ export class EbapanelComponent implements OnInit {
         if (this.EmpCardData.designation_code) {
           this.EmpCardData.designation_code = parseInt(this.EmpCardData.designation_code, 10);
         }
-        this.employeeService.getOrganizations().subscribe(
-          data => {
-            this.offices = data.filter(org => org.org_type === 'Emp');
-            this.findDesg(); // Call findDesg() after offices are populated
-          },
-          error => console.log(error)
-        );
 
       },
       (error) => {
         this.showEmpCardDetails = false;
-        this.EmpCardData = [];
+         this.EmpCardData = this.resetEmpCardData();
         this.EmpCardNo = null;
         console.log(error);
         if (error.status === 404) {
@@ -397,6 +443,24 @@ export class EbapanelComponent implements OnInit {
         }
       }
     );
+  }
+  resetEmpCardData() {
+    return {
+      name_print: null,
+      dob: null,
+      mob_no: null,
+      email: null,
+      office_code: null,
+      designation_code: null,
+      curr_add: null,
+      curr_state: null,
+      curr_district: null,
+      curr_pin: null,
+      blood_group: null,
+      id_mark: null,
+      photo: null,
+      sig: null,
+    };
   }
 
   findDesg() {
@@ -449,4 +513,142 @@ export class EbapanelComponent implements OnInit {
       }
     );
   }
+
+  NewEmpCardForm: boolean = false;
+  NewEmpCard() {
+    this.NewEmpCardForm = true;
+    this.showEmpCardDetails = false;
+     this.EmpCardData = this.resetEmpCardData();
+  }
+  FetchEmpCard() {
+    this.NewEmpCardForm = false;
+    this.showEmpCardDetails = false;
+     this.EmpCardData = this.resetEmpCardData();
+  }
+
+  openPdfInNewTab(pdfData: string): void {
+    const pdfWindow = window.open();
+    // @ts-ignore
+    pdfWindow.document.write(`<iframe width='100%' height='100%' src='${pdfData}'></iframe>`);
+  }
+  async onProfilePhotoSelected(event: Event, param: string): Promise<void> {
+    const inputElement = event.target as HTMLInputElement;
+
+    if (inputElement?.files?.length) {
+      const file: File = inputElement.files[0];
+
+      // Check if the file type is JPEG or JPG
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+
+        // Check if the file size is less than or equal to 200KB
+        if (file.size <= 200 * 1024) { // 200KB in bytes
+          try {
+            const base64String: string = await fileToBase64(file); // Convert the file to base64
+            if (this.EmpCardData) {
+              if (param === 'Profile Photo') {
+                this.EmpCardData!.photo = base64String;
+              } else if (param === 'Employee Sign') {
+                this.EmpCardData!.sig = base64String;
+              }
+            } else {
+              console.log('this.employee is null.');
+            }
+          } catch (error) {
+            console.error('Failed to convert the file to base64:', error);
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 200KB.',
+          });
+          console.log('File size exceeds 200KB.');
+        }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid File',
+          text: 'Invalid file type. Only JPEG or JPG files are allowed.',
+        });
+        console.log('Invalid file type. Only JPEG or JPG files are allowed.');
+      }
+    } else {
+      console.log('No file selected.');
+    }
+  }
+
+  async onIDproofSelected(event: any): Promise<void> {
+    const selectedFile = event.target.files[0]; // Get the first selected file
+
+    try {
+      if (selectedFile) {
+        const fileType = selectedFile.type;
+        const fileSize = selectedFile.size;
+
+        // Check if the selected file is a PDF and the size is within limits
+        if (fileType === 'application/pdf' && fileSize <= 1048576) {
+          const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
+          if (this.EmpCardData) {
+            this.EmpCardData!.id_proof = base64String;
+          } else {
+            console.log('this.employee is null.');
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 1mb or it is not a pdf',
+          });
+          console.log('File size exceeds 1mb or not a pdf');
+        }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'File is not present',
+          text: 'No file selected',
+        });
+        console.log('No file selected');
+      }
+    } catch (error) {
+      console.error('Failed to convert the file to base64:', error);
+    }
+  }
+
+  async onPostingOrderSelected(event: any): Promise<void> {
+    const selectedFile = event.target.files[0]; // Get the first selected file
+
+    try {
+      if (selectedFile) {
+        const fileType = selectedFile.type;
+        const fileSize = selectedFile.size;
+
+        // Check if the selected file is a PDF and the size is within limits
+        if (fileType === 'application/pdf' && fileSize <= 1048576) {
+          const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
+          if (this.EmpCardData) {
+            this.EmpCardData!.postingOrder = base64String;
+          } else {
+            console.log('this.employee is null.');
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Invalid File',
+            text: 'File size exceeds 1mb or it is not a pdf',
+          });
+          console.log('File size exceeds 1mb or not a pdf');
+        }
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'File is not present',
+          text: 'No file selected',
+        });
+        console.log('No file selected');
+      }
+    } catch (error) {
+      console.error('Failed to convert the file to base64:', error);
+    }
+  }
+
 }
