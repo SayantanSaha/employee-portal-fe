@@ -334,8 +334,8 @@ export class EmployeeService {
     return this.http.delete<any>(this.apiUrl + "relation/" + id+"/"+employee_id, { headers: this.createHeader() });
   }
 
-  submitIdfrom(value: any, FIR_no: any, emp_type: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl + "submitIdfrom", { value, FIR_no, emp_type }, { headers: this.createHeader() });
+  submitIdfrom(value: any, FIR_no: any, emp_type: any,Recruitment:any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + "submitIdfrom", { value, FIR_no, emp_type,Recruitment }, { headers: this.createHeader() });
   }
 
   getidCardDetails(employee: any): Observable<any> {

@@ -329,12 +329,14 @@
                           <option [ngValue]="58">Administration</option>
                           <option [ngValue]="59">Establishment</option>
                           <option [ngValue]="115">ACP</option>
-                          <!-- <option [ngValue]="64">NIC</option> -->
+                          <option [ngValue]="64">NIC</option>
                           <option [ngValue]="101">PEED</option>
                           <option [ngValue]="100">PED</option>
                           <option [ngValue]="92">House Hold</option>
-                          <!-- <option [ngValue]="9">DMSP</option> -->
-                          <option [ngValue]="118">DMSP</option>
+                          <!-- <option [ngValue]="118">DMSP</option> -->
+                          <!-- <option [ngValue]="118">PBG</option> -->
+                          <!-- <option [ngValue]="118">Ceremonial</option> -->
+                          <!-- <option [ngValue]="118">Eba</option> -->
                         </select>
                       </div>
                     </div>
@@ -525,7 +527,7 @@
               <div class="navigation-buttons"
                 *ngIf="editable && !urlId && !returnapp && employee!.apply_reason && employee!.emp_type && (employee!.apply_reason !== 'Lost/theaft' || (employee!.apply_reason === 'Lost/theaft' && employee!.FIR_no))">
                 <button type="submit" class="btn btn-primary"
-                  (click)="confirmSubmit(employee!.apply_reason!, employee!.FIR_no, employee!.emp_type!)">Submit</button>
+                  (click)="confirmSubmit(employee!.apply_reason!, employee!.FIR_no, employee!.emp_type!,employee!.Recruitment!)">Submit</button>
               </div>
               <!-- <div class="navigation-buttons"
                 *ngIf="editable && !urlId && returnapp && employee!.apply_reason && employee!.emp_type && (employee!.apply_reason !== 'Lost/theaft' || (employee!.apply_reason === 'Lost/theaft' && employee!.FIR_no))">
@@ -555,10 +557,14 @@
                         Forwarded
                       </ng-container> -->
                       <!-- Display Forwarded or Returned based on role flow order -->
-                      <span *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'Forwarded'">Forwarded</span>
-                      <span *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'Returned'">Returned</span>
-                      <span *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'No Transition'">No Transition</span>
-                  </strong>
+                      <span
+                        *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'Forwarded'">Forwarded</span>
+                      <span
+                        *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'Returned'">Returned</span>
+                      <span
+                        *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'No Transition'">No
+                        Transition</span>
+                    </strong>
                   </div>
                 </div>
                 <div class="row">
@@ -588,10 +594,14 @@
                         Forwarded
                       </ng-container> -->
                       <!-- Display Forwarded or Returned based on role flow order -->
-                      <span *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'Forwarded'">Forwarded</span>
-                      <span *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'Returned'">Returned</span>
-                      <span *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'No Transition'">No Transition</span>
-                   </strong>
+                      <span
+                        *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'Forwarded'">Forwarded</span>
+                      <span
+                        *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'Returned'">Returned</span>
+                      <span
+                        *ngIf="getTransitionType(application.role_id, employee!.newApplicationStatus[j-1]?.role_id) === 'No Transition'">No
+                        Transition</span>
+                    </strong>
                   </div>
 
                 </div>

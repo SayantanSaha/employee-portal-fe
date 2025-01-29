@@ -218,7 +218,7 @@ export class IdFormComponent implements OnInit {
     }
   }
 
-  confirmSubmit(applyReason: string,FIR_no: string|null,emp_type: string): void {
+  confirmSubmit(applyReason: string,FIR_no: string|null,emp_type: string,Recruitment: string): void {
     Swal.fire({
       title: 'Do you want to submit?',
       icon: 'warning',
@@ -227,7 +227,7 @@ export class IdFormComponent implements OnInit {
       cancelButtonText: 'No, cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.submitIdfrom(applyReason,FIR_no,emp_type);
+        this.submitIdfrom(applyReason,FIR_no,emp_type,Recruitment);
       }
     });
   }
@@ -261,8 +261,8 @@ export class IdFormComponent implements OnInit {
   }
 
 
-  submitIdfrom(value:string,FIR_no:string|null,emp_type:string){
-    this.employeeService.submitIdfrom(value,FIR_no,emp_type).subscribe(
+  submitIdfrom(value:string,FIR_no:string|null,emp_type:string,Recruitment:string){
+    this.employeeService.submitIdfrom(value,FIR_no,emp_type,Recruitment).subscribe(
       () => {
         this.isLoading = false;
         Swal.fire({
