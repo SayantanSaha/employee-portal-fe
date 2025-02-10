@@ -63,7 +63,7 @@
                     </td>
                   </tr>
                 </ng-container>
-                <ng-container *ngIf="employee!.visual_dcp">
+                <ng-container *ngIf="employee!.visual_dcp || employee!.dcp">
                   <tr style="height: 30px">
                     <td align="left">Name to be printed:</td>
                     <td align="left">{{ employee?.name_print }}</td>
