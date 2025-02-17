@@ -27,7 +27,7 @@ export class RbprintComponent implements OnInit {
   // @ViewChild(MatPaginator) paginator!: MatPaginator;  // ViewChild for paginator
   // @ViewChild(MatSort) sort!: MatSort;
 
-  ebaprintData: any[] = [];
+  rbprintData: any[] = [];
   counts: any[] = [];
   Rfid: any;
   totalCounts: any = {};
@@ -47,24 +47,24 @@ export class RbprintComponent implements OnInit {
     console.log('Component Initialized');
 
     // Check if data exists in history.state
-    this.ebaprintData = history.state.employeeData || [];
-    // console.log(this.ebaprintData);  // Corrected console log
+    this.rbprintData = history.state.employeeData || [];
+    // console.log(this.rbprintData);  // Corrected console log
 
     this.counts = history.state.count || [];
     // console.log(this.counts);  // Corrected console log
 
     this.fromfunction = history.state.fromfunction;
-    console.log('Fetched data from history.state:', this.ebaprintData);
+    console.log('Fetched data from history.state:', this.rbprintData);
     console.log('From function:', this.fromfunction);
 
-    if (this.ebaprintData.length === 0) {
+    if (this.rbprintData.length === 0) {
       console.log('Fetching data from API...');
       this.employeeService.getRbPrintData().subscribe(
         (data: any) => {
           console.log('API data received:', data);
           if (data && data.length) {
-            this.ebaprintData = data;
-            // this.dataSource.data = this.ebaprintData;
+            this.rbprintData = data;
+            // this.dataSource.data = this.rbprintData;
           } else {
             console.warn('No data available from the API');
           }
@@ -82,7 +82,7 @@ export class RbprintComponent implements OnInit {
       );
     }
      else {
-      // this.dataSource.data = this.ebaprintData;
+      // this.dataSource.data = this.rbprintData;
       this.calculateTotals();
     }
   }
@@ -166,7 +166,7 @@ export class RbprintComponent implements OnInit {
 
   openebacardPopup(i: number) {
     this.ebacard = "block";
-    this.printData = this.ebaprintData[i];
+    this.printData = this.rbprintData[i];
   }
   closeebacardPopup() {
     this.ebacard = "none";
@@ -175,7 +175,7 @@ export class RbprintComponent implements OnInit {
   editcard: any = 'none';
   openeditcardPopup(i: number) {
     this.editcard = "block";
-    this.printData = this.ebaprintData[i];
+    this.printData = this.rbprintData[i];
   }
   closeeditcardPopup() {
     this.editcard = "none";
@@ -184,14 +184,14 @@ export class RbprintComponent implements OnInit {
 
 
   printpage(i: number) {
-    if (this.ebaprintData[i].printed == true) {
-      this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'rbprint' } });
+    if (this.rbprintData[i].printed == true) {
+      this.router.navigate(['printPage'], { state: { printData: this.rbprintData[i], fromUrl: 'rbprint' } });
     }
     else {
-      this.employeeService.rbprintstatus(this.ebaprintData[i].id).subscribe(
+      this.employeeService.rbprintstatus(this.rbprintData[i].id).subscribe(
         // On success
         () => {
-          this.router.navigate(['printPage'], { state: { printData: this.ebaprintData[i], fromUrl: 'rbprint' } });
+          this.router.navigate(['printPage'], { state: { printData: this.rbprintData[i], fromUrl: 'rbprint' } });
         },
         // On error
         (error) => {
