@@ -62,7 +62,8 @@
       <div class="card shadow" (click)="hoverClick($event)">
         <a [routerLink]="'/id-form/edit/view'" style="text-decoration: none; color: inherit;">
           <div class="card-body">
-            <img src="https://cdn-icons-png.flaticon.com/512/4093/4093884.png" alt="evahaan" style="height: 23%;width: 13%">
+            <img src="https://cdn-icons-png.flaticon.com/512/4093/4093884.png" alt="evahaan"
+              style="height: 23%;width: 13%">
             <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Apply RB Card</h5>
             <p class="card-text">Click here to apply for RB Card</p>
           </div>
@@ -71,12 +72,15 @@
     </div>
 
     <!-- Apply EBA Card (roles 1, 2, 3) -->
-    <ng-container *ngIf="user && user.color && (user.color === 1 || user.color === 2 || user.color === 3) && user.employee === true">
+    <ng-container
+      *ngIf="user && user.color && (user.color === 1 || user.color === 2 || user.color === 3) && user.employee === true">
       <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
         <div class="card shadow" (click)="hoverClick($event)">
           <a [routerLink]="'/eba-form/edit/relative/view'" style="text-decoration: none; color: inherit;">
             <div class="card-body">
-              <img src="https://static.vecteezy.com/system/resources/previews/014/711/297/original/id-card-isolated-on-white-background-identification-card-icon-business-identity-id-card-icon-template-badge-identification-personal-contact-in-flat-style-vector.jpg" alt="evahaan" style="height: 23%;width: 17%">
+              <img
+                src="https://static.vecteezy.com/system/resources/previews/014/711/297/original/id-card-isolated-on-white-background-identification-card-icon-business-identity-id-card-icon-template-badge-identification-personal-contact-in-flat-style-vector.jpg"
+                alt="evahaan" style="height: 23%;width: 17%">
               <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Apply EBA</h5>
               <p class="card-text">Click here to apply for Family/Domestic Help</p>
             </div>
@@ -99,6 +103,20 @@
         </div>
       </div>
     </ng-container>
+
+    <!-- <ng-container  *ngIf="user && user.employee === true">
+      <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
+        <div class="card shadow" (click)="hoverClick($event)">
+          <a (click)="applyParkingSticker()">
+            <div class="card-body">
+              <img src="https://png.pngtree.com/png-vector/20230327/ourmid/pngtree-car-parking-sign-design-template-vector-png-image_6671099.png" alt="evahaan" style="height: 23%;width: 17%">
+              <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Parking Sticker</h5>
+              <p class="card-text">Click here to apply for online Parking sticker</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </ng-container> -->
 
     <!-- Parking Sticker Card -->
     <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
@@ -137,7 +155,8 @@
             <div class="card shadow" (click)="hoverClick($event)">
               <a [routerLink]="'/adminpanel'" style="text-decoration: none; color: inherit;">
                 <div class="card-body">
-                  <img class="card-img-top" src="https://purwosari.magetan.go.id/image/admin.png" alt="admin" style="height: 35%; width: 25%; margin-top: -8%">
+                  <img class="card-img-top" src="https://purwosari.magetan.go.id/image/admin.png" alt="admin"
+                    style="height: 35%; width: 25%; margin-top: -8%">
                   <h5 class="card-title mat-body-strong" style="color: darkblue; font-size: 17px">Employee Info.</h5>
                   <p class="card-text">Click here to Verify Officer Details</p>
                 </div>
@@ -152,7 +171,8 @@
             <div class="card shadow" (click)="hoverClick($event)">
               <a [routerLink]="'/ebapanel'" style="text-decoration: none; color: inherit;">
                 <div class="card-body">
-                  <img class="card-img-top" src="https://rb.nic.in/assets/img/services/2.jpg" alt="eba" style="height: 23%; width: 17%">
+                  <img class="card-img-top" src="https://rb.nic.in/assets/img/services/2.jpg" alt="eba"
+                    style="height: 23%; width: 17%">
                   <h5 class="card-title mat-body-strong" style="color: darkblue; font-size: 17px">EBA</h5>
                   <p class="card-text">Click here to Verify applied EBA Applications</p>
                 </div>
@@ -167,7 +187,9 @@
             <div class="card shadow" (click)="hoverClick($event)">
               <a [routerLink]="'/regpanel'" style="text-decoration: none; color: inherit;">
                 <div class="card-body">
-                  <img class="card-img-top" src="https://cdn0.iconfinder.com/data/icons/flat-profession-icons-2/48/105-1024.png" alt="rb-card" style="height: 23%; width: 17%">
+                  <img class="card-img-top"
+                    src="https://cdn0.iconfinder.com/data/icons/flat-profession-icons-2/48/105-1024.png" alt="rb-card"
+                    style="height: 23%; width: 17%">
                   <h5 class="card-title mat-body-strong" style="color: darkblue; font-size: 17px">RB Card</h5>
                   <p class="card-text">Click here to Verify applied Registered Applications</p>
                 </div>
@@ -176,7 +198,7 @@
           </div>
         </ng-container>
 
-        <ng-container *ngIf="role === 19 || role === 20" >
+        <ng-container *ngIf="role === 19 || role === 20">
           <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
             <div class="card shadow" (click)="hoverClick($event)">
               <a (click)="applyEvahaan()">
@@ -190,13 +212,15 @@
           </div>
         </ng-container>
 
-        <ng-container *ngIf="role === 2" >
+        <ng-container *ngIf="role === 2">
           <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
             <div class="card shadow" (click)="hoverClick($event)">
               <a [routerLink]="'/reportpage'" style="text-decoration: none; color: inherit;">
-              <!-- <a (click)="reportOfrelatives()"> -->
+                <!-- <a (click)="reportOfrelatives()"> -->
                 <div class="card-body">
-                  <img src="https://static.vecteezy.com/system/resources/previews/013/395/044/non_2x/reports-and-statistics-illustration-in-minimal-style-png.png" alt="evahaan" style="height: 23%;width: 17%">
+                  <img
+                    src="https://static.vecteezy.com/system/resources/previews/013/395/044/non_2x/reports-and-statistics-illustration-in-minimal-style-png.png"
+                    alt="evahaan" style="height: 23%;width: 17%">
                   <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Report</h5>
                   <p class="card-text">Click here to see various report</p>
                 </div>
@@ -204,202 +228,7 @@
             </div>
           </div>
         </ng-container>
-
       </ng-container>
-
     </ng-container>
   </div>
-
 </div>
-
-
-<!--<div class="card shadow" style="width: 20%;height: 20%; margin-left: 2%">
-    <a [routerLink]="'/change-password'" style="text-decoration: none; color: inherit;">
-      <div class="card-body">
-        <img src="https://media.istockphoto.com/vectors/petition-concept-flat-design-vector-vector-id1162714444?k=6&m=1162714444&s=612x612&w=0&h=eAJzREovo6f2W-a8j7inHVBe01OTGq5fjReQwPXYD08=" alt="petition" style="width: 18%">
-        <h5 class="card-title" style="color: #813b0b">Petition</h5>
-        <p class="card-text">Click here to check petitions</p>
-      </div>
-    </a>
-  </div>-->
-
-<!--  <ng-container *ngIf="user && user.role" >-->
-<!--    <ng-container *ngFor="let role of user.role">-->
-<!--     -->
-<!--    </ng-container>-->
-<!--  </ng-container>-->
-
-
-
-
-<!--&lt;!&ndash;[ngStyle]="{ 'background-image': 'url(' + currentImageUrl + ')' }"&ndash;&gt;-->
-<!--&lt;!&ndash;filter: blur(4px); transition: background-image 2000ms linear;&ndash;&gt;-->
-
-<!--<section    style="background-image: url(https://i.pinimg.com/originals/49/32/ea/4932eadc4ab95268fb0caf51e7e1ccfb.jpg); background-position: center; background-attachment: fixed; width: 120%; height: 90%; margin-left: -10%;margin-top: -20%;position: fixed; ">-->
-
-<!--</section>-->
-
-<!--  <div class="row" style="padding-top: 11%; padding-left: 7%" >-->
-<!--<div class="row">-->
-
-
-<!--    <div class="col-md-4 col-lg-4">-->
-<!--      <a href="http://localhost/test/server.php?token=abcd">-->
-<!--        <div class="card" style="width: 270px; height: 300px;">-->
-<!--          <div class="card-body" style="text-align: center">-->
-<!--            <img class="card-img-top" src="https://rb.nic.in/assets/img/services/car.jpg" alt="evahaan" style="height: 70%">-->
-<!--            <p style="font-family: Aparajita;font-size: 34px;position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%);color: #1f1c2f;font-weight: 1;">E-Vaahan</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </a>-->
-<!--    </div>-->
-
-<!--    &lt;!&ndash; Petition Card &ndash;&gt;-->
-<!--    <div class="col-md-4 col-lg-4">-->
-<!--      <a routerLink="/adminpanel">-->
-<!--        <div class="card" style="width: 270px; height: 300px;"-->
-<!--             (mouseenter)="addHoverClass()" (mouseleave)="removeHoverClass()">-->
-<!--          <div class="card-body" style="text-align: center">-->
-<!--            <img class="card-img-top" src="https://media.istockphoto.com/vectors/petition-concept-flat-design-vector-vector-id1162714444?k=6&m=1162714444&s=612x612&w=0&h=eAJzREovo6f2W-a8j7inHVBe01OTGq5fjReQwPXYD08="-->
-<!--                 alt="Petition" style=" height: 71%;">-->
-<!--            <p style="font-family: Aparajita; font-size: 34px; position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); color: #1f1c2f; font-weight: 1;"-->
-<!--               (mouseenter)="setTextHoverClass()" (mouseleave)="removeTextHoverClass()">Petition</p>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </a>-->
-<!--    </div>-->
-
-<!--    &lt;!&ndash; Admin Card &ndash;&gt;-->
-<!--    <div *ngIf="user && user.role" class="col-md-4 col-lg-4">-->
-<!--      <div *ngFor="let role of user.role">-->
-<!--        <div *ngIf="role.role_id === 1">-->
-<!--          <a routerLink="/adminpanel">-->
-<!--            <div class="card" style="width: 270px; height: 300px;"-->
-<!--                 (mouseenter)="addHoverClass()" (mouseleave)="removeHoverClass()">-->
-<!--              <div class="card-body" style="text-align: center">-->
-<!--                <img class="card-img-top" src="https://purwosari.magetan.go.id/image/admin.png"-->
-<!--                     alt="admin" style="margin-top: -15%; height: 99%;">-->
-<!--                <p style="font-family: Aparajita; font-size: 34px; position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); color: #1f1c2f; font-weight: 1;"-->
-<!--                   (mouseenter)="setTextHoverClass()" (mouseleave)="removeTextHoverClass()">Admin</p>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--  </div>-->
-
-<!--<div class="row" style="padding-top: 5%; padding-left: 7%">-->
-
-<!--  <div *ngIf="user && user.role" class="col-md-4 col-lg-4">-->
-<!--    <div *ngIf="employee != null && employee.divisions != null">-->
-<!--      <div *ngFor="let div of employee!.divisions;">-->
-<!--        <div *ngIf="div.id === 47">-->
-<!--          <a [routerLink]="'/ebapanel'">-->
-<!--            <div class="card" style="width: 270px; height: 300px;">-->
-<!--              <div class="card-body" style="text-align: center">-->
-<!--                <img class="card-img-top" src="https://rb.nic.in/assets/img/services/2.jpg" alt="eba" style="height: 70%;">-->
-<!--                <p style="font-family:Aparajita;font-size: 34px;position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%);color: #1f1c2f;font-weight: 1;">EBA</p>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </a>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
-
-
-<!--<section class="product" >-->
-<!--  <div class="slider-wrap">-->
-<!--    <div class="slider-main">-->
-<!--      <div class="item" >-->
-<!--        &lt;!&ndash; Admin Card &ndash;&gt;-->
-<!--          <div *ngIf="user && user.role" >-->
-<!--            <div *ngFor="let role of user.role">-->
-<!--            <div *ngIf="role.role_id === 1">-->
-<!--              <a routerLink="/adminpanel">-->
-<!--              <div class="card" style="width: 270px; height: 300px; "-->
-<!--                   (mouseenter)="addHoverClass()" (mouseleave)="removeHoverClass()" >-->
-<!--                <div class="card-body" style="text-align: center">-->
-<!--                  <img class="card-img-top" src="https://purwosari.magetan.go.id/image/admin.png"-->
-<!--                       alt="admin" style="margin-top: -15%; height: 79%;">-->
-<!--                  <p style="font-family: Aparajita; font-size: 34px; position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); color: #1f1c2f; font-weight: 1;"-->
-<!--                     (mouseenter)="setTextHoverClass()" (mouseleave)="removeTextHoverClass()">Admin</p>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              </a>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          </div>-->
-<!--      </div>-->
-
-<!--      <div class="item">-->
-<!--        &lt;!&ndash; Eba Card &ndash;&gt;-->
-<!--        <div  *ngIf="employee!=null && employee.divisions!=null">-->
-<!--          <div *ngFor="let div of employee!.divisions;">-->
-<!--            <div *ngIf="div.id === 47">-->
-<!--              <a [routerLink]="'/ebapanel'">-->
-<!--                <div class="card" style="width: 270px; height: 300px;">-->
-<!--                  <div class="card-body" style="text-align: center">-->
-<!--                    <img class="card-img-top" src="https://rb.nic.in/assets/img/services/2.jpg" alt="eba" style="height: 70%;">-->
-<!--                    <p style="font-family:Aparajita;font-size: 34px;position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%);color: #1f1c2f;font-weight: 1;">EBA</p>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </a>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-
-<!--      <div class="item">-->
-<!--        &lt;!&ndash;  <div class="col-md-4 col-lg-4">&ndash;&gt;-->
-
-<!--&lt;!&ndash;        <a href="http://localhost/test/server.php?token=abcd" > &lt;!&ndash;(click)="applyEvahaan()"&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;          <div class="card" style="width: 270px; height: 300px;">&ndash;&gt;-->
-<!--&lt;!&ndash;            <div class="card-body" style="text-align: center">&ndash;&gt;-->
-<!--&lt;!&ndash;              <img class="card-img-top" src="https://rb.nic.in/assets/img/services/car.jpg" alt="evahaan"  style="height: 70%">&ndash;&gt;-->
-<!--&lt;!&ndash;              <p style="font-family: Aparajita;font-size: 34px;position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%);color: #1f1c2f;font-weight: 1;">E-Vaahan</p>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;          </div>&ndash;&gt;-->
-<!--&lt;!&ndash;        </a>&ndash;&gt;-->
-
-
-<!--          <div class="card" style="width: 270px; height: 300px;" (click)="applyEvahaan()">-->
-<!--            <div class="card-body" style="text-align: center">-->
-<!--              <img class="card-img-top" src="https://rb.nic.in/assets/img/services/car.jpg" alt="evahaan"  style="height: 70%">-->
-<!--              <p style="font-family: Aparajita;font-size: 34px;position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%);color: #1f1c2f;font-weight: 1;">E-Vaahan</p>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--      </div>-->
-
-<!--      <div class="item">-->
-<!--        &lt;!&ndash;  <div class="col-md-4 col-lg-4"  >&ndash;&gt;-->
-<!--        <a routerLink="/adminpanel">-->
-<!--          &lt;!&ndash;    <a [routerLink]="'/admin-panel'">&ndash;&gt;-->
-
-<!--          <div class="card" style="width: 270px; height: 300px;"-->
-<!--               (mouseenter)="addHoverClass()" (mouseleave)="removeHoverClass()">-->
-<!--            <div class="card-body" style="text-align: center">-->
-<!--              <img class="card-img-top" src="https://media.istockphoto.com/vectors/petition-concept-flat-design-vector-vector-id1162714444?k=6&m=1162714444&s=612x612&w=0&h=eAJzREovo6f2W-a8j7inHVBe01OTGq5fjReQwPXYD08="-->
-<!--                   alt="Petition" style=" height: 71%;">-->
-<!--              <p style="font-family: Aparajita; font-size: 34px; position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); color: #1f1c2f; font-weight: 1;"-->
-<!--                 (mouseenter)="setTextHoverClass()" (mouseleave)="removeTextHoverClass()">Petition</p>-->
-<!--            </div>-->
-<!--          </div>-->
-
-<!--        </a>-->
-<!--      </div>-->
-<!--    </div>-->
-
-<!--    <div class="button area">-->
-<!--      <button class="btn btn-primary prev" type="button" style="position: absolute;margin-top: 28%; margin-left: 45%" appPrev>prev</button>-->
-<!--      <button class="btn btn-primary next" type="button" style="position: absolute;margin-top: 28%;margin-left: 51%" appNext>next</button>-->
-<!--    </div>-->
-<!--  </div>-->
-
-
-<!--</section>-->

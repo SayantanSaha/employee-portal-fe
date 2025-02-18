@@ -539,5 +539,9 @@ export class EmployeeService {
     return this.http.get<any[]>(this.apiUrl + "evahaan", { headers: this.createHeader() });
   }
 
+  applyParkingSticker(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + "parkingSticker", { headers: this.createHeader() });
+  }
+
 
 }

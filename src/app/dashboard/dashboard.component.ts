@@ -136,6 +136,19 @@ export class DashboardComponent implements OnInit{
       }
     )}
 
-   
+
+    applyParkingSticker() {
+      this.employeeService.applyParkingSticker().subscribe(
+        (data: any) => {
+          console.log(data);
+          window.open(data, '_self');
+      },
+      (error) => {
+        console.log(error);
+        console.log(error.status);
+        console.log(error.error);
+
+      }
+    )}
 
 }

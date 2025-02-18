@@ -174,7 +174,7 @@ export class RegistrationPanelComponent implements OnInit {
           }
           if (value == 'summary') {
             this.router.navigate(['rb-print'], {
-              state: { count:data.count, fromfunction: 'totalpass'}
+              state: { count:data.count, fromfunction: 'summary'}
             });
           }
           if (value == 'edit') {

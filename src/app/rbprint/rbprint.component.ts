@@ -46,24 +46,30 @@ export class RbprintComponent implements OnInit {
   ngOnInit() {
     console.log('Component Initialized');
 
-    // Check if data exists in history.state
     this.rbprintData = history.state.employeeData || [];
-    // console.log(this.rbprintData);  // Corrected console log
 
     this.counts = history.state.count || [];
-    // console.log(this.counts);  // Corrected console log
 
     this.fromfunction = history.state.fromfunction;
     console.log('Fetched data from history.state:', this.rbprintData);
     console.log('From function:', this.fromfunction);
 
-    if (this.rbprintData.length === 0) {
+    if (this.rbprintData.length === 0 && this.counts.length === 0) {
       console.log('Fetching data from API...');
       this.employeeService.getRbPrintData().subscribe(
         (data: any) => {
           console.log('API data received:', data);
           if (data && data.length) {
             this.rbprintData = data;
+            setTimeout(()=>{
+              $('#datatableexample').DataTable( {
+                pagingType: 'full_numbers',
+                pageLength: 5,
+                processing: true,
+                lengthMenu : [5, 10, 25],
+                dom: 'Blfrtip'
+            } );
+            }, 1);
             // this.dataSource.data = this.rbprintData;
           } else {
             console.warn('No data available from the API');
@@ -82,7 +88,6 @@ export class RbprintComponent implements OnInit {
       );
     }
      else {
-      // this.dataSource.data = this.rbprintData;
       this.calculateTotals();
     }
   }
