@@ -71,3 +71,31 @@
     border-radius: 13px !important;
   }
 }
+.font-size-large {
+  font-size: 1.2em;
+}
+
+.font-size-medium {
+  font-size: 1em;
+}
+
+.font-size-small {
+  font-size: 0.8em;
+}
+.card {
+  position: relative; /* Add this style */
+}
+ng-multiselect-dropdown .ng-dropdown-panel {
+  position: absolute;
+  z-index: 9999; /* Ensures dropdown is above other content */
+  top: 0; /* Adjust as needed */
+  max-height: 300px; /* Optional: restrict dropdown height */
+  overflow-y: auto; /* Optional: makes dropdown scrollable if it overflows */
+}
+.card {
+  overflow: visible; /* Allow the dropdown to be visible outside the card */
+}
+table {
+  position: relative; /* Helps in dropdown rendering correctly */
+  z-index: 1; /* Optional: adjust z-index to ensure dropdown appears above table */
+}

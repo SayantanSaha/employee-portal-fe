@@ -215,7 +215,7 @@
         <ng-container *ngIf="role === 2">
           <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
             <div class="card shadow" (click)="hoverClick($event)">
-              <a [routerLink]="'/reportpage'" style="text-decoration: none; color: inherit;">
+              <a [routerLink]="'/reportpage/relativeUpdate'" style="text-decoration: none; color: inherit;">
                 <!-- <a (click)="reportOfrelatives()"> -->
                 <div class="card-body">
                   <img
@@ -223,6 +223,23 @@
                     alt="evahaan" style="height: 23%;width: 17%">
                   <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Report</h5>
                   <p class="card-text">Click here to see various report</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="role === 2">
+          <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
+            <div class="card shadow" (click)="hoverClick($event)">
+              <a [routerLink]="'/reportpage/sportsUpdate'" style="text-decoration: none; color: inherit;">
+                <!-- <a (click)="reportOfrelatives()"> -->
+                <div class="card-body">
+                  <img
+                    src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-run-icon-png-image_3581532.jpg"
+                    alt="evahaan" style="height: 23%;width: 17%">
+                  <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Sports Report</h5>
+                  <p class="card-text">Click here to see Sports report</p>
                 </div>
               </a>
             </div>

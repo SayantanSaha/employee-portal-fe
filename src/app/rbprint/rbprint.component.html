@@ -25,7 +25,7 @@
                 </tr>
                 <tr>
                   <th>Sl No.</th>
-                  <th>Organisation</th>
+                  <th style="text-align: left;">Organisation</th>
                   <th class="table-danger">Red</th>
                   <th class="table-danger">Purple</th>
                   <th class="table-danger">Green</th>
@@ -41,7 +41,7 @@
               <tbody>
                 <tr *ngFor="let count of counts; let i = index">
                   <td>{{ i + 1 }}</td>
-                  <td>{{ count?.org_desc }}</td>
+                  <td style="text-align: left;">{{ count?.org_desc }}</td>
 
                   <!-- Permanent Data -->
                   <td class="table-success">{{ count?.r }}</td>
@@ -202,7 +202,7 @@
 
           <mat-paginator [length]="rbprintData.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
 
-            <table id="datatableexample">
+            <table>
               <thead>
                 <tr>
                   <th>Sl No.</th>

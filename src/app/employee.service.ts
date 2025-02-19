@@ -278,6 +278,10 @@ export class EmployeeService {
     return this.http.get<any[]>(this.apiUrl + "service", { headers: this.createHeader() });
   }
 
+  getSportsMasterList(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + "sport", { headers: this.createHeader() });
+  }
+
   getBlockType(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + "BlockType", { headers: this.createHeader() });
   }
@@ -313,6 +317,9 @@ export class EmployeeService {
 
   reportOfrelatives(): Observable<any> {
     return this.http.get<any>(this.apiUrl + "reportOfrelatives", { headers: this.createHeader() });
+  }
+  reportOfSportsUpdate(): Observable<any> {
+    return this.http.get<any>(this.apiUrl + "reportOfSportsUpdate", { headers: this.createHeader() });
   }
 
   getmemberbyeba(empid: number, qtrdtls: any, qtr: any): Observable<any> {

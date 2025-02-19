@@ -7,6 +7,9 @@ export class Dependent{
   employee_id: number| null = null;
   relation_id: number| null = null;
   service_id: number| null = null;
+  sports_id: []=[];
+  sports_name: string | null = null;
+  service_name: string | null = null;
   gender: string | null = null;
   rel_name: string | null = null;
   rel_dob: Date | null = null;

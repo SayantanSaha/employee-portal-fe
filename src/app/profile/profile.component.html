@@ -373,27 +373,31 @@
 
                           <br /><br />
                           <div *ngIf="employee">
-                            <span style="font-size: 1.2em">{{employee.emp_name!}}</span>
+                            <span class="font-size-large">{{ employee.emp_name! }}</span><br />
                             <ng-container *ngFor="let id_card of employee!.id_cards; let i = index">
-                              <span style="font-size: 1.2em" *ngIf="id_card.active==1">
+                              <span class="font-size-large" *ngIf="id_card.active === 1">
                                 {{ id_card.card_no }}
-                              </span><br />
+                              </span>
                             </ng-container>
+                            <br />
                             <ng-container *ngIf="editable && urlId; else displayDetails">
-                              <span style="font-size: 1.2em">
+                              <span class="font-size-large">
                                 <select class="form-control" [(ngModel)]="employee.organization_id"
                                   (ngModelChange)="onInputChange()">
                                   <option value="null">Select Organization</option>
-                                  <option [ngValue]="org.id" *ngFor="let org of org_list">{{org.org_desc}}</option>
+                                  <option [ngValue]="org.id" *ngFor="let org of org_list">{{ org.org_desc }}</option>
                                 </select>
                               </span>
                             </ng-container>
+
                             <ng-template #displayDetails>
-                              <span style="font-size:  0.8em">{{ employee!.organization?.org_desc }}</span>
-                            </ng-template>
-                            <span style="font-size: 0.8em">{{ employee!.designations?.[0]?.desg_desc }}</span><br />
-                            <span style="font-size: 0.8em">{{employee!.email_id!}}</span><br />
-                            <span style="font-size: 1em">{{employee!.mobile!}}</span><br />
+                              <span class="font-size-small">{{ employee!.organization?.org_desc }}</span>
+                            </ng-template><br />
+
+                            <span class="font-size-small">{{ employee!.designations?.[0]?.desg_desc }}</span><br />
+                            <span class="font-size-small">{{ employee!.email_id! }}</span><br />
+                            <span class="font-size-medium">{{ employee!.mobile! }}</span><br />
+
                           </div>
                           <br />
                           <br />
@@ -599,7 +603,6 @@
                             <div *ngIf="!editable">
                               <span>{{ employee?.blood_group }}</span>
                             </div>
-
                           </div>
 
                           <!-- <div class="col-md-6">
@@ -1456,6 +1459,7 @@
                               <th>Mobile No.<span class="text-danger">*</span></th>
                               <th>Date Of Birth<span class="text-danger">*</span></th>
                               <th>Service<span class="text-danger">*</span></th>
+                              <th>Sports</th>
                               <th *ngIf="editable" colspan="3">Action</th>
                             </tr>
                           </thead>
@@ -1516,7 +1520,7 @@
                                 <select *ngIf="employee!.relations && editable" class="form-control"
                                   [(ngModel)]="employee!.relations[i].pivot.relation_id" [compareWith]="compareRelation"
                                   (ngModelChange)="onInputChangeMap('Relations', i)">
-                                  <option value="">--Select Relation--</option>
+                                  <option value="null">--Select Relation--</option>
                                   <option [ngValue]="relationtype.id" *ngFor="let relationtype of relationstypelist">
                                     {{relationtype!.rel_desc}}</option>
                                 </select>
@@ -1547,23 +1551,85 @@
                               <td>
                                 <select *ngIf="employee!.relations && editable" class="form-control"
                                   [(ngModel)]="employee!.relations[i].pivot.service_id" [compareWith]="compareService"
-                                  (ngModelChange)="onInputChangeMap('service', i)">
-                                  <option value="">--Select Service--</option>
+                                  (ngModelChange)="onInputChangeMap('Relations', i)">
+                                  <option value="null">--Select Service--</option>
                                   <option [ngValue]="servicetype.id" *ngFor="let servicetype of serviceTypelist">
                                     {{servicetype!.service_name}}</option>
                                 </select>
 
-                                <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_id === 1"> Not
-                                  Working</span>
-                                <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_id === 2"> Government
-                                  Job</span>
-                                <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_id === 3"> Private
-                                  Job</span>
-                                <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_id === 4">Student at
-                                  KV</span>
-                                <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_id === 5">Student at
-                                  Other</span>
+                                <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_name"> {{member!.pivot!.service_name}}</span>
 
+                              </td>
+
+                              <td>
+
+                                <!-- <label *ngIf="employee!.relations && editable" class="upload-icon-label"
+                                  style="margin-left: 3%;color: blue;" title="Sports card"
+                                  (click)="pullsportCardPopup()">
+                                  <i class="bi bi-activity btn btn-outline-primary enlarge-on-hover"
+                                    (click)="hoverClick($event);onInputReverseChange('Relations', i)"></i>
+                                </label> -->
+
+                                <ng-container
+                                  *ngIf="employee!.relations && !editable">{{member!.pivot!.sports_name}}</ng-container>
+
+                                <!-- <ng-container *ngIf="employee!.relations && editable">
+                                  <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false"
+                                    [ngStyle]="{'display': displaySportCard  }"
+                                    style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto;">
+                                    <div class="modal-dialog modal-dialog-centered modal-m"
+                                      *ngIf=" !showEBACardDetails">
+                                      <div class="modal-content" *ngIf="!recivedotpEBACard && !showEBACardDetails">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title">
+                                            <b>Sport Details</b>
+                                          </h5>
+                                        </div>
+
+                                        <div class="modal-body">
+                                          <div class="row">
+                                            <div class="col-md-4" style="margin-left: 1%;">
+                                              <label class="form-label">Current Sports:</label>
+                                            </div>
+                                            <div class="col-md-8" style="margin-left: -7%">
+                                              <ng-container>{{member!.pivot!.sports_name}}</ng-container>
+                                            </div>
+                                          </div>
+
+
+                                          <div class="row">
+                                            <div class="col-md-4" style="margin-left: 1%;">
+                                              <label class="form-label">Sports:</label>
+                                            </div>
+                                            <div class="col-md-8" style="margin-left: -7%">
+                                              <ng-multiselect-dropdown [placeholder]="'Select Sports'"
+                                                [settings]="dropdownSettings"
+                                                (ngModelChange)="onInputChangeMap('Relations', i)"
+                                                [data]="sportsTypelist"
+                                                [(ngModel)]="employee!.relations[i].pivot.sports_id"
+                                                style="position: relative; z-index: 9999;">
+                                              </ng-multiselect-dropdown>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-outline-secondary enlarge-on-hover"
+                                            (click)="hoverClick($event)" (click)="closeSportCardPopup()">
+                                            Close
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ng-container> -->
+
+
+                                <ng-multiselect-dropdown *ngIf="employee!.relations && editable" [placeholder]="'Select Sports'" [settings]="dropdownSettings"
+                                  (ngModelChange)="onInputChangeMap('Relations', i)" [data]="sportsTypelist"
+                                  [(ngModel)]="employee!.relations[i].pivot.sports_id"
+                                  style="position: relative; z-index: 9999;">
+                                </ng-multiselect-dropdown>
                               </td>
                               <td *ngIf="editable &&  (changesRelationMade[i])">
                                 <button *ngIf="member!.pivot!.deleted_at==null" type="button"
@@ -2370,7 +2436,7 @@
                                             [(ngModel)]="employee.servants[i].relations[k].pivot!.relation_id"
                                             [compareWith]="compareRelation"
                                             (ngModelChange)="onInputChangeServantRelMap('ServantRelation',i, k)">
-                                            <option value="">--Select Relation--</option>
+                                            <option value="null">--Select Relation--</option>
                                             <option [ngValue]="relationtype.id"
                                               *ngFor="let relationtype of relationstypelist">
                                               {{relationtype!.rel_desc}}</option>

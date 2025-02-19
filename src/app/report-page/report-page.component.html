@@ -1,8 +1,8 @@
-<div class="container">
+<div class="container" *ngIf="mode == 'relativeUpdate'">
   <div class="row">
     <div class="card shadow">
       <div class="card-header">
-        <h2>Reports</h2>
+        <h2>Relative Update Reports</h2>
       </div>
       <div class="card-body">
         <div class="row">
@@ -10,7 +10,7 @@
             <thead>
               <tr>
                 <th>Sl No.</th>
-                <th>organization name
+                <th>organization name</th>
                 <th>total employees</th>
                 <th>relatives_updated</th>
                 <th>total_relatives</th>
@@ -45,6 +45,89 @@
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="mode == 'sportsUpdate'">
+  <div class="row">
+    <div class="card shadow">
+      <div class="card-header">
+        <h2>Sports Intrest Reports</h2>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- <table class="table table-stripped">
+            <thead>
+              <tr>
+                <th>Sl No.</th>
+                <th>Employee Name</th>
+                <th>Designation</th>
+                <th>Relatives</th>
+                <th>Sports Interest</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="sportsData != null">
+              <ng-container *ngFor="let sport of sportsData; let k = index">
+                <ng-container *ngFor="let relative of sport.relations">
+                  <tr>
+                <td>{{ k + 1 }}</td>
+                <td>{{ sport.emp_name }}</td>
+                <td>{{ sport.desg_desc }}</td>
+
+
+
+
+                      <td>{{ relative.rel_name }}</td>
+                      <td>{{ relative.sports_name }}</td>
+                      <tr>
+                </ng-container>
+              </ng-container>
+            </tbody>
+          </table> -->
+
+          <table class="table table-stripped">
+            <thead>
+              <tr>
+                <th>Sl No.</th>
+                <th>Employee Name</th>
+                <th>Designation</th>
+                <th>Relatives</th>
+                <th>Sports Interest</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="sportsData != null">
+              <tr *ngFor="let sport of sportsData; let k = index">
+                <td style="text-align: center; vertical-align: middle;">{{ k + 1 }}</td>
+                <td style="text-align: center; vertical-align: middle;">{{ sport.emp_name }}</td>
+                <td style="text-align: center; vertical-align: middle;">{{ sport.desg_desc }}</td>
+
+                <!-- Relatives Table -->
+                <td style="vertical-align: middle;">
+                  <table style="margin: 0 auto; text-align: center; border-spacing: 0;">
+                    <tr *ngFor="let relative of sport.relations">
+                      <td>{{ relative.rel_name }}</td>
+                    </tr>
+                  </table>
+                </td>
+
+                <!-- Sports Interests Table -->
+                <td style="vertical-align: middle;">
+                  <table style="margin: 0 auto; text-align: center; border-spacing: 0;">
+                    <tr *ngFor="let relative of sport.relations">
+                      <td>{{ relative.sports_name }}</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+
+
         </div>
       </div>
     </div>

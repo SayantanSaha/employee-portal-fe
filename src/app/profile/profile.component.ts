@@ -18,8 +18,7 @@ import { Servants } from "../model/Servants"; // Update the path accordingly
 import { ServantRel } from "../model/ServantRel";
 import { Vehicles } from "../model/Vehicles";
 import { Idcards } from "../model/Idcards";
-
-
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-profile',
@@ -31,9 +30,10 @@ import { Idcards } from "../model/Idcards";
 export class ProfileComponent implements OnInit {
 
   user: User = new User();
-  divisiontypelist: any[] = [];  // Initialize as an empty array or with appropriate data type
+  divisiontypelist: any[] = [];
   relationstypelist: any[] = [];
-  serviceTypelist: any[] = [];// Initialize as an empty array or with appropriate data type
+  serviceTypelist: any[] = [];
+  sportsTypelist: any[] = [];
   servantstypelist: any[] = [];
   validationErrors: string[] = [];
   blockstypelist: any[] = [];
@@ -92,8 +92,19 @@ export class ProfileComponent implements OnInit {
   vehicles: Vehicles[] = [];
   apiUrl = environment.apiUrl;
   bloodGroups: string[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+  dropdownSettings = {
+    singleSelection: false,  // Allow multiple selections
+    idField: 'id',           // Field representing the unique identifier
+    textField: 'sports_name', // Field representing the display name in the dropdown
+    selectAllText: 'Select All',
+    unSelectAllText: 'Unselect All',
+    itemsShowLimit: 5,
+    allowSearchFilter: false // Disable search filter
+  };
+
 
   ngOnInit() {
+
 
     const today = new Date();
     const year = today.getFullYear();
@@ -193,6 +204,11 @@ export class ProfileComponent implements OnInit {
         error => console.log(error)
       );
 
+      this.employeeService.getSportsMasterList().subscribe(
+        data => this.sportsTypelist = data,
+        error => console.log(error)
+      );
+
       this.employeeService.getDependents(1).subscribe(
         data => this.relations = data,
         error => console.log(error)
@@ -229,6 +245,8 @@ export class ProfileComponent implements OnInit {
       // );
     }
   }
+
+
 
   initializeData() {
     const today = new Date();
@@ -1157,6 +1175,10 @@ export class ProfileComponent implements OnInit {
   }
 
   compareService(first: Relation, second: Relation): boolean {
+    return first != null && second != null && first == second;//&& first.id===second.id
+  }
+
+  compareSport(first: Relation, second: Relation): boolean {
     return first != null && second != null && first == second;//&& first.id===second.id
   }
 
@@ -2419,7 +2441,7 @@ export class ProfileComponent implements OnInit {
     }
 
   }
-  
+
   validateMobile() {
     const mobilePattern = /^\d{10}$/;
     if (!mobilePattern.test(this.employee!.mobile)) {
@@ -3134,8 +3156,6 @@ export class ProfileComponent implements OnInit {
       this.changesServantMade[index] = true;
     } else if (param === 'Vehicle') {
       this.changesVehicle[index] = true;
-    } else if (param === 'service') {
-      this.changesRelationMade[index] = true;
     }
     else if (param === 'id_card') {
       this.changesIDCardMade[index] = true;
@@ -3213,7 +3233,14 @@ export class ProfileComponent implements OnInit {
   }
 
 
+  // displaySportCard: any = 'none';
 
+  // pullsportCardPopup() {
+  //   this.displaySportCard = "block";
+  // }
+  // closeSportCardPopup() {
+  //   this.displaySportCard = "none";
+  // }
 
 
 }

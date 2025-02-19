@@ -52,6 +52,7 @@ import { MatTableModule } from '@angular/material/table'; // Import MatTableModu
 import { MatPaginatorModule } from '@angular/material/paginator'; // Import MatPaginatorModule
 import { MatSortModule } from '@angular/material/sort'; // Import MatSortModule
 
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -100,7 +101,8 @@ import { MatSortModule } from '@angular/material/sort'; // Import MatSortModule
       CommonModule,
       MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    NgMultiSelectDropDownModule.forRoot()
     ],
   providers: [
     { provide: 'BASE_URL', useFactory: ()=>document.getElementsByTagName('base')[0].href },

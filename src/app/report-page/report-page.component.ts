@@ -16,11 +16,14 @@ import { CommonModule } from '@angular/common';
 
 
 export class ReportPageComponent {
+  mode: string | null = null;
   baseUrl: string = '';
   reports: any;
   totalEmployees: number = 0;
   totalRelativesUpdated: number = 0;
   totalRelatives: number = 0;
+
+  sportsData: any;
 
   constructor(
     @Inject('BASE_URL') baseUrl: string, private employeeService: EmployeeService,
@@ -32,18 +35,34 @@ export class ReportPageComponent {
 
 
   ngOnInit() {
-    this.employeeService.reportOfrelatives().subscribe(
-      (data: any) => {
-        this.reports = data;
-        this.calculateTotals();
-      },
-      (error) => {
-        console.log(error);
-        console.log(error.status);
-        console.log(error.error);
+    this.mode = this.route.snapshot.paramMap.get('mode');
+    if (this.mode == 'relativeUpdate') {
+      this.employeeService.reportOfrelatives().subscribe(
+        (data: any) => {
+          this.reports = data;
+          this.calculateTotals();
+        },
+        (error) => {
+          console.log(error);
+          console.log(error.status);
+          console.log(error.error);
 
-      }
-    )
+        }
+      )
+    }
+    if (this.mode == 'sportsUpdate') {
+      this.employeeService.reportOfSportsUpdate().subscribe(
+        (data: any) => {
+          this.sportsData = data;
+        },
+        (error) => {
+          console.log(error);
+          console.log(error.status);
+          console.log(error.error);
+
+        }
+      )
+    }
   }
 
 
