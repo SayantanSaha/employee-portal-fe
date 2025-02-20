@@ -321,6 +321,9 @@ export class EmployeeService {
   reportOfSportsUpdate(): Observable<any> {
     return this.http.get<any>(this.apiUrl + "reportOfSportsUpdate", { headers: this.createHeader() });
   }
+  reportOfSportsUpdateAgeGroup(): Observable<any> {
+    return this.http.get<any>(this.apiUrl + "reportOfSportsUpdateAgeGroup", { headers: this.createHeader() });
+  }
 
   getmemberbyeba(empid: number, qtrdtls: any, qtr: any): Observable<any> {
     return this.http.post<any>(this.apiUrl + "getmember/" + empid, { qtrdtls, qtr }, { headers: this.createHeader() });

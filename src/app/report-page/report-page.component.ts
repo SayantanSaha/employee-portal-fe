@@ -22,8 +22,8 @@ export class ReportPageComponent {
   totalEmployees: number = 0;
   totalRelativesUpdated: number = 0;
   totalRelatives: number = 0;
-
   sportsData: any;
+  sportsAgeData: any;
 
   constructor(
     @Inject('BASE_URL') baseUrl: string, private employeeService: EmployeeService,
@@ -54,6 +54,17 @@ export class ReportPageComponent {
       this.employeeService.reportOfSportsUpdate().subscribe(
         (data: any) => {
           this.sportsData = data;
+        },
+        (error) => {
+          console.log(error);
+          console.log(error.status);
+          console.log(error.error);
+
+        }
+      )
+      this.employeeService.reportOfSportsUpdateAgeGroup().subscribe(
+        (data: any) => {
+          this.sportsAgeData = data;
         },
         (error) => {
           console.log(error);
