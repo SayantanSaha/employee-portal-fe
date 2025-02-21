@@ -275,6 +275,7 @@
                           <th>Photo</th>
                           <!--                        <th >Sign.</th>-->
                           <th>Id Proof</th>
+                          <th>Applying reason</th>
                           <th *ngIf="urlid && !editable">Recommend</th>
                           <th *ngIf="urlid && !editable">Valid upto</th>
                           <th *ngIf="urlid && !editable">Remark</th>
@@ -423,6 +424,101 @@
                               <!--&lt;!&ndash;                                      </td>&ndash;&gt;-->
                               <!--                                    </ng-container >-->
 
+
+                              
+                              <!-- <ng-container *ngIf="editable && !urlid">
+                                <td style="color: blue;"
+                                  *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">
+                                  new
+                                </td>
+                                <td *ngIf="eba_pass?.eba_pass_no && eba_pass?.eba_pass_no !== null ">
+                                  <select class="form-control" [(ngModel)]="eba_pass!.apply_reason"
+                                    (change)="onApplyReasonChange(i,j,'k','closefamily')">
+                                    <option value="null">--Select reason--</option>
+                                    <option value="Lost/theaft">Lost/theft</option>
+                                    <option value="Renewal">Renewal</option>
+                                    <option value="Damage">Damage</option>
+                                    <option value="Other">Other</option>
+                                  </select>
+                                  <input *ngIf="eba_pass!.apply_reason == 'Other'" type="text" class="form-control"
+                                    [(ngModel)]="eba_pass!.apply_remark" placeholder="Remark">
+                                  <input *ngIf="eba_pass!.apply_reason == 'Lost/theaft'" type="text"
+                                    class="form-control" [(ngModel)]="eba_pass!.FIR_no" placeholder="FIR no">
+                                  <input *ngIf="eba_pass!.apply_reason == 'Lost/theaft'" type="text"
+                                    class="form-control" [(ngModel)]="eba_pass!.receipt_no" placeholder="Receipt no">
+
+                                  <ng-container
+                                    *ngIf="eba_pass.fir_pdf && eba_pass.fir_pdf!=null && (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null) && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null)">
+                                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                      href="{{apiUrl}}getFile/{{eba_pass.fir_pdf}}" title="Order File" target="_blank">
+                                      <i class="bi bi-eye"></i>
+                                    </a>
+                                  </ng-container>
+
+                                  <ng-container
+                                    *ngIf="eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null) ">
+                                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                      href="{{apiUrl}}getFile/{{eba_pass.fir_pdf_edit}}" title="Order File"
+                                      target="_blank">
+                                      <i class="bi bi-eye"></i>
+                                    </a>
+                                  </ng-container>
+
+                                  <ng-container *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!=null">
+                                    <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                      (click)="openPdfInNewTab(eba_pass.fir_pdf_edit_64);hoverClick($event)"></i>
+                                  </ng-container>
+                                </td>
+                              </ng-container>
+                              <ng-container *ngIf="urlid && !editable">
+                                <td style="color: blue;"
+                                  *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">
+                                  new
+                                </td>
+                                <td *ngIf="eba_pass?.eba_pass_no && eba_pass?.eba_pass_no !== null ">
+                                  <div *ngIf="eba_pass.apply_reason">
+                                    <label>Apply Reason: </label>
+                                    <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ eba_pass.apply_reason }}</span>
+                                  </div>
+
+                                  <div *ngIf="eba_pass.apply_remark">
+                                    <label>Apply Remark: </label>
+                                    <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ eba_pass.apply_remark }}</span>
+                                  </div>
+
+                                  <div *ngIf="eba_pass.FIR_no">
+                                    <label>FIR No: </label>
+                                    <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ eba_pass.FIR_no }}</span>
+                                  </div>
+
+                                  <div *ngIf="eba_pass.receipt_no">
+                                    <label>Receipt No: </label>
+                                    <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ eba_pass.receipt_no }}</span>
+                                  </div>
+
+                                  <ng-container
+                                    *ngIf="eba_pass.fir_pdf && eba_pass.fir_pdf!=null && (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null) && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null)">
+                                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                      href="{{apiUrl}}getFile/{{eba_pass.fir_pdf}}" title="Order File" target="_blank">
+                                      <i class="bi bi-eye"></i>
+                                    </a>
+                                  </ng-container>
+
+                                  <ng-container
+                                    *ngIf="eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null) ">
+                                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                      href="{{apiUrl}}getFile/{{eba_pass.fir_pdf_edit}}" title="Order File"
+                                      target="_blank">
+                                      <i class="bi bi-eye"></i>
+                                    </a>
+                                  </ng-container>
+
+                                  <ng-container *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!=null">
+                                    <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                      (click)="openPdfInNewTab(eba_pass.fir_pdf_edit_64);hoverClick($event)"></i>
+                                  </ng-container>
+                                </td>
+                              </ng-container> -->
                               <ng-container *ngIf="urlid && !editable">
                                 <td>
                                   <ng-container *ngIf="employee!.dh==true && member.allSelected">
@@ -516,6 +612,7 @@
                           <th>Photo</th>
                           <!--                        <th >Sign.</th>-->
                           <th>Id Proof</th>
+                          <th>Applying reason</th>
                           <th *ngIf="urlid && !editable">Recommend</th>
                           <th *ngIf="urlid && !editable">New Valid upto</th>
                           <th *ngIf="urlid && !editable">Remark</th>
@@ -625,6 +722,99 @@
                                       (click)="openPdfInNewTab(eba_pass.id_proof_path_edit_64);hoverClick($event)"></i>
                                   </ng-container>
                                 </td>
+                                <!-- <ng-container *ngIf="editable && !urlid">
+                                  <td style="color: blue;"
+                                    *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">
+                                    new
+                                  </td>
+                                  <td *ngIf="eba_pass?.eba_pass_no && eba_pass?.eba_pass_no !== null ">
+                                    <select class="form-control" [(ngModel)]="eba_pass!.apply_reason"
+                                      (change)="onApplyReasonChange(i,j,'k','family')">
+                                      <option value="null">--Select reason--</option>
+                                      <option value="Lost/theaft">Lost/theft</option>
+                                      <option value="Renewal">Renewal</option>
+                                      <option value="Damage">Damage</option>
+                                      <option value="Other">Other</option>
+                                    </select>
+                                    <input *ngIf="eba_pass!.apply_reason == 'Other'" type="text" class="form-control"
+                                      [(ngModel)]="eba_pass!.apply_remark" placeholder="Remark">
+                                    <input *ngIf="eba_pass!.apply_reason == 'Lost/theaft'" type="text"
+                                      class="form-control" [(ngModel)]="eba_pass!.FIR_no" placeholder="FIR no">
+                                    <input *ngIf="eba_pass!.apply_reason == 'Lost/theaft'" type="text"
+                                      class="form-control" [(ngModel)]="eba_pass!.receipt_no" placeholder="Receipt no">
+
+                                    <ng-container
+                                      *ngIf="eba_pass.fir_pdf && eba_pass.fir_pdf!=null && (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null) && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null)">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                        href="{{apiUrl}}getFile/{{eba_pass.fir_pdf}}" title="Order File" target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                      </a>
+                                    </ng-container>
+
+                                    <ng-container
+                                      *ngIf="eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null) ">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                        href="{{apiUrl}}getFile/{{eba_pass.fir_pdf_edit}}" title="Order File"
+                                        target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                      </a>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!=null">
+                                      <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                        (click)="openPdfInNewTab(eba_pass.fir_pdf_edit_64);hoverClick($event)"></i>
+                                    </ng-container>
+                                  </td>
+                                </ng-container>
+                                <ng-container *ngIf="urlid && !editable">
+                                  <td style="color: blue;"
+                                    *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">
+                                    new
+                                  </td>
+                                  <td *ngIf="eba_pass?.eba_pass_no && eba_pass?.eba_pass_no !== null ">
+                                    <div *ngIf="eba_pass.apply_reason">
+                                      <label>Apply Reason: </label>
+                                      <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ eba_pass.apply_reason }}</span>
+                                    </div>
+
+                                    <div *ngIf="eba_pass.apply_remark">
+                                      <label>Apply Remark: </label>
+                                      <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ eba_pass.apply_remark }}</span>
+                                    </div>
+
+                                    <div *ngIf="eba_pass.FIR_no">
+                                      <label>FIR No: </label>
+                                      <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ eba_pass.FIR_no }}</span>
+                                    </div>
+
+                                    <div *ngIf="eba_pass.receipt_no">
+                                      <label>Receipt No: </label>
+                                      <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ eba_pass.receipt_no }}</span>
+                                    </div>
+
+                                    <ng-container
+                                      *ngIf="eba_pass.fir_pdf && eba_pass.fir_pdf!=null && (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null) && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null)">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                        href="{{apiUrl}}getFile/{{eba_pass.fir_pdf}}" title="Order File" target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                      </a>
+                                    </ng-container>
+
+                                    <ng-container
+                                      *ngIf="eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null) ">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                        href="{{apiUrl}}getFile/{{eba_pass.fir_pdf_edit}}" title="Order File"
+                                        target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                      </a>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!=null">
+                                      <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                        (click)="openPdfInNewTab(eba_pass.fir_pdf_edit_64);hoverClick($event)"></i>
+                                    </ng-container>
+                                  </td>
+                                </ng-container> -->
                                 <ng-container *ngIf="urlid && !editable">
                                   <td>
                                     <ng-container *ngIf="employee!.dh==true && member.allSelected">
@@ -1016,6 +1206,7 @@
                               <th>Photo</th>
                               <!--                              <th >Sign.</th>-->
                               <th>Id Proof</th>
+                              <th>Applying reason</th>
                               <th *ngIf="urlid && !editable">Recommend</th>
                               <th *ngIf="urlid && !editable">New Valid upto</th>
                               <th *ngIf="urlid && !editable">Remark</th>
@@ -1120,6 +1311,51 @@
                                     <!--                                      </a>-->
                                     <!--                                    </ng-container>-->
                                   </td>
+                                  <!-- <ng-container *ngIf="editable && !urlid">
+                                    <td style="color: blue;"
+                                      *ngIf="!servant_detail?.eba_pass_no || servant_detail?.eba_pass_no === null ">
+                                      new
+                                    </td>
+                                    <td *ngIf="servant_detail?.eba_pass_no && servant_detail?.eba_pass_no !== null ">
+                                      <select class="form-control" [(ngModel)]="servant_detail!.apply_reason"
+                                        (change)="onApplyReasonChange(i,k,'j','servant')">
+                                        <option value="null">--Select reason--</option>
+                                        <option value="Lost/theaft">Lost/theft</option>
+                                        <option value="Renewal">Renewal</option>
+                                        <option value="Damage">Damage</option>
+                                        <option value="Other">Other</option>
+                                      </select>
+                                      <input *ngIf="servant_detail!.apply_reason == 'Other'" type="text" class="form-control"
+                                        [(ngModel)]="servant_detail!.apply_remark" placeholder="Remark">
+                                      <input *ngIf="servant_detail!.apply_reason == 'Lost/theaft'" type="text"
+                                        class="form-control" [(ngModel)]="servant_detail!.FIR_no" placeholder="FIR no">
+                                      <input *ngIf="servant_detail!.apply_reason == 'Lost/theaft'" type="text"
+                                        class="form-control" [(ngModel)]="servant_detail!.receipt_no" placeholder="Receipt no">
+
+                                      <ng-container
+                                        *ngIf="servant_detail.fir_pdf && servant_detail.fir_pdf!=null && (!servant_detail.fir_pdf_edit || servant_detail.fir_pdf_edit===null) && (!servant_detail.fir_pdf_edit_64 || servant_detail.fir_pdf_edit_64===null)">
+                                        <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                          href="{{apiUrl}}getFile/{{servant_detail.fir_pdf}}" title="Order File" target="_blank">
+                                          <i class="bi bi-eye"></i>
+                                        </a>
+                                      </ng-container>
+
+                                      <ng-container
+                                        *ngIf="servant_detail.fir_pdf_edit && servant_detail.fir_pdf_edit!=null && (!servant_detail.fir_pdf_edit_64 || servant_detail.fir_pdf_edit_64===null) ">
+                                        <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                          href="{{apiUrl}}getFile/{{servant_detail.fir_pdf_edit}}" title="Order File"
+                                          target="_blank">
+                                          <i class="bi bi-eye"></i>
+                                        </a>
+                                      </ng-container>
+
+                                      <ng-container *ngIf="servant_detail.fir_pdf_edit_64 && servant_detail.fir_pdf_edit_64!=null">
+                                        <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                          (click)="openPdfInNewTab(servant_detail.fir_pdf_edit_64);hoverClick($event)"></i>
+                                      </ng-container>
+                                    </td>
+                                  </ng-container>-->
+
                                 </ng-container>
                               </ng-container>
                             </tr>
@@ -1214,6 +1450,55 @@
                                     <!--                                      </a>-->
                                     <!--                                    </ng-container>-->
                                   </td>
+                                  <!-- <ng-container *ngIf="urlid && !editable">
+                                    <td style="color: blue;"
+                                      *ngIf="!servant_detail?.eba_pass_no || servant_detail?.eba_pass_no === null ">
+                                      new
+                                    </td>
+                                    <td *ngIf="servant_detail?.eba_pass_no && servant_detail?.eba_pass_no !== null ">
+                                      <div *ngIf="servant_detail.apply_reason">
+                                        <label>Apply Reason: </label>
+                                        <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ servant_detail.apply_reason }}</span>
+                                      </div>
+
+                                      <div *ngIf="servant_detail.apply_remark">
+                                        <label>Apply Remark: </label>
+                                        <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ servant_detail.apply_remark }}</span>
+                                      </div>
+
+                                      <div *ngIf="servant_detail.FIR_no">
+                                        <label>FIR No: </label>
+                                        <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ servant_detail.FIR_no }}</span>
+                                      </div>
+
+                                      <div *ngIf="servant_detail.receipt_no">
+                                        <label>Receipt No: </label>
+                                        <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ servant_detail.receipt_no }}</span>
+                                      </div>
+
+                                      <ng-container
+                                        *ngIf="servant_detail.fir_pdf && servant_detail.fir_pdf!=null && (!servant_detail.fir_pdf_edit || servant_detail.fir_pdf_edit===null) && (!servant_detail.fir_pdf_edit_64 || servant_detail.fir_pdf_edit_64===null)">
+                                        <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                          href="{{apiUrl}}getFile/{{servant_detail.fir_pdf}}" title="Order File" target="_blank">
+                                          <i class="bi bi-eye"></i>
+                                        </a>
+                                      </ng-container>
+
+                                      <ng-container
+                                        *ngIf="servant_detail.fir_pdf_edit && servant_detail.fir_pdf_edit!=null && (!servant_detail.fir_pdf_edit_64 || servant_detail.fir_pdf_edit_64===null) ">
+                                        <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                          href="{{apiUrl}}getFile/{{servant_detail.fir_pdf_edit}}" title="Order File"
+                                          target="_blank">
+                                          <i class="bi bi-eye"></i>
+                                        </a>
+                                      </ng-container>
+
+                                      <ng-container *ngIf="servant_detail.fir_pdf_edit_64 && servant_detail.fir_pdf_edit_64!=null">
+                                        <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                          (click)="openPdfInNewTab(servant_detail.fir_pdf_edit_64);hoverClick($event)"></i>
+                                      </ng-container>
+                                    </td>
+                                  </ng-container>-->
 
                                   <td>
                                     <ng-container *ngIf="employee!.dh==true && servant.allSelected">
@@ -1374,6 +1659,99 @@
                                     <!--                                      </a>-->
                                     <!--                                    </ng-container>-->
                                   </td>
+                                  <!-- <ng-container *ngIf="editable && !urlid">
+                                    <td style="color: blue;"
+                                      *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">
+                                      new
+                                    </td>
+                                    <td *ngIf="eba_pass?.eba_pass_no && eba_pass?.eba_pass_no !== null ">
+                                      <select class="form-control" [(ngModel)]="eba_pass!.apply_reason"
+                                        (change)="onApplyReasonChange(i,k,j,'servantfamily')">
+                                        <option value="null">--Select reason--</option>
+                                        <option value="Lost/theaft">Lost/theft</option>
+                                        <option value="Renewal">Renewal</option>
+                                        <option value="Damage">Damage</option>
+                                        <option value="Other">Other</option>
+                                      </select>
+                                      <input *ngIf="eba_pass!.apply_reason == 'Other'" type="text" class="form-control"
+                                        [(ngModel)]="eba_pass!.apply_remark" placeholder="Remark">
+                                      <input *ngIf="eba_pass!.apply_reason == 'Lost/theaft'" type="text"
+                                        class="form-control" [(ngModel)]="eba_pass!.FIR_no" placeholder="FIR no">
+                                      <input *ngIf="eba_pass!.apply_reason == 'Lost/theaft'" type="text"
+                                        class="form-control" [(ngModel)]="eba_pass!.receipt_no" placeholder="Receipt no">
+
+                                      <ng-container
+                                        *ngIf="eba_pass.fir_pdf && eba_pass.fir_pdf!=null && (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null) && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null)">
+                                        <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                          href="{{apiUrl}}getFile/{{eba_pass.fir_pdf}}" title="Order File" target="_blank">
+                                          <i class="bi bi-eye"></i>
+                                        </a>
+                                      </ng-container>
+
+                                      <ng-container
+                                        *ngIf="eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null) ">
+                                        <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                          href="{{apiUrl}}getFile/{{eba_pass.fir_pdf_edit}}" title="Order File"
+                                          target="_blank">
+                                          <i class="bi bi-eye"></i>
+                                        </a>
+                                      </ng-container>
+
+                                      <ng-container *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!=null">
+                                        <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                          (click)="openPdfInNewTab(eba_pass.fir_pdf_edit_64);hoverClick($event)"></i>
+                                      </ng-container>
+                                    </td>
+                                  </ng-container>
+                                  <ng-container *ngIf="urlid && !editable">
+                                    <td style="color: blue;"
+                                      *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">
+                                      new
+                                    </td>
+                                    <td *ngIf="eba_pass?.eba_pass_no && eba_pass?.eba_pass_no !== null ">
+                                      <div *ngIf="eba_pass.apply_reason">
+                                        <label>Apply Reason: </label>
+                                        <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ eba_pass.apply_reason }}</span>
+                                      </div>
+
+                                      <div *ngIf="eba_pass.apply_remark">
+                                        <label>Apply Remark: </label>
+                                        <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ eba_pass.apply_remark }}</span>
+                                      </div>
+
+                                      <div *ngIf="eba_pass.FIR_no">
+                                        <label>FIR No: </label>
+                                        <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ eba_pass.FIR_no }}</span>
+                                      </div>
+
+                                      <div *ngIf="eba_pass.receipt_no">
+                                        <label>Receipt No: </label>
+                                        <span style="color: #555;font-size: 1rem; padding-left: 3px;">{{ eba_pass.receipt_no }}</span>
+                                      </div>
+
+                                      <ng-container
+                                        *ngIf="eba_pass.fir_pdf && eba_pass.fir_pdf!=null && (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null) && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null)">
+                                        <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                          href="{{apiUrl}}getFile/{{eba_pass.fir_pdf}}" title="Order File" target="_blank">
+                                          <i class="bi bi-eye"></i>
+                                        </a>
+                                      </ng-container>
+
+                                      <ng-container
+                                        *ngIf="eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null) ">
+                                        <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                          href="{{apiUrl}}getFile/{{eba_pass.fir_pdf_edit}}" title="Order File"
+                                          target="_blank">
+                                          <i class="bi bi-eye"></i>
+                                        </a>
+                                      </ng-container>
+
+                                      <ng-container *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!=null">
+                                        <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                          (click)="openPdfInNewTab(eba_pass.fir_pdf_edit_64);hoverClick($event)"></i>
+                                      </ng-container>
+                                    </td>
+                                  </ng-container> -->
                                   <ng-container *ngIf="urlid && !editable">
                                     <td>
                                       <ng-container *ngIf="employee!.dh==true && member.allSelected">
@@ -1615,9 +1993,11 @@
                         <tr>
                           <th>Relative Name</th>
                           <th>Eba Pass NO</th>
+                          <th>Applying Reason</th>
                           <th>Upload Photo (jpg/jpeg/200kb)</th>
                           <!--                        <th>Upload Signature</th>-->
                           <th>Upload ID Proof (pdf/200kb)</th>
+                          <th>Upload fir and Receipt details<br> if lost and theft (pdf/200kb)</th>
                         </tr>
                       </thead>
                       <ng-container *ngFor="let member of employee?.closefamily; let i = index">
@@ -1630,6 +2010,15 @@
                               <td>
                                 <div *ngIf="eba_pass.eba_pass_no !== null ">
                                   {{ eba_pass.eba_pass_no }}
+                                </div>
+                                <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null ">
+                                  new
+                                </div>
+                              </td>
+
+                              <td>
+                                <div *ngIf="eba_pass.eba_pass_no !== null ">
+                                  {{ eba_pass.apply_reason }}
                                 </div>
                                 <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null ">
                                   new
@@ -1731,6 +2120,52 @@
                                 </label>
 
                               </td>
+
+                              <!-- <td>
+                                <ng-container *ngIf="eba_pass.apply_reason == 'Lost/theaft'">
+                                  <label [for]="'fir_pdf'+ i + j" class="upload-icon-label"
+                                    *ngIf="editable &&  (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null)"
+                                    title="idProof">
+                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"
+                                      (click)="hoverClick($event)"></i>
+                                  </label>
+
+                                  <input type="file" class="custom-file-input" [id]="'fir_pdf' + i + j"
+                                    style="display: none"
+                                    (change)="onFileSelected($event,i,j,'k','closefamily_fir_pdf')" *ngIf="editable"
+                                    [(ngModel)]="eba_pass.fir_pdf_edit">
+
+                                  <ng-container
+                                    *ngIf="eba_pass.fir_pdf && eba_pass.fir_pdf!=null && (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null) && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null)">
+                                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                      href="{{apiUrl}}getFile/{{eba_pass.fir_pdf}}" title="Order File" target="_blank">
+                                      <i class="bi bi-eye"></i>
+                                    </a>
+                                  </ng-container>
+
+                                  <ng-container
+                                    *ngIf="eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null) ">
+                                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                      href="{{apiUrl}}getFile/{{eba_pass.fir_pdf_edit}}" title="Order File"
+                                      target="_blank">
+                                      <i class="bi bi-eye"></i>
+                                    </a>
+                                  </ng-container>
+
+                                  <ng-container *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!=null">
+
+                                    <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                      (click)="openPdfInNewTab(eba_pass.fir_pdf_edit_64);hoverClick($event)"></i>
+                                  </ng-container>
+
+                                  <label class="upload-icon-label"
+                                    *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!==null && eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null"
+                                    title="remove file">
+                                    <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover"
+                                      (click)="hoverClick($event);removeFile($event,i,j,'k','closefamily_fir_pdf')"></i>
+                                  </label>
+                                </ng-container>
+                              </td> -->
                             </tr>
                           </tbody>
                         </ng-container>
@@ -1745,9 +2180,11 @@
                         <tr>
                           <th>Relative Name</th>
                           <th>Eba Pass NO</th>
+                          <th>Applying Reason</th>
                           <th>Upload Photo (jpg/jpeg/200kb)</th>
                           <!--                        <th>Upload Signature</th>-->
                           <th>Upload ID Proof (pdf/200kb)</th>
+                          <th>Upload fir and Receipt details<br> if lost and theft (pdf/200kb)</th>
                         </tr>
                       </thead>
                       <ng-container *ngFor="let member of employee?.family; let i = index">
@@ -1859,6 +2296,50 @@
                                 </label>
 
                               </td>
+                              <!-- <td>
+                                <ng-container *ngIf="eba_pass.apply_reason == 'Lost/theaft'">
+                                  <label [for]="'fir_pdf'+ i + j" class="upload-icon-label"
+                                    *ngIf="editable &&  (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null)"
+                                    title="idProof">
+                                    <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"
+                                      (click)="hoverClick($event)"></i>
+                                  </label>
+
+                                  <input type="file" class="custom-file-input" [id]="'fir_pdf' + i + j"
+                                    style="display: none"
+                                    (change)="onFileSelected($event,i,j,'k','family_fir_pdf')" *ngIf="editable"
+                                    [(ngModel)]="eba_pass.fir_pdf_edit">
+
+                                  <ng-container
+                                    *ngIf="eba_pass.fir_pdf && eba_pass.fir_pdf!=null && (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null) && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null)">
+                                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                      href="{{apiUrl}}getFile/{{eba_pass.fir_pdf}}" title="Order File" target="_blank">
+                                      <i class="bi bi-eye"></i>
+                                    </a>
+                                  </ng-container>
+
+                                  <ng-container
+                                    *ngIf="eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null) ">
+                                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                      href="{{apiUrl}}getFile/{{eba_pass.fir_pdf_edit}}" title="Order File"
+                                      target="_blank">
+                                      <i class="bi bi-eye"></i>
+                                    </a>
+                                  </ng-container>
+
+                                  <ng-container *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!=null">
+                                    <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                      (click)="openPdfInNewTab(eba_pass.fir_pdf_edit_64);hoverClick($event)"></i>
+                                  </ng-container>
+
+                                  <label class="upload-icon-label"
+                                    *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!==null && eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null"
+                                    title="remove file">
+                                    <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover"
+                                      (click)="hoverClick($event);removeFile($event,i,j,'k','family_fir_pdf')"></i>
+                                  </label>
+                                </ng-container>
+                              </td> -->
                             </tr>
                           </tbody>
                         </ng-container>
@@ -1873,9 +2354,11 @@
                         <tr>
                           <th>Name</th>
                           <th>Eba Pass NO</th>
+                          <th>Applying Reason</th>
                           <th>Upload Photo (jpg/jpeg/200kb)</th>
                           <!--                        <th>Upload Signature</th>-->
                           <th>Upload ID Proof (pdf/200kb)</th>
+                          <th>Upload fir and Receipt details<br> if lost and theft (pdf/200kb)</th>
                         </tr>
                       </thead>
                       <ng-container *ngFor="let servant of employee!.servants; let i = index">
@@ -1987,6 +2470,50 @@
                                       (click)="hoverClick($event);removeFile($event,i,k,'k','servant_id_proof_path')"></i>
                                   </label>
                                 </td>
+                                <!-- <td>
+                                  <ng-container *ngIf="eba_pass.apply_reason == 'Lost/theaft'">
+                                    <label [for]="'fir_pdf'+ i + k" class="upload-icon-label"
+                                      *ngIf="editable &&  (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null)"
+                                      title="idProof">
+                                      <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"
+                                        (click)="hoverClick($event)"></i>
+                                    </label>
+
+                                    <input type="file" class="custom-file-input" [id]="'fir_pdf' + i + k"
+                                      style="display: none"
+                                      (change)="onFileSelected($event,i,k,'k','servant_fir_pdf')" *ngIf="editable"
+                                      [(ngModel)]="eba_pass.fir_pdf_edit">
+
+                                    <ng-container
+                                      *ngIf="eba_pass.fir_pdf && eba_pass.fir_pdf!=null && (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null) && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null)">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                        href="{{apiUrl}}getFile/{{eba_pass.fir_pdf}}" title="Order File" target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                      </a>
+                                    </ng-container>
+
+                                    <ng-container
+                                      *ngIf="eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null) ">
+                                      <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                        href="{{apiUrl}}getFile/{{eba_pass.fir_pdf_edit}}" title="Order File"
+                                        target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                      </a>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!=null">
+                                      <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                        (click)="openPdfInNewTab(eba_pass.fir_pdf_edit_64);hoverClick($event)"></i>
+                                    </ng-container>
+
+                                    <label class="upload-icon-label"
+                                      *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!==null && eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null"
+                                      title="remove file">
+                                      <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover"
+                                        (click)="hoverClick($event);removeFile($event,i,k,'k','servant_fir_pdf')"></i>
+                                    </label>
+                                  </ng-container>
+                                </td> -->
                               </tr>
                             </tbody>
                           </ng-container>
@@ -2098,6 +2625,50 @@
                                         (click)="hoverClick($event);removeFile($event,i,f,g,'id_proof')"></i>
                                     </label>
                                   </td>
+                                  <!-- <td>
+                                    <ng-container *ngIf="eba_pass.apply_reason == 'Lost/theaft'">
+                                      <label [for]="'fir_pdf'+ i + f + g" class="upload-icon-label"
+                                        *ngIf="editable &&  (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null)"
+                                        title="idProof">
+                                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"
+                                          (click)="hoverClick($event)"></i>
+                                      </label>
+
+                                      <input type="file" class="custom-file-input" [id]="'fir_pdf' + i + f+g"
+                                        style="display: none"
+                                        (change)="onFileSelected($event,i,f,g,'fir_pdf')" *ngIf="editable"
+                                        [(ngModel)]="eba_pass.fir_pdf_edit">
+
+                                      <ng-container
+                                        *ngIf="eba_pass.fir_pdf && eba_pass.fir_pdf!=null && (!eba_pass.fir_pdf_edit || eba_pass.fir_pdf_edit===null) && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null)">
+                                        <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                          href="{{apiUrl}}getFile/{{eba_pass.fir_pdf}}" title="Order File" target="_blank">
+                                          <i class="bi bi-eye"></i>
+                                        </a>
+                                      </ng-container>
+
+                                      <ng-container
+                                        *ngIf="eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null && (!eba_pass.fir_pdf_edit_64 || eba_pass.fir_pdf_edit_64===null) ">
+                                        <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                                          href="{{apiUrl}}getFile/{{eba_pass.fir_pdf_edit}}" title="Order File"
+                                          target="_blank">
+                                          <i class="bi bi-eye"></i>
+                                        </a>
+                                      </ng-container>
+
+                                      <ng-container *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!=null">
+                                        <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                                          (click)="openPdfInNewTab(eba_pass.fir_pdf_edit_64);hoverClick($event)"></i>
+                                      </ng-container>
+
+                                      <label class="upload-icon-label"
+                                        *ngIf="eba_pass.fir_pdf_edit_64 && eba_pass.fir_pdf_edit_64!==null && eba_pass.fir_pdf_edit && eba_pass.fir_pdf_edit!=null"
+                                        title="remove file">
+                                        <i class="bi bi-trash3 btn btn-outline-danger enlarge-on-hover"
+                                          (click)="hoverClick($event);removeFile($event,i,f,g,'fir_pdf')"></i>
+                                      </label>
+                                    </ng-container>
+                                  </td> -->
                                 </tr>
                               </tbody>
                             </ng-container>

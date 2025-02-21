@@ -9,8 +9,38 @@
           <div class="slides" [@slideAnimation]="currentPageIndex">
             <div class="slide" *ngFor="let slide of slides; let i = index"
               [attr.tabindex]="i === currentPageIndex ? 0 : -1">
-              <!-- Your content here -->
+
               <div *ngIf="i === 0">
+                <div class="row shadow"
+                  style="display: block; padding: 20px; background-color: #f0f8ff; border: 1px solid #007bff; border-radius: 5px; font-size: 14px; color: #333; font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+
+                  <h1 style="color: red; text-align: left; margin-bottom: 10px;text-decoration: underline;">
+                    Disclaimer:</h1>
+
+                  <p
+                    style="text-align: justify; font-size: 18px; line-height: 1.4; color: #333; font-family: Arial, sans-serif;">
+                    If you already have an <span style="font-weight: bold;  color: #007bff;">RB Card</span>, kindly <span
+                    style="font-weight: bold;  color: #007bff;">log
+                    in</span> using either your <span style="font-weight: bold;  color: #007bff;">RB
+                      Card number</span> or <span style="font-weight: bold;  color: #007bff;">phone number</span> as
+                    <span style="font-weight: bold;  color: #007bff;">username</span>. Reason
+                    an account has already been created for all RB Card holders. If
+                    you require any assistance with your credentials, please select the <span
+                      style="font-weight: bold;  color: #007bff;">'Forgot Password'</span>
+                    option. If you do not currently hold an <span style="font-weight: bold;  color: #007bff;">RB
+                      Card</span>, please
+                    <span style="font-weight: bold;  color: #007bff;">proceed</span> with the <span
+                      style="font-weight: bold;  color: #007bff;">registration process</span> by clicking the <span
+                      style="font-weight: bold;  color: #007bff;">'Next' button</span>. This
+                    form will automatically submit an application for a new <span
+                      style="font-weight: bold;  color: #007bff;">RB Card</span>.
+                  </p>
+
+                </div>
+              </div>
+
+              <!-- Your content here -->
+              <div *ngIf="i === 1">
                 <div class="row">
                   <div class="col-md">
                     <label for="Name" class="form-label">Name</label>
@@ -73,7 +103,7 @@
               </div>
 
 
-              <div *ngIf="i === 1">
+              <div *ngIf="i === 2">
                 <div class="row">
                   <div class="col-md-6">
                     <label class="form-label"><u>Present Address</u></label>
@@ -164,7 +194,7 @@
 
 
 
-              <div *ngIf="i === 2">
+              <div *ngIf="i === 3">
                 <div class="row">
                   <div class="col-md">
                     <label for="organization" class="form-label">Organization</label>
@@ -224,7 +254,7 @@
 
 
 
-              <div *ngIf="i === 3">
+              <div *ngIf="i === 4">
                 <div class="row">
                   <div class="col-md">
                     <!--                    <label for="police_verification_no" class="form-label">Police Verification No</label>-->

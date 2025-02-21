@@ -45,4 +45,14 @@ export class Ebapass{
   curl_post:boolean=false;
   print:boolean=false;
   remark: string|null=null;
+
+
+  apply_reason:string|null=null;
+  apply_remark:string|null=null;
+  FIR_no:string|null=null;
+  receipt_no:string|null=null;
+  fir_pdf:any | null = null;
+  fir_pdf_64 : any | null = null;
+  fir_pdf_edit : any | null = null;
+  fir_pdf_edit_64 : any | null = null;
 }

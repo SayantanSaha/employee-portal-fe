@@ -21,7 +21,7 @@ import { Designation } from "../model/Designation";
       state('1', style({ transform: 'translateX(-100%)' })),
       state('2', style({ transform: 'translateX(-200%)' })),
       state('3', style({ transform: 'translateX(-300%)' })),
-      // state('4', style({ transform: 'translateX(-400%)' })),
+      state('4', style({ transform: 'translateX(-400%)' })),
       transition('* => *', animate('300ms ease'))
     ])
   ]
@@ -51,7 +51,7 @@ export class RegistrationComponent implements OnInit {
   apiUrl = environment.apiUrl;
   display: any = 'none';
   currentPageIndex = 0;
-  totalPages = 4;
+  totalPages = 5;
   slides = new Array(this.totalPages);
   currentDate: string= "";
   isLoading: boolean = false;

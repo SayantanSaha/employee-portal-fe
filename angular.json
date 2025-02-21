@@ -37,6 +37,7 @@
               "node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css",
               "node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
               "node_modules/owl.carousel/dist/assets/owl.theme.default.min.css"
+
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -51,6 +52,10 @@
               "node_modules/datatables.net-buttons/js/dataTables.buttons.min.js",
               "node_modules/datatables.net-buttons/js/buttons.html5.min.js",
               "node_modules/datatables.net-buttons/js/buttons.print.min.js"
+
+
+
+
             ],
             "allowedCommonJsDependencies": [
               "jsbarcode",

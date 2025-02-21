@@ -98,6 +98,8 @@ export class Employee{
   validupto: Date | null = null;
   apply_reason:string|null = null;
   FIR_no:string|null = null;
+  receipt_no:string|null=null;
+  fir_pdf:any | null = null;
   ebapurpleCard: boolean = false;
   user: User|null = null;
   ussign:any | null = null;

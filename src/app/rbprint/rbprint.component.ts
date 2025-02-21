@@ -4,6 +4,11 @@ import { HttpClient } from "@angular/common/http";
 import { EmployeeService } from "../employee.service";
 import { DatePipe } from "@angular/common";
 import Swal from "sweetalert2";
+// import { DataTableDirective } from 'angular-datatables';
+// import { Subject } from 'rxjs';
+// import * as $ from 'jquery'; // Import jQuery
+// import 'datatables.net'; // Import DataTables
+
 // import { MatTableDataSource } from '@angular/material/table';
 // import { MatPaginator } from '@angular/material/paginator';
 // import { MatSort } from '@angular/material/sort';
@@ -43,6 +48,8 @@ export class RbprintComponent implements OnInit {
 
 
   ) { }
+  // dtOptions: DataTables.Settings = {};
+  // dtTrigger: Subject<any> = new Subject();
   ngOnInit() {
     console.log('Component Initialized');
 
@@ -53,7 +60,9 @@ export class RbprintComponent implements OnInit {
     this.fromfunction = history.state.fromfunction;
     console.log('Fetched data from history.state:', this.rbprintData);
     console.log('From function:', this.fromfunction);
-
+    // if (this.rbprintData && this.rbprintData.length > 0) {
+    //   this.initializeDataTable();
+    // }
     if (this.rbprintData.length === 0 && this.counts.length === 0) {
       console.log('Fetching data from API...');
       this.employeeService.getRbPrintData().subscribe(
@@ -61,15 +70,21 @@ export class RbprintComponent implements OnInit {
           console.log('API data received:', data);
           if (data && data.length) {
             this.rbprintData = data;
-            setTimeout(()=>{
-              $('#datatableexample').DataTable( {
-                pagingType: 'full_numbers',
-                pageLength: 5,
-                processing: true,
-                lengthMenu : [5, 10, 25],
-                dom: 'Blfrtip'
-            } );
-            }, 1);
+            // this.initializeDataTable();
+            // this.dtOptions = {
+            //   pagingType: 'full_numbers',
+            //   pageLength: 5,
+            //   processing: true,
+            //   lengthMenu: [5, 10, 25],
+            // };
+            // setTimeout(()=>{
+            //   $('#datatableexample').DataTable( {
+            //     pagingType: 'full_numbers',
+            //     pageLength: 5,
+            //     processing: true,
+            //     lengthMenu : [5, 10, 25]
+            // } );
+            // }, 1);
             // this.dataSource.data = this.rbprintData;
           } else {
             console.warn('No data available from the API');
@@ -91,6 +106,45 @@ export class RbprintComponent implements OnInit {
       this.calculateTotals();
     }
   }
+
+  // ngAfterViewInit(): void {
+  //   // If you need to initialize DataTable after view initialization
+  //   if (this.rbprintData && this.rbprintData.length > 0) {
+  //     this.initializeDataTable();
+  //   }
+  // }
+
+  // ngOnDestroy() {
+  //   this.dtTrigger.unsubscribe();
+  // }
+  // initializeDataTable() {
+  //   const table = $('#datatableexample').DataTable({
+  //     pagingType: 'full_numbers',
+  //     pageLength: 5,
+  //     processing: true,
+  //     lengthMenu: [5, 10, 25],
+  //   });
+
+  //   // Clear any previous data
+  //   table.clear();
+
+  //   table.rows.add(this.rbprintData.map(item => [
+  //     item.emp_name || '',           // Officer Name
+  //     item.card_no || '',            // Card No.
+  //     item.valid_from ? new Date(item.valid_from).toLocaleDateString() : '', // Valid From
+  //     item.valid_to ? new Date(item.valid_to).toLocaleDateString() : '',   // Valid To
+  //     item.mobile || '',             // Mobile
+  //     item.police_verification_no || '', // Police Verification
+  //     item.org_desc || '',           // Organization
+  //     item.desg_desc || '',          // Designation
+  //     item.pay_desc || ''            // Pay Level
+  //   ]));
+
+  //   // Draw the table
+  //   table.draw();
+  // }
+
+
 
   calculateTotals(): void {
     // Initialize totals with 0s

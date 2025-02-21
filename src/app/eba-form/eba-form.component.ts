@@ -790,9 +790,9 @@ export class EbaFormComponent {
           });
           this.employee?.servants?.forEach(servant => {
             if (servant.vehicles) {
-                servant.vehicles = servant.vehicles.filter(vehicle => vehicle.id !== index);
+              servant.vehicles = servant.vehicles.filter(vehicle => vehicle.id !== index);
             }
-        });
+          });
 
         },
         e => {
@@ -930,12 +930,26 @@ export class EbaFormComponent {
               }
             }
 
+            // if (property === 'closefamily_fir_pdf') {
+            //   if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
+            //     // @ts-ignore
+            //     this.employee.closefamily[i].pivot.eba_passes[j].fir_pdf_edit_64 = base64String;
+            //   }
+            // }
+
             if (property === 'family_id_proof_path') {
               if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
                 // @ts-ignore
                 this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit_64 = base64String;
               }
             }
+
+            // if (property === 'family_fir_pdf') {
+            //   if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
+            //     // @ts-ignore
+            //     this.employee.family[i].pivot.eba_passes[j].fir_pdf_edit_64 = base64String;
+            //   }
+            // }
 
             if (property === 'servant_id_proof_path') {
               if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
@@ -944,12 +958,26 @@ export class EbaFormComponent {
               }
             }
 
+            // if (property === 'servant_fir_pdf') {
+            //   if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
+            //     // @ts-ignore
+            //     this.employee.servants[i].eba_passes[j].fir_pdf_edit_64 = base64String;
+            //   }
+            // }
+
             if (property === 'id_proof') {
               if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
                 // @ts-ignore
                 this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit_64 = base64String;
               }
             }
+
+            // if (property === 'fir_pdf') {
+            //   if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
+            //     // @ts-ignore
+            //     this.employee.servants[i].relations[j].pivot.eba_passes[k].fir_pdf_edit_64 = base64String;
+            //   }
+            // }
 
             if (this.file_path_64) {
               if (property === 'file_path') {
@@ -984,9 +1012,53 @@ export class EbaFormComponent {
     }
   }
 
+  // onApplyReasonChange(i: any, j: any, k: any, property: string): void {
+  //   if (property === 'closefamily') {
+  //     const ebaPass = this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j];
+  //     if (ebaPass) {
+  //       ebaPass.FIR_no = null;
+  //       ebaPass.receipt_no = null;
+  //       ebaPass.fir_pdf = null;
+  //       ebaPass.apply_remark = null;
+  //     }
+  //   }
+  //   if (property === 'family') {
+
+  //     const ebaPass = this.employee?.family?.[i]?.pivot?.eba_passes?.[j];
+  //     if (ebaPass) {
+  //       ebaPass.FIR_no = null;
+  //       ebaPass.receipt_no = null;
+  //       ebaPass.fir_pdf = null;
+  //       ebaPass.apply_remark = null;
+  //     }
+
+  //   }
+  //   if (property === 'servant') {
+
+  //     const ebaPass = this.employee?.servants?.[i]?.eba_passes?.[j];
+  //     if (ebaPass) {
+  //       ebaPass.FIR_no = null;
+  //       ebaPass.receipt_no = null;
+  //       ebaPass.fir_pdf = null;
+  //       ebaPass.apply_remark = null;
+  //     }
+
+  //   }
+  //   if (property === 'servantfamily') {
+
+  //     const ebaPass = this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k];
+  //     if (ebaPass) {
+  //       ebaPass.FIR_no = null;
+  //       ebaPass.receipt_no = null;
+  //       ebaPass.fir_pdf = null;
+  //       ebaPass.apply_remark = null;
+  //     }
+
+  //   }
+  // }
 
   removeFile(event: Event, i: any, j: any, k: any, property: string): void {
-    if (property === 'closefamily_photo_path' || 'closefamily_signature' || 'closefamily_id_proof_path') {
+    if (property === 'closefamily_photo_path' || 'closefamily_signature' || 'closefamily_id_proof_path' || 'closefamily_fir_pdf') {
       if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
         if (property === 'closefamily_photo_path') {
           // @ts-ignore
@@ -1000,9 +1072,14 @@ export class EbaFormComponent {
           this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit_64 = null;
           this.employee.closefamily[i].pivot.eba_passes[j].id_proof_path_edit = null;
         }
+        // else if (property === 'closefamily_fir_pdf') {
+        //   // @ts-ignore
+        //   this.employee.closefamily[i].pivot.eba_passes[j].fir_pdf_edit_64 = null;
+        //   this.employee.closefamily[i].pivot.eba_passes[j].fir_pdf_edit = null;
+        // }
       }
     }
-    if (property === 'family_photo_path' || 'family_signature' || 'family_id_proof_path') {
+    if (property === 'family_photo_path' || 'family_signature' || 'family_id_proof_path' || 'family_fir_pdf') {
       if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
         if (property === 'family_photo_path') {
           // @ts-ignore
@@ -1016,9 +1093,14 @@ export class EbaFormComponent {
           this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit_64 = null;
           this.employee.family[i].pivot.eba_passes[j].id_proof_path_edit = null;
         }
+        // else if (property === 'family_fir_pdf') {
+        //   // @ts-ignore
+        //   this.employee.family[i].pivot.eba_passes[j].fir_pdf_edit_64 = null;
+        //   this.employee.family[i].pivot.eba_passes[j].fir_pdf_edit = null;
+        // }
       }
     }
-    if (property === 'servant_photo_path' || 'servant_signature' || 'servant_id_proof_path') {
+    if (property === 'servant_photo_path' || 'servant_signature' || 'servant_id_proof_path' || 'servant_fir_pdf') {
       if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
         // Update the specific property based on the argument
         if (property === 'servant_photo_path') {
@@ -1032,9 +1114,14 @@ export class EbaFormComponent {
           this.employee.servants[i].eba_passes[j].id_proof_path_edit_64 = null;
           this.employee.servants[i].eba_passes[j].id_proof_path_edit = null;
         }
+        // else if (property === 'servant_fir_pdf') {
+        //   // @ts-ignore
+        //   this.employee.servants[i].eba_passes[j].fir_pdf_edit_64 = null;
+        //   this.employee.servants[i].eba_passes[j].fir_pdf_edit = null;
+        // }
       }
     }
-    if (property === 'photo' || 'sign' || 'id_proof') {
+    if (property === 'photo' || 'sign' || 'id_proof' || 'fir_pdf') {
       if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
         // Update the specific property based on the argument
         if (property === 'photo') {
@@ -1048,6 +1135,11 @@ export class EbaFormComponent {
           this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit_64 = null;
           this.employee.servants[i].relations[j].pivot.eba_passes[k].id_proof_path_edit = null;
         }
+        // else if (property === 'fir_pdf') {
+        //   // @ts-ignore
+        //   this.employee.servants[i].relations[j].pivot.eba_passes[k].fir_pdf_edit_64 = null;
+        //   this.employee.servants[i].relations[j].pivot.eba_passes[k].fir_pdf_edit = null;
+        // }
       }
     }
     if (property === 'file_path') {
@@ -1469,7 +1561,7 @@ export class EbaFormComponent {
   }
 
 
-// @ts-ignore
+  // @ts-ignore
   validateServantDocuments(servants) {
     for (const servant of servants) {
       if (servant.allSelected) {
@@ -1537,7 +1629,7 @@ export class EbaFormComponent {
     return true;
   }
 
-// @ts-ignore
+  // @ts-ignore
   validateDocuments(members) {
     for (const member of members) {
       if (member.allSelected) {
@@ -2181,5 +2273,8 @@ export class EbaFormComponent {
   closepreview() {
     this.displayCard = "none";
   }
+
+
+
 
 }
