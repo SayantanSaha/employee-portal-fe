@@ -104,4 +104,5 @@ export class Employee{
   user: User|null = null;
   ussign:any | null = null;
   org_short:any | null = null;
+  app: any | null = null;
 }

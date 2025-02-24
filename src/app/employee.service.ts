@@ -339,6 +339,13 @@ export class EmployeeService {
   PullEmpCard( empcard: any): Observable<any> {
     return this.http.post<any>(this.apiUrl + "pullEmpCard" , empcard, { headers: this.createHeader() });
   }
+  getEmpDetailsByMobile(mobno: any): Observable<any> {
+    return this.http.get<any>(this.apiUrl + "findmobEmpDetails/" + mobno, { headers: this.createHeader() });}
+
+
+  submitEmpCard( empcard: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl + "EmpCard" , empcard, { headers: this.createHeader() });
+  }
 
   deleterelation(id: any,employee_id:any): Observable<any> {
     return this.http.delete<any>(this.apiUrl + "relation/" + id+"/"+employee_id, { headers: this.createHeader() });

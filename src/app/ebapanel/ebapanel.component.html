@@ -10,7 +10,7 @@
                 <div class="card-title">
                   <div class="row">
                     <div class="col-6">
-                      <b>EBA({{ebadashboardData.totalApplications}})</b>
+                      <b>Applications ({{ebadashboardData.totalApplications}})</b>
                     </div>
                     <div class="col-6" style="text-align: right">
                       <button class="btn btn-success enlarge-hover " (click)=" hoverClick($event);opensearch()"> <i
@@ -238,16 +238,16 @@
                     </div>
                   </div>
 
-                  <!-- <div class="col-md-4 col-lg-4 col-sm-4"> -->
-                    <!-- <a routerLink="/EbaApplyForm" ></a> -->
-                    <!-- <div class="card shadow enlarge-hover" (click)="hoverClick($event);pullEmpPopup()">
+                  <div class="col-md-4 col-lg-4 col-sm-4">
+                    <a routerLink="/EbaApplyForm"></a>
+                    <div class="card shadow enlarge-hover" (click)="hoverClick($event);pullEmpPopup()">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
-                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success"> -->
-                            <!-- <a routerLink="/EbaApplyForm" > -->
-                            <!-- <i class="bi bi-pencil-square"></i> -->
-                            <!-- </a> -->
-                          <!-- </div>
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
+                            <a routerLink="/EbaApplyForm">
+                              <i class="bi bi-pencil-square"></i>
+                            </a>
+                          </div>
                           <div class="ps-5">
                             <p>
                               <span class="text-muted small pt-2 ps-1 fw-bold">Emp Form</span>
@@ -255,8 +255,8 @@
                           </div>
                         </div>
                       </div>
-                    </div> -->
-                  <!-- </div> -->
+                    </div>
+                  </div>
 
 
 
@@ -291,9 +291,9 @@
                                 <tr *ngFor="let ebaapplication of ebadashboardData.todayList; let i = index">
                                   <td>{{ i + 1 }}</td>
                                   <td>{{ ebaapplication.reg_no }}</td>
-                                  <td>{{ ebaapplication.id_cards?.[0]?.card_no}}</td>
-                                  <td>{{ ebaapplication.employee.emp_name }}</td>
-                                  <td>{{ ebaapplication.employee.mobile }}</td>
+                                  <td>{{ ebaapplication.id_cards?.[0]?.card_no || ebaapplication?.details?.pass_no || ebaapplication.application_type}}</td>
+                                  <td>{{ ebaapplication.employee?.emp_name || ebaapplication.details.name_print}}</td>
+                                  <td>{{ ebaapplication.employee?.mobile || ebaapplication.details.mob_no}}</td>
                                   <td>{{ formatDate(ebaapplication.created_at) }}</td>
                                   <td>
                                     <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
@@ -371,187 +371,19 @@
           </div>
 
           <div class="modal-body">
-            <!-- <div id="div_grid" style="text-align: center;">
-              <div style="margin: 5%;" class="row"> -->
-            <!-- <table width="100%" border="0" cellpadding="3" cellspacing="2"
-                  style="border-collapse: collapse; border-color: #efdccd; background-color: #ffffff;"> -->
-            <!-- <tr> -->
-            <!-- <td style="width: 70%; vertical-align: top;"> -->
-            <!-- <div class="form-group" style="display: flex; ">
-                        <label for="name_print"
-                          style="width: 150px;text-align: right;font-weight: bold;">Name:&nbsp;&nbsp;&nbsp;</label>
-                        <input *ngIf="NewEmpCardForm" type="text" id="name_print" class="form-control"
-                          [(ngModel)]="EmpCardData.name_print" name="name_print" style="flex-grow: 1;" />
-                        <div *ngIf="showEmpCardDetails">{{EmpCardData.name_print}}</div>
-                      </div>
-                      <br>
-                      <div class="form-group" style="display: flex; ">
-                        <label for="dob"
-                          style="width: 150px; text-align: right;font-weight: bold; text-align: right;font-weight: bold;">Date
-                          of Birth:&nbsp;&nbsp;&nbsp;</label>
-                        <input *ngIf="NewEmpCardForm" type="date" id="dob" class="form-control"
-                          [(ngModel)]="EmpCardData.dob" name="dob" style="flex-grow: 1;" />
-                        <div *ngIf="showEmpCardDetails">{{EmpCardData.dob | date:'dd-MMM-yyyy' }}</div>
-                      </div>
-                      <br> -->
-
-            <!-- <div class="form-group" style="display: flex; ">
-                        <label for="mob_no"
-                          style="width: 150px; text-align: right;font-weight: bold;text-align: right;">Mobile
-                          No:&nbsp;&nbsp;&nbsp;</label>
-                        <input *ngIf="NewEmpCardForm" type="text" id="mob_no" class="form-control"
-                          [(ngModel)]="EmpCardData.mob_no" name="mob_no" style="flex-grow: 1;" />
-                        <div *ngIf="showEmpCardDetails">{{EmpCardData.mob_no}}</div>
-                      </div>
-                      <br> -->
-            <!-- <div class="form-group" style="display: flex; ">
-                        <label for="mob_no"
-                          style="width: 150px; text-align: right;font-weight: bold;text-align: right;">office:&nbsp;&nbsp;&nbsp;</label>
-                        <select *ngIf="NewEmpCardForm" class="form-control" [(ngModel)]="EmpCardData.office_code"
-                          (click)="findDesg()">
-                          <option [ngValue]="null">Select office</option>
-                          <option [ngValue]="office.office_code" *ngFor="let office of offices">{{office.org_desc}}
-                          </option>
-                        </select>
-                        <div *ngIf="showEmpCardDetails">{{EmpCardData.office_name}}</div>
-                      </div>
-                      <br>
-
-                      <div class="form-group" style="display: flex; ">
-                        <label for="mob_no"
-                          style="width: 150px; text-align: right;font-weight: bold;text-align: right;">designation:&nbsp;&nbsp;&nbsp;</label>
-                        <select *ngIf="NewEmpCardForm" class="form-control" [(ngModel)]="EmpCardData.designation_code">
-                          <option [ngValue]="null">Select designation </option>
-                          <option [ngValue]="designation.designation_code" *ngFor="let designation of designations">
-                            {{designation.desg_desc}}</option>
-                        </select>
-                        <div *ngIf="showEmpCardDetails">{{EmpCardData.deg_name}}</div>
-                      </div>
-                      <br> -->
-
-
-            <!-- <div class="form-group" style="display: flex; ">
-                        <label for="email"
-                          style="width: 150px; text-align: right;font-weight: bold;">Email:&nbsp;&nbsp;&nbsp;</label>
-                        <input *ngIf="NewEmpCardForm" type="email" id="email" class="form-control"
-                          [(ngModel)]="EmpCardData.email" name="email" style="flex-grow: 1;" />
-                        <div *ngIf="showEmpCardDetails">{{EmpCardData.email}}</div>
-                      </div>
-                      <br> -->
-
-
-            <!-- <div class="form-group" style="display: flex; " *ngIf="showEmpCardDetails">
-                        <label for="qtr" style="width: 150px; text-align: right;font-weight: bold;">Permanent Address:
-                          &nbsp;&nbsp;&nbsp;</label>
-                        <div>{{EmpCardData.qtr}}</div>
-                      </div>
-                      <br *ngIf="showEmpCardDetails">
-
-                      <div class="form-group" style="display: flex; ">
-                        <label for="qtr" style="width: 150px; text-align: right;font-weight: bold;">Permanent
-                          Address:&nbsp;&nbsp;&nbsp;</label>
-                        <textarea class="form-control" placeholder="Address" aria-label="address"
-                          [(ngModel)]="EmpCardData.curr_add"></textarea>
-                      </div>
-                      <br>
-
-                      <div class="form-group" style="display: flex; ">
-                        <label for="qtr" style="width: 150px; text-align: right;font-weight: bold;">&nbsp;</label>
-                        <select class="form-control" [(ngModel)]="EmpCardData.curr_state"
-                          (change)="onStateChange(EmpCardData.curr_state)">
-                          <option [ngValue]="null">Select State </option>
-                          <option [ngValue]="state.id" *ngFor="let state of states">{{state.state_name}}</option>
-                        </select>
-                        <select class="form-control" [(ngModel)]="EmpCardData.curr_district">
-                          <option [ngValue]="null">Select District </option>
-                          <option [ngValue]="dist.id" *ngFor="let dist of currDistricts">{{dist.district_name}}
-                          </option>
-                        </select>
-                        <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
-                          aria-label="pin" [(ngModel)]="EmpCardData.curr_pin">
-                      </div>
-                      <br> -->
-            <!-- <div class="form-group" style="display: flex; " *ngIf="showEmpCardDetails">
-                        <label for="blood_typ_name" style="width: 150px; text-align: right;font-weight: bold;">Blood
-                          Type:&nbsp;&nbsp;&nbsp;</label>
-                        <div>{{EmpCardData.blood_typ_name}}</div>
-                      </div>
-                      <br *ngIf="showEmpCardDetails"> -->
-            <!-- <div class="form-group" style="display: flex; ">
-                        <label for="blood_group" style="width: 150px; text-align: right;font-weight: bold;">Blood
-                          group:&nbsp;&nbsp;&nbsp;</label>
-                        <select class="form-control" [(ngModel)]="EmpCardData.blood_group">
-                          <option [ngValue]="null">--Select Blood Group--</option>
-                          <option *ngFor="let bloodGroup of bloodGroups" [ngValue]="bloodGroup">{{ bloodGroup }}
-                          </option>
-                        </select>
-                      </div>
-                      <br> -->
-            <!-- <div class="form-group" style="display: flex; " *ngIf="showEmpCardDetails">
-                        <label for="doi" style="width: 150px; text-align: right;font-weight: bold;">Emp pass_no:&nbsp;&nbsp;&nbsp;</label>
-                        <div>{{EmpCardData.pass_no}}</div>
-
-                      </div><br *ngIf="showEmpCardDetails">
-                      <div class="form-group" style="display: flex; " *ngIf="showEmpCardDetails">
-                        <label for="doi" style="width: 150px; text-align: right;font-weight: bold;">Date of
-                          Issue:&nbsp;&nbsp;&nbsp;</label>
-                        <div>{{EmpCardData.doi | date:'dd-MMM-yyyy'}}</div>
-
-                      </div>
-                      <br *ngIf="showEmpCardDetails">
-                      <div class="form-group" style="display: flex; " *ngIf="showEmpCardDetails">
-                        <label for="CardValidUpTo" style="width: 150px; text-align: right;font-weight: bold;">Valid
-                          UpTo:&nbsp;&nbsp;&nbsp;</label>
-                        <div>{{EmpCardData.CardValidUpTo | date:'dd-MMM-yyyy'}}</div>
-
-                      </div>
-                      <br *ngIf="showEmpCardDetails"> -->
-            <!-- <div class="form-group" style="display: flex; " >
-                        <label for="emp_exp_date" style="width: 150px; text-align: right;font-weight: bold;">New Valid
-                          UpTo:&nbsp;&nbsp;&nbsp;</label>
-                        <input type="date" id="emp_exp_date" class="form-control "
-                          [(ngModel)]="EmpCardData.emp_exp_date" name="emp_exp_date" style="flex-grow: 1;" />
-                      </div>
-                      <br>-->
-            <!-- <div class="form-group" style="display: flex; ">
-                        <label for="id_mark" style="width: 150px; text-align: right;font-weight: bold;">ID
-                          Mark:&nbsp;&nbsp;&nbsp;</label>
-                        <div *ngIf="showEmpCardDetails">{{EmpCardData.id_mark }}</div>
-                        <input *ngIf="NewEmpCardForm" type="text" id="id_mark" class="form-control"
-                          [(ngModel)]="EmpCardData.id_mark" name="id_mark" style="flex-grow: 1;" />
-                      </div>
-                      <br> -->
-            <!-- <div class="form-group" style="display: flex; ">
-                        <label  for="id_mark" style="width: 150px; text-align: right;font-weight: bold;">Remark:&nbsp;&nbsp;&nbsp;</label>
-                        <textarea class="form-control" placeholder="remark" aria-label="remark"
-                        [(ngModel)]="EmpCardData.remark"></textarea>
-                      </div> -->
-            <!-- </td> -->
-
-
-            <!-- <td style="width: 30%; vertical-align: top; text-align: center;">
-                      <img [src]="EmpCardData.photo || '/assets/blank_photo.jpg'" width="120px" height="140px"
-                        alt="Applicant Photo" />
-                      <br />
-                      <img [src]="EmpCardData?.sig || '/assets/sig_ldr.gif'" width="150px" height="30px"
-                        alt="Upload Signature" />
-                    </td> -->
-            <!-- </tr> -->
-
-
-
-            <!-- <div class="col-md-3">
-                      <div class="form-group">
-                        <input type="text" class="form-control" id="desg_print" placeholder="Desg. Print"
-                          aria-label="desg_print" [(ngModel)]="employee!.desg_print">
-                      </div>
-                    </div> -->
-
-            <!-- </div> -->
-
-            <!-- </table> -->
-            <!-- </div> -->
             <div class="container">
+              <div class="row" *ngIf="NewEmpCardForm">
+                <div class="col-md-3" style="text-align: right">
+                  <label class="form-label">Mobile number: <span style="color: red;" class="required">*</span></label>
+                </div>
+                <div class="col-md-3">
+                  <!-- <div *ngIf="showEmpCardDetails">{{EmpCardData.mob_no}}</div> -->
+                  <input *ngIf="NewEmpCardForm" type="text" maxlength="10" minlength="10" class="form-control"
+                    id="mobile" name="mobile" [(ngModel)]="EmpCardData.mob_no" placeholder="Enter mobile number"
+                    (input)="onInput($event,'mobile')" (blur)="findmobEmpDetais()">
+                </div>
+              </div>
+              <hr class="row-divider" *ngIf="NewEmpCardForm">
               <div class="row">
                 <div class="col-md-3" style="text-align: right">
                   <label class="form-label">Name:<span style="color: red;" class="required">*</span></label>
@@ -578,7 +410,7 @@
                 </div>
 
                 <div class="col-md-3" style="text-align: right">
-                  <label class="form-label">Body Mark: <span style="color: red;" class="required">*</span></label>
+                  <label class="form-label">Body Mark: </label>
                 </div>
                 <div class="col">
                   <div *ngIf="showEmpCardDetails">{{EmpCardData.id_mark }}</div>
@@ -622,14 +454,15 @@
 
 
 
-              <div class="row" *ngIf="showEmpCardDetails">
-                <div class="col-md-3" style="text-align: right"><label class="form-label">Address:</label></div>
+              <div class="row" *ngIf="EmpCardData.qtr">
+                <div class="col-md-3" *ngIf="EmpCardData.qtr" style="text-align: right"><label
+                    class="form-label">Address:</label></div>
                 <div class="col">
                   <div>{{EmpCardData.qtr}}</div>
                 </div>
               </div>
 
-              <div class="row">
+              <div class="row" *ngIf="!EmpCardData.fetched">
                 <div class="col-md-3" style="text-align: right"><label class="form-label">Address:<span
                       style="color: red;" class="required">*</span></label></div>
                 <div class="col">
@@ -638,7 +471,7 @@
                 </div>
               </div>
 
-              <div class="row">
+              <div class="row" *ngIf="!EmpCardData.fetched">
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
                   <div class="form-group">
@@ -672,32 +505,33 @@
               <hr class="row-divider">
 
               <div class="row">
-                <div class="col-md-3" style="text-align: right">
+                <div class="col-md-3" *ngIf="showEmpCardDetails" style="text-align: right">
                   <label class="form-label">Mobile number: <span style="color: red;" class="required">*</span></label>
                 </div>
-                <div class="col">
+                <div class="col" *ngIf="showEmpCardDetails">
                   <div *ngIf="showEmpCardDetails">{{EmpCardData.mob_no}}</div>
-                  <input *ngIf="NewEmpCardForm" type="text" maxlength="10" minlength="10" class="form-control"
+                  <!-- <input *ngIf="NewEmpCardForm" type="text" maxlength="10" minlength="10" class="form-control"
                     id="mobile" name="mobile" [(ngModel)]="EmpCardData.mob_no" placeholder="Enter mobile number"
-                    (input)="onInput($event,'mobile')">
+                    (input)="onInput($event,'mobile')"> -->
                 </div>
                 <div class="col-md-3" style="text-align: right">
-                  <label class="form-label">Gender: <span style="color: red;" class="required">*</span></label>
+                  <label class="form-label">Gender: </label>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group row">
-                    <select class="form-control" id="gender" [(ngModel)]="EmpCardData.gender">
+                    <select class="form-control" id="gender" [(ngModel)]="EmpCardData.gender"
+                      *ngIf="!EmpCardData.fetched">
                       <option value="null">--Select Gender--</option>
                       <option [ngValue]="'M'">Male</option>
                       <option [ngValue]="'F'">Female</option>
                       <option [ngValue]="'O'">Others</option>
                     </select>
-
+                    <ng-container *ngIf="EmpCardData.fetched">{{EmpCardData.gender}}</ng-container>
                   </div>
                 </div>
 
                 <div class="col-md-3" style="text-align: right">
-                  <label class="form-label">Email: <span style="color: red;" class="required">*</span></label>
+                  <label class="form-label">Email: </label>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group ">
@@ -712,18 +546,17 @@
                 <div class="col-md-3">
                   <div class="form-group row">
                     <div *ngIf="EmpCardData.blood_typ_name">{{EmpCardData.blood_typ_name}}</div>
-                    <select class="form-control" [(ngModel)]="EmpCardData!.blood_group">
+                    <select class="form-control" [(ngModel)]="EmpCardData!.blood_group" *ngIf="!EmpCardData.fetched">
                       <option value="null">--Select Blood Group--</option>
                       <option *ngFor="let bloodGroup of bloodGroups" [ngValue]="bloodGroup">{{ bloodGroup }}
                       </option>
                     </select>
+                    <ng-container *ngIf="EmpCardData.fetched">{{EmpCardData!.blood_group}}</ng-container>
                   </div>
                 </div>
               </div>
 
               <hr class="row-divider">
-
-
               <div class="row">
                 <div class="col-md-3" style="text-align: right">
                   <label class="form-label">Organization:<span style="color: red;" class="required">*</span></label>
@@ -735,7 +568,7 @@
                     <option [ngValue]="office.office_code" *ngFor="let office of offices">{{office.org_desc}}
                     </option>
                   </select>
-                  <div *ngIf="showEmpCardDetails">{{EmpCardData.office_name}}</div>
+                  <div *ngIf="EmpCardData.office_name">{{EmpCardData.office_name}}</div>
                 </div>
               </div>
               <div class="row">
@@ -747,24 +580,25 @@
                       <option [ngValue]="designation.designation_code" *ngFor="let designation of designations">
                         {{designation.desg_desc}}</option>
                     </select>
-                    <div *ngIf="showEmpCardDetails">{{EmpCardData.deg_name}}</div>
+                    <div *ngIf="EmpCardData.deg_name">{{EmpCardData.deg_name}}</div>
                   </div>
                 </div>
               </div>
               <hr class="row-divider">
               <div class="row">
                 <div class="col-md">
-                  <label for="id_proof" class="form-label">Photo <span style="color: red;"
+                  <label for="id_proof" class="form-label">Photo<span style="color: red;"
                       class="required">*</span></label><br>
                   <div class="text-center">
                     <span *ngIf="EmpCardData.photo">
-                      <img [src]="EmpCardData.photo" alt="Profile Photo" class="rounded-circle"
-                        title="Profile Photo" style="width: 150px; height: 128px" />
+                      <img [src]="EmpCardData.photo" alt="Profile Photo" class="rounded-circle" title="Profile Photo"
+                        style="width: 150px; height: 128px" />
                     </span>
                     <input type="file" class="custom-file-input" id="profile_photo"
                       (change)="onProfilePhotoSelected($event, 'Profile Photo')" style="display: none">
                     <br /><br />
-                    <label for="profile_photo" class="upload-icon-label" title="Upload Profile Photo">
+                    <label for="profile_photo" *ngIf="NewEmpCardForm" class="upload-icon-label"
+                      title="Upload Profile Photo">
                       <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"></i>
                     </label>
                   </div>
@@ -785,12 +619,11 @@
                     </label>
                   </div>
                 </div> -->
-                <!-- <div class="col-md" *ngIf="NewEmpCardForm">
+                <div class="col-md" *ngIf="NewEmpCardForm">
                   <label for="id_proof" class="form-label">ID
                     Proof(pdf)</label><br><br>
                   <div class="text-center">
-                    <label for="id_proof" class="upload-icon-label"
-                      title="Upload Supporting Document with ID Proof">
+                    <label for="id_proof" class="upload-icon-label" title="Upload Supporting Document with ID Proof">
                       <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>
                     </label>
                     <input type="file" class="custom-file-input" (change)="onIDproofSelected($event)" id="id_proof"
@@ -802,7 +635,8 @@
                   </div>
                 </div>
                 <div class="col-md" *ngIf="NewEmpCardForm">
-                  <label for="postingOrder" class="form-label">Supporting Document with posting Order(pdf)</label><br><br>
+                  <label for="postingOrder" class="form-label">Supporting Document with posting
+                    Order(pdf)</label><br><br>
                   <div class="text-center">
                     <label for="postingOrder" class="upload-icon-label"
                       title="Upload Supporting Document with ID Proof">
@@ -815,7 +649,7 @@
                         (click)="openPdfInNewTab(EmpCardData!.postingOrder)"></i>
                     </ng-container>
                   </div>
-                </div> -->
+                </div>
               </div>
             </div>
           </div>
@@ -830,7 +664,7 @@
             </button>
             <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
               (click)="PullEbaCard()" *ngIf="showEmpCardDetails">
-              PULL
+              Submit Form
             </button>
             <button type="button" class="btn btn-outline-warning enlarge-on-hover" (click)="hoverClick($event)"
               (click)="FetchEmpCard()" *ngIf="NewEmpCardForm">

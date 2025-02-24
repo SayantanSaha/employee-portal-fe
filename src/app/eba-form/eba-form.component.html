@@ -9,7 +9,14 @@
       <div class="row">
         <div class="col-md-10">
           <div style="font-size: 200%; color: deeppink">
-            EBA Application
+            <ng-container *ngIf="employee!.app; else ebaApplication">
+              {{ employee!.app }}
+            </ng-container>
+
+            <ng-template #ebaApplication>
+              EBA application
+            </ng-template>
+
             <ng-container *ngIf="employee!.reg_no">
               / {{employee!.reg_no}}
             </ng-container>
@@ -425,7 +432,7 @@
                               <!--                                    </ng-container >-->
 
 
-                              
+
                               <!-- <ng-container *ngIf="editable && !urlid">
                                 <td style="color: blue;"
                                   *ngIf="!eba_pass?.eba_pass_no || eba_pass?.eba_pass_no === null ">

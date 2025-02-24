@@ -62,7 +62,8 @@
             <tr>
               <th>Sl No.</th>
               <th>Sports Name</th>
-              <th>9 to 13</th>
+              <th>0 to 9</th>
+              <th>9 to 14</th>
               <th>14 to 17</th>
             </tr>
           </thead>
@@ -70,6 +71,7 @@
             <tr *ngFor="let sport of sportsAgeData; let k = index">
               <td style="text-align: center; vertical-align: middle;">{{ k + 1 }}</td>
               <td style="text-align: center; vertical-align: middle;">{{ sport.sports_name }}</td>
+              <td style="text-align: center; vertical-align: middle;">{{ sport.ztoe }}</td>
               <td style="text-align: center; vertical-align: middle;">{{ sport.ntot }}</td>
               <td style="text-align: center; vertical-align: middle;">{{ sport.ftos }}</td>
             </tr>

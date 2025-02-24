@@ -370,7 +370,7 @@ export class EbapanelComponent implements OnInit {
   }
   closeEmpPopup() {
     this.showEmpCardDetails = false;
-     this.EmpCardData = this.resetEmpCardData();
+    this.EmpCardData = this.resetEmpCardData();
     this.displayEmpCard = "none";
     this.NewEmpCardForm = false;
   }
@@ -389,7 +389,44 @@ export class EbapanelComponent implements OnInit {
   }
 
   SubmitForm() {
+    this.employeeService.submitEmpCard(this.EmpCardData).subscribe(
+      (data: any) => {
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'submitted successfully',
+        }).then(() => {
+            // Refresh the page after the success message is closed
+            window.location.reload();
+        });
+    },
 
+      (error) => {
+        // Error response
+        console.log(error); // Log the error if needed
+        if (error.status === 404) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'warning',
+            text: 'empty details!!!!',
+          });
+        }
+        if (error.status === 401) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'warning',
+            text: 'Some thing went wrong!!!!',
+          });
+        }
+        if (error.status === 405) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'warning',
+            text: 'Not allowed!!!!',
+          });
+        }
+      }
+    );
   }
 
   EmpCardDetail() {
@@ -402,22 +439,22 @@ export class EbapanelComponent implements OnInit {
           text: 'Data Fetched Successfully',
         })
         this.EmpCardData = data[0];
-        let dob = this.EmpCardData.dob.split('/');
-        this.EmpCardData.dob = `${dob[2]}-${dob[1]}-${dob[0]}`;
-        this.EmpCardData.doi = this.EmpCardData.doi.trim();
-
-        let doiParts = this.EmpCardData.doi.split('/');
-        this.EmpCardData.doi = `${doiParts[2]}-${doiParts[1]}-${doiParts[0]}`;
-        this.EmpCardData.CardValidUpTo = this.EmpCardData.CardValidUpTo.split('T')[0];
         this.showEmpCardDetails = true;
-        if (this.EmpCardData.designation_code) {
-          this.EmpCardData.designation_code = parseInt(this.EmpCardData.designation_code, 10);
+        if (!this.EmpCardData.fetched || this.EmpCardData.fetched == false) {
+          let dob = this.EmpCardData.dob.split('/');
+          this.EmpCardData.dob = `${dob[2]}-${dob[1]}-${dob[0]}`;
+          this.EmpCardData.doi = this.EmpCardData.doi.trim();
+          let doiParts = this.EmpCardData.doi.split('/');
+          this.EmpCardData.doi = `${doiParts[2]}-${doiParts[1]}-${doiParts[0]}`;
+          this.EmpCardData.CardValidUpTo = this.EmpCardData.CardValidUpTo.split('T')[0];
+          if (this.EmpCardData.designation_code) {
+            this.EmpCardData.designation_code = parseInt(this.EmpCardData.designation_code, 10);
+          }
         }
-
       },
       (error) => {
         this.showEmpCardDetails = false;
-         this.EmpCardData = this.resetEmpCardData();
+        this.EmpCardData = this.resetEmpCardData();
         this.EmpCardNo = null;
         console.log(error);
         if (error.status === 404) {
@@ -444,6 +481,22 @@ export class EbapanelComponent implements OnInit {
       }
     );
   }
+
+  findmobEmpDetais() {
+    this.employeeService.getEmpDetailsByMobile(this.EmpCardData.mob_no!).subscribe(
+      (data: any) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Data Fetched Successfully',
+        })
+        this.EmpCardData = data[0];
+        this.showEmpCardDetails = true;
+        this.NewEmpCardForm = false;
+      }
+    );
+  }
+
   resetEmpCardData() {
     return {
       name_print: null,
@@ -479,13 +532,14 @@ export class EbapanelComponent implements OnInit {
     this.employeeService.PullEmpCard(this.EmpCardData).subscribe(
       (data: any) => {
         Swal.fire({
-          icon: 'success',
-          title: 'success',
-          text: 'Pulled successfully',
-        })
-        // this.closeEmpCardPopup();
-
-      },
+            icon: 'success',
+            title: 'Success',
+            text: 'submitted successfully',
+        }).then(() => {
+            // Refresh the page after the success message is closed
+            window.location.reload();
+        });
+    }    ,
       (error) => {
         // Error response
         console.log(error); // Log the error if needed
@@ -518,12 +572,12 @@ export class EbapanelComponent implements OnInit {
   NewEmpCard() {
     this.NewEmpCardForm = true;
     this.showEmpCardDetails = false;
-     this.EmpCardData = this.resetEmpCardData();
+    this.EmpCardData = this.resetEmpCardData();
   }
   FetchEmpCard() {
     this.NewEmpCardForm = false;
     this.showEmpCardDetails = false;
-     this.EmpCardData = this.resetEmpCardData();
+    this.EmpCardData = this.resetEmpCardData();
   }
 
   openPdfInNewTab(pdfData: string): void {
