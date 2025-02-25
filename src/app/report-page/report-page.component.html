@@ -62,18 +62,20 @@
             <tr>
               <th>Sl No.</th>
               <th>Sports Name</th>
-              <th>0 to 9</th>
-              <th>9 to 14</th>
-              <th>14 to 17</th>
+              <th>Below 9 yrs</th>
+              <th>Age: 9 to 13</th>
+              <th>Age: 13 to 17</th>
+              <th>Above 17 yrs</th>
             </tr>
           </thead>
           <tbody *ngIf="sportsAgeData != null">
             <tr *ngFor="let sport of sportsAgeData; let k = index">
               <td style="text-align: center; vertical-align: middle;">{{ k + 1 }}</td>
               <td style="text-align: center; vertical-align: middle;">{{ sport.sports_name }}</td>
-              <td style="text-align: center; vertical-align: middle;">{{ sport.ztoe }}</td>
+              <td style="text-align: center; vertical-align: middle;">{{ sport.zton }}</td>
               <td style="text-align: center; vertical-align: middle;">{{ sport.ntot }}</td>
-              <td style="text-align: center; vertical-align: middle;">{{ sport.ftos }}</td>
+              <td style="text-align: center; vertical-align: middle;">{{ sport.ttos }}</td>
+              <td style="text-align: center; vertical-align: middle;">{{ sport.stoc }}</td>
             </tr>
           </tbody>
         </table>

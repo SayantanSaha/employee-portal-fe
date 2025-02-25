@@ -1,7 +1,7 @@
-import {Component, OnInit,} from '@angular/core';
-import {EmployeeService} from "../employee.service";
-import {User} from "../model/User";
-import {Employee} from "../model/Employee";
+import { Component, OnInit, } from '@angular/core';
+import { EmployeeService } from "../employee.service";
+import { User } from "../model/User";
+import { Employee } from "../model/Employee";
 
 
 
@@ -11,11 +11,11 @@ import {Employee} from "../model/Employee";
   styleUrls: ['./dashboard.component.scss'],
 
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
 
-  user:User = new User();
+  user: User = new User();
   employee: Employee | null = null;
-  cardnumber:number =1;
+  cardnumber: number = 1;
 
   imageUrls: string[] = [
     'https://ih1.redbubble.net/image.1492450570.5434/flat,1000x1000,075,f.u1.jpg',
@@ -23,16 +23,16 @@ export class DashboardComponent implements OnInit{
     'https://i.pinimg.com/originals/49/32/ea/4932eadc4ab95268fb0caf51e7e1ccfb.jpg',
   ];
 
-  currentImageUrl: string=this.imageUrls[0];
+  currentImageUrl: string = this.imageUrls[0];
   currentIndex = 0;
   constructor(
 
     private employeeService: EmployeeService,
-  ) {}
+  ) { }
 
 
   ngOnInit() {
-    let userString:string|null = sessionStorage.getItem('user')!=null?sessionStorage.getItem('user'):'[]';
+    let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
 
     this.changeBackgroundImage();
@@ -91,11 +91,11 @@ export class DashboardComponent implements OnInit{
 
   applyEvahaan() {
     this.employeeService.applyEvahaan().subscribe(
-        (data: any) => {
-          console.log(data);
+      (data: any) => {
+        console.log(data);
 
-          // Open the URL in a new tab
-          window.open(data, '_self');
+        // Open the URL in a new tab
+        window.open(data, '_self');
 
         // Swal.fire({
         //   icon: 'success',
@@ -134,14 +134,15 @@ export class DashboardComponent implements OnInit{
 
 
       }
-    )}
+    )
+  }
 
 
-    applyParkingSticker() {
-      this.employeeService.applyParkingSticker().subscribe(
-        (data: any) => {
-          console.log(data);
-          window.open(data, '_self');
+  applyParkingSticker() {
+    this.employeeService.applyParkingSticker().subscribe(
+      (data: any) => {
+        console.log(data);
+        window.open(data, '_self');
       },
       (error) => {
         console.log(error);
@@ -149,6 +150,14 @@ export class DashboardComponent implements OnInit{
         console.log(error.error);
 
       }
-    )}
+    )
+  }
+
+  showNotification: boolean = true;
+
+  // Function to hide the notification when the close button is clicked
+  dismissNotification(): void {
+    this.showNotification = false;
+  }
 
 }

@@ -1,4 +1,31 @@
 <div class="container">
+  <!-- <ng-container *ngIf="user && user.color && (user.color == 1 || user.color == 2 || user.color == 3)"> -->
+    <div *ngIf="showNotification" class="row shadow"
+      style="display: block; padding: 2px; background-color: #f0f8ff; border: 1px solid #007bff; border-radius: 5px; font-size: 14px; color: #333; font-family: Arial, sans-serif; margin: 0 auto; position: relative;">
+      <br>
+      <div class=" row">
+        <div class="col-md-11">
+          <h1 style="color: red; text-align: left; margin-bottom: 10px; text-decoration: underline;">
+            Whats New:
+          </h1>
+        </div>
+        <div class="col-md-1">
+          <button (click)="dismissNotification()"
+            style="font-size: 20px; background: none; border: none; color: #007bff; position: absolute; top: 10px; right: 10px; cursor: pointer;">&times;</button>
+        </div>
+      </div>
+
+      <p style="text-align: justify; font-size: 18px; line-height: 1.4; color: #333; font-family: Arial, sans-serif;">
+        Please update your family's sport interests by clicking <a [routerLink]="'/sportUpdate'"
+          style="text-decoration: none; color: blue;text-decoration: underline;"><b>"Update Sports".</b></a>
+      </p>
+      <br>
+    </div>
+
+    <br>
+  <!-- </ng-container> -->
+  <!-- <br> -->
+
   <!-- Basic Data Section -->
   <div class="row">
     <div style="font-size: 20px">
@@ -28,6 +55,18 @@
             <i class="bi bi-wrench-adjustable-circle"></i>
             <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Password setting</h5>
             <p class="card-text">Click here to Change Your Password</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3 col-lg-3  mb-4" *ngIf="user && user.employee === true">
+      <div class="card shadow" (click)="hoverClick($event)">
+        <a [routerLink]="'/sportUpdate'" style="text-decoration: none; color: inherit;">
+          <div class="card-body">
+            <img src="assets/images/sport.png" style="height: 40%;width: 20%">
+            <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Update Sports</h5>
+            <p class="card-text">Click here to update Sports details</p>
           </div>
         </a>
       </div>
@@ -104,12 +143,14 @@
       </div>
     </ng-container>
 
-    <ng-container  *ngIf="user && user.employee === true">
+    <ng-container *ngIf="user && user.employee === true">
       <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
         <div class="card shadow" (click)="hoverClick($event)">
           <a (click)="applyParkingSticker()">
             <div class="card-body">
-              <img src="https://png.pngtree.com/png-vector/20230327/ourmid/pngtree-car-parking-sign-design-template-vector-png-image_6671099.png" alt="evahaan" style="height: 23%;width: 17%">
+              <img
+                src="https://png.pngtree.com/png-vector/20230327/ourmid/pngtree-car-parking-sign-design-template-vector-png-image_6671099.png"
+                alt="evahaan" style="height: 23%;width: 17%">
               <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Parking Sticker</h5>
               <p class="card-text">Click here to apply for online Parking sticker</p>
             </div>
@@ -220,7 +261,7 @@
                 <div class="card-body">
                   <img
                     src="https://static.vecteezy.com/system/resources/previews/013/395/044/non_2x/reports-and-statistics-illustration-in-minimal-style-png.png"
-                    alt="evahaan" style="height: 23%;width: 17%">
+                    alt="evahaan" style="height: 20%;width: 13%">
                   <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Report</h5>
                   <p class="card-text">Click here to see various report</p>
                 </div>
@@ -235,9 +276,7 @@
               <a [routerLink]="'/reportpage/sportsUpdate'" style="text-decoration: none; color: inherit;">
                 <!-- <a (click)="reportOfrelatives()"> -->
                 <div class="card-body">
-                  <img
-                    src="https://png.pngtree.com/png-clipart/20190516/original/pngtree-run-icon-png-image_3581532.jpg"
-                    alt="evahaan" style="height: 23%;width: 17%">
+                  <img src="assets/images/sport2.png" alt="evahaan" style="height: 23%;width: 17%">
                   <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Sports Report</h5>
                   <p class="card-text">Click here to see Sports report</p>
                 </div>

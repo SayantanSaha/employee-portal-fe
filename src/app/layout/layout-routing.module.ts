@@ -59,6 +59,7 @@ const routes: Routes = [
       { path: 'RbApplyForm',loadChildren: () => import('../rbcardapplyform/rbcardapplyform.module').then(d => d.RbcardapplyformModule), canActivate: [AuthGuard]},
       { path: 'EbaApplyForm',loadChildren: () => import('../ebaapplyform/ebaapplyform.module').then(d => d.EbaapplyformModule), canActivate: [AuthGuard]},
       { path: 'reportpage/:mode',loadChildren: () => import('../report-page/report-page.module').then(d => d.ReportPageModule), canActivate: [AuthGuard]},
+      { path: 'sportUpdate',loadChildren: () => import('../sport-update/sport-update.module').then(d => d.SportUpdateModule), canActivate: [AuthGuard]},
     ]
   },
 
