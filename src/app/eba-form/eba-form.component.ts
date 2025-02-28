@@ -1018,50 +1018,61 @@ export class EbaFormComponent {
     }
   }
 
-  // onApplyReasonChange(i: any, j: any, k: any, property: string): void {
-  //   if (property === 'closefamily') {
-  //     const ebaPass = this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j];
-  //     if (ebaPass) {
-  //       ebaPass.FIR_no = null;
-  //       ebaPass.receipt_no = null;
-  //       ebaPass.fir_pdf = null;
-  //       ebaPass.apply_remark = null;
-  //     }
-  //   }
-  //   if (property === 'family') {
+  onApplyReasonChange(i: any, j: any, k: any, property: string): void {
+    if (property === 'closefamily') {
+      const ebaPass = this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j];
+      if (ebaPass) {
+        ebaPass.FIR_no = null;
+        ebaPass.receipt_no = null;
+        ebaPass.fir_pdf = null;
+        ebaPass.apply_remark = null;
+      }
+    }
+    if (property === 'family') {
 
-  //     const ebaPass = this.employee?.family?.[i]?.pivot?.eba_passes?.[j];
-  //     if (ebaPass) {
-  //       ebaPass.FIR_no = null;
-  //       ebaPass.receipt_no = null;
-  //       ebaPass.fir_pdf = null;
-  //       ebaPass.apply_remark = null;
-  //     }
+      const ebaPass = this.employee?.family?.[i]?.pivot?.eba_passes?.[j];
+      if (ebaPass) {
+        ebaPass.FIR_no = null;
+        ebaPass.receipt_no = null;
+        ebaPass.fir_pdf = null;
+        ebaPass.apply_remark = null;
+      }
 
-  //   }
-  //   if (property === 'servant') {
+    }
+    if (property === 'servant') {
 
-  //     const ebaPass = this.employee?.servants?.[i]?.eba_passes?.[j];
-  //     if (ebaPass) {
-  //       ebaPass.FIR_no = null;
-  //       ebaPass.receipt_no = null;
-  //       ebaPass.fir_pdf = null;
-  //       ebaPass.apply_remark = null;
-  //     }
+      const ebaPass = this.employee?.servants?.[i]?.eba_passes?.[j];
+      if (ebaPass) {
+        ebaPass.FIR_no = null;
+        ebaPass.receipt_no = null;
+        ebaPass.fir_pdf = null;
+        ebaPass.apply_remark = null;
+      }
 
-  //   }
-  //   if (property === 'servantfamily') {
+    }
+    if (property === 'servantfamily') {
 
-  //     const ebaPass = this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k];
-  //     if (ebaPass) {
-  //       ebaPass.FIR_no = null;
-  //       ebaPass.receipt_no = null;
-  //       ebaPass.fir_pdf = null;
-  //       ebaPass.apply_remark = null;
-  //     }
+      const ebaPass = this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k];
+      if (ebaPass) {
+        ebaPass.FIR_no = null;
+        ebaPass.receipt_no = null;
+        ebaPass.fir_pdf = null;
+        ebaPass.apply_remark = null;
+      }
 
-  //   }
-  // }
+    }
+    if (property === 'EmpCardData') {
+
+      const ebaPass = this.EmpCardData;
+      if (ebaPass) {
+        ebaPass.FIR_no = null;
+        ebaPass.receipt_no = null;
+        ebaPass.fir_pdf = null;
+        ebaPass.apply_remark = null;
+      }
+
+    }
+  }
 
   removeFile(event: Event, i: any, j: any, k: any, property: string): void {
     if (property === 'closefamily_photo_path' || 'closefamily_signature' || 'closefamily_id_proof_path' || 'closefamily_fir_pdf') {

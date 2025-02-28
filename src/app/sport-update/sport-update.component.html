@@ -3,22 +3,24 @@
 
     <div class="card-body">
       <div class="row">
-        <div class="col-md-9">
+        <div class="col">
           <h1 style="color: red; text-align: left; margin-bottom: 10px;text-decoration: underline;">
             Update your Sports Interest:</h1>
         </div>
+        </div>
+        <div class="row">
         <div class="col" style="text-align: right">
           <label class="upload-icon-label" style="margin-left: 3%;color: green;"
             *ngIf="!employee?.AllotmentId || employee?.AllotmentId === null" title="RB quarter Exist?"
             (click)="pullEbaPopup()">
             If you've applied or reside in a quarter, click Pull family/domestic help dtls. from EBA to
-            retrieve Family and Out House details.
+            retrieve Family. &nbsp;
             <!-- <i class="bi bi-question-circle btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"></i> -->
             <button type="button" class="btn btn-danger enlarge-on-hover" (click)="hoverClick($event)">
               Pull family/domestic help dtls. from EBA
             </button>
           </label>
-
+            &nbsp;
           <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
             (click)="addMember();pullEbaCardPopup('relative','i','j')">
             +Add Relative

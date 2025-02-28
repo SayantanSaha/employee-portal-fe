@@ -1,28 +1,37 @@
 <div class="container">
   <!-- <ng-container *ngIf="user && user.color && (user.color == 1 || user.color == 2 || user.color == 3)"> -->
-    <div *ngIf="showNotification" class="row shadow"
-      style="display: block; padding: 2px; background-color: #f0f8ff; border: 1px solid #007bff; border-radius: 5px; font-size: 14px; color: #333; font-family: Arial, sans-serif; margin: 0 auto; position: relative;">
-      <br>
-      <div class=" row">
-        <div class="col-md-11">
-          <h1 style="color: red; text-align: left; margin-bottom: 10px; text-decoration: underline;">
-            Whats New:
-          </h1>
-        </div>
-        <div class="col-md-1">
-          <button (click)="dismissNotification()"
-            style="font-size: 20px; background: none; border: none; color: #007bff; position: absolute; top: 10px; right: 10px; cursor: pointer;">&times;</button>
-        </div>
+  <div *ngIf="showNotification" class="row shadow"
+    style="display: block; padding: 2px; background-color: #f0f8ff; border: 1px solid #007bff; border-radius: 5px; font-size: 14px; color: #333; font-family: Arial, sans-serif; margin: 0 auto; position: relative;">
+    <br>
+    <div class=" row">
+      <div class="col-md-11">
+        <h1 style="color: red; text-align: left; margin-bottom: 10px; text-decoration: underline;">
+          Whats New:
+        </h1>
       </div>
-
-      <p style="text-align: justify; font-size: 18px; line-height: 1.4; color: #333; font-family: Arial, sans-serif;">
-        Please update your family's sport interests by clicking <a [routerLink]="'/sportUpdate'"
-          style="text-decoration: none; color: blue;text-decoration: underline;"><b>"Update Sports".</b></a>
-      </p>
-      <br>
+      <div class="col-md-1">
+        <button (click)="dismissNotification()"
+          style="font-size: 20px; background: none; border: none; color: #007bff; position: absolute; top: 10px; right: 10px; cursor: pointer;">&times;</button>
+      </div>
     </div>
 
+    <!-- <p style="text-align: justify; font-size: 18px; line-height: 1.4; color: #333; font-family: Arial, sans-serif;">
+        <span>&bull;</span>  Please update your family's sport interests by clicking <a [routerLink]="'/sportUpdate'"
+          style="text-decoration: none; color: blue;text-decoration: underline;"><b>"Update Sports".</b></a>
+      </p> -->
+    <p style="text-align: justify; font-size: 18px; line-height: 1.4; color: #333; font-family: Arial, sans-serif;">
+      <span style="display: inline-block; position: relative; padding-left: 20px; font-weight: normal;">
+        <span style="position: absolute; left: 0; top: 0; font-size: 18px;">•</span>
+        Please update your family's sport interests by clicking <a [routerLink]="'/sportUpdate'"
+          style="text-decoration: none; color: blue;text-decoration: underline;"><b>"Update Sports".</b></a>
+      </span>
+    </p>
+
+
     <br>
+  </div>
+
+  <br>
   <!-- </ng-container> -->
   <!-- <br> -->
 

@@ -3097,6 +3097,75 @@
                     </div>
                   </div>
                 </div>
+
+                <hr class="row-divider">
+                <div class="row mb-3">
+                  <div class="col-md-3" style="text-align: right">
+                    <label class="form-label">Apply Reason:<span *ngIf="employee!.dh==true" style="color: red;"
+                        class="required">*</span></label>
+                  </div>
+                  <div class="col-md-3" *ngIf="employee!.dh==true">
+                    <select class="form-control" [(ngModel)]="EmpCardData!.apply_reason"
+                      (change)="onApplyReasonChange('i','j','k','EmpCardData')">
+                      <option value="null">--Select reason--</option>
+                      <option value="Lost/theaft">Lost/theft</option>
+                      <option value="Renewal">Renewal</option>
+                      <option value="Damage">Damage</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    <div *ngIf="!employee!.dh">{{EmpCardData!.apply_reason}}</div>
+                  </div>
+                  <div class="col-md-3" *ngIf="EmpCardData!.apply_reason == 'Other'" style="text-align: right">
+                    <label class="form-label">Remark:<span *ngIf="employee!.dh==true" style="color: red;"
+                        class="required">*</span></label>
+                  </div>
+                  <div class="col-md-3">
+                    <input *ngIf="EmpCardData!.apply_reason == 'Other' && employee!.dh==true" type="text"
+                      class="form-control" [(ngModel)]="EmpCardData!.apply_remark" placeholder="Remark">
+                    <div *ngIf="!employee!.dh">{{EmpCardData!.apply_remark}} </div>
+                  </div>
+                  <div class="col-md-3" *ngIf="EmpCardData!.apply_reason == 'Lost/theaft'" style="text-align: right">
+                    <label class="form-label">FIR No.:</label>
+                  </div>
+                  <div class="col-md-3">
+                    <input *ngIf="EmpCardData!.apply_reason == 'Lost/theaft'" type="text" class="form-control"
+                      [(ngModel)]="EmpCardData!.FIR_no" placeholder="FIR No">
+                      <div *ngIf="!employee!.dh">{{EmpCardData!.FIR_no}} </div>
+                  </div>
+
+                  <div class="col-md-3" *ngIf="EmpCardData!.apply_reason == 'Lost/theaft'" style="text-align: right">
+                    <label class="form-label">Receipt No.:</label>
+                  </div>
+                  <div class="col-md-3">
+                    <input *ngIf="EmpCardData!.apply_reason == 'Lost/theaft'" type="text" class="form-control"
+                      [(ngModel)]="EmpCardData!.receipt_no" placeholder="Receipt No">
+                      <div *ngIf="!employee!.dh">{{EmpCardData!.receipt_no}} </div>
+                  </div>
+
+                  <ng-container
+                    *ngIf="EmpCardData.fir_pdf && EmpCardData.fir_pdf!=null && (!EmpCardData.fir_pdf_edit || EmpCardData.fir_pdf_edit===null) && (!EmpCardData.fir_pdf_edit_64 || EmpCardData.fir_pdf_edit_64===null)">
+                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                      href="{{apiUrl}}getFile/{{EmpCardData.fir_pdf}}" title="Order File" target="_blank">
+                      <i class="bi bi-eye"></i>
+                    </a>
+                  </ng-container>
+
+                  <ng-container
+                    *ngIf="EmpCardData.fir_pdf_edit && EmpCardData.fir_pdf_edit!=null && (!EmpCardData.fir_pdf_edit_64 || EmpCardData.fir_pdf_edit_64===null) ">
+                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
+                      href="{{apiUrl}}getFile/{{EmpCardData.fir_pdf_edit}}" title="Order File" target="_blank">
+                      <i class="bi bi-eye"></i>
+                    </a>
+                  </ng-container>
+
+                  <ng-container *ngIf="EmpCardData.fir_pdf_edit_64 && EmpCardData.fir_pdf_edit_64!=null">
+                    <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
+                      (click)="openPdfInNewTab(EmpCardData.fir_pdf_edit_64);hoverClick($event)"></i>
+                  </ng-container>
+                </div>
+
+
+
                 <hr class="row-divider">
                 <div class="row mb-3">
                   <div class="col-md">
@@ -3229,7 +3298,8 @@
                 <div class="row">
                   <div class="d-flex justify-content-center" style="text-align: center">
                     <button type="button" class="btn btn-outline-secondary enlarge-on-hover" name="preview"
-                      value="preview" (click)="preview()">Current Passes</button>
+                      value="preview" *ngIf="!employee!.app || employee!.app != 'EMP Application'"
+                      (click)="preview()">Current Passes</button>
                   </div>
 
                   <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false"

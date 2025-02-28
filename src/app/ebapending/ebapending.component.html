@@ -35,9 +35,12 @@
                 <tr *ngFor="let ebaPending of ebaPendingList; let i = index">
                   <td>{{ i + 1 }}</td>
                   <td>{{ ebaPending?.reg_no}}</td>
-                  <td>{{ ebaPending?.id_cards?.[0]?.card_no}}</td>
+                  <td>{{ ebaPending.id_cards?.[0]?.card_no || ebaPending?.details?.pass_no || ebaPending.application_type}}</td>
+                                  <td>{{ ebaPending.employee?.emp_name || ebaPending.details.name_print}}</td>
+                                  <td>{{ ebaPending.employee?.mobile || ebaPending.details.mob_no}}</td>
+                  <!-- <td>{{ ebaPending?.id_cards?.[0]?.card_no}}</td>
                   <td>{{ ebaPending?.employee?.emp_name }}</td>
-                  <td>{{ ebaPending?.employee?.mobile }}</td>
+                  <td>{{ ebaPending?.employee?.mobile }}</td> -->
                   <td>{{ formatDate(ebaPending?.created_at) }}</td>
                   <ng-container *ngIf="from=='serach'">
                     <td >{{  ebaPending?.roles?.[0]?.role_desc }}</td>
