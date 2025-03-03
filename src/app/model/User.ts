@@ -6,6 +6,7 @@ export class User{
   employee_id : number| null = null;
   employee : any;
   color : any;
+  card_valid : any;
   password: string|null = '';
   active: any;
   id: number = -1 ;

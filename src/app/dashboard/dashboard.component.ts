@@ -2,6 +2,7 @@ import { Component, OnInit, } from '@angular/core';
 import { EmployeeService } from "../employee.service";
 import { User } from "../model/User";
 import { Employee } from "../model/Employee";
+import Swal from 'sweetalert2';
 
 
 
@@ -45,6 +46,30 @@ export class DashboardComponent implements OnInit {
         console.error('Error fetching employee data:', error);
       }
     );
+
+    if (!this.user.card_valid && this.user.color){
+      Swal.fire({
+        title: 'Rb Card expired',
+        text: 'Your Rb Crad has expired.',
+        icon: 'warning',
+      })
+    }
+
+
+    // this.employeeService.checkRbexpDate().subscribe(
+    //   data => {
+        // this.cardValid = data;
+        // Swal.fire({
+        //   title: 'Rb Card expired',
+        //   text: 'Your Rb Crad has expired.',
+        //   icon: 'warning',
+        // })
+    //   },
+    //   error => {
+    //     console.error('Something Went wrong while validating your card:', error);
+    //   }
+    // );
+
   }
 
   changeBackgroundImage() {

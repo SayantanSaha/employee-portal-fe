@@ -44,8 +44,8 @@
 
   <div class="row">
     <!-- Profile Card -->
-    <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
-      <div class="card shadow" (click)="hoverClick($event)" *ngIf="user && user.employee === true">
+    <div class="col-sm-6 col-md-3 col-lg-3  mb-4" *ngIf="user && user.employee === true">
+      <div class="card shadow" (click)="hoverClick($event)" >
         <a [routerLink]="'/profile/view'" style="text-decoration: none; color: inherit;">
           <div class="card-body">
             <i class="bi bi-person-circle"></i>
@@ -121,7 +121,7 @@
 
     <!-- Apply EBA Card (roles 1, 2, 3) -->
     <ng-container
-      *ngIf="user && user.color && (user.color === 1 || user.color === 2 || user.color === 3) && user.employee === true">
+      *ngIf="user && user.color && (user.color === 1 || user.color === 2 || user.color === 3) && user.employee === true && user.card_valid==true">
       <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
         <div class="card shadow" (click)="hoverClick($event)">
           <a [routerLink]="'/eba-form/edit/relative/view'" style="text-decoration: none; color: inherit;">
@@ -138,7 +138,7 @@
     </ng-container>
 
     <!-- Apply E-Vaahan Card (color === 3) -->
-    <ng-container *ngIf="user && user.color && user.color === 3 && user.employee === true">
+    <ng-container *ngIf="user && user.color && user.color === 3 && user.employee === true && user.card_valid==true">
       <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
         <div class="card shadow" (click)="hoverClick($event)">
           <a (click)="applyEvahaan()">
@@ -152,7 +152,7 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="user && user.employee === true">
+    <ng-container *ngIf="user && user.employee === true && user.card_valid==true">
       <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
         <div class="card shadow" (click)="hoverClick($event)">
           <a (click)="applyParkingSticker()">
@@ -185,7 +185,7 @@
   <br><br>
 
   <!-- For Office Section -->
-  <ng-container *ngIf="user && user.employee_id !== null">
+  <ng-container *ngIf="user && user.employee_id !== null && user.card_valid==true">
     <ng-container *ngIf="hasValidRole()">
       <div class="row">
         <div class="col-md-8" style="font-size: 20px;">
@@ -196,7 +196,7 @@
   </ng-container>
 
   <div class="row">
-    <ng-container *ngIf="user && user.role && user.employee === true">
+    <ng-container *ngIf="user && user.role && user.employee === true && user.card_valid==true">
       <ng-container *ngFor="let role of user.role">
 
         <!-- Employee Info Card for role === 1 -->
