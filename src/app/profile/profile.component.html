@@ -440,7 +440,7 @@
                               <div class="col-md-2">
                                 <select class="form-control" [(ngModel)]="employee!.emp_title"
                                   (ngModelChange)="onInputChange()">
-                                  <option value="null">Select Title</option>
+                                  <option [ngValue]="null">Select Title</option>
                                   <option>Mr</option>
                                   <option>Ms</option>
                                   <option>Miss</option>
@@ -455,7 +455,8 @@
                               </div>
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
-                              {{employee!.emp_title}}. {{employee!.emp_name}}
+                              {{ (employee?.emp_title ?? '') + (employee?.emp_title ? '. ' : '') + (employee?.emp_name
+                              ?? '') }}
                             </div>
                           </div>
 
@@ -465,7 +466,7 @@
                               <div class="col-md-2">
                                 <select class="form-control" [(ngModel)]="employee!.emp_title_hi"
                                   (ngModelChange)="onInputChange()">
-                                  <option value="null">अभिवादन का चयन करें</option>
+                                  <option [ngValue]="null">अभिवादन का चयन करें</option>
                                   <option>श्री</option>
                                   <option>सुश्री</option>
                                   <option>कुमारी</option>
@@ -518,7 +519,8 @@
                             <div *ngIf="editable" class="input-group mb-3">
                               <input type="date" class="form-control" placeholder="Date Of Birth"
                                 aria-label="Date Of Birth" [(ngModel)]="employee!.dob" (ngModelChange)="onInputChange()"
-                                (change)="calculateDor()" [max]="maxDate">
+                                [max]="maxDate">
+                              <!-- (change)="calculateDor()" -->
                             </div>
                             <div *ngIf="!editable" class="input-group mb-3">
                               {{formatDate(employee!.dob)}}
@@ -526,7 +528,7 @@
                           </div>
 
                           <div class="col-md">
-                            <label class="form-label">Gender</label>
+                            <label class="form-label">Gender<span class="text-danger">*</span></label>
                             <div *ngIf="editable" class="input-group mb-3">
                               <select *ngIf="employee && editable" class="form-control" [(ngModel)]="employee!.gender"
                                 [compareWith]="compareGender" (ngModelChange)="onInputChange()">
@@ -549,18 +551,23 @@
                         </div>
 
                         <div class="row">
-                          <div class="col-md-6">
-                            <label class="form-label">Date of Joining in Government Service<span
-                                class="text-danger">*</span></label>
-                            <div *ngIf="editable" class="input-group mb-3">
-                              <input type="date" class="form-control" placeholder="Date Of Joining"
-                                aria-label="Date Of Joining" [(ngModel)]="employee!.doj_gs"
-                                (change)="checkDateOfJoining()" (ngModelChange)="onInputChange()" [max]="maxDate">
-                            </div>
-                            <div *ngIf="!editable" class="input-group mb-3">
-                              {{formatDate(employee!.doj_gs)}}
-                            </div>
-                          </div>
+                          <ng-container *ngFor="let id_card of employee!.id_cards; let i = index">
+                            <ng-container
+                              *ngIf="(id_card.card_type_id == 1 || id_card.card_type_id == 2 || id_card.card_type_id == 3 ) && id_card.active === 1">
+                              <div class="col-md-6">
+                                <label class="form-label">Date of Joining in Government Service<span
+                                    class="text-danger">*</span></label>
+                                <div *ngIf="editable" class="input-group mb-3">
+                                  <input type="date" class="form-control" placeholder="Date Of Joining"
+                                    aria-label="Date Of Joining" [(ngModel)]="employee!.doj_gs"
+                                    (change)="checkDateOfJoining()" (ngModelChange)="onInputChange()" [max]="maxDate">
+                                </div>
+                                <div *ngIf="!editable" class="input-group mb-3">
+                                  {{formatDate(employee!.doj_gs)}}
+                                </div>
+                              </div>
+                            </ng-container>
+                          </ng-container>
 
                           <div class="col-md-6">
                             <label class="form-label">Date of Joining in Rashtrapati Bhavan<span
@@ -574,22 +581,25 @@
                               {{formatDate(employee!.doj_rb)}}
                             </div>
                           </div>
-                        </div>
 
+                          <ng-container *ngFor="let id_card of employee!.id_cards; let i = index">
+                            <ng-container
+                              *ngIf="(id_card.card_type_id == 1 || id_card.card_type_id == 2 || id_card.card_type_id == 3 ) && id_card.active === 1">
 
-                        <div class="row">
-                          <div class="col-md-6">
-                            <label class="form-label">Date of retirement</label>
-                            <div *ngIf="editable" class="input-group mb-3">
-                              <input type="date" class="form-control" placeholder="Date Of retirement"
-                                aria-label="Date Of retirement" [(ngModel)]="employee!.dor"
-                                (ngModelChange)="onInputChange()">
-                            </div>
-                            <div *ngIf="!editable" class="input-group mb-3">
-                              {{formatDate(employee!.dor)}}
-                            </div>
+                              <div class="col-md-6">
+                                <label class="form-label">Date of retirement<span class="text-danger">*</span></label>
+                                <div *ngIf="editable" class="input-group mb-3">
+                                  <input type="date" class="form-control" placeholder="Date Of retirement"
+                                    aria-label="Date Of retirement" [(ngModel)]="employee!.dor"
+                                    (ngModelChange)="onInputChange()">
+                                </div>
+                                <div *ngIf="!editable" class="input-group mb-3">
+                                  {{formatDate(employee!.dor)}}
+                                </div>
 
-                          </div>
+                              </div>
+                            </ng-container>
+                          </ng-container>
 
                           <div class="col-md-6">
                             <label class="form-label">Blood Group</label>
@@ -605,7 +615,16 @@
                               <span>{{ employee?.blood_group }}</span>
                             </div>
                           </div>
-
+                          <div class="col-md-6">
+                            <label class="form-label">Identification Mark(On Body):</label>
+                            <div *ngIf="editable" class="input-group mb-3">
+                              <input type="text" class="form-control" placeholder="body mark" aria-label="body mark"
+                                [(ngModel)]="employee!.body_mark" (ngModelChange)="onInputChange()">
+                            </div>
+                            <div *ngIf="!editable" class="input-group mb-3">
+                              {{employee!.body_mark}}
+                            </div>
+                          </div>
                           <!-- <div class="col-md-6">
                             <label class="form-label">Police Verification No</label>
                             <div *ngIf="editable" class="input-group mb-3">
@@ -617,22 +636,6 @@
                               {{employee!.police_verification_no}}
                             </div>
                           </div> -->
-                        </div>
-
-                        <div class="row">
-                          <div class="col-md-6">
-                            <label class="form-label">Identification Mark(On Body):</label>
-                            <div *ngIf="editable" class="input-group mb-3">
-                              <input type="text" class="form-control" placeholder="body mark" aria-label="body mark"
-                                [(ngModel)]="employee!.body_mark" (ngModelChange)="onInputChange()">
-                            </div>
-                            <div *ngIf="!editable" class="input-group mb-3">
-                              {{employee!.body_mark}}
-                            </div>
-                          </div>
-
-
-
                         </div>
 
                         <div class="row">
@@ -1406,7 +1409,7 @@
 
                     <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
                       (click)="addMember();pullEbaCardPopup('relative','i','j')">
-                      +Add Relative
+                      +Add Family
                     </button>
 
                   </div>

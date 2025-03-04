@@ -10,7 +10,7 @@
           <div style="font-size: 200%; color: deeppink">
             RB Card Application
             <ng-container *ngIf="employee!.reg_no || reg_no">
-              / {{employee!.reg_no}}{{reg_no}}
+              / {{reg_no || employee!.reg_no}}
             </ng-container>
             <ng-container *ngIf="(employee!.status || status) && user.username != '9999373896'">
               / {{employee!.status}}{{status}}

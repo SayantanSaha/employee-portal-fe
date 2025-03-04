@@ -3182,27 +3182,22 @@ export class ProfileComponent implements OnInit {
 
   // }
 
-  calculateDor(): void {
-    if (this.employee!.dob) {
-      const dob = new Date(this.employee!.dob);
-      let date = new Date(dob);
-
-      // Add 60 years to the Date of Birth
-      date.setFullYear(date.getFullYear() + 60);
-
-      if (date.getDate() === 1) {
-        // If DoB is the 1st, set DoR to the last day of the previous month
-        date.setDate(0); // Set to the last day of the previous month
-      } else {
-        // Otherwise, set DoR to the last day of the same month
-        date.setMonth(date.getMonth() + 1); // Move to the next month
-        date.setDate(0); // Set to the last day of the current month
-      }
-
-      // Format DoR as 'YYYY-MM-DD' for the input
-      this.employee!.dor = date.toISOString().slice(0, 10);
-    }
-  }
+  // calculateDor(): void {
+  //   if (this.employee!.id_cards!.some(card => card.active === 1 && (card.card_type_id === 3 || card.card_type_id == 2 || card.card_type_id == 1))) {
+  //     if (this.employee!.dob) {
+  //       const dob = new Date(this.employee!.dob);
+  //       let date = new Date(dob);
+  //       date.setFullYear(date.getFullYear() + 60);
+  //       if (date.getDate() === 1) {
+  //         date.setDate(0);
+  //       } else {
+  //         date.setMonth(date.getMonth() + 1);
+  //         date.setDate(0);
+  //       }
+  //       this.employee!.dor = date.toISOString().slice(0, 10);
+  //     }
+  //   }
+  // }
 
   /***** Date Check Validation Function Start *****/
 
