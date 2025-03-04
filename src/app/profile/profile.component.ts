@@ -885,55 +885,68 @@ export class ProfileComponent implements OnInit {
   }
 
   deletePromotion(index: any) {
-    if (index !== -1) {
-      this.employeeService.deletePromotion(index, this.employee!.id).subscribe(
-        p => {
-          console.log(p);
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Designation has been removed successfully',
-          });
-          if (this.urlId == true) {
-            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
-              this.employeeService.getEmpProfile(this.id).subscribe(
-                data => {
-                  this.employee = data;
-                  this.initializeChangesServantRelation();
-                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this designation?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (index !== -1) {
+          this.employeeService.deletePromotion(index, this.employee!.id).subscribe(
+            p => {
+              console.log(p);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Designation has been removed successfully',
+              });
+              if (this.urlId == true) {
+                if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+                  this.employeeService.getEmpProfile(this.id).subscribe(
+                    data => {
+                      this.employee = data;
+                      this.initializeChangesServantRelation();
+                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    }
+                  );
                 }
-              );
-            }
-          } else {
-            this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
+              } else {
+                this.employeeService.getMyProfile().subscribe(
+                  datas => {
+                    this.employee = datas;
 
-                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+                );
               }
-            );
-          }
-        },
-        e => {
-          console.log(e);
-          if (e.status === 302) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Warning',
-              text: 'Previous Record Not Approved !!!',
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Promotion details have not been removed successfully.',
-            });
-          }
+            },
+            e => {
+              console.log(e);
+              if (e.status === 302) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'Previous Record Not Approved !!!',
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Promotion details have not been removed successfully.',
+                });
+              }
+            }
+          );
         }
-      );
-    }
+      }
+    });
   }
 
   activateRecord(index: number) {
@@ -1119,55 +1132,68 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteposting(index: any) {
-    if (index !== -1) {
-      this.employeeService.deletePosting(index, this.employee!.id).subscribe(
-        p => {
-          console.log(p);
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'posting has been removed successfully',
-          });
-          if (this.urlId == true) {
-            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
-              this.employeeService.getEmpProfile(this.id).subscribe(
-                data => {
-                  this.employee = data;
-                  this.initializeChangesServantRelation();
-                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this division?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (index !== -1) {
+          this.employeeService.deletePosting(index, this.employee!.id).subscribe(
+            p => {
+              console.log(p);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'posting has been removed successfully',
+              });
+              if (this.urlId == true) {
+                if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+                  this.employeeService.getEmpProfile(this.id).subscribe(
+                    data => {
+                      this.employee = data;
+                      this.initializeChangesServantRelation();
+                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    }
+                  );
                 }
-              );
-            }
-          } else {
-            this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
+              } else {
+                this.employeeService.getMyProfile().subscribe(
+                  datas => {
+                    this.employee = datas;
 
-                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+                );
               }
-            );
-          }
-        },
-        e => {
-          console.log(e);
-          if (e.status === 302) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Warning',
-              text: 'Previous Record Not Approved !!!',
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'posting details have not been removed successfully.',
-            });
-          }
+            },
+            e => {
+              console.log(e);
+              if (e.status === 302) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'Previous Record Not Approved !!!',
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'posting details have not been removed successfully.',
+                });
+              }
+            }
+          );
         }
-      );
-    }
+      }
+    });
   }
   /*********** Add Division Function End **********/
 
@@ -1782,55 +1808,68 @@ export class ProfileComponent implements OnInit {
   }
 
   deleterelation(index: any) {
-    if (index !== -1) {
-      this.employeeService.deleterelation(index, this.employee!.id).subscribe(
-        p => {
-          console.log(p);
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'relation has been removed successfully',
-          });
-          if (this.urlId == true) {
-            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
-              this.employeeService.getEmpProfile(this.id).subscribe(
-                data => {
-                  this.employee = data;
-                  this.initializeChangesServantRelation();
-                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this family detail?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (index !== -1) {
+          this.employeeService.deleterelation(index, this.employee!.id).subscribe(
+            p => {
+              console.log(p);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'relation has been removed successfully',
+              });
+              if (this.urlId == true) {
+                if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+                  this.employeeService.getEmpProfile(this.id).subscribe(
+                    data => {
+                      this.employee = data;
+                      this.initializeChangesServantRelation();
+                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    }
+                  );
                 }
-              );
-            }
-          } else {
-            this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
+              } else {
+                this.employeeService.getMyProfile().subscribe(
+                  datas => {
+                    this.employee = datas;
 
-                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+                );
               }
-            );
-          }
-        },
-        e => {
-          console.log(e);
-          if (e.status === 302) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Warning',
-              text: 'Previous Record Not Approved !!!',
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'relation details have not been removed successfully.',
-            });
-          }
+            },
+            e => {
+              console.log(e);
+              if (e.status === 302) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'Previous Record Not Approved !!!',
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'relation details have not been removed successfully.',
+                });
+              }
+            }
+          );
         }
-      );
-    }
+      }
+    });
   }
 
 
@@ -1988,37 +2027,50 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  deleteServantFamily(index: any,servantId:any) {
-    if (index !== -1) {
-      this.employeeService.deleteServantFamily(index, this.employee!.id,servantId).subscribe(
-        p => {
-          console.log(p);
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'domestic_help family has been removed successfully',
-          });
-          this.initializeData();
-          this.setEdit();
-        },
-        e => {
-          console.log(e);
-          if (e.status === 302) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Warning',
-              text: 'Previous Record Not Approved !!!',
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'domestic_help family details have not been removed successfully.',
-            });
-          }
+  deleteServantFamily(index: any, servantId: any) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this domestic help family details?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (index !== -1) {
+          this.employeeService.deleteServantFamily(index, this.employee!.id, servantId).subscribe(
+            p => {
+              console.log(p);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'domestic_help family has been removed successfully',
+              });
+              this.initializeData();
+              this.setEdit();
+            },
+            e => {
+              console.log(e);
+              if (e.status === 302) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'Previous Record Not Approved !!!',
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'domestic_help family details have not been removed successfully.',
+                });
+              }
+            }
+          );
         }
-      );
-    }
+      }
+    });
   }
 
   saveServantRel(i: number, k: number) {
@@ -2212,55 +2264,68 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteServant(index: any) {
-    if (index !== -1) {
-      this.employeeService.deleteServant(index, this.employee!.id).subscribe(
-        p => {
-          console.log(p);
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'domestic_help has been removed successfully',
-          });
-          if (this.urlId == true) {
-            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
-              this.employeeService.getEmpProfile(this.id).subscribe(
-                data => {
-                  this.employee = data;
-                  this.initializeChangesServantRelation();
-                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this domestic help detail?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (index !== -1) {
+          this.employeeService.deleteServant(index, this.employee!.id).subscribe(
+            p => {
+              console.log(p);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'domestic_help has been removed successfully',
+              });
+              if (this.urlId == true) {
+                if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+                  this.employeeService.getEmpProfile(this.id).subscribe(
+                    data => {
+                      this.employee = data;
+                      this.initializeChangesServantRelation();
+                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    }
+                  );
                 }
-              );
-            }
-          } else {
-            this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
+              } else {
+                this.employeeService.getMyProfile().subscribe(
+                  datas => {
+                    this.employee = datas;
 
-                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+                );
               }
-            );
-          }
-        },
-        e => {
-          console.log(e);
-          if (e.status === 302) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Warning',
-              text: 'Previous Record Not Approved !!!',
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'domestic_help details have not been removed successfully.',
-            });
-          }
+            },
+            e => {
+              console.log(e);
+              if (e.status === 302) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'Previous Record Not Approved !!!',
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'domestic_help details have not been removed successfully.',
+                });
+              }
+            }
+          );
         }
-      );
-    }
+      }
+    });
   }
 
   /***************** Add Servant Members Function End ***************8*******/
@@ -2338,55 +2403,68 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteVehicle(index: any) {
-    if (index !== -1) {
-      this.employeeService.deleteVehicle(index, this.employee!.id).subscribe(
-        p => {
-          console.log(p);
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Vehicle has been removed successfully',
-          });
-          if (this.urlId == true) {
-            if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
-              this.employeeService.getEmpProfile(this.id).subscribe(
-                data => {
-                  this.employee = data;
-                  this.initializeChangesServantRelation();
-                  this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                  this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this Vehicle?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (index !== -1) {
+          this.employeeService.deleteVehicle(index, this.employee!.id).subscribe(
+            p => {
+              console.log(p);
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Vehicle has been removed successfully',
+              });
+              if (this.urlId == true) {
+                if (this.user && this.user.role && this.user.role.some((role: number) => (role === 1))) {
+                  this.employeeService.getEmpProfile(this.id).subscribe(
+                    data => {
+                      this.employee = data;
+                      this.initializeChangesServantRelation();
+                      this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                      this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    }
+                  );
                 }
-              );
-            }
-          } else {
-            this.employeeService.getMyProfile().subscribe(
-              datas => {
-                this.employee = datas;
+              } else {
+                this.employeeService.getMyProfile().subscribe(
+                  datas => {
+                    this.employee = datas;
 
-                this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
-                this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                    this.getDistricts(this.employee.curr_state!).then(districts => this.currDistricts = districts);
+                    this.getDistricts(this.employee.perm_state!).then(districts => this.permDistricts = districts);
+                  }
+                );
               }
-            );
-          }
-        },
-        e => {
-          console.log(e);
-          if (e.status === 302) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Warning',
-              text: 'Previous Record Not Approved !!!',
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Vehicle details have not been removed successfully.',
-            });
-          }
+            },
+            e => {
+              console.log(e);
+              if (e.status === 302) {
+                Swal.fire({
+                  icon: 'warning',
+                  title: 'Warning',
+                  text: 'Previous Record Not Approved !!!',
+                });
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: 'Vehicle details have not been removed successfully.',
+                });
+              }
+            }
+          );
         }
-      );
-    }
+      }
+    });
   }
   /************************* Add Vehicle Function End *************************/
 
