@@ -53,7 +53,7 @@ export class RegistrationComponent implements OnInit {
   currentPageIndex = 0;
   totalPages = 5;
   slides = new Array(this.totalPages);
-  currentDate: string= "";
+  currentDate: string = "";
   isLoading: boolean = false;
 
   constructor(
@@ -67,7 +67,7 @@ export class RegistrationComponent implements OnInit {
 
 
   ngOnInit() {
-    this.isLoading=true;
+    this.isLoading = true;
     const today = new Date();
     today.setFullYear(today.getFullYear() - 18); // Subtract 18 years from today
 
@@ -112,15 +112,15 @@ export class RegistrationComponent implements OnInit {
     );
 
     this.employeeService.getDesignations(1).subscribe(
-      data=>this.designations=data,
+      data => this.designations = data,
       error => console.log(error)
     );
 
     this.employeeService.getDivisionMasterList().subscribe(
-      data=>this.divisiontypelist=data,
+      data => this.divisiontypelist = data,
       error => console.log(error)
     );
-    this.isLoading=false;
+    this.isLoading = false;
   }
 
   doRegistration() {
@@ -377,18 +377,48 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  onInput(event: any , property:string) {
+  changeEmpType() {
+    delete this.employee.payLevel;
+    delete this.employee.dor;
+  }
+
+  recruitmentOptions = [
+    { id: 58, name: 'Administration' },
+    { id: 59, name: 'Establishment' },
+    { id: 115, name: 'ACP' },
+    { id: 64, name: 'NIC' },
+    { id: 101, name: 'PEED' },
+    { id: 100, name: 'PED' },
+    { id: 92, name: 'House Hold' },
+    { id: 116, name: 'Garrage' },
+    { id: 47, name: 'Eba' }
+  ];
+
+  getRecruitmentLabel(id: any) {
+    const selected = this.recruitmentOptions.find(option => option.id === id);
+    return selected ? selected.name : 'Unknown';
+  }
+
+  // recruitmentshow: any;
+  // recruitment() {
+  //   if (this.employee.payLevel && this.employee.payLevel !== null) {
+  //     this.recruitmentshow = this.payLevels.find(pay => pay.id === this.employee.payLevel).pay_desc;
+  //   }
+  // }
+
+
+  onInput(event: any, property: string) {
     const input = event.target.value;
     // Remove non-numeric characters using regular expression
     const numericInput = input.replace(/\D/g, '');
     // Update the input value with the filtered numeric input
     event.target.value = numericInput;
     // Update the ngModel binding
-    if(property=='curr_pin')
-    this.employee!.curr_pin = numericInput;
-    if(property=='perm_pin')
+    if (property == 'curr_pin')
+      this.employee!.curr_pin = numericInput;
+    if (property == 'perm_pin')
       this.employee!.perm_pin = numericInput;
-    if(property=='mobile')
+    if (property == 'mobile')
       this.employee!.mobile = numericInput;
 
   }
@@ -433,7 +463,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   calculateDor(): void {
-    if (this.employee!.dob) {
+    if (this.employee!.dob && this.employee!.emp_type=='Permanent') {
       const dob = new Date(this.employee!.dob);
       let date = new Date(dob);
 
