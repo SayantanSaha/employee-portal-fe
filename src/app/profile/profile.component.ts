@@ -76,6 +76,7 @@ export class ProfileComponent implements OnInit {
   mode: string | null = null;
   editable: boolean = false;
   NICadmin: boolean = false;
+  admin: boolean = false;
   urlId: boolean = false;
   id: any = null;
   states: State[] = [];
@@ -165,8 +166,14 @@ export class ProfileComponent implements OnInit {
           );
         }
       });
+
+
       if (this.user && this.user.role && this.user.role.some((role: number) => (role === 2))) {
         this.NICadmin = true;
+      }
+
+      if (this.user && this.user.role && this.user.role.some((role: number) => (role === 2) || (role === 1))) {
+        this.admin = true;
       }
 
       this.employeeService.getPays().subscribe(

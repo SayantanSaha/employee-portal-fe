@@ -220,15 +220,15 @@ export class RbprintComponent implements OnInit {
     }
   }
 
-  ebacard: any = 'none';
+  idcard: any = 'none';
   printData: any;
 
-  openebacardPopup(i: number) {
-    this.ebacard = "block";
+  openidcardPopup(i: number) {
+    this.idcard = "block";
     this.printData = this.rbprintData[i];
   }
-  closeebacardPopup() {
-    this.ebacard = "none";
+  closeidcardPopup() {
+    this.idcard = "none";
   }
 
   editcard: any = 'none';
@@ -276,12 +276,12 @@ export class RbprintComponent implements OnInit {
   //   this.renderer.addClass(this.el.nativeElement.querySelector('.print'), 'print');
   // }
 
-  rfid(ebapassno: any) {
+  rfid(idpassno: any) {
     // Check if RFID is available and not null
     if (this.Rfid && this.Rfid !== null) {
       this.isLoading = true;
-      // Call the employeeService to update EBA pass using RFID and ebapassno
-      this.employeeService.rbrfid(this.Rfid, ebapassno).subscribe(
+      // Call the employeeService to update id pass using RFID and idpassno
+      this.employeeService.rbrfid(this.Rfid, idpassno).subscribe(
         // On success
         () => {
           Swal.fire({
@@ -302,7 +302,7 @@ export class RbprintComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'An error occurred while updating EBA.',
+            text: 'An error occurred while updating rfid.',
           });
         }, () => {
           this.isLoading = false; // Hide loading symbol

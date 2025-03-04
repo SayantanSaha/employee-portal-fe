@@ -288,7 +288,7 @@
                     <label class="form-label">Employee Type:</label>
                     <div class="input-group mb-3">
                       <select class="form-control" [(ngModel)]="employee.emp_type" (keydown)="disableTabKey($event)">
-                        <option value="">--Select type--</option>
+                        <option value="null">--Select type--</option>
                         <option [ngValue]="'Permanent'">Permanent</option>
                         <option [ngValue]="'Temporary'">Temporary</option>
                       </select>
@@ -299,7 +299,7 @@
                     <label class="form-label">Approval Authority:</label>
                     <div class="input-group mb-3">
                       <select class="form-control" [(ngModel)]="employee.Recruitment" (keydown)="disableTabKey($event)">
-                        <option value="">--Select type--</option>
+                        <option value="null">--Select type--</option>
                         <option [ngValue]="58">Administration</option>
                         <option [ngValue]="59">Establishment</option>
                         <option [ngValue]="115">ACP</option>

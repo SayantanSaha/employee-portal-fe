@@ -42,7 +42,8 @@
             <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
               <ng-container *ngIf="employee!.temp_changes && employee!.temp_changes.length > 0">
                 <ng-container *ngFor="let change of employee!.temp_changes">
-                  <div class="accordion-body" *ngIf="editable && change.model === 'Employee' && change.changed_data">
+                  <div class="accordion-body"
+                    *ngIf="editable && change.model === 'Employee' && change.changed_data && admin">
                     <div class="row">
                       <div class="col-md-12">
                         <div class="card ">
@@ -984,7 +985,7 @@
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row" *ngIf="admin">
                   <div class="col-md">
                     <div class="card shadow table-responsive">
                       <div class="card-body">
@@ -1002,7 +1003,12 @@
                             <tr>
                               <!-- <th>Sl No.</th> -->
                               <th>Designation</th>
-                              <th>Pay Level</th>
+                              <ng-container *ngFor="let id_card of employee!.id_cards; let i = index">
+                                <ng-container
+                                  *ngIf="(id_card.card_type_id == 1 || id_card.card_type_id == 2 || id_card.card_type_id == 3 ) && id_card.active === 1">
+                                  <th>Pay Level</th>
+                                </ng-container>
+                              </ng-container>
                               <th>Desg to print</th>
                               <th>Joining Date</th>
                               <th>Order No.</th>
@@ -1014,7 +1020,12 @@
                             <ng-container *ngFor="let change of employee!.temp_changes; let i = index">
                               <tr *ngIf="change.model === 'promotion' && change.changed_data">
                                 <td *ngIf="change.model === 'promotion'">{{ change.changed_data.desg_desc }}</td>
-                                <td *ngIf="change.model === 'promotion'">{{ change.changed_data.pay_desc }}</td>
+                                <ng-container *ngFor="let id_card of employee!.id_cards; let i = index">
+                                  <ng-container
+                                    *ngIf="(id_card.card_type_id == 1 || id_card.card_type_id == 2 || id_card.card_type_id == 3 ) && id_card.active === 1">
+                                    <td *ngIf="change.model === 'promotion'">{{ change.changed_data.pay_desc }}</td>
+                                  </ng-container>
+                                </ng-container>
                                 <td *ngIf="change.model === 'promotion'">{{ change.changed_data.desg_print }}</td>
                                 <td *ngIf="change.model === 'promotion'">{{ formatDate(change.changed_data.join_date)}}
                                 </td>
@@ -1049,7 +1060,12 @@
                             <tr>
                               <th>Sl No.</th>
                               <th>Designation<span class="text-danger">*</span></th>
-                              <th>Pay level<span class="text-danger">*</span></th>
+                              <ng-container *ngFor="let id_card of employee!.id_cards; let i = index">
+                                <ng-container
+                                  *ngIf="(id_card.card_type_id == 1 || id_card.card_type_id == 2 || id_card.card_type_id == 3 ) && id_card.active === 1">
+                                  <th>Pay level<span class="text-danger">*</span></th>
+                                </ng-container>
+                              </ng-container>
                               <th>Desg. to print</th>
                               <th>Joining Date</th>
                               <th>Order No.<span class="text-danger">*</span></th>
@@ -1071,16 +1087,21 @@
                                 </select>
                                 <span *ngIf="!editable">{{desg!.desg_desc}}</span>
                               </td>
-                              <td>
-                                <select *ngIf="employee!.designations && editable" class="form-control"
-                                  [(ngModel)]="employee!.designations[i].pivot.pay_id"
-                                  (ngModelChange)="onInputChangeMap('Promotion', i)">
-                                  <option value="-1">--Select payLevel--</option>
-                                  <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel.id">{{
-                                    payLevel.pay_desc }}</option>
-                                </select>
-                                <span *ngIf="!editable">{{desg!.pivot!.paydesc}}</span>
-                              </td>
+                              <ng-container *ngFor="let id_card of employee!.id_cards; let i = index">
+                                <ng-container
+                                  *ngIf="(id_card.card_type_id == 1 || id_card.card_type_id == 2 || id_card.card_type_id == 3 ) && id_card.active === 1">
+                                  <td>
+                                    <select *ngIf="employee!.designations && editable" class="form-control"
+                                      [(ngModel)]="employee!.designations[i].pivot.pay_id"
+                                      (ngModelChange)="onInputChangeMap('Promotion', i)">
+                                      <option value="-1">--Select payLevel--</option>
+                                      <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel.id">{{
+                                        payLevel.pay_desc }}</option>
+                                    </select>
+                                    <span *ngIf="!editable">{{desg!.pivot!.paydesc}}</span>
+                                  </td>
+                                </ng-container>
+                              </ng-container>
                               <td>
                                 <input *ngIf="employee!.designations && editable" class="form-control" type="text"
                                   [(ngModel)]="employee!.designations[i].pivot!.desg_print"
@@ -1146,7 +1167,7 @@
                                 <button *ngIf="desg!.pivot!.id==-1" type="button"
                                   class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                   (click)="deleteRecord(i)">Delete</button>
-                                <button *ngIf="desg!.pivot!.id!==-1" type="button"
+                                <button *ngIf="desg!.pivot!.id!==-1 && admin" type="button"
                                   class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                   (click)="deletePromotion(desg!.pivot!.id)">Delete</button>
                               </td>
@@ -1182,7 +1203,7 @@
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row" *ngIf="admin">
                   <div class="col-md">
                     <div class="card shadow table-responsive">
                       <div class="card-body">
@@ -1334,7 +1355,7 @@
                                   class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                   (click)="deleteDivision(i)">Delete</button>
 
-                                <button *ngIf="div!.pivot!.id!==-1" type="button"
+                                <button *ngIf="div!.pivot!.id!==-1 && admin" type="button"
                                   class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                   (click)="deleteposting(div!.pivot!.id)">Delete</button>
                               </td>
@@ -1391,7 +1412,7 @@
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row" *ngIf="admin">
                   <div class="col-md">
                     <div class="card shadow table-responsive">
                       <div class="card-body">
@@ -1557,7 +1578,8 @@
                                     {{servicetype!.service_name}}</option>
                                 </select>
 
-                                <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_name"> {{member!.pivot!.service_name}}</span>
+                                <span *ngIf="!editable && employee!.relations?.[i]?.pivot?.service_name">
+                                  {{member!.pivot!.service_name}}</span>
 
                               </td>
 
@@ -1625,7 +1647,8 @@
                                 </ng-container> -->
 
 
-                                <ng-multiselect-dropdown *ngIf="employee!.relations && editable" [placeholder]="'Select Sports'" [settings]="dropdownSettings"
+                                <ng-multiselect-dropdown *ngIf="employee!.relations && editable"
+                                  [placeholder]="'Select Sports'" [settings]="dropdownSettings"
                                   (ngModelChange)="onInputChangeMap('Relations', i)" [data]="sportsTypelist"
                                   [(ngModel)]="employee!.relations[i].pivot.sports_id"
                                   style="position: relative; z-index: 9999;">
@@ -1642,7 +1665,7 @@
                                   class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                   (click)="deleteMember(i)">Delete</button>
 
-                                <button *ngIf="member!.pivot!.id!==-1" type="button"
+                                <button *ngIf="member!.pivot!.id!==-1 && admin" type="button"
                                   class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                   (click)="deleterelation(member!.pivot!.id)">Delete</button>
                               </td>
@@ -2141,7 +2164,7 @@
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row" *ngIf="admin">
                   <div class="col-md">
                     <div class="card shadow table-responsive">
                       <div class="card-body">
@@ -2292,7 +2315,7 @@
                                     class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                     (click)="removeServant(i)">Delete</button>
 
-                                  <button *ngIf="servant!.id!==-1" type="button"
+                                  <button *ngIf="servant!.id!==-1 && admin" type="button"
                                     class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                     (click)="deleteServant(servant!.id)">Delete</button>
                                 </td>
@@ -2300,7 +2323,7 @@
                               </tr>
                             </tbody>
                           </table>
-                          <div class="row" *ngIf="servant && servant!.id!=-1">
+                          <div class="row" *ngIf="servant && servant!.id!=-1 && admin">
                             <div class="row">
                               <div class="col-md">
                                 <div class="card shadow table-responsive">
@@ -2476,7 +2499,7 @@
                                             class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                             (click)="removeServantRel(i,k)">Delete</button>
 
-                                          <button *ngIf="servantRelative!.id!==-1" type="button"
+                                          <button *ngIf="servantRelative!.id!==-1 && admin" type="button"
                                             class="btn btn-outline-danger enlarge-on-hover" (click)="hoverClick($event)"
                                             (click)="deleteServantFamily(servantRelative!.pivot!.id,servant.id)">Delete</button>
                                         </td>

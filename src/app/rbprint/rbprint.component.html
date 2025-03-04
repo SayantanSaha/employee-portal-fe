@@ -241,29 +241,29 @@
               </thead>
 
               <tbody>
-                <tr *ngFor="let ebaprint of rbprintData; let i = index">
+                <tr *ngFor="let idprint of rbprintData; let i = index">
                   <td>{{ i + 1 }}</td>
-                  <td>{{ ebaprint?.emp_name }}</td>
+                  <td>{{ idprint?.emp_name }}</td>
 
 
                   <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
-                    <td>{{ ebaprint?.dob | date: 'dd-MM-yyyy' }}</td>
-                    <td>{{ ebaprint?.dor | date: 'dd-MM-yyyy' }}</td>
-                    <td>{{ ebaprint?.mobile }}</td>
+                    <td>{{ idprint?.dob | date: 'dd-MM-yyyy' }}</td>
+                    <td>{{ idprint?.dor | date: 'dd-MM-yyyy' }}</td>
+                    <td>{{ idprint?.mobile }}</td>
                   </ng-container>
 
-                  <td>{{ ebaprint.card_no }}</td>
-                  <td>{{ ebaprint!.valid_from | date: 'dd-MM-yyyy' }}</td>
-                  <td>{{ ebaprint!.valid_to | date: 'dd-MM-yyyy' }}</td>
+                  <td>{{ idprint.card_no }}</td>
+                  <td>{{ idprint!.valid_from | date: 'dd-MM-yyyy' }}</td>
+                  <td>{{ idprint!.valid_to | date: 'dd-MM-yyyy' }}</td>
 
                   <ng-container *ngIf="fromfunction">
-                    <td>{{ ebaprint!.police_verification_no }}</td>
+                    <td>{{ idprint!.police_verification_no }}</td>
                     <td>
-                      <ng-container *ngIf="ebaprint!.active === 1">Active</ng-container>
-                      <ng-container *ngIf="ebaprint!.active === 0">Cancelled/expired</ng-container>
+                      <ng-container *ngIf="idprint!.active === 1">Active</ng-container>
+                      <ng-container *ngIf="idprint!.active === 0">Cancelled/expired</ng-container>
                     </td>
                     <td>
-                      <ng-container [ngSwitch]="ebaprint!.card_type_id">
+                      <ng-container [ngSwitch]="idprint!.card_type_id">
                         <div *ngSwitchCase="1">Green</div>
                         <div *ngSwitchCase="2">Purple</div>
                         <div *ngSwitchCase="3">Red</div>
@@ -277,15 +277,15 @@
 
 
                   <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
-                    <td>{{ ebaprint.org_desc }}</td>
-                    <td>{{ ebaprint.desg_desc }}</td>
-                    <td>{{ ebaprint.pay_desc }}</td>
+                    <td>{{ idprint.org_desc }}</td>
+                    <td>{{ idprint.desg_desc }}</td>
+                    <td>{{ idprint.pay_desc }}</td>
                   </ng-container>
 
                   <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
                     <td>
-                      <ng-container *ngIf="ebaprint.rfid && ebaprint.rfid != null">Active</ng-container>
-                      <ng-container *ngIf="!ebaprint.rfid || ebaprint.rfid == null">In-Active</ng-container>
+                      <ng-container *ngIf="idprint.rfid && idprint.rfid != null">Active</ng-container>
+                      <ng-container *ngIf="!idprint.rfid || idprint.rfid == null">In-Active</ng-container>
                     </td>
                   </ng-container>
 
@@ -296,19 +296,19 @@
                   </ng-container>
 
                   <ng-container *ngIf="!fromfunction || fromfunction == null">
-                    <td *ngIf="ebaprint.rfid == null">
-                      <button class="btn btn-primary enlarge-on-hover" (click)="openebacardPopup(i)">Update</button>
+                    <td *ngIf="idprint.rfid == null">
+                      <button class="btn btn-primary enlarge-on-hover" (click)="openidcardPopup(i)">Update</button>
                     </td>
-                    <td *ngIf="ebaprint.rfid !== null">{{ ebaprint.rfid }}</td>
+                    <td *ngIf="idprint.rfid !== null">{{ idprint.rfid }}</td>
                     <td>
                       <div class="col"
-                        *ngIf="ebaprint.rfid ==null && (ebaprint.printed==false ||  ebaprint.printed==null)">
+                        *ngIf="idprint.rfid ==null && (idprint.printed==false ||  idprint.printed==null)">
                         <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
                           (click)="printpage(i)">
                           Print
                         </button>
                       </div>
-                      <div class="col" *ngIf="ebaprint.rfid ==null && ebaprint.printed==true ">
+                      <div class="col" *ngIf="idprint.rfid ==null && idprint.printed==true ">
                         <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
                           (click)="printpage(i)">
                           Re-Print
@@ -329,12 +329,13 @@
 </div>
 
 <td *ngIf="printData && printData!= null">
-  <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false" [ngStyle]="{'display': ebacard }"
+  <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false" [ngStyle]="{'display': idcard }"
     style="backdrop-filter: blur(3px);background-color: rgba(128, 128, 128, 0.7); overflow-y: auto; ">
     <div class="modal-dialog modal-dialog-centered modal-m">
       <div class="modal-content" style="width:100mm">
         <div class="modal-header">
           <h5 class="modal-title">
+            <b>{{printData.emp_name}}</b><br>
             <b>{{printData.card_no}}</b>
           </h5>
         </div>
@@ -345,7 +346,7 @@
         <div class="modal-footer">
 
           <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="hoverClick($event)"
-            (click)="closeebacardPopup()">
+            (click)="closeidcardPopup()">
             Close
           </button>
 
