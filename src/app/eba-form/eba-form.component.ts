@@ -120,24 +120,24 @@ export class EbaFormComponent {
                 // if (data.app && data.app == "'EMP Application'") {
                 // this.EmpCardData = data;
                 // } else {
-                if (!this.EmpCardData.app || this.EmpCardData.app !== "'EMP Application'") {
-                  this.EmpCardData = null;
+                // if (!this.EmpCardData.app || this.EmpCardData.app !== "'EMP Application'") {
+                  // this.EmpCardData = null;
                   this.employee = data;
                   this.setexpdate();
                   if (this.modetwo == 'return') {
                     this.returnedapplication(this.modetwo == 'return');
                   }
-                } else {
-                  Swal.fire({
-                    icon: 'warning',
-                    title: 'Not Allowed',
-                    text: 'You are not allowed to go back!',
-                    confirmButtonText: 'OK'
-                  }).then(() => {
-                    // Prevent back navigation
-                    this.router.navigate(['ebapanel']);
-                  });
-                }
+                // } else {
+                //   Swal.fire({
+                //     icon: 'warning',
+                //     title: 'Not Allowed',
+                //     text: 'You are not allowed to go back!',
+                //     confirmButtonText: 'OK'
+                //   }).then(() => {
+                //     // Prevent back navigation
+                //     this.router.navigate(['ebapanel']);
+                //   });
+                // }
                 // }
               }
             );
