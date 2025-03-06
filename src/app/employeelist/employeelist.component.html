@@ -10,54 +10,51 @@
 <!--            <div class="col-md-12">-->
 <div class="container">
   <div class="card shadow">
-  <div class="card-header">
-    <div class="card-title">
-      <b>All Employee List</b>
+    <div class="card-header">
+      <div class="card-title">
+        <b>All Employee List ({{dashboardData.length}})</b>
+      </div>
     </div>
-  </div>
-  <div class="card-body" style="overflow: auto;">
-    <div style="padding: 1%">
-      <div class="row mb-12">
-        <table class="table table-stripped">
-          <thead>
-          <tr>
-            <th>Sl No.</th>
-            <th>Id Card No.</th>
-            <th>Employee Name</th>
-            <!-- <th>Email ID</th> -->
-            <th>Mobile No.</th>
-            <th colspan="2">Action</th>
-          </tr>
-          </thead>
-          <tbody *ngIf="dashboardData && dashboardData.totalemployeeList">
-          <tr *ngFor="let templist of dashboardData.totalemployeeList; let i = index">
-            <td>{{ i + 1 }}</td>
-            <ng-container *ngFor="let id_card of templist?.id_cards; let i = index">
-              <span style="font-size: 1.2em" *ngIf="id_card.active==1">
-                {{ id_card.card_no }}
-              </span><br />
-            </ng-container>
-            <td>{{ templist.emp_name }}</td>
-            <!-- <td>{{ templist.email_id }}</td> -->
-            <td>{{ templist.mobile }}</td>
-            <td>
-              <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/profile/edit/' + templist.id"  title="Edit Employee Details">
-                <i class="bi bi-pencil"></i>
-              </a>
-            </td>
-            <td>
-              <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/profile/view/'+ templist.id" title="View Employee Details">
-                <i class="bi bi-eye"></i>
-              </a>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-        <!-- Pagination Controls -->
+    <div class="card-body" style="overflow: auto;">
+      <div style="padding: 1%">
+        <div class="row mb-12">
+          <table class="table table-stripped">
+            <thead>
+              <tr>
+                <th>Sl No.</th>
+                <th>Id Card No.</th>
+                <th>Employee Name</th>
+                <!-- <th>Email ID</th> -->
+                <th>Mobile No.</th>
+                <th colspan="2">Action</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="dashboardData && dashboardData">
+              <tr *ngFor="let templist of dashboardData; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td> {{ templist.card_no }}</td>
+                <td>{{ templist.emp_name }}</td>
+                <td>{{ templist.mobile }}</td>
+                <td>
+                  <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
+                    [routerLink]="'/profile/edit/' + templist.emp_id" title="Edit Employee Details">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                </td>
+                <td>
+                  <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
+                    [routerLink]="'/profile/view/'+ templist.emp_id" title="View Employee Details">
+                    <i class="bi bi-eye"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Pagination Controls -->
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 <!--            </div>-->
 <!--          </div>-->
@@ -67,5 +64,3 @@
 <!--  </div>-->
 <!--  &lt;!&ndash; </div> &ndash;&gt;-->
 <!--</div>-->
-
-

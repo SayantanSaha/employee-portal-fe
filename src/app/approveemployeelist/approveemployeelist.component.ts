@@ -18,7 +18,7 @@ export class ApproveemployeelistComponent implements OnInit{
   ) { }
 
   ngOnInit() {
-    this.employeeService.getDashboardData().subscribe(data => {
+    this.employeeService.getApprovedTempChangedData().subscribe(data => {
       this.dashboardData = data
     });
   }

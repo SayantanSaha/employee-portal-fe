@@ -110,6 +110,10 @@ export class EmployeeService {
     return this.http.get<Employee>(this.apiUrl + "my_profile", { headers: this.createHeader() });
   }
 
+  getTotalemployees(): Observable<any> {
+    return this.http.get<any>(this.apiUrl + "employees", { headers: this.createHeader() });
+  }
+
   getCardType(): Observable<any> {
     return this.http.get<any>(this.apiUrl + "card_types", { headers: this.createHeader() });
   }
@@ -402,6 +406,10 @@ export class EmployeeService {
   // Temp Changes Data List API
   getTempChangedData(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + "changes", { headers: this.createHeader() });
+  }
+
+  getApprovedTempChangedData(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + "approvedList", { headers: this.createHeader() });
   }
 
   // Get Specific/Indiviual Temp Changes Data API

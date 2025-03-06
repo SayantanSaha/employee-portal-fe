@@ -98,9 +98,9 @@
                             <tbody *ngIf="dashboardData && dashboardData.todayList">
                             <tr *ngFor="let tempChange of dashboardData.todayList; let i = index">
                               <td>{{ i + 1 }}</td>
-                              <td>{{ tempChange.id_cards[0].card_no}}</td>
-                              <td>{{ tempChange.employee.emp_name }}</td>
-                              <td>{{ tempChange.employee.mobile }}</td>
+                              <td>{{ tempChange.card_no}}</td>
+                              <td>{{ tempChange.emp_name }}</td>
+                              <td>{{ tempChange.mobile }}</td>
                               <td>{{ tempChange.model}}</td>
                               <td>{{ formatDate(tempChange.changed_at) }}</td>
                               <td>
