@@ -500,6 +500,12 @@ export class EmployeeService {
     return this.http.put<Employee>(this.apiUrl + "Eba/" + id, ebaPasses, { headers: this.createHeader() });
   }
 
+  updateemp(empCard: any, id: number): Observable<any> {
+    // const dataToSubmit = { relation: ebaPasses };
+    // const options = { headers: this.createHeader() };
+    return this.http.put<any>(this.apiUrl + "EmpCard/" + id, empCard, { headers: this.createHeader() });
+  }
+
   updaterb(rbPasses: Employee, id: number): Observable<any> {
     // const dataToSubmit = { relation: ebaPasses };
     // const options = { headers: this.createHeader() };

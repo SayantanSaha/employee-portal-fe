@@ -51,16 +51,6 @@
           </div>
         </div>
 
-        <!--          <div class="row"  *ngIf="editable && employee && employee.eba_applications != null && employee.eba_applications.length > 0">-->
-        <!--            <div  *ngFor="let application of employee!.eba_applications; let j = index">-->
-        <!--              <div *ngFor="let role of application.roles; let i = index">-->
-        <!--                <div class="col" style="color: red" >-->
-        <!--                 This application is pending with {{role.role_desc}}.-->
-        <!--                </div>-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--          </div>-->
-
         <div class="card shadow" style="margin-top: 2%" *ngIf="!urlformid">
           <div class="card-body" style="font-size: 15px;">
             <div class="row">
@@ -252,13 +242,6 @@
         </div>
 
         <br>
-
-        <!-- <label *ngIf="( employee!.so==true || employee!.us==true || employee!.director==true || employee!.asp==true || employee!.visual==true)">
-        <input type="checkbox" [(ngModel)]="employee!.ebapurpleCard">
-        Issue Purple card?
-      </label> -->
-
-
 
         <div *ngIf="applyingforRelative || urlid ">
           <div class="card shadow"
@@ -2705,12 +2688,11 @@
                     <!--                    Photograph  can be captured For Your Application at Gate No-17,35 & 31-->
                     <!--                  </div>-->
                     <button type="button" class="btn btn-outline-secondary enlarge-on-hover"
-                      (click)="hoverClick($event)" (click)="closeUploadPopup()">
+                      (click)="hoverClick($event);closeUploadPopup()">
                       Close
                     </button>
 
-                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
-                      (click)="applyEba()">
+                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event);applyEba()">
                       upload/Preview
                     </button>
                   </div>
@@ -2873,377 +2855,6 @@
           </ng-container>
         </ng-container>
       </ng-container>
-
-      <ng-container *ngIf="employee!.app && employee!.app == 'EMP Application'">
-        <div class="container ">
-          <div class="row">
-            <div class="col-md-10">
-              <div style="font-size: 200%; color: deeppink">
-                <ng-container *ngIf="employee!.app;">
-                  {{ employee!.app }}
-                </ng-container>
-
-                <ng-container *ngIf="employee!.reg_no">
-                  / {{employee!.reg_no}}
-                </ng-container>
-                <ng-container *ngIf="employee!.status">
-                  / {{employee!.status}}
-                </ng-container>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <br>
-
-
-        <div class="container ">
-          <div class="card shadow">
-            <div class="card-body">
-              <div class="container">
-
-                <br>
-                <div class="row mb-3">
-                  <div class="col-md-3" style="text-align: right">
-                    <label class="form-label">Name:<span style="color: red;" class="required"
-                        *ngIf="employee!.dh==true">*</span></label>
-                  </div>
-                  <div class="col">
-                    <input *ngIf="employee!.dh==true" type="text" id="name_print" class="form-control"
-                      [(ngModel)]="EmpCardData.name_print" name="name_print" style="flex-grow: 1;"
-                      placeholder="Enter your name" />
-                    <div *ngIf="!employee!.dh">{{EmpCardData.name_print}}</div>
-                  </div>
-                </div>
-
-                <div class="row mb-3">
-                  <div class="col-md-3 text-end">
-                    <label class="form-label">DOB: <span *ngIf="employee!.dh==true" style="color: red;"
-                        class="required">*</span></label>
-                  </div>
-                  <div class="col-md-3">
-                    <div *ngIf="!employee!.dh">{{EmpCardData.dob | date:'dd-MMM-yyyy' }}</div>
-                    <input *ngIf="employee!.dh==true" type="date" class="form-control" [max]="maxDate"
-                      [(ngModel)]="EmpCardData.dob" name="dob" id="dob" placeholder="Date Of Birth"
-                      aria-label="Date Of Birth">
-                  </div>
-                  <div class="col-md-3 text-end">
-                    <label class="form-label">Body Mark: </label>
-                  </div>
-                  <div class="col">
-                    <div *ngIf="!employee!.dh">{{EmpCardData.id_mark}}</div>
-                    <input *ngIf="employee!.dh==true" type="text" id="id_mark" class="form-control"
-                      [(ngModel)]="EmpCardData.id_mark" name="id_mark" placeholder="Body Mark" />
-                  </div>
-                </div>
-
-                <hr class="row-divider">
-
-                <div class="row mb-3">
-                  <div class="col-md-3" style="text-align: right">
-                    <label class="form-label">Emp pass_no:</label>
-                  </div>
-                  <div class="col">
-                    <div>{{EmpCardData.pass_no}}</div>
-                  </div>
-                </div>
-
-                <div class="row mb-3">
-                  <div class="col-md-3" style="text-align: right">
-                    <label class="form-label">Date of
-                      Issue: </label>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group row">
-                      <div>{{EmpCardData.doi | date:'dd-MMM-yyyy' }}</div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-3" style="text-align: right">
-                    <label class="form-label">Valid
-                      UpTo: </label>
-                  </div>
-                  <div class="col">
-                    <div>{{EmpCardData.CardValidUpTo | date:'dd-MMM-yyyy'}}</div>
-                  </div>
-                </div>
-
-                <hr class="row-divider">
-
-                <div class="row mb-3">
-                  <div class="col-md-3" style="text-align: right">
-                    <label class="form-label">Address: <span *ngIf="employee!.dh == true" style="color: red;"
-                        class="required">*</span></label>
-                  </div>
-                  <div class="col">
-                    <textarea class="form-control" placeholder="Address" aria-label="address"
-                      *ngIf="employee!.dh == true" [(ngModel)]="EmpCardData.curr_add"></textarea>
-                    <div *ngIf="!employee!.dh">
-                      {{employee!.curr_add}},<br />
-                      {{employee!.curr_district}}<br />
-                      {{employee!.curr_state}} - {{employee!.curr_pin}}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row mb-3" *ngIf="employee!.dh == true">
-                  <div class="col-md-3"></div>
-                  <div class="col-md-3">
-                    <select class="form-control" [(ngModel)]="EmpCardData!.curr_state"
-                      (change)="onStateChange(EmpCardData!.curr_state)">
-                      <option value="null">Select State</option>
-                      <option [ngValue]="state.id" *ngFor="let state of states">{{state.state_name}}</option>
-                    </select>
-                  </div>
-
-                  <div class="col-md-3">
-                    <select class="form-control" [(ngModel)]="EmpCardData!.curr_district">
-                      <option value="null">Select District</option>
-                      <option [ngValue]="dist.id" *ngFor="let dist of currDistricts">{{dist.district_name}}</option>
-                    </select>
-                  </div>
-
-                  <div class="col-md-3">
-                    <input type="text" maxlength="6" minlength="6" class="form-control" placeholder="PIN"
-                      aria-label="pin" [(ngModel)]="EmpCardData!.curr_pin" pattern="[0-9]*"
-                      (input)="onInput($event, 'curr_pin')">
-                  </div>
-                </div>
-
-                <hr class="row-divider">
-
-                <div class="row mb-3">
-                  <div class="col-md-3" style="text-align: right">
-                    <label class="form-label">Mobile number: <span *ngIf="employee!.dh==true" style="color: red;"
-                        class="required">*</span></label>
-                  </div>
-                  <div class="col">
-                    <div *ngIf="!employee!.dh">{{EmpCardData.mob_no}}</div>
-                    <input *ngIf="employee!.dh==true" type="text" maxlength="10" minlength="10" class="form-control"
-                      id="mobile" name="mobile" [(ngModel)]="EmpCardData.mob_no" placeholder="Enter mobile number"
-                      (input)="onInput($event,'mobile')">
-                  </div>
-                  <div class="col-md-3" style="text-align: right">
-                    <label class="form-label">Gender: </label>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group row">
-                      <select class="form-control" id="gender" [(ngModel)]="EmpCardData.gender"
-                        *ngIf="employee!.dh==true">
-                        <option value="null">--Select Gender--</option>
-                        <option [ngValue]="'M'">Male</option>
-                        <option [ngValue]="'F'">Female</option>
-                        <option [ngValue]="'O'">Others</option>
-                      </select>
-                      <ng-container *ngIf="!employee!.dh">{{ employee?.gender === 'M' ? 'Male' : employee?.gender ===
-                        'F' ? 'Female' : employee?.gender ===
-                        'O' ? 'Others' : 'N/A' }}</ng-container>
-                    </div>
-                  </div>
-
-                  <div class="col-md-3" style="text-align: right">
-                    <label class="form-label">Email: </label>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group ">
-                      <input *ngIf="employee!.dh==true" type="email" id="email" class="form-control"
-                        [(ngModel)]="EmpCardData.email" name="email" style="flex-grow: 1;" placeholder="Enter email" />
-                      <div *ngIf="!employee!.dh">{{EmpCardData.email}}</div>
-                    </div>
-                  </div>
-                  <div class="col-md-3" style="text-align: right">
-                    <label class="form-label">Blood Group:</label>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group row">
-                      <div *ngIf="!employee!.dh">{{EmpCardData.blood_typ_name}}</div>
-                      <select class="form-control" [(ngModel)]="EmpCardData!.blood_group" *ngIf="employee!.dh == true">
-                        <option value="null">--Select Blood Group--</option>
-                        <option *ngFor="let bloodGroup of bloodGroups" [ngValue]="bloodGroup">{{ bloodGroup }}
-                        </option>
-                      </select>
-                      <!-- <ng-container *ngIf="!employee!.dh">{{EmpCardData!.blood_group}}</ng-container> -->
-                    </div>
-                  </div>
-                </div>
-
-                <hr class="row-divider">
-                <div class="row mb-3">
-                  <div class="col-md-3" style="text-align: right">
-                    <label class="form-label">Organization:<span *ngIf="employee!.dh==true" style="color: red;"
-                        class="required">*</span></label>
-                  </div>
-                  <div class="col">
-                    <select *ngIf="employee!.dh == true" class="form-control" [(ngModel)]="EmpCardData.office_code"
-                      (click)="findDesg()">
-                      <option [ngValue]="null">Select office</option>
-                      <option [ngValue]="office.office_code" *ngFor="let office of offices">{{office.org_desc}}
-                      </option>
-                    </select>
-                    <div *ngIf="!employee!.dh">{{EmpCardData.office_name}}</div>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <div class="col-md-3"></div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <select *ngIf="employee!.dh == true" class="form-control"
-                        [(ngModel)]="EmpCardData.designation_code">
-                        <option [ngValue]="null">Select designation </option>
-                        <option [ngValue]="designation.designation_code" *ngFor="let designation of designations">
-                          {{designation.desg_desc}}</option>
-                      </select>
-                      <div *ngIf="!employee!.dh">{{EmpCardData.deg_name}}</div>
-                    </div>
-                  </div>
-                </div>
-
-                <hr class="row-divider">
-                <div class="row mb-3">
-                  <div class="col-md-3" style="text-align: right">
-                    <label class="form-label">Apply Reason:<span *ngIf="employee!.dh==true" style="color: red;"
-                        class="required">*</span></label>
-                  </div>
-                  <div class="col-md-3" *ngIf="employee!.dh==true">
-                    <select class="form-control" [(ngModel)]="EmpCardData!.apply_reason"
-                      (change)="onApplyReasonChange('i','j','k','EmpCardData')">
-                      <option value="null">--Select reason--</option>
-                      <option value="Lost/theaft">Lost/theft</option>
-                      <option value="Renewal">Renewal</option>
-                      <option value="Damage">Damage</option>
-                      <option value="Other">Other</option>
-                    </select>
-                    <div *ngIf="!employee!.dh">{{EmpCardData!.apply_reason}}</div>
-                  </div>
-                  <div class="col-md-3" *ngIf="EmpCardData!.apply_reason == 'Other'" style="text-align: right">
-                    <label class="form-label">Remark:<span *ngIf="employee!.dh==true" style="color: red;"
-                        class="required">*</span></label>
-                  </div>
-                  <div class="col-md-3">
-                    <input *ngIf="EmpCardData!.apply_reason == 'Other' && employee!.dh==true" type="text"
-                      class="form-control" [(ngModel)]="EmpCardData!.apply_remark" placeholder="Remark">
-                    <div *ngIf="!employee!.dh">{{EmpCardData!.apply_remark}} </div>
-                  </div>
-                  <div class="col-md-3" *ngIf="EmpCardData!.apply_reason == 'Lost/theaft'" style="text-align: right">
-                    <label class="form-label">FIR No.:</label>
-                  </div>
-                  <div class="col-md-3">
-                    <input *ngIf="EmpCardData!.apply_reason == 'Lost/theaft'" type="text" class="form-control"
-                      [(ngModel)]="EmpCardData!.FIR_no" placeholder="FIR No">
-                      <div *ngIf="!employee!.dh">{{EmpCardData!.FIR_no}} </div>
-                  </div>
-
-                  <div class="col-md-3" *ngIf="EmpCardData!.apply_reason == 'Lost/theaft'" style="text-align: right">
-                    <label class="form-label">Receipt No.:</label>
-                  </div>
-                  <div class="col-md-3">
-                    <input *ngIf="EmpCardData!.apply_reason == 'Lost/theaft'" type="text" class="form-control"
-                      [(ngModel)]="EmpCardData!.receipt_no" placeholder="Receipt No">
-                      <div *ngIf="!employee!.dh">{{EmpCardData!.receipt_no}} </div>
-                  </div>
-
-                  <ng-container
-                    *ngIf="EmpCardData.fir_pdf && EmpCardData.fir_pdf!=null && (!EmpCardData.fir_pdf_edit || EmpCardData.fir_pdf_edit===null) && (!EmpCardData.fir_pdf_edit_64 || EmpCardData.fir_pdf_edit_64===null)">
-                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
-                      href="{{apiUrl}}getFile/{{EmpCardData.fir_pdf}}" title="Order File" target="_blank">
-                      <i class="bi bi-eye"></i>
-                    </a>
-                  </ng-container>
-
-                  <ng-container
-                    *ngIf="EmpCardData.fir_pdf_edit && EmpCardData.fir_pdf_edit!=null && (!EmpCardData.fir_pdf_edit_64 || EmpCardData.fir_pdf_edit_64===null) ">
-                    <a class="btn btn-outline-primary enlarge-on-hover" (click)="hoverClick($event)"
-                      href="{{apiUrl}}getFile/{{EmpCardData.fir_pdf_edit}}" title="Order File" target="_blank">
-                      <i class="bi bi-eye"></i>
-                    </a>
-                  </ng-container>
-
-                  <ng-container *ngIf="EmpCardData.fir_pdf_edit_64 && EmpCardData.fir_pdf_edit_64!=null">
-                    <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
-                      (click)="openPdfInNewTab(EmpCardData.fir_pdf_edit_64);hoverClick($event)"></i>
-                  </ng-container>
-                </div>
-
-
-
-                <hr class="row-divider">
-                <div class="row mb-3">
-                  <div class="col-md">
-                    <label for="id_proof" class="form-label">Photo<span style="color: red;"
-                        class="required">*</span></label><br>
-                    <div class="text-center">
-                      <span *ngIf="EmpCardData.photo">
-                        <img [src]="EmpCardData.photo" alt="Profile Photo" class="rounded-circle" title="Profile Photo"
-                          style="width: 150px; height: 128px" />
-                      </span>
-                      <input type="file" class="custom-file-input" id="profile_photo"
-                        (change)="onPhotoSelected($event, 'Profile Photo')" style="display: none">
-                      <br /><br />
-                      <label for="profile_photo" *ngIf="employee!.dh==true" class="upload-icon-label"
-                        title="Upload Profile Photo">
-                        <i class="bi bi-cloud-arrow-up btn btn-outline-info enlarge-on-hover"></i>
-                      </label>
-                    </div>
-                  </div>
-                  <!-- <div class="col-md">
-                <label for="id_proof" class="form-label">Signature <span style="color: red;"
-                    class="required">*</span></label><br>
-                <div class="text-center">
-                  <span *ngIf="EmpCardData.sig">
-                    <img [src]="EmpCardData.sig" alt="Signature" class="rounded-square"
-                      title="Employee Signature" style="width: 150px; height: 30px" />
-                  </span>
-                  <input type="file" class="custom-file-input" id="sign_path"
-                    (change)="onProfilePhotoSelected($event, 'Employee Sign')" style="display: none">
-                  <br /><br />
-                  <label for="sign_path" class="upload-icon-label" title="Upload Signature">
-                    <i class="bi bi-cloud-arrow-up btn btn-outline-danger enlarge-on-hover"></i>
-                  </label>
-                </div>
-              </div> -->
-                  <div class="col-md">
-                    <label for="id_proof" class="form-label">ID
-                      Proof(pdf)</label><br><br>
-                    <div class="text-center">
-                      <label for="id_proof" class="upload-icon-label" *ngIf="employee!.dh==true"
-                        title="Upload Supporting Document with ID Proof">
-                        <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>
-                      </label>
-                      <input type="file" class="custom-file-input" (change)="onIDproofSelected($event)" id="id_proof"
-                        title="Upload ID Proof" style="display: none">
-                      <ng-container *ngIf="EmpCardData!.id_proof">
-                        <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
-                          (click)="openPdfInNewTab(EmpCardData!.id_proof)"></i>
-                      </ng-container>
-                    </div>
-                  </div>
-                  <div class="col-md">
-                    <label for="postingOrder" class="form-label">Supporting Document with posting
-                      Order(pdf)</label><br><br>
-                    <div class="text-center">
-                      <label for="postingOrder" *ngIf="employee!.dh==true" class="upload-icon-label"
-                        title="Upload Supporting Document with ID Proof">
-                        <i class="bi bi-cloud-arrow-up btn btn-outline-warning"></i>
-                      </label>
-                      <input type="file" class="custom-file-input" (change)="onPostingOrderSelected($event)"
-                        id="postingOrder" title="Upload ID Proof" style="display: none">
-                      <ng-container *ngIf="EmpCardData!.postingOrder">
-                        <i class="bi bi-eye btn btn-outline-success enlarge-on-hover"
-                          (click)="openPdfInNewTab(EmpCardData!.postingOrder)"></i>
-                      </ng-container>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-
-
-      </ng-container>
     </div>
 
     <ng-container *ngIf="urlid">
@@ -3294,7 +2905,7 @@
               </div>
 
 
-              <div class="row" *ngIf="employee!.so==true || employee!.dh==true" style="margin-left: 5%;">
+              <div class="row" *ngIf="!employee!.app || employee!.app !== 'EMP Application'" style="margin-left: 5%;">
                 <div class="row">
                   <div class="d-flex justify-content-center" style="text-align: center">
                     <button type="button" class="btn btn-outline-secondary enlarge-on-hover" name="preview"
@@ -3537,7 +3148,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-outline-secondary enlarge-on-hover"
-                            (click)="hoverClick($event)" (click)="closepreview()">
+                            (click)="hoverClick($event);closepreview()">
                             Close
                           </button>
                         </div>
@@ -3546,15 +3157,16 @@
                   </div>
                 </div>
                 <br>
-                <div class="row">
-                  <div class="col-6" style="text-align: right">
-                    <button type="button" class="btn btn-primary enlarge-on-hover" (click)="confirmForward()"
-                      name="submit" value="Approve">Forward</button>
-                  </div>
-                  <div class="col-6" style="text-align: left">
-                    <button type="button" class="btn btn-danger enlarge-on-hover" (click)="confirmReturn()"
-                      name="submit" value="Return">Return</button>
-                  </div>
+              </div>
+
+              <div class="row" *ngIf="employee!.so==true || employee!.dh==true">
+                <div class="col-6" style="text-align: right">
+                  <button type="button" class="btn btn-primary enlarge-on-hover" (click)="confirmForward()"
+                    name="submit" value="Approve">Forward</button>
+                </div>
+                <div class="col-6" style="text-align: left">
+                  <button type="button" class="btn btn-danger enlarge-on-hover" (click)="confirmReturn()" name="submit"
+                    value="Return">Return</button>
                 </div>
               </div>
 

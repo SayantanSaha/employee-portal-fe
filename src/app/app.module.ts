@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 
 //Added By Ravikant Kumar
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { EmpFormComponent } from './emp-form/emp-form.component';
 import { TempchangesdataComponent } from './tempchangesdata/tempchangesdata.component';
 import { TempchangesapprovalComponent } from './tempchangesapproval/tempchangesapproval.component';
 import { ApproveemployeelistComponent } from './approveemployeelist/approveemployeelist.component';
@@ -86,7 +87,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     RbprintComponent,
     RbcardapplyformComponent,
     EbaapplyformComponent,
-    SportUpdateComponent
+    SportUpdateComponent,
+    EmpFormComponent
 
   ],
     imports: [

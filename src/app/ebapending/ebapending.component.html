@@ -1,61 +1,68 @@
 <div class="container">
-<div class="row">
-  <div class="col-md-12" *ngIf="ebaPendingList!=null">
-    <div class="col col-md-12" style="padding: 2%;" >
-      <div class="card shadow">
-        <div class="card-header" >
-          <div  class="float-start">
-            <b *ngIf="roleId==4">Pending with DH({{ebaPendingList.length}})</b>
-            <b *ngIf="roleId==5">Pending with SO({{ebaPendingList.length}})</b>
-            <b *ngIf="roleId==6">Pending with US({{ebaPendingList.length}})</b>
-            <b *ngIf="roleId==7">Approved({{ebaPendingList.length}})</b>
-            <b *ngIf="roleId==8">Returned({{ebaPendingList.length}})</b>
-            <b *ngIf="roleId==9">Pending with Director({{ebaPendingList.length}})</b>
-            <b *ngIf="roleId==10">Pending with ASP({{ebaPendingList.length}})</b>
-            <b *ngIf="!roleId || roleId==null">Applications({{ebaPendingList.length}})</b>
+  <div class="row">
+    <div class="col-md-12" *ngIf="ebaPendingList!=null">
+      <div class="col col-md-12" style="padding: 2%;">
+        <div class="card shadow">
+          <div class="card-header">
+            <div class="float-start">
+              <b *ngIf="roleId==4">Pending with DH({{ebaPendingList.length}})</b>
+              <b *ngIf="roleId==5">Pending with SO({{ebaPendingList.length}})</b>
+              <b *ngIf="roleId==6">Pending with US({{ebaPendingList.length}})</b>
+              <b *ngIf="roleId==7">Approved({{ebaPendingList.length}})</b>
+              <b *ngIf="roleId==8">Returned({{ebaPendingList.length}})</b>
+              <b *ngIf="roleId==9">Pending with Director({{ebaPendingList.length}})</b>
+              <b *ngIf="roleId==10">Pending with ASP({{ebaPendingList.length}})</b>
+              <b *ngIf="!roleId || roleId==null">Applications({{ebaPendingList.length}})</b>
+            </div>
           </div>
-        </div>
-        <div class="card-body" *ngIf="ebaPendingList!=null ">
-          <div style="padding: 1%">
-            <div class="row mb-12">
-              <table class="table table-stripped">
-                <thead>
-                <tr>
-                  <th>Sl No.</th>
-                  <th>Reg No.</th>
-                  <th>Id Card No.</th>
-                  <th>Employee Name</th>
-                  <th>Mobile No.</th>
-                  <th>Last Updated Date</th>
-                  <th *ngIf="!roleId || roleId==null">status</th>
-                  <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let ebaPending of ebaPendingList; let i = index">
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ ebaPending?.reg_no}}</td>
-                  <td>{{ ebaPending.id_cards?.[0]?.card_no || ebaPending?.details?.pass_no || ebaPending.application_type}}</td>
-                                  <td>{{ ebaPending.employee?.emp_name || ebaPending.details.name_print}}</td>
-                                  <td>{{ ebaPending.employee?.mobile || ebaPending.details.mob_no}}</td>
-                  <!-- <td>{{ ebaPending?.id_cards?.[0]?.card_no}}</td>
+          <div class="card-body" *ngIf="ebaPendingList!=null ">
+            <div style="padding: 1%">
+              <div class="row mb-12">
+                <table class="table table-stripped">
+                  <thead>
+                    <tr>
+                      <th>Sl No.</th>
+                      <th>Reg No.</th>
+                      <th>Id Card No.</th>
+                      <th>Employee Name</th>
+                      <th>Mobile No.</th>
+                      <th>Last Updated Date</th>
+                      <th *ngIf="!roleId || roleId==null">status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let ebaPending of ebaPendingList; let i = index">
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ ebaPending?.reg_no}}</td>
+                      <td>{{ ebaPending.id_cards?.[0]?.card_no || ebaPending?.details?.pass_no ||
+                        ebaPending.application_type}}</td>
+                      <td>{{ ebaPending.employee?.emp_name || ebaPending.details.name_print}}</td>
+                      <td>{{ ebaPending.employee?.mobile || ebaPending.details.mob_no}}</td>
+                      <!-- <td>{{ ebaPending?.id_cards?.[0]?.card_no}}</td>
                   <td>{{ ebaPending?.employee?.emp_name }}</td>
                   <td>{{ ebaPending?.employee?.mobile }}</td> -->
-                  <td>{{ formatDate(ebaPending?.created_at) }}</td>
-                  <ng-container *ngIf="from=='serach'">
-                    <td >{{  ebaPending?.roles?.[0]?.role_desc }}</td>
-                  </ng-container>
-                  <td>
-                    <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" [routerLink]="'/eba-form/' + 'view/'+'EBA/'+ebaPending.id">Details</a>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
+                      <td>{{ formatDate(ebaPending?.created_at) }}</td>
+                      <ng-container *ngIf="from=='serach'">
+                        <td>{{ ebaPending?.roles?.[0]?.role_desc }}</td>
+                      </ng-container>
+                      <td>
+                        <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
+                          *ngIf="!ebaPending.application_type || ebaPending.application_type == null"
+                          [routerLink]="'/eba-form/' + 'view/'+'EBA/'+ebaPending.id">Details</a>
+
+                        <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
+                          *ngIf="ebaPending.application_type && ebaPending.application_type=='empCard'"
+                          [routerLink]="'/emp-form/' +ebaPending.id">Details</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>

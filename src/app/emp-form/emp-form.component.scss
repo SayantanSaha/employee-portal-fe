@@ -1,0 +1,35 @@
+.enlarge-on-hover:hover {
+  box-shadow: 2px 2px 0.2px rgba(0, 0, 0, 0.7);
+  transform: scale(1.05);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  //background: linear-gradient(to top left, #e3e2e2,white);
+}
+
+.enlarge-on-hover.clicked  {
+  box-shadow: none;
+  transform: scale(0.9);
+  //transition: transform 0.3s ease, box-shadow 0.3s ease;
+  //background: linear-gradient(to top left, #e3e2e2,white);
+}
+
+.card-title{
+  font-size: 20px;
+}
+.loading-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999; /* Ensure it's on top of everything */
+}
+/* Custom styling for labels and values */
+label {
+  font-weight: bold;
+  color: #333;
+}
+
+// span.form-control-plaintext {
+//   color: #555;
+//   font-size: 1rem;
+//   // padding-left: 10px;
+// }

@@ -53,6 +53,7 @@ export class EbaFormComponent {
   currDistricts: District[] = [];
   permDistricts: District[] = [];
   designations: any[] = [];
+  officeDesignations: any[] = [];
   divisions: Division[] = [];
   // relations: Relation[] = [];
   // eba_passes: any[] = [];
@@ -78,7 +79,7 @@ export class EbaFormComponent {
   isLoading: boolean = false;
   maxDate: string = "";
   orglist: Organization[] = [];
-  EmpCardData:any;
+  EmpCardData: any;
   bloodGroups: string[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
   ngOnInit() {
@@ -116,19 +117,35 @@ export class EbaFormComponent {
             // 'id' is a valid number, call getEbaProfile
             this.employeeService.getEbaProfile(idNumber).subscribe(
               (data: any) => {
-                this.employee = data;
-                this.EmpCardData = data;
-                this.setexpdate();
-                if (this.modetwo == 'return') {
-                  this.returnedapplication(this.modetwo == 'return');
+                // if (data.app && data.app == "'EMP Application'") {
+                // this.EmpCardData = data;
+                // } else {
+                if (!this.EmpCardData.app || this.EmpCardData.app !== "'EMP Application'") {
+                  this.EmpCardData = null;
+                  this.employee = data;
+                  this.setexpdate();
+                  if (this.modetwo == 'return') {
+                    this.returnedapplication(this.modetwo == 'return');
+                  }
+                } else {
+                  Swal.fire({
+                    icon: 'warning',
+                    title: 'Not Allowed',
+                    text: 'You are not allowed to go back!',
+                    confirmButtonText: 'OK'
+                  }).then(() => {
+                    // Prevent back navigation
+                    this.router.navigate(['ebapanel']);
+                  });
                 }
+                // }
               }
             );
           } else if (this.mode == 'edit' && this.modetwo == 'relative' && this.user && this.user.role && this.user.role.some((role: number) => (role == 4))) {
             this.employeeService.showEbaformProfile(idNumber).subscribe(
               (data: any) => {
                 this.employee = data;
-                this.EmpCardData = data;
+                // this.EmpCardData = data;
                 this.urlid = false;
                 this.urlformid = true;
                 this.setexpdate();
@@ -141,7 +158,7 @@ export class EbaFormComponent {
         this.employeeService.getMyebaProfile().subscribe(
           (data: any) => {
             this.employee = data;
-            this.EmpCardData = data;
+            // this.EmpCardData = data;
             this.setexpdate();
             this.isFamilySelected = true;
             this.onSelectcloseFamily();
@@ -175,7 +192,7 @@ export class EbaFormComponent {
       this.employeeService.getMyebaProfile().subscribe(
         (data: any) => {
           this.employee = data;
-          this.EmpCardData = data;
+          // this.EmpCardData = data;
           this.setexpdate();
           this.isFamilySelected = true;
           this.onSelectcloseFamily();
@@ -204,7 +221,13 @@ export class EbaFormComponent {
         }
       );
     }
-
+    this.employeeService.getOrganizations().subscribe(
+      data => {
+        this.offices = data.filter(org => org.org_type === 'Emp');
+        this.findDesg(); // Call findDesg() after offices are populated
+      },
+      error => console.log(error)
+    );
 
     this.employeeService.getStates().subscribe(
       data => this.states = data,
@@ -383,10 +406,10 @@ export class EbaFormComponent {
     }
   }
 
-  async getDistricts(state: State) {
+  async getDistricts(state: any) {
     let districts: District[] = [];
     if (state != null) {
-      districts = await this.employeeService.getDistrictsByState(state.id!);
+      districts = await this.employeeService.getDistrictsByState(state);
     }
     return districts;
   }
@@ -985,6 +1008,27 @@ export class EbaFormComponent {
             //   }
             // }
 
+            if (property === 'emp_fir_pdf') {
+              if (this.EmpCardData.fir_pdf_edit_64) {
+                // @ts-ignore
+                this.EmpCardData.fir_pdf_edit_64 = base64String;
+              }
+            }
+
+            if (property === 'postingOrder_emp') {
+              if (this.EmpCardData.postingOrder_edit_64) {
+                // @ts-ignore
+                this.EmpCardData.postingOrder_edit_64 = base64String;
+              }
+            }
+
+            if (property === 'id_proof_emp') {
+              if (this.EmpCardData.id_proof_edit_64) {
+                // @ts-ignore
+                this.EmpCardData.id_proof_edit_64 = base64String;
+              }
+            }
+
             if (this.file_path_64) {
               if (property === 'file_path') {
                 this.file_path_64 = base64String;
@@ -1023,7 +1067,7 @@ export class EbaFormComponent {
       const ebaPass = this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j];
       if (ebaPass) {
         ebaPass.FIR_no = null;
-        ebaPass.receipt_no = null;
+        // ebaPass.receipt_no = null;
         ebaPass.fir_pdf = null;
         ebaPass.apply_remark = null;
       }
@@ -1033,7 +1077,7 @@ export class EbaFormComponent {
       const ebaPass = this.employee?.family?.[i]?.pivot?.eba_passes?.[j];
       if (ebaPass) {
         ebaPass.FIR_no = null;
-        ebaPass.receipt_no = null;
+        // ebaPass.receipt_no = null;
         ebaPass.fir_pdf = null;
         ebaPass.apply_remark = null;
       }
@@ -1044,7 +1088,7 @@ export class EbaFormComponent {
       const ebaPass = this.employee?.servants?.[i]?.eba_passes?.[j];
       if (ebaPass) {
         ebaPass.FIR_no = null;
-        ebaPass.receipt_no = null;
+        // ebaPass.receipt_no = null;
         ebaPass.fir_pdf = null;
         ebaPass.apply_remark = null;
       }
@@ -1055,7 +1099,7 @@ export class EbaFormComponent {
       const ebaPass = this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k];
       if (ebaPass) {
         ebaPass.FIR_no = null;
-        ebaPass.receipt_no = null;
+        // ebaPass.receipt_no = null;
         ebaPass.fir_pdf = null;
         ebaPass.apply_remark = null;
       }
@@ -1063,12 +1107,13 @@ export class EbaFormComponent {
     }
     if (property === 'EmpCardData') {
 
-      const ebaPass = this.EmpCardData;
-      if (ebaPass) {
-        ebaPass.FIR_no = null;
-        ebaPass.receipt_no = null;
-        ebaPass.fir_pdf = null;
-        ebaPass.apply_remark = null;
+      const emp = this.EmpCardData;
+      if (emp) {
+        emp.FIR_no = null;
+        // ebaPass.receipt_no = null;
+        emp.fir_pdf = null;
+        emp.apply_remark = null;
+        emp.EmpCardData.fir_pdf_edit_64 = null;
       }
 
     }
@@ -1685,212 +1730,274 @@ export class EbaFormComponent {
     const id = +this.route.snapshot.params['id'];
     if (!isNaN(id)) {
       if (this.user && this.user.role && this.user.role.some((role: number) => role === 4)) {
-        if (this.employee) {
-          console.log(this)
-          const clonedEmployee = { ...this.employee };
-          let shouldStop = false;
+        if (!this.employee!.app || this.employee!.app != 'EMP Application') {
+          if (this.employee) {
+            console.log(this)
+            const clonedEmployee = { ...this.employee };
+            let shouldStop = false;
 
-          if (clonedEmployee.family && clonedEmployee.family.length >= 0) {
-            clonedEmployee.family?.forEach(family => {
-              if (family.pivot.eba_passes) {
-                family.pivot.eba_passes?.forEach(eba_pass => {
-                  if (family.allSelected) {
-                    if (family.Selected_dh) {
-                      if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
-                        Swal.fire({
-                          icon: 'warning',
-                          title: 'Enter valid date ',
-                          text: family.pivot.rel_name + ' exp date is not valid',
-                        });
-                        shouldStop = true;
-                        return;
-                      }
-                    } else {
-                      if (eba_pass.remark == null) {
-                        Swal.fire({
-                          icon: 'warning',
-                          title: 'Enter remark ',
-                          text: family.pivot.rel_name + ' remark is empty',
-                        });
-                        shouldStop = true;
-                        return;
-                      }
-                    }
-                  }
-                });
-              }
-            });
-          }
-
-          if (clonedEmployee.closefamily && clonedEmployee.closefamily.length >= 0) {
-            clonedEmployee.closefamily?.forEach(closefamily => {
-              if (closefamily.pivot.eba_passes) {
-                closefamily.pivot.eba_passes?.forEach(eba_pass => {
-                  if (closefamily.allSelected) {
-                    if (closefamily.Selected_dh) {
-                      if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
-                        Swal.fire({
-                          icon: 'warning',
-                          title: 'Enter valid date ',
-                          text: closefamily.pivot.rel_name + ' exp date is not valid',
-                        });
-                        shouldStop = true;
-                        return;
-                      }
-                    } else {
-                      if (eba_pass.remark == null) {
-                        Swal.fire({
-                          icon: 'warning',
-                          title: 'Enter remark ',
-                          text: closefamily.pivot.rel_name + ' remark is empty',
-                        });
-                        shouldStop = true;
-                        return;
-                      }
-                    }
-                  }
-                });
-              }
-            });
-          }
-
-
-          if (clonedEmployee.servants && clonedEmployee.servants.length >= 0) {
-            clonedEmployee.servants?.forEach(servant => {
-              if (servant.eba_passes) {
-                servant.eba_passes?.forEach(eba_pass => {
-                  if (servant.allSelected) {
-                    if (servant.Selected_dh) {
-                      if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
-                        Swal.fire({
-                          icon: 'warning',
-                          title: 'enter valid date ',
-                          text: servant.servant_name + ' exp date is not valid',
-                        });
-                        shouldStop = true;
-                        return;
-                      }
-                    } else {
-                      if (eba_pass.remark == null) {
-                        Swal.fire({
-                          icon: 'warning',
-                          title: 'Enter remark ',
-                          text: servant.servant_name + ' remark is empty',
-                        });
-                        shouldStop = true;
-                        return;
-                      }
-                    }
-                  }
-                });
-              }
-
-              if (servant.relations && servant.relations.length >= 0) {
-                servant.relations?.forEach(family => {
-                  if (family.pivot.eba_passes) {
-                    family.pivot.eba_passes?.forEach(eba_pass => {
-                      if (family.allSelected) {
-                        if (family.Selected_dh) {
-                          if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
-                            Swal.fire({
-                              icon: 'warning',
-                              title: 'Enter valid date ',
-                              text: family.pivot.rel_name + ' exp date is not valid',
-                            });
-                            shouldStop = true;
-                            return;
-                          }
-                        } else {
-                          if (eba_pass.remark == null) {
-                            Swal.fire({
-                              icon: 'warning',
-                              title: 'Enter remark ',
-                              text: family.pivot.rel_name + ' remark is empty',
-                            });
-                            shouldStop = true;
-                            return;
-                          }
+            if (clonedEmployee.family && clonedEmployee.family.length >= 0) {
+              clonedEmployee.family?.forEach(family => {
+                if (family.pivot.eba_passes) {
+                  family.pivot.eba_passes?.forEach(eba_pass => {
+                    if (family.allSelected) {
+                      if (family.Selected_dh) {
+                        if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
+                          Swal.fire({
+                            icon: 'warning',
+                            title: 'Enter valid date ',
+                            text: family.pivot.rel_name + ' exp date is not valid',
+                          });
+                          shouldStop = true;
+                          return;
+                        }
+                      } else {
+                        if (eba_pass.remark == null) {
+                          Swal.fire({
+                            icon: 'warning',
+                            title: 'Enter remark ',
+                            text: family.pivot.rel_name + ' remark is empty',
+                          });
+                          shouldStop = true;
+                          return;
                         }
                       }
-                    });
-                  }
-                });
-              }
-            });
-          }
-          if (shouldStop) {
-            return;
-          }
-
-          // if (
-          //     (clonedEmployee.relations === null || clonedEmployee.relations.length === 0) &&
-          //     (clonedEmployee.servants === null || clonedEmployee.servants.length === 0)
-          // ) {
-          //   Swal.fire({
-          //     icon: 'warning',
-          //     title: 'Empty application',
-          //     text: 'At least add one person',
-          //   });
-          //   return;
-          // }
-          this.isLoading = true;
-          this.employeeService.updateeba(this.employee, id).subscribe(
-            () => {
-              this.employeeService.updateebastatus(id, 'Approve', this.remark ?? '', this.file_path_64 ?? '').subscribe(
-                () => {
-                  this.isLoading = false;
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Forwarded successfully',
-                  }).then(() => {
-                    // Redirect to the dashboard route
-                    this.router.navigate(['ebapanel']);
+                    }
                   });
-                },
-                (error) => {
-                  this.isLoading = false;
-                  console.log('Error in updateebastatus:', error);
-                  if (error.status === 302) {
-                    Swal.fire({
-                      icon: 'warning',
-                      title: 'Warning',
-                      text: 'You are not authorised !!!',
-                    });
-                  } else {
-                    // Handle specific errors or use a generic error message
-                    Swal.fire({
-                      icon: 'error',
-                      title: 'Error',
-                      text: 'An error occurred while Approving application status.',
-                    });
-                  }
-                },
-              );
-            },
-            (error) => {
-
-              this.isLoading = false;
-              console.log('Error in updateeba:', error);
-              let errorMessage = 'An error occurred while updating the application.';
-              if (error.error && error.error.error && error.error.error.length > 0) {
-                errorMessage = error.error.error[0]; // Get the first error message
-              }
-              Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: errorMessage,
+                }
               });
             }
-          );
-        } else {
-          console.error('ID parameter is missing or invalid in the URL.');
-          Swal.fire({
-            icon: 'warning',
-            title: 'Warning',
-            text: 'data missing !!!',
-          });
-          return;
+
+            if (clonedEmployee.closefamily && clonedEmployee.closefamily.length >= 0) {
+              clonedEmployee.closefamily?.forEach(closefamily => {
+                if (closefamily.pivot.eba_passes) {
+                  closefamily.pivot.eba_passes?.forEach(eba_pass => {
+                    if (closefamily.allSelected) {
+                      if (closefamily.Selected_dh) {
+                        if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
+                          Swal.fire({
+                            icon: 'warning',
+                            title: 'Enter valid date ',
+                            text: closefamily.pivot.rel_name + ' exp date is not valid',
+                          });
+                          shouldStop = true;
+                          return;
+                        }
+                      } else {
+                        if (eba_pass.remark == null) {
+                          Swal.fire({
+                            icon: 'warning',
+                            title: 'Enter remark ',
+                            text: closefamily.pivot.rel_name + ' remark is empty',
+                          });
+                          shouldStop = true;
+                          return;
+                        }
+                      }
+                    }
+                  });
+                }
+              });
+            }
+
+
+            if (clonedEmployee.servants && clonedEmployee.servants.length >= 0) {
+              clonedEmployee.servants?.forEach(servant => {
+                if (servant.eba_passes) {
+                  servant.eba_passes?.forEach(eba_pass => {
+                    if (servant.allSelected) {
+                      if (servant.Selected_dh) {
+                        if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
+                          Swal.fire({
+                            icon: 'warning',
+                            title: 'enter valid date ',
+                            text: servant.servant_name + ' exp date is not valid',
+                          });
+                          shouldStop = true;
+                          return;
+                        }
+                      } else {
+                        if (eba_pass.remark == null) {
+                          Swal.fire({
+                            icon: 'warning',
+                            title: 'Enter remark ',
+                            text: servant.servant_name + ' remark is empty',
+                          });
+                          shouldStop = true;
+                          return;
+                        }
+                      }
+                    }
+                  });
+                }
+
+                if (servant.relations && servant.relations.length >= 0) {
+                  servant.relations?.forEach(family => {
+                    if (family.pivot.eba_passes) {
+                      family.pivot.eba_passes?.forEach(eba_pass => {
+                        if (family.allSelected) {
+                          if (family.Selected_dh) {
+                            if (eba_pass.eba_pass_exp_date_edit == null || eba_pass.eba_pass_exp_date_edit <= new Date()) {
+                              Swal.fire({
+                                icon: 'warning',
+                                title: 'Enter valid date ',
+                                text: family.pivot.rel_name + ' exp date is not valid',
+                              });
+                              shouldStop = true;
+                              return;
+                            }
+                          } else {
+                            if (eba_pass.remark == null) {
+                              Swal.fire({
+                                icon: 'warning',
+                                title: 'Enter remark ',
+                                text: family.pivot.rel_name + ' remark is empty',
+                              });
+                              shouldStop = true;
+                              return;
+                            }
+                          }
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+            if (shouldStop) {
+              return;
+            }
+
+            // if (
+            //     (clonedEmployee.relations === null || clonedEmployee.relations.length === 0) &&
+            //     (clonedEmployee.servants === null || clonedEmployee.servants.length === 0)
+            // ) {
+            //   Swal.fire({
+            //     icon: 'warning',
+            //     title: 'Empty application',
+            //     text: 'At least add one person',
+            //   });
+            //   return;
+            // }
+            this.isLoading = true;
+            this.employeeService.updateeba(this.employee, id).subscribe(
+              () => {
+                this.employeeService.updateebastatus(id, 'Approve', this.remark ?? '', this.file_path_64 ?? '').subscribe(
+                  () => {
+                    this.isLoading = false;
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Success',
+                      text: 'Forwarded successfully',
+                    }).then(() => {
+                      // Redirect to the dashboard route
+                      this.router.navigate(['ebapanel']);
+                    });
+                  },
+                  (error) => {
+                    this.isLoading = false;
+                    console.log('Error in updateebastatus:', error);
+                    if (error.status === 302) {
+                      Swal.fire({
+                        icon: 'warning',
+                        title: 'Warning',
+                        text: 'You are not authorised !!!',
+                      });
+                    } else {
+                      // Handle specific errors or use a generic error message
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while Approving application status.',
+                      });
+                    }
+                  },
+                );
+              },
+              (error) => {
+                this.isLoading = false;
+                console.log('Error in updateeba:', error);
+                let errorMessage = 'An error occurred while updating the application.';
+                if (error.error && error.error.error && error.error.error.length > 0) {
+                  errorMessage = error.error.error[0]; // Get the first error message
+                }
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: errorMessage,
+                });
+              }
+            );
+          } else {
+            console.error('ID parameter is missing or invalid in the URL.');
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'data missing !!!',
+            });
+            return;
+          }
+        }
+        else {
+          if (this.EmpCardData) {
+            this.isLoading = true;
+            this.employeeService.updateemp(this.EmpCardData, id).subscribe(
+              () => {
+                // this.employeeService.updateebastatus(id, 'Approve', this.remark ?? '', this.file_path_64 ?? '').subscribe(
+                //   () => {
+                //     this.isLoading = false;
+                //     Swal.fire({
+                //       icon: 'success',
+                //       title: 'Success',
+                //       text: 'Forwarded successfully',
+                //     }).then(() => {
+                //       // Redirect to the dashboard route
+                //       this.router.navigate(['ebapanel']);
+                //     });
+                //   },
+                //   (error) => {
+                //     this.isLoading = false;
+                //     console.log('Error in updateebastatus:', error);
+                //     if (error.status === 302) {
+                //       Swal.fire({
+                //         icon: 'warning',
+                //         title: 'Warning',
+                //         text: 'You are not authorised !!!',
+                //       });
+                //     } else {
+                //       // Handle specific errors or use a generic error message
+                //       Swal.fire({
+                //         icon: 'error',
+                //         title: 'Error',
+                //         text: 'An error occurred while Approving application status.',
+                //       });
+                //     }
+                //   },
+                // );
+              },
+              (error) => {
+                this.isLoading = false;
+                console.log('Error in updateemp:', error);
+                let errorMessage = 'An error occurred while updating the application.';
+                if (error.error && error.error.error && error.error.error.length > 0) {
+                  errorMessage = error.error.error[0]; // Get the first error message
+                }
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: errorMessage,
+                });
+              }
+            );
+          } else {
+            console.error('ID parameter is missing or invalid in the URL.');
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'data missing !!!',
+            });
+            return;
+          }
         }
       }
 
@@ -2293,6 +2400,7 @@ export class EbaFormComponent {
 
 
   onStateChange(state: any) {
+    // alert(state);
     this.getDistricts(state).then(districts => this.currDistricts = districts);
   }
   onInput(event: any, property: string) {
@@ -2310,10 +2418,10 @@ export class EbaFormComponent {
   }
   offices: any[] = [];
   findDesg() {
-    const selectedOffice = this.offices.find(office => office.office_code === this.EmpCardData.office_code);
+    const selectedOffice = this.offices.find(office => office.id === this.EmpCardData.office_code);
     if (selectedOffice) {
       this.employeeService.getDesignations(selectedOffice.id).subscribe(
-        data => this.designations = data,
+        data => this.officeDesignations = data,
         error => console.log(error)
       );
     } else {
@@ -2321,123 +2429,53 @@ export class EbaFormComponent {
     }
   }
   async onPhotoSelected(event: Event, param: string): Promise<void> {
-      const inputElement = event.target as HTMLInputElement;
+    const inputElement = event.target as HTMLInputElement;
 
-      if (inputElement?.files?.length) {
-        const file: File = inputElement.files[0];
+    if (inputElement?.files?.length) {
+      const file: File = inputElement.files[0];
 
-        // Check if the file type is JPEG or JPG
-        if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
+      // Check if the file type is JPEG or JPG
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
 
-          // Check if the file size is less than or equal to 200KB
-          if (file.size <= 200 * 1024) { // 200KB in bytes
-            try {
-              const base64String: string = await fileToBase64(file); // Convert the file to base64
-              if (this.EmpCardData) {
-                if (param === 'Profile Photo') {
-                  this.EmpCardData!.photo = base64String;
-                } else if (param === 'Employee Sign') {
-                  this.EmpCardData!.sig = base64String;
-                }
-              } else {
-                console.log('this.employee is null.');
+        // Check if the file size is less than or equal to 200KB
+        if (file.size <= 200 * 1024) { // 200KB in bytes
+          try {
+            const base64String: string = await fileToBase64(file); // Convert the file to base64
+            if (this.EmpCardData) {
+              if (param === 'Profile Photo') {
+                this.EmpCardData!.photo = base64String;
+              } else if (param === 'Employee Sign') {
+                this.EmpCardData!.sig = base64String;
               }
-            } catch (error) {
-              console.error('Failed to convert the file to base64:', error);
+            } else {
+              console.log('this.employee is null.');
             }
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Invalid File',
-              text: 'File size exceeds 200KB.',
-            });
-            console.log('File size exceeds 200KB.');
+          } catch (error) {
+            console.error('Failed to convert the file to base64:', error);
           }
         } else {
           Swal.fire({
             icon: 'error',
             title: 'Invalid File',
-            text: 'Invalid file type. Only JPEG or JPG files are allowed.',
+            text: 'File size exceeds 200KB.',
           });
-          console.log('Invalid file type. Only JPEG or JPG files are allowed.');
+          console.log('File size exceeds 200KB.');
         }
       } else {
-        console.log('No file selected.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid File',
+          text: 'Invalid file type. Only JPEG or JPG files are allowed.',
+        });
+        console.log('Invalid file type. Only JPEG or JPG files are allowed.');
       }
+    } else {
+      console.log('No file selected.');
     }
+  }
 
-    async onIDproofSelected(event: any): Promise<void> {
-      const selectedFile = event.target.files[0]; // Get the first selected file
 
-      try {
-        if (selectedFile) {
-          const fileType = selectedFile.type;
-          const fileSize = selectedFile.size;
 
-          // Check if the selected file is a PDF and the size is within limits
-          if (fileType === 'application/pdf' && fileSize <= 1048576) {
-            const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
-            if (this.EmpCardData) {
-              this.EmpCardData!.id_proof = base64String;
-            } else {
-              console.log('this.employee is null.');
-            }
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Invalid File',
-              text: 'File size exceeds 1mb or it is not a pdf',
-            });
-            console.log('File size exceeds 1mb or not a pdf');
-          }
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'File is not present',
-            text: 'No file selected',
-          });
-          console.log('No file selected');
-        }
-      } catch (error) {
-        console.error('Failed to convert the file to base64:', error);
-      }
-    }
 
-    async onPostingOrderSelected(event: any): Promise<void> {
-      const selectedFile = event.target.files[0]; // Get the first selected file
-
-      try {
-        if (selectedFile) {
-          const fileType = selectedFile.type;
-          const fileSize = selectedFile.size;
-
-          // Check if the selected file is a PDF and the size is within limits
-          if (fileType === 'application/pdf' && fileSize <= 1048576) {
-            const base64String: string = await fileToBase64(selectedFile); // Convert the file to base64
-            if (this.EmpCardData) {
-              this.EmpCardData!.postingOrder = base64String;
-            } else {
-              console.log('this.employee is null.');
-            }
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Invalid File',
-              text: 'File size exceeds 1mb or it is not a pdf',
-            });
-            console.log('File size exceeds 1mb or not a pdf');
-          }
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'File is not present',
-            text: 'No file selected',
-          });
-          console.log('No file selected');
-        }
-      } catch (error) {
-        console.error('Failed to convert the file to base64:', error);
-      }
-    }
 
 }
