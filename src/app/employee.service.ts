@@ -453,6 +453,9 @@ export class EmployeeService {
   getEbaPrintData(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + "ebaprint", { headers: this.createHeader() });
   }
+  getEmpPrintData(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + "empprint", { headers: this.createHeader() });
+  }
   searchEba(searchEba: Search): Observable<any> {
     return this.http.post<any>(this.apiUrl + "searchEba", searchEba, { headers: this.createHeader() });
   }
@@ -516,12 +519,20 @@ export class EmployeeService {
     return this.http.get<any>(`${this.apiUrl}rfid/${rfid}/${passno}`, { headers: this.createHeader() });
   }
 
+  empRFID(rfid: any, passno: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}empRFID/${rfid}/${passno}`, { headers: this.createHeader() });
+  }
+
   rbrfid(rfid: any, passno: any): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}rbrfid/${rfid}/${passno}`, { headers: this.createHeader() });
   }
 
   printstatus(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}printStatus/${id}`, { headers: this.createHeader() });
+  }
+
+  EMPprintstatus(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}empprintStatus/${id}`, { headers: this.createHeader() });
   }
 
   rbprintstatus(id: number): Observable<any> {

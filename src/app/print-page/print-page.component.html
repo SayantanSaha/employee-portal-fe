@@ -10,7 +10,8 @@
           <ng-container *ngIf="printData.card_type! && printData.card_type==3">
             <div
               style="height: 18mm; background-color: darkred; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
-              <strong style="font-size: 5mm; color: white; transform: scaleY(2); line-height: 13mm;letter-spacing: 0.22mm;">
+              <strong
+                style="font-size: 5mm; color: white; transform: scaleY(2); line-height: 13mm;letter-spacing: 0.22mm;">
                 PRESIDENT'S ESTATE RESIDENT PASS
               </strong>
               <div style=" color: white;line-height: 6mm;"><b>{{printData.eba_pass_no}}</b></div>
@@ -19,7 +20,8 @@
           <ng-container *ngIf="printData.card_type! && printData!.card_type!==3">
             <div
               style="height: 18mm; background-color: darkgreen; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
-              <strong style="font-size: 5mm; color: white; transform: scaleY(2); line-height: 13mm;letter-spacing: 0.22mm;">
+              <strong
+                style="font-size: 5mm; color: white; transform: scaleY(2); line-height: 13mm;letter-spacing: 0.22mm;">
                 PRESIDENT'S ESTATE RESIDENT PASS
               </strong>
               <div style=" color: white;line-height: 6mm;"><b>{{printData.eba_pass_no}}</b></div>
@@ -29,13 +31,14 @@
             <div
               style="height: 18mm; background-color: blue; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
               <!-- <strong style="font-size: 5mm; color: white; transform: scaleY(2.1)scaleX(1.1); line-height: 13mm;margin-left: 4mm;"> -->
-                <strong style="font-size: 5mm; color: white; transform: scaleY(2); line-height: 13mm;letter-spacing: 0.22mm;">
+              <strong
+                style="font-size: 5mm; color: white; transform: scaleY(2); line-height: 13mm;letter-spacing: 0.22mm;">
                 PRESIDENT'S ESTATE RESIDENT PASS
               </strong>
               <div style=" color: white;line-height: 6mm;"><b>{{printData.eba_pass_no}}</b></div>
             </div>
           </ng-container>
-          <ng-container *ngIf="printData.card_type! &&printData.card_type=='P'">
+          <!-- <ng-container *ngIf="printData.card_type! &&printData.card_type=='P'">
             <div
               style="height: 18mm; background-color: purple; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
               <strong style="font-size: 5mm; color: white; transform: scaleY(2.1)scaleX(1.2); line-height: 13mm;margin-left: 8mm;">
@@ -43,7 +46,7 @@
               </strong>
               <div style=" color: white;line-height: 6mm;"><b>{{printData.eba_pass_no}}</b></div>
             </div>
-          </ng-container>
+          </ng-container> -->
 
           <table
             style="height: 34mm; display: flex; font-size: 3mm;text-align: center;justify-content: center;align-items: center;">
@@ -86,8 +89,13 @@
                     <td><b>Relationship with Allottee</b></td>
                   </tr>
                   <tr>
-                    <td *ngIf="printData?.closefamily?.rel_desc && printData.closefamily.rel_desc!='Other'"><b>{{printData.closefamily.rel_desc}}</b></td>
-                    <td *ngIf="printData?.closefamily?.rel_desc && printData.closefamily.rel_desc=='Other'&&printData?.closefamily?.pivot?.rel_text"><b>{{printData.closefamily.pivot.rel_text}}</b></td>
+                    <td *ngIf="printData?.closefamily?.rel_desc && printData.closefamily.rel_desc!='Other'">
+                      <b>{{printData.closefamily.rel_desc}}</b>
+                    </td>
+                    <td
+                      *ngIf="printData?.closefamily?.rel_desc && printData.closefamily.rel_desc=='Other'&&printData?.closefamily?.pivot?.rel_text">
+                      <b>{{printData.closefamily.pivot.rel_text}}</b>
+                    </td>
                     <td *ngIf="printData?.servantfamily?.rel_desc"><b>Domestic Help
                         {{printData.servantfamily.rel_desc}}</b></td>
                     <td *ngIf="printData?.servant"><b>Domestic Help</b></td>
@@ -138,14 +146,14 @@
               </div>
             </div>
           </ng-container>
-          <ng-container *ngIf="printData.card_type! &&printData.card_type=='P'">
+          <!-- <ng-container *ngIf="printData.card_type! &&printData.card_type=='P'">
             <div
               style="height: 4mm; background-color: purple; display: flex; flex-direction: column; text-align: right;margin-top: 3mm; ">
               <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;">
                 <b>UNDER SECRETARY (EBA)</b>
               </div>
             </div>
-          </ng-container>
+          </ng-container> -->
 
         </div>
 
@@ -214,6 +222,140 @@
     <!--          <button class="btn btn-outline-success" *ngIf="printbutton" (click)="printbuttonchange();print()">Print</button>-->
 
   </ng-container>
+
+
+
+  <ng-container *ngIf="fromUrl && fromUrl== 'empprint'">
+    <div class="page-break">
+      <table>
+        <div class="print-border"
+          style="width: 97mm; height: 61mm; background-color: white;  border: 1px solid #ccc;max-width: 97mm;max-height: 61mm">
+          <div
+            style="height: 18mm; background-color: purple; display: flex; flex-direction: column; justify-content: center;padding: 1mm ">
+            <strong
+              style="font-size: 5mm; color: white; transform: scaleY(2.1)scaleX(1.2); line-height: 13mm;margin-left: 8mm;">
+              PRESIDENT'S ESTATE ENTRY PASS
+            </strong>
+            <div style=" color: white;line-height: 6mm;"><b>{{printData.emp_pass_no}}</b></div>
+          </div>
+
+          <table
+            style="height: 34mm; display: flex; font-size: 3mm;text-align: center;justify-content: center;align-items: center;">
+            <tr>
+              <td style="min-width:31mm;max-width:31mm;">
+                <img [src]="printData.eba_application_details?.photo"
+                  style="width: 35mm; height: 39mm;padding-top: 5mm;" />
+              </td>
+              <td style="min-width:61mm;max-width:61mm;padding: 10mm;padding-left: 15mm;">
+                <table>
+                  <tr>
+                    <td>
+                      <b style="color: red">
+                        VALID UPTO:
+                      </b>
+                      <b style="border: 1px solid black;  display: inline-block;">
+                        {{ printData!.emp_pass_exp_date | date:'MMM':'en-US' | uppercase }}
+                      </b>
+                      <b style="border: 1px solid black;  display: inline-block;">
+                        {{ printData!.emp_pass_exp_date | date:'yyyy' }}
+                      </b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td *ngIf="printData?.eba_application_details?.name_print">
+                      <b>{{printData.eba_application_details?.name_print}}</b>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td *ngIf="printData.eba_application_details?.office_code"><b>{{
+                        getOfficeDesc(printData.eba_application_details?.office_code) }}</b></td>
+                  </tr>
+                  <tr>
+                    <td *ngIf="printData.eba_application_details?.designation_code"><b>{{
+                        getDesignationDesc(printData.eba_application_details?.designation_code) }}</b></td>
+                  </tr>
+                  <tr>
+                    <td *ngIf="printData?.eba_application_details?.dob"><b>Date Of Birth:
+                        {{ printData!.eba_application_details?.dob | date:'dd-MM-yyyy'}}
+                      </b></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+          <div style="height: 4mm; display: flex; flex-direction: column;margin-top: -1mm;margin-left: 75mm  ">
+            <span *ngIf="printData.ussign">
+              <img [src]="printData.ussign" alt="Signature" style="width: 10mm; height: 4mm" class="rounded-square"
+                title="Employee Signature" />
+            </span>
+          </div>
+          <div
+            style="height: 4mm; background-color: purple; display: flex; flex-direction: column; text-align: right;margin-top: 3mm; ">
+            <div style=" color: white;line-height: 3mm; text-align: right;font-size: 2.2mm;padding-right: 2mm;">
+              <b>UNDER SECRETARY (EBA)</b>
+            </div>
+          </div>
+        </div>
+      </table>
+    </div>
+
+    <div class="row print-hidden"></div>
+    <div class="page-break">
+      <table>
+        <div
+          style="width: 97mm; height: 61.7mm;  display: flex;flex-direction: column;border: 1px solid #ccc; font-size: 2.5mm;padding: 1mm;max-width: 97mm;max-height: 61.7mm">
+          <table>
+            <tr>
+              <td><b>Address:</b></td>
+              <td colspan="2">
+                {{printData.eba_application_details?.curr_add}}
+                <ng-container *ngIf="printData.eba_application_details?.curr_district">,{{
+                  getDistrictName(printData.eba_application_details?.curr_district)
+                  }}</ng-container>
+                <ng-container *ngIf="printData.eba_application_details?.curr_state">,{{
+                  getStateName(printData.eba_application_details?.curr_state) }}
+                  -</ng-container> {{printData.eba_application_details?.curr_pin}}<br />
+              </td>
+            </tr>
+            <tr>
+              <td><b>Blood Group:</b></td>
+              <td>{{printData.eba_application_details?.blood_group||printData.eba_application_details?.blood_typ_name}}
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%;"><b>Date of issue:</b></td>
+              <td>{{ printData!.created_at | date:'dd-MM-yyyy'}}</td>
+            </tr>
+            <tr>
+              <td><b>ID mark:</b></td>
+              <td>{{printData.eba_application_details?.id_mark}}</td>
+            </tr>
+            <br>
+            <tr>
+              <td colspan="3">
+                This Photo Entry Pass is the property of President's Secretariat. It must be returned by the holder when
+                demanded by the issuing Authority.
+              </td>
+            </tr>
+            <br>
+            <tr>
+              <td colspan="2">
+                If found please return the pass to:-
+                <br><b>The Under Secretary (EBA)</b>
+                <br><b>Rashtrapati Bhavan</b>
+                <br><b>New Delhi-110004</b>
+                <br><b>Tel.No. 011-23015321</b>
+              </td>
+              <td>
+                <ngx-barcode6 [bc-format]="'CODE128'" [bc-value]="(printData!.emp_pass_no ) || ''" [bc-width]="1"
+                  [bc-height]="30"></ngx-barcode6>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </table>
+    </div>
+  </ng-container>
 </ng-container>
 
 <ng-container *ngIf="printData && printData!= null">
@@ -235,7 +377,7 @@
        'position': 'relative'
      }"> -->
 
-      <div *ngIf="printData.card_type_id==1" class="print-border" [ngStyle]="{
+        <div *ngIf="printData.card_type_id==1" class="print-border" [ngStyle]="{
       'background-image': 'url(\'assets/images/pass_frontG.png\')',
       'width': '82mm',
       'height': '128.325mm',
@@ -722,7 +864,8 @@
                 </div>
               </ng-container>
 
-              <ng-container *ngIf="!printData.applicationdetails.application.payLevel || printData.applicationdetails.application.payLevel < 9">
+              <ng-container
+                *ngIf="!printData.applicationdetails.application.payLevel || printData.applicationdetails.application.payLevel < 9">
                 <div
                   style="color: white;position: absolute; top: 0; left: -32mm; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;font-size: 5mm;">
                   <div

@@ -3,7 +3,7 @@
   <div class="card shadow">
     <div class="card-header">
       <div class="card-title">
-        <b>Approved List ({{ebaprintData.length}})</b>
+        <b>Approved List ({{ebaprintData.length + empPrintData.length}})</b>
       </div>
     </div>
     <div class="card-body">
@@ -70,6 +70,45 @@
                 </div>
               </td>
             </tr>
+
+            <tr *ngFor="let ebaprint of empPrintData; let i = index">
+              <td>{{ i + 1 + ebaprintData.length}}</td>
+              <td>
+                <ng-container *ngIf="ebaprint?.eba_application_details?.name_print">{{ebaprint?.eba_application_details?.name_print}}</ng-container>
+              </td>
+              <td>
+
+              </td>
+              <td>
+                EMP-card
+              </td>
+              <td >{{ebaprint.emp_pass_no}}</td>
+              <td >{{ ebaprint!.issue_date | date:'dd-MM-yyyy'}}</td>
+              <td >{{ ebaprint!.emp_pass_exp_date | date:'dd-MM-yyyy'}}</td>
+              <td *ngIf="!fromfunction || fromfunction ==null">
+                <div class="col" *ngIf="ebaprint.rfid ==null">
+                  <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="openempcardPopup(i)">
+                    <!--                  <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)" (click)="printpage(i)">-->
+                    Update
+                  </button>
+                </div>
+                <div class="col" *ngIf="ebaprint.rfid !==null">
+                  {{ebaprint.rfid}}
+                </div>
+              </td>
+              <td *ngIf="!fromfunction || fromfunction ==null">
+                <div class="col" *ngIf="ebaprint.rfid ==null && (ebaprint.printStatus==false ||  ebaprint.printStatus==null)">
+                  <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" (click)="printemppage(i)">
+                    Print
+                  </button>
+                </div>
+                <div class="col" *ngIf="ebaprint.rfid ==null && ebaprint.printStatus==true ">
+                  <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)" (click)="printemppage(i)">
+                    Re-Print
+                  </button>
+                </div>
+              </td>
+            </tr>
             </tbody>
           </table>
         </div>
@@ -92,7 +131,7 @@
       <div class="modal-content" style="width:100mm">
         <div class="modal-header">
           <h5 class="modal-title">
-            <b>{{printData.eba_pass_no}}</b>
+            <b>{{printData.eba_pass_no || printData.emp_pass_no}}</b>
           </h5>
         </div>
         <div class="modal-body" >
@@ -106,7 +145,10 @@
             Close
           </button>
 
-          <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="rfid(printData.eba_pass_no)">
+          <button *ngIf="wpdata=='eba'" type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="rfid(printData.eba_pass_no)">
+            Update Rfid
+          </button>
+          <button *ngIf="wpdata=='emp'" type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)" (click)="rfid( printData.emp_pass_no)">
             Update Rfid
           </button>
         </div>

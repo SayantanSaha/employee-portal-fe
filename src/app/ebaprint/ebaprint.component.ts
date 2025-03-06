@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 
 export class EbaprintComponent {
   ebaprintData:  any[] = [];
+  empPrintData:  any[] = [];
   Rfid:  any;
   fromfunction: any;
   isLoading: boolean = false;
@@ -48,6 +49,22 @@ export class EbaprintComponent {
           }
         }
       );
+      this.employeeService.getEmpPrintData().subscribe(
+        (data: any) => {
+          console.log(data);
+          this.empPrintData = data;
+        },
+        error => {
+          console.error('Error fetching data:', error);
+          if (error.status === 404) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'US signature empty',
+              text: 'US signature required !!!',
+            });
+          }
+        }
+      );
     }
 
 
@@ -68,13 +85,22 @@ export class EbaprintComponent {
 
   ebacard: any = 'none';
   printData: any ;
+  wpdata:any;
 
   openebacardPopup(i:number) {
+    this.wpdata = "eba";
     this.ebacard = "block";
      this.printData=this.ebaprintData[i];
   }
   closeebacardPopup() {
+    this.wpdata = null;
     this.ebacard = "none";
+  }
+
+  openempcardPopup(i:number) {
+    this.wpdata = "emp";
+    this.ebacard = "block";
+     this.printData=this.empPrintData[i];
   }
 
 
@@ -104,6 +130,34 @@ export class EbaprintComponent {
     );}
   }
 
+  printemppage(i:number){
+    if(this.empPrintData[i].printStatus == true){
+      this.router.navigate(['printPage'], { state: { printData: this.empPrintData[i], fromUrl: 'empprint' } });
+    }
+    else{
+    this.employeeService.EMPprintstatus( this.empPrintData[i].id).subscribe(
+        // On success
+        () => {
+          this.router.navigate(['printPage'], { state: { printData: this.empPrintData[i], fromUrl: 'empprint' } });
+        },
+        // On error
+        (error) => {
+          console.log(error);
+          console.log(error.status);
+          console.log(error.error);
+          // Handle other errors here
+          console.error('An error occurred:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while updating EMP.',
+          });
+        }
+    );}
+  }
+
+
+
 
 
   // ngAfterViewInit() {
@@ -116,6 +170,7 @@ export class EbaprintComponent {
     if (this.Rfid && this.Rfid !== null) {
       this.isLoading = true;
       // Call the employeeService to update EBA pass using RFID and ebapassno
+      if(this.wpdata=='eba'){
       this.employeeService.RFID(this.Rfid, ebapassno).subscribe(
           // On success
           () => {
@@ -143,7 +198,36 @@ export class EbaprintComponent {
             this.isLoading = false; // Hide loading symbol
           }
       );
-    }else{
+    }if(this.wpdata=='emp'){
+      this.employeeService.empRFID(this.Rfid, ebapassno).subscribe(
+        // On success
+        () => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Updated successfully', // Corrected spelling here
+          }).then(() => {
+            location.reload();
+          });
+        },
+        // On error
+        (error) => {
+          console.log(error);
+          console.log(error.status);
+          console.log(error.error);
+          // Handle other errors here
+          console.error('An error occurred:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred while updating EBA.',
+          });
+        },() => {
+          this.isLoading = false; // Hide loading symbol
+        }
+    );
+    }
+  }else{
       Swal.fire({
         icon: 'warning',
         title: 'warning',

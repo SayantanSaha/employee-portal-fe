@@ -47,6 +47,17 @@ export class PrintPageComponent {
     // Retrieve data from router state
     this.printData = history.state.printData;
     this.fromUrl=history.state.fromUrl;
+    this.employeeService.getOrganizations().subscribe(
+      data => {
+        this.offices = data.filter(org => org.org_type === 'Emp');
+        this.findDesg();
+      },
+      error => console.log(error)
+    );
+    this.employeeService.getStates().subscribe(
+      data => this.states = data,
+      error => console.log(error)
+    );
   }
 
   hoverClick(event: MouseEvent) {
@@ -78,5 +89,41 @@ export class PrintPageComponent {
 
       window.print();
   }
+  officeDesignations: any[] = [];
+  offices: any[] = [];
+  states: any[] = [];
+  currDistricts: any[] = [];
+  getDesignationDesc(code: any): string {
+    const designation = this.officeDesignations.find(d => d.id === code);
+    return designation ? designation.desg_desc : 'N/A';
+  }
+  getOfficeDesc(code: any): string {
+    const office = this.offices.find(o => o.id === code);
+    return office ? office.org_desc : 'N/A';
+  }
+  findDesg() {
+    const selectedOffice = this.offices.find(office => office.id === this.printData.eba_application_details?.office_code);
+    if (selectedOffice) {
+      this.employeeService.getDesignations(selectedOffice.id).subscribe(
+        data => this.officeDesignations = data,
+        error => console.log(error)
+      );
+    } else {
+      console.log('No matching office found');
+    }
+  }
+
+  getStateName(stateId: any): string {
+    const state = this.states.find(s => s.id === stateId);
+    this.employeeService.getDistrictsByState(stateId)
+    .then(districts => this.currDistricts = districts);
+    return state ? state.state_name ?? 'N/A' : 'N/A';
+  }
+
+  getDistrictName(districtId: any): string {
+    const district = this.currDistricts.find(d => d.id === districtId);
+    return district ? district.district_name ?? 'N/A' : 'N/A';
+  }
+
 
 }
