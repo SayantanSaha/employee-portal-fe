@@ -10,5 +10,5 @@ export class AppComponent {
   constructor() {
     console.log(environment.production); // Logs false for development environment
   }
-  title = 'employee-portal';
+  title = 'Samekit';
 }
