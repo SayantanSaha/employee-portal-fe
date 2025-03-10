@@ -95,7 +95,7 @@ export class RbcardapplyformComponent {
 
 
     this.employeeService.getOrganizations().subscribe(
-      data => this.orglist = data,
+      data => this.orglist = data.filter(org => org.org_type !== 'Emp'),
       error => console.error(error)
     );
 
