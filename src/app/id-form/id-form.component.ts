@@ -88,7 +88,7 @@ export class IdFormComponent implements OnInit {
       let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
       this.user = JSON.parse(userString!);
 
-      if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13|| role == 14 || role == 17))||(this.mode == 'return')) {
+      if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13|| role == 14 || role == 17 || role==2))||(this.mode == 'return')) {
         if (this.mode !== 'return') {
           this.letverify(!isNaN(+this.id!));
         }
@@ -98,7 +98,7 @@ export class IdFormComponent implements OnInit {
         // 'id' is present, try to convert it to a number
         const idNumber = +this.id;
         if (!isNaN(idNumber)) {
-          if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13|| role == 14 || role == 17))||(this.mode == 'return')) {
+          if (this.user && this.user.role && this.user.role.some((role: number) => (role === 11 || role == 12 || role == 13|| role == 14 || role == 17 || role==2))||(this.mode == 'return')) {
             // 'id' is a valid number, call getrbProfile
             this.employeeService.getRegProfile(idNumber).subscribe(
               (data: any) => {

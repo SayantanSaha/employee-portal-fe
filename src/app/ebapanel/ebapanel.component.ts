@@ -41,6 +41,7 @@ export class EbapanelComponent implements OnInit {
   showEmpCardDetails: boolean = false;
   EmpCardNo: string | null = null;
   maxDate: string = "";
+  ebaShow = false;
   EmpCardData: any = {
     name_print: null,
     dob: null,
@@ -114,6 +115,10 @@ export class EbapanelComponent implements OnInit {
       },
       error => console.log(error)
     );
+
+    if ([4, 5, 6, 9, 10, 2].some(role => this.user.role.includes(role))) {
+      this.ebaShow = true;
+    }
 
   }
 

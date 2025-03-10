@@ -1,8 +1,9 @@
 <script src="../app.module.ts" xmlns="http://www.w3.org/1999/html"></script>
 <div class="container">
-  <ng-container *ngIf="user && user.role">
+  <ng-container *ngIf="ebaShow">
+  <!-- <ng-container *ngIf="user && user.role">
     <ng-container *ngFor="let role of user.role">
-      <ng-container *ngIf="role === 4 || role === 5 || role === 6|| role === 9|| role === 10">
+      <ng-container *ngIf="role === 4 || role === 5 || role === 6|| role === 9|| role === 10"> -->
         <div class="row">
           <div class="container">
             <div class="card shadow">
@@ -315,8 +316,8 @@
             </div>
           </div>
         </div>
-      </ng-container>
-    </ng-container>
+      <!-- </ng-container>
+    </ng-container> -->
   </ng-container>
 </div>
 

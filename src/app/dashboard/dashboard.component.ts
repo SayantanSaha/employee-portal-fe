@@ -26,10 +26,18 @@ export class DashboardComponent implements OnInit {
 
   currentImageUrl: string = this.imageUrls[0];
   currentIndex = 0;
+  employeeInfoShow = false;
+  ebaShow = false;
+  rbCardShow = false;
+  eVaahanShow = false;
+  reportShow = false;
+  sportsReportShow = false;
   constructor(
 
     private employeeService: EmployeeService,
-  ) { }
+  ) {
+
+  }
 
 
   ngOnInit() {
@@ -47,23 +55,23 @@ export class DashboardComponent implements OnInit {
       }
     );
 
-    if (!this.user.card_valid && this.user.color){
+    if (!this.user.card_valid && this.user.color) {
       Swal.fire({
         title: 'Rb Card expired',
         text: 'Your Rb Crad has expired.',
         icon: 'warning',
       })
     }
-
+    this.setRoleFlags();
 
     // this.employeeService.checkRbexpDate().subscribe(
     //   data => {
-        // this.cardValid = data;
-        // Swal.fire({
-        //   title: 'Rb Card expired',
-        //   text: 'Your Rb Crad has expired.',
-        //   icon: 'warning',
-        // })
+    // this.cardValid = data;
+    // Swal.fire({
+    //   title: 'Rb Card expired',
+    //   text: 'Your Rb Crad has expired.',
+    //   icon: 'warning',
+    // })
     //   },
     //   error => {
     //     console.error('Something Went wrong while validating your card:', error);
@@ -79,6 +87,24 @@ export class DashboardComponent implements OnInit {
     }, 7000); // Change image every 500 milliseconds (0.5 seconds)
   }
 
+  setRoleFlags() {
+    if (this.user.role.includes(1)) {
+      this.employeeInfoShow = true;
+    }
+    if ([4, 5, 6, 9, 10, 2].some(role => this.user.role.includes(role))) {
+      this.ebaShow = true;
+    }
+    if ([11, 12, 13, 14, 17, 2].some(role => this.user.role.includes(role))) {
+      this.rbCardShow = true;
+    }
+    if ([19, 20].some(role => this.user.role.includes(role))) {
+      this.eVaahanShow = true;
+    }
+    if (this.user.role.includes(2)) {
+      this.reportShow = true;
+      this.sportsReportShow = true;
+    }
+  }
 
   addHoverClass() {
     const card = document.querySelector('.card');

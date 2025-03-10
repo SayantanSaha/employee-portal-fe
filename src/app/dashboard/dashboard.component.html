@@ -167,19 +167,6 @@
         </div>
       </div>
     </ng-container>
-
-    <!-- Parking Sticker Card -->
-    <!-- <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
-      <div class="card shadow" (click)="hoverClick($event)" *ngIf="user && user.employee === true">
-        <a href="https://rb.nic.in/psrb" style="text-decoration: none; color: inherit;">
-          <div class="card-body">
-            <i class="bi bi-car-front"></i>
-            <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Parking Sticker</h5>
-            <p class="card-text" style="font-size: 15px">Click here to apply for online Parking sticker</p>
-          </div>
-        </a>
-      </div>
-    </div> -->
   </div>
 
   <br><br>
@@ -196,104 +183,94 @@
   </ng-container>
 
   <div class="row">
-    <ng-container *ngIf="user && user.role && user.employee === true && user.card_valid==true">
-      <ng-container *ngFor="let role of user.role">
-
-        <!-- Employee Info Card for role === 1 -->
-        <ng-container *ngIf="role === 1">
-          <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
-            <div class="card shadow" (click)="hoverClick($event)">
-              <a [routerLink]="'/adminpanel'" style="text-decoration: none; color: inherit;">
-                <div class="card-body">
-                  <img class="card-img-top" src="https://purwosari.magetan.go.id/image/admin.png" alt="admin"
-                    style="height: 35%; width: 25%; margin-top: -8%">
-                  <h5 class="card-title mat-body-strong" style="color: darkblue; font-size: 17px">Employee Info.</h5>
-                  <p class="card-text">Click here to Verify Officer Details</p>
-                </div>
-              </a>
+    <ng-container *ngIf="employeeInfoShow">
+      <div class="col-sm-6 col-md-3 col-lg-3 mb-4">
+        <div class="card shadow" (click)="hoverClick($event)">
+          <a [routerLink]="'/adminpanel'" style="text-decoration: none; color: inherit;">
+            <div class="card-body">
+              <img class="card-img-top" src="https://purwosari.magetan.go.id/image/admin.png" alt="admin"
+                style="height: 35%; width: 25%; margin-top: -8%">
+              <h5 class="card-title mat-body-strong" style="color: darkblue; font-size: 17px">Employee Info.</h5>
+              <p class="card-text">Click here to Verify Officer Details</p>
             </div>
-          </div>
-        </ng-container>
-
-        <!-- EBA Card for roles 4, 5, 6, 9, or 10 -->
-        <ng-container *ngIf="role === 4 || role === 5 || role === 6 || role === 9 || role === 10">
-          <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
-            <div class="card shadow" (click)="hoverClick($event)">
-              <a [routerLink]="'/ebapanel'" style="text-decoration: none; color: inherit;">
-                <div class="card-body">
-                  <img class="card-img-top" src="https://rb.nic.in/assets/img/services/2.jpg" alt="eba"
-                    style="height: 23%; width: 17%">
-                  <h5 class="card-title mat-body-strong" style="color: darkblue; font-size: 17px">EBA</h5>
-                  <p class="card-text">Click here to Verify applied EBA Applications</p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </ng-container>
-
-        <!-- RB Card for roles 11, 12, 13, 14, or 17 -->
-        <ng-container *ngIf="role === 11 || role === 12 || role === 13 || role === 14 || role === 17">
-          <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
-            <div class="card shadow" (click)="hoverClick($event)">
-              <a [routerLink]="'/regpanel'" style="text-decoration: none; color: inherit;">
-                <div class="card-body">
-                  <img class="card-img-top"
-                    src="https://cdn0.iconfinder.com/data/icons/flat-profession-icons-2/48/105-1024.png" alt="rb-card"
-                    style="height: 23%; width: 17%">
-                  <h5 class="card-title mat-body-strong" style="color: darkblue; font-size: 17px">RB Card</h5>
-                  <p class="card-text">Click here to Verify applied Registered Applications</p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="role === 19 || role === 20">
-          <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
-            <div class="card shadow" (click)="hoverClick($event)">
-              <a (click)="applyEvahaan()">
-                <div class="card-body">
-                  <img src="https://rb.nic.in/assets/img/services/car.jpg" alt="evahaan" style="height: 23%;width: 17%">
-                  <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">E Vaahan</h5>
-                  <p class="card-text">Click here to apply for online Vehicle booking</p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="role === 2">
-          <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
-            <div class="card shadow" (click)="hoverClick($event)">
-              <a [routerLink]="'/reportpage/relativeUpdate'" style="text-decoration: none; color: inherit;">
-                <!-- <a (click)="reportOfrelatives()"> -->
-                <div class="card-body">
-                  <img
-                    src="https://static.vecteezy.com/system/resources/previews/013/395/044/non_2x/reports-and-statistics-illustration-in-minimal-style-png.png"
-                    alt="evahaan" style="height: 20%;width: 13%">
-                  <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Report</h5>
-                  <p class="card-text">Click here to see various report</p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="role === 2">
-          <div class="col-sm-6 col-md-3 col-lg-3  mb-4">
-            <div class="card shadow" (click)="hoverClick($event)">
-              <a [routerLink]="'/reportpage/sportsUpdate'" style="text-decoration: none; color: inherit;">
-                <!-- <a (click)="reportOfrelatives()"> -->
-                <div class="card-body">
-                  <img src="assets/images/sport2.png" alt="evahaan" style="height: 23%;width: 17%">
-                  <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Sports Report</h5>
-                  <p class="card-text">Click here to see Sports report</p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </ng-container>
-      </ng-container>
+          </a>
+        </div>
+      </div>
     </ng-container>
+
+    <ng-container *ngIf="ebaShow">
+      <div class="col-sm-6 col-md-3 col-lg-3 mb-4">
+        <div class="card shadow" (click)="hoverClick($event)">
+          <a [routerLink]="'/ebapanel'" style="text-decoration: none; color: inherit;">
+            <div class="card-body">
+              <img class="card-img-top" src="https://rb.nic.in/assets/img/services/2.jpg" alt="eba"
+                style="height: 23%; width: 17%">
+              <h5 class="card-title mat-body-strong" style="color: darkblue; font-size: 17px">EBA</h5>
+              <p class="card-text">Click here to Verify applied EBA Applications</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="rbCardShow">
+      <div class="col-sm-6 col-md-3 col-lg-3 mb-4">
+        <div class="card shadow" (click)="hoverClick($event)">
+          <a [routerLink]="'/regpanel'" style="text-decoration: none; color: inherit;">
+            <div class="card-body">
+              <img class="card-img-top" src="https://cdn0.iconfinder.com/data/icons/flat-profession-icons-2/48/105-1024.png" alt="rb-card"
+                style="height: 23%; width: 17%">
+              <h5 class="card-title mat-body-strong" style="color: darkblue; font-size: 17px">RB Card</h5>
+              <p class="card-text">Click here to Verify applied Registered Applications</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="eVaahanShow">
+      <div class="col-sm-6 col-md-3 col-lg-3 mb-4">
+        <div class="card shadow" (click)="hoverClick($event)">
+          <a (click)="applyEvahaan()">
+            <div class="card-body">
+              <img src="https://rb.nic.in/assets/img/services/car.jpg" alt="evahaan" style="height: 23%;width: 17%">
+              <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">E Vaahan</h5>
+              <p class="card-text">Click here to apply for online Vehicle booking</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="reportShow">
+      <div class="col-sm-6 col-md-3 col-lg-3 mb-4">
+        <div class="card shadow" (click)="hoverClick($event)">
+          <a [routerLink]="'/reportpage/relativeUpdate'" style="text-decoration: none; color: inherit;">
+            <div class="card-body">
+              <img src="https://static.vecteezy.com/system/resources/previews/013/395/044/non_2x/reports-and-statistics-illustration-in-minimal-style-png.png"
+                alt="report" style="height: 20%;width: 13%">
+              <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Report</h5>
+              <p class="card-text">Click here to see various report</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="sportsReportShow">
+      <div class="col-sm-6 col-md-3 col-lg-3 mb-4">
+        <div class="card shadow" (click)="hoverClick($event)">
+          <a [routerLink]="'/reportpage/sportsUpdate'" style="text-decoration: none; color: inherit;">
+            <div class="card-body">
+              <img src="assets/images/sport2.png" alt="sports-report" style="height: 23%;width: 17%">
+              <h5 class="card-title mat-body-strong" style="color: darkblue;font-size: 17px">Sports Report</h5>
+              <p class="card-text">Click here to see Sports report</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </ng-container>
+
   </div>
+
 </div>

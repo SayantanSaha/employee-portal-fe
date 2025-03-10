@@ -1,8 +1,9 @@
 <script src="../app.module.ts" xmlns="http://www.w3.org/1999/html"></script>
 <div class="container">
-  <ng-container *ngIf="user && user.role">
+  <ng-container *ngIf="rbShow">
+  <!-- <ng-container *ngIf="user && user.role">
     <ng-container *ngFor="let role of user.role">
-      <ng-container *ngIf="role === 11 || role ===12 || role ===13 || role ===14 || role ===17">
+      <ng-container *ngIf="role === 11 || role ===12 || role ===13 || role ===14 || role ===17"> -->
         <div class="row">
           <div class="container">
             <div class="card shadow">
@@ -26,14 +27,14 @@
 
                 <div class="row">
                   <div class="col-md-4 col-lg-4 col-sm-4">
-                    <!--                  <a routerLink="/rb-pending" style="text-decoration: none; color: inherit;">-->
+
                     <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchRb(16)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
-                            <!--                            <a routerLink="/rb-pending" >-->
+
                             <i class="bi bi-people"></i>
-                            <!--                            </a>-->
+
                           </div>
                           <div class="ps-5">
                             <p>
@@ -46,7 +47,7 @@
                     </div>
                   </div>
                   <div class="col-md-4 col-lg-4 col-sm-4">
-                    <!--                  <a routerLink="/rb-pending" style="text-decoration: none; color: inherit;">-->
+
                     <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(11)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
@@ -62,11 +63,11 @@
                         </div>
                       </div>
                     </div>
-                    <!--                  </a>-->
+
                   </div>
 
                   <div class="col-md-4 col-lg-4 col-sm-4">
-                    <!--                  <a routerLink="/rb-pending" style="text-decoration: none; color: inherit;">-->
+
                     <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(12)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
@@ -82,14 +83,14 @@
                         </div>
                       </div>
                     </div>
-                    <!--                  </a>-->
+
                   </div>
 
                 </div>
 
                 <div class="row">
                   <div class="col-md-4 col-lg-4 col-sm-4">
-                    <!--                  <a routerLink="/rb-pending" style="text-decoration: none; color: inherit;">-->
+
                     <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(17)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
@@ -108,17 +109,17 @@
                         </div>
                       </div>
                     </div>
-                    <!--                  </a>-->
+
                   </div>
                   <div class="col-md-4 col-lg-4 col-sm-4">
-                    <!--                  <a routerLink="/rb-pending" style="text-decoration: none; color: inherit;">-->
+
                     <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchRb(13)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
                           <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
-                            <!--                            <a routerLink="/rb-pending" >-->
+
                             <i class="bi bi-people"></i>
-                            <!--                            </a>-->
+
                           </div>
                           <div class="ps-5">
                             <p>
@@ -131,7 +132,7 @@
                     </div>
                   </div>
                   <div class="col-md-4 col-lg-4 col-sm-4">
-                    <!--                  <a routerLink="/rb-pending" style="text-decoration: none; color: inherit;">-->
+
                     <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(14)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
@@ -147,13 +148,11 @@
                         </div>
                       </div>
                     </div>
-                    <!--                  </a>-->
+
                   </div>
                 </div>
 
                 <div class="row">
-
-                  <!-- Approved card -->
                   <div class="col-md-4 col-lg-4 col-sm-4">
                     <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(15)">
                       <div class="card-body" style="overflow: auto;">
@@ -172,9 +171,8 @@
                     </div>
                   </div>
 
-                  <!-- Conditionally show Print and Total RB Card if roles satisfy conditions -->
-                  <ng-container *ngIf="role === 13 || role === 14">
-                    <!-- Print and Total RB Card in the same row if both are visible -->
+
+                  <ng-container *ngIf="DcpOffice">
                     <div class="col-md-4 col-lg-4 col-sm-4">
                       <a routerLink="/rb-print" style="text-decoration: none; color: inherit;">
                         <div class="card shadow enlarge-hover" (click)="hoverClick($event)">
@@ -196,7 +194,6 @@
                     </div>
 
                     <div class="col-md-4 col-lg-4 col-sm-4">
-                      <!-- <a routerLink="/rb-print" style="text-decoration: none;"> -->
                       <div class="card shadow enlarge-hover" (click)="hoverClick($event);openpass() ">
                         <div class="card-body" style="overflow: auto;">
                           <div class="d-flex align-items-center">
@@ -207,17 +204,19 @@
                               <p>
                                 <span class="text-muted small pt-2 ps-1 fw-bold">Report/Edit</span>
                               </p>
-                              <!-- {{ rbdashboardData.active }} -->
                             </div>
                           </div>
                         </div>
                       </div>
-                      <!-- </a> -->
                     </div>
-
                   </ng-container>
 
-                  <ng-container *ngIf="(role === 12 || role === 17)">
+
+                  <!-- <ng-container *ngIf="DcpOffice">
+                    <div class="row">
+                  </ng-container> -->
+
+                  <ng-container *ngIf="formShow">
                     <div class="col-md-4 col-lg-4 col-sm-4">
                       <div class="card shadow enlarge-hover" (click)="hoverClick($event)">
                         <a routerLink="/RbApplyForm" style="text-decoration: none;">
@@ -237,31 +236,13 @@
                       </div>
                     </div>
                   </ng-container>
-                </div>
 
-                <!-- Form will go into a new row if Print and Total RB card exist -->
-                <ng-container *ngIf="(role === 13 || role === 14)">
-                  <div class="row">
-                    <div class="col-md-4 col-lg-4 col-sm-4">
-                      <a routerLink="/RbApplyForm" style="text-decoration: none;">
-                        <div class="card shadow enlarge-hover" (click)="hoverClick($event)">
-                          <div class="card-body" style="overflow: auto;">
-                            <div class="d-flex align-items-center">
-                              <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
-                                <i class="bi bi-pencil-square"></i>
-                              </div>
-                              <div class="ps-5">
-                                <p>
-                                  <span class="text-muted small pt-2 ps-1 fw-bold">Form</span>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
+                  <!-- <ng-container *ngIf="DcpOffice">
                     </div>
-                  </div>
-                </ng-container>
+                  </ng-container> -->
+
+
+                </div>
 
                 <br>
 
@@ -315,8 +296,8 @@
             </div>
           </div>
         </div>
-      </ng-container>
-    </ng-container>
+      <!-- </ng-container>
+    </ng-container> -->
   </ng-container>
 </div>
 <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false" [ngStyle]="{'display': searchbox }"

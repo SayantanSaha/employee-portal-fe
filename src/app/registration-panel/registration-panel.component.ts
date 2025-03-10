@@ -26,6 +26,9 @@ export class RegistrationPanelComponent implements OnInit {
   user: User = new User();
   searchbox: any = 'none';
   passbox: any = 'none';
+  rbShow = false;
+  formShow=false;
+  DcpOffice=false;
   report: any = {
     card_type_id: '',
     active: 1,
@@ -89,6 +92,18 @@ export class RegistrationPanelComponent implements OnInit {
         console.error('Error fetching employee data:', error);
       }
     );
+
+    if ([11, 12, 13, 14, 17, 2].some(role => this.user.role.includes(role))) {
+      this.rbShow = true;
+    }
+
+    if ([12,17, 13, 14,  2].some(role => this.user.role.includes(role))) {
+      this.formShow = true;
+    }
+
+    if ([ 13,14, 2].some(role => this.user.role.includes(role))) {
+      this.DcpOffice = true;
+    }
   }
   hoverClick(event: MouseEvent) {
     const button = event.currentTarget as HTMLElement;

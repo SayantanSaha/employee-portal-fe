@@ -101,7 +101,7 @@ export class EbaFormComponent {
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
 
-    if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4 || role == 9 || role == 10)) || (this.modetwo == 'return')) {
+    if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4 || role == 9 || role == 10 || role == 2)) || (this.modetwo == 'return')) {
       this.id = this.route.snapshot.paramMap.get('id');
       if (this.modetwo !== 'return') {
         this.letverify(!isNaN(+this.id!));
@@ -112,7 +112,7 @@ export class EbaFormComponent {
       // 'id' is present, try to convert it to a number
       const idNumber = +this.id;
       if (!isNaN(idNumber)) {
-        if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4 || role == 9 || role == 10)) || (this.modetwo == 'return')) {
+        if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4 || role == 9 || role == 10 || role == 2)) || (this.modetwo == 'return')) {
           if ((this.mode !== 'edit' && this.modetwo !== 'relative') || (this.modetwo == 'return')) {
             // 'id' is a valid number, call getEbaProfile
             this.employeeService.getEbaProfile(idNumber).subscribe(

@@ -70,7 +70,7 @@ export class EmpFormComponent {
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
 
-    if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4 || role == 9 || role == 10))) {
+    if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4 || role == 9 || role == 10 || role == 2))) {
       this.id = this.route.snapshot.paramMap.get('id');
 
     }
@@ -79,7 +79,7 @@ export class EmpFormComponent {
 
       const idNumber = +this.id;
       if (!isNaN(idNumber)) {
-        if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4 || role == 9 || role == 10))) {
+        if (this.user && this.user.role && this.user.role.some((role: number) => (role === 5 || role == 6 || role == 4 || role == 9 || role == 10 || role == 2))) {
           this.employeeService.getEbaProfile(idNumber).subscribe(
             (data: any) => {
               this.EmpCardData = data;
