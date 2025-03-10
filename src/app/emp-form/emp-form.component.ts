@@ -622,10 +622,10 @@ export class EmpFormComponent {
               title: 'Success',
               text: 'Approved successfully',
             })
-            // .then(() => {
-            //   // Redirect to the dashboard route
-            //   this.router.navigate(['ebapanel']);
-            // });
+            .then(() => {
+              // Redirect to the dashboard route
+              this.router.navigate(['ebapanel']);
+            });
           },
           (error) => {
             this.isLoading = false;
