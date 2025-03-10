@@ -10,7 +10,8 @@
                 <div class="card-title">
                   <div class="row">
                     <div class="col-6">
-                      <b>Applied Application({{rbdashboardData.totalApplications}})</b>
+                      <b>Applied
+                        Application({{rbdashboardData.returned+rbdashboardData.pendingdh+rbdashboardData.pendingso+rbdashboardData.pendingus+rbdashboardData.pendingdhDcp+rbdashboardData.pendingdcp+rbdashboardData.approvedCount}})</b>
                     </div>
                     <div class="col-6" style="text-align: right">
                       <button class="btn btn-success enlarge-hover " (click)=" hoverClick($event);opensearch()"> <i
@@ -96,10 +97,10 @@
                             <i class="bi bi-people"></i>
                           </div>
                           <div class="ps-5">
-                            <p  *ngIf="user.username != '9999373896'">
+                            <p *ngIf="user.username != '9999373896'">
                               <span class="text-muted small pt-2 ps-1 fw-bold">Pending at US</span>
                             </p>
-                            <p  *ngIf="user.username == '9999373896'">
+                            <p *ngIf="user.username == '9999373896'">
                               <span class="text-muted small pt-2 ps-1 fw-bold">Pending at A.C.P.H</span>
                             </p>
                             {{rbdashboardData.pendingus}}
@@ -291,8 +292,8 @@
                                 <tr *ngFor="let rbapplication of rbdashboardData.todayList; let i = index">
                                   <td>{{ i + 1 }}</td>
                                   <td>{{ rbapplication.reg_no }}</td>
-                                  <td>{{ rbapplication.application.emp_name }}</td>
-                                  <td>{{ rbapplication.application.mobile }}</td>
+                                  <td>{{ rbapplication.emp_name }}</td>
+                                  <td>{{ rbapplication.mobile }}</td>
                                   <td>{{ formatDate(rbapplication.created_at) }}</td>
                                   <td>
                                     <ng-container *ngIf="rbapplication.id">
@@ -381,7 +382,7 @@
         <!-- Card Type -->
         <div class="row mb-3">
           <label class="form-label">Card Type</label>
-          <select class="form-control" [(ngModel)]="report.card_type_id" >
+          <select class="form-control" [(ngModel)]="report.card_type_id">
             <option value="">ALL</option>
             <option [ngValue]="3">Red</option>
             <option [ngValue]="2">Purple</option>
@@ -396,7 +397,7 @@
         <div class="row mb-3">
           <label class="form-label">Status</label>
           <select class="form-control" [(ngModel)]="report.active">
-            <option [ngValue]="1" >Active</option>
+            <option [ngValue]="1">Active</option>
             <option [ngValue]="0">In-Active</option>
           </select>
         </div>

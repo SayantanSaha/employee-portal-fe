@@ -10,7 +10,7 @@
                 <div class="card-title">
                   <div class="row">
                     <div class="col-6">
-                      <b>Applications ({{ebadashboardData.totalApplications}})</b>
+                      <b>Applications ({{ebadashboardData.returned + ebadashboardData.pendingdh + ebadashboardData.pendingso + ebadashboardData.pendingus + ebadashboardData.pendingdirector + ebadashboardData.pendingasp + ebadashboardData.approvedCount }})</b>
                     </div>
                     <div class="col-6" style="text-align: right">
                       <button class="btn btn-success enlarge-hover " (click)=" hoverClick($event);opensearch()"> <i
@@ -284,14 +284,14 @@
                                   <th>Action</th>
                                 </tr>
                               </thead>
-                              <tbody *ngIf="ebadashboardData && ebadashboardData.todayList">
+                              <tbody *ngIf="ebadashboardData && ebadashboardData.todayList ">
                                 <tr *ngFor="let ebaapplication of ebadashboardData.todayList; let i = index">
                                   <td>{{ i + 1 }}</td>
                                   <td>{{ ebaapplication.reg_no }}</td>
-                                  <td>{{ ebaapplication.id_cards?.[0]?.card_no || ebaapplication?.details?.pass_no ||
+                                  <td>{{ ebaapplication.id_cards || ebaapplication?.pass_no ||
                                     ebaapplication.application_type}}</td>
-                                  <td>{{ ebaapplication.employee?.emp_name || ebaapplication.details.name_print}}</td>
-                                  <td>{{ ebaapplication.employee?.mobile || ebaapplication.details.mob_no}}</td>
+                                  <td>{{ ebaapplication.emp_name || ebaapplication.name_print}}</td>
+                                  <td>{{ ebaapplication.mobile || ebaapplication.mob_no}}</td>
                                   <td>{{ formatDate(ebaapplication.created_at) }}</td>
                                   <td>
                                     <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"

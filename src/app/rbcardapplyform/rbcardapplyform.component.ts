@@ -299,7 +299,7 @@ export class RbcardapplyformComponent {
   onApplyReasonChange(): void {
     if (this.employee!.apply_reason !== 'Lost/theaft') {
       this.employee!.FIR_no = null;
-    }if (this.employee) {
+    } if (this.employee) {
       const applyReason = this.employee.apply_reason; // Preserve apply_reason
       this.employee = new Employee(); // Reset the employee object
       this.employee.apply_reason = applyReason; // Restore apply_reason
