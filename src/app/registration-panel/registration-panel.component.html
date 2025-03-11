@@ -359,83 +359,107 @@
   style="backdrop-filter: blur(3px); background-color: rgba(128, 128, 128, 0.7); overflow-y: auto;">
   <div class="modal-dialog modal-dialog-centered modal-l">
     <div class="modal-content">
-      <div class="modal-body">
-        <!-- Card Type -->
-        <div class="row mb-3">
-          <label class="form-label">Card Type</label>
-          <select class="form-control" [(ngModel)]="report.card_type_id">
-            <option value="">ALL</option>
-            <option [ngValue]="3">Red</option>
-            <option [ngValue]="2">Purple</option>
-            <option [ngValue]="1">Green</option>
-            <option [ngValue]="4">Yellow Card</option>
-            <option [ngValue]="5">Duty Pass</option>
-            <option [ngValue]="6">Yellow Paper</option>
-          </select>
-        </div>
+      <div class="modal-body p-2.5 bg-light rounded">
+        <div class="row g-4">
+          <!-- Card Type -->
+          <div class="col-md-6">
+            <label class="form-label">Card Type</label>
+            <select class="form-select" [(ngModel)]="report.card_type_id">
+              <option value="">ALL</option>
+              <option [ngValue]="3">Red</option>
+              <option [ngValue]="2">Purple</option>
+              <option [ngValue]="1">Green</option>
+              <option [ngValue]="4">Yellow Card</option>
+              <option [ngValue]="5">Duty Pass</option>
+              <option [ngValue]="6">Yellow Paper</option>
+            </select>
+          </div>
 
-        <!-- Status -->
-        <div class="row mb-3">
-          <label class="form-label">Status</label>
-          <select class="form-control" [(ngModel)]="report.active">
-            <option [ngValue]="1">Active</option>
-            <option [ngValue]="0">In-Active</option>
-          </select>
-        </div>
+          <!-- Status -->
+          <div class="col-md-6">
+            <label class="form-label">Status</label>
+            <select class="form-select" [(ngModel)]="report.active">
+              <option [ngValue]="1">Active</option>
+              <option [ngValue]="0">Inactive</option>
+            </select>
+          </div>
 
-        <!-- Name -->
-        <div class="row mb-3">
-          <label class="form-label">Name</label>
-          <input type="text" class="form-control" placeholder="Search by Name" [(ngModel)]="report.emp_name">
-        </div>
+          <!-- RFID -->
+          <div class="col-md-6">
+            <label class="form-label">RFID</label>
+            <select class="form-select" [(ngModel)]="report.rfid">
+              <option value="null">Select RFID</option>
+              <option [ngValue]="1">Active</option>
+              <option [ngValue]="0">Inactive</option>
+            </select>
+          </div>
 
+          <!-- Name -->
+          <div class="col-md-6">
+            <label class="form-label">Name</label>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search by Name" [(ngModel)]="report.emp_name">
+            </div>
+          </div>
 
-        <div class="row mb-3">
-          <label class="form-label">Organisation</label>
-          <select class="form-control" [(ngModel)]="report.organization_id">
-            <option value="">Select Organisation</option>
-            <option *ngFor="let org of org_list" [ngValue]="org.id">{{ org.org_desc }}</option>
-          </select>
-        </div>
+          <!-- Phone Number -->
+          <div class="col-md-6">
+            <label class="form-label">Phone No</label>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search by Number" [(ngModel)]="report.mobile">
+            </div>
+          </div>
 
+          <!-- Organisation -->
+          <div class="col-md-6">
+            <label class="form-label">Organisation</label>
+            <select class="form-select" [(ngModel)]="report.organization_id">
+              <option value="">Select Organisation</option>
+              <option *ngFor="let org of org_list" [ngValue]="org.id">{{ org.org_desc }}</option>
+            </select>
+          </div>
 
-        <div class="row mb-3">
-          <label class="form-label">Designation</label>
-          <select class="form-control" [(ngModel)]="report.designation_id">
-            <option value="">Select Designation</option>
-            <option *ngFor="let designation of designations" [ngValue]="designation.id">
-              {{ designation.desg_desc }}
-            </option>
-          </select>
-        </div>
+          <!-- Designation -->
+          <div class="col-md-6">
+            <label class="form-label">Designation</label>
+            <select class="form-select" [(ngModel)]="report.designation_id">
+              <option value="">Select Designation</option>
+              <option *ngFor="let designation of designations" [ngValue]="designation.id">
+                {{ designation.desg_desc }}
+              </option>
+            </select>
+          </div>
 
+          <!-- Division -->
+          <div class="col-md-6">
+            <label class="form-label">Division</label>
+            <select class="form-select" [(ngModel)]="report.division_id">
+              <option value="">Select Division</option>
+              <option *ngFor="let div of divisiontypelist" [ngValue]="div.id">{{ div.div_desc }}</option>
+            </select>
+          </div>
 
-        <div class="row mb-3">
-          <label class="form-label">Division</label>
-          <select class="form-control" [(ngModel)]="report.division_id">
-            <option value="">Select Division</option>
-            <option *ngFor="let div of divisiontypelist" [ngValue]="div.id">{{ div.div_desc }}</option>
-          </select>
-        </div>
+          <!-- Card Number -->
+          <div class="col-md-6">
+            <label class="form-label">Card No</label>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search by Card No" [(ngModel)]="report.card_no">
+            </div>
+          </div>
 
-        <!-- Card Number -->
-        <div class="row mb-3">
-          <label class="form-label">Card No</label>
-          <input type="text" class="form-control" placeholder="Search by Card No" [(ngModel)]="report.card_no">
-        </div>
-
-        <!-- Issue Date and Expiry Date -->
-        <div class="row mb-3">
-          <div class="col-6">
+          <!-- Issue Date & Expiry Date -->
+          <div class="col-md-6">
             <label class="form-label">Issue Date</label>
             <input type="date" class="form-control" [(ngModel)]="report.valid_from">
           </div>
-          <div class="col-6">
+
+          <div class="col-md-6">
             <label class="form-label">Exp Date</label>
             <input type="date" class="form-control" [(ngModel)]="report.valid_to">
           </div>
         </div>
       </div>
+
 
       <!-- Footer Buttons -->
       <div class="modal-footer">

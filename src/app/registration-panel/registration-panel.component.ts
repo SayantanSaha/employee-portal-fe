@@ -32,13 +32,15 @@ export class RegistrationPanelComponent implements OnInit {
   report: any = {
     card_type_id: '',
     active: 1,
+    rfid: null,
     emp_name: '',
     organization_id: '',
     designation_id: '',
     division_id: '',
     card_no: '',
     valid_from: '',
-    valid_to: ''
+    valid_to: '',
+    mobile:''
   };
 
   divisiontypelist: any[] = [];
@@ -79,7 +81,7 @@ export class RegistrationPanelComponent implements OnInit {
     );
 
     this.employeeService.getOrganizations().subscribe(
-      data => this.org_list = data,
+      data => this.org_list = data.filter(org => org.org_type !== 'Emp'),
       error => console.log(error)
     );
 
@@ -176,7 +178,7 @@ export class RegistrationPanelComponent implements OnInit {
 
 
   rbpasses(value: string) {
-    console.log('Report Payload:', this.report); // Debugging payload
+    console.log('Report Payload:', this.report); 
     this.employeeService.rbpasses(this.report).subscribe(
       (data) => {
         console.log('Search successful:', data);

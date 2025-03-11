@@ -202,124 +202,128 @@
 
           <mat-paginator [length]="rbprintData.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
 
-            <table id="datatableexample" >
-              <thead>
-                <tr>
-                  <th>Sl No.</th>
-                  <th>Officer Name</th>
+          <table id="datatableexample">
+            <thead>
+              <tr>
+                <th>Sl No.</th>
+                <th>Officer Name</th>
 
-                  <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
-                    <th>Dob</th>
-                    <th>Dor</th>
-                    <th>Mobile</th>
-                  </ng-container>
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <th>Dob</th>
+                  <th>Dor</th>
+                  <th>Mobile</th>
+                </ng-container>
 
-                  <th>RB Card</th>
-                  <th>Issue Date</th>
-                  <th>Exp Date</th>
+                <th>RB Card</th>
+                <th>Issue Date</th>
+                <th>Exp Date</th>
 
-                  <ng-container *ngIf="fromfunction">
-                    <th>Police Verification No</th>
-                    <th>Status</th>
-                    <th>Card Type</th>
-                  </ng-container>
+                <ng-container *ngIf="fromfunction">
+                  <th>Police Verification No</th>
+                  <th>Status</th>
+                  <th>Card Type</th>
+                </ng-container>
 
-                  <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
-                    <th>Organization</th>
-                    <th>Designation</th>
-                    <th>Pay Level</th>
-                  </ng-container>
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <th>Organization</th>
+                  <th>Designation</th>
+                  <th>Pay Level</th>
+                </ng-container>
 
-                  <ng-container *ngIf="!fromfunction || fromfunction == 'totalpass'">
-                    <th>Rfid</th>
-                  </ng-container>
+                <ng-container *ngIf="!fromfunction || fromfunction == 'totalpass'">
+                  <th>Rfid</th>
+                </ng-container>
 
-                  <ng-container *ngIf="!fromfunction || fromfunction == null || fromfunction == 'edit'">
-                    <th>Action</th>
-                  </ng-container>
-                </tr>
-              </thead>
+                <ng-container *ngIf="!fromfunction || fromfunction == null || fromfunction == 'edit'">
+                  <th>Action</th>
+                </ng-container>
+              </tr>
+            </thead>
 
-              <tbody>
-                <tr *ngFor="let idprint of rbprintData; let i = index">
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ idprint?.emp_name }}</td>
-
-
-                  <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
-                    <td>{{ idprint?.dob | date: 'dd-MM-yyyy' }}</td>
-                    <td>{{ idprint?.dor | date: 'dd-MM-yyyy' }}</td>
-                    <td>{{ idprint?.mobile }}</td>
-                  </ng-container>
-
-                  <td>{{ idprint.card_no }}</td>
-                  <td>{{ idprint!.valid_from | date: 'dd-MM-yyyy' }}</td>
-                  <td>{{ idprint!.valid_to | date: 'dd-MM-yyyy' }}</td>
-
-                  <ng-container *ngIf="fromfunction">
-                    <td>{{ idprint!.police_verification_no }}</td>
-                    <td>
-                      <ng-container *ngIf="idprint!.active === 1">Active</ng-container>
-                      <ng-container *ngIf="idprint!.active === 0">Cancelled/expired</ng-container>
-                    </td>
-                    <td>
-                      <ng-container [ngSwitch]="idprint!.card_type_id">
-                        <div *ngSwitchCase="1">Green</div>
-                        <div *ngSwitchCase="2">Purple</div>
-                        <div *ngSwitchCase="3">Red</div>
-                        <div *ngSwitchCase="4">Yellow Card</div>
-                        <div *ngSwitchCase="5">Duty Pass</div>
-                        <div *ngSwitchCase="6">Yellow Paper</div>
-                        <div *ngSwitchDefault>Unknown</div>
-                      </ng-container>
-                    </td>
-                  </ng-container>
+            <tbody>
+              <tr *ngFor="let idprint of rbprintData; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ idprint?.emp_name }}</td>
 
 
-                  <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
-                    <td>{{ idprint.org_desc }}</td>
-                    <td>{{ idprint.desg_desc }}</td>
-                    <td>{{ idprint.pay_desc }}</td>
-                  </ng-container>
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <td>{{ idprint?.dob | date: 'dd-MM-yyyy' }}</td>
+                  <td>{{ idprint?.dor | date: 'dd-MM-yyyy' }}</td>
+                  <td>{{ idprint?.mobile }}</td>
+                </ng-container>
 
-                  <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
-                    <td>
+                <td>{{ idprint.card_no }}</td>
+                <td>{{ idprint!.valid_from | date: 'dd-MM-yyyy' }}</td>
+                <td>{{ idprint!.valid_to | date: 'dd-MM-yyyy' }}</td>
+
+                <ng-container *ngIf="fromfunction">
+                  <td>{{ idprint!.police_verification_no }}</td>
+                  <td>
+                    <ng-container *ngIf="idprint!.active === 1">Active</ng-container>
+                    <ng-container *ngIf="idprint!.active === 0">Cancelled/expired</ng-container>
+                  </td>
+                  <td>
+                    <ng-container [ngSwitch]="idprint!.card_type_id">
+                      <div *ngSwitchCase="1">Green</div>
+                      <div *ngSwitchCase="2">Purple</div>
+                      <div *ngSwitchCase="3">Red</div>
+                      <div *ngSwitchCase="4">Yellow Card</div>
+                      <div *ngSwitchCase="5">Duty Pass</div>
+                      <div *ngSwitchCase="6">Yellow Paper</div>
+                      <div *ngSwitchDefault>Unknown</div>
+                    </ng-container>
+                  </td>
+                </ng-container>
+
+
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <td>{{ idprint.org_desc }}</td>
+                  <td>{{ idprint.desg_desc }}</td>
+                  <td>{{ idprint.pay_desc }}</td>
+                </ng-container>
+
+                <ng-container *ngIf="fromfunction && fromfunction == 'totalpass'">
+                  <td>
+                    <!-- <ng-container *ngIf="idprint!.active === 1"> -->
                       <ng-container *ngIf="idprint.rfid && idprint.rfid != null">Active</ng-container>
-                      <ng-container *ngIf="!idprint.rfid || idprint.rfid == null">In-Active</ng-container>
-                    </td>
-                  </ng-container>
+                      <ng-container *ngIf="!idprint.rfid || idprint.rfid == null">Inactive</ng-container>
+                    <!-- </ng-container> -->
+                    <!-- <ng-container *ngIf="idprint!.active === 0">
+                      Inactive
+                    </ng-container> -->
+                  </td>
+                </ng-container>
 
-                  <ng-container *ngIf="fromfunction && fromfunction == 'edit'">
-                    <td>
-                      <button class="btn btn-warning enlarge-on-hover" (click)="openeditcardPopup(i)">edit</button>
-                    </td>
-                  </ng-container>
+                <ng-container *ngIf="fromfunction && fromfunction == 'edit'">
+                  <td>
+                    <button class="btn btn-warning enlarge-on-hover" (click)="openeditcardPopup(i)">edit</button>
+                  </td>
+                </ng-container>
 
-                  <ng-container *ngIf="!fromfunction || fromfunction == null">
-                    <td *ngIf="idprint.rfid == null">
-                      <button class="btn btn-primary enlarge-on-hover" (click)="openidcardPopup(i)">Update</button>
-                    </td>
-                    <td *ngIf="idprint.rfid !== null">{{ idprint.rfid }}</td>
-                    <td>
-                      <div class="col"
-                        *ngIf="idprint.rfid ==null && (idprint.printed==false ||  idprint.printed==null)">
-                        <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
-                          (click)="printpage(i)">
-                          Print
-                        </button>
-                      </div>
-                      <div class="col" *ngIf="idprint.rfid ==null && idprint.printed==true ">
-                        <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
-                          (click)="printpage(i)">
-                          Re-Print
-                        </button>
-                      </div>
-                    </td>
-                  </ng-container>
+                <ng-container *ngIf="!fromfunction || fromfunction == null">
+                  <td *ngIf="idprint.rfid == null">
+                    <button class="btn btn-primary enlarge-on-hover" (click)="openidcardPopup(i)">Update</button>
+                  </td>
+                  <td *ngIf="idprint.rfid !== null">{{ idprint.rfid }}</td>
+                  <td>
+                    <div class="col" *ngIf="idprint.rfid ==null && (idprint.printed==false ||  idprint.printed==null)">
+                      <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
+                        (click)="printpage(i)">
+                        Print
+                      </button>
+                    </div>
+                    <div class="col" *ngIf="idprint.rfid ==null && idprint.printed==true ">
+                      <button class="btn btn-success enlarge-on-hover" (click)="hoverClick($event)"
+                        (click)="printpage(i)">
+                        Re-Print
+                      </button>
+                    </div>
+                  </td>
+                </ng-container>
 
-                </tr>
-              </tbody>
-            </table>
+              </tr>
+            </tbody>
+          </table>
 
 
         </div>
