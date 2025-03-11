@@ -1,6 +1,6 @@
 <script src="../app.module.ts" xmlns="http://www.w3.org/1999/html"></script>
 <div class="container">
-  <ng-container *ngIf="ebaShow">
+  <ng-container *ngIf="ebaShow || printbutton">
   <!-- <ng-container *ngIf="user && user.role">
     <ng-container *ngFor="let role of user.role">
       <ng-container *ngIf="role === 4 || role === 5 || role === 6|| role === 9|| role === 10"> -->
@@ -11,7 +11,11 @@
                 <div class="card-title">
                   <div class="row">
                     <div class="col-6">
-                      <b>Applications ({{ebadashboardData.returned + ebadashboardData.pendingdh + ebadashboardData.pendingso + ebadashboardData.pendingus + ebadashboardData.pendingdirector + ebadashboardData.pendingasp + ebadashboardData.approvedCount }})</b>
+                      <b>Applications
+                        <ng-container *ngIf="ebaShow">
+                        ({{ebadashboardData.returned + ebadashboardData.pendingdh + ebadashboardData.pendingso + ebadashboardData.pendingus + ebadashboardData.pendingdirector + ebadashboardData.pendingasp + ebadashboardData.approvedCount }})
+                      </ng-container>
+                      </b>
                     </div>
                     <div class="col-6" style="text-align: right">
                       <button class="btn btn-success enlarge-hover " (click)=" hoverClick($event);opensearch()"> <i
@@ -21,7 +25,7 @@
                 </div>
               </div>
 
-              <div class="card-body"
+              <div class="card-body" *ngIf="ebaShow"
                 style="background: linear-gradient(to bottom right, rgba(1, 255, 255, 0.36), transparent);">
                 <div class="row">
                   <div class="col-md-4 col-lg-4 col-sm-4">
@@ -312,6 +316,33 @@
                     </div>
                   </div>
                 </div>
+              </div>
+
+              <div class="card-body" *ngIf="printbutton"
+              style="background: linear-gradient(to bottom right, rgba(1, 255, 255, 0.36), transparent);">
+              <div class="row">
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                  <a routerLink="/eba-print" style="text-decoration: none; color: inherit;">
+                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event)">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-info">
+                            <!--                          <a routerLink="/eba-print" >-->
+                            <i class="bi bi-people"></i>
+                            <!--                          </a>-->
+                          </div>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Print</span>
+                            </p>
+                            {{ebadashboardData.ebaprint}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
               </div>
             </div>
           </div>

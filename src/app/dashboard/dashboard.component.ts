@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit {
   currentIndex = 0;
   employeeInfoShow = false;
   ebaShow = false;
+  ebaprint = false;
   rbCardShow = false;
   eVaahanShow = false;
   reportShow = false;
@@ -93,6 +94,9 @@ export class DashboardComponent implements OnInit {
     }
     if ([4, 5, 6, 9, 10, 2].some(role => this.user.role.includes(role))) {
       this.ebaShow = true;
+    }
+    if ([21].some(role => this.user.role.includes(role))) {
+      this.ebaprint = true;
     }
     if ([11, 12, 13, 14, 17, 2].some(role => this.user.role.includes(role))) {
       this.rbCardShow = true;
