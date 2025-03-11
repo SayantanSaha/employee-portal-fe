@@ -58,6 +58,10 @@ export class PrintPageComponent {
       data => this.states = data,
       error => console.log(error)
     );
+
+    if (this.printData.eba_application_details?.curr_state) {
+      this.loadDistricts(this.printData.eba_application_details.curr_state);
+    }
   }
 
   hoverClick(event: MouseEvent) {
@@ -113,15 +117,20 @@ export class PrintPageComponent {
     }
   }
 
+  loadDistricts(stateId: any) {
+    this.employeeService.getDistrictsByState(stateId)
+      .then(districts => {
+        this.currDistricts = districts;
+      });
+  }
+
   getStateName(stateId: any): string {
     const state = this.states.find(s => s.id === stateId);
-    this.employeeService.getDistrictsByState(stateId)
-    .then(districts => this.currDistricts = districts);
     return state ? state.state_name ?? 'N/A' : 'N/A';
   }
 
   getDistrictName(districtId: any): string {
-    const district = this.currDistricts.find(d => d.id === districtId);
+    const district = this.currDistricts?.find(d => d.id === districtId);
     return district ? district.district_name ?? 'N/A' : 'N/A';
   }
 

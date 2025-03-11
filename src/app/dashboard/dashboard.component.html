@@ -183,7 +183,7 @@
   </ng-container>
 
   <div class="row">
-    <ng-container *ngIf="employeeInfoShow">
+    <ng-container *ngIf="employeeInfoShow && user.card_valid==true">
       <div class="col-sm-6 col-md-3 col-lg-3 mb-4">
         <div class="card shadow" (click)="hoverClick($event)">
           <a [routerLink]="'/adminpanel'" style="text-decoration: none; color: inherit;">
@@ -198,7 +198,7 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="ebaShow">
+    <ng-container *ngIf="ebaShow && user.card_valid==true">
       <div class="col-sm-6 col-md-3 col-lg-3 mb-4">
         <div class="card shadow" (click)="hoverClick($event)">
           <a [routerLink]="'/ebapanel'" style="text-decoration: none; color: inherit;">
@@ -213,7 +213,7 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="rbCardShow">
+    <ng-container *ngIf="rbCardShow && user.card_valid==true">
       <div class="col-sm-6 col-md-3 col-lg-3 mb-4">
         <div class="card shadow" (click)="hoverClick($event)">
           <a [routerLink]="'/regpanel'" style="text-decoration: none; color: inherit;">
@@ -228,7 +228,7 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="eVaahanShow">
+    <ng-container *ngIf="eVaahanShow && user.card_valid==true">
       <div class="col-sm-6 col-md-3 col-lg-3 mb-4">
         <div class="card shadow" (click)="hoverClick($event)">
           <a (click)="applyEvahaan()">
@@ -242,7 +242,7 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="reportShow">
+    <ng-container *ngIf="reportShow && user.card_valid==true">
       <div class="col-sm-6 col-md-3 col-lg-3 mb-4">
         <div class="card shadow" (click)="hoverClick($event)">
           <a [routerLink]="'/reportpage/relativeUpdate'" style="text-decoration: none; color: inherit;">
@@ -257,7 +257,7 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="sportsReportShow">
+    <ng-container *ngIf="sportsReportShow && user.card_valid==true">
       <div class="col-sm-6 col-md-3 col-lg-3 mb-4">
         <div class="card shadow" (click)="hoverClick($event)">
           <a [routerLink]="'/reportpage/sportsUpdate'" style="text-decoration: none; color: inherit;">
