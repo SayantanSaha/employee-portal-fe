@@ -195,7 +195,7 @@ export class EmployeeService {
     return this.http.put<District>(this.apiUrl + "districts/" + District.id, District, { headers: this.createHeader() });
   }
 
-  getDesignations(org_id: number): Observable<Designation[]> {
+  getDesignations(org_id: any): Observable<Designation[]> {
     return this.http.get<Designation[]>(this.apiUrl + "organizations/" + org_id + "/designations", { headers: this.createHeader() });
   }
 

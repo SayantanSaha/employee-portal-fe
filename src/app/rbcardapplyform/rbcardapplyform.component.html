@@ -1,5 +1,6 @@
 <div class="container">
   <div class="row">
+    <div class="container">
     <div class="form-holder card shadow">
       <div class="card-header">
         Registration
@@ -110,7 +111,7 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <select class="form-control" [(ngModel)]="employee!.payLevel">
-                    <option value="">--Select payLevel--</option>
+                    <option value="null">--Select payLevel--</option>
                     <option *ngFor="let payLevel of payLevels" [ngValue]="payLevel.id">{{ payLevel.pay_desc }}</option>
                   </select>
                 </div>
@@ -603,6 +604,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 
 

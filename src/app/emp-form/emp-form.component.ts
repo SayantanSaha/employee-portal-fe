@@ -46,6 +46,7 @@ export class EmpFormComponent {
   designations: any[] = [];
   currDistricts: District[] = [];
   officeDesignations: any[] = [];
+  allDesignations: any[] = [];
   apiUrl = environment.apiUrl;
   id: string | null = null;
   remark: string | null = null;
@@ -149,6 +150,11 @@ export class EmpFormComponent {
 
       this.isLoading = false;
     }
+
+    this.employeeService.getDesignations('all').subscribe(
+      data => this.allDesignations = data,
+      error => console.log(error)
+    );
 
 
     //   setexpdate() {
@@ -946,6 +952,7 @@ export class EmpFormComponent {
   }
 
   offices: any[] = [];
+
   findDesg() {
     const selectedOffice = this.offices.find(office => office.id === this.EmpCardData.office_code);
     if (selectedOffice) {
@@ -1004,13 +1011,16 @@ export class EmpFormComponent {
     }
   }
 
-  getDesignationDesc(code: any): string {
-    const designation = this.officeDesignations.find(d => d.id === code);
-    return designation ? designation.desg_desc : 'N/A';
-  }
+
   getOfficeDesc(code: any): string {
     const office = this.offices.find(o => o.id === code);
     return office ? office.org_desc : 'N/A';
+  }
+
+  getDesignationDesc(code: any): string {
+
+    const designation = this.allDesignations.find(d => d.id === code);
+    return designation ? designation.desg_desc : 'N/A';
   }
 
   getStateName(stateId: any): string {
