@@ -42,6 +42,7 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit() {
+
     let userString: string | null = sessionStorage.getItem('user') != null ? sessionStorage.getItem('user') : '[]';
     this.user = JSON.parse(userString!);
 

@@ -401,14 +401,14 @@ export class EbapanelComponent implements OnInit {
     this.employeeService.submitEmpCard(this.EmpCardData).subscribe(
       (data: any) => {
         Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'submitted successfully',
+          icon: 'success',
+          title: 'Success',
+          text: 'submitted successfully',
         }).then(() => {
-            // Refresh the page after the success message is closed
-            window.location.reload();
+          // Refresh the page after the success message is closed
+          window.location.reload();
         });
-    },
+      },
 
       (error) => {
         // Error response
@@ -541,14 +541,14 @@ export class EbapanelComponent implements OnInit {
     this.employeeService.PullEmpCard(this.EmpCardData).subscribe(
       (data: any) => {
         Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'submitted successfully',
+          icon: 'success',
+          title: 'Success',
+          text: 'submitted successfully',
         }).then(() => {
-            // Refresh the page after the success message is closed
-            window.location.reload();
+          // Refresh the page after the success message is closed
+          window.location.reload();
         });
-    }    ,
+      },
       (error) => {
         // Error response
         console.log(error); // Log the error if needed
