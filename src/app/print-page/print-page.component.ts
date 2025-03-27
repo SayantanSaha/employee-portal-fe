@@ -33,6 +33,7 @@ export class PrintPageComponent {
   apiUrl = environment.apiUrl;
   fromUrl: string='';
   printData: any ;
+  allDesignations: any[] = [];
 
   passTypes:any= [
     { id: 1, imagePath: 'assets/images/pass_frontG.png' },
@@ -56,6 +57,11 @@ export class PrintPageComponent {
     );
     this.employeeService.getStates().subscribe(
       data => this.states = data,
+      error => console.log(error)
+    );
+
+    this.employeeService.getDesignations('all').subscribe(
+      data => this.allDesignations = data,
       error => console.log(error)
     );
 
@@ -97,8 +103,11 @@ export class PrintPageComponent {
   offices: any[] = [];
   states: any[] = [];
   currDistricts: any[] = [];
+
+
+
   getDesignationDesc(code: any): string {
-    const designation = this.officeDesignations.find(d => d.id === code);
+    const designation = this.allDesignations.find(d => d.id === code);
     return designation ? designation.desg_desc : 'N/A';
   }
   getOfficeDesc(code: any): string {
