@@ -33,3 +33,37 @@ label {
 //   font-size: 1rem;
 //   // padding-left: 10px;
 // }
+.info-icon-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* Tooltip icon size */
+.info-icon {
+  font-size:20px; /* Bootstrap icon size */
+}
+
+/* Tooltip content */
+.custom-tooltip {
+  visibility: hidden; /* Hidden by default */
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 12px;
+  z-index: 100;
+  width: auto;
+  max-width: 200px;
+  line-height: 1.4;
+}
+
+/* Show the tooltip when hovering over the icon */
+.info-icon-container:hover .custom-tooltip {
+  visibility: visible;
+}

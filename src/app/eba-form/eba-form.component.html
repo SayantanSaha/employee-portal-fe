@@ -1995,7 +1995,18 @@
                             <th>Relative Name</th>
                             <th>Eba Pass NO</th>
                             <!-- <th>Applying Reason</th> -->
-                            <th>Upload Photo (jpg/jpeg/200kb)</th>
+                            <th>
+                              Upload Photo
+                              <span class="info-icon-container">
+                                <i class="bi bi-info-circle info-icon"></i>
+                                <span class="custom-tooltip">
+                                  Allowed formats: jpg/jpeg<br>
+                                  Max size: 200KB<br>
+                                  Dimensions: 35mm x 35mm(Atleast)<br>
+                                  Type: Passport Photo
+                                </span>
+                              </span>
+                            </th>
                             <!--                        <th>Upload Signature</th>-->
                             <th>Upload ID Proof (pdf/200kb)</th>
                             <!-- <th>Upload fir and Receipt details<br> if lost and theft (pdf/200kb)</th> -->
@@ -2011,15 +2022,6 @@
                                 <td>
                                   <div *ngIf="eba_pass.eba_pass_no !== null ">
                                     {{ eba_pass.eba_pass_no }}
-                                  </div>
-                                  <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null ">
-                                    new
-                                  </div>
-                                </td>
-
-                                <td>
-                                  <div *ngIf="eba_pass.eba_pass_no !== null ">
-                                    {{ eba_pass.apply_reason }}
                                   </div>
                                   <div style="color: blue;" *ngIf="eba_pass?.eba_pass_no === null ">
                                     new
@@ -2183,7 +2185,18 @@
                             <th>Relative Name</th>
                             <th>Eba Pass NO</th>
                             <!-- <th>Applying Reason</th> -->
-                            <th>Upload Photo (jpg/jpeg/200kb)</th>
+                            <th>
+                              Upload Photo
+                              <span class="info-icon-container">
+                                <i class="bi bi-info-circle info-icon"></i>
+                                <span class="custom-tooltip">
+                                  Allowed formats: jpg/jpeg<br>
+                                  Max size: 200KB<br>
+                                  Dimensions: 35mm x 35mm(Atleast)<br>
+                                  Type: Passport Photo
+                                </span>
+                              </span>
+                            </th>
                             <!--                        <th>Upload Signature</th>-->
                             <th>Upload ID Proof (pdf/200kb)</th>
                             <!-- <th>Upload fir and Receipt details<br> if lost and theft (pdf/200kb)</th> -->
@@ -2359,7 +2372,18 @@
                             <th>Name</th>
                             <th>Eba Pass NO</th>
                             <!-- <th>Applying Reason</th> -->
-                            <th>Upload Photo (jpg/jpeg/200kb)</th>
+                            <th>
+                              Upload Photo
+                              <span class="info-icon-container">
+                                <i class="bi bi-info-circle info-icon"></i>
+                                <span class="custom-tooltip">
+                                  Allowed formats: jpg/jpeg<br>
+                                  Max size: 200KB<br>
+                                  Dimensions: 35mm x 35mm(Atleast)<br>
+                                  Type: Passport Photo
+                                </span>
+                              </span>
+                            </th>
                             <!--                        <th>Upload Signature</th>-->
                             <th>Upload ID Proof (pdf/200kb)</th>
                             <!-- <th>Upload fir and Receipt details<br> if lost and theft (pdf/200kb)</th> -->
@@ -2692,7 +2716,8 @@
                       Close
                     </button>
 
-                    <button type="button" class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event);applyEba()">
+                    <button type="button" class="btn btn-outline-info enlarge-on-hover"
+                      (click)="hoverClick($event);applyEba()">
                       upload/Preview
                     </button>
                   </div>

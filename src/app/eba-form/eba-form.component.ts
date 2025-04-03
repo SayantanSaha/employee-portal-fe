@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, AfterViewInit } from '@angular/core';
 import { User } from "../model/User";
 import { Employee } from "../model/Employee";
 import { EmployeeService } from "../employee.service";
@@ -19,6 +19,7 @@ import { fileToBase64 } from "../profile/fileToBase64";
 import { Router } from '@angular/router';
 import { Organization } from "../model/Organization";
 declare var jQuery: any;
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-eba-form',
@@ -26,7 +27,7 @@ declare var jQuery: any;
   styleUrls: ['./eba-form.component.scss']
 })
 
-export class EbaFormComponent {
+export class EbaFormComponent  {
   servantDetails: any[] = [];
   memberEbaPasses: any[] = [];
 
@@ -285,6 +286,7 @@ export class EbaFormComponent {
     // );
     this.isLoading = false;
   }
+
 
 
   setexpdate() {
@@ -856,65 +858,95 @@ export class EbaFormComponent {
       // Check if the file type is JPEG or JPG
       if (file.type === 'image/jpeg' || file.type === 'image/jpg') {
         // Check if the file size is less than or equal to 200KB
-        if (file.size <= 200 * 1024) { // 200KB in bytes
+        if (file.size <= 200 * 1024) {
           try {
-            const base64String: string = await fileToBase64(file); // Convert the file to base64
-            if (property === 'closefamily_photo_path' || 'closefamily_signature') {
-              if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
-                if (property === 'closefamily_photo_path') {
-                  // @ts-ignore
-                  this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit_64 = base64String;
-                } else if (property === 'closefamily_signature') {
-                  // @ts-ignore
-                  this.employee.closefamily[i].pivot.eba_passes[j].sign_path = base64String;
-                }
-              }
-            }
-            if (property === 'family_photo_path' || 'family_signature') {
-              if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
-                if (property === 'family_photo_path') {
-                  // @ts-ignore
-                  // alert('ok');
-                  this.employee.family[i].pivot.eba_passes[j].photo_path_edit_64 = base64String;
-                } else if (property === 'family_signature') {
-                  // @ts-ignore
-                  this.employee.family[i].pivot.eba_passes[j].sign_path = base64String;
-                }
-              }
-            }
+            // Create an Image object to check the dimensions
+            const img = new Image();
+            const reader = new FileReader();
 
-            if (property === 'servant_photo_path' || 'servant_signature') {
-              if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
-                // Update the specific property based on the argument
-                if (property === 'servant_photo_path') {
-                  // @ts-ignore
-                  this.employee.servants[i].eba_passes[j].photo_path_edit_64 = base64String;
-                } else if (property === 'servant_signature') {
-                  // @ts-ignore
-                  this.employee.servants[i].eba_passes[j].sign_path = base64String;
-                }
-              }
-            }
+            reader.onload = (e: any) => {
+              img.src = e.target.result;
+            };
 
-            if (property === 'photo' || 'sign') {
-              if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
-                // Update the specific property based on the argument
-                if (property === 'photo') {
-                  // @ts-ignore
-                  this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path_edit_64 = base64String;
-                } else if (property === 'sign') {
-                  // @ts-ignore
-                  this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = base64String;
+            img.onload = () => {
+              const widthPx = img.width;
+              const heightPx = img.height;
+
+              // Define the minimum required size in pixels (based on 35mm)
+              const minWidthPx = 132; // 35mm converted to pixels (96 DPI)
+              const minHeightPx = 132; // 35mm converted to pixels (96 DPI)
+
+              // Step 1: Check if dimensions are at least 132px x 132px
+              if (widthPx >= minWidthPx && heightPx >= minHeightPx) {
+                const base64String: string = reader.result as string; // Convert the file to base64
+                // Handle the image data based on the property
+                if (property === 'closefamily_photo_path' || 'closefamily_signature') {
+                  if (this.employee?.closefamily?.[i]?.pivot?.eba_passes?.[j]) {
+                    if (property === 'closefamily_photo_path') {
+                      // @ts-ignore
+                      this.employee.closefamily[i].pivot.eba_passes[j].photo_path_edit_64 = base64String;
+                    } else if (property === 'closefamily_signature') {
+                      // @ts-ignore
+                      this.employee.closefamily[i].pivot.eba_passes[j].sign_path = base64String;
+                    }
+                  }
                 }
+
+                if (property === 'family_photo_path' || 'family_signature') {
+                  if (this.employee?.family?.[i]?.pivot?.eba_passes?.[j]) {
+                    if (property === 'family_photo_path') {
+                      // @ts-ignore
+                      this.employee.family[i].pivot.eba_passes[j].photo_path_edit_64 = base64String;
+                    } else if (property === 'family_signature') {
+                      // @ts-ignore
+                      this.employee.family[i].pivot.eba_passes[j].sign_path = base64String;
+                    }
+                  }
+                }
+
+                if (property === 'servant_photo_path' || 'servant_signature') {
+                  if (this.employee?.servants?.[i]?.eba_passes?.[j]) {
+                    if (property === 'servant_photo_path') {
+                      // @ts-ignore
+                      this.employee.servants[i].eba_passes[j].photo_path_edit_64 = base64String;
+                    } else if (property === 'servant_signature') {
+                      // @ts-ignore
+                      this.employee.servants[i].eba_passes[j].sign_path = base64String;
+                    }
+                  }
+                }
+
+                if (property === 'photo' || 'sign') {
+                  if (this.employee?.servants?.[i]?.relations?.[j]?.pivot?.eba_passes?.[k]) {
+                    if (property === 'photo') {
+                      // @ts-ignore
+                      this.employee.servants[i].relations[j].pivot.eba_passes[k].photo_path_edit_64 = base64String;
+                    } else if (property === 'sign') {
+                      // @ts-ignore
+                      this.employee.servants[i].relations[j].pivot.eba_passes[k].sign_path = base64String;
+                    }
+                  }
+                }
+
+                if (this.file_path) {
+                  if (property === 'file_path') {
+                    this.file_path = base64String;
+                  }
+                }
+              } else {
+                this.removeFile(event, i, j, k, property);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Invalid Image Dimensions',
+                  text: 'Image dimensions must be at least 35mm X 35mm.',
+                });
+                console.log('Image dimensions are too small. Minimum required: 35mm x 35mm.');
               }
-            }
-            if (this.file_path) {
-              if (property === 'file_path') {
-                this.file_path = base64String;
-              }
-            }
-          }
-          catch (error) {
+            };
+
+            reader.readAsDataURL(file); // Read the image file as a Data URL
+
+          } catch (error) {
             console.error('Failed to convert the file to base64:', error);
           }
         } else {
@@ -935,11 +967,11 @@ export class EbaFormComponent {
         });
         console.log('Invalid file type. Only JPEG or JPG files are allowed.');
       }
-
     } else {
       console.log('No file selected.');
     }
   }
+
 
   async onFileSelected(event: Event, i: any, j: any, k: any, property: string): Promise<void> {
     const inputElement = event.target as HTMLInputElement;
