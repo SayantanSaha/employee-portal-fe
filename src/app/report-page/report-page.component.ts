@@ -22,6 +22,10 @@ export class ReportPageComponent {
   totalEmployees: number = 0;
   totalRelativesUpdated: number = 0;
   totalRelatives: number = 0;
+  totalServantsUpdated: number = 0;
+  totalServants: number = 0;
+  totalDRelativesUpdated: number = 0;
+  totalDRelatives: number = 0;
   sportsData: any;
   sportsAgeData: any;
 
@@ -88,6 +92,22 @@ export class ReportPageComponent {
     );
     this.totalRelatives = this.reports.reduce(
       (sum: number, report: any) => sum + (report.total_relatives || 0),
+      0
+    );
+    this.totalServantsUpdated = this.reports.reduce(
+      (sum: number, report: any) => sum + (report.servants_updated || 0),
+      0
+    );
+    this.totalServants = this.reports.reduce(
+      (sum: number, report: any) => sum + (report.total_servants || 0),
+      0
+    );
+    this.totalDRelativesUpdated = this.reports.reduce(
+      (sum: number, report: any) => sum + (report.d_relatives_updated || 0),
+      0
+    );
+    this.totalDRelatives = this.reports.reduce(
+      (sum: number, report: any) => sum + (report.total_d_relatives || 0),
       0
     );
   }

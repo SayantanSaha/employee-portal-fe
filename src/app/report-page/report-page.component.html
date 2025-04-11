@@ -13,6 +13,10 @@
               <th>Total permanent employees</th>
               <th>Relatives updated</th>
               <th>Total relatives</th>
+              <th>Domestic help updated</th>
+              <th>Total Domestic help</th>
+              <th>Domestic help family updated</th>
+              <th>Total Domestic help family</th>
             </tr>
           </thead>
           <tbody *ngIf="reports != null">
@@ -35,12 +39,28 @@
               <td>
                 <span>{{report!.total_relatives}}</span>
               </td>
+              <td>
+                <span>{{ report!.servants_updated }}</span>
+              </td>
+              <td>
+                <span>{{report!.total_servants}}</span>
+              </td>
+              <td>
+                <span>{{ report!.d_relatives_updated }}</span>
+              </td>
+              <td>
+                <span>{{report!.total_d_relatives}}</span>
+              </td>
             </tr>
             <tr>
               <td colspan="2" style="text-align: center;"><strong>Total</strong></td>
               <td><strong>{{ totalEmployees }}</strong></td>
               <td><strong>{{ totalRelativesUpdated }}</strong></td>
               <td><strong>{{ totalRelatives }}</strong></td>
+              <td><strong>{{ totalServantsUpdated }}</strong></td>
+              <td><strong>{{ totalServants }}</strong></td>
+              <td><strong>{{ totalDRelativesUpdated }}</strong></td>
+              <td><strong>{{ totalDRelatives }}</strong></td>
             </tr>
           </tbody>
         </table>

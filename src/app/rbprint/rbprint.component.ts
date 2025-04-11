@@ -227,6 +227,7 @@ export class RbprintComponent implements OnInit {
     this.idcard = "block";
     this.printData = this.rbprintData[i];
   }
+
   closeidcardPopup() {
     this.idcard = "none";
   }
@@ -236,6 +237,7 @@ export class RbprintComponent implements OnInit {
     this.editcard = "block";
     this.printData = this.rbprintData[i];
   }
+  
   closeeditcardPopup() {
     this.editcard = "none";
   }
