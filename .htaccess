@@ -7,20 +7,21 @@
 #     RewriteRule ^(.*) /employee_portal_fe/index.html [NC,L]
 # </IfModule>
 
-
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /samekit/
 
-    # ✅ Don't rewrite API calls (they go to Laravel backend)
+    # ✅ Don't rewrite API requests (Laravel)
     RewriteCond %{REQUEST_URI} ^/employee_portal/api/ [NC]
     RewriteRule ^ - [L]
 
-    # ✅ Don't rewrite real files/folders (like JS, CSS, assets)
-    RewriteCond %{REQUEST_FILENAME} -s [OR]
-    RewriteCond %{REQUEST_FILENAME} -l [OR]
+    # ✅ Don’t rewrite real files or folders (like JS, CSS, assets)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^ - [NC,L]
+    RewriteRule ^ - [L]
 
-    # ✅ Rewrite everything else to Angular's index.html (for SPA routing)
-    RewriteRule ^ /employee_portal_fe/index.html [NC,L]
+    # ✅ Redirect all other requests to Angular's index.html
+    RewriteRule ^ index.html [L]
 </IfModule>
+
+
