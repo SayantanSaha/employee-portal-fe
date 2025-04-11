@@ -1,8 +1,26 @@
+# <IfModule mod_rewrite.c>
+#     RewriteEngine on
+#     RewriteCond %{REQUEST_FILENAME} -s [OR]
+#     RewriteCond %{REQUEST_FILENAME} -l [OR]
+#     RewriteCond %{REQUEST_FILENAME} -d
+#     RewriteRule ^.*$ - [NC,L]
+#     RewriteRule ^(.*) /employee_portal_fe/index.html [NC,L]
+# </IfModule>
+
+
 <IfModule mod_rewrite.c>
-    RewriteEngine on
+    RewriteEngine On
+
+    # ✅ Don't rewrite API calls (they go to Laravel backend)
+    RewriteCond %{REQUEST_URI} ^/employee_portal/api/ [NC]
+    RewriteRule ^ - [L]
+
+    # ✅ Don't rewrite real files/folders (like JS, CSS, assets)
     RewriteCond %{REQUEST_FILENAME} -s [OR]
     RewriteCond %{REQUEST_FILENAME} -l [OR]
     RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^.*$ - [NC,L]
-    RewriteRule ^(.*) /employee_portal_fe/index.html [NC,L]
+    RewriteRule ^ - [NC,L]
+
+    # ✅ Rewrite everything else to Angular's index.html (for SPA routing)
+    RewriteRule ^ /employee_portal_fe/index.html [NC,L]
 </IfModule>
