@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 import { registerLocaleData } from "@angular/common";
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
+import { jwtDecode } from 'jwt-decode';
+
 
 @Component({
   selector: 'app-login',
@@ -41,20 +43,24 @@ export class LoginComponent {
         //console.log(error);
         (data) => {
           if (data.status == 'success') {
-            this.user = data.user;
+            // this.user = data.user;
             this.authorisation = data.authorisation;
-            sessionStorage.setItem('user', JSON.stringify(this.user));
-            sessionStorage.setItem('authorisation', JSON.stringify(this.authorisation));
-            sessionStorage.setItem('isLoggedIn', 'true');
-            for (let item of this.user!.role) {
-              if (item.id === 1 && item.role_desc === 'Super Admin')
+            const token = this.authorisation!.token;
+            if (token) {
+              const decodedToken: any = jwtDecode(token);
+              sessionStorage.setItem('user', JSON.stringify(decodedToken));
+              sessionStorage.setItem('authorisation', JSON.stringify(this.authorisation));
+              sessionStorage.setItem('isLoggedIn', 'true');
+              if (decodedToken.role && decodedToken.role.length > 0) {
+                // for (let item of decodedToken!.role) {
                 this.router.navigate(['/dashboard']);
-              else if (item.id === 2 && item.role_desc === 'Admin')
-                this.router.navigate(['/dashboard']);
-              else
-                this.router.navigate(['/dashboard']);
+                // }
+              } else {
+                console.error("User does not have the required roles.");
+              }
+            } else {
+              console.error("Token is missing.");
             }
-
           }
         },
         (error) => {
@@ -107,7 +113,7 @@ export class LoginComponent {
   showForm2: boolean = false;
   showForm3: boolean = false;
   forgotPassword() {
-   // console.log("Button clicked");
+    // console.log("Button clicked");
     this.showForm1 = false;
     this.showForm2 = true;
     this.showForm3 = false;
@@ -119,14 +125,14 @@ export class LoginComponent {
     this.showForm3 = false;
   }
   mobileNumberOrRBCardNoError: string = '';
-  mobileNumberOrRBCardNoValidated:string=''
+  mobileNumberOrRBCardNoValidated: string = ''
   sendOtp(mobileNumberOrRBCardNo: string) {
     //console.log(this.username);
     // const minLength = 10;
     // const isNumeric = /^[0-9]+$/.test(mobileNumberOrRBCardNo);
 
-    if(mobileNumberOrRBCardNo){
-      this.mobileNumberOrRBCardNoValidated=mobileNumberOrRBCardNo;
+    if (mobileNumberOrRBCardNo) {
+      this.mobileNumberOrRBCardNoValidated = mobileNumberOrRBCardNo;
       this.employeeService.postSendOtp(mobileNumberOrRBCardNo, "passwordReset").subscribe(
 
         (response) => {
@@ -141,7 +147,7 @@ export class LoginComponent {
           });
         },
         (error) => {
-         // console.error(error.error.msg);
+          // console.error(error.error.msg);
           Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -150,11 +156,11 @@ export class LoginComponent {
         }
       );
     }
-    else{
-      this.mobileNumberOrRBCardNoError="Invalid Entry.";
+    else {
+      this.mobileNumberOrRBCardNoError = "Invalid Entry.";
     }
 
-      //return true;
+    //return true;
 
 
     // return true;
@@ -178,7 +184,7 @@ export class LoginComponent {
       this.employeeService.postVerifyOtp(otp, "passwordReset", pass2, this.mobileNumberOrRBCardNoValidated).subscribe(
         (response) => {
           if (response.status) {
-           // console.log(response.status);
+            // console.log(response.status);
             this.showForm1 = true;
             this.showForm2 = false;
             this.showForm3 = false;

@@ -33,6 +33,7 @@
     "jquery": "^3.7.1",
     "jsbarcode": "^3.11.6",
     "jszip": "^3.10.1",
+    "jwt-decode": "^4.0.0",
     "ng-multiselect-dropdown": "^1.0.0",
     "ng-otp-input": "^1.9.3",
     "ngx-barcode6": "^1.0.24",
