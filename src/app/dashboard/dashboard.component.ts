@@ -3,7 +3,7 @@ import { EmployeeService } from "../employee.service";
 import { User } from "../model/User";
 import { Employee } from "../model/Employee";
 import Swal from 'sweetalert2';
-
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -33,8 +33,9 @@ export class DashboardComponent implements OnInit {
   eVaahanShow = false;
   reportShow = false;
   sportsReportShow = false;
+  verifyHouse = false;
   constructor(
-
+    private router: Router,
     private employeeService: EmployeeService,
   ) {
 
@@ -65,6 +66,11 @@ export class DashboardComponent implements OnInit {
       })
     }
     this.setRoleFlags();
+
+    this.employeeService.getLocationType().subscribe(
+      data => this.locationtypelist = data,
+      error => console.log(error)
+    );
 
     // this.employeeService.checkRbexpDate().subscribe(
     //   data => {
@@ -108,6 +114,7 @@ export class DashboardComponent implements OnInit {
     if (this.user.role.includes(2)) {
       this.reportShow = true;
       this.sportsReportShow = true;
+      this.verifyHouse = true;
     }
   }
 
@@ -215,5 +222,169 @@ export class DashboardComponent implements OnInit {
   dismissNotification(): void {
     this.showNotification = false;
   }
+
+
+
+
+  displayEba: any = 'none';
+  locationtypelist: any[] = [];
+  blockstypelist: any[] = [];
+  quarterList: any[] = [];
+  quarterstypelist: any[] = [];
+  showquarterDetails: boolean = false;
+  quarterDetails: any = null;
+  pullEbaPopup() {
+    this.displayEba = "block";
+  }
+  closeEbaPopup() {
+    this.showquarterDetails = false;
+    this.displayEba = "none";
+  }
+
+   qtrtype() {
+      this.blockstypelist = [];
+      this.quarterList = [];
+      this.employee!.qtr = null;
+      this.employeeService.getQuarterType(this.employee!.location_id!).subscribe(
+        data => this.quarterstypelist = data,
+        error => console.log(error)
+      );
+    }
+    qtraddress(event: Event) {
+      this.blockstypelist = [];
+      this.quarterList = [];
+      this.employee!.qtr = null;
+      const selectElement = event.target as HTMLSelectElement;
+      const typeName = selectElement.options[selectElement.selectedIndex]?.text?.trim();
+
+      if (typeName == "Type - I" || typeName == "Servant Qtr") {
+        this.employeeService.getBlockType().subscribe(
+          data => {
+            this.employee!.blck = 'T';
+            this.blockstypelist = data.filter(block => block.choice === 1);
+          },
+          error => console.log(error)
+        );
+      }
+
+      else if (this.employee!.qtr_code! == '14' || this.employee!.qtr_code! == '11') {
+        this.employeeService.getBlockType().subscribe(
+          data => {
+            this.employee!.blck = 'T';
+            this.blockstypelist = data.filter(block => block.choice === 2);
+          },
+          error => console.log(error)
+        );
+      }
+
+      else {
+        this.blockstypelist = [];
+        this.employee!.blck = 'T';
+        this.employeeService.getQuarterdetail(this.employee!.qtr_code!, this.employee!.location_id!, this.employee!.blck).subscribe(
+          (data: any) => {
+            this.quarterList = data;
+          },
+          (error) => {
+            console.log(error);
+            if (error.status === 404) {
+              this.quarterList = [];
+              this.employee!.qtr = null;
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'empty quarter details .',
+              });
+            }
+            if (error.status === 400) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Something went wrong.',
+              });
+            }
+          }
+        );
+      }
+    }
+    qtrBlckaddress() {
+      this.employee!.qtr = null;
+      this.employeeService.getQuarterdetail(this.employee!.qtr_code!, this.employee!.location_id!, this.employee!.blck!).subscribe(
+        (data: any) => {
+          this.quarterList = data;
+        },
+        (error) => {
+          console.log(error);
+          if (error.status === 404) {
+            this.quarterList = [];
+            this.employee!.qtr = null;
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'empty quarter details .',
+            });
+          }
+          if (error.status === 400) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Warning',
+              text: 'Something went wrong.',
+            });
+          }
+        }
+      );
+    }
+
+
+    fetch() {
+      this.employeeService.showmemberbyeba(this.employee!.qtr!.allotment_id).subscribe(
+        (data: any) => {
+          this.quarterDetails = data;
+          this.showquarterDetails = true;
+        }, (error) => {
+          if (error.status === 404) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'empty',
+              text: 'empty data!!!!',
+            });
+          }
+        }
+      );
+    }
+
+    PullEba() {
+      this.employeeService.getEbaForm(this.quarterDetails!, this.employee!.qtr!).subscribe(
+        (data: any) => {
+          // console.log(['/eba-form/edit/relative/' + data]);
+          this.router.navigate(['/census-Pse/' + data]);
+        },
+        (error) => {
+          // Error response
+          console.log(error); // Log the error if needed
+          if (error.status === 401) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'warning',
+              text: 'empty quarter details!!!!',
+            });
+          }
+          if (error.status === 404) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'warning',
+              text: 'empty quarter info!!!!',
+            });
+          }
+          if (error.status === 400) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'warning',
+              text: 'Not eligible!!!!',
+            });
+          }
+        }
+      );
+    }
+
 
 }

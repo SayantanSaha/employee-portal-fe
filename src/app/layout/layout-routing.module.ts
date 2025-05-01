@@ -61,6 +61,7 @@ const routes: Routes = [
       { path: 'reportpage/:mode',loadChildren: () => import('../report-page/report-page.module').then(d => d.ReportPageModule), canActivate: [AuthGuard]},
       { path: 'sportUpdate',loadChildren: () => import('../sport-update/sport-update.module').then(d => d.SportUpdateModule), canActivate: [AuthGuard]},
       { path: 'emp-form/:id',loadChildren: () => import('../emp-form/emp-form.module').then(d => d.empFormModule), canActivate: [AuthGuard]},
+      { path: 'census-Pse/:id',loadChildren: () => import('../census-pse/census-pse.module').then(d => d.censusPseModule), canActivate: [AuthGuard]},
     ]
   },
 

@@ -25,6 +25,7 @@ import { EmployeelistComponent } from './employeelist/employeelist.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ParseChangedDataPipe } from './parse-changed-data.pipe';
 import { EbaFormComponent } from './eba-form/eba-form.component';
+import { CensusPseComponent } from './census-pse/census-pse.component';
 import { UppercaseDirective } from './uppercase.directive';
 import { EbapendingComponent } from './ebapending/ebapending.component';
 import { AdminpanelComponent } from './adminpanel/adminpanel.component';
@@ -86,7 +87,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     RbcardapplyformComponent,
     EbaapplyformComponent,
     SportUpdateComponent,
-    EmpFormComponent
+    EmpFormComponent,
+    CensusPseComponent
 
   ],
   imports: [

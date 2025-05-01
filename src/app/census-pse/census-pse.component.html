@@ -1,0 +1,95 @@
+<div class="container py-3">
+  <div class="row justify-content-center">
+    <div class="card shadow-lg rounded-5 border-0 hover-lift" style="transition: all 0.3s ease;">
+      <div class="card-body p-5">
+
+        <div class="mb-4">
+          <h1 class="fw-bold text-primary mb-2">Employee Detail</h1>
+        </div>
+
+        <div class="row shadow-lg align-items-center bg-white p-4 rounded-4 shadow-sm mx-1"
+          style="background: linear-gradient(135deg, #e7f0fa 0%, #f9fcff 100%); border: 1px solid #d0e2f2;">
+
+          <div class="col-md-4 text-center  mb-md-0">
+            <img [src]="employee?.profile_photo || 'assets/default-profile.png'" alt="Profile Photo"
+              class="rounded-circle shadow-lg" width="200" height="200"
+              style="object-fit: cover; border: 3px solid #0d6efd;margin-left: -40px;">
+          </div>
+
+          <div class="col-md-8">
+            <div class="mb-4">
+              <h4 class="fw-bold mb-1">{{ employee?.emp_name }}</h4>
+              <p class="text-muted small mb-0">{{ employee?.designations?.[0]?.desg_desc || 'No Designation' }}</p>
+              <p class="text-muted small mb-0">{{ employee?.org_desc || 'No Organization' }},{{
+                employee?.postings?.[0]?.div_desc || 'No Posting' }}</p>
+            </div>
+
+            <div class="mb-4">
+              <h6 class="text-primary text-uppercase small mb-1">Card Number</h6>
+              <p class="fw-semibold mb-0">{{ employee?.idCard?.[0]?.card_no || 'No Card Issued' }}</p>
+            </div>
+
+            <div>
+              <h6 class="text-primary text-uppercase small mb-1">Current Address</h6>
+              <p class="mb-0">
+                {{ employee?.curr_add }}<br>
+                {{ employee?.curr_district }}, {{ employee?.curr_state }} - {{ employee?.curr_pin }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br><br>
+
+
+  <div class="row justify-content-center">
+    <div class="card shadow-lg rounded-5 border-0 hover-lift"
+      style="transition: all 0.3s ease; max-width: 100%; margin: auto;">
+      <div class="card-body p-5">
+        <div *ngIf="employee?.family && employee?.family!.length > 0">
+          <h1 class="fw-bold text-primary mb-3" >Family Detail</h1>
+
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+            <ng-container *ngFor="let familydetail of employee?.family">
+              <div class="col" *ngIf="familydetail?.eba_pass?.[0]?.active">
+                <div class="card shadow-lg border-0"
+                style="transition: all 0.3s ease; text-align: center; font-family: Arial, sans-serif;
+                       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); border-radius: 12px;
+                       margin: 0 auto; width: 90%;">
+
+                  <img [src]="employee?.profile_photo || 'assets/default-family.png'" alt="{{ familydetail.rel_name }}"
+                    style="width: 100%; height: 220px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+
+                  <div class="card-body"
+                    style="padding: 12px; height: 240px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <h5 class="card-title fw-bold" style="font-size: 1rem; color: #333;">{{ familydetail.rel_name }}
+                    </h5>
+                    <p class="card-text text-muted" style="font-size: 0.85rem;">{{ familydetail.relation }}</p>
+                    <p class="card-text" style="font-size: 0.85rem;">
+                      <span class="text-muted">Validity:</span> {{ familydetail?.eba_pass?.[0]?.valid_to }}
+                    </p>
+                    <p class="card-text" style="font-size: 0.85rem;">{{ familydetail.rel_mobile_no }}</p>
+                    <p class="card-text" style="font-size: 0.85rem;">{{ familydetail?.eba_pass?.[0]?.eba_card_no }}</p>
+
+                    <a class="btn btn-danger btn-sm mt-2"
+                      style="text-decoration: none; font-size: 14px; padding: 8px; border-radius: 5px;">
+                      <i class="fa fa-phone" style="margin-right: 5px;"></i> Delete
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+            </ng-container>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>

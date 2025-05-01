@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { Login } from "./model/Login";
@@ -108,6 +108,19 @@ export class EmployeeService {
 
   getMyProfile(): Observable<Employee> {
     return this.http.get<Employee>(this.apiUrl + "my_profile", { headers: this.createHeader() });
+  }
+
+  showEmployeeDetail(extraParams: any): Observable<any> {
+    let params = new HttpParams();
+    for (const key in extraParams) {
+      if (extraParams[key] !== null && extraParams[key] !== undefined) {
+        params = params.append(key, extraParams[key]);
+      }
+    }
+    return this.http.get<any>(`${this.apiUrl}S_employeeDetail/`, {
+      params: params,
+      headers: this.createHeader()
+    });
   }
 
   getTotalemployees(): Observable<any> {
@@ -489,6 +502,7 @@ export class EmployeeService {
   showEbaformProfile(id: number): Observable<any> {
     return this.http.get<any>(this.apiUrl + `showEbaformProfile/${id}`, { headers: this.createHeader() });
   }
+
 
   getRegProfile(id: number): Observable<any> {
     return this.http.get<any>(this.apiUrl + `Registration/${id}`, { headers: this.createHeader() });
