@@ -91,3 +91,15 @@
 }
 
 
+.hover-scale:hover {
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
+.letter-spacing-1 {
+  letter-spacing: 0.05em;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
