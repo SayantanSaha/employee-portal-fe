@@ -20,8 +20,12 @@
                   <h4 class="fw-bold mb-1">{{ employee?.emp_name }}<span *ngIf="getAge(employee?.dob)">, {{
                       getAge(employee?.dob) }} yrs</span></h4>
                   <p class="text-muted small mb-0">{{ employee?.designations?.[0]?.desg_desc || 'No Designation' }}</p>
-                  <p class="text-muted small mb-0">{{ employee?.org_desc || 'No Organization' }}, {{
-                    employee?.postings?.[0]?.div_desc || 'No Posting' }}</p>
+                  <p class="text-muted small mb-0">
+                    <span *ngIf="employee?.postings?.[0]?.div_desc">
+                      {{ employee?.postings?.[0]?.div_desc }},
+                    </span>
+                    {{ employee?.org_desc || 'No Organization' }}
+                  </p>
                   <p class="text-muted small mb-0"><span>DOB:</span> {{ employee?.dob | date: 'dd-MMMM-yyyy' }}</p>
                   <p class="text-muted small mb-0">{{ employee?.mobile }}</p>
                 </div>
