@@ -47,20 +47,33 @@
               <div class="col-md-6">
                 <div class="mb-4">
                   <h6 class="text-primary text-uppercase small mb-1">Current Address</h6>
-                  <p class="mb-0">
-                    {{ employee?.curr_add }}<br>
-                    {{ employee?.curr_district_name }}, {{ employee?.curr_state_name }} - {{ employee?.curr_pin }}
+                  <p class="text-muted small mb-0">
+                    {{ employee?.curr_add }}
+                    <br>
+                    {{ employee?.curr_district_name }}
+                    <span *ngIf="employee?.curr_district_name && employee?.curr_state_name">,</span>
+                    {{ employee?.curr_state_name }}
+                    <span *ngIf="(employee?.curr_state_name || employee?.curr_district_name) && employee?.curr_pin">
+                      -</span>
+                    {{ employee?.curr_pin }}
                   </p>
                 </div>
 
                 <div>
                   <h6 class="text-primary text-uppercase small mb-1">Permanent Address</h6>
-                  <p class="mb-0">
-                    {{ employee?.perm_add }}<br>
-                    {{ employee?.perm_district_name }}, {{ employee?.perm_state_name }} - {{ employee?.perm_pin }}
+                  <p class="text-muted small mb-0">
+                    {{ employee?.perm_add }}
+                    <br>
+                    {{ employee?.perm_district_name }}
+                    <span *ngIf="employee?.perm_district_name && employee?.perm_state_name">,</span>
+                    {{ employee?.perm_state_name }}
+                    <span *ngIf="(employee?.perm_state_name || employee?.perm_district_name) && employee?.perm_pin">
+                      -</span>
+                    {{ employee?.perm_pin }}
                   </p>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
