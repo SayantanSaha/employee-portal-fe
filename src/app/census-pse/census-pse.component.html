@@ -1,97 +1,97 @@
 <div class="container py-3">
   <div class="row justify-content-center">
-    <div class="card shadow-lg rounded-5 border-0 hover-lift elegant-card">
-      <div class="card-body p-5">
 
-        <div class="mb-4">
+    <div class="card-body ">
+      <div class="row align-items-center elegant-section shadow"
+        style="background: linear-gradient(135deg, #fffff9 0%, #e7f0fa 100%);">
+        <div class="mb-2">
           <h1 class="fw-bold text-primary mb-2">Employee Detail</h1>
         </div>
+        <div class="col-md-4 text-center mb-3 mb-md-0" style="margin-left: -2.1%;margin-top: -1.5%;">
+          <img [src]="employee?.profile_photo || 'assets/default-profile.png'" alt="Profile Photo"
+            class="profile-photo enlarge-on-hover shadow-lg">
+        </div>
 
-        <div class="row align-items-center elegant-section shadow">
-          <div class="col-md-4 text-center mb-3 mb-md-0">
-            <img [src]="employee?.profile_photo || 'assets/default-profile.png'" alt="Profile Photo"
-              class="profile-photo enlarge-on-hover shadow-lg">
-          </div>
+        <div class="col-md-8">
+          <div class="row align-items-center elegant-section shadow"
+            style="background: linear-gradient(135deg, #f9fcff 0%, #e7f0fa 100%);">
+            <div class="col-md-6">
+              <div class="mb-4">
+                <h4 class="fw-bold mb-1">{{ employee?.emp_name }}<span *ngIf="getAge(employee?.dob)">, {{
+                    getAge(employee?.dob) }} yrs</span></h4>
+                <p class="text-muted small mb-0">{{ employee?.designations?.[0]?.desg_desc || 'No Designation' }}</p>
+                <p class="text-muted small mb-0">
+                  <span *ngIf="employee?.postings?.[0]?.div_desc">
+                    {{ employee?.postings?.[0]?.div_desc }},
+                  </span>
+                  {{ employee?.org_desc || 'No Organization' }}
+                </p>
+                <p class="text-muted small mb-0"><span>DOB:</span> {{ employee?.dob | date: 'dd-MMMM-yyyy' }}</p>
+                <p class="text-muted small mb-0">{{ employee?.mobile }}</p>
+              </div>
 
-          <div class="col-md-8">
-            <div class="row align-items-center elegant-section shadow">
-              <div class="col-md-6">
-                <div class="mb-4">
-                  <h4 class="fw-bold mb-1">{{ employee?.emp_name }}<span *ngIf="getAge(employee?.dob)">, {{
-                      getAge(employee?.dob) }} yrs</span></h4>
-                  <p class="text-muted small mb-0">{{ employee?.designations?.[0]?.desg_desc || 'No Designation' }}</p>
-                  <p class="text-muted small mb-0">
-                    <span *ngIf="employee?.postings?.[0]?.div_desc">
-                      {{ employee?.postings?.[0]?.div_desc }},
-                    </span>
-                    {{ employee?.org_desc || 'No Organization' }}
-                  </p>
-                  <p class="text-muted small mb-0"><span>DOB:</span> {{ employee?.dob | date: 'dd-MMMM-yyyy' }}</p>
-                  <p class="text-muted small mb-0">{{ employee?.mobile }}</p>
-                </div>
-
-                <div class="mb-4">
-                  <h6 class="text-primary text-uppercase small mb-1">Card Number</h6>
-                  <p class="fw-semibold mb-0" [ngClass]="{
+              <div class="mb-4">
+                <h6 class="text-primary text-uppercase small mb-1">Card Number</h6>
+                <p class="fw-semibold mb-0" [ngClass]="{
                 'text-success': employee?.idCard?.[0]?.card_type_id == 1,
                 'text-purple': employee?.idCard?.[0]?.card_type_id == 2,
                 'text-danger': employee?.idCard?.[0]?.card_type_id == 3,
                 'text-warning': employee?.idCard?.[0]?.card_type_id == 4
               }">
-                    {{ employee?.idCard?.[0]?.card_no || 'No Card Issued' }}
-                  </p>
-                  <p class="text-muted small mb-0"><span>Validity:</span> {{ employee?.idCard?.[0]?.valid_to | date:
-                    'dd-MMMM-yyyy' }}</p>
-                </div>
+                  {{ employee?.idCard?.[0]?.card_no || 'No Card Issued' }}
+                </p>
+                <p class="text-muted small mb-0"><span>Validity:</span> {{ employee?.idCard?.[0]?.valid_to | date:
+                  'dd-MMMM-yyyy' }}</p>
               </div>
-              <div class="col-md-6">
-                <div class="mb-4">
-                  <h6 class="text-primary text-uppercase small mb-1">Current Address</h6>
-                  <p class="text-muted small mb-0">
-                    {{ employee?.curr_add }}
-                    <br>
-                    {{ employee?.curr_district_name }}
-                    <span *ngIf="employee?.curr_district_name && employee?.curr_state_name">,</span>
-                    {{ employee?.curr_state_name }}
-                    <span *ngIf="(employee?.curr_state_name || employee?.curr_district_name) && employee?.curr_pin">
-                      -</span>
-                    {{ employee?.curr_pin }}
-                  </p>
-                </div>
-
-                <div>
-                  <h6 class="text-primary text-uppercase small mb-1">Permanent Address</h6>
-                  <p class="text-muted small mb-0">
-                    {{ employee?.perm_add }}
-                    <br>
-                    {{ employee?.perm_district_name }}
-                    <span *ngIf="employee?.perm_district_name && employee?.perm_state_name">,</span>
-                    {{ employee?.perm_state_name }}
-                    <span *ngIf="(employee?.perm_state_name || employee?.perm_district_name) && employee?.perm_pin">
-                      -</span>
-                    {{ employee?.perm_pin }}
-                  </p>
-                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-4">
+                <h6 class="text-primary text-uppercase small mb-1">Current Address</h6>
+                <p class="text-muted small mb-0">
+                  {{ employee?.curr_add }}
+                  <br>
+                  {{ employee?.curr_district_name }}
+                  <span *ngIf="employee?.curr_district_name && employee?.curr_state_name">,</span>
+                  {{ employee?.curr_state_name }}
+                  <span *ngIf="(employee?.curr_state_name || employee?.curr_district_name) && employee?.curr_pin">
+                    -</span>
+                  {{ employee?.curr_pin }}
+                </p>
               </div>
 
+              <div>
+                <h6 class="text-primary text-uppercase small mb-1">Permanent Address</h6>
+                <p class="text-muted small mb-0">
+                  {{ employee?.perm_add }}
+                  <br>
+                  {{ employee?.perm_district_name }}
+                  <span *ngIf="employee?.perm_district_name && employee?.perm_state_name">,</span>
+                  {{ employee?.perm_state_name }}
+                  <span *ngIf="(employee?.perm_state_name || employee?.perm_district_name) && employee?.perm_pin">
+                    -</span>
+                  {{ employee?.perm_pin }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
+        <br>
       </div>
     </div>
+    <!-- </div> -->
   </div>
 
   <br><br>
 
   <div class="row justify-content-center">
-    <div class="card shadow-lg rounded-5 border-0 hover-lift elegant-card">
+    <div class="card shadow-lg rounded-5 border-0 hover-lift elegant-card" style="background: linear-gradient(135deg, #fffff9 0%, #e7f0fa 100%);">
       <div class="card-body p-5">
         <ng-container *ngIf="employee?.family && employee?.family!.length > 0">
           <h1 class="fw-bold text-primary mb-4">Family Detail</h1>
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
             <div *ngFor="let familydetail of employee?.family">
               <ng-container class="col" *ngIf="familydetail?.eba_pass?.[0]?.active">
-                <div class="family-card">
+                <div class="family-card shadow">
                   <img [src]="familydetail?.eba_pass?.[0]?.photo_path || 'assets/default-family.png'"
                     alt="{{ familydetail.rel_name }}" class="family-photo">
 
@@ -123,7 +123,7 @@
     <div *ngFor="let Servantdetail of employee?.domesticHelp">
       <ng-container *ngIf="Servantdetail?.eba_pass?.[0]?.active">
         <div class="row justify-content-center my-4">
-          <div class="card shadow-lg rounded-5 border-0 hover-lift elegant-card w-100">
+          <div class="card shadow-lg rounded-5 border-0 hover-lift elegant-card w-100" style="background: linear-gradient(135deg, #fffff9 0%, #e7f0fa 100%);">
             <div class="card-body p-4 p-md-5">
               <div class="row align-items-center">
                 <div class="col-md-6">
@@ -142,7 +142,7 @@
 
               <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 mt-1">
                 <div class="col">
-                  <div class="family-card h-100 d-flex flex-column">
+                  <div class="family-card h-100 d-flex flex-column shadow">
                     <img [src]="Servantdetail?.eba_pass?.[0]?.photo_path || 'assets/default-family.png'"
                       alt="{{ Servantdetail.domesticHelp_name }}" class="family-photo">
                     <div class="card-body d-flex flex-column flex-grow-1 justify-content-between">
@@ -167,7 +167,7 @@
 
                 <div class="col" *ngFor="let familydetail of Servantdetail.domesticHelpFamily">
                   <ng-container *ngIf="familydetail?.eba_pass?.[0]?.active">
-                    <div class="family-card h-100 d-flex flex-column">
+                    <div class="family-card h-100 d-flex flex-column shadow">
                       <img [src]="familydetail?.eba_pass?.[0]?.photo_path || 'assets/default-family.png'"
                         alt="{{ familydetail.rel_name }}" class="family-photo">
                       <div class="card-body d-flex flex-column flex-grow-1 justify-content-between">
