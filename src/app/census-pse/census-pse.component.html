@@ -90,7 +90,7 @@
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
             <div *ngFor="let familydetail of employee?.family">
               <!-- <ng-container class="col" *ngIf="familydetail?.eba_pass?.[0]?.active"> -->
-              <div class="family-card shadow" style="background-color: rgb(235, 235, 235);">
+              <div class="family-card shadow" style="background-color: rgb(240, 240, 240);">
                 <img [src]="familydetail?.eba_pass?.[0]?.photo_path || 'assets/default-family.png'"
                   alt="{{ familydetail.rel_name }}" class="family-photo">
 
@@ -141,7 +141,7 @@
 
               <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4 mt-1">
                 <div class="col">
-                  <div class="family-card h-100 d-flex flex-column shadow" style="background-color: rgb(238, 238, 238);">
+                  <div class="family-card h-100 d-flex flex-column shadow" style="background-color: rgb(240, 240, 240);">
                     <img [src]="Servantdetail?.eba_pass?.[0]?.photo_path || 'assets/default-family.png'"
                       alt="{{ Servantdetail.domesticHelp_name }}" class="family-photo">
                     <div class="card-body d-flex flex-column flex-grow-1 justify-content-between">
@@ -165,7 +165,7 @@
 
                 <div class="col" *ngFor="let familydetail of Servantdetail.domesticHelpFamily">
                   <!-- <ng-container *ngIf="familydetail?.eba_pass?.[0]?.active"> -->
-                  <div class="family-card h-100 d-flex flex-column shadow" style="background-color: rgb(238, 238, 238);">
+                  <div class="family-card h-100 d-flex flex-column shadow" style="background-color: rgb(240, 240, 240);">
                     <img [src]="familydetail?.eba_pass?.[0]?.photo_path || 'assets/default-family.png'"
                       alt="{{ familydetail.rel_name }}" class="family-photo">
                     <div class="card-body d-flex flex-column flex-grow-1 justify-content-between">
