@@ -84,32 +84,32 @@
   <ng-container *ngIf="employee?.family && employee?.family!.length > 0">
     <div class="row justify-content-center">
       <div class="card shadow-lg rounded-5 border-0 hover-lift elegant-card"
-        style="background: linear-gradient(135deg,  #acd1ff  20%, #fdfdfd 20%);">
+        style="background: linear-gradient(135deg,  #acd1ff  20%, #fdfdfd 20%, #c7d6ff 400%);">
         <div class="card-body p-5">
           <h1 class="fw-bold text-primary mb-4">Family Detail</h1>
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
             <div *ngFor="let familydetail of employee?.family">
               <!-- <ng-container class="col" *ngIf="familydetail?.eba_pass?.[0]?.active"> -->
-                <div class="family-card shadow">
-                  <img [src]="familydetail?.eba_pass?.[0]?.photo_path || 'assets/default-family.png'"
-                    alt="{{ familydetail.rel_name }}" class="family-photo">
+              <div class="family-card shadow">
+                <img [src]="familydetail?.eba_pass?.[0]?.photo_path || 'assets/default-family.png'"
+                  alt="{{ familydetail.rel_name }}" class="family-photo">
 
-                  <div class="card-body d-flex flex-column justify-content-between">
-                    <h3 class="card-title fw-bold">{{ familydetail.rel_name }}<span
-                        *ngIf="getAge(familydetail.rel_dob)">, {{ getAge(familydetail.rel_dob) }} yrs</span></h3>
-                    <p class="card-text text-muted">{{ familydetail.relation }}</p>
-                    <p class="card-text text-muted"><span>DOB:</span> {{ familydetail.rel_dob | date: 'dd-MMMM-yyyy' }}
-                    </p>
-                    <p class="card-text">{{ familydetail.rel_mobile_no }}</p>
-                    <p class="card-text">{{ familydetail?.eba_pass?.[0]?.eba_card_no }}</p>
-                    <p class="card-text"><span>Validity:</span> {{ familydetail?.eba_pass?.[0]?.valid_to | date:
-                      'dd-MMMM-yyyy' }}</p>
-                    <a class="btn btn-danger btn-sm mt-2 enlarge-on-hover">
-                      <i class="fa fa-trash"></i> Delete
-                    </a>
-                  </div>
+                <div class="card-body d-flex flex-column justify-content-between">
+                  <h3 class="card-title fw-bold">{{ familydetail.rel_name }}<span *ngIf="getAge(familydetail.rel_dob)">,
+                      {{ getAge(familydetail.rel_dob) }} yrs</span></h3>
+                  <p class="card-text text-muted">{{ familydetail.relation }}</p>
+                  <p class="card-text text-muted"><span>DOB:</span> {{ familydetail.rel_dob | date: 'dd-MMMM-yyyy' }}
+                  </p>
+                  <p class="card-text">{{ familydetail.rel_mobile_no }}</p>
+                  <p class="card-text">{{ familydetail?.eba_pass?.[0]?.eba_card_no }}</p>
+                  <p class="card-text"><span>Validity:</span> {{ familydetail?.eba_pass?.[0]?.valid_to | date:
+                    'dd-MMMM-yyyy' }}</p>
+                  <a class="btn btn-danger btn-sm mt-2 enlarge-on-hover">
+                    <i class="fa fa-trash"></i> Delete
+                  </a>
                 </div>
-               <!--</ng-container> -->
+              </div>
+              <!--</ng-container> -->
             </div>
           </div>
         </div>
@@ -123,7 +123,7 @@
       <ng-container *ngIf="Servantdetail?.eba_pass?.[0]?.active">
         <div class="row justify-content-center my-4">
           <div class="card shadow-lg rounded-5 border-0 hover-lift elegant-card w-100"
-            style="background: linear-gradient(135deg, #ffffff 40%, #c7d6ff 100%);">
+          style="background: linear-gradient(135deg, #c7d6ff 0%, #ffffff 30%, #ffffff 80%, #c7d6ff 100%);">
             <div class="card-body p-4 p-md-5">
               <div class="row align-items-center">
                 <div class="col-md-6">
@@ -165,26 +165,26 @@
 
                 <div class="col" *ngFor="let familydetail of Servantdetail.domesticHelpFamily">
                   <!-- <ng-container *ngIf="familydetail?.eba_pass?.[0]?.active"> -->
-                    <div class="family-card h-100 d-flex flex-column shadow">
-                      <img [src]="familydetail?.eba_pass?.[0]?.photo_path || 'assets/default-family.png'"
-                        alt="{{ familydetail.rel_name }}" class="family-photo">
-                      <div class="card-body d-flex flex-column flex-grow-1 justify-content-between">
-                        <h3 class="card-title fw-bold mb-2">
-                          {{ familydetail.rel_name }}
-                          <span *ngIf="getAge(familydetail.rel_dob)">, {{ getAge(familydetail.rel_dob) }} yrs</span>
-                        </h3>
-                        <p class="card-text text-muted mb-3">Domestic Help {{ familydetail.relation }}</p>
-                        <p class="card-text text-muted mb-3"><span>DOB:</span> {{ familydetail.rel_dob | date:
-                          'dd-MMMM-yyyy' }}</p>
-                        <p class="card-text mb-3">{{ familydetail.rel_mobile_no }}</p>
-                        <p class="card-text mb-3">{{ familydetail?.eba_pass?.[0]?.eba_card_no }}</p>
-                        <p class="card-text mb-3"><span>Validity:</span> {{ familydetail?.eba_pass?.[0]?.valid_to |
-                          date: 'dd-MMMM-yyyy' }}</p>
-                        <a class="btn btn-danger btn-sm mt-2 enlarge-on-hover">
-                          <i class="fa fa-trash"></i> Delete
-                        </a>
-                      </div>
+                  <div class="family-card h-100 d-flex flex-column shadow">
+                    <img [src]="familydetail?.eba_pass?.[0]?.photo_path || 'assets/default-family.png'"
+                      alt="{{ familydetail.rel_name }}" class="family-photo">
+                    <div class="card-body d-flex flex-column flex-grow-1 justify-content-between">
+                      <h3 class="card-title fw-bold mb-2">
+                        {{ familydetail.rel_name }}
+                        <span *ngIf="getAge(familydetail.rel_dob)">, {{ getAge(familydetail.rel_dob) }} yrs</span>
+                      </h3>
+                      <p class="card-text text-muted mb-3">Domestic Help {{ familydetail.relation }}</p>
+                      <p class="card-text text-muted mb-3"><span>DOB:</span> {{ familydetail.rel_dob | date:
+                        'dd-MMMM-yyyy' }}</p>
+                      <p class="card-text mb-3">{{ familydetail.rel_mobile_no }}</p>
+                      <p class="card-text mb-3">{{ familydetail?.eba_pass?.[0]?.eba_card_no }}</p>
+                      <p class="card-text mb-3"><span>Validity:</span> {{ familydetail?.eba_pass?.[0]?.valid_to |
+                        date: 'dd-MMMM-yyyy' }}</p>
+                      <a class="btn btn-danger btn-sm mt-2 enlarge-on-hover">
+                        <i class="fa fa-trash"></i> Delete
+                      </a>
                     </div>
+                  </div>
                   <!-- </ng-container> -->
                 </div>
               </div>
