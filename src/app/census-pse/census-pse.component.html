@@ -60,7 +60,7 @@
                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); border-radius: 12px;
                        margin: 0 auto; width: 90%;">
 
-                  <img [src]="employee?.profile_photo || 'assets/default-family.png'" alt="{{ familydetail.rel_name }}"
+                  <img [src]="familydetail?.eba_pass?.[0]?.photo_path || 'assets/default-family.png'" alt="{{ familydetail.rel_name }}"
                     style="width: 100%; height: 220px; object-fit: cover; border-top-left-radius: 12px; border-top-right-radius: 12px;">
 
                   <div class="card-body"
