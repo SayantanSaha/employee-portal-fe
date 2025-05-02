@@ -81,12 +81,13 @@
     <!-- </div> -->
   </div>
 
-  <br><br>
 
-  <div class="row justify-content-center">
-    <div class="card shadow-lg rounded-5 border-0 hover-lift elegant-card" style="background: linear-gradient(135deg, #fffff9 0%, #e7f0fa 100%);">
-      <div class="card-body p-5">
-        <ng-container *ngIf="employee?.family && employee?.family!.length > 0">
+
+  <ng-container *ngIf="employee?.family && employee?.family!.length > 0">
+    <div class="row justify-content-center">
+      <div class="card shadow-lg rounded-5 border-0 hover-lift elegant-card"
+        style="background: linear-gradient(135deg, #fffff9 0%, #e7f0fa 100%);">
+        <div class="card-body p-5">
           <h1 class="fw-bold text-primary mb-4">Family Detail</h1>
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
             <div *ngFor="let familydetail of employee?.family">
@@ -113,17 +114,17 @@
               </ng-container>
             </div>
           </div>
-        </ng-container>
+        </div>
       </div>
     </div>
-  </div>
-
+  </ng-container>
 
   <ng-container *ngIf="employee?.domesticHelp && employee?.domesticHelp!.length > 0">
     <div *ngFor="let Servantdetail of employee?.domesticHelp">
       <ng-container *ngIf="Servantdetail?.eba_pass?.[0]?.active">
         <div class="row justify-content-center my-4">
-          <div class="card shadow-lg rounded-5 border-0 hover-lift elegant-card w-100" style="background: linear-gradient(135deg, #fffff9 0%, #e7f0fa 100%);">
+          <div class="card shadow-lg rounded-5 border-0 hover-lift elegant-card w-100"
+            style="background: linear-gradient(135deg, #fffff9 0%, #e7f0fa 100%);">
             <div class="card-body p-4 p-md-5">
               <div class="row align-items-center">
                 <div class="col-md-6">
