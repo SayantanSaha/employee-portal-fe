@@ -109,7 +109,23 @@
         <div class="row justify-content-center">
           <div class="card shadow-lg rounded-5 border-0 hover-lift elegant-card">
             <div class="card-body p-5">
-              <h1 class="fw-bold text-primary mb-4">{{Servantdetail.domesticHelp_name}}'s Detail</h1>
+              <div class="row">
+                <div class="col-md-6">
+                  <h1 class="fw-bold text-primary mb-4">
+                    {{ Servantdetail.domesticHelp_name }}'s Detail
+                  </h1>
+                </div>
+                <div class="col-md-6 text-end">
+                  <h6 class="text-primary text-uppercase small mb-1">
+                    OutHouse Address:
+                  </h6>
+                  <p class="mb-0">
+                    {{ Servantdetail?.out_house_address }}
+                  </p>
+                </div>
+              </div>
+
+              <br>
               <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
                 <div class="family-card">
                   <img [src]="Servantdetail?.eba_pass?.[0]?.photo_path || 'assets/default-family.png'"
