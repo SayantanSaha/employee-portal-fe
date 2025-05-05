@@ -487,6 +487,11 @@ export class EmployeeService {
   getRbPrintData(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + "rbprint", { headers: this.createHeader() });
   }
+
+  getRbCardTitle(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + "getRoleTitlesForRBPanel", { headers: this.createHeader() });
+  }
+
   ebaapplicationByApplicant(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + "Eba", { headers: this.createHeader() });
   }

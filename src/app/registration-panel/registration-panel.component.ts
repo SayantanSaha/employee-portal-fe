@@ -46,6 +46,16 @@ export class RegistrationPanelComponent implements OnInit {
   divisiontypelist: any[] = [];
   designations: any[] = [];
   org_list: any[] = [];
+  CardTitle: any = 'none';
+
+  // roleFallbacks: { [key: number]: string } = {
+  //   11: 'DH',
+  //   12: 'SO',
+  //   17: 'US',
+  //   13: 'DH_DCP',
+  //   14: 'DCP'
+  // };
+
 
   constructor(
     private router: Router,
@@ -69,6 +79,17 @@ export class RegistrationPanelComponent implements OnInit {
         console.error('Error fetching data:', error);
       }
     );
+
+    this.employeeService.getRbCardTitle().subscribe(
+      (data: any) => {
+        console.log(data);
+        this.CardTitle = data;
+      },
+      error => {
+        console.error('Error fetching data:', error);
+      }
+    );
+
 
     this.employeeService.getDesignations(1).subscribe(
       data => this.designations = data,
@@ -121,6 +142,16 @@ export class RegistrationPanelComponent implements OnInit {
   formatDate(date: string | Date): string {
     return this.datePipe.transform(date, 'dd/MM/YYYY') || 'N/A';
   }
+
+  // getCardTitle(roleId: number): string {
+  //   if (this.user?.role?.includes(roleId) && this.user?.desg_name && this.user.desg_name.trim() !== '') {
+  //     return this.user.desg_name;
+  //   } else {
+  //     return this.roleFallbacks[roleId] || 'Unknown';
+  //   }
+  // }
+
+
 
   searchRb(i: number) {
     // @ts-ignore
@@ -178,7 +209,7 @@ export class RegistrationPanelComponent implements OnInit {
 
 
   rbpasses(value: string) {
-    console.log('Report Payload:', this.report); 
+    console.log('Report Payload:', this.report);
     this.employeeService.rbpasses(this.report).subscribe(
       (data) => {
         console.log('Search successful:', data);

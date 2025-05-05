@@ -10,4 +10,6 @@ export class User{
   password: string|null = '';
   active: any;
   id: number = -1 ;
+  // desg_id: number| null = null;
+  // desg_name: string|null = '';
 }
