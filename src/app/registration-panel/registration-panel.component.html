@@ -1,290 +1,275 @@
 <script src="../app.module.ts" xmlns="http://www.w3.org/1999/html"></script>
 <div class="container">
   <ng-container *ngIf="rbShow">
-  <!-- <ng-container *ngIf="user && user.role">
+    <!-- <ng-container *ngIf="user && user.role">
     <ng-container *ngFor="let role of user.role">
       <ng-container *ngIf="role === 11 || role ===12 || role ===13 || role ===14 || role ===17"> -->
-        <div class="row">
-          <div class="container">
-            <div class="card shadow">
-              <div class="card-header">
-                <div class="card-title">
-                  <div class="row">
-                    <div class="col-6">
-                      <b>Applied
-                        Application({{rbdashboardData.returned+rbdashboardData.pendingdh+rbdashboardData.pendingso+rbdashboardData.pendingus+rbdashboardData.pendingdhDcp+rbdashboardData.pendingdcp+rbdashboardData.approvedCount}})</b>
-                    </div>
-                    <div class="col-6" style="text-align: right">
-                      <button class="btn btn-success enlarge-hover " (click)=" hoverClick($event);opensearch()"> <i
-                          class="bi bi-search"></i> </button>
+    <div class="row">
+      <div class="container">
+        <div class="card shadow">
+          <div class="card-header">
+            <div class="card-title">
+              <div class="row">
+                <div class="col-6">
+                  <b>Applied
+                    Application({{rbdashboardData.returned+rbdashboardData.pendingdh+rbdashboardData.pendingso+rbdashboardData.pendingus+rbdashboardData.pendingdhDcp+rbdashboardData.pendingdcp+rbdashboardData.approvedCount}})</b>
+                </div>
+                <div class="col-6" style="text-align: right">
+                  <button class="btn btn-success enlarge-hover " (click)=" hoverClick($event);opensearch()"> <i
+                      class="bi bi-search"></i> </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body"
+            style="background: linear-gradient(to bottom right, rgba(1, 255, 255, 0.36), transparent);">
+
+            <div class="row">
+              <div class="col-md-4 col-lg-4 col-sm-4">
+                <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchRb(16)">
+                  <div class="card-body" style="overflow: auto;">
+                    <div class="d-flex align-items-center">
+                      <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
+                        <i class="bi bi-people"></i>
+                      </div>
+                      <div class="ps-5">
+                        <p>
+                          <span class="text-muted small pt-2 ps-1 fw-bold">Returned</span>
+                        </p>
+                        {{rbdashboardData.returned}}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div class="card-body"
-                style="background: linear-gradient(to bottom right, rgba(1, 255, 255, 0.36), transparent);">
-
-                <div class="row">
-                  <div class="col-md-4 col-lg-4 col-sm-4">
-
-                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchRb(16)">
-                      <div class="card-body" style="overflow: auto;">
-                        <div class="d-flex align-items-center">
-                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
-
-                            <i class="bi bi-people"></i>
-
-                          </div>
-                          <div class="ps-5">
-                            <p>
-                              <span class="text-muted small pt-2 ps-1 fw-bold">Returned</span>
-                            </p>
-                            {{rbdashboardData.returned}}
-                          </div>
-                        </div>
+              <div class="col-md-4 col-lg-4 col-sm-4">
+                <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(11)">
+                  <div class="card-body" style="overflow: auto;">
+                    <div class="d-flex align-items-center">
+                      <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
+                        <i class="bi bi-people"></i>
+                      </div>
+                      <div class="ps-5">
+                        <p>
+                          <span class="text-muted small pt-2 ps-1 fw-bold"> {{ CardTitle[11] }}</span>
+                        </p>
+                        {{rbdashboardData.pendingdh}}
                       </div>
                     </div>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-4">
-
-                    <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(11)">
-                      <div class="card-body" style="overflow: auto;">
-                        <div class="d-flex align-items-center">
-                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
-                            <i class="bi bi-people"></i>
-                          </div>
-                          <div class="ps-5">
-                            <p>
-                              <span class="text-muted small pt-2 ps-1 fw-bold"> {{ CardTitle[11] }}</span>
-                            </p>
-                            {{rbdashboardData.pendingdh}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-
-                  <div class="col-md-4 col-lg-4 col-sm-4">
-
-                    <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(12)">
-                      <div class="card-body" style="overflow: auto;">
-                        <div class="d-flex align-items-center">
-                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
-                            <i class="bi bi-people"></i>
-                          </div>
-                          <div class="ps-5">
-                            <p>
-                              <span class="text-muted small pt-2 ps-1 fw-bold"> {{ CardTitle[12] }}</span>
-                            </p>
-                            {{rbdashboardData.pendingso}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-
-                </div>
-
-                <div class="row" *ngIf="CardTitle['showUS']">
-                  <div class="col-md-4 col-lg-4 col-sm-4">
-
-                    <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(17)">
-                      <div class="card-body" style="overflow: auto;">
-                        <div class="d-flex align-items-center">
-                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
-                            <i class="bi bi-people"></i>
-                          </div>
-                          <div class="ps-5">
-                            <p>
-                              <span class="text-muted small pt-2 ps-1 fw-bold"> {{ CardTitle[17] }}</span>
-                            </p>
-                            {{rbdashboardData.pendingus}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-4">
-
-                    <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchRb(13)">
-                      <div class="card-body" style="overflow: auto;">
-                        <div class="d-flex align-items-center">
-                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
-
-                            <i class="bi bi-people"></i>
-
-                          </div>
-                          <div class="ps-5">
-                            <p>
-                              <span class="text-muted small pt-2 ps-1 fw-bold">  {{ CardTitle[13] }}</span>
-                            </p>
-                            {{rbdashboardData.pendingdhDcp}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 col-lg-4 col-sm-4">
-
-                    <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(14)">
-                      <div class="card-body" style="overflow: auto;">
-                        <div class="d-flex align-items-center">
-                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
-                            <i class="bi bi-people"></i>
-                          </div>
-                          <div class="ps-5">
-                            <p>
-                              <span class="text-muted small pt-2 ps-1 fw-bold"> {{ CardTitle[14] }}</span>
-                            </p>
-                            {{rbdashboardData.pendingdcp}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
                   </div>
                 </div>
+              </div>
 
-                <div class="row">
-                  <div class="col-md-4 col-lg-4 col-sm-4">
-                    <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(15)">
+              <div class="col-md-4 col-lg-4 col-sm-4">
+                <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(12)">
+                  <div class="card-body" style="overflow: auto;">
+                    <div class="d-flex align-items-center">
+                      <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
+                        <i class="bi bi-people"></i>
+                      </div>
+                      <div class="ps-5">
+                        <p>
+                          <span class="text-muted small pt-2 ps-1 fw-bold"> {{ CardTitle[12] }}</span>
+                        </p>
+                        {{rbdashboardData.pendingso}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 col-lg-4 col-sm-4" *ngIf="CardTitle['showUS']">
+                <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(17)">
+                  <div class="card-body" style="overflow: auto;">
+                    <div class="d-flex align-items-center">
+                      <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
+                        <i class="bi bi-people"></i>
+                      </div>
+                      <div class="ps-5">
+                        <p>
+                          <span class="text-muted small pt-2 ps-1 fw-bold"> {{ CardTitle[17] }}</span>
+                        </p>
+                        {{rbdashboardData.pendingus}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 col-lg-4 col-sm-4">
+                <div class="card shadow enlarge-hover" (click)=" hoverClick($event);searchRb(13)">
+                  <div class="card-body" style="overflow: auto;">
+                    <div class="d-flex align-items-center">
+                      <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
+
+                        <i class="bi bi-people"></i>
+
+                      </div>
+                      <div class="ps-5">
+                        <p>
+                          <span class="text-muted small pt-2 ps-1 fw-bold"> {{ CardTitle[13] }}</span>
+                        </p>
+                        {{rbdashboardData.pendingdhDcp}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 col-lg-4 col-sm-4">
+                <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(14)">
+                  <div class="card-body" style="overflow: auto;">
+                    <div class="d-flex align-items-center">
+                      <div class="enlarge-hover card-icon rounded-circle btn btn-outline-warning">
+                        <i class="bi bi-people"></i>
+                      </div>
+                      <div class="ps-5">
+                        <p>
+                          <span class="text-muted small pt-2 ps-1 fw-bold"> {{ CardTitle[14] }}</span>
+                        </p>
+                        {{rbdashboardData.pendingdcp}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 col-lg-4 col-sm-4">
+                <div class="card shadow enlarge-hover" (click)="hoverClick($event); searchRb(15)">
+                  <div class="card-body" style="overflow: auto;">
+                    <div class="d-flex align-items-center">
+                      <div class="enlarge-hover card-icon rounded-circle btn btn-outline-primary">
+                        <i class="bi bi-people"></i>
+                      </div>
+                      <div class="ps-5">
+                        <p>
+                          <span class="text-muted small pt-2 ps-1 fw-bold">Approved</span>
+                        </p>
+                        {{ rbdashboardData.approvedCount }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <ng-container *ngIf="DcpOffice">
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                  <a routerLink="/rb-print" style="text-decoration: none; color: inherit;">
+                    <div class="card shadow enlarge-hover" (click)="hoverClick($event)">
                       <div class="card-body" style="overflow: auto;">
                         <div class="d-flex align-items-center">
-                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-primary">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-info">
                             <i class="bi bi-people"></i>
                           </div>
                           <div class="ps-5">
                             <p>
-                              <span class="text-muted small pt-2 ps-1 fw-bold">Approved</span>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Print</span>
                             </p>
-                            {{ rbdashboardData.approvedCount }}
+                            {{ rbdashboardData.rbprint }}
                           </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                  <div class="card shadow enlarge-hover" (click)="hoverClick($event);openpass() ">
+                    <div class="card-body" style="overflow: auto;">
+                      <div class="d-flex align-items-center">
+                        <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
+                          <i class="bi bi-people"></i>
+                        </div>
+                        <div class="ps-5">
+                          <p>
+                            <span class="text-muted small pt-2 ps-1 fw-bold">Report/Edit</span>
+                          </p>
                         </div>
                       </div>
                     </div>
                   </div>
+                </div>
+              </ng-container>
 
 
-                  <ng-container *ngIf="DcpOffice">
-                    <div class="col-md-4 col-lg-4 col-sm-4">
-                      <a routerLink="/rb-print" style="text-decoration: none; color: inherit;">
-                        <div class="card shadow enlarge-hover" (click)="hoverClick($event)">
-                          <div class="card-body" style="overflow: auto;">
-                            <div class="d-flex align-items-center">
-                              <div class="enlarge-hover card-icon rounded-circle btn btn-outline-info">
-                                <i class="bi bi-people"></i>
-                              </div>
-                              <div class="ps-5">
-                                <p>
-                                  <span class="text-muted small pt-2 ps-1 fw-bold">Print</span>
-                                </p>
-                                {{ rbdashboardData.rbprint }}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-
-                    <div class="col-md-4 col-lg-4 col-sm-4">
-                      <div class="card shadow enlarge-hover" (click)="hoverClick($event);openpass() ">
-                        <div class="card-body" style="overflow: auto;">
-                          <div class="d-flex align-items-center">
-                            <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
-                              <i class="bi bi-people"></i>
-                            </div>
-                            <div class="ps-5">
-                              <p>
-                                <span class="text-muted small pt-2 ps-1 fw-bold">Report/Edit</span>
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </ng-container>
-
-
-                  <!-- <ng-container *ngIf="DcpOffice">
+              <!-- <ng-container *ngIf="DcpOffice">
                     <div class="row">
                   </ng-container> -->
 
-                  <ng-container *ngIf="formShow">
-                    <div class="col-md-4 col-lg-4 col-sm-4">
-                      <div class="card shadow enlarge-hover" (click)="hoverClick($event)">
-                        <a routerLink="/RbApplyForm" style="text-decoration: none;">
-                          <div class="card-body" style="overflow: auto;">
-                            <div class="d-flex align-items-center">
-                              <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
-                                <i class="bi bi-pencil-square"></i>
-                              </div>
-                              <div class="ps-5">
-                                <p>
-                                  <span class="text-muted small pt-2 ps-1 fw-bold">Form</span>
-                                </p>
-                              </div>
-                            </div>
+              <ng-container *ngIf="formShow">
+                <div class="col-md-4 col-lg-4 col-sm-4">
+                  <div class="card shadow enlarge-hover" (click)="hoverClick($event)">
+                    <a routerLink="/RbApplyForm" style="text-decoration: none;">
+                      <div class="card-body" style="overflow: auto;">
+                        <div class="d-flex align-items-center">
+                          <div class="enlarge-hover card-icon rounded-circle btn btn-outline-success">
+                            <i class="bi bi-pencil-square"></i>
                           </div>
-                        </a>
+                          <div class="ps-5">
+                            <p>
+                              <span class="text-muted small pt-2 ps-1 fw-bold">Form</span>
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </ng-container>
+                    </a>
+                  </div>
+                </div>
+              </ng-container>
 
-                  <!-- <ng-container *ngIf="DcpOffice">
+              <!-- <ng-container *ngIf="DcpOffice">
                     </div>
                   </ng-container> -->
+            </div>
 
+            <br>
 
-                </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card shadow">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <b>Today's List({{rbdashboardData.todayList.length}})</b>
+                    </div>
+                  </div>
+                  <div class="card-body" style="overflow: auto;">
+                    <div style="padding: 1%">
+                      <div class="row mb-12">
+                        <table class="table table-stripped">
+                          <thead>
+                            <tr>
+                              <th>Sl No.</th>
+                              <th>Reg no.</th>
+                              <th>Employee Name</th>
+                              <!-- <th>Email ID</th> -->
+                              <th>Mobile No.</th>
+                              <th>Last Updated Date</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody *ngIf="rbdashboardData && rbdashboardData.todayList">
+                            <tr *ngFor="let rbapplication of rbdashboardData.todayList; let i = index">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{ rbapplication.reg_no }}</td>
+                              <td>{{ rbapplication.emp_name }}</td>
+                              <td>{{ rbapplication.mobile }}</td>
+                              <td>{{ formatDate(rbapplication.created_at) }}</td>
+                              <td>
+                                <ng-container *ngIf="rbapplication.id">
+                                  <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
+                                    [routerLink]="'/id-form/check/' + rbapplication.id">Details</a>
+                                </ng-container>
+                              </td>
 
-                <br>
-
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="card shadow">
-                      <div class="card-header">
-                        <div class="card-title">
-                          <b>Today's List({{rbdashboardData.todayList.length}})</b>
-                        </div>
-                      </div>
-                      <div class="card-body" style="overflow: auto;">
-                        <div style="padding: 1%">
-                          <div class="row mb-12">
-                            <table class="table table-stripped">
-                              <thead>
-                                <tr>
-                                  <th>Sl No.</th>
-                                  <th>Reg no.</th>
-                                  <th>Employee Name</th>
-                                  <!-- <th>Email ID</th> -->
-                                  <th>Mobile No.</th>
-                                  <th>Last Updated Date</th>
-                                  <th>Action</th>
-                                </tr>
-                              </thead>
-                              <tbody *ngIf="rbdashboardData && rbdashboardData.todayList">
-                                <tr *ngFor="let rbapplication of rbdashboardData.todayList; let i = index">
-                                  <td>{{ i + 1 }}</td>
-                                  <td>{{ rbapplication.reg_no }}</td>
-                                  <td>{{ rbapplication.emp_name }}</td>
-                                  <td>{{ rbapplication.mobile }}</td>
-                                  <td>{{ formatDate(rbapplication.created_at) }}</td>
-                                  <td>
-                                    <ng-container *ngIf="rbapplication.id">
-                                      <a class="btn btn-outline-info enlarge-on-hover" (click)="hoverClick($event)"
-                                        [routerLink]="'/id-form/check/' + rbapplication.id">Details</a>
-                                    </ng-container>
-                                  </td>
-
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
@@ -293,7 +278,9 @@
             </div>
           </div>
         </div>
-      <!-- </ng-container>
+      </div>
+    </div>
+    <!-- </ng-container>
     </ng-container> -->
   </ng-container>
 </div>

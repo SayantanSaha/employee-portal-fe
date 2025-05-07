@@ -270,7 +270,7 @@
 
   <br><br>
 
-  <ng-container *ngIf="user && user.employee_id !== null && user.card_valid==true">
+  <ng-container *ngIf="user && user.employee_id !== null && user.card_valid==true && (reportShow || sportsReportShow)">
     <ng-container *ngIf="hasValidRole()">
       <div class="row">
         <div class="col-md-8" style="font-size: 20px;">
