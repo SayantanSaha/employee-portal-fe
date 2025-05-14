@@ -56,7 +56,7 @@ const routes: Routes = [
       { path: 'id-form/:mode/:id',loadChildren: () => import('../id-form/id-form.module').then(d => d.IdFormModule), canActivate: [AuthGuard]},
       { path: 'regpanel',loadChildren: () => import('../registration-panel/registration-panel.module').then(d => d.RegistrationPanelModule), canActivate: [AuthGuard]},
       { path: 'rb-print',loadChildren: () => import('../rbprint/rbprint.module').then(d => d.RbprintModule), canActivate: [AuthGuard]},
-      { path: 'RbApplyForm',loadChildren: () => import('../rbcardapplyform/rbcardapplyform.module').then(d => d.RbcardapplyformModule), canActivate: [AuthGuard]},
+      { path: 'RbApplyForm/:id',loadChildren: () => import('../rbcardapplyform/rbcardapplyform.module').then(d => d.RbcardapplyformModule), canActivate: [AuthGuard]},
       { path: 'EbaApplyForm',loadChildren: () => import('../ebaapplyform/ebaapplyform.module').then(d => d.EbaapplyformModule), canActivate: [AuthGuard]},
       { path: 'reportpage/:mode',loadChildren: () => import('../report-page/report-page.module').then(d => d.ReportPageModule), canActivate: [AuthGuard]},
       { path: 'sportUpdate',loadChildren: () => import('../sport-update/sport-update.module').then(d => d.SportUpdateModule), canActivate: [AuthGuard]},

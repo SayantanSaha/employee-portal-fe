@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from "../employee.service";
-import { Router } from "@angular/router";
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Organization } from "../model/Organization";
 import Swal from "sweetalert2";
@@ -12,8 +11,8 @@ import { environment } from "../../environments/environment";
 import { Designation } from "../model/Designation";
 import { Inject } from '@angular/core';
 import { User } from "../model/User";
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { ActivatedRoute } from "@angular/router";
 import { Division } from "../model/Division";
 import { Relation } from "../model/Relation";
 import { Servants } from "../model/Servants";
@@ -64,11 +63,15 @@ export class RbcardapplyformComponent {
   isLoading: boolean = false;
   user: User = new User();
   id: any;
-
+  reg_id: any;
+  urlId: any;
+  previousPostingOrder: string | null = null;
+  previousIdProof: string | null = null;
   constructor(
     private employeeService: EmployeeService,
-    private router: Router,
     private http: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     const today = new Date();
     this.currentDate = today.toISOString().split('T')[0];
@@ -77,6 +80,31 @@ export class RbcardapplyformComponent {
 
 
   ngOnInit() {
+
+
+
+    this.reg_id = this.route.snapshot.paramMap.get('id');
+    this.urlId = !isNaN(+this.reg_id!); // Set before API call
+
+    const idNumber = +this.reg_id;
+    if (!isNaN(idNumber)) {
+      this.employeeService.getRegProfile(idNumber).subscribe(
+        (data: any) => {
+          this.employee = data;
+          this.previousPostingOrder = this.employee?.postingOrder ?? null;
+          this.previousIdProof = this.employee?.id_proof ?? null;
+        },
+        (error) => {
+          console.error('Error fetching employee data:', error);
+        }
+      );
+    } else {
+      console.warn('Invalid ID provided:', this.reg_id);
+    }
+
+
+
+
     const userString: string | null = sessionStorage.getItem('user');
     this.user = userString ? JSON.parse(userString) : [];
     this.id = this.user.id;
@@ -129,7 +157,17 @@ export class RbcardapplyformComponent {
     this.isLoading = false;
   }
 
+  isPostingOrderUpdated(): boolean {
+    return this.employee?.postingOrder !== this.previousPostingOrder;
+  }
 
+  isIdProofUpdated(): boolean {
+    return this.employee?.id_proof !== this.previousIdProof;
+  }
+
+  letverify(status: boolean) {
+    this.urlId = status;
+  }
   doRegistration() {
     // const userString: string | null = sessionStorage.getItem('user');
     // this.user = userString ? JSON.parse(userString) : [];
@@ -140,6 +178,42 @@ export class RbcardapplyformComponent {
     this.employeeService.rbformapply(
       this.employee!, // Pass the employee object
 
+    ).subscribe(
+      data => {
+        this.isLoading = false; // Hide loading symbol in case of success
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Registered Successfully'
+        }).then(() => {
+          this.router.navigate(['regpanel']);
+        });
+      },
+      error => {
+        this.isLoading = false; // Hide loading symbol in case of error
+        let errorMessage = 'An error occurred. Please try again.';
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message;
+        }
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: errorMessage
+        });
+      }
+    );
+  }
+
+
+  doForward() {
+    // const userString: string | null = sessionStorage.getItem('user');
+    // this.user = userString ? JSON.parse(userString) : [];
+    // this.id = this.user.id;  // Assign the id from the user object
+
+    this.isLoading = true;
+
+    this.employeeService.rbformUpdate(
+      this.employee!, this.reg_id
     ).subscribe(
       data => {
         this.isLoading = false; // Hide loading symbol in case of success

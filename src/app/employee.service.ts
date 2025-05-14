@@ -106,6 +106,16 @@ export class EmployeeService {
     return this.http.post<any>(this.apiUrl + "rbformapply",payload, { headers: this.createHeader() });
   }
 
+  rbformUpdate(employee: Employee, reg_id: number): Observable<any> {
+    const payload = { employee };
+    return this.http.post<any>(
+      `${this.apiUrl}rbformUpdate/${reg_id}`,
+      payload,
+      { headers: this.createHeader() }
+    );
+  }
+
+
   getMyProfile(): Observable<Employee> {
     return this.http.get<Employee>(this.apiUrl + "my_profile", { headers: this.createHeader() });
   }
