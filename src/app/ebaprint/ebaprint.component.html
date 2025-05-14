@@ -35,12 +35,12 @@
                   <th *ngIf="fromfunction && fromfunction == 'totalpass'">Valid To</th>
                   <th *ngIf="fromfunction && fromfunction == 'totalpass'">Card Status</th>
                   <th *ngIf="fromfunction && fromfunction == 'totalpass'">Mobile</th>
-                  <th *ngIf="fromfunction && fromfunction == 'totalpass'">DOB</th>
+                  <!-- <th *ngIf="fromfunction && fromfunction == 'totalpass'">DOB</th> -->
                   <th *ngIf="fromfunction && fromfunction == 'totalpass'">DOR</th>
-                  <th *ngIf="fromfunction && fromfunction == 'totalpass'">Gender</th>
+                  <!-- <th *ngIf="fromfunction && fromfunction == 'totalpass'">Gender</th> -->
                   <th *ngIf="fromfunction && fromfunction == 'totalpass'">Designation</th>
                   <th *ngIf="fromfunction && fromfunction == 'totalpass'">Organization,Division</th>
-                  <th *ngIf="fromfunction && fromfunction == 'totalpass'">Pay Level</th>
+                  <!-- <th *ngIf="fromfunction && fromfunction == 'totalpass'">Pay Level</th> -->
                   <th>Relation Name</th>
                   <th>Relation</th>
                   <th *ngIf="fromfunction && fromfunction == 'totalpass'">Gender</th>
@@ -80,14 +80,14 @@
                   <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.active === 1 ? 'Active' :
                     (ebaprint.active === 0 ? 'Inactive' : '') }}</td>
                   <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.emp_mob }}</td>
-                  <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.dob | date:'dd-MM-yyyy'}}</td>
+                  <!-- <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.dob | date:'dd-MM-yyyy'}}</td> -->
                   <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.dor | date:'dd-MM-yyyy'}}</td>
-                  <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.gender }}</td>
+                  <!-- <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.gender }}</td> -->
                   <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.desg_desc }}</td>
                   <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.org_desc }},{{ ebaprint.div_desc
                     }}
                   </td>
-                  <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.pay_desc }}</td>
+                  <!-- <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.pay_desc }}</td> -->
                   <td>
                     <ng-container *ngIf="ebaprint.rel_Name">{{ebaprint.rel_Name}}</ng-container>
                     <ng-container
