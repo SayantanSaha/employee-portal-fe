@@ -474,6 +474,15 @@ export class EmployeeService {
   getEbaPrintData(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + "ebaprint", { headers: this.createHeader() });
   }
+
+  EMPdeactivate(id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}emp_deactive/${id}`, { headers: this.createHeader() });
+  }
+
+  Ebadeactivate(id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}eba_deactive/${id}`, { headers: this.createHeader() });
+  }
+
   getEmpPrintData(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl + "empprint", { headers: this.createHeader() });
   }

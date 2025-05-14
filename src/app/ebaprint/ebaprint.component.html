@@ -6,6 +6,11 @@
     EBA Card ({{ ebaprintData.length }})
   </label>
 
+  <label *ngIf="!isEditable" class="form-check-label" style="white-space: nowrap;">
+    <input type="radio" class="form-check-input me-1" name="cardType" value="old_eba" [(ngModel)]="selectedCardType">
+    OLD System EBA Cards ({{ oldebaprintData.length }})
+  </label>
+
   <label class="form-check-label" style="white-space: nowrap;">
     <input type="radio" class="form-check-input me-1" name="cardType" value="emp" [(ngModel)]="selectedCardType">
     EMP Card ({{ empreportData.length }})
@@ -16,10 +21,23 @@
   [class.container-fluid]="fromfunction && fromfunction == 'totalpass'">
   <div class="card shadow">
     <div class="card-header">
-      <div class="card-title">
-        <b>Approved List <ng-container *ngIf="!fromfunction || fromfunction ==null">({{ebaprintData.length +
-            empPrintData.length}})</ng-container></b>
+      <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+        <b>
+          Approved List
+          <ng-container *ngIf="!fromfunction || fromfunction == null">
+            ({{ ebaprintData.length + empPrintData.length }})
+          </ng-container>
+        </b>
+
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="editModeSwitch" [(ngModel)]="isEditable"
+            (click)="toggleEditMode()">
+          <label class="form-check-label" for="editModeSwitch">
+            {{ isEditable ? 'Edit' : 'Report' }}
+          </label>
+        </div>
       </div>
+
     </div>
 
     <ng-container *ngIf="selectedCardType === 'eba'">
@@ -31,28 +49,28 @@
                 <tr>
                   <!-- <th>Sl.No</th> -->
                   <th>Employee Name</th>
-                  <th *ngIf="fromfunction && fromfunction == 'totalpass'">RB Card No</th>
-                  <th *ngIf="fromfunction && fromfunction == 'totalpass'">Valid To</th>
-                  <th *ngIf="fromfunction && fromfunction == 'totalpass'">Card Status</th>
-                  <th *ngIf="fromfunction && fromfunction == 'totalpass'">Mobile</th>
-                  <!-- <th *ngIf="fromfunction && fromfunction == 'totalpass'">DOB</th> -->
-                  <th *ngIf="fromfunction && fromfunction == 'totalpass'">DOR</th>
+                  <th *ngIf="fromfunction && fromfunction == 'totalpass' ">RB Card No</th>
+                  <th *ngIf="fromfunction && fromfunction == 'totalpass' ">Valid To</th>
+                  <th *ngIf="fromfunction && fromfunction == 'totalpass' ">Card Status</th>
+                  <th *ngIf="fromfunction && fromfunction == 'totalpass' && !isEditable">Mobile</th>
+                  <th *ngIf="fromfunction && fromfunction == 'totalpass' && !isEditable">DOB</th>
+                  <th *ngIf="fromfunction && fromfunction == 'totalpass' ">DOR</th>
                   <!-- <th *ngIf="fromfunction && fromfunction == 'totalpass'">Gender</th> -->
-                  <th *ngIf="fromfunction && fromfunction == 'totalpass'">Designation</th>
+                  <th *ngIf="fromfunction && fromfunction == 'totalpass' && !isEditable">Designation</th>
                   <th *ngIf="fromfunction && fromfunction == 'totalpass'">Organization,Division</th>
                   <!-- <th *ngIf="fromfunction && fromfunction == 'totalpass'">Pay Level</th> -->
-                  <th>Relation Name</th>
+                  <th>Relative Name</th>
                   <th>Relation</th>
-                  <th *ngIf="fromfunction && fromfunction == 'totalpass'">Gender</th>
+                  <th *ngIf="fromfunction && fromfunction == 'totalpass'  && !isEditable">Gender</th>
                   <th *ngIf="fromfunction && fromfunction == 'totalpass'">Relation DOB</th>
                   <th *ngIf="fromfunction && fromfunction == 'totalpass'">Address</th>
                   <th *ngIf="fromfunction && fromfunction == 'totalpass'">Relation Mobile</th>
                   <th>EBA Pass No</th>
                   <th *ngIf="fromfunction && fromfunction == 'totalpass'">EBA Card Status</th>
-                  <th>Valid from</th>
+                  <th *ngIf="!isEditable">Valid from</th>
                   <th>Valid To</th>
                   <th *ngIf="!fromfunction || fromfunction ==null">Rfid</th>
-                  <th *ngIf="!fromfunction || fromfunction ==null">Action</th>
+                  <th *ngIf="!fromfunction || fromfunction ==null || isEditable">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -79,11 +97,11 @@
                   </td>
                   <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.active === 1 ? 'Active' :
                     (ebaprint.active === 0 ? 'Inactive' : '') }}</td>
-                  <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.emp_mob }}</td>
-                  <!-- <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.dob | date:'dd-MM-yyyy'}}</td> -->
+                  <td *ngIf="fromfunction && fromfunction == 'totalpass' && !isEditable">{{ ebaprint.emp_mob }}</td>
+                  <td *ngIf="fromfunction && fromfunction == 'totalpass' && !isEditable">{{ ebaprint.dob | date:'dd-MM-yyyy'}}</td>
                   <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.dor | date:'dd-MM-yyyy'}}</td>
                   <!-- <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.gender }}</td> -->
-                  <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.desg_desc }}</td>
+                  <td *ngIf="fromfunction && fromfunction == 'totalpass' && !isEditable">{{ ebaprint.desg_desc }}</td>
                   <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.org_desc }},{{ ebaprint.div_desc
                     }}
                   </td>
@@ -109,18 +127,25 @@
                       {{ebaprint.servantfamily.rel_desc}}</ng-container>
                     <ng-container *ngIf="ebaprint?.servant">Domestic Help</ng-container>
                   </td>
-                  <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.rel_Gender }}</td>
-                  <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.rel_DOB }}</td>
+                  <td *ngIf="fromfunction && fromfunction == 'totalpass' && !isEditable">{{ ebaprint.rel_Gender }}</td>
+                  <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.rel_DOB | date:'dd-MM-yyyy'}}</td>
                   <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.Address }}</td>
                   <td *ngIf="fromfunction && fromfunction == 'totalpass'">{{ ebaprint.rel_Mobile }}</td>
                   <td>{{ ebaprint.eba_pass_no }}</td>
                   <td>{{ ebaprint.rel_active ? 'Active' : 'Inactive' }}</td>
-                  <td>{{ ebaprint!.created_at | date:'dd-MM-yyyy'}}</td>
+                  <td *ngIf="!isEditable">{{ ebaprint!.created_at | date:'dd-MM-yyyy'}}</td>
                   <td>{{ ebaprint.eba_pass_exp_date | date:'dd-MM-yyyy'}}</td>
 
-                  <!-- <td >{{ebaprint.eba_pass_no}}</td> -->
+                  <td *ngIf="isEditable">
+                    <div class="col">
+                      <button class="btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"
+                        (click)="openeditebaCard(i)">
+                        EDIT
+                      </button>
+                    </div>
+                  </td>
 
-                  <!-- <td >{{ ebaprint!.eba_pass_exp_date | date:'dd-MM-yyyy'}}</td> -->
+
                   <td *ngIf="!fromfunction || fromfunction ==null">
                     <div class="col" *ngIf="ebaprint.rfid ==null">
                       <button class="btn btn-primary enlarge-on-hover" (click)="hoverClick($event)"
@@ -220,6 +245,7 @@
                     <th>EMP Card Status</th>
                     <th>Valid from</th>
                     <th>Valid To</th>
+                    <th *ngIf="isEditable">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -237,6 +263,53 @@
                     </td>
                     <td>{{ empreport?.created_at | date: 'dd-MM-yyyy' }}</td>
                     <td>{{ empreport?.emp_pass_exp_date | date: 'dd-MM-yyyy' }}</td>
+                    <td *ngIf="isEditable">
+                      <div class="col">
+                        <button class="btn btn-warning enlarge-on-hover" (click)="hoverClick($event)"
+                          (click)="openeditempCard(i)">
+                          EDIT
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="selectedCardType === 'old_eba'">
+      <ng-container *ngIf="fromfunction === 'totalpass'">
+        <div class="card-body">
+          <div>
+            <div class="row">
+              <table class="table table-stripped">
+                <thead>
+                  <tr>
+                    <th>Employee Name</th>
+                    <th>Relative name</th>
+                    <th>Relation</th>
+                    <th>Gender</th>
+                    <th>Relation DOB</th>
+                    <th>Address</th>
+                    <th>Relation Mobile</th>
+                    <th>EBA Pass No</th>
+                    <th>Valid To</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let oldebadata of oldebaprintData; let i = index">
+                    <td>{{ oldebadata?.allotee_name }}</td>
+                    <td>{{ oldebadata?.name }}</td>
+                    <td>{{ oldebadata?.relation_name }}</td>
+                    <td>{{ oldebadata?.Gender }}</td>
+                    <td>{{ oldebadata?.dob | date: 'dd-MM-yyyy' }}</td>
+                    <td>{{ oldebadata?.Address }}</td>
+                    <td>{{ oldebadata?.MobileNumber }}</td>
+                    <td>{{ oldebadata?.EBA_ID }}</td>
+                    <td>{{ oldebadata?.valid_upto | date: 'dd-MM-yyyy' }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -248,6 +321,51 @@
   </div>
 </div>
 
+
+<td *ngIf="selectedEmp">
+  <div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false"
+    [ngStyle]="{ 'display': showEditPopup ? 'block' : 'none' }"
+    style="backdrop-filter: blur(3px); background-color: rgba(128, 128, 128, 0.7); overflow-y: auto;">
+
+    <div class="modal-dialog modal-dialog-centered modal-m">
+      <div class="modal-content" style="width:100mm">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <b>Edit Employee Status</b>
+          </h5>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <label class="form-label">Name: {{ selectedEmp.emp_name }}</label><br />
+          <label class="form-label">Emp Pass No: {{ selectedEmp.emp_pass_no }}</label><br />
+          <label class="form-label">Validity: {{ selectedEmp.emp_pass_exp_date | date: 'dd-MM-yyyy' }}</label><br />
+          <label class="form-label mt-2">Status</label>
+          <select class="form-select" [(ngModel)]="selectedEmp.active">
+            <option [ngValue]="1">Active</option>
+            <option [ngValue]="0">Inactive</option>
+          </select>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary enlarge-on-hover"
+            (click)="closePopup()">
+            Close
+          </button>
+
+          <button type="button" class="btn btn-outline-success enlarge-on-hover"
+            (click)="saveChanges()">
+            Save
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</td>
 
 
 
@@ -286,5 +404,46 @@
     </div>
   </div>
 </td>
+
+
+<div class="modal modal-above-header" tabindex="-1" data-bs-backdrop="false"
+  [ngStyle]="{ 'display': showEbaEditPopup ? 'block' : 'none' }"
+  style="backdrop-filter: blur(3px); background-color: rgba(128, 128, 128, 0.7); overflow-y: auto;">
+
+  <div class="modal-dialog modal-dialog-centered modal-m">
+    <div class="modal-content" style="width:100mm">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h5 class="modal-title"><b>Edit EBA Card Status</b></h5>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body" *ngIf="selectedEba">
+        <label class="form-label">Name: {{ selectedEba.rel_Name }}</label><br />
+        <label class="form-label">EBA Pass No: {{ selectedEba.eba_pass_no }}</label><br />
+        <label class="form-label">Validity: {{ selectedEba.eba_pass_exp_date | date: 'dd-MM-yyyy' }}</label><br />
+        <label class="form-label mt-2">Status</label>
+        <select class="form-select" [(ngModel)]="selectedEba.rel_active">
+          <option [ngValue]="1">Active</option>
+          <option [ngValue]="0">Inactive</option>
+        </select>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary enlarge-on-hover" (click)="closeEbaPopup(false)">
+          Close
+        </button>
+        <button type="button" class="btn btn-outline-success enlarge-on-hover" (click)="saveEbaChanges()">
+          Save
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
 
 <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" class="loading-spinner"></mat-progress-spinner>

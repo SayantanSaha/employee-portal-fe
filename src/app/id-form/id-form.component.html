@@ -12,12 +12,10 @@
             <ng-container *ngIf="employee!.reg_no || reg_no">
               / {{reg_no || employee!.reg_no}}
             </ng-container>
-            <ng-container *ngIf="(employee!.status || status) && user.username != '9999373896'">
+            <ng-container *ngIf="(employee!.status || status)">
               / {{employee!.status}}{{status}}
             </ng-container>
-            <ng-container *ngIf="(employee!.status || status) && user.username == '9999373896'">
-              / A.C.P.H
-            </ng-container>
+            
           </div>
         </div>
       </div>
@@ -188,10 +186,31 @@
                     </td>
                   </tr>
                 </ng-container>
-                <tr style="height: 30px">
-                  <td align="left">Identification Mark:</td>
-                  <td colspan="2" align="left">{{ employee?.body_mark }}</td>
-                </tr>
+
+
+                <ng-container *ngIf="employee!.dh_dcp">
+                  <tr style="height: 30px">
+                    <td align="left">Identification Mark:</td>
+                    <td colspan="2" align="left">
+                      <div class="row">
+                        <div class="col-4">
+                          <input type="text" class="form-control" [(ngModel)]="employee!.body_mark">
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+                <ng-container *ngIf="!employee!.dh_dcp">
+                  <tr style="height: 30px">
+                    <td align="left">Identification Mark:</td>
+                    <td align="left">{{ employee?.body_mark }}</td>
+                  </tr>
+                </ng-container>
+
+
+
+
+
 
 
                 <tr style="height: 30px">
